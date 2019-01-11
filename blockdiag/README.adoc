@@ -7,4 +7,16 @@
 
 == Run
 
- $ docker run -d -p 5000:5000 kroki-blockdiag
+ $ docker run -d -p 8000:8000 kroki-blockdiag
+
+
+== Local development
+
+ $ python server.py
+
+
+```
+http://localhost:5000/svg/eNpdzEEKgzAQheF9TjFm7wmKXkRcTO0jBGNGJqUllN5dowuDy8f_8cwzyDS_PDv6GbpG25NDhPIbqQx7pLY05SXZxw37U32gmcApN7uoyTBJEKWOrFMgZoQgXzvuN_fniq4-zqepfqsuytGhiL_ZAMihQIU=
+http://localhost:5000/png/eNpdzEEKgzAQheF9TjFm7wmKXkRcTO0jBGNGJqUllN5dowuDy8f_8cwzyDS_PDv6GbpG25NDhPIbqQx7pLY05SXZxw37U32gmcApN7uoyTBJEKWOrFMgZoQgXzvuN_fniq4-zqepfqsuytGhiL_ZAMihQIU=
+http://localhost:5000/pdf/eNpdzEEKgzAQheF9TjFm7wmKXkRcTO0jBGNGJqUllN5dowuDy8f_8cwzyDS_PDv6GbpG25NDhPIbqQx7pLY05SXZxw37U32gmcApN7uoyTBJEKWOrFMgZoQgXzvuN_fniq4-zqepfqsuytGhiL_ZAMihQIU=
+```
