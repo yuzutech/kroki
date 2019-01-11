@@ -1,9 +1,8 @@
-import io
 import base64
 import zlib
 from blockdiag.utils.bootstrap import create_fontmap
 from blockdiag.parser import ParseException
-from error import GenerateError
+from backend.error import GenerateError
 
 
 def generate_diag(app, diagram_type, output_format, source_encoded):
