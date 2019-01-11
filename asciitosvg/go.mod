@@ -1,4 +1,4 @@
-module /home/guillaume/workspace/yuzutech/kroki/asciitosvg
+module kroki-asciitosvg
 
 require (
 	github.com/asciitosvg/asciitosvg v0.0.0-20180501191814-82ac9a9ec18b
