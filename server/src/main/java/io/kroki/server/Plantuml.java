@@ -8,7 +8,6 @@ import net.sourceforge.plantuml.SourceStringReader;
 import net.sourceforge.plantuml.code.Base64Coder;
 import net.sourceforge.plantuml.core.Diagram;
 import net.sourceforge.plantuml.core.DiagramDescription;
-import net.sourceforge.plantuml.core.ImageData;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -18,7 +17,7 @@ import java.util.Map;
 
 public class Plantuml {
 
-  private static final Map<FileFormat, String> CONTENT_TYPE;
+  public static final Map<FileFormat, String> CONTENT_TYPE;
 
   static {
     Map<FileFormat, String> map = new HashMap<>();
@@ -30,7 +29,7 @@ public class Plantuml {
     CONTENT_TYPE = Collections.unmodifiableMap(map);
   }
 
-  public void convert(String source, FileFormat format) {
+  public static byte[] convert(String source, FileFormat format) {
     try {
       SourceStringReader reader = new SourceStringReader(source);
       if (format == FileFormat.BASE64) {
@@ -39,8 +38,7 @@ public class Plantuml {
         baos.close();
         final String encodedBytes = "data:image/png;base64,"
           + Base64Coder.encodeLines(baos.toByteArray()).replaceAll("\\s", "");
-        // encodedBytes.getBytes()
-        return;
+        return encodedBytes.getBytes();
       }
       final BlockUml blockUml = reader.getBlocks().get(0);
       final Diagram diagram = blockUml.getDiagram();
@@ -48,7 +46,8 @@ public class Plantuml {
         throw new RuntimeException("Bad request");
       }
       ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-      final ImageData result = diagram.exportDiagram(byteArrayOutputStream, 0, new FileFormatOption(format));
+      diagram.exportDiagram(byteArrayOutputStream, 0, new FileFormatOption(format));
+      return byteArrayOutputStream.toByteArray();
     } catch (IOException e) {
       throw new RuntimeException("Bad request", e);
     }

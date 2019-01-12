@@ -17,6 +17,11 @@
       <artifactId>vertx-core</artifactId>
       <version>3.6.2</version>
     </dependency>
+    <dependency>
+      <groupId>net.sourceforge.plantuml</groupId>
+      <artifactId>plantuml</artifactId>
+      <version>1.2018.14</version>
+    </dependency>
   </dependencies>
 
 </project>
