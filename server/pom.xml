@@ -23,6 +23,11 @@
       <version>3.6.2</version>
     </dependency>
     <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-web-client</artifactId>
+      <version>3.6.2</version>
+    </dependency>
+    <dependency>
       <groupId>ditaa</groupId>
       <artifactId>ditaa</artifactId>
       <version>1.0</version>

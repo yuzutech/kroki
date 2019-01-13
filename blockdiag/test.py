@@ -83,3 +83,16 @@ nwdiag {
 
 print '/nwdiag/png/' + base64.urlsafe_b64encode(zlib.compress(nwdiag_sample, 9))
 
+asciitosvg_sample = """
+.-------------------------.
+|                         |
+| .---.-. .-----. .-----. |
+| | .-. | +-->  | |  <--| |
+| | '-' | |  <--| +-->  | |
+| '---'-' '-----' '-----' |
+|  ascii     2      svg   |
+|                         |
+'-------------------------'
+"""
+
+print '/asciitosvg/svg/' + base64.urlsafe_b64encode(zlib.compress(asciitosvg_sample, 9))

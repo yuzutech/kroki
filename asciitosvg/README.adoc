@@ -1,0 +1,13 @@
+= AsciiToSVG
+
+== Build
+
+ $ docker build --tag=kroki-asciitosvg .
+
+== Run
+
+ $ docker run -d -p 8002:8002 kroki-asciitosvg
+
+== Local development
+
+ $ go build -o kroki-asciitosvg && ./kroki-asciitosvg

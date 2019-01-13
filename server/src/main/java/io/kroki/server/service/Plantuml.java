@@ -1,5 +1,11 @@
-package io.kroki.server;
+package io.kroki.server.service;
 
+import io.kroki.server.decode.DecodeException;
+import io.kroki.server.decode.DiagramSource;
+import io.vertx.core.Handler;
+import io.vertx.core.buffer.Buffer;
+import io.vertx.core.http.HttpServerResponse;
+import io.vertx.ext.web.RoutingContext;
 import net.sourceforge.plantuml.BlockUml;
 import net.sourceforge.plantuml.FileFormat;
 import net.sourceforge.plantuml.FileFormatOption;
@@ -9,7 +15,6 @@ import net.sourceforge.plantuml.code.Base64Coder;
 import net.sourceforge.plantuml.code.Transcoder;
 import net.sourceforge.plantuml.code.TranscoderUtil;
 import net.sourceforge.plantuml.core.Diagram;
-import net.sourceforge.plantuml.core.DiagramDescription;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -33,7 +38,29 @@ public class Plantuml {
     CONTENT_TYPE = Collections.unmodifiableMap(map);
   }
 
-  public static byte[] convert(String source, FileFormat format) {
+  public static Handler<RoutingContext> convertRoute() {
+    return routingContext -> {
+      HttpServerResponse response = routingContext.response();
+      String sourceEncoded = routingContext.request().getParam("source_encoded");
+      String outputFormat = routingContext.request().getParam("output_format");
+      FileFormat fileFormat = FileFormat.valueOf(outputFormat.toUpperCase());
+      String sourceDecoded;
+      try {
+        sourceDecoded = Plantuml.decode(sourceEncoded);
+      } catch (DecodeException | UnsupportedEncodingException e) {
+        response
+          .setStatusCode(400)
+          .end(e.getMessage());
+        return;
+      }
+      byte[] data = convert(sourceDecoded, fileFormat);
+      response
+        .putHeader("Content-Type", Plantuml.CONTENT_TYPE.get(fileFormat))
+        .end(Buffer.buffer(data));
+    };
+  }
+
+  private static byte[] convert(String source, FileFormat format) {
     try {
       SourceStringReader reader = new SourceStringReader(source);
       if (format == FileFormat.BASE64) {

@@ -45,6 +45,9 @@ def _generate_diagram(app, diagram_type, output_format, source_encoded):
         response = make_response(result)
         response.headers["Content-Type"] = "image/svg+xml; charset=utf-8"
         return response
+    else:
+        raise InvalidUsage('Unsupported output format: %s. Must be one of: png, svg or pdf.',
+                           status_code=400)
 
 
 @application.route('/blockdiag/<string:output_format>/<string:source_encoded>')
@@ -98,4 +101,4 @@ def handle_invalid_usage(error):
 
 
 if __name__ == '__main__':
-    application.run(debug=True, host='0.0.0.0')
+    application.run(debug=True, host='0.0.0.0', port=8001)

@@ -1,4 +1,4 @@
-package io.kroki.server;
+package io.kroki.server.decode;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
