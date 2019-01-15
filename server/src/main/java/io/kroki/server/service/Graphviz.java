@@ -1,7 +1,14 @@
 package io.kroki.server.service;
 
+import io.kroki.server.action.Response;
+import io.kroki.server.decode.DecodeException;
+import io.kroki.server.decode.DiagramSource;
+import io.kroki.server.format.ContentType;
+import io.kroki.server.format.FileFormat;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
+import io.vertx.core.buffer.Buffer;
+import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.web.RoutingContext;
 
 import java.io.ByteArrayOutputStream;
@@ -9,11 +16,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InterruptedIOException;
 import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class Graphviz {
+
+  private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG, FileFormat.JPEG);
+  private static final String supportedFormatList = FileFormat.stringify(SUPPORTED_FORMATS);
 
   private final Vertx vertx;
 
@@ -23,63 +33,55 @@ public class Graphviz {
 
   public Handler<RoutingContext> convertRoute() {
     return routingContext -> {
+      HttpServerResponse response = routingContext.response();
+      String outputFormat = routingContext.request().getParam("output_format");
+      FileFormat fileFormat = FileFormat.get(outputFormat);
+      if (fileFormat == null || !SUPPORTED_FORMATS.contains(fileFormat)) {
+        Response.handleUnsupportedFormat(response, outputFormat, supportedFormatList);
+        return;
+      }
       vertx.executeBlocking(future -> {
         try {
-          byte[] result = dot("png", "");
-          future.complete(result);
+          String sourceEncoded = routingContext.request().getParam("source_encoded");
+          byte[] sourceDecoded;
+          try {
+            sourceDecoded = DiagramSource.decode(sourceEncoded).getBytes();
+            byte[] result = dot(sourceDecoded, fileFormat.getName());
+            future.complete(result);
+          } catch (DecodeException e) {
+            future.fail(e);
+          }
         } catch (IOException | InterruptedException | IllegalStateException e) {
           future.fail(e);
         }
       }, res -> {
-        System.out.println("The result is: " + res.result());
+        if (res.failed()) {
+          response
+            .setStatusCode(400)
+            .end(res.cause().getMessage());
+          return;
+        }
+        byte[] result = (byte[]) res.result();
+        response
+          .putHeader("Content-Type", ContentType.get(fileFormat))
+          .end(Buffer.buffer(result));
       });
     };
   }
 
-  public static void main(String[] args) throws IOException, InterruptedException {
-    dot("png", "\n" +
-      "digraph G {\n" +
-      "\n" +
-      "\tsubgraph cluster_0 {\n" +
-      "\t\tstyle=filled;\n" +
-      "\t\tcolor=lightgrey;\n" +
-      "\t\tnode [style=filled,color=white];\n" +
-      "\t\ta0 -> a1 -> a2 -> a3;\n" +
-      "\t\tlabel = \"process #1\";\n" +
-      "\t}\n" +
-      "\n" +
-      "\tsubgraph cluster_1 {\n" +
-      "\t\tnode [style=filled];\n" +
-      "\t\tb0 -> b1 -> b2 -> b3;\n" +
-      "\t\tlabel = \"process #2\";\n" +
-      "\t\tcolor=blue\n" +
-      "\t}\n" +
-      "\tstart -> a0;\n" +
-      "\tstart -> b0;\n" +
-      "\ta1 -> b3;\n" +
-      "\tb2 -> a3;\n" +
-      "\ta3 -> a0;\n" +
-      "\ta3 -> end;\n" +
-      "\tb3 -> end;\n" +
-      "\n" +
-      "\tstart [shape=Mdiamond];\n" +
-      "\tend [shape=Msquare];\n" +
-      "}");
-  }
-
-  private static byte[] dot(String format, String source) throws IOException, InterruptedException, IllegalStateException {
+  private static byte[] dot(byte[] source, String format) throws IOException, InterruptedException, IllegalStateException {
     ProcessBuilder builder = new ProcessBuilder();
-    builder.command("dot", "-T" + format);
-    builder.redirectErrorStream(true);
-    Process process = builder.start();
-
+    // Supported format:
     // canon cmap cmapx cmapx_np dot dot_json eps fig gd gd2 gif gv imap imap_np ismap
     // jpe jpeg jpg json json0 mp pdf pic plain plain-ext
     // png pov ps ps2
     // svg svgz tk vml vmlz vrml wbmp x11 xdot xdot1.2 xdot1.4 xdot_json xlib
+    builder.command("dot", "-T" + format);
+    builder.redirectErrorStream(true);
+    Process process = builder.start();
 
     OutputStream stdin = process.getOutputStream();
-    stdin.write(source.getBytes());
+    stdin.write(source);
     stdin.flush();
     stdin.close();
 
@@ -90,13 +92,11 @@ public class Graphviz {
     }
     int exitValue = process.exitValue();
     if (exitValue != 0) {
-      throw new IllegalStateException("Process returns an error (exit code is: " + exitValue + ")");
+      String errorMessage = new String(read(process.getInputStream()));
+      throw new IllegalStateException("Process returns an error (exit code is: " + exitValue + ") - error: " + errorMessage);
     } else {
       InputStream inputStream = process.getInputStream();
-      byte[] result = read(inputStream);
-      Files.write(Paths.get("test.png"), result);
-      System.out.println(new String(result));
-      return result;
+      return read(inputStream);
     }
   }
 

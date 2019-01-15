@@ -1,5 +1,6 @@
 package io.kroki.server.service;
 
+import io.kroki.server.action.Delegator;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.ext.web.RoutingContext;

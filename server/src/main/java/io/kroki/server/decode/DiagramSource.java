@@ -1,17 +1,15 @@
 package io.kroki.server.decode;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.Base64;
-import java.util.zip.DataFormatException;
 
 public class DiagramSource {
 
   public static String decode(String encoded) throws DecodeException {
     byte[] source = Base64.getUrlDecoder().decode(encoded);
     try {
-      return Zlib.decompress(source);
-    } catch (DataFormatException | UnsupportedEncodingException e) {
+      return Zlib.decompress(source).trim();
+    } catch (IOException e) {
       throw new DecodeException("Unable to decode the source", e);
     }
   }

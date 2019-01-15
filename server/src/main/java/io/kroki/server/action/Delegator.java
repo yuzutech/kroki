@@ -1,4 +1,4 @@
-package io.kroki.server.service;
+package io.kroki.server.action;
 
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpServerResponse;

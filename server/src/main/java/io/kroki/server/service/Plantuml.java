@@ -1,13 +1,15 @@
 package io.kroki.server.service;
 
+import io.kroki.server.action.Response;
 import io.kroki.server.decode.DecodeException;
 import io.kroki.server.decode.DiagramSource;
+import io.kroki.server.format.ContentType;
+import io.kroki.server.format.FileFormat;
 import io.vertx.core.Handler;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.web.RoutingContext;
 import net.sourceforge.plantuml.BlockUml;
-import net.sourceforge.plantuml.FileFormat;
 import net.sourceforge.plantuml.FileFormatOption;
 import net.sourceforge.plantuml.PSystemError;
 import net.sourceforge.plantuml.SourceStringReader;
@@ -20,30 +22,24 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
+import java.util.List;
 
 public class Plantuml {
 
-  public static final Map<FileFormat, String> CONTENT_TYPE;
-
-  static {
-    Map<FileFormat, String> map = new HashMap<>();
-    map.put(FileFormat.PNG, "image/png");
-    map.put(FileFormat.SVG, "image/svg+xml");
-    map.put(FileFormat.EPS, "application/postscript");
-    map.put(FileFormat.UTXT, "text/plain;charset=UTF-8");
-    map.put(FileFormat.BASE64, "text/plain; charset=x-user-defined");
-    CONTENT_TYPE = Collections.unmodifiableMap(map);
-  }
+  private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG, FileFormat.JPEG, FileFormat.BASE64);
+  private static final String supportedFormatList = FileFormat.stringify(SUPPORTED_FORMATS);
 
   public static Handler<RoutingContext> convertRoute() {
     return routingContext -> {
       HttpServerResponse response = routingContext.response();
       String sourceEncoded = routingContext.request().getParam("source_encoded");
       String outputFormat = routingContext.request().getParam("output_format");
-      FileFormat fileFormat = FileFormat.valueOf(outputFormat.toUpperCase());
+      FileFormat fileFormat = FileFormat.get(outputFormat);
+      if (fileFormat == null || !SUPPORTED_FORMATS.contains(fileFormat)) {
+        Response.handleUnsupportedFormat(response, outputFormat, supportedFormatList);
+        return;
+      }
       String sourceDecoded;
       try {
         sourceDecoded = Plantuml.decode(sourceEncoded);
@@ -55,7 +51,7 @@ public class Plantuml {
       }
       byte[] data = convert(sourceDecoded, fileFormat);
       response
-        .putHeader("Content-Type", Plantuml.CONTENT_TYPE.get(fileFormat))
+        .putHeader("Content-Type", ContentType.get(fileFormat))
         .end(Buffer.buffer(data));
     };
   }
@@ -65,7 +61,7 @@ public class Plantuml {
       SourceStringReader reader = new SourceStringReader(source);
       if (format == FileFormat.BASE64) {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        reader.outputImage(baos, 0, new FileFormatOption(FileFormat.PNG));
+        reader.outputImage(baos, 0, new FileFormatOption(FileFormat.PNG.toPlantumlFileFormat()));
         baos.close();
         final String encodedBytes = "data:image/png;base64,"
           + Base64Coder.encodeLines(baos.toByteArray()).replaceAll("\\s", "");
@@ -77,14 +73,14 @@ public class Plantuml {
         throw new RuntimeException("Bad request");
       }
       ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-      diagram.exportDiagram(byteArrayOutputStream, 0, new FileFormatOption(format));
+      diagram.exportDiagram(byteArrayOutputStream, 0, new FileFormatOption(format.toPlantumlFileFormat()));
       return byteArrayOutputStream.toByteArray();
     } catch (IOException e) {
       throw new RuntimeException("Bad request", e);
     }
   }
 
-  public static String decode(String source) throws DecodeException, UnsupportedEncodingException {
+  private static String decode(String source) throws DecodeException, UnsupportedEncodingException {
     String text = URLDecoder.decode(source, "UTF-8");
     try {
       Transcoder transcoder = TranscoderUtil.getDefaultTranscoder();

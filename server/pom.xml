@@ -11,21 +11,46 @@
 
   <artifactId>kroki-server</artifactId>
 
+  <properties>
+    <logback.version>1.2.3</logback.version>
+    <vertx.version>3.6.2</vertx.version>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>io.vertx</groupId>
       <artifactId>vertx-core</artifactId>
-      <version>3.6.2</version>
+      <version>${vertx.version}</version>
     </dependency>
     <dependency>
       <groupId>io.vertx</groupId>
       <artifactId>vertx-web</artifactId>
-      <version>3.6.2</version>
+      <version>${vertx.version}</version>
     </dependency>
     <dependency>
       <groupId>io.vertx</groupId>
       <artifactId>vertx-web-client</artifactId>
-      <version>3.6.2</version>
+      <version>${vertx.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.25</version>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>${logback.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-core</artifactId>
+      <version>${logback.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.kroki</groupId>
+      <artifactId>umlet</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>ditaa</groupId>
