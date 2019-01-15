@@ -1,0 +1,39 @@
+= Install
+
+ $ apt-get update
+
+== Graphviz
+
+https://graphviz.gitlab.io/download/
+
+ $ apt-get install graphviz
+
+== Haskell (erd)
+
+https://github.com/BurntSushi/erd
+
+ $ apt-get install haskell-platform
+ $ cabal update
+ $ cabal install erd --allow-newer=base
+
+Binary available in `/root/.cabal/bin/erd`
+
+== Rust (svgbob)
+
+https://github.com/ivanceras/svgbob
+
+ $ apt install cargo
+ $ cargo install svgbob_cli
+
+Binary available in `/root/.cargo/bin/svgbob`
+
+== Vert.x
+
+ $ apt install openjdk-11-jre-headless
+
+ $ mvn clean package
+ $ scp target/kroki-server-1.0.0-SNAPSHOT-fat.jar kroki.server:.
+
+== Docker
+
+ $ docker save -o

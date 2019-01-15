@@ -3,6 +3,7 @@ package io.kroki.server.service;
 import io.kroki.server.action.Response;
 import io.kroki.server.decode.DecodeException;
 import io.kroki.server.decode.DiagramSource;
+import io.kroki.server.format.ContentType;
 import io.kroki.server.format.FileFormat;
 import io.vertx.core.Handler;
 import io.vertx.core.buffer.Buffer;
@@ -45,7 +46,7 @@ public class Ditaa {
       ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
       convert(fileFormat, new ByteArrayInputStream(sourceDecoded), outputStream);
       response
-        .putHeader("Content-Type", "image/png")
+        .putHeader("Content-Type", ContentType.get(fileFormat))
         .end(Buffer.buffer(outputStream.toByteArray()));
     };
   }

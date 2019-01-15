@@ -1,0 +1,14 @@
+############################
+# STEP 1 build executable binary
+############################
+FROM rust:1.31-slim AS svgbob_builder
+WORKDIR /usr/src/svgbob
+RUN cargo install svgbob_cli --root /rust
+############################
+# STEP 2 build a small image
+############################
+FROM debian:stretch-slim
+# Copy our static executable.
+COPY --from=svgbob_builder /rust/bin/svgbob /rust/bin/svgbob
+
+RUN /rust/bin/svgbob
