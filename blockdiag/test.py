@@ -1,3 +1,4 @@
+# coding: utf-8
 import base64
 import zlib
 import re
@@ -368,3 +369,71 @@ graphviz_hello = """digraph G {Hello->World}"""
 
 print 'hello'
 print '/graphviz/svg/' + base64.urlsafe_b64encode(zlib.compress(graphviz_hello, 9))
+
+
+
+
+erd_person = """
+[Person]
+*name
+height
+weight
++birth_location_id
+
+[Location]
+*id
+city
+state
+country
+
+Person *--1 Location
+"""
+
+print 'erd'
+print '/erd/svg/' + base64.urlsafe_b64encode(zlib.compress(erd_person, 9))
+
+svgbob = """
+                          .-,(  ),-.
+           ___  _      .-(          )-.
+          [___]|=| -->(                )      __________
+          /::/ |_|     '-(          ).-' --->[_...__...°]
+                          '-.( ).-'
+                                  \      ____   __
+                                   '--->|    | |==|
+                                        |____| |  |
+                                        /::::/ |__|
+"""
+
+print 'svgbob'
+print '/svgbob/svg/' + base64.urlsafe_b64encode(zlib.compress(svgbob, 9))
+
+ditaa = """
+                          +-------------+
+                          |             |
+                          | Exponential |
+                          |             |
+                          +-------------+
+                                 |
+                          lambda |                                                          
+                                 v
++-------------+           +-------------+           +-------------+
+|             |   tau     |             |   lambda  |             |
+|  Lognormal  |---------->|    Gamma    |<----------| Poisson     |
+|             |           |             |---+       |             |
++-------------+           +-------------+   |       +-------------+
+      |                         ^ ^         | beta
+      |                   tau   | |         | 
+      | tau                     | +---------+
+      |                   +-------------+ 
+      +------------------>|             |
+                          |     Normal  |
+                          |             |----+
+                          +-------------+    | 
+                                     ^       | mu
+                                     |       |
+                                     +-------+
+"""
+
+print 'ditaa'
+print '/ditaa/svg/' + base64.urlsafe_b64encode(zlib.compress(ditaa, 9))
+
