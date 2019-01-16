@@ -14,20 +14,20 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
-public class Graphviz {
+public class Svgbob {
 
-  private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG, FileFormat.JPEG);
+  private static final List<FileFormat> SUPPORTED_FORMATS = Collections.singletonList(FileFormat.SVG);
   private static final String supportedFormatList = FileFormat.stringify(SUPPORTED_FORMATS);
 
   private final Vertx vertx;
   private final String binPath;
 
-  public Graphviz(Vertx vertx, JsonObject config) {
+  public Svgbob(Vertx vertx, JsonObject config) {
     this.vertx = vertx;
-    this.binPath = config.getString("KROKI_DOT_BIN_PATH", "dot");
+    this.binPath = config.getString("KROKI_SVGBOB_BIN_PATH", "svgbob");
   }
 
   public Handler<RoutingContext> convertRoute() {
@@ -44,8 +44,8 @@ public class Graphviz {
           String sourceEncoded = routingContext.request().getParam("source_encoded");
           byte[] sourceDecoded;
           try {
-            sourceDecoded = DiagramSource.decode(sourceEncoded).getBytes();
-            byte[] result = dot(sourceDecoded, fileFormat.getName());
+            sourceDecoded = DiagramSource.decode(sourceEncoded, false).getBytes();
+            byte[] result = svgbob(sourceDecoded, fileFormat.getName());
             future.complete(result);
           } catch (DecodeException e) {
             future.fail(e);
@@ -68,12 +68,7 @@ public class Graphviz {
     };
   }
 
-  private byte[] dot(byte[] source, String format) throws IOException, InterruptedException, IllegalStateException {
-    // Supported format:
-    // canon cmap cmapx cmapx_np dot dot_json eps fig gd gd2 gif gv imap imap_np ismap
-    // jpe jpeg jpg json json0 mp pdf pic plain plain-ext
-    // png pov ps ps2
-    // svg svgz tk vml vmlz vrml wbmp x11 xdot xdot1.2 xdot1.4 xdot_json xlib
-    return Commander.execute(source, binPath, "-T" + format);
+  private byte[] svgbob(byte[] source, String format) throws IOException, InterruptedException, IllegalStateException {
+    return Commander.execute(source, binPath);
   }
 }

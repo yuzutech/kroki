@@ -36,7 +36,7 @@ public class Ditaa {
       }
       byte[] sourceDecoded;
       try {
-        sourceDecoded = DiagramSource.decode(sourceEncoded).getBytes();
+        sourceDecoded = DiagramSource.decode(sourceEncoded, false).getBytes();
       } catch (DecodeException e) {
         response
           .setStatusCode(400)

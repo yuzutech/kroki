@@ -33,6 +33,11 @@
       <version>${vertx.version}</version>
     </dependency>
     <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-config</artifactId>
+      <version>${vertx.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
       <version>1.7.25</version>
@@ -55,16 +60,12 @@
     <dependency>
       <groupId>ditaa</groupId>
       <artifactId>ditaa</artifactId>
-      <version>1.0</version>
-      <scope>system</scope>
-      <systemPath>${project.basedir}/lib/ditaa-1.3.13.jar</systemPath>
+      <version>1.3.13</version>
     </dependency>
     <dependency>
       <groupId>ditaa</groupId>
       <artifactId>ditaa-mini</artifactId>
-      <version>1.0</version>
-      <scope>system</scope>
-      <systemPath>${project.basedir}/lib/ditaamini-0.11.jar</systemPath>
+      <version>0.11</version>
     </dependency>
     <dependency>
       <groupId>net.sourceforge.plantuml</groupId>
@@ -95,7 +96,7 @@
               </transformer>
             </transformers>
             <artifactSet/>
-            <outputFile>${project.build.directory}/${project.artifactId}-${project.version}-fat.jar</outputFile>
+            <outputFile>${project.build.directory}/${project.artifactId}.jar</outputFile>
           </configuration>
         </execution>
       </executions>

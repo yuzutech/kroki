@@ -16,8 +16,6 @@
       <groupId>com.umlet</groupId>
       <artifactId>umlet-mini</artifactId>
       <version>14.3.0</version>
-      <scope>system</scope>
-      <systemPath>${project.basedir}/lib/umlet-mini-14.3.0.jar</systemPath>
     </dependency>
   </dependencies>
 </project>

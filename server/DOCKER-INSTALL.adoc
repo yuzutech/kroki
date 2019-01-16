@@ -1,0 +1,17 @@
+= Docker install
+
+== Build
+
+ $ mvn clean package
+ $
+ $ docker build -f Dockerfiles/build-static-erd . -t kroki-builder-static-erd
+ $ docker build -f Dockerfiles/build-static-svgbob . -t kroki-builder-static-svgbob
+ $ docker build -f Dockerfiles/base . -t kroki-base
+
+== Run
+
+ $ docker run \
+   -e KROKI_SVGBOB_BIN_PATH=/rust/bin/svgbob \
+   -e KROKI_ERD_BIN_PATH=/haskell/bin/erd \
+   -e KROKI_DOT_BIN_PATH=/usr/bin/dot \
+   -d -p 8000:8000 kroki-base

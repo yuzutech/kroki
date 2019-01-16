@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-public class Graphviz {
+public class Erd {
 
   private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG, FileFormat.JPEG);
   private static final String supportedFormatList = FileFormat.stringify(SUPPORTED_FORMATS);
@@ -25,9 +25,9 @@ public class Graphviz {
   private final Vertx vertx;
   private final String binPath;
 
-  public Graphviz(Vertx vertx, JsonObject config) {
+  public Erd(Vertx vertx, JsonObject config) {
     this.vertx = vertx;
-    this.binPath = config.getString("KROKI_DOT_BIN_PATH", "dot");
+    this.binPath = config.getString("KROKI_ERD_BIN_PATH", "dot");
   }
 
   public Handler<RoutingContext> convertRoute() {
@@ -45,7 +45,7 @@ public class Graphviz {
           byte[] sourceDecoded;
           try {
             sourceDecoded = DiagramSource.decode(sourceEncoded).getBytes();
-            byte[] result = dot(sourceDecoded, fileFormat.getName());
+            byte[] result = erd(sourceDecoded, fileFormat.getName());
             future.complete(result);
           } catch (DecodeException e) {
             future.fail(e);
@@ -68,12 +68,8 @@ public class Graphviz {
     };
   }
 
-  private byte[] dot(byte[] source, String format) throws IOException, InterruptedException, IllegalStateException {
-    // Supported format:
-    // canon cmap cmapx cmapx_np dot dot_json eps fig gd gd2 gif gv imap imap_np ismap
-    // jpe jpeg jpg json json0 mp pdf pic plain plain-ext
-    // png pov ps ps2
-    // svg svgz tk vml vmlz vrml wbmp x11 xdot xdot1.2 xdot1.4 xdot_json xlib
-    return Commander.execute(source, binPath, "-T" + format);
+  private byte[] erd(byte[] source, String format) throws IOException, InterruptedException, IllegalStateException {
+    // Supported format: bmp, dot, eps, gif, jpg, pdf, plain, png, ps, ps2, svg, tiff
+    return Commander.execute(source, binPath, "--fmt=" + format);
   }
 }
