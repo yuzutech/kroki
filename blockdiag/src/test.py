@@ -451,3 +451,22 @@ start()</panel_attributes><additional_attributes>130;34;20;34</additional_attrib
 print 'umlet_state_simple'
 print '/umlet/svg/' + base64.urlsafe_b64encode(zlib.compress(umlet_state_simple, 9))
 
+
+plantuml = """
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+actor customer
+actor clerk
+rectangle checkout {
+  customer -- (checkout)
+  (checkout) .> (payment) : include
+  (help) .> (checkout) : extends
+  (checkout) -- clerk
+}
+@enduml
+"""
+
+print 'plantuml_use_case'
+print '/plantuml/svg/' + base64.urlsafe_b64encode(zlib.compress(plantuml, 9))
+
