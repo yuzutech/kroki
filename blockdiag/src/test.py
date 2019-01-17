@@ -437,3 +437,17 @@ ditaa = """
 print 'ditaa'
 print '/ditaa/svg/' + base64.urlsafe_b64encode(zlib.compress(ditaa, 9))
 
+
+umlet_state_simple = """
+<?xml version="1.0" encoding="UTF-8"?><umlet_diagram><element><type>com.umlet.element.base.Relation</type><coordinates><x>431</x><y>90</y><w>258</w><h>110</h></coordinates><panel_attributes>lt=&lt;
+handle()
+passenger.addMiles(flight.miles)</panel_attributes><additional_attributes>129;90;129;20</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>294</x><y>6</y><w>232</w><h>94</h></coordinates><panel_attributes>lt=&lt;-
+transfer [Class &lt;&gt; Economy]</panel_attributes><additional_attributes>96;74;116;74;116;34;66;34;66;64</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>280</x><y>90</y><w>297</w><h>110</h></coordinates><panel_attributes>lt=&lt;-
+r2=cancel()</panel_attributes><additional_attributes>277;90;27;90;27;20</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>70</x><y>90</y><w>507</w><h>110</h></coordinates><panel_attributes>lt=&lt;-
+r2=cancel()</panel_attributes><additional_attributes>487;90;27;90;27;20</additional_attributes></element><element><type>com.umlet.element.custom.State</type><coordinates><x>80</x><y>70</y><w>100</w><h>40</h></coordinates><panel_attributes>reserved</panel_attributes><additional_attributes>transparentSelection=false</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>160</x><y>60</y><w>150</w><h>54</h></coordinates><panel_attributes>lt=&lt;-
+pay()</panel_attributes><additional_attributes>130;34;20;34</additional_attributes></element><element><type>com.umlet.element.custom.SeqDestroyMark</type><coordinates><x>550</x><y>170</y><w>20</w><h>20</h></coordinates><panel_attributes></panel_attributes><additional_attributes>transparentSelection=false</additional_attributes></element><element><type>com.umlet.element.custom.State</type><coordinates><x>290</x><y>70</y><w>100</w><h>40</h></coordinates><panel_attributes>booked</panel_attributes><additional_attributes>transparentSelection=false</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>370</x><y>60</y><w>150</w><h>54</h></coordinates><panel_attributes>lt=&lt;-
+start()</panel_attributes><additional_attributes>130;34;20;34</additional_attributes></element><element><type>com.umlet.element.custom.State</type><coordinates><x>500</x><y>70</y><w>100</w><h>40</h></coordinates><panel_attributes>started</panel_attributes><additional_attributes>transparentSelection=false</additional_attributes></element></umlet_diagram>"""
+
+print 'umlet_state_simple'
+print '/umlet/svg/' + base64.urlsafe_b64encode(zlib.compress(umlet_state_simple, 9))
+
