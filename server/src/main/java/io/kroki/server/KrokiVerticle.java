@@ -1,13 +1,6 @@
 package io.kroki.server;
 
-import io.kroki.server.service.Asciitosvg;
-import io.kroki.server.service.Blockdiag;
-import io.kroki.server.service.Ditaa;
-import io.kroki.server.service.Erd;
-import io.kroki.server.service.Graphviz;
-import io.kroki.server.service.Plantuml;
-import io.kroki.server.service.Svgbob;
-import io.kroki.server.service.Umlet;
+import io.kroki.server.service.*;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.AsyncResult;
@@ -47,7 +40,9 @@ public class KrokiVerticle extends AbstractVerticle {
     Graphviz graphviz = new Graphviz(vertx, config);
     Svgbob svgbob = new Svgbob(vertx, config);
     Erd erd = new Erd(vertx, config);
+    C4Plantuml c4plantuml = new C4Plantuml();
     router.route("/plantuml/:output_format/:source_encoded").handler(Plantuml.convertRoute());
+    router.route("/c4plantuml/:output_format/:source_encoded").handler(c4plantuml.convertRoute());
     router.route("/ditaa/:output_format/:source_encoded").handler(Ditaa.convertRoute());
     router.route("/blockdiag/:output_format/:source_encoded").handler(blockdiag.convertRoute());
     router.route("/seqdiag/:output_format/:source_encoded").handler(blockdiag.convertRoute());

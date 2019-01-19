@@ -18,17 +18,19 @@ import net.sourceforge.plantuml.code.Transcoder;
 import net.sourceforge.plantuml.code.TranscoderUtil;
 import net.sourceforge.plantuml.core.Diagram;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.URLDecoder;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Plantuml {
 
   private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG, FileFormat.JPEG, FileFormat.BASE64);
   private static final String supportedFormatList = FileFormat.stringify(SUPPORTED_FORMATS);
+
+  private static final Pattern INCLUDE_RX = Pattern.compile("^\\s*!include(?:url)?\\s+.*");
 
   public static Handler<RoutingContext> convertRoute() {
     return routingContext -> {
@@ -40,23 +42,24 @@ public class Plantuml {
         Response.handleUnsupportedFormat(response, outputFormat, supportedFormatList);
         return;
       }
-      String sourceDecoded;
+      String source;
       try {
-        sourceDecoded = Plantuml.decode(sourceEncoded);
-      } catch (DecodeException | UnsupportedEncodingException e) {
+        source = decode(sourceEncoded);
+        source = sanitize(source);
+      } catch (DecodeException | IOException e) {
         response
           .setStatusCode(400)
           .end(e.getMessage());
         return;
       }
-      byte[] data = convert(sourceDecoded, fileFormat);
+      byte[] data = convert(source, fileFormat);
       response
         .putHeader("Content-Type", ContentType.get(fileFormat))
         .end(Buffer.buffer(data));
     };
   }
 
-  private static byte[] convert(String source, FileFormat format) {
+  static byte[] convert(String source, FileFormat format) {
     try {
       SourceStringReader reader = new SourceStringReader(source);
       if (format == FileFormat.BASE64) {
@@ -80,7 +83,7 @@ public class Plantuml {
     }
   }
 
-  private static String decode(String source) throws DecodeException, UnsupportedEncodingException {
+  static String decode(String source) throws DecodeException, UnsupportedEncodingException {
     String text = URLDecoder.decode(source, "UTF-8");
     try {
       Transcoder transcoder = TranscoderUtil.getDefaultTranscoder();
@@ -104,5 +107,24 @@ public class Plantuml {
       uml = plantUmlSource.toString();
     }
     return uml;
+  }
+
+  private static String sanitize(String input) throws IOException {
+    try (BufferedReader reader = new BufferedReader(new StringReader(input))) {
+      StringBuilder sb = new StringBuilder();
+      String line = reader.readLine();
+      while (line != null) {
+        ignoreInclude(line, sb);
+        line = reader.readLine();
+      }
+      return sb.toString();
+    }
+  }
+
+  private static void ignoreInclude(String line, StringBuilder sb) {
+    Matcher matcher = INCLUDE_RX.matcher(line);
+    if (!matcher.matches()) {
+      sb.append(line).append("\n");
+    }
   }
 }
