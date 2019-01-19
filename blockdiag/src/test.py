@@ -186,32 +186,359 @@ print 'seq'
 print '/umlet/svg/' + base64.urlsafe_b64encode(zlib.compress(umlet_seq, 9))
 
 umlet_state = """
-<?xml version="1.0" encoding="UTF-8"?><umlet_diagram><element><type>com.umlet.element.base.Relation</type><coordinates><x>739</x><y>16</y><w>232</w><h>264</h></coordinates><panel_attributes>lt=&lt;-
+<?xml version="1.0" encoding="UTF-8"?>
+<umlet_diagram>
+    <element>
+        <type>com.umlet.element.base.Relation</type>
+        <coordinates>
+            <x>739</x>
+            <y>16</y>
+            <w>232</w>
+            <h>264</h>
+        </coordinates>
+        <panel_attributes>lt=&lt;-
 when(spidersensor="rotate")
-/block spider</panel_attributes><additional_attributes>161;244;161;34;71;34;71;74</additional_attributes></element><element><type>com.umlet.element.custom.FinalState</type><coordinates><x>890</x><y>260</y><w>20</w><h>20</h></coordinates><panel_attributes></panel_attributes><additional_attributes>transparentSelection=false</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>750</x><y>170</y><w>160</w><h>137</h></coordinates><panel_attributes>lt=&lt;-
+/block spider
+        </panel_attributes>
+        <additional_attributes>161;244;161;34;71;34;71;74</additional_attributes>
+    </element>
+    <element>
+        <type>com.umlet.element.custom.FinalState</type>
+        <coordinates>
+            <x>890</x>
+            <y>260</y>
+            <w>20</w>
+            <h>20</h>
+        </coordinates>
+        <panel_attributes></panel_attributes>
+        <additional_attributes>transparentSelection=false</additional_attributes>
+    </element>
+    <element>
+        <type>com.umlet.element.base.Relation</type>
+        <coordinates>
+            <x>750</x>
+            <y>170</y>
+            <w>160</w>
+            <h>137</h>
+        </coordinates>
+        <panel_attributes>lt=&lt;-
 after (10s)
-/ block spider</panel_attributes><additional_attributes>140;100;66;100;66;20</additional_attributes></element><element><type>com.umlet.element.custom.State</type><coordinates><x>340</x><y>420</y><w>100</w><h>40</h></coordinates><panel_attributes>wait</panel_attributes><additional_attributes>transparentSelection=false</additional_attributes></element><element><type>com.umlet.element.custom.HistoryState</type><coordinates><x>230</x><y>440</y><w>20</w><h>20</h></coordinates><panel_attributes></panel_attributes><additional_attributes>transparentSelection=false</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>230</x><y>416</y><w>130</w><h>54</h></coordinates><panel_attributes>lt=&lt;-
-restart</panel_attributes><additional_attributes>20;34;110;34</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>270</x><y>396</y><w>90</w><h>54</h></coordinates><panel_attributes>lt=&lt;-
-pause</panel_attributes><additional_attributes>70;34;20;34</additional_attributes></element><element><type>com.umlet.element.custom.FinalState</type><coordinates><x>90</x><y>400</y><w>20</w><h>20</h></coordinates><panel_attributes></panel_attributes><additional_attributes>transparentSelection=false</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>46</x><y>256</y><w>114</w><h>164</h></coordinates><panel_attributes>lt=&lt;-
+/ block spider
+        </panel_attributes>
+        <additional_attributes>140;100;66;100;66;20</additional_attributes>
+    </element>
+    <element>
+        <type>com.umlet.element.custom.State</type>
+        <coordinates>
+            <x>340</x>
+            <y>420</y>
+            <w>100</w>
+            <h>40</h>
+        </coordinates>
+        <panel_attributes>wait</panel_attributes>
+        <additional_attributes>transparentSelection=false</additional_attributes>
+    </element>
+    <element>
+        <type>com.umlet.element.custom.HistoryState</type>
+        <coordinates>
+            <x>230</x>
+            <y>440</y>
+            <w>20</w>
+            <h>20</h>
+        </coordinates>
+        <panel_attributes></panel_attributes>
+        <additional_attributes>transparentSelection=false</additional_attributes>
+    </element>
+    <element>
+        <type>com.umlet.element.base.Relation</type>
+        <coordinates>
+            <x>230</x>
+            <y>416</y>
+            <w>130</w>
+            <h>54</h>
+        </coordinates>
+        <panel_attributes>lt=&lt;-
+restart
+        </panel_attributes>
+        <additional_attributes>20;34;110;34</additional_attributes>
+    </element>
+    <element>
+        <type>com.umlet.element.base.Relation</type>
+        <coordinates>
+            <x>270</x>
+            <y>396</y>
+            <w>90</w>
+            <h>54</h>
+        </coordinates>
+        <panel_attributes>lt=&lt;-
+pause
+        </panel_attributes>
+        <additional_attributes>70;34;20;34</additional_attributes>
+    </element>
+    <element>
+        <type>com.umlet.element.custom.FinalState</type>
+        <coordinates>
+            <x>90</x>
+            <y>400</y>
+            <w>20</w>
+            <h>20</h>
+        </coordinates>
+        <panel_attributes></panel_attributes>
+        <additional_attributes>transparentSelection=false</additional_attributes>
+    </element>
+    <element>
+        <type>com.umlet.element.base.Relation</type>
+        <coordinates>
+            <x>46</x>
+            <y>256</y>
+            <w>114</w>
+            <h>164</h>
+        </coordinates>
+        <panel_attributes>lt=&lt;-
 after (10s)
-/timeout</panel_attributes><additional_attributes>54;144;54;34;94;34</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>230</x><y>110</y><w>190</w><h>170</h></coordinates><panel_attributes>lt=&lt;-
-timeout</panel_attributes><additional_attributes>20;150;110;150;110;20;170;20</additional_attributes></element><element><type>com.umlet.element.custom.State</type><coordinates><x>700</x><y>90</y><w>180</w><h>100</h></coordinates><panel_attributes>accept
+/timeout
+        </panel_attributes>
+        <additional_attributes>54;144;54;34;94;34</additional_attributes>
+    </element>
+    <element>
+        <type>com.umlet.element.base.Relation</type>
+        <coordinates>
+            <x>230</x>
+            <y>110</y>
+            <w>190</w>
+            <h>170</h>
+        </coordinates>
+        <panel_attributes>lt=&lt;-
+timeout
+        </panel_attributes>
+        <additional_attributes>20;150;110;150;110;20;170;20</additional_attributes>
+    </element>
+    <element>
+        <type>com.umlet.element.custom.State</type>
+        <coordinates>
+            <x>700</x>
+            <y>90</y>
+            <w>180</w>
+            <h>100</h>
+        </coordinates>
+        <panel_attributes>accept
 boarding pass
 --
 entry/ release card
-do/release spider</panel_attributes><additional_attributes>transparentSelection=true</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>540</x><y>140</y><w>205</w><h>100</h></coordinates><panel_attributes>lt=&lt;-
-[passenger booked]</panel_attributes><additional_attributes>160;20;120;80;20;80</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>450</x><y>210</y><w>239</w><h>190</h></coordinates><panel_attributes>lt=&lt;-
-[passenger not booked]</panel_attributes><additional_attributes>219;170;99;170;99;20</additional_attributes></element><element><type>com.umlet.element.custom.State</type><coordinates><x>670</x><y>350</y><w>120</w><h>50</h></coordinates><panel_attributes>reject
-boarding pass</panel_attributes><additional_attributes>transparentSelection=false</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>480</x><y>130</y><w>142</w><h>100</h></coordinates><panel_attributes>lt=&lt;-
-result of search</panel_attributes><additional_attributes>71;80;71;20</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>270</x><y>70</y><w>150</w><h>40</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>130;20;20;20</additional_attributes></element><element><type>com.umlet.element.custom.ThreeWayRelation</type><coordinates><x>540</x><y>210</y><w>20</w><h>20</h></coordinates><panel_attributes></panel_attributes><additional_attributes>transparentSelection=false</additional_attributes></element><element><type>com.umlet.element.custom.State</type><coordinates><x>140</x><y>60</y><w>150</w><h>420</h></coordinates><panel_attributes>read boarding pass
---</panel_attributes><additional_attributes>transparentSelection=true</additional_attributes></element><element><type>com.umlet.element.custom.State</type><coordinates><x>400</x><y>60</y><w>180</w><h>90</h></coordinates><panel_attributes>check passenger
+do/release spider
+        </panel_attributes>
+        <additional_attributes>transparentSelection=true</additional_attributes>
+    </element>
+    <element>
+        <type>com.umlet.element.base.Relation</type>
+        <coordinates>
+            <x>540</x>
+            <y>140</y>
+            <w>205</w>
+            <h>100</h>
+        </coordinates>
+        <panel_attributes>lt=&lt;-
+[passenger booked]
+        </panel_attributes>
+        <additional_attributes>160;20;120;80;20;80</additional_attributes>
+    </element>
+    <element>
+        <type>com.umlet.element.base.Relation</type>
+        <coordinates>
+            <x>450</x>
+            <y>210</y>
+            <w>239</w>
+            <h>190</h>
+        </coordinates>
+        <panel_attributes>lt=&lt;-
+[passenger not booked]
+        </panel_attributes>
+        <additional_attributes>219;170;99;170;99;20</additional_attributes>
+    </element>
+    <element>
+        <type>com.umlet.element.custom.State</type>
+        <coordinates>
+            <x>670</x>
+            <y>350</y>
+            <w>120</w>
+            <h>50</h>
+        </coordinates>
+        <panel_attributes>reject
+boarding pass
+        </panel_attributes>
+        <additional_attributes>transparentSelection=false</additional_attributes>
+    </element>
+    <element>
+        <type>com.umlet.element.base.Relation</type>
+        <coordinates>
+            <x>480</x>
+            <y>130</y>
+            <w>142</w>
+            <h>100</h>
+        </coordinates>
+        <panel_attributes>lt=&lt;-
+result of search
+        </panel_attributes>
+        <additional_attributes>71;80;71;20</additional_attributes>
+    </element>
+    <element>
+        <type>com.umlet.element.base.Relation</type>
+        <coordinates>
+            <x>270</x>
+            <y>70</y>
+            <w>150</w>
+            <h>40</h>
+        </coordinates>
+        <panel_attributes>lt=&lt;-</panel_attributes>
+        <additional_attributes>130;20;20;20</additional_attributes>
+    </element>
+    <element>
+        <type>com.umlet.element.custom.ThreeWayRelation</type>
+        <coordinates>
+            <x>540</x>
+            <y>210</y>
+            <w>20</w>
+            <h>20</h>
+        </coordinates>
+        <panel_attributes></panel_attributes>
+        <additional_attributes>transparentSelection=false</additional_attributes>
+    </element>
+    <element>
+        <type>com.umlet.element.custom.State</type>
+        <coordinates>
+            <x>140</x>
+            <y>60</y>
+            <w>150</w>
+            <h>420</h>
+        </coordinates>
+        <panel_attributes>read boarding pass
+--
+        </panel_attributes>
+        <additional_attributes>transparentSelection=true</additional_attributes>
+    </element>
+    <element>
+        <type>com.umlet.element.custom.State</type>
+        <coordinates>
+            <x>400</x>
+            <y>60</y>
+            <w>180</w>
+            <h>90</h>
+        </coordinates>
+        <panel_attributes>check passenger
 --
 entry/start search
-do/blink lamp</panel_attributes><additional_attributes>transparentSelection=true</additional_attributes></element><element><type>com.umlet.element.custom.FinalState</type><coordinates><x>170</x><y>410</y><w>20</w><h>20</h></coordinates><panel_attributes></panel_attributes><additional_attributes>transparentSelection=false</additional_attributes></element><element><type>com.umlet.element.custom.State</type><coordinates><x>150</x><y>240</y><w>100</w><h>40</h></coordinates><panel_attributes>read
-passenger ID</panel_attributes><additional_attributes>transparentSelection=false</additional_attributes></element><element><type>com.umlet.element.custom.State</type><coordinates><x>150</x><y>330</y><w>100</w><h>40</h></coordinates><panel_attributes>identify
-passenger</panel_attributes><additional_attributes>transparentSelection=false</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>160</x><y>260</y><w>40</w><h>90</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>20;70;20;20</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>160</x><y>100</y><w>40</w><h>70</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>20;50;20;20</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>160</x><y>350</y><w>40</w><h>80</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>20;60;20;20</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>140</x><y>170</y><w>78</w><h>90</h></coordinates><panel_attributes>lt=&lt;-
-[valid]</panel_attributes><additional_attributes>39;70;39;20</additional_attributes></element><element><type>com.umlet.element.custom.State</type><coordinates><x>150</x><y>150</y><w>100</w><h>40</h></coordinates><panel_attributes>check
-validity</panel_attributes><additional_attributes>transparentSelection=false</additional_attributes></element><element><type>com.umlet.element.custom.InitialState</type><coordinates><x>170</x><y>100</y><w>20</w><h>20</h></coordinates><panel_attributes></panel_attributes><additional_attributes>transparentSelection=false</additional_attributes></element></umlet_diagram>
+do/blink lamp
+        </panel_attributes>
+        <additional_attributes>transparentSelection=true</additional_attributes>
+    </element>
+    <element>
+        <type>com.umlet.element.custom.FinalState</type>
+        <coordinates>
+            <x>170</x>
+            <y>410</y>
+            <w>20</w>
+            <h>20</h>
+        </coordinates>
+        <panel_attributes></panel_attributes>
+        <additional_attributes>transparentSelection=false</additional_attributes>
+    </element>
+    <element>
+        <type>com.umlet.element.custom.State</type>
+        <coordinates>
+            <x>150</x>
+            <y>240</y>
+            <w>100</w>
+            <h>40</h>
+        </coordinates>
+        <panel_attributes>read
+passenger ID
+        </panel_attributes>
+        <additional_attributes>transparentSelection=false</additional_attributes>
+    </element>
+    <element>
+        <type>com.umlet.element.custom.State</type>
+        <coordinates>
+            <x>150</x>
+            <y>330</y>
+            <w>100</w>
+            <h>40</h>
+        </coordinates>
+        <panel_attributes>identify
+passenger
+        </panel_attributes>
+        <additional_attributes>transparentSelection=false</additional_attributes>
+    </element>
+    <element>
+        <type>com.umlet.element.base.Relation</type>
+        <coordinates>
+            <x>160</x>
+            <y>260</y>
+            <w>40</w>
+            <h>90</h>
+        </coordinates>
+        <panel_attributes>lt=&lt;-</panel_attributes>
+        <additional_attributes>20;70;20;20</additional_attributes>
+    </element>
+    <element>
+        <type>com.umlet.element.base.Relation</type>
+        <coordinates>
+            <x>160</x>
+            <y>100</y>
+            <w>40</w>
+            <h>70</h>
+        </coordinates>
+        <panel_attributes>lt=&lt;-</panel_attributes>
+        <additional_attributes>20;50;20;20</additional_attributes>
+    </element>
+    <element>
+        <type>com.umlet.element.base.Relation</type>
+        <coordinates>
+            <x>160</x>
+            <y>350</y>
+            <w>40</w>
+            <h>80</h>
+        </coordinates>
+        <panel_attributes>lt=&lt;-</panel_attributes>
+        <additional_attributes>20;60;20;20</additional_attributes>
+    </element>
+    <element>
+        <type>com.umlet.element.base.Relation</type>
+        <coordinates>
+            <x>140</x>
+            <y>170</y>
+            <w>78</w>
+            <h>90</h>
+        </coordinates>
+        <panel_attributes>lt=&lt;-
+[valid]
+        </panel_attributes>
+        <additional_attributes>39;70;39;20</additional_attributes>
+    </element>
+    <element>
+        <type>com.umlet.element.custom.State</type>
+        <coordinates>
+            <x>150</x>
+            <y>150</y>
+            <w>100</w>
+            <h>40</h>
+        </coordinates>
+        <panel_attributes>check
+validity
+        </panel_attributes>
+        <additional_attributes>transparentSelection=false</additional_attributes>
+    </element>
+    <element>
+        <type>com.umlet.element.custom.InitialState</type>
+        <coordinates>
+            <x>170</x>
+            <y>100</y>
+            <w>20</w>
+            <h>20</h>
+        </coordinates>
+        <panel_attributes></panel_attributes>
+        <additional_attributes>transparentSelection=false</additional_attributes>
+    </element>
+</umlet_diagram>
 """
 
 print 'state'
@@ -456,6 +783,7 @@ plantuml = """
 @startuml
 left to right direction
 skinparam packageStyle rectangle
+skinparam monochrome true
 actor customer
 actor clerk
 rectangle checkout {
@@ -469,4 +797,108 @@ rectangle checkout {
 
 print 'plantuml_use_case'
 print '/plantuml/svg/' + base64.urlsafe_b64encode(zlib.compress(plantuml, 9))
+
+print 'c4'
+
+context_bigbank = """
+@startuml
+!include C4_Context.puml
+
+LAYOUT_WITH_LEGEND
+
+title System Context diagram for Internet Banking System
+
+Person(customer, "Personal Banking Customer", "A customer of the bank, with personal bank accounts.")
+System(banking_system, "Internet Banking System", "Allows customers to view information about their bank accounts, and make payments.")
+
+System_Ext(mail_system, "E-mail system", "The internal Microsoft Exchange e-mail system.")
+System_Ext(mainframe, "Mainframe Banking System", "Stores all of the core banking information about customers, accounts, transactions, etc.")
+
+Rel(customer, banking_system, "Uses")
+Rel_Back(customer, mail_system, "Sends e-mails to")
+Rel_Neighbor(banking_system, mail_system, "Sends e-mails", "SMTP")
+Rel(banking_system, mainframe, "Uses")
+@enduml
+"""
+
+print 'context'
+print '/c4plantuml/svg/' + base64.urlsafe_b64encode(zlib.compress(context_bigbank, 9))
+
+container_bigbank = """
+@startuml
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Container.puml
+
+LAYOUT_TOP_DOWN
+'LAYOUT_AS_SKETCH
+LAYOUT_WITH_LEGEND
+
+title Container diagram for Internet Banking System
+
+Person(customer, Customer, "A customer of the bank, with personal bank accounts")
+
+System_Boundary(c1, "Internet Banking") {
+    Container(web_app, "Web Application", "Java, Spring MVC", "Delivers the static content and the Internet banking SPA")
+    Container(spa, "Single-Page App", "JavaScript, Angular", "Provides all the Internet banking functionality to cutomers via their web browser")
+    Container(mobile_app, "Mobile App", "C#, Xamarin", "Provides a limited subset of the Internet banking functionality to customers via their mobile device")
+    ContainerDb(database, "Database", "SQL Database", "Stores user registraion information, hased auth credentials, access logs, etc.")
+    Container(backend_api, "API Application", "Java, Docker Container", "Provides Internet banking functionality via API")
+}
+
+System_Ext(email_system, "E-Mail System", "The internal Microsoft Exchange system")
+System_Ext(banking_system, "Mainframe Banking System", "Stores all of the core banking information about customers, accounts, transactions, etc.")
+
+Rel(customer, web_app, "Uses", "HTTPS")
+Rel(customer, spa, "Uses", "HTTPS")
+Rel(customer, mobile_app, "Uses")
+
+Rel_Neighbor(web_app, spa, "Delivers")
+Rel(spa, backend_api, "Uses", "async, JSON/HTTPS")
+Rel(mobile_app, backend_api, "Uses", "async, JSON/HTTPS")
+Rel_Back_Neighbor(database, backend_api, "Reads from and writes to", "sync, JDBC")
+
+Rel_Back(customer, email_system, "Sends e-mails to")
+Rel_Back(email_system, backend_api, "Sends e-mails using", "sync, SMTP")
+Rel_Neighbor(backend_api, banking_system, "Uses", "sync/async, XML/HTTPS")
+@enduml
+"""
+
+print 'container'
+print '/c4plantuml/svg/' + base64.urlsafe_b64encode(zlib.compress(container_bigbank, 9))
+
+
+comp_bigbank = """
+@startuml
+!include c4_component.puml
+
+LAYOUT_WITH_LEGEND
+
+title Component diagram for Internet Banking System - API Application
+
+Container(spa, "Single Page Application", "javascript and angular", "Provides all the internet banking functionality to customers via their web browser.")
+Container(ma, "Mobile App", "Xamarin", "Provides a limited subset ot the internet banking functionality to customers via their mobile mobile device.")
+ContainerDb(db, "Database", "Relational Database Schema", "Stores user registration information, hashed authentication credentials, access logs, etc.")
+System_Ext(mbs, "Mainframe Banking System", "Stores all of the core banking information about customers, accounts, transactions, etc.")
+
+Container_Boundary(api, "API Application") {
+    Component(sign, "Sign In Controller", "MVC Rest Controlle", "Allows users to sign in to the internet banking system")
+    Component(accounts, "Accounts Summary Controller", "MVC Rest Controlle", "Provides customers with a summory of their bank accounts")
+    Component(security, "Security Component", "Spring Bean", "Provides functionality related to singing in, changing passwords, etc.")
+    Component(mbsfacade, "Mainframe Banking System Facade", "Spring Bean", "A facade onto the mainframe banking system.")
+
+    Rel(sign, security, "Uses")
+    Rel(accounts, mbsfacade, "Uses")
+    Rel(security, db, "Read & write to", "JDBC")
+    Rel(mbsfacade, mbs, "Uses", "XML/HTTPS")
+}
+
+Rel(spa, sign, "Uses", "JSON/HTTPS")
+Rel(spa, accounts, "Uses", "JSON/HTTPS")
+
+Rel(ma, sign, "Uses", "JSON/HTTPS")
+Rel(ma, accounts, "Uses", "JSON/HTTPS")
+@enduml
+"""
+
+print 'component'
+print '/c4plantuml/svg/' + base64.urlsafe_b64encode(zlib.compress(comp_bigbank, 9))
 
