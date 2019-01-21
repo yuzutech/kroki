@@ -1,25 +1,26 @@
 package io.kroki.server.service;
 
-import io.kroki.server.action.Response;
-import io.kroki.server.decode.DecodeException;
+import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.format.ContentType;
 import io.kroki.server.format.FileFormat;
-import io.vertx.core.Handler;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.web.RoutingContext;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class C4Plantuml {
+public class C4Plantuml implements DiagramHandler {
 
   private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG, FileFormat.JPEG, FileFormat.BASE64);
-  private static final String supportedFormatList = FileFormat.stringify(SUPPORTED_FORMATS);
 
   private static final Pattern INCLUDE_RX = Pattern.compile("^\\s*!include(?:url)?\\s+(?<path>.*)");
 
@@ -27,6 +28,7 @@ public class C4Plantuml {
   private final String c4Component;
   private final String c4Container;
   private final String c4Context;
+  private final SourceDecoder sourceDecoder;
 
   public C4Plantuml() {
     try {
@@ -40,33 +42,39 @@ public class C4Plantuml {
     } catch (IOException e) {
       throw new RuntimeException("Unable to initialize the C4 PlantUML service", e);
     }
+    this.sourceDecoder = new SourceDecoder() {
+      @Override
+      public String decode(String encoded) {
+        return Plantuml.unsafeDecode(encoded);
+      }
+    };
   }
 
-  public Handler<RoutingContext> convertRoute() {
-    return routingContext -> {
-      HttpServerResponse response = routingContext.response();
-      String sourceEncoded = routingContext.request().getParam("source_encoded");
-      String outputFormat = routingContext.request().getParam("output_format");
-      FileFormat fileFormat = FileFormat.get(outputFormat);
-      if (fileFormat == null || !SUPPORTED_FORMATS.contains(fileFormat)) {
-        Response.handleUnsupportedFormat(response, outputFormat, supportedFormatList);
-        return;
-      }
-      String source;
-      try {
-        source = Plantuml.decode(sourceEncoded);
-        source = sanitize(source);
-      } catch (DecodeException | IOException e) {
-        response
-          .setStatusCode(400)
-          .end(e.getMessage());
-        return;
-      }
-      byte[] data = Plantuml.convert(source, fileFormat);
-      response
-        .putHeader("Content-Type", ContentType.get(fileFormat))
-        .end(Buffer.buffer(data));
-    };
+  @Override
+  public List<FileFormat> getSupportedFormats() {
+    return SUPPORTED_FORMATS;
+  }
+
+  @Override
+  public SourceDecoder getSourceDecoder() {
+    return sourceDecoder;
+  }
+
+  @Override
+  public void convert(RoutingContext routingContext, String sourceDecoded, FileFormat fileFormat) {
+    HttpServerResponse response = routingContext.response();
+    String source;
+    try {
+      source = sanitize(sourceDecoded);
+      source = Plantuml.withDelimiter(source);
+    } catch (IOException e) {
+      routingContext.fail(e);
+      return;
+    }
+    byte[] data = Plantuml.convert(source, fileFormat);
+    response
+      .putHeader("Content-Type", ContentType.get(fileFormat))
+      .end(Buffer.buffer(data));
   }
 
   private String sanitize(String input) throws IOException {

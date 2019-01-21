@@ -1,7 +1,9 @@
 package io.kroki.server.format;
 
-import java.util.Iterator;
+import io.kroki.server.error.Message;
+
 import java.util.List;
+import java.util.stream.Collectors;
 
 public enum FileFormat {
   PNG, SVG, JPEG, EPS, PDF, BASE64;
@@ -26,21 +28,14 @@ public enum FileFormat {
     if (formats == null || formats.isEmpty()) {
       return "";
     }
-    StringBuilder sb = new StringBuilder();
-    Iterator<FileFormat> iterator = formats.iterator();
-    if (iterator.hasNext()) {
-      sb.append(iterator.next().getName());
-      while (iterator.hasNext()) {
-        FileFormat value = iterator.next();
-        String name = value.getName();
-        if (iterator.hasNext()) {
-          sb.append(", ").append(value);
-        } else {
-          sb.append(" or ").append(name);
-        }
-      }
+    return Message.oneOf(formats.stream().map(FileFormat::getName).collect(Collectors.toList()));
+  }
+
+  public static String htmlify(List<FileFormat> formats) {
+    if (formats == null || formats.isEmpty()) {
+      return "";
     }
-    return sb.toString();
+    return Message.oneOf(formats.stream().map(ff -> "<code>" + ff.getName() + "</code>").collect(Collectors.toList()));
   }
 
   public String getName() {

@@ -16,7 +16,7 @@ public class Main {
       if (configResult.failed()) {
         logger.error("Unable to start", configResult.cause());
       } else {
-        KrokiVerticle.start(vertx, configResult.result(), startResult -> {
+        Server.start(vertx, configResult.result(), startResult -> {
           if (startResult.failed()) {
             logger.error("Unable to start", startResult.cause());
           }
@@ -24,5 +24,4 @@ public class Main {
       }
     });
   }
-
 }

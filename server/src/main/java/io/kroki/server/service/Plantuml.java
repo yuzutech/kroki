@@ -1,11 +1,10 @@
 package io.kroki.server.service;
 
-import io.kroki.server.action.Response;
-import io.kroki.server.decode.DecodeException;
 import io.kroki.server.decode.DiagramSource;
+import io.kroki.server.decode.SourceDecoder;
+import io.kroki.server.error.BadRequestException;
 import io.kroki.server.format.ContentType;
 import io.kroki.server.format.FileFormat;
-import io.vertx.core.Handler;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.web.RoutingContext;
@@ -18,45 +17,62 @@ import net.sourceforge.plantuml.code.Transcoder;
 import net.sourceforge.plantuml.code.TranscoderUtil;
 import net.sourceforge.plantuml.core.Diagram;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Plantuml {
+public class Plantuml implements DiagramHandler {
 
   private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG, FileFormat.JPEG, FileFormat.BASE64);
-  private static final String supportedFormatList = FileFormat.stringify(SUPPORTED_FORMATS);
 
   private static final Pattern INCLUDE_RX = Pattern.compile("^\\s*!include(?:url)?\\s+.*");
+  private final SourceDecoder sourceDecoder;
 
-  public static Handler<RoutingContext> convertRoute() {
-    return routingContext -> {
-      HttpServerResponse response = routingContext.response();
-      String sourceEncoded = routingContext.request().getParam("source_encoded");
-      String outputFormat = routingContext.request().getParam("output_format");
-      FileFormat fileFormat = FileFormat.get(outputFormat);
-      if (fileFormat == null || !SUPPORTED_FORMATS.contains(fileFormat)) {
-        Response.handleUnsupportedFormat(response, outputFormat, supportedFormatList);
-        return;
+  public Plantuml() {
+    this.sourceDecoder = new SourceDecoder() {
+      @Override
+      public String decode(String encoded) {
+        return Plantuml.unsafeDecode(encoded);
       }
-      String source;
-      try {
-        source = decode(sourceEncoded);
-        source = sanitize(source);
-      } catch (DecodeException | IOException e) {
-        response
-          .setStatusCode(400)
-          .end(e.getMessage());
-        return;
-      }
-      byte[] data = convert(source, fileFormat);
-      response
-        .putHeader("Content-Type", ContentType.get(fileFormat))
-        .end(Buffer.buffer(data));
     };
+  }
+
+  @Override
+  public List<FileFormat> getSupportedFormats() {
+    return SUPPORTED_FORMATS;
+  }
+
+  @Override
+  public SourceDecoder getSourceDecoder() {
+    return sourceDecoder;
+  }
+
+  @Override
+  public void convert(RoutingContext routingContext, String sourceDecoded, FileFormat fileFormat) {
+    HttpServerResponse response = routingContext.response();
+    String source;
+    try {
+      source = sanitize(sourceDecoded);
+      source = withDelimiter(source);
+    } catch (IOException e) {
+      if (e instanceof UnsupportedEncodingException) {
+        routingContext.fail(new BadRequestException("Characters must be encoded in UTF-8.", e));
+      } else {
+        routingContext.fail(e);
+      }
+      return;
+    }
+    byte[] data = convert(source, fileFormat);
+    response
+      .putHeader("Content-Type", ContentType.get(fileFormat))
+      .end(Buffer.buffer(data));
   }
 
   static byte[] convert(String source, FileFormat format) {
@@ -83,30 +99,42 @@ public class Plantuml {
     }
   }
 
-  static String decode(String source) throws DecodeException, UnsupportedEncodingException {
+  static String unsafeDecode(String source) {
+    try {
+      return decode(source);
+    } catch (UnsupportedEncodingException e) {
+      throw new BadRequestException("Characters must be encoded in UTF-8.", e);
+    }
+  }
+
+  static String decode(String source) throws UnsupportedEncodingException {
     String text = URLDecoder.decode(source, "UTF-8");
     try {
       Transcoder transcoder = TranscoderUtil.getDefaultTranscoder();
       text = transcoder.decode(text);
       // encapsulate the UML syntax if necessary
-    } catch (IOException ioException) {
+    } catch (ArrayIndexOutOfBoundsException | IOException e) {
       // Unable to decode with the PlantUML decoder, try the default decoder
       text = DiagramSource.decode(text);
     }
-    String uml;
-    if (text.startsWith("@start")) {
-      uml = text;
+    return text;
+  }
+
+  static String withDelimiter(String source) {
+    String result;
+    if (source.startsWith("@start")) {
+      result = source;
     } else {
       StringBuilder plantUmlSource = new StringBuilder();
       plantUmlSource.append("@startuml\n");
-      plantUmlSource.append(text);
-      if (!text.endsWith("\n")) {
+      plantUmlSource.append(source);
+      if (!source.endsWith("\n")) {
         plantUmlSource.append("\n");
       }
       plantUmlSource.append("@enduml");
-      uml = plantUmlSource.toString();
+      result = plantUmlSource.toString();
     }
-    return uml;
+    return result;
   }
 
   private static String sanitize(String input) throws IOException {

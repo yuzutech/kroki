@@ -1,40 +1,45 @@
 package io.kroki.server.service;
 
 import io.kroki.server.action.Delegator;
-import io.kroki.server.action.Response;
+import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.format.FileFormat;
-import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
-import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.client.WebClient;
 
 import java.util.Collections;
 import java.util.List;
 
-public class Asciitosvg {
+public class Asciitosvg implements DiagramHandler {
 
   private static final List<FileFormat> SUPPORTED_FORMATS = Collections.singletonList(FileFormat.SVG);
-  private static final String supportedFormatList = FileFormat.stringify(SUPPORTED_FORMATS);
 
   private final WebClient client;
+  private final SourceDecoder sourceDecoder;
 
   public Asciitosvg(Vertx vertx) {
     this.client = WebClient.create(vertx);
+    this.sourceDecoder = new SourceDecoder() {
+      @Override
+      public String decode(String encoded) {
+        return encoded; // will be decoded by the backend
+      }
+    };
   }
 
-  public Handler<RoutingContext> convertRoute() {
-    return routingContext -> {
-      String sourceEncoded = routingContext.request().getParam("source_encoded");
-      String outputFormat = routingContext.request().getParam("output_format");
-      HttpServerResponse response = routingContext.response();
-      FileFormat fileFormat = FileFormat.get(outputFormat);
-      if (fileFormat == null || !SUPPORTED_FORMATS.contains(fileFormat)) {
-        Response.handleUnsupportedFormat(response, outputFormat, supportedFormatList);
-        return;
-      }
-      Delegator.delegate(client, routingContext.response(), 8002, "/asciitosvg/" + sourceEncoded);
-    };
+  @Override
+  public List<FileFormat> getSupportedFormats() {
+    return SUPPORTED_FORMATS;
+  }
+
+  @Override
+  public SourceDecoder getSourceDecoder() {
+    return sourceDecoder;
+  }
+
+  @Override
+  public void convert(RoutingContext routingContext, String sourceEncoded, FileFormat fileFormat) {
+    Delegator.delegate(client, routingContext.response(), 8002, "/asciitosvg/" + sourceEncoded);
   }
 }
 
