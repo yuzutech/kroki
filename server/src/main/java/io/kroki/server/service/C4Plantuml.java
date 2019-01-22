@@ -1,6 +1,8 @@
 package io.kroki.server.service;
 
+import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
+import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.ContentType;
 import io.kroki.server.format.FileFormat;
 import io.vertx.core.buffer.Buffer;
@@ -32,20 +34,20 @@ public class C4Plantuml implements DiagramHandler {
 
   public C4Plantuml() {
     try {
-      this.c4 = read(Thread.currentThread().getContextClassLoader().getResourceAsStream("c4.puml"));
+      this.c4 = read("c4.puml");
       // context includes c4
-      this.c4Context = c4 + read(Thread.currentThread().getContextClassLoader().getResourceAsStream("c4_context.puml"));
+      this.c4Context = c4 + read("c4_context.puml");
       // container includes context
-      this.c4Container = c4Context + read(Thread.currentThread().getContextClassLoader().getResourceAsStream("c4_container.puml"));
+      this.c4Container = c4Context + read("c4_container.puml");
       // component includes container
-      this.c4Component = c4Container + read(Thread.currentThread().getContextClassLoader().getResourceAsStream("c4_component.puml"));
+      this.c4Component = c4Container + read("c4_component.puml");
     } catch (IOException e) {
       throw new RuntimeException("Unable to initialize the C4 PlantUML service", e);
     }
     this.sourceDecoder = new SourceDecoder() {
       @Override
-      public String decode(String encoded) {
-        return Plantuml.unsafeDecode(encoded);
+      public String decode(String encoded) throws DecodeException {
+        return DiagramSource.plantumlDecode(encoded);
       }
     };
   }
@@ -107,7 +109,8 @@ public class C4Plantuml implements DiagramHandler {
     }
   }
 
-  private String read(InputStream input) throws IOException {
+  private String read(String resource) throws IOException {
+    InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream(resource);
     try (BufferedReader buffer = new BufferedReader(new InputStreamReader(input))) {
       return buffer.lines().collect(Collectors.joining("\n"));
     }

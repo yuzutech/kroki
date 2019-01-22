@@ -2,6 +2,7 @@ package io.kroki.server.service;
 
 import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
+import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.ContentType;
 import io.kroki.server.format.FileFormat;
 import io.kroki.umlet.UmletConverter;
@@ -25,7 +26,7 @@ public class Umlet implements DiagramHandler {
     this.vertx = vertx;
     this.sourceDecoder = new SourceDecoder() {
       @Override
-      public String decode(String encoded) {
+      public String decode(String encoded) throws DecodeException {
         return DiagramSource.decode(encoded);
       }
     };

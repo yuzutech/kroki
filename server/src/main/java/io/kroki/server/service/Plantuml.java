@@ -3,6 +3,7 @@ package io.kroki.server.service;
 import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.BadRequestException;
+import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.ContentType;
 import io.kroki.server.format.FileFormat;
 import io.vertx.core.buffer.Buffer;
@@ -13,8 +14,6 @@ import net.sourceforge.plantuml.FileFormatOption;
 import net.sourceforge.plantuml.PSystemError;
 import net.sourceforge.plantuml.SourceStringReader;
 import net.sourceforge.plantuml.code.Base64Coder;
-import net.sourceforge.plantuml.code.Transcoder;
-import net.sourceforge.plantuml.code.TranscoderUtil;
 import net.sourceforge.plantuml.core.Diagram;
 
 import java.io.BufferedReader;
@@ -22,7 +21,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -38,8 +36,8 @@ public class Plantuml implements DiagramHandler {
   public Plantuml() {
     this.sourceDecoder = new SourceDecoder() {
       @Override
-      public String decode(String encoded) {
-        return Plantuml.unsafeDecode(encoded);
+      public String decode(String encoded) throws DecodeException {
+        return DiagramSource.plantumlDecode(encoded);
       }
     };
   }
@@ -99,27 +97,6 @@ public class Plantuml implements DiagramHandler {
     }
   }
 
-  static String unsafeDecode(String source) {
-    try {
-      return decode(source);
-    } catch (UnsupportedEncodingException e) {
-      throw new BadRequestException("Characters must be encoded in UTF-8.", e);
-    }
-  }
-
-  static String decode(String source) throws UnsupportedEncodingException {
-    String text = URLDecoder.decode(source, "UTF-8");
-    try {
-      Transcoder transcoder = TranscoderUtil.getDefaultTranscoder();
-      text = transcoder.decode(text);
-      // encapsulate the UML syntax if necessary
-    } catch (ArrayIndexOutOfBoundsException | IOException e) {
-      // Unable to decode with the PlantUML decoder, try the default decoder
-      text = DiagramSource.decode(text);
-    }
-    return text;
-  }
-
   static String withDelimiter(String source) {
     String result;
     if (source.startsWith("@start")) {
@@ -137,7 +114,7 @@ public class Plantuml implements DiagramHandler {
     return result;
   }
 
-  private static String sanitize(String input) throws IOException {
+  private String sanitize(String input) throws IOException {
     try (BufferedReader reader = new BufferedReader(new StringReader(input))) {
       StringBuilder sb = new StringBuilder();
       String line = reader.readLine();
@@ -149,7 +126,7 @@ public class Plantuml implements DiagramHandler {
     }
   }
 
-  private static void ignoreInclude(String line, StringBuilder sb) {
+  private void ignoreInclude(String line, StringBuilder sb) {
     Matcher matcher = INCLUDE_RX.matcher(line);
     if (!matcher.matches()) {
       sb.append(line).append("\n");

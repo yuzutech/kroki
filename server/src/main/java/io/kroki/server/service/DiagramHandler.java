@@ -1,7 +1,8 @@
 package io.kroki.server.service;
 
-import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
+import io.kroki.server.error.BadRequestException;
+import io.kroki.server.error.DecodeException;
 import io.kroki.server.error.UnsupportedFormatException;
 import io.kroki.server.format.FileFormat;
 import io.vertx.core.Handler;
@@ -19,16 +20,16 @@ public interface DiagramHandler {
     return routingContext -> {
       FileFormat fileFormat = routingContext.get("output_file_format");
       String sourceEncoded = routingContext.request().getParam("source_encoded");
-      String sourceDecoded = getSourceDecoder().decode(sourceEncoded);
-      convert(routingContext, sourceDecoded, fileFormat);
+      try {
+        String sourceDecoded = getSourceDecoder().decode(sourceEncoded);
+        convert(routingContext, sourceDecoded, fileFormat);
+      } catch (DecodeException e) {
+        routingContext.fail(new BadRequestException(e.getMessage(), e));
+      }
     };
   }
 
   void convert(RoutingContext routingContext, String sourceDecoded, FileFormat fileFormat);
-
-  default byte[] decode(String sourceEncoded, boolean trim) {
-    return DiagramSource.decode(sourceEncoded, trim).getBytes();
-  }
 
   default Handler<RoutingContext> validate() {
     return routingContext -> {

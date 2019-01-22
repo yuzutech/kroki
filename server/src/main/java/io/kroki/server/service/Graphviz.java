@@ -3,6 +3,7 @@ package io.kroki.server.service;
 import io.kroki.server.action.Commander;
 import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
+import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.ContentType;
 import io.kroki.server.format.FileFormat;
 import io.vertx.core.Vertx;
@@ -28,7 +29,7 @@ public class Graphviz implements DiagramHandler {
     this.binPath = config.getString("KROKI_DOT_BIN_PATH", "dot");
     this.sourceDecoder = new SourceDecoder() {
       @Override
-      public String decode(String encoded) {
+      public String decode(String encoded) throws DecodeException {
         return DiagramSource.decode(encoded);
       }
     };
