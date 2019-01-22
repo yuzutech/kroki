@@ -3,6 +3,16 @@ import base64
 import zlib
 import re
 
+print 'planutml bob'
+plantuml = """
+@startuml
+Bob -> Alice : hello
+@enduml
+"""
+print base64.urlsafe_b64encode(zlib.compress(plantuml, 9))
+
+print''
+
 blockdiag_sample = """
 blockdiag {
  blockdiag -> generates -> "block-diagrams";
