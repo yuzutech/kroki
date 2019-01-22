@@ -9,4 +9,9 @@ RUN apk add --update --no-cache \
 
 COPY target/kroki-server.jar .
 
+# Workaround: https://github.com/docker-library/openjdk/issues/77
+# Error loading shared library libjli.so: No such file or directory (needed by /usr/bin/java)
+# Error relocating /usr/bin/java: JLI_Launch: symbol not found
+COPY ld-musl-x86_64.path /etc/ld-musl-x86_64.path
+
 ENTRYPOINT ["java", "-jar", "kroki-server.jar"]
