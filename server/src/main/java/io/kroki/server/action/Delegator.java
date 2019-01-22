@@ -7,9 +7,9 @@ import io.vertx.ext.web.client.WebClient;
 
 public class Delegator {
 
-  public static void delegate(WebClient client, HttpServerResponse response, int port, String requestURI) {
+  public static void delegate(WebClient client, HttpServerResponse response, String host, int port, String requestURI) {
     client
-      .get(port, "127.0.0.1", requestURI)
+      .get(port, host, requestURI)
       .send(result -> {
         if (result.succeeded()) {
           HttpResponse<Buffer> httpResponse = result.result();

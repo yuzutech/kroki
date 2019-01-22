@@ -1,7 +1,6 @@
 package io.kroki.server;
 
 import io.kroki.server.error.ErrorHandler;
-import io.kroki.server.service.Asciitosvg;
 import io.kroki.server.service.Blockdiag;
 import io.kroki.server.service.C4Plantuml;
 import io.kroki.server.service.DiagramRegistry;
@@ -51,8 +50,7 @@ public class Server extends AbstractVerticle {
     registry.register(new Plantuml(), "plantuml");
     registry.register(new C4Plantuml(), "c4plantuml");
     registry.register(new Ditaa(), "ditaa");
-    registry.register(new Blockdiag(vertx), "blockdiag", "seqdiag", "actdiag", "nwdiag");
-    registry.register(new Asciitosvg(vertx), "asciitosvg");
+    registry.register(new Blockdiag(vertx, config), "blockdiag", "seqdiag", "actdiag", "nwdiag");
     registry.register(new Umlet(vertx), "umlet");
     registry.register(new Graphviz(vertx, config), "graphviz", "dot");
     registry.register(new Erd(vertx, config), "erd");

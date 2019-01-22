@@ -1,12 +1,12 @@
-= AsciiToSVG
+= AsciiToSVG (deprecated)
 
 == Build
 
- $ docker build --tag=kroki-asciitosvg .
+ $ docker build --tag=kroki/kroki-asciitosvg .
 
 == Run
 
- $ docker run -d -p 8002:8002 kroki-asciitosvg
+ $ docker run -d -p 8002:8002 kroki/kroki-asciitosvg
 
 == Local development
 

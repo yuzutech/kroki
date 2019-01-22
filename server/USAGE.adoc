@@ -27,13 +27,6 @@ Generated from `blockdiag/test.py`
 /nwdiag/png/eNrjyitPyUxMV6jmUlDISy0pzy_KVkjJrQLzQSAxJaUotbhYwVZBycjQQK8CBPWNTJS4oPLlqUkGhgrRWJQZKsVaIykywqrICKKoFsn2zLyS1KK8xBxsTjA0N0I4wRq3G2Dq8LoBpsgIoSgFaBAS2wjitlouAESTS2A=
 ```
 
-== AsciiToSVG
-
-
-```
-/asciitosvg/svg/eNrj0tPFBfS4ahRwgRqgHEinnq6eAsQEBA2SA8kCWQraurp2QNVAqGCjq1sDlVPXVUcSg6vhAsno6oJk1cFmIWiQnEJicXJmJth6I4grisvSoW7B7U51nP5T5wIAmFcvuQ==
-```
-
 == UMlet
 
 .Analysis
