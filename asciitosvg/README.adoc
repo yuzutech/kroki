@@ -1,5 +1,7 @@
 = AsciiToSVG (deprecated)
 
+IMPORTANT: AsciiToSVG is deprecated in favor of Svgbob.
+
 == Build
 
  $ docker build --tag=kroki/kroki-asciitosvg .
