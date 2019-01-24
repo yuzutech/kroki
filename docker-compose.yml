@@ -1,0 +1,12 @@
+version: "3"
+services:
+  base:
+    image: kroki/kroki-base
+    environment:
+      - KROKI_BLOCKDIAG_HOST=blockdiag
+    ports:
+      - "8000:8000"
+  blockdiag:
+    image: kroki/kroki-blockdiag
+    ports:
+      - "8001:8001"
