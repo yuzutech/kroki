@@ -8,6 +8,7 @@ import io.kroki.server.service.DiagramRest;
 import io.kroki.server.service.Ditaa;
 import io.kroki.server.service.Erd;
 import io.kroki.server.service.Graphviz;
+import io.kroki.server.service.Nomnoml;
 import io.kroki.server.service.Plantuml;
 import io.kroki.server.service.Svgbob;
 import io.kroki.server.service.Umlet;
@@ -55,6 +56,7 @@ public class Server extends AbstractVerticle {
     registry.register(new Graphviz(vertx, config), "graphviz", "dot");
     registry.register(new Erd(vertx, config), "erd");
     registry.register(new Svgbob(vertx, config), "svgbob");
+    registry.register(new Nomnoml(vertx, config), "nomnoml");
 
     router.route("/").handler(BodyHandler.create());
     router.post("/").handler(new DiagramRest(registry).create());

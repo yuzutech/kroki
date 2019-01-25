@@ -10,5 +10,8 @@
   "author": "",
   "dependencies": {
     "nomnoml": "0.3.0"
+  },
+  "devDependencies": {
+    "standard": "12.0.1"
   }
 }

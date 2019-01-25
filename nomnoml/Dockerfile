@@ -1,4 +1,4 @@
-FROM node:10.15.0-alpine as nomnoml-builder
+FROM node:10.15.0-alpine
 
 RUN npm install -g pkg pkg-fetch
 ENV NODE node10
@@ -10,11 +10,3 @@ COPY . /app
 WORKDIR /app
 
 RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-${ARCH} . -o app.bin
-
-FROM alpine:3.8
-
-RUN apk add --update-cache --no-cache libstdc++ libgcc
-
-COPY --from=nomnoml-builder /app/app.bin /
-
-CMD ["/app.bin"]
