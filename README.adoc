@@ -1,7 +1,55 @@
 = Kroki
+:uri-maven: https://maven.apache.org/
 
-== Requirements
+Kroki provides a unified API with support for BlockDiag (BlockDiag, SeqDiag, ActDiag, NwDiag), C4 (with PlantUML), Ditaa, Erd, GraphViz, PlantUML, SvgBob and UMLet... and more to come!
 
- $ mvn install:install-file -Dfile=./umlet/lib/umlet-mini-14.3.0.jar -DgroupId=com.umlet -DartifactId=umlet-mini -Dversion=14.3.0 -Dpackaging=jar
- $ mvn install:install-file -Dfile=./server/lib/ditaa-1.3.13.jar -DgroupId=ditaa -DartifactId=ditaa -Dversion=1.3.13 -Dpackaging=jar
- $ mvn install:install-file -Dfile=./server/lib/ditaamini-0.11.jar -DgroupId=ditaa -DartifactId=ditaa-mini -Dversion=0.11 -Dpackaging=jar
+== Usage
+
+Kroki uses a simple algorithm (deflate + base64) to encode your diagram in the URL:
+
+`GET /plantuml/png/SyfFKj2rKt3CoKnELR1Io4ZDoSa70000`
+
+You can also call Kroki with `POST`:
+
+`POST /`
+
+```json
+{
+  "diagram_source": "Bob -> Alice : hello",
+  "diagram_type": "plantuml",
+  "output_format": "png"
+}
+```
+
+In this case, you don't need to encode your diagram.
+
+== Development
+
+Kroki server is built using {uri-maven}[Maven].
+
+=== Project layout
+
+Kroki has a modular architecture.
+
+core::
+A Java web server (powered by Vert.x) that acts as a gateway.
+
+umlet::
+A tiny Java API on top of UMlet (mini) to generate diagrams.
+
+nomnoml::
+fds
+
+=== Build core
+
+The first step is to install the local dependencies in your local repository using `make`:
+
+ $ make installLocalDependencies
+
+Then you can build the project using `mvn`:
+
+ $ mvn clean package
+
+=== Create a Docker image
+
+Kroki has a modular architecture.

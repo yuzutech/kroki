@@ -1,12 +1,12 @@
 version: "3"
 services:
-  base:
-    image: kroki/kroki-base
+  core:
+    image: yuzutech/kroki
     environment:
       - KROKI_BLOCKDIAG_HOST=blockdiag
     ports:
       - "8000:8000"
   blockdiag:
-    image: kroki/kroki-blockdiag
+    image: yuzutech/kroki-blockdiag
     ports:
       - "8001:8001"
