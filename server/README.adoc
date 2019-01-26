@@ -1,0 +1,59 @@
+= Kroki server
+
+Kroki server acts as a gateway and provides a unified API on-top of diagrams libraries.
+
+== Build
+
+ $ make build
+
+== Package
+
+To get you started quickly, you can build a Docker image:
+
+ $ sudo make package
+
+Then you can run the server using the following command:
+
+ $ sudo docker run --publish=8000:8000 yuzutech/kroki:latest
+
+NOTE: We are using the `--publish` option to expose the container's port 8000 on the host's port 8000.
+
+The server should be running and available at: http://localhost:8000/
+
+=== Configuration
+
+KROKI_SVGBOB_BIN_PATH:: Path to the `svgbob` binary
+KROKI_ERD_BIN_PATH:: Path to the `erd` binary
+KROKI_DOT_BIN_PATH:: Path to the `dot` binary (provided by GraphViz)
+KROKI_NOMNOML_BIN_PATH:: Path to the `nomnoml` binary
+KROKI_BLOCKDIAG_HOST:: The host of the blockdiag server
+KROKI_BLOCKDIAG_PORT:: The port of the blockdiag server
+
+=== Image
+
+The Docker image contains the following diagrams libraries as binaries:
+
+Svgbob:: `/rust/bin/svgbob` (statically linked)
+Erd:: `/haskell/bin/erd` (statically linked)
+GraphViz:: `/usr/bin/dot`
+Nomnoml:: `/node/bin/nomnoml`
+
+To keep the Docker image as small as possible, the following libraries are provided as an "external" service:
+
+ * BlockDiag
+ * SeqDiag
+ * ActDiag
+ * NwDiag
+
+When one of the above library is requested, Kroki server will delegate the call.
+
+== Manual install
+
+If you don't want to use the Docker image, you will need to install all the dependencies on your system:
+
+* Java 8
+* GraphViz: https://graphviz.gitlab.io/download/
+* Erd: https://github.com/BurntSushi/erd
+* Svgbob: https://github.com/ivanceras/svgbob
+
+
