@@ -1,17 +1,24 @@
-= *Diag
+= BlockDiag (BlockDiag, SeqDiag, ActDiag and NwDiag)
 
-== Build
+== Package
 
- $ docker build --tag=kroki-blockdiag .
+To get you started quickly, you can build a Docker image:
 
-== Run
+ $ sudo make package
 
- $ docker run -d -p 8001:8001 kroki-blockdiag
+Then you can run the server using the following command:
+
+ $ sudo docker run --publish=8001:8001 yuzutech/kroki-blockdiag:latest
+
+NOTE: We are using the `--publish` option to expose the container's port 8001 on the host's port 8001.
+
+The server should be running and available at: http://localhost:8001/
 
 == Local development
 
  $ python server.py
 
+== Examples
 
 .BlockDiag
 ```

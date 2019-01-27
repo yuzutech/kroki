@@ -23,22 +23,22 @@ You can also call Kroki with `POST`:
 
 In this case, you don't need to encode your diagram.
 
-== Development
-
-Kroki server is built using {uri-maven}[Maven].
-
 === Project layout
 
-Kroki has a modular architecture.
+Kroki has a modular architecture:
 
-core::
-A Java web server (powered by Vert.x) that acts as a gateway.
+server::
+A Java web server (powered by _Vert.x_) that acts as a gateway.
+Kroki server is built using {uri-maven}[Maven].
 
 umlet::
-A tiny Java API on top of UMlet (mini) to generate diagrams.
+A tiny Java API on top of _UMlet_ (mini) to generate diagrams.
 
 nomnoml::
-fds
+A Node.js CLI on top of the _Nomnoml_ diagram library.
+
+blockdiag::
+A Python web server (powered by _Flask_ and _Gunicorn_) that provides _BlockDiag_, _SeqDiag_, _ActDiag_ and _NwDiag_ diagrams libraries.
 
 === Build core
 
@@ -46,10 +46,12 @@ The first step is to install the local dependencies in your local repository usi
 
  $ make installLocalDependencies
 
-Then you can build the project using `mvn`:
+Then you can build the project using Maven:
 
- $ mvn clean package
+ $ make buildServer
 
-=== Create a Docker image
+=== Build Docker images
 
-Kroki has a modular architecture.
+To build all the Docker images, use the following command:
+
+ $ sudo make buildDockerImages
