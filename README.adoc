@@ -23,7 +23,7 @@ You can also call Kroki with `POST`:
 
 In this case, you don't need to encode your diagram.
 
-=== Project layout
+== Project layout
 
 Kroki has a modular architecture:
 
@@ -40,6 +40,8 @@ A Node.js CLI on top of the _Nomnoml_ diagram library.
 blockdiag::
 A Python web server (powered by _Flask_ and _Gunicorn_) that provides _BlockDiag_, _SeqDiag_, _ActDiag_ and _NwDiag_ diagrams libraries.
 
+== Build
+
 === Build core
 
 The first step is to install the local dependencies in your local repository using `make`:
@@ -55,3 +57,26 @@ Then you can build the project using Maven:
 To build all the Docker images, use the following command:
 
  $ sudo make buildDockerImages
+
+
+== Run
+
+Once the Docker images are built, you can run Kroki using `docker-compose`:
+
+.docker-compose.yml
+```
+version: "3"
+services:
+  core:
+    image: yuzutech/kroki
+    environment:
+      - KROKI_BLOCKDIAG_HOST=blockdiag
+    ports:
+      - "8000:8000"
+  blockdiag:
+    image: yuzutech/kroki-blockdiag
+    ports:
+      - "8001:8001"
+```
+
+ $ docker-compose up -d
