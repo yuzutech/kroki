@@ -14,3 +14,6 @@ buildDockerImages:
 	docker build -f server/ops/docker/build-static-svgbob -t kroki-builder-static-svgbob .
 	docker build -t yuzutech/kroki server
 	docker build -t yuzutech/kroki-blockdiag blockdiag
+
+showExamples:
+	python blockdiag/examples.py
