@@ -12,5 +12,5 @@ buildDockerImages:
 	docker build -t kroki-builder-nomnoml nomnoml
 	docker build -f server/ops/docker/build-static-erd -t kroki-builder-static-erd .
 	docker build -f server/ops/docker/build-static-svgbob -t kroki-builder-static-svgbob .
-	docker build -f server/ops/docker/package -t yuzutech/kroki server
+	docker build -t yuzutech/kroki server
 	docker build -t yuzutech/kroki-blockdiag blockdiag

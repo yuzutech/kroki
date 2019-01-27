@@ -16,4 +16,6 @@ RUN apk --update add --virtual build-dependencies build-base python3-dev jpeg-de
 
 COPY src .
 
+EXPOSE 8001
+
 CMD ["gunicorn", "--bind", "0.0.0.0:8001", "wsgi"]
