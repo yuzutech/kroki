@@ -1,8 +1,4 @@
-build:
-	mvn clean package
+default:
 
 package:
-	docker build -t yuzutech/kroki .
-
-run:
-	docker run yuzutech/kroki:latest
+	docker build -t kroki-builder-nomnoml .

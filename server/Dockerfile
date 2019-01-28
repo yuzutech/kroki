@@ -2,7 +2,7 @@ FROM openjdk:8u191-jdk-alpine3.8
 
 COPY --from=kroki-builder-static-svgbob:latest /home/rust/src/svgbob_cli/target/x86_64-unknown-linux-musl/release/svgbob /rust/bin/svgbob
 COPY --from=kroki-builder-static-erd:latest /erd/dist/build/erd/erd /haskell/bin/erd
-COPY --from=kroki-builder-nomnoml /app/app.bin /node/bin/nomnoml
+COPY --from=kroki-builder-nomnoml:latest /app/app.bin /node/bin/nomnoml
 
 ENV KROKI_SVGBOB_BIN_PATH=/rust/bin/svgbob
 ENV KROKI_ERD_BIN_PATH=/haskell/bin/erd
