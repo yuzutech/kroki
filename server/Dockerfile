@@ -22,4 +22,4 @@ COPY ops/docker/ld-musl-x86_64.path /etc/ld-musl-x86_64.path
 
 EXPOSE 8000
 
-ENTRYPOINT ["java", "-jar", "kroki-server.jar"]
+ENTRYPOINT ["java", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-jar", "kroki-server.jar"]
