@@ -1,9 +1,7 @@
 const puppeteer = require('puppeteer')
 
 const createBrowser = async () => {
-  const browser = await puppeteer.launch({
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
-  })
+  const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']})
   try {
     return browser
   } catch (err) {

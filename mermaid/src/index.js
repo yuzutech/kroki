@@ -4,6 +4,7 @@ const instance = require('./browser-instance')
 const micro = require('micro')
 
 ;(async () => {
+  // QUESTION: should we create a pool of Chrome instances ?
   const browser = await instance.create()
   console.log(`Chrome accepting connections on endpoint ${browser.wsEndpoint()}`)
   const worker = new Worker(browser)
@@ -21,7 +22,7 @@ const micro = require('micro')
     }
     micro.send(res, 400, 'Field diagram_source must not be empty.')
   })
-  server.listen(3000)
+  server.listen(8002)
 })().catch(error => {
   console.error('Unable to start the service', error)
   process.exit(1)

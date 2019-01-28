@@ -1,9 +1,11 @@
 const path = require('path')
+const fs = require('fs')
 const puppeteer = require('puppeteer')
 
 class Worker {
   constructor (browserInstance) {
     this.browserWSEndpoint = browserInstance.wsEndpoint()
+    this.pageUrl = process.env.KROKI_MERMAID_PAGE_URL || `file://${path.join(__dirname, '..', 'assets', 'index.html')}`
   }
 
   async convert (task) {
@@ -14,7 +16,8 @@ class Worker {
     const page = await browser.newPage()
     try {
       page.setViewport({height: 800, width: 600})
-      await page.goto(`file://${path.join(__dirname, 'index.html')}`)
+      await page.goto(this.pageUrl)
+      // QUESTION: should we reuse the page for performance reason ?
       await page.$eval('#container', (container, definition, mermaidConfig) => {
         container.innerHTML = definition
         window.mermaid.initialize(mermaidConfig)
