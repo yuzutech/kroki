@@ -58,7 +58,9 @@ public class Server extends AbstractVerticle {
     registry.register(new Svgbob(vertx, config), "svgbob");
     registry.register(new Nomnoml(vertx, config), "nomnoml");
 
-    router.route("/").handler(BodyHandler.create());
+    router.route("/").handler(BodyHandler
+      .create(false)
+      .setBodyLimit(config.getLong("KROKI_BODY_LIMIT", BodyHandler.DEFAULT_BODY_LIMIT)));
     router.post("/").handler(new DiagramRest(registry).create());
     Route route = router.route("/*"); // default route
     route.handler(routingContext -> routingContext.fail(404));
