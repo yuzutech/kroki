@@ -1,0 +1,91 @@
+= Usage
+
+Assumptions:
+
+* [x] You have a running instance of Kroki.
+
+On this page, you'll learn:
+
+* [x] How to convert diagrams with Kroki
+
+== Convert Diagrams
+
+Kroki uses a simple algorithm (deflate + base64) to encode your diagram in the URL:
+
+ GET /plantuml/svg/SyfFKj2rKt3CoKnELR1Io4ZDoSa70000
+
+You can also call Kroki with `POST`:
+
+ POST /
+
+```json
+{
+  "diagram_source": "Bob -> Alice : hello",
+  "diagram_type": "plantuml",
+  "output_format": "svg"
+}
+```
+
+In this case, you don't need to encode your diagram.
+
+It's also possible to send your diagram as plain text using the `Content-Type` header.
+The output format will be specified using the `Accept` header and the diagram source will be sent as the request body:
+
+ POST /plantuml
+
+```
+Accept: image/svg+xml
+Content-Type: text/plain
+
+Bob -> Alice : hello
+```
+
+You can also define the output format in the URL if you don't want to add an `Accept` header:
+
+ POST /plantuml/svg
+```
+Content-Type: text/plain
+
+Bob -> Alice : hello
+```
+
+The same concept applies when sending the diagram as JSON:
+
+ POST /plantuml/svg
+```json
+{
+  "diagram_source": "Bob -> Alice : hello"
+}
+```
+
+== Command Line Interface (CLI)
+
+Using https://curl.haxx.se/[_cURL_] to interact with the API is straightforward, open a terminal and type:
+
+ curl https://demo.kroki.io/plantuml/svg --data-raw 'Bob -> Alice : hello'
+
+Or if you are more familiar with https://httpie.org/[_HTTPie_], you can send a JSON request:
+
+ http https://demo.kroki.io/ diagram_type='plantuml' output_format='svg' diagram_source='Bob -> Alice : hello'
+
+It's also possible to send a file, for instance an Entity Relationship Diagram named project.erd:
+
+```erd
+[Person]
+*name
+height
+weight
++birth_location_id
+
+[Location]
+*id
+city
+state
+country
+
+Person *--1 Location
+```
+
+ curl https://demo.kroki.io/erd/svg --data-binary '@project.erd'
+
+ cat project.erd | http https://demo.kroki.io/erd/svg Content-Type:text/plain

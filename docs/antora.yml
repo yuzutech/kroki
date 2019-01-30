@@ -1,0 +1,6 @@
+name: kroki
+title: Kroki
+version: master
+nav:
+- modules/ROOT/nav.adoc
+- modules/setup/nav.adoc

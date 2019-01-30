@@ -1,0 +1,76 @@
+= Overview
+
+== Gateway Server
+
+The Docker image contains the following diagrams libraries out-of-the-box:
+
+[options="header",cols="1,1m"]
+|===
+|Diagram Type | Version
+|https://github.com/RicardoNiepel/C4-PlantUML[C4 with PlantUML]
+|1.2018.14
+//|Java library (depends on GraphViz)
+
+|http://ditaa.sourceforge.net[Ditaa]
+|1.3.13
+//|Java library
+
+|https://github.com/BurntSushi/erd[Erd]
+|0.1.3.0
+//|Binary `/haskell/bin/erd`
+
+
+|https://www.graphviz.org/[GraphViz]
+|2.40.1
+//|Binary `/usr/bin/dot`
+
+|https://github.com/skanaar/nomnoml[Nomnoml]
+|0.3.0
+//|Binary `/node/bin/nomnoml`
+
+|https://github.com/plantuml/plantuml[PlantUML]
+|1.2018.14
+//|Java library (depends on GraphViz)
+
+|https://github.com/ivanceras/svgbob[Svgbob]
+|0.4.1
+//|Binary `/rust/bin/svgbob`
+
+|https://github.com/umlet/umlet[UMlet]
+|14.3.0
+//|Java library
+
+|===
+
+== Companion Servers
+
+=== BlockDiag
+
+The Docker image contains the following diagrams libraries out-of-the-box:
+
+[options="header",cols="1,1m"]
+|===
+|Diagram Type | Version
+|https://github.com/knsv/mermaid[ActDiag]
+|8.0.0
+
+|https://github.com/knsv/mermaid[BlockDiag]
+|1.5.4
+
+|https://github.com/knsv/mermaid[NwDiag]
+|1.0.4
+
+|https://github.com/knsv/mermaid[SeqDiag]
+|0.9.6
+|===
+
+=== Mermaid
+
+The Docker image contains the following diagrams libraries out-of-the-box:
+
+[options="header",cols="1,1m"]
+|===
+|Diagram Type | Version
+|https://github.com/knsv/mermaid[Mermaid]
+|8.0.0
+|===

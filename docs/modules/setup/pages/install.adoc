@@ -1,0 +1,45 @@
+= Install Kroki
+
+To convert plain text diagrams to images with Kroki,
+you first need to install the gateway server.
+
+[IMPORTANT]
+====
+We recommend to install Kroki using Docker, especially if you don't want to manually install diagrams libraries.
+
+However, you can manually install the diagrams libraries that you want to use and run the gateway server as a standalone executable _jar_.
+Consult the xref:manual-install.adoc[manual install documentation] to find out how.
+====
+
+== Using Docker
+
+ $ docker run yuzutech/kroki
+
+== Companion Containers
+
+If you want to use _BlockDiag_, _ActDiag_, _NwDiag_, _SeqDiag_ or _Mermaid_, then you will also need to start companion containers.
+
+You can use `docker-compose` to run multiple containers:
+
+.docker-compose.yml
+```yml
+version: "3"
+services:
+ core:
+   image: yuzutech/kroki
+   environment:
+     - KROKI_BLOCKDIAG_HOST=blockdiag
+     - KROKI_MERMAID_HOST=mermaid
+   ports:
+     - "8000:8000"
+ blockdiag:
+   image: yuzutech/kroki-blockdiag
+   ports:
+     - "8001:8001"
+ mermaid:
+   image: yuzutech/kroki-mermaid
+   ports:
+     - "8002:8002"
+```
+
+ $ docker-compose up -d

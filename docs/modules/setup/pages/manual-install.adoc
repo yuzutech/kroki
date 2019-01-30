@@ -1,0 +1,53 @@
+= Install Kroki as a Packaged Application
+
+Assumptions:
+
+* [x] You've installed Java 8 on your Linux, Windows, or macOS machine.
+
+On this page, you'll learn:
+
+* [x] How to run Kroki
+* [x] How to configure Kroki
+
+== Download and Run Kroki
+
+You can download the latest executable _jar_ from the https://github.com/yuzutech/kroki/releases[GitHub releases page].
+
+Once you've downloaded the _jar_ file, open a terminal an type:
+
+ $ java -jar kroki-server.jar
+
+The above command will start a web server on port `8000`.
+
+[NOTE]
+====
+You can change the port using an environment variable or a Java system property named `KROKI_PORT`:
+
+ $ KROKI_PORT=1234 java -jar kroki-server.jar
+
+ $ java -DKROKI_PORT=1234 -jar kroki-server.jar
+====
+
+== Configuration
+
+Kroki can be configured using environment variables or Java system properties.
+We've already seen how to change the port using `KROKI_PORT`, let's find out how to configure diagram binary paths.
+
+=== Diagram Binary Paths
+
+Kroki depends on external binaries to generate images.
+By default Kroki will locate these binaries in the `PATH` environment variable.
+
+In case you've installed a diagram library in a way where the executable is not in the `PATH`,
+you can override its location manually using an environment variable or a Java system property:
+
+`KROKI_SVGBOB_BIN_PATH`:: Path to `svgbob` binary
+`KROKI_ERD_BIN_PATH`:: Path to `erd` binary
+`KROKI_DOT_BIN_PATH`:: Path to `dot` binary
+`KROKI_NOMNOML_BIN_PATH`:: Path to `nomnoml` binary
+
+For instance, if `dot` is located at [.path]_/home/guillaume/bin/dot_, you can configure the path using a system property:
+
+ $ java -DKROKI_DOT_BIN_PATH=/home/guillaume/bin/dot -jar kroki-server.jar
+
+
