@@ -12,6 +12,13 @@ function convert () {
   console.log(nomnoml.renderSvg(source))
 }
 
+const [ , , ...args ] = process.argv;
+if (args[0] === '--version') {
+  const version = require('./package.json').dependencies.nomnoml
+  console.log(`nomnoml ${version}`)
+  return
+}
+
 if (process.stdin.isTTY) {
   // Even though executed by name, the first argument is still "node",
   // the second the script name. The third is the string we want.
