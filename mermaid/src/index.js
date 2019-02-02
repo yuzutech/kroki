@@ -9,6 +9,8 @@ const micro = require('micro')
   console.log(`Chrome accepting connections on endpoint ${browser.wsEndpoint()}`)
   const worker = new Worker(browser)
   const server = micro(async (req, res) => {
+    // TODO: add a /_status route (return mermaid version)
+    // TODO: read the diagram source as plain text
     const body = await micro.json(req, {limit: '1mb', encoding: 'utf8'})
     let diagramSource = body.diagram_source
     if (diagramSource) {
