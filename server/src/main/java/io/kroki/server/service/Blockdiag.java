@@ -46,6 +46,6 @@ public class Blockdiag implements DiagramService {
 
   @Override
   public void convert(RoutingContext routingContext, String sourceEncoded, FileFormat fileFormat) {
-    Delegator.delegate(client, routingContext.response(), host, port, routingContext.normalisedPath());
+    Delegator.delegate(client, routingContext, host, port, routingContext.normalisedPath());
   }
 }
