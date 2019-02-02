@@ -7,6 +7,10 @@ from actdiag.command import ActdiagApp
 from backend.diag import generate_diag
 from backend.error import GenerateError
 from flask import request
+from blockdiag import __version__ as blockdiag_version
+from actdiag import __version__ as actdiag_version
+from nwdiag import __version__ as nwdiag_version
+from seqdiag import __version__ as seqdiag_version
 
 application = Flask(__name__)
 
@@ -47,6 +51,19 @@ def _generate_diagram(app, diagram_type, output_format, source):
     else:
         raise InvalidUsage('Unsupported output format: %s. Must be one of: png, svg or pdf.',
                            status_code=400)
+
+
+@application.route('/_status', methods=['GET'])
+def status():
+    return jsonify(
+        name='blockdiag',
+        version={
+            'blockdiag': blockdiag_version,
+            'actdiag': actdiag_version,
+            'nwdiag': nwdiag_version,
+            'seqdiag': seqdiag_version
+        }
+    )
 
 
 @application.route('/blockdiag/<string:output_format>', methods=['POST'])
