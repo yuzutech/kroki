@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-public class Svgbob implements DiagramHandler {
+public class Svgbob implements DiagramService {
 
   private static final List<FileFormat> SUPPORTED_FORMATS = Collections.singletonList(FileFormat.SVG);
 

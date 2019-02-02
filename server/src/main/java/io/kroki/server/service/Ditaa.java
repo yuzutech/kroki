@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Ditaa implements DiagramHandler {
+public class Ditaa implements DiagramService {
 
   private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.SVG, FileFormat.PNG);
   private final SourceDecoder sourceDecoder;

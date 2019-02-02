@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-public class Nomnoml implements DiagramHandler {
+public class Nomnoml implements DiagramService {
 
   private static final List<FileFormat> SUPPORTED_FORMATS = Collections.singletonList(FileFormat.SVG);
   private final Vertx vertx;

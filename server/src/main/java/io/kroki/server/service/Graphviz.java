@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-public class Graphviz implements DiagramHandler {
+public class Graphviz implements DiagramService {
 
   private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG, FileFormat.JPEG);
 

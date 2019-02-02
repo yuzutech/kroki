@@ -1,12 +1,14 @@
 package io.kroki.server.format;
 
 import io.kroki.server.error.Message;
+import io.kroki.server.error.UnsupportedFormatException;
 
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum FileFormat {
-  PNG, SVG, JPEG, EPS, PDF, BASE64;
+  PNG, SVG, JPEG, PDF, BASE64;
 
   public net.sourceforge.plantuml.FileFormat toPlantumlFileFormat() {
     return net.sourceforge.plantuml.FileFormat.valueOf(this.name());
@@ -25,20 +27,32 @@ public enum FileFormat {
   }
 
   public static String stringify(List<FileFormat> formats) {
+    return stringify(formats, FileFormat::getName);
+  }
+
+  public static String stringify(List<FileFormat> formats, Function<FileFormat, String> toString) {
     if (formats == null || formats.isEmpty()) {
       return "";
     }
-    return Message.oneOf(formats.stream().map(FileFormat::getName).collect(Collectors.toList()));
+    return Message.oneOf(formats.stream().map(toString).collect(Collectors.toList()));
   }
 
   public static String htmlify(List<FileFormat> formats) {
+    return htmlify(formats, FileFormat::getName);
+  }
+
+  public static String htmlify(List<FileFormat> formats, Function<FileFormat, String> toString) {
     if (formats == null || formats.isEmpty()) {
       return "";
     }
-    return Message.oneOf(formats.stream().map(ff -> "<code>" + ff.getName() + "</code>").collect(Collectors.toList()));
+    return Message.oneOf(formats.stream().map(ff -> "<code>" + toString.apply(ff) + "</code>").collect(Collectors.toList()));
   }
 
   public String getName() {
     return this.name().toLowerCase();
+  }
+
+  public String getMimeType() {
+    return ContentType.get(this);
   }
 }

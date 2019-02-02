@@ -11,7 +11,7 @@ import java.nio.file.Paths;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class CommanderTest {
+class CommanderTest {
 
   @Test
   void should_throw_an_exception_when_bin_not_found() {

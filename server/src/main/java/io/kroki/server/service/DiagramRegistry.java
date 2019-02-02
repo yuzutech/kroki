@@ -1,6 +1,7 @@
 package io.kroki.server.service;
 
 import io.vertx.ext.web.Router;
+import io.vertx.ext.web.handler.BodyHandler;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,17 +11,25 @@ public class DiagramRegistry {
 
   private Map<String, DiagramHandler> registry = new HashMap<>();
   private final Router router;
+  private final BodyHandler bodyHandler;
 
-  public DiagramRegistry(Router router) {
+  public DiagramRegistry(Router router, BodyHandler bodyHandler) {
     this.router = router;
+    this.bodyHandler = bodyHandler;
   }
 
-  public void register(DiagramHandler diagramHandler, String... names) {
+  public void register(DiagramService diagramService, String... names) {
+    DiagramHandler diagramHandler = new DiagramHandler(diagramService);
     for (String name : names) {
       registry.put(name, diagramHandler);
       router.get("/" + name + "/:output_format/:source_encoded")
-        .handler(diagramHandler.validate())
-        .handler(diagramHandler.convert());
+        .handler(diagramHandler.getHandler(name));
+      router.post("/" + name)
+        .handler(bodyHandler)
+        .handler(diagramHandler.postHandler(name));
+      router.post("/" + name + "/:output_format")
+        .handler(bodyHandler)
+        .handler(diagramHandler.postHandler(name));
     }
   }
 

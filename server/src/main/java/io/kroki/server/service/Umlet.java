@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-public class Umlet implements DiagramHandler {
+public class Umlet implements DiagramService {
 
   private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.SVG, FileFormat.PNG, FileFormat.JPEG);
 

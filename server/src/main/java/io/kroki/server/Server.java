@@ -47,7 +47,9 @@ public class Server extends AbstractVerticle {
   static void start(Vertx vertx, JsonObject config, Handler<AsyncResult<HttpServer>> listenHandler) {
     HttpServer server = vertx.createHttpServer();
     Router router = Router.router(vertx);
-    DiagramRegistry registry = new DiagramRegistry(router);
+    BodyHandler bodyHandler = BodyHandler.create(false).setBodyLimit(config.getLong("KROKI_BODY_LIMIT", BodyHandler.DEFAULT_BODY_LIMIT));
+
+    DiagramRegistry registry = new DiagramRegistry(router, bodyHandler);
     registry.register(new Plantuml(), "plantuml");
     registry.register(new C4Plantuml(), "c4plantuml");
     registry.register(new Ditaa(), "ditaa");
@@ -58,10 +60,9 @@ public class Server extends AbstractVerticle {
     registry.register(new Svgbob(vertx, config), "svgbob");
     registry.register(new Nomnoml(vertx, config), "nomnoml");
 
-    router.route("/").handler(BodyHandler
-      .create(false)
-      .setBodyLimit(config.getLong("KROKI_BODY_LIMIT", BodyHandler.DEFAULT_BODY_LIMIT)));
-    router.post("/").handler(new DiagramRest(registry).create());
+    router.post("/")
+      .handler(bodyHandler)
+      .handler(new DiagramRest(registry).create());
     Route route = router.route("/*"); // default route
     route.handler(routingContext -> routingContext.fail(404));
     route.failureHandler(new ErrorHandler(false));

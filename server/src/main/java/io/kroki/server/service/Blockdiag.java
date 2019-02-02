@@ -11,7 +11,7 @@ import io.vertx.ext.web.client.WebClient;
 import java.util.Arrays;
 import java.util.List;
 
-public class Blockdiag implements DiagramHandler {
+public class Blockdiag implements DiagramService {
 
   private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG, FileFormat.PDF);
 
