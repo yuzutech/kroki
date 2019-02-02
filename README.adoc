@@ -7,7 +7,7 @@ Kroki provides a unified API with support for BlockDiag (BlockDiag, SeqDiag, Act
 
 Kroki uses a simple algorithm (deflate + base64) to encode your diagram in the URL:
 
-`GET /plantuml/png/SyfFKj2rKt3CoKnELR1Io4ZDoSa70000`
+`GET /plantuml/svg/SyfFKj2rKt3CoKnELR1Io4ZDoSa70000`
 
 You can also call Kroki with `POST`:
 
@@ -17,7 +17,7 @@ You can also call Kroki with `POST`:
 {
   "diagram_source": "Bob -> Alice : hello",
   "diagram_type": "plantuml",
-  "output_format": "png"
+  "output_format": "svg"
 }
 ```
 

@@ -1,11 +1,9 @@
-import base64
-import zlib
 from blockdiag.utils.bootstrap import create_fontmap
 from blockdiag.parser import ParseException
 from backend.error import GenerateError
 
 
-def generate_diag(app, diagram_type, output_format, source_encoded):
+def generate_diag(app, diagram_type, output_format, source):
     options = ['-T' + output_format, 'file']
     app.parse_options(options)
 
@@ -19,15 +17,13 @@ def generate_diag(app, diagram_type, output_format, source_encoded):
     app.fontmap = create_fontmap(app.options)
     app.setup()
 
-    source = zlib.decompress(base64.urlsafe_b64decode(source_encoded.encode('ascii'))).decode('utf-8')
     app.code = source
-
     try:
         tree = app.module.parser.parse_string(app.code)
         try:
             diagram = app.module.builder.ScreenNodeBuilder.build(tree, app.options)
         except TypeError:
-            diagram = app.module.builder.ScreenNodeBuilder.build(tree) # old interface
+            diagram = app.module.builder.ScreenNodeBuilder.build(tree)  # old interface
 
         drawer = app.module.drawer.DiagramDraw(app.options.type, diagram,
                                                None,
@@ -50,6 +46,7 @@ def generate_diag(app, diagram_type, output_format, source_encoded):
             xml_text = drawer.drawer.save(None, None, drawer.format)
             return xml_text
     except (ParseException, RuntimeError) as err:
+        print(err)
         raise GenerateError('Unable to generate the ' + diagram_type + ' diagram from source',
                             status_code=500,
                             payload={

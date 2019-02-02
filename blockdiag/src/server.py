@@ -1,6 +1,4 @@
 import io
-import base64
-import zlib
 from flask import Flask, send_file, make_response, jsonify
 from blockdiag.command import BlockdiagApp
 from seqdiag.command import SeqdiagApp
@@ -8,6 +6,7 @@ from nwdiag.command import NwdiagApp
 from actdiag.command import ActdiagApp
 from backend.diag import generate_diag
 from backend.error import GenerateError
+from flask import request
 
 application = Flask(__name__)
 
@@ -28,8 +27,8 @@ class InvalidUsage(Exception):
         return rv
 
 
-def _generate_diagram(app, diagram_type, output_format, source_encoded):
-    result = generate_diag(app, diagram_type, output_format, source_encoded)
+def _generate_diagram(app, diagram_type, output_format, source):
+    result = generate_diag(app, diagram_type, output_format, source)
     output_format = output_format.lower()
     if output_format == 'png':
         response = send_file(io.BytesIO(result),
@@ -50,37 +49,37 @@ def _generate_diagram(app, diagram_type, output_format, source_encoded):
                            status_code=400)
 
 
-@application.route('/blockdiag/<string:output_format>/<string:source_encoded>')
-def blockdiag(output_format, source_encoded):
-    return _generate_diagram(BlockdiagApp(), 'block', output_format, source_encoded)
+@application.route('/blockdiag/<string:output_format>', methods=['POST'])
+def blockdiag(output_format, source=None):
+    return _generate_diagram(BlockdiagApp(), 'block', output_format, source or request.get_data(as_text=True))
 
 
-@application.route('/seqdiag/<string:output_format>/<string:source_encoded>')
-def seqdiag(output_format, source_encoded):
-    return _generate_diagram(SeqdiagApp(), 'sequence', output_format, source_encoded)
+@application.route('/seqdiag/<string:output_format>', methods=['POST'])
+def seqdiag(output_format, source=None):
+    return _generate_diagram(SeqdiagApp(), 'sequence', output_format, source or request.get_data(as_text=True))
 
 
-@application.route('/actdiag/<string:output_format>/<string:source_encoded>')
-def actdiag(output_format, source_encoded):
-    return _generate_diagram(ActdiagApp(), 'activity', output_format, source_encoded)
+@application.route('/actdiag/<string:output_format>', methods=['POST'])
+def actdiag(output_format, source=None):
+    return _generate_diagram(ActdiagApp(), 'activity', output_format, source or request.get_data(as_text=True))
 
 
-@application.route('/nwdiag/<string:output_format>/<string:source_encoded>')
-def nwdiag(output_format, source_encoded):
-    return _generate_diagram(NwdiagApp(), 'network', output_format, source_encoded)
+@application.route('/nwdiag/<string:output_format>', methods=['POST'])
+def nwdiag(output_format, source=None):
+    return _generate_diagram(NwdiagApp(), 'network', output_format, source or request.get_data(as_text=True))
 
 
-@application.route('/<string:output_format>/<string:source_encoded>')
-def diag(output_format, source_encoded):
-    source = zlib.decompress(base64.urlsafe_b64decode(source_encoded.encode('ascii'))).lstrip()
+@application.route('/<string:output_format>', methods=['POST'])
+def diag(output_format):
+    source = request.get_data(as_text=True)
     if source.startswith('blockdiag'):
-        return blockdiag(output_format, source_encoded)
+        return blockdiag(output_format, source)
     elif source.startswith('seqdiag'):
-        return seqdiag(output_format, source_encoded)
+        return seqdiag(output_format, source)
     elif source.startswith('actdiag'):
-        return actdiag(output_format, source_encoded)
+        return actdiag(output_format, source)
     elif source.startswith('nwdiag'):
-        return nwdiag(output_format, source_encoded)
+        return nwdiag(output_format, source)
     else:
         raise InvalidUsage('Diagram source must begin with one of the following: blockdiag, seqdiag, actdiag or nwdiag',
                            status_code=400)
