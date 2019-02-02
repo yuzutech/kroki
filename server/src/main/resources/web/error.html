@@ -1,83 +1,31 @@
-<html>
-<head>
-  <title>Kroki! {errorMessage}</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 80px 100px;
-      font: 13px "Helvetica Neue", "Lucida Grande", "Arial";
-      background: #ECE9E9 -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#ECE9E9));
-      background: #ECE9E9 -moz-linear-gradient(top, #fff, #ECE9E9);
-      background-repeat: no-repeat;
-      color: #555;
-      -webkit-font-smoothing: antialiased;
-    }
-    h1, h2, h3 {
-      margin: 0;
-      font-size: 22px;
-      color: #343434;
-    }
-    h1 em, h2 em {
-      padding: 0 5px;
-      font-weight: normal;
-    }
-    h1 {
-      font-size: 60px;
-    }
-    h2 {
-      margin-top: 10px;
-    }
-    h3 {
-      margin: 5px 0 10px 0;
-      padding-bottom: 5px;
-      border-bottom: 1px solid #eee;
-      font-size: 18px;
-    }
-    ul {
-      margin: 0;
-      padding: 0;
-    }
-    ul li {
-      margin: 5px 0;
-      padding: 3px 8px;
-      list-style: none;
-    }
-    ul li:hover {
-      cursor: pointer;
-      color: #2e2e2e;
-    }
-    p {
-      line-height: 1.5;
-    }
-    a {
-      color: #555;
-      text-decoration: none;
-    }
-    a:hover {
-      color: #303030;
-    }
-    #stacktrace {
-      margin-top: 15px;
-    }
-    .directory h1 {
-      margin-bottom: 15px;
-      font-size: 18px;
-    }
-    code {
-      background-color: whitesmoke;
-      color: #ff3860;
-      font-size: 0.875em;
-      font-weight: normal;
-      padding: 0.25em 0.5em 0.25em;
-      font-family: monospace;
-    }
-  </style>
-</head>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Kroki! {errorMessage}</title>
+    <link rel="stylesheet" href="/css/main.css">
+  </head>
 <body>
-<div id="wrapper">
-  <h1>{title}</h1>
-  <h2><em>{errorCode}</em> {errorMessage}</h2>
-  <ul id="stacktrace">{stackTrace}</ul>
-</div>
+<section class="section">
+  <div class="container">
+    <img class="title logo" src="/assets/logo.svg" alt="logo"/>
+    <h1 class="subtitle is-spaced">Convert <strong>plain text</strong> diagrams to <strong>images</strong> !</h1>
+    <h2 class="title">{title}</h2>
+    <article class="message is-danger">
+      <div class="message-body">
+        <strong><code>{errorCode}</code> {errorMessage}</strong>
+        <ul id="stacktrace">{stackTrace}</ul>
+      </div>
+    </article>
+  </div>
+</section>
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+      <img class="logo" src="/assets/logo.svg" alt="logo"/> by <a href="https://yuzutech.fr">Yuzu tech</a>.
+    </p>
+  </div>
+</footer>
 </body>
 </html>

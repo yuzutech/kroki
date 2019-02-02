@@ -1,11 +1,14 @@
 package io.kroki.server.action;
 
 import io.kroki.server.error.BadRequestException;
+import io.kroki.server.error.ServiceUnavailableException;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.ext.web.client.WebClient;
+
+import java.net.ConnectException;
 
 public class Delegator {
 
@@ -26,7 +29,11 @@ public class Delegator {
             routingContext.fail(new BadRequestException(httpResponse.body().toString()));
           }
         } else {
-          routingContext.fail(result.cause());
+          if (result.cause() instanceof ConnectException) {
+            routingContext.fail(new ServiceUnavailableException(result.cause().getMessage()));
+          } else {
+            routingContext.fail(result.cause());
+          }
         }
       });
   }

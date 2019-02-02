@@ -44,6 +44,11 @@ public class ErrorHandler implements io.vertx.ext.web.handler.ErrorHandler {
         errorMessage = failure.getMessage();
         statusMessage = "Bad Request";
         htmlErrorMessage = ((BadRequestException) failure).getMessageHTML();
+      } else if (failure instanceof ServiceUnavailableException) {
+        errorCode = 503;
+        errorMessage = failure.getMessage();
+        statusMessage = "Service Unavailable";
+        htmlErrorMessage = ((ServiceUnavailableException) failure).getMessageHTML();
       } else {
         errorCode = 500;
         if (displayExceptionDetails) {
@@ -88,7 +93,7 @@ public class ErrorHandler implements io.vertx.ext.web.handler.ErrorHandler {
   }
 
   private boolean sendError(RoutingContext context, String mime, int errorCode, String errorMessage, String htmlErrorMessage) {
-    final String title = "Matron!";
+    final String title = "\uD83E\uDD16 bip... bip... something wrong happened!";
     HttpServerResponse response = context.response();
     if (mime.startsWith("text/html")) {
       StringBuilder stack = new StringBuilder();

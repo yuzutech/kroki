@@ -25,7 +25,7 @@ public class DiagramHandler {
     this.service = service;
   }
 
-  public Handler<RoutingContext> getHandler(String serviceName) {
+  public Handler<RoutingContext> createGet(String serviceName) {
     return routingContext -> {
       String outputFormat = routingContext.request().getParam("output_format");
       FileFormat fileFormat;
@@ -45,7 +45,7 @@ public class DiagramHandler {
     };
   }
 
-  public Handler<RoutingContext> postHandler(String serviceName) {
+  public Handler<RoutingContext> createPost(String serviceName) {
     return routingContext -> {
       try {
         FileFormat fileFormat;

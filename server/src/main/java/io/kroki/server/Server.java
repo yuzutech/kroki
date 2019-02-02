@@ -8,6 +8,7 @@ import io.kroki.server.service.DiagramRest;
 import io.kroki.server.service.Ditaa;
 import io.kroki.server.service.Erd;
 import io.kroki.server.service.Graphviz;
+import io.kroki.server.service.HelloHandler;
 import io.kroki.server.service.Nomnoml;
 import io.kroki.server.service.Plantuml;
 import io.kroki.server.service.Svgbob;
@@ -23,6 +24,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Route;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.BodyHandler;
+import io.vertx.ext.web.handler.StaticHandler;
 
 public class Server extends AbstractVerticle {
 
@@ -63,6 +65,10 @@ public class Server extends AbstractVerticle {
     router.post("/")
       .handler(bodyHandler)
       .handler(new DiagramRest(registry).create());
+    router.get("/")
+      .handler(new HelloHandler().create());
+    router.get("/*")
+      .handler(StaticHandler.create("web/root"));
     Route route = router.route("/*"); // default route
     route.handler(routingContext -> routingContext.fail(404));
     route.failureHandler(new ErrorHandler(false));

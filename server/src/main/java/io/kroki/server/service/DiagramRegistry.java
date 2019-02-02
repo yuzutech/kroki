@@ -23,13 +23,13 @@ public class DiagramRegistry {
     for (String name : names) {
       registry.put(name, diagramHandler);
       router.get("/" + name + "/:output_format/:source_encoded")
-        .handler(diagramHandler.getHandler(name));
+        .handler(diagramHandler.createGet(name));
       router.post("/" + name)
         .handler(bodyHandler)
-        .handler(diagramHandler.postHandler(name));
+        .handler(diagramHandler.createPost(name));
       router.post("/" + name + "/:output_format")
         .handler(bodyHandler)
-        .handler(diagramHandler.postHandler(name));
+        .handler(diagramHandler.createPost(name));
     }
   }
 

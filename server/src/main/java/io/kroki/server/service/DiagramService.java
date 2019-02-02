@@ -1,7 +1,6 @@
 package io.kroki.server.service;
 
 import io.kroki.server.decode.SourceDecoder;
-import io.kroki.server.error.UnsupportedFormatException;
 import io.kroki.server.format.FileFormat;
 import io.vertx.ext.web.RoutingContext;
 
