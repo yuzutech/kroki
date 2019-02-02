@@ -1,7 +1,9 @@
 package io.kroki.server.service;
 
 import io.kroki.server.action.Delegator;
+import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
+import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
@@ -24,8 +26,8 @@ public class Blockdiag implements DiagramService {
     this.client = WebClient.create(vertx);
     this.sourceDecoder = new SourceDecoder() {
       @Override
-      public String decode(String encoded) {
-        return encoded; // will be decoded by the backend
+      public String decode(String encoded) throws DecodeException {
+        return DiagramSource.decode(encoded);
       }
     };
     this.host = config.getString("KROKI_BLOCKDIAG_HOST", "127.0.0.1");
