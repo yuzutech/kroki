@@ -46,11 +46,11 @@ def generate_diag(app, diagram_type, output_format, source):
             xml_text = drawer.drawer.save(None, None, drawer.format)
             return xml_text
     except (ParseException, RuntimeError) as err:
-        print(err)
         raise GenerateError('Unable to generate the ' + diagram_type + ' diagram from source',
-                            status_code=500,
+                            status_code=400,
                             payload={
                                 'source': source,
                                 'output_format': output_format,
-                                'diagram_type': diagram_type
+                                'diagram_type': diagram_type,
+                                'error': str(err)
                             })
