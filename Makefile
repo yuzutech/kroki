@@ -9,11 +9,11 @@ buildServer:
 	mvn clean package
 
 buildDockerImages:
-	docker build -t kroki-builder-nomnoml nomnoml
+	cd nomnoml && $(MAKE) package
 	docker build -f server/ops/docker/build-static-erd -t kroki-builder-static-erd .
 	docker build -f server/ops/docker/build-static-svgbob -t kroki-builder-static-svgbob .
-	docker build -t yuzutech/kroki server
-	docker build -t yuzutech/kroki-blockdiag blockdiag
+	cd server && $(MAKE) package
+	cd blockdiag && $(MAKE) package
 
 tagDockerImages:
 	docker tag kroki-builder-static-erd:latest kroki-builder-static-erd:0.1.3.0
