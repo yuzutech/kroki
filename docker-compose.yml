@@ -4,6 +4,7 @@ services:
     image: yuzutech/kroki
     environment:
       - KROKI_BLOCKDIAG_HOST=blockdiag
+      - KROKI_BODY_LIMIT=100000 # 100Kb
     ports:
       - "8000:8000"
   blockdiag:
