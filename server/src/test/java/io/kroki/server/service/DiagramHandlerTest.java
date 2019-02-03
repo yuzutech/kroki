@@ -60,7 +60,6 @@ class DiagramHandlerTest {
     verify(routingContext).fail(any(UnsupportedFormatException.class)); // diagram handles svg only
   }
 
-
   /**
    * Request:
    * <p>
@@ -86,7 +85,7 @@ class DiagramHandlerTest {
     mockDiagramRequest.addParam("source_encoded", "SyfFKj2rKt3CoKnELR1Io4ZDoSa70000");
     RoutingContext routingContext = mockDiagramRequest.getRoutingContext();
     diagramHandler.createGet("plantuml").handle(routingContext);
-    verify(mockDiagramService).convert(routingContext, "@startuml\nBob -> Alice : hello\n@enduml", FileFormat.SVG);
+    verify(mockDiagramService).convert(routingContext, "@startuml\nBob -> Alice : hello\n@enduml", "plantuml", FileFormat.SVG);
   }
 
   /**
@@ -111,7 +110,7 @@ class DiagramHandlerTest {
 
     RoutingContext routingContext = mockDiagramRequest.getRoutingContext();
     diagramHandler.createPost("plantuml").handle(routingContext);
-    verify(mockDiagramService).convert(routingContext, "Bob -> Alice : hello", FileFormat.SVG);
+    verify(mockDiagramService).convert(routingContext, "Bob -> Alice : hello", "plantuml", FileFormat.SVG);
   }
 
   /**
@@ -135,7 +134,7 @@ class DiagramHandlerTest {
 
     RoutingContext routingContext = mockDiagramRequest.getRoutingContext();
     diagramHandler.createPost("plantuml").handle(routingContext);
-    verify(mockDiagramService).convert(routingContext, "Bob -> Alice : hello", FileFormat.SVG);
+    verify(mockDiagramService).convert(routingContext, "Bob -> Alice : hello", "plantuml", FileFormat.SVG);
   }
 
   /**
@@ -160,7 +159,7 @@ class DiagramHandlerTest {
 
     RoutingContext routingContext = mockDiagramRequest.getRoutingContext();
     diagramHandler.createPost("plantuml").handle(routingContext);
-    verify(mockDiagramService).convert(routingContext, "Bob -> Alice : hello", FileFormat.SVG);
+    verify(mockDiagramService).convert(routingContext, "Bob -> Alice : hello", "plantuml", FileFormat.SVG);
   }
 
   /**
@@ -183,7 +182,7 @@ class DiagramHandlerTest {
 
     RoutingContext routingContext = mockDiagramRequest.getRoutingContext();
     diagramHandler.createPost("plantuml").handle(routingContext);
-    verify(mockDiagramService).convert(routingContext, "Bob -> Alice : hello", FileFormat.SVG);
+    verify(mockDiagramService).convert(routingContext, "Bob -> Alice : hello", "plantuml", FileFormat.SVG);
   }
 
   /**
@@ -208,7 +207,7 @@ class DiagramHandlerTest {
     // handle
     RoutingContext routingContext = mockDiagramRequest.getRoutingContext();
     diagramHandler.createPost("plantuml").handle(routingContext);
-    verify(mockDiagramService).convert(routingContext, "Bob -> Alice : hello", FileFormat.SVG);
+    verify(mockDiagramService).convert(routingContext, "Bob -> Alice : hello", "plantuml", FileFormat.SVG);
   }
 
   private DiagramService mockDiagramService(List<FileFormat> supportedFormats, SourceDecoder sourceDecoder) {

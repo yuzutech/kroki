@@ -2,20 +2,27 @@ package io.kroki.server.action;
 
 import io.kroki.server.error.BadRequestException;
 import io.kroki.server.error.ServiceUnavailableException;
+import io.netty.handler.codec.http.HttpHeaderValues;
 import io.vertx.core.buffer.Buffer;
+import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.ext.web.client.WebClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.ConnectException;
 
 public class Delegator {
 
-  public static void delegate(WebClient client, RoutingContext routingContext, String host, int port, String requestURI) {
+  private static final Logger logger = LoggerFactory.getLogger(Delegator.class);
+
+  public static void delegate(WebClient client, RoutingContext routingContext, String host, int port, String requestURI, String body) {
     client
-      .get(port, host, requestURI)
-      .send(result -> {
+      .post(port, host, requestURI)
+      .putHeader(HttpHeaders.ACCEPT.toString(), HttpHeaderValues.APPLICATION_JSON.toString())
+      .sendBuffer(Buffer.buffer(body), result -> {
         if (result.succeeded()) {
           HttpResponse<Buffer> httpResponse = result.result();
           if (httpResponse.statusCode() == 200) {
@@ -26,7 +33,13 @@ public class Delegator {
                 .end(httpResponse.body());
             }
           } else {
-            routingContext.fail(new BadRequestException(httpResponse.body().toString()));
+            logger.error("Unsuccessful request POST {}:{}{}. Response: {statusCode:{} body: {}}", host, port, requestURI, httpResponse.statusCode(), httpResponse.bodyAsString());
+            String contentType = httpResponse.getHeader(HttpHeaders.CONTENT_TYPE.toString());
+            if (HttpHeaderValues.TEXT_PLAIN.contentEquals(contentType) || HttpHeaderValues.APPLICATION_JSON.contentEquals(contentType)) {
+              routingContext.fail(new BadRequestException(httpResponse.body().toString()));
+            } else {
+              routingContext.fail(httpResponse.statusCode());
+            }
           }
         } else {
           if (result.cause() instanceof ConnectException) {

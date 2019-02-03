@@ -46,7 +46,7 @@ public class Svgbob implements DiagramService {
   }
 
   @Override
-  public void convert(RoutingContext routingContext, String sourceDecoded, FileFormat fileFormat) {
+  public void convert(RoutingContext routingContext, String sourceDecoded, String serviceName, FileFormat fileFormat) {
     HttpServerResponse response = routingContext.response();
     vertx.executeBlocking(future -> {
       try {

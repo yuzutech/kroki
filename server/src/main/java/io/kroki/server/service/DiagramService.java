@@ -12,5 +12,5 @@ public interface DiagramService {
 
   SourceDecoder getSourceDecoder();
 
-  void convert(RoutingContext routingContext, String sourceDecoded, FileFormat fileFormat);
+  void convert(RoutingContext routingContext, String sourceDecoded, String serviceName, FileFormat fileFormat);
 }

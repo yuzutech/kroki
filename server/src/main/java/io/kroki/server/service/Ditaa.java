@@ -43,7 +43,7 @@ public class Ditaa implements DiagramService {
   }
 
   @Override
-  public void convert(RoutingContext routingContext, String sourceDecoded, FileFormat fileFormat) {
+  public void convert(RoutingContext routingContext, String sourceDecoded, String serviceName, FileFormat fileFormat) {
     HttpServerResponse response = routingContext.response();
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     convert(fileFormat, new ByteArrayInputStream(sourceDecoded.getBytes()), outputStream);

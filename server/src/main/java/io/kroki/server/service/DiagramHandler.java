@@ -38,7 +38,7 @@ public class DiagramHandler {
       String sourceEncoded = routingContext.request().getParam("source_encoded");
       try {
         String sourceDecoded = service.getSourceDecoder().decode(sourceEncoded);
-        convert(routingContext, sourceDecoded, fileFormat);
+        convert(routingContext, sourceDecoded, serviceName, fileFormat);
       } catch (DecodeException e) {
         routingContext.fail(new BadRequestException(e.getMessage(), e));
       }
@@ -73,7 +73,7 @@ public class DiagramHandler {
           }
           fileFormat = getOutputFileFormatFromTextRequest(serviceName, routingContext);
         }
-        convert(routingContext, diagramSource, fileFormat);
+        convert(routingContext, diagramSource, serviceName, fileFormat);
       } catch (UnsupportedFormatException | UnsupportedMimeTypeException | UndefinedOutputFormatException e) {
         routingContext.fail(e);
       }
@@ -131,7 +131,7 @@ public class DiagramHandler {
     return fileFormat;
   }
 
-  public void convert(RoutingContext routingContext, String sourceDecoded, FileFormat fileFormat) {
-    service.convert(routingContext, sourceDecoded, fileFormat);
+  public void convert(RoutingContext routingContext, String sourceDecoded, String serviceName, FileFormat fileFormat) {
+    service.convert(routingContext, sourceDecoded, serviceName, fileFormat);
   }
 }

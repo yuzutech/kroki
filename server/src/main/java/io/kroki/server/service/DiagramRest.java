@@ -46,7 +46,7 @@ public class DiagramRest {
       }
       try {
         FileFormat fileFormat = diagramHandler.validate(diagramType, outputFormat);
-        diagramHandler.convert(routingContext, diagramSource, fileFormat);
+        diagramHandler.convert(routingContext, diagramSource, diagramType, fileFormat);
       } catch (UnsupportedFormatException e) {
         routingContext.fail(e);
       }
