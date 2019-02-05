@@ -11,18 +11,18 @@ const micro = require('micro')
   const server = micro(async (req, res) => {
     // TODO: add a /_status route (return mermaid version)
     // TODO: read the diagram source as plain text
-    const body = await micro.json(req, {limit: '1mb', encoding: 'utf8'})
-    let diagramSource = body.diagram_source
+    const diagramSource = await micro.text(req, {limit: '1mb', encoding: 'utf8'})
     if (diagramSource) {
       try {
         const svg = await worker.convert(new Task(diagramSource))
+        res.setHeader('Content-Type', 'image/svg+xml');
         return micro.send(res, 200, svg)
       } catch (e) {
         console.log('e', e)
         return micro.send(res, 400, 'Unable to convert the diagram')
       }
     }
-    micro.send(res, 400, 'Field diagram_source must not be empty.')
+    micro.send(res, 400, 'Body must not be empty.')
   })
   server.listen(8002)
 })().catch(error => {
