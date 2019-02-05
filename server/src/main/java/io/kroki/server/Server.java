@@ -9,6 +9,7 @@ import io.kroki.server.service.Ditaa;
 import io.kroki.server.service.Erd;
 import io.kroki.server.service.Graphviz;
 import io.kroki.server.service.HelloHandler;
+import io.kroki.server.service.Mermaid;
 import io.kroki.server.service.Nomnoml;
 import io.kroki.server.service.Plantuml;
 import io.kroki.server.service.Svgbob;
@@ -61,6 +62,7 @@ public class Server extends AbstractVerticle {
     registry.register(new Erd(vertx, config), "erd");
     registry.register(new Svgbob(vertx, config), "svgbob");
     registry.register(new Nomnoml(vertx, config), "nomnoml");
+    registry.register(new Mermaid(vertx, config), "mermaid");
 
     router.post("/")
       .handler(bodyHandler)
