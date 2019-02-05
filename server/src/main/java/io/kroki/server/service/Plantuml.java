@@ -10,11 +10,15 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.web.RoutingContext;
 import net.sourceforge.plantuml.BlockUml;
+import net.sourceforge.plantuml.ErrorUml;
 import net.sourceforge.plantuml.FileFormatOption;
+import net.sourceforge.plantuml.LineLocation;
+import net.sourceforge.plantuml.NullOutputStream;
 import net.sourceforge.plantuml.PSystemError;
 import net.sourceforge.plantuml.SourceStringReader;
 import net.sourceforge.plantuml.code.Base64Coder;
 import net.sourceforge.plantuml.core.Diagram;
+import net.sourceforge.plantuml.core.DiagramDescription;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -22,6 +26,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -84,10 +89,23 @@ public class Plantuml implements DiagramService {
           + Base64Coder.encodeLines(baos.toByteArray()).replaceAll("\\s", "");
         return encodedBytes.getBytes();
       }
+      if (reader.getBlocks().isEmpty()) {
+        throw new BadRequestException("Empty diagram, missing delimiters?");
+      }
       final BlockUml blockUml = reader.getBlocks().get(0);
       final Diagram diagram = blockUml.getDiagram();
       if (diagram instanceof PSystemError) {
-        throw new RuntimeException("Bad request");
+        Collection<ErrorUml> errors = ((PSystemError) diagram).getErrorsUml();
+        if (!errors.isEmpty()) {
+          ErrorUml errorUml = errors.iterator().next();
+          LineLocation lineLocation = errorUml.getLineLocation();
+          String lineLocationPosition = "";
+          if (lineLocation != null) {
+            lineLocationPosition = " (line: " + lineLocation.getPosition() + ")";
+          }
+          throw new BadRequestException(errorUml.getError() + lineLocationPosition);
+        }
+        throw new BadRequestException("Unable to convert the diagram");
       }
       ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
       diagram.exportDiagram(byteArrayOutputStream, 0, new FileFormatOption(format.toPlantumlFileFormat()));
