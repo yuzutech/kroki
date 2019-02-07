@@ -1,2 +1,2 @@
-* xref:install.adoc[Install guide]
+* xref:install.adoc[Install]
 * xref:usage.adoc[Usage]
