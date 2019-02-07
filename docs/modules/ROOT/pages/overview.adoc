@@ -1,5 +1,17 @@
 = Overview
 
+Kroki has a modular architecture and provides multiple components:
+
+Gateway Server::
+This component is the entry point of Kroki.
+The server is using _Vert.x_ and will route the request to different services.
+
+Blockdiag::
+A companion web server written in Python (powered by _Flask_ and _Gunicorn_) that provides _BlockDiag_, _SeqDiag_, _ActDiag_ and _NwDiag_ diagrams libraries.
+
+Mermaid::
+A companion web server written in JavaScript (powered by _micro_) that provides _Mermaid_ diagram library.
+
 == Gateway Server
 
 The Docker image contains the following diagrams libraries out-of-the-box:
