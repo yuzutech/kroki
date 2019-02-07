@@ -1,3 +1,5 @@
+LATEST_VERSION = 0.0.3
+
 default:
 
 installLocalDependencies:
@@ -14,6 +16,7 @@ buildDockerImages:
 	docker build -f server/ops/docker/build-static-svgbob -t kroki-builder-static-svgbob .
 	cd server && $(MAKE) package
 	cd blockdiag && $(MAKE) package
+	cd mermaid && $(MAKE) package
 
 tagDockerImages:
 	docker tag kroki-builder-static-erd:latest kroki-builder-static-erd:0.1.3.0
@@ -22,3 +25,20 @@ tagDockerImages:
 
 showExamples:
 	python blockdiag/examples.py
+
+releaseDockerImages:
+	docker tag yuzutech/kroki:latest yuzutech/kroki:$(LATEST_VERSION)
+	docker tag yuzutech/kroki-blockdiag:latest yuzutech/kroki-blockdiag:$(LATEST_VERSION)
+	docker tag yuzutech/kroki-mermaid:latest yuzutech/kroki-mermaid:$(LATEST_VERSION)
+	docker tag yuzutech/kroki:latest yuzutech/kroki:latest
+	docker tag yuzutech/kroki-blockdiag:latest yuzutech/kroki-blockdiag:latest
+	docker tag yuzutech/kroki-mermaid:latest yuzutech/kroki-mermaid:latest
+
+pushDockerImages:
+	docker push yuzutech/kroki:latest
+	docker push yuzutech/kroki-blockdiag:latest
+	docker push yuzutech/kroki-mermaid:latest
+	docker push yuzutech/kroki:$(LATEST_VERSION)
+	docker push yuzutech/kroki-blockdiag:$(LATEST_VERSION)
+	docker push yuzutech/kroki-mermaid:$(LATEST_VERSION)
+
