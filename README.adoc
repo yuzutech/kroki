@@ -1,7 +1,7 @@
 = Kroki
 :uri-maven: https://maven.apache.org/
 
-Kroki provides a unified API with support for BlockDiag (BlockDiag, SeqDiag, ActDiag, NwDiag), C4 (with PlantUML), Ditaa, Erd, GraphViz, PlantUML, SvgBob and UMLet... and more to come!
+Kroki provides a unified API with support for BlockDiag (BlockDiag, SeqDiag, ActDiag, NwDiag), C4 (with PlantUML), Ditaa, Erd, GraphViz, Nomnoml, PlantUML, SvgBob and UMLet... and more to come!
 
 == Usage
 
@@ -38,11 +38,14 @@ nomnoml::
 A Node.js CLI on top of the _Nomnoml_ diagram library.
 
 blockdiag::
-A Python web server (powered by _Flask_ and _Gunicorn_) that provides _BlockDiag_, _SeqDiag_, _ActDiag_ and _NwDiag_ diagrams libraries.
+A companion web server written in Python (powered by _Flask_ and _Gunicorn_) that provides _BlockDiag_, _SeqDiag_, _ActDiag_ and _NwDiag_ diagrams libraries.
+
+mermaid::
+A companion web server written in JavaScript (powered by _micro_) that provides _Mermaid_ diagram library.
 
 == Build
 
-=== Build core
+=== Gateway Server
 
 The first step is to install the local dependencies in your local repository using `make`:
 
@@ -52,31 +55,43 @@ Then you can build the project using Maven:
 
  $ make buildServer
 
-=== Build Docker images
+=== Docker Images
 
 To build all the Docker images, use the following command:
 
  $ sudo make buildDockerImages
 
-
 == Run
 
-Once the Docker images are built, you can run Kroki using `docker-compose`:
+Once the Docker images are built, you can run Kroki using `docker`:
+
+ $ docker run -d -p 8000:8000 yuzutech/kroki
+
+=== Companion Containers
+
+If you want to use _BlockDiag_, _ActDiag_, _NwDiag_, _SeqDiag_ or _Mermaid_, then you will also need to start companion containers.
+
+You can use `docker-compose` to run multiple containers:
 
 .docker-compose.yml
-```
+```yml
 version: "3"
 services:
   core:
     image: yuzutech/kroki
     environment:
       - KROKI_BLOCKDIAG_HOST=blockdiag
+      - KROKI_MERMAID_HOST=mermaid
     ports:
       - "8000:8000"
   blockdiag:
     image: yuzutech/kroki-blockdiag
     ports:
       - "8001:8001"
+  mermaid:
+    image: yuzutech/kroki-mermaid
+    ports:
+      - "8002:8002"
 ```
 
  $ docker-compose up -d
