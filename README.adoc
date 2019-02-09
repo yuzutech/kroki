@@ -12,7 +12,7 @@ Kroki uses a simple algorithm (deflate + base64) to encode your diagram in the U
 
 You can also call Kroki with `POST`:
 
-`POST /`
+ POST /
 
 ```json
 {
@@ -23,6 +23,36 @@ You can also call Kroki with `POST`:
 ```
 
 In this case, you don't need to encode your diagram.
+
+It's also possible to send your diagram as plain text using the `Content-Type` header.
+The output format will be specified using the `Accept` header and the diagram source will be sent as the request body:
+
+ POST /plantuml
+
+```
+Accept: image/svg+xml
+Content-Type: text/plain
+
+Bob -> Alice : hello
+```
+
+You can also define the output format in the URL if you don't want to add an `Accept` header:
+
+ POST /plantuml/svg
+```
+Content-Type: text/plain
+
+Bob -> Alice : hello
+```
+
+The same concept applies when sending the diagram as JSON:
+
+ POST /plantuml/svg
+```json
+{
+  "diagram_source": "Bob -> Alice : hello"
+}
+```
 
 == Project layout
 
