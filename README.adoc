@@ -1,8 +1,14 @@
-= image:https://kroki.io/assets/logo.svg[Kroki,200]
-
+= image:https://kroki.io/assets/logo.svg[Kroki,200,link={uri-kroki}]
+:uri-kroki: https://kroki.io/
+:uri-kroki-docs: https://docs.kroki.io/
 :uri-maven: https://maven.apache.org/
 
-Kroki provides a unified API with support for BlockDiag (BlockDiag, SeqDiag, ActDiag, NwDiag), C4 (with PlantUML), Ditaa, Erd, GraphViz, Nomnoml, Mermaid, PlantUML, SvgBob and UMLet... and more to come!
+{uri-kroki}[Kroki] provides a unified API with support for BlockDiag (BlockDiag, SeqDiag, ActDiag, NwDiag), C4 (with PlantUML), Ditaa, Erd, GraphViz, Nomnoml, Mermaid, PlantUML, SvgBob and UMLet... and more to come!
+
+== Quickstart
+
+This section offers a basic tutorial for evaluating Kroki.
+More comprehensive installation instructions are in the {uri-kroki-docs}[Kroki documentation].
 
 == Usage
 
