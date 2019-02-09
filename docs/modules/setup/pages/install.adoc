@@ -1,4 +1,12 @@
 = Install Kroki
+:uri-docker-kroki-image: https://cloud.docker.com/u/yuzutech/repository/docker/yuzutech/kroki
+:uri-docker-kroki-blockdiag-image: https://cloud.docker.com/u/yuzutech/repository/docker/yuzutech/kroki-blockdiag
+:uri-docker-kroki-mermaid-image: https://cloud.docker.com/u/yuzutech/repository/docker/yuzutech/kroki-mermaid
+:uri-blockdiag: http://blockdiag.com/en/blockdiag/index.html
+:uri-seqdiag: http://blockdiag.com/en/seqdiag/index.html
+:uri-actdiag: http://blockdiag.com/en/actdiag/index.html
+:uri-nwdiag: http://blockdiag.com/en/nwdiag/index.html
+:uri-mermaid: https://mermaidjs.github.io/
 
 To convert plain text diagrams to images with Kroki,
 you first need to install the gateway server.
@@ -7,7 +15,7 @@ you first need to install the gateway server.
 ====
 We recommend to install Kroki using Docker, especially if you don't want to manually install diagrams libraries.
 
-However, you can manually install the diagrams libraries that you want to use and run the gateway server as a standalone executable _jar_.
+However, you can also install each diagrams libraries that you want to use and run the gateway server as a _standalone executable jar_.
 Consult the xref:manual-install.adoc[manual install documentation] to find out how.
 ====
 
@@ -15,11 +23,43 @@ Consult the xref:manual-install.adoc[manual install documentation] to find out h
 
  $ docker run yuzutech/kroki
 
+{uri-docker-kroki-image}[yuzutech/kroki] image contains the following diagrams libraries out-of-the-box:
+
+* http://ditaa.sourceforge.net[Ditaa]
+* https://github.com/BurntSushi/erd[Erd]
+* https://www.graphviz.org/[GraphViz]
+* https://github.com/skanaar/nomnoml[Nomnoml]
+* https://github.com/plantuml/plantuml[PlantUML]
+** https://github.com/RicardoNiepel/C4-PlantUML[C4 model] (with PlantUML)
+* https://github.com/ivanceras/svgbob[Svgbob]
+* https://github.com/umlet/umlet[UMlet]
+
+In other words, the following endpoints will be available:
+
+```
+/c4plantuml
+/ditaa
+/erd
+/graphviz
+/dot
+/nomnoml
+/plantuml
+/svgbob
+/umlet
+```
+
 == Companion Containers
 
-If you want to use _BlockDiag_, _ActDiag_, _NwDiag_, _SeqDiag_ or _Mermaid_, then you will also need to start companion containers.
+If you want to use _BlockDiag_, _ActDiag_, _NwDiag_, _SeqDiag_ or _Mermaid_, then you will also need to start companion containers:
 
-You can use `docker-compose` to run multiple containers:
+{uri-docker-kroki-blockdiag-image}[yuzutech/kroki-blockdiag]::
+Provides block, sequence, activity and network diagrams for Kroki using respectively {uri-blockdiag}[BlockDiag], {uri-seqdiag}[SeqDiag], {uri-actdiag}[ActDiag] and {uri-nwdiag}[NwDiag] libraries.
+
+{uri-docker-kroki-mermaid-image}[yuzutech/kroki-mermaid]::
+Provides flowchart, sequence and Gantt diagrams for Kroki using {uri-mermaid}[Mermaid].
+
+You can use `docker-compose` to run multiple containers.
+Here's an example where we start all the containers:
 
 .docker-compose.yml
 ```yml

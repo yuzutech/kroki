@@ -1,8 +1,10 @@
-= Install Kroki as a Packaged Application
+= Manual install
+:uri-gh-releases: https://github.com/yuzutech/kroki/releases
 
 Assumptions:
 
-* [x] You've installed Java 8 on your Linux, Windows, or macOS machine.
+* [x] You've Linux experience.
+* [x] You've installed Java 8 on your Linux machine.
 
 On this page, you'll learn:
 
@@ -11,7 +13,7 @@ On this page, you'll learn:
 
 == Download and Run Kroki
 
-You can download the latest executable _jar_ from the https://github.com/yuzutech/kroki/releases[GitHub releases page].
+You can download the latest _standalone executable jar_ from the GitHub {uri-gh-releases}[releases page].
 
 Once you've downloaded the _jar_ file, open a terminal an type:
 
@@ -46,8 +48,6 @@ you can override its location manually using an environment variable or a Java s
 `KROKI_DOT_BIN_PATH`:: Path to `dot` binary
 `KROKI_NOMNOML_BIN_PATH`:: Path to `nomnoml` binary
 
-For instance, if `dot` is located at [.path]_/home/guillaume/bin/dot_, you can configure the path using a system property:
+For instance, if `dot` is located at [.path]_/path/to/dot_, you can configure the path using a system property:
 
- $ java -DKROKI_DOT_BIN_PATH=/home/guillaume/bin/dot -jar kroki-server.jar
-
-
+ $ java -DKROKI_DOT_BIN_PATH=/path/to/dot -jar kroki-server.jar
