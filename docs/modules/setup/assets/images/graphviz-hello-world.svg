@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="74pt" height="116pt" viewBox="0.00 0.00 74.29 116.00">
+  <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
+    <title>G</title>
+    <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-112 70.2941,-112 70.2941,4 -4,4"/>
+    <!-- Hello -->
+    <g id="node1" class="node">
+      <title>Hello</title>
+      <ellipse fill="none" stroke="#000000" cx="33.1471" cy="-90" rx="30.5947" ry="18"/>
+      <text text-anchor="middle" x="33.1471" y="-86.3" font-family="Times,serif" font-size="14.00" fill="#000000">Hello</text>
+    </g>
+    <!-- World -->
+    <g id="node2" class="node">
+      <title>World</title>
+      <ellipse fill="none" stroke="#000000" cx="33.1471" cy="-18" rx="33.2948" ry="18"/>
+      <text text-anchor="middle" x="33.1471" y="-14.3" font-family="Times,serif" font-size="14.00" fill="#000000">World</text>
+    </g>
+    <!-- Hello&#45;&gt;World -->
+    <g id="edge1" class="edge">
+      <title>Hello-&gt;World</title>
+      <path fill="none" stroke="#000000" d="M33.1471,-71.8314C33.1471,-64.131 33.1471,-54.9743 33.1471,-46.4166"/>
+      <polygon fill="#000000" stroke="#000000" points="36.6472,-46.4132 33.1471,-36.4133 29.6472,-46.4133 36.6472,-46.4132"/>
+    </g>
+  </g>
+</svg>

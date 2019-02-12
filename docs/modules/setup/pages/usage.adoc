@@ -10,18 +10,45 @@ On this page, you'll learn:
 
 == Convert Diagrams
 
-Kroki uses a simple algorithm (deflate + base64) to encode your diagram in the URL:
+Kroki handles both `GET` and `POST` requests.
+When using `GET` requests, your diagram must be encoded in the URL using a deflate + base64 algorithm.
 
- GET /plantuml/svg/SyfFKj2rKt3CoKnELR1Io4ZDoSa70000
+NOTE: Don't worry, if you're not familiar with deflate or base64 (or if you don't want to use them),
+you can also send your diagram as plain text using <<post-request,`POST` requests>>.
 
+Let's take an example with a _GraphViz_ "Hello World":
+
+.hello.txt
+[source,txt]
+----
+digraph G {
+  Hello->World
+}
+----
+
+Here we are using a Python one-liner to encode our diagram using deflate + base64:
+
+[source,cmd]
+cat hello.txt | python -c "import sys; import base64; import zlib; print(base64.urlsafe_b64encode(zlib.compress(sys.stdin.read(), 9)))"
+
+The above command will return `eNpLyUwvSizIUHBXqPZIzcnJ17ULzy_KSanlAgB1EAjQ`.
+We can then copy this value in the URL:
+
+ GET /graphviz/svg/eNpLyUwvSizIUHBXqPZIzcnJ17ULzy_KSanlAgB1EAjQ
+
+And here's the result:
+
+image::graphviz-hello-world.svg[]
+
+[[post-request]]
 You can also call Kroki with `POST`:
 
  POST /
 
 ```json
 {
-  "diagram_source": "Bob -> Alice : hello",
-  "diagram_type": "plantuml",
+  "diagram_source": "digraph G {Hello->World}",
+  "diagram_type": "graphviz",
   "output_format": "svg"
 }
 ```
@@ -31,30 +58,36 @@ In this case, you don't need to encode your diagram.
 It's also possible to send your diagram as plain text using the `Content-Type` header.
 The output format will be specified using the `Accept` header and the diagram source will be sent as the request body:
 
- POST /plantuml
+ POST /graphviz
 
-```
+[source,plain]
+----
 Accept: image/svg+xml
 Content-Type: text/plain
 
-Bob -> Alice : hello
-```
+digraph G {
+  Hello->World
+}
+----
 
 You can also define the output format in the URL if you don't want to add an `Accept` header:
 
- POST /plantuml/svg
-```
+ POST /graphviz/svg
+[source,plain]
+----
 Content-Type: text/plain
 
-Bob -> Alice : hello
-```
+digraph G {
+  Hello->World
+}
+----
 
 The same concept applies when sending the diagram as JSON:
 
- POST /plantuml/svg
+ POST /graphviz/svg
 ```json
 {
-  "diagram_source": "Bob -> Alice : hello"
+  "diagram_source": "digraph G {Hello->World}"
 }
 ```
 
@@ -62,11 +95,13 @@ The same concept applies when sending the diagram as JSON:
 
 Using https://curl.haxx.se/[_cURL_] to interact with the API is straightforward, open a terminal and type:
 
- curl https://demo.kroki.io/plantuml/svg --data-raw 'Bob -> Alice : hello'
+[source,cmd]
+curl https://demo.kroki.io/graphviz/svg --data-raw 'digraph G {Hello->World}'
 
 Or if you are more familiar with https://httpie.org/[_HTTPie_], you can send a JSON request:
 
- http https://demo.kroki.io/ diagram_type='plantuml' output_format='svg' diagram_source='Bob -> Alice : hello'
+[source,cmd]
+http https://demo.kroki.io/ diagram_type='graphviz' output_format='svg' diagram_source='digraph G {Hello->World}'
 
 It's also possible to send a file, for instance an Entity Relationship Diagram named project.erd:
 
@@ -86,6 +121,8 @@ country
 Person *--1 Location
 ```
 
- curl https://demo.kroki.io/erd/svg --data-binary '@project.erd'
+[source,cmd]
+curl https://demo.kroki.io/erd/svg --data-binary '@project.erd'
 
- cat project.erd | http https://demo.kroki.io/erd/svg Content-Type:text/plain
+[source,cmd]
+cat project.erd | http https://demo.kroki.io/erd/svg Content-Type:text/plain
