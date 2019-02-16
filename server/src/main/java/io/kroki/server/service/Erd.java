@@ -26,7 +26,7 @@ public class Erd implements DiagramService {
 
   public Erd(Vertx vertx, JsonObject config) {
     this.vertx = vertx;
-    this.binPath = config.getString("KROKI_ERD_BIN_PATH", "dot");
+    this.binPath = config.getString("KROKI_ERD_BIN_PATH", "erd");
     this.sourceDecoder = new SourceDecoder() {
       @Override
       public String decode(String encoded) throws DecodeException {
