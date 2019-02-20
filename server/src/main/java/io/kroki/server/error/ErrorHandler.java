@@ -7,10 +7,14 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.MIMEHeader;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.impl.Utils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 public class ErrorHandler implements io.vertx.ext.web.handler.ErrorHandler {
+
+  private static final Logger logger = LoggerFactory.getLogger(ErrorHandler.class);
 
   /**
    * Flag to enable/disable printing the full stack trace of exceptions.
@@ -39,6 +43,7 @@ public class ErrorHandler implements io.vertx.ext.web.handler.ErrorHandler {
       context.response().setStatusCode(errorCode);
       errorMessage = context.response().getStatusMessage();
     } else {
+      logger.error("An error occurred", failure);
       if (failure instanceof BadRequestException) {
         errorCode = 400;
         errorMessage = failure.getMessage();
@@ -49,6 +54,12 @@ public class ErrorHandler implements io.vertx.ext.web.handler.ErrorHandler {
         errorMessage = failure.getMessage();
         statusMessage = "Service Unavailable";
         htmlErrorMessage = ((ServiceUnavailableException) failure).getMessageHTML();
+      } else if (failure instanceof IllegalStateException) {
+        errorCode = 500;
+        errorMessage = failure.getMessage();
+        if (errorMessage == null) {
+          errorMessage = "Internal Server Error";
+        }
       } else {
         errorCode = 500;
         if (displayExceptionDetails) {
