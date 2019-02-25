@@ -31,7 +31,7 @@ you can also send your diagram as plain text using <<post-request,`POST` request
 
 Let's take an example with a _GraphViz_ "Hello World":
 
-.hello.txt
+.hello.dot
 [source,txt]
 ----
 digraph G {
@@ -42,7 +42,7 @@ digraph G {
 Here we are using a Python one-liner to encode our diagram using deflate + base64:
 
 [source,cmd]
-cat hello.txt | python -c "import sys; import base64; import zlib; print(base64.urlsafe_b64encode(zlib.compress(sys.stdin.read(), 9)))"
+cat hello.dot | python -c "import sys; import base64; import zlib; print(base64.urlsafe_b64encode(zlib.compress(sys.stdin.read(), 9)))"
 
 The above command will return `eNpLyUwvSizIUHBXqPZIzcnJ17ULzy_KSanlAgB1EAjQ`.
 We can then copy this value in the URL:
@@ -148,14 +148,20 @@ The easiest way to interact with Kroki is probably to download the {uri-kroki-cl
 
 Once you've downloaded the archive, extract the `kroki` binary file from the archive to a directory, then open a terminal and type:
 
- /path/to/kroki
-
-NOTE: We recommend to add `kroki` to your `PATH` so you can use the command `kroki` without specifying the path:
+ /path/to/kroki version
 
 If installation was successful, the command should report the version of Kroki CLI:
 
 [source,subs=attributes]
 kroki {kroki-cli-version} {kroki-cli-sha} [https://kroki.io]
+
+
+[NOTE]
+====
+We recommend to add `kroki` to your `PATH` so you can use the command `kroki` without specifying the path:
+
+ kroki version
+====
 
 By default the diagram type will be inferred from the diagram file extension and the default output format will be SVG.
 So to convert a PlantUML diagram named _diagram.puml_ to an SVG image, open a terminal and type:
