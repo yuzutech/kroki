@@ -146,8 +146,6 @@ cat project.erd | http https://demo.kroki.io/erd/svg Content-Type:text/plain
 
 The easiest way to interact with Kroki is probably to download the {uri-kroki-cli-gh-release}[Kroki CLI].
 
-NOTE:
-
 Once you've downloaded the archive, extract the `kroki` binary file from the archive to a directory, then open a terminal and type:
 
  /path/to/kroki
