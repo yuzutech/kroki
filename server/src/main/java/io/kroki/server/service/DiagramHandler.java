@@ -16,7 +16,6 @@ import io.vertx.ext.web.ParsedHeaderValue;
 import io.vertx.ext.web.RoutingContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
 
 import java.util.Comparator;
 import java.util.List;
@@ -33,8 +32,11 @@ public class DiagramHandler {
     this.logging = new Logging(logger);
   }
 
-  public Handler<RoutingContext> createRequestReceived() {
-    return logging::requestReceived;
+  public Handler<RoutingContext> createRequestReceived(String serviceName) {
+    return routingContext -> {
+      logging.requestReceived(routingContext, serviceName);
+      routingContext.next();
+    };
   }
 
   public Handler<RoutingContext> createGet(String serviceName) {
@@ -149,7 +151,7 @@ public class DiagramHandler {
     try {
       service.convert(routingContext, sourceDecoded, serviceName, fileFormat);
     } finally {
-     logging.convert(routingContext, start, serviceName, fileFormat);
+      logging.convert(routingContext, start, serviceName, fileFormat);
     }
   }
 }

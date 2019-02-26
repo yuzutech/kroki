@@ -16,20 +16,21 @@ public class Logging {
     this.logger = logger;
   }
 
-  public void requestReceived(RoutingContext routingContext) {
+  public void requestReceived(RoutingContext routingContext, String serviceName) {
     HttpServerRequest request = routingContext.request();
     try {
       MDC.put("action", "request_received");
       MDC.put("method", request.method().toString());
       MDC.put("path", request.path());
+      MDC.put("service_name", serviceName);
       MDC.put("bytes_read", String.valueOf(request.bytesRead()));
       logger.info("Request received {} {}", request.method(), request.path());
     } finally {
       MDC.remove("action");
       MDC.remove("method");
       MDC.remove("path");
+      MDC.remove("service_name");
       MDC.remove("bytes_read");
-      routingContext.next();
     }
   }
 
