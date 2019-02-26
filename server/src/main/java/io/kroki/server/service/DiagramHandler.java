@@ -8,10 +8,14 @@ import io.kroki.server.error.UnsupportedMimeTypeException;
 import io.kroki.server.format.ContentType;
 import io.kroki.server.format.FileFormat;
 import io.vertx.core.Handler;
+import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.MIMEHeader;
 import io.vertx.ext.web.ParsedHeaderValue;
 import io.vertx.ext.web.RoutingContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
 import java.util.Comparator;
 import java.util.List;
@@ -19,15 +23,34 @@ import java.util.stream.Collectors;
 
 public class DiagramHandler {
 
+  private static final Logger logger = LoggerFactory.getLogger(DiagramHandler.class);
   private final DiagramService service;
 
   public DiagramHandler(DiagramService service) {
     this.service = service;
   }
 
+  public Handler<RoutingContext> createFilter() {
+    return routingContext -> {
+      HttpServerRequest request = routingContext.request();
+      try {
+        MDC.put("method", request.method().toString());
+        MDC.put("path", request.path());
+        MDC.put("bytesRead", String.valueOf(request.bytesRead()));
+        logger.info("Request received: {} {}", request.method(), request.path());
+      } finally {
+        MDC.remove("method");
+        MDC.remove("path");
+        MDC.remove("bytesRead");
+        routingContext.next();
+      }
+    };
+  }
+
   public Handler<RoutingContext> createGet(String serviceName) {
     return routingContext -> {
-      String outputFormat = routingContext.request().getParam("output_format");
+      HttpServerRequest request = routingContext.request();
+      String outputFormat = request.getParam("output_format");
       FileFormat fileFormat;
       try {
         fileFormat = validate(serviceName, outputFormat);
@@ -35,7 +58,7 @@ public class DiagramHandler {
         routingContext.fail(e);
         return;
       }
-      String sourceEncoded = routingContext.request().getParam("source_encoded");
+      String sourceEncoded = request.getParam("source_encoded");
       try {
         String sourceDecoded = service.getSourceDecoder().decode(sourceEncoded);
         convert(routingContext, sourceDecoded, serviceName, fileFormat);

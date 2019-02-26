@@ -1,6 +1,7 @@
 package io.kroki.server.error;
 
 import io.vertx.core.http.HttpHeaders;
+import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -9,6 +10,7 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.impl.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
 import java.util.List;
 
@@ -41,9 +43,8 @@ public class ErrorHandler implements io.vertx.ext.web.handler.ErrorHandler {
     String htmlErrorMessage = null;
     if (errorCode != -1) {
       context.response().setStatusCode(errorCode);
-      errorMessage = context.response().getStatusMessage();
+      errorMessage = response.getStatusMessage();
     } else {
-      logger.error("An error occurred", failure);
       if (failure instanceof BadRequestException) {
         errorCode = 400;
         errorMessage = failure.getMessage();
@@ -75,7 +76,32 @@ public class ErrorHandler implements io.vertx.ext.web.handler.ErrorHandler {
       // no new lines are allowed in the status message
       response.setStatusMessage(statusMessage.replaceAll("[\\r\\n]", " "));
     }
+    log(context, errorCode, errorMessage);
     answerWithError(context, errorCode, errorMessage, htmlErrorMessage);
+  }
+
+  private void log(RoutingContext routingContext, int errorCode, String errorMessage) {
+    HttpServerRequest request = routingContext.request();
+    Throwable failure = routingContext.failure();
+    try {
+      MDC.put("method", request.method().toString());
+      MDC.put("path", request.path());
+      MDC.put("error_code", String.valueOf(errorCode));
+      MDC.put("error_message", errorMessage);
+      if (failure != null) {
+        MDC.put("failure_class_name", failure.getClass().getName());
+        logger.error("An error occurred", failure);
+      } else {
+        logger.error("An error occurred");
+      }
+    } finally {
+      MDC.remove("method");
+      MDC.remove("path");
+      MDC.remove("bytes_read");
+      MDC.remove("error_code");
+      MDC.remove("error_message");
+      MDC.remove("failure_class_name");
+    }
   }
 
   private void answerWithError(RoutingContext context, int errorCode, String errorMessage, String htmlErrorMessage) {
