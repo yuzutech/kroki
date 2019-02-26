@@ -2,6 +2,7 @@ package io.kroki.server.action;
 
 import io.kroki.server.error.BadRequestException;
 import io.kroki.server.error.ServiceUnavailableException;
+import io.kroki.server.log.Logging;
 import io.netty.handler.codec.http.HttpHeaderValues;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpHeaders;
@@ -17,6 +18,7 @@ import java.net.ConnectException;
 public class Delegator {
 
   private static final Logger logger = LoggerFactory.getLogger(Delegator.class);
+  private static final Logging logging = new Logging(logger);
 
   public static void delegate(WebClient client, RoutingContext routingContext, String host, int port, String requestURI, String body) {
     client
@@ -33,7 +35,7 @@ public class Delegator {
                 .end(httpResponse.body());
             }
           } else {
-            logger.error("Unsuccessful request POST {}:{}{}. Response: {statusCode:{} body: {}}", host, port, requestURI, httpResponse.statusCode(), httpResponse.bodyAsString());
+            logging.delegate(httpResponse, host, port, requestURI);
             String contentType = httpResponse.getHeader(HttpHeaders.CONTENT_TYPE.toString());
             if (HttpHeaderValues.TEXT_PLAIN.contentEquals(contentType) || HttpHeaderValues.APPLICATION_JSON.contentEquals(contentType)) {
               routingContext.fail(new BadRequestException(httpResponse.body().toString()));

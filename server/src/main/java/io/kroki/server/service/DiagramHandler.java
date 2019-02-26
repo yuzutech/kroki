@@ -7,6 +7,7 @@ import io.kroki.server.error.UnsupportedFormatException;
 import io.kroki.server.error.UnsupportedMimeTypeException;
 import io.kroki.server.format.ContentType;
 import io.kroki.server.format.FileFormat;
+import io.kroki.server.log.Logging;
 import io.vertx.core.Handler;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.json.JsonObject;
@@ -25,26 +26,15 @@ public class DiagramHandler {
 
   private static final Logger logger = LoggerFactory.getLogger(DiagramHandler.class);
   private final DiagramService service;
+  private final Logging logging;
 
   public DiagramHandler(DiagramService service) {
     this.service = service;
+    this.logging = new Logging(logger);
   }
 
-  public Handler<RoutingContext> createFilter() {
-    return routingContext -> {
-      HttpServerRequest request = routingContext.request();
-      try {
-        MDC.put("method", request.method().toString());
-        MDC.put("path", request.path());
-        MDC.put("bytesRead", String.valueOf(request.bytesRead()));
-        logger.info("Request received: {} {}", request.method(), request.path());
-      } finally {
-        MDC.remove("method");
-        MDC.remove("path");
-        MDC.remove("bytesRead");
-        routingContext.next();
-      }
-    };
+  public Handler<RoutingContext> createRequestReceived() {
+    return logging::requestReceived;
   }
 
   public Handler<RoutingContext> createGet(String serviceName) {
@@ -155,6 +145,11 @@ public class DiagramHandler {
   }
 
   public void convert(RoutingContext routingContext, String sourceDecoded, String serviceName, FileFormat fileFormat) {
-    service.convert(routingContext, sourceDecoded, serviceName, fileFormat);
+    long start = System.currentTimeMillis();
+    try {
+      service.convert(routingContext, sourceDecoded, serviceName, fileFormat);
+    } finally {
+     logging.convert(routingContext, start, serviceName, fileFormat);
+    }
   }
 }
