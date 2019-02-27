@@ -15,8 +15,6 @@ COPY ops/docker/ld-musl-x86_64.path /etc/ld-musl-x86_64.path
 
 COPY ops/docker/logback.xml /etc/logback.xml
 
-COPY target/kroki-server.jar .
-
 ENV KROKI_SVGBOB_BIN_PATH=/rust/bin/svgbob
 ENV KROKI_ERD_BIN_PATH=/haskell/bin/erd
 ENV KROKI_DOT_BIN_PATH=/usr/bin/dot
@@ -24,5 +22,7 @@ ENV KROKI_NOMNOML_BIN_PATH=/node/bin/nomnoml
 ENV JAVA_OPTS="-Dlogback.configurationFile=/etc/logback.xml"
 
 EXPOSE 8000
+
+COPY target/kroki-server.jar .
 
 ENTRYPOINT exec java $JAVA_OPTS -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -jar kroki-server.jar
