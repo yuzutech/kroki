@@ -1,11 +1,13 @@
 package io.kroki.server.service;
 
+import io.kroki.server.response.Caching;
 import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.BadRequestException;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.ContentType;
 import io.kroki.server.format.FileFormat;
+import io.kroki.server.response.DiagramResponse;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.web.RoutingContext;
@@ -13,12 +15,11 @@ import net.sourceforge.plantuml.BlockUml;
 import net.sourceforge.plantuml.ErrorUml;
 import net.sourceforge.plantuml.FileFormatOption;
 import net.sourceforge.plantuml.LineLocation;
-import net.sourceforge.plantuml.NullOutputStream;
 import net.sourceforge.plantuml.PSystemError;
 import net.sourceforge.plantuml.SourceStringReader;
 import net.sourceforge.plantuml.code.Base64Coder;
 import net.sourceforge.plantuml.core.Diagram;
-import net.sourceforge.plantuml.core.DiagramDescription;
+import net.sourceforge.plantuml.version.Version;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -37,6 +38,7 @@ public class Plantuml implements DiagramService {
 
   private static final Pattern INCLUDE_RX = Pattern.compile("^\\s*!include(?:url)?\\s+.*");
   private final SourceDecoder sourceDecoder;
+  private final DiagramResponse diagramResponse;
 
   public Plantuml() {
     this.sourceDecoder = new SourceDecoder() {
@@ -45,6 +47,7 @@ public class Plantuml implements DiagramService {
         return DiagramSource.plantumlDecode(encoded);
       }
     };
+    this.diagramResponse = new DiagramResponse(new Caching(Version.etag()));
   }
 
   @Override
@@ -73,9 +76,7 @@ public class Plantuml implements DiagramService {
       return;
     }
     byte[] data = convert(source, fileFormat);
-    response
-      .putHeader("Content-Type", ContentType.get(fileFormat))
-      .end(Buffer.buffer(data));
+    diagramResponse.end(response, sourceDecoded, fileFormat, data);
   }
 
   static byte[] convert(String source, FileFormat format) {

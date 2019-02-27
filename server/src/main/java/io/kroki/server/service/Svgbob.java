@@ -6,6 +6,8 @@ import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.ContentType;
 import io.kroki.server.format.FileFormat;
+import io.kroki.server.response.Caching;
+import io.kroki.server.response.DiagramResponse;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpServerResponse;
@@ -23,6 +25,7 @@ public class Svgbob implements DiagramService {
   private final Vertx vertx;
   private final String binPath;
   private final SourceDecoder sourceDecoder;
+  private final DiagramResponse diagramResponse;
 
   public Svgbob(Vertx vertx, JsonObject config) {
     this.vertx = vertx;
@@ -33,6 +36,7 @@ public class Svgbob implements DiagramService {
         return DiagramSource.decode(encoded, false);
       }
     };
+    this.diagramResponse = new DiagramResponse(new Caching("8.0.0"));
   }
 
   @Override
@@ -61,9 +65,7 @@ public class Svgbob implements DiagramService {
         return;
       }
       byte[] result = (byte[]) res.result();
-      response
-        .putHeader("Content-Type", ContentType.get(fileFormat))
-        .end(Buffer.buffer(result));
+      diagramResponse.end(response, sourceDecoded, fileFormat, result);
     });
   }
 

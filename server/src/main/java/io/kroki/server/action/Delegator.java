@@ -3,6 +3,7 @@ package io.kroki.server.action;
 import io.kroki.server.error.BadRequestException;
 import io.kroki.server.error.ServiceUnavailableException;
 import io.kroki.server.log.Logging;
+import io.kroki.server.response.DiagramResponse;
 import io.netty.handler.codec.http.HttpHeaderValues;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpHeaders;
@@ -20,7 +21,7 @@ public class Delegator {
   private static final Logger logger = LoggerFactory.getLogger(Delegator.class);
   private static final Logging logging = new Logging(logger);
 
-  public static void delegate(WebClient client, RoutingContext routingContext, String host, int port, String requestURI, String body) {
+  public static void delegate(WebClient client, RoutingContext routingContext, DiagramResponse diagramResponse, String host, int port, String requestURI, String body) {
     client
       .post(port, host, requestURI)
       .putHeader(HttpHeaders.ACCEPT.toString(), HttpHeaderValues.APPLICATION_JSON.toString())
@@ -30,9 +31,7 @@ public class Delegator {
           if (httpResponse.statusCode() == 200) {
             HttpServerResponse response = routingContext.response();
             if (!response.closed()) {
-              response
-                .putHeader("Content-Type", httpResponse.getHeader("Content-Type"))
-                .end(httpResponse.body());
+              diagramResponse.end(response, body, httpResponse.getHeader(HttpHeaders.CONTENT_TYPE.toString()), httpResponse.body());
             }
           } else {
             logging.delegate(httpResponse, host, port, requestURI);

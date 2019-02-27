@@ -20,12 +20,17 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
+import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Route;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.BodyHandler;
+import io.vertx.ext.web.handler.CorsHandler;
 import io.vertx.ext.web.handler.StaticHandler;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class Server extends AbstractVerticle {
 
@@ -52,6 +57,20 @@ public class Server extends AbstractVerticle {
     Router router = Router.router(vertx);
     BodyHandler bodyHandler = BodyHandler.create(false).setBodyLimit(config.getLong("KROKI_BODY_LIMIT", BodyHandler.DEFAULT_BODY_LIMIT));
 
+    // CORS
+    Set<String> allowedHeaders = new HashSet<>();
+    allowedHeaders.add("Access-Control-Allow-Origin");
+    allowedHeaders.add("Origin");
+    allowedHeaders.add("Content-Type");
+    allowedHeaders.add("Accept");
+    Set<HttpMethod> allowedMethods = new HashSet<>();
+    allowedMethods.add(HttpMethod.GET);
+    allowedMethods.add(HttpMethod.POST);
+    allowedMethods.add(HttpMethod.OPTIONS);
+    router.route().handler(CorsHandler.create("*")
+      .allowedHeaders(allowedHeaders)
+      .allowedMethods(allowedMethods));
+
     DiagramRegistry registry = new DiagramRegistry(router, bodyHandler);
     registry.register(new Plantuml(), "plantuml");
     registry.register(new C4Plantuml(), "c4plantuml");
@@ -71,9 +90,12 @@ public class Server extends AbstractVerticle {
       .handler(new HelloHandler().create());
     router.get("/*")
       .handler(StaticHandler.create("web/root"));
-    Route route = router.route("/*"); // default route
+
+    // Default route
+    Route route = router.route("/*");
     route.handler(routingContext -> routingContext.fail(404));
     route.failureHandler(new ErrorHandler(false));
+
     server.requestHandler(router).listen(config.getInteger("KROKI_PORT", 8000), listenHandler);
   }
 }

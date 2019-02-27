@@ -5,6 +5,8 @@ import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.ContentType;
 import io.kroki.server.format.FileFormat;
+import io.kroki.server.response.Caching;
+import io.kroki.server.response.DiagramResponse;
 import io.kroki.umlet.UmletConverter;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
@@ -21,6 +23,7 @@ public class Umlet implements DiagramService {
 
   private final Vertx vertx;
   private final SourceDecoder sourceDecoder;
+  private final DiagramResponse diagramResponse;
 
   public Umlet(Vertx vertx) {
     this.vertx = vertx;
@@ -30,6 +33,7 @@ public class Umlet implements DiagramService {
         return DiagramSource.decode(encoded);
       }
     };
+    this.diagramResponse = new DiagramResponse(new Caching("14.3.0"));
   }
 
   @Override
@@ -58,9 +62,7 @@ public class Umlet implements DiagramService {
         return;
       }
       byte[] result = (byte[]) res.result();
-      response
-        .putHeader("Content-Type", ContentType.get(fileFormat))
-        .end(Buffer.buffer(result));
+      diagramResponse.end(response, sourceDecoded, fileFormat, result);
     });
   }
 }

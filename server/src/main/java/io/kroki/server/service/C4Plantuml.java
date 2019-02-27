@@ -5,9 +5,12 @@ import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.ContentType;
 import io.kroki.server.format.FileFormat;
+import io.kroki.server.response.Caching;
+import io.kroki.server.response.DiagramResponse;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.web.RoutingContext;
+import net.sourceforge.plantuml.version.Version;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -31,6 +34,7 @@ public class C4Plantuml implements DiagramService {
   private final String c4Container;
   private final String c4Context;
   private final SourceDecoder sourceDecoder;
+  private final DiagramResponse diagramResponse;
 
   public C4Plantuml() {
     try {
@@ -50,6 +54,7 @@ public class C4Plantuml implements DiagramService {
         return DiagramSource.plantumlDecode(encoded);
       }
     };
+    this.diagramResponse = new DiagramResponse(new Caching(Version.etag()));
   }
 
   @Override
@@ -74,9 +79,7 @@ public class C4Plantuml implements DiagramService {
       return;
     }
     byte[] data = Plantuml.convert(source, fileFormat);
-    response
-      .putHeader("Content-Type", ContentType.get(fileFormat))
-      .end(Buffer.buffer(data));
+    diagramResponse.end(response, sourceDecoded, fileFormat, data);
   }
 
   private String sanitize(String input) throws IOException {
