@@ -4,3 +4,4 @@ version: master
 nav:
 - modules/ROOT/nav.adoc
 - modules/setup/nav.adoc
+- modules/ROOT/nav-end.adoc

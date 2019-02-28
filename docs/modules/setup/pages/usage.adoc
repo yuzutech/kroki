@@ -1,28 +1,7 @@
 = Usage
-:kroki-cli-version: 0.1.0
-:kroki-cli-sha: 4afafe2e51df4d02a21661e1d8838a146b5cba66
-:uri-kroki-cli-doc: https://github.com/yuzutech/kroki-cli/blob/master/README.adoc
-:uri-kroki-cli-gh-release: https://github.com/yuzutech/kroki-cli/releases/tag/v{kroki-cli-version}
-
-Assumptions:
-
-* [x] You have a running instance of Kroki.
-
-On this page, you'll learn:
-
-* [x] How to send <<http-api, GET and POST requests>>
-* [x] How to interact with Kroki using <<http-cli, cURL and HTTPie>>
-* [x] How to convert images using <<kroki-cli, Kroki CLI>>
-
-In the following section, we will describe the Kroki HTTP API.
-Then we will demonstrate how to convert diagrams using <<http-cli,cURL>>, <<http-cli,HTTPie>> or <<kroki-cli, Kroki CLI>>.
-
-NOTE: Please note that you can use _Kroki_ with *any HTTP client* not just _cURL_ and _HTTPie_.
-
-[#http-api]
-== HTTP API
 
 Kroki provides an HTTP API to convert plain text diagrams to images.
+
 Kroki handles both `GET` and `POST` requests.
 When using `GET` requests, your diagram must be encoded in the URL using a deflate + base64 algorithm.
 
@@ -104,81 +83,9 @@ The same concept applies when sending the diagram as JSON:
 }
 ```
 
-[#http-cli]
-== Command Line Interface (CLI)
+== Next
 
-Using https://curl.haxx.se/[_cURL_] to interact with the API is straightforward, open a terminal and type:
-
-[source,cmd]
-curl https://demo.kroki.io/graphviz/svg --data-raw 'digraph G {Hello->World}'
-
-Or if you are more familiar with https://httpie.org/[_HTTPie_], you can send a JSON request:
-
-[source,cmd]
-http https://demo.kroki.io/ diagram_type='graphviz' output_format='svg' diagram_source='digraph G {Hello->World}'
-
-It's also possible to send a file, for instance an Entity Relationship Diagram named project.erd:
-
-```erd
-[Person]
-*name
-height
-weight
-+birth_location_id
-
-[Location]
-*id
-city
-state
-country
-
-Person *--1 Location
-```
-
-[source,cmd]
-curl https://demo.kroki.io/erd/svg --data-binary '@project.erd'
-
-[source,cmd]
-cat project.erd | http https://demo.kroki.io/erd/svg Content-Type:text/plain
-
-[#kroki-cli]
-== Kroki CLI
-
-The easiest way to interact with Kroki is probably to download the {uri-kroki-cli-gh-release}[Kroki CLI].
-
-Once you've downloaded the archive, extract the `kroki` binary file from the archive to a directory, then open a terminal and type:
-
- /path/to/kroki version
-
-If installation was successful, the command should report the version of Kroki CLI:
-
-[source,subs=attributes]
-kroki {kroki-cli-version} {kroki-cli-sha} [https://kroki.io]
-
-
-[NOTE]
-====
-We recommend to add `kroki` to your `PATH` so you can use the command `kroki` without specifying the path:
-
- kroki version
-====
-
-By default the diagram type will be inferred from the diagram file extension and the default output format will be SVG.
-So to convert a PlantUML diagram named _diagram.puml_ to an SVG image, open a terminal and type:
-
- kroki convert diagram.puml
-
-A file named _diagram.svg_ will be created.
-
-If you want to learn more about Kroki CLI, please {uri-kroki-cli-doc}[read the documentation].
-You can also run the "help" command:
-
- kroki help convert
-
-[CAUTION]
-====
-By default Kroki CLI will use the demonstration server: https://demo.kroki.io and a timeout of 20 seconds.
-
-Please note that the demonstration server usage is restricted to reasonable, non-commercial use-cases.
-We provide no guarantee regarding uptime or latency.
-====
+* Install xref:setup/install.adoc[Kroki on your server] for the first time
+* Interact with the Kroki API using:
+** <<http-cli, an HTTP client>>
+** <<kroki-cli, Kroki CLI>>

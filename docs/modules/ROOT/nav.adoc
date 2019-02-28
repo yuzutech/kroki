@@ -1,1 +1,1 @@
-* xref:overview.adoc[Overview]
+* xref:features.adoc[How Kroki Can Help]

@@ -7,17 +7,29 @@
 :uri-actdiag: http://blockdiag.com/en/actdiag/index.html
 :uri-nwdiag: http://blockdiag.com/en/nwdiag/index.html
 :uri-mermaid: https://mermaidjs.github.io/
+:uri-docker-get-started: https://docs.docker.com/get-started/
+:uri-docker-compose-install: https://docs.docker.com/compose/install/
 
 To convert plain text diagrams to images with Kroki,
 you first need to install the gateway server.
 
-[IMPORTANT]
+[TIP]
 ====
-We recommend to install Kroki using Docker, especially if you don't want to manually install diagrams libraries.
+We recommend to install Kroki using *Docker*, especially if you don't want to manually install diagrams libraries.
 
 However, you can also install each diagrams libraries that you want to use and run the gateway server as a _standalone executable jar_.
-Consult the xref:manual-install.adoc[manual install documentation] to find out how.
+Consult the xref:manual-install.adoc[manual install page] to find out how.
 ====
+
+Assumptions:
+
+* [x] {uri-docker-get-started}[Docker] is installed on your machine.
+* [x] {uri-docker-compose-install}[Docker Compose] is installed on your machine (optional).
+
+On this page, you'll learn:
+
+* [x] How to run Kroki
+* [x] How to configure Kroki
 
 == Using Docker
 

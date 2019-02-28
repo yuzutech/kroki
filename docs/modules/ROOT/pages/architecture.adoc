@@ -1,4 +1,4 @@
-= Overview
+= Architecture
 
 Kroki has a modular architecture and provides multiple components:
 

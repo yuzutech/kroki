@@ -1,0 +1,26 @@
+= Getting Help
+// URIs
+:uri-repo: https://github.com/yuzutech/kroki
+:uri-issues: {uri-repo}/issues
+:uri-chat-users: https://gitter.im/kroki-project/community
+
+We encourage you to report issues, ask questions, share ideas, or discuss other aspects of this project using the communication tools provided below.
+
+== Issues
+
+*Activity drives progress!*
+To that end, the issue tracker is king.
+
+The preferred means of communicating problems, ideas, and other feedback is through the project issue tracker.
+
+* {uri-issues}[Issue tracker^] (GitHub)
+
+Any significant change or decision about the project is logged there.
+
+== Chat
+
+If you need to switch to real time input, you may be interested in visiting one of the chat rooms:
+
+* {uri-chat-users}[kroki/community^] (Gitter) -- Community support for Antora users.
+
+The discussion logs for these rooms are archived, but there is no guarantee those logs will be saved indefinitely.

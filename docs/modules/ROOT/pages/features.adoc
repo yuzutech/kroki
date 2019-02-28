@@ -1,0 +1,11 @@
+= How Kroki Can Help You
+
+Ready to use::
+Diagrams libraries are written in a variety of languages: Haskell, Python, JavaScript, Go, PHP, Java... some also have C bindings. Trust us, you have better things to do than install all the requirements to use them. Get started in no time!
+
+Simple::
+Kroki provides a unified API for all the diagram libraries.
+Learn once convert anything!
+
+Fast::
+Built using a modern architecture, Kroki offers great performance.
