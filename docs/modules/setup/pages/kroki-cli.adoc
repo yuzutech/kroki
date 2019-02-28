@@ -163,7 +163,7 @@ Please note that the demonstration server usage is restricted to reasonable, non
 [source,yml]
 ----
 endpoint: 'https://localhost:8000'
-timeout: 30s
+timeout: '30s'
 ----
 
 If you don’t want to use a file you can also use the following environment variables:
