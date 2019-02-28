@@ -17,7 +17,8 @@ You can download the latest _standalone executable jar_ from the GitHub {uri-gh-
 
 Once you've downloaded the _jar_ file, open a terminal an type:
 
- $ java -jar kroki-server.jar
+[source,java-cli]
+java -jar kroki-server.jar
 
 The above command will start a web server on port `8000`.
 
@@ -25,9 +26,11 @@ The above command will start a web server on port `8000`.
 ====
 You can change the port using an environment variable or a Java system property named `KROKI_PORT`:
 
- $ KROKI_PORT=1234 java -jar kroki-server.jar
+[source,java-cli]
+KROKI_PORT=1234 java -jar kroki-server.jar
 
- $ java -DKROKI_PORT=1234 -jar kroki-server.jar
+[source,java-cli]
+java -DKROKI_PORT=1234 -jar kroki-server.jar
 ====
 
 == Configuration
@@ -50,4 +53,5 @@ you can override its location manually using an environment variable or a Java s
 
 For instance, if `dot` is located at [.path]_/path/to/dot_, you can configure the path using a system property:
 
- $ java -DKROKI_DOT_BIN_PATH=/path/to/dot -jar kroki-server.jar
+[source,java-cli]
+java -DKROKI_DOT_BIN_PATH=/path/to/dot -jar kroki-server.jar

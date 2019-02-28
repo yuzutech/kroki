@@ -5,20 +5,20 @@ In the following example, we will demonstrate how to send requests using _cURL_ 
 
 Using https://curl.haxx.se/[_cURL_] to interact with the API is straightforward, open a terminal and type:
 
-[source,cmd]
+[source,cli]
 curl https://demo.kroki.io/graphviz/svg --data-raw 'digraph G {Hello->World}'
 
 If you are more familiar with https://httpie.org/[_HTTPie_], you can send a JSON request:
 
-[source,cmd]
+[source,cli]
 http https://demo.kroki.io/ diagram_type='graphviz' output_format='svg' diagram_source='digraph G {Hello->World}'
 
 Both _cURL_ and _HTTPie_ can also send a `GET` request with the diagram encoded:
 
-[source,cmd]
+[source,cli]
 curl https://demo.kroki.io/graphviz/svg/eNpLyUwvSizIUHBXqPZIzcnJ17ULzy_KSanlAgB1EAjQ
 
-[source,cmd]
+[source,cli]
 http https://demo.kroki.io/graphviz/svg/eNpLyUwvSizIUHBXqPZIzcnJ17ULzy_KSanlAgB1EAjQ
 
 
@@ -40,8 +40,8 @@ country
 Person *--1 Location
 ```
 
-[source,cmd]
+[source,cli]
 curl https://demo.kroki.io/erd/svg --data-binary '@project.erd'
 
-[source,cmd]
+[source,cli]
 cat project.erd | http https://demo.kroki.io/erd/svg Content-Type:text/plain

@@ -33,7 +33,8 @@ On this page, you'll learn:
 
 == Using Docker
 
- $ docker run yuzutech/kroki
+[source,docker-cli]
+docker run yuzutech/kroki
 
 {uri-docker-kroki-image}[yuzutech/kroki] image contains the following diagrams libraries out-of-the-box:
 
@@ -94,4 +95,5 @@ services:
      - "8002:8002"
 ```
 
- $ docker-compose up -d
+[source,docker-cli]
+docker-compose up -d

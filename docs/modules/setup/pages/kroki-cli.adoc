@@ -9,25 +9,28 @@ This client is available on {uri-kroki-cli-gh-release}[Linux, macOS, Windows and
 
 Once you've downloaded the archive, extract the `kroki` binary file from the archive to a directory, then open a terminal and type:
 
- /path/to/kroki version
+[source,cli]
+/path/to/kroki version
 
 If installation was successful, the command should report the version of Kroki CLI:
 
-[source,subs=attributes]
+[source,txt,subs=attributes]
 kroki {kroki-cli-version} {kroki-cli-sha} [https://kroki.io]
 
 [NOTE]
 ====
 We recommend to add `kroki` to your `PATH` so you can use the command `kroki` without specifying the path:
 
- kroki version
+[source,cli]
+kroki version
 ====
 
 == Command structure
 
 The `kroki` command accepts user inputs in the form of options, positional arguments, and environment variables.
 
-$ kroki <command> [options] <arguments>
+[source,cli]
+kroki <command> [options] <arguments>
 
 . All functions start with a base call to Kroki (`kroki`).
 . The command tells Kroki what operation to perform.
@@ -95,10 +98,12 @@ $ kroki <command> [options] <arguments>
 When you're using the Kroki CLI and need help, type `-h` or `--help` after the command.
 
 .Display help for the kroki command
- $ kroki --help
+[source,cli]
+kroki --help
 
 .Display help for the convert command
- $ kroki convert -h
+[source,cli]
+kroki convert -h
 
 [#cli-run-ex]
 == Run the convert command
@@ -107,34 +112,40 @@ By default the diagram type will be inferred from the diagram file extension and
 So to convert a PlantUML diagram named _diagram.puml_ to an SVG image, open a terminal and type:
 
 .Example 1: Short format (implicit)
- $ kroki convert diagram.puml
+[source,cli]
+kroki convert diagram.puml
 
 In Example 1, Kroki converts a PlantUML diagram named _diagram.puml_ to an SVG image named [.path]_diagram.svg_.
 
 .Example 2: Long format (explicit)
- $ kroki convert diagram.puml --type plantuml --format svg --out-file diagram.svg
+[source,cli]
+kroki convert diagram.puml --type plantuml --format svg --out-file diagram.svg
 
 In Example 2, Kroki will do exactly the same as Example 1.
 
 .Example 3: Run the convert with --out-file option (implicit)
- $ kroki convert simple.er --out-file out.png
+[source,cli]
+kroki convert simple.er --out-file out.png
 
 In Example 3, Kroki converts en Erd diagram to a PNG image named [.path]_out.png_.
 When the output format is not defined, it will be inferred from the output file.
 
 .Example 4: Run the convert command with - (stdin)
- $ cat hello.dot | kroki convert - -t dot
+[source,cli]
+cat hello.dot | kroki convert - -t dot
 
 In Example 4, Kroki reads from stdin and outputs the result to stdout.
 If you want to output to a file you can use `-o`:
 
 .Example 5: Have the convert command reads from stdin and output to file
- $ cat hello.dot | kroki convert - -t dot -o out.png
+[source,cli]
+cat hello.dot | kroki convert - -t dot -o out.png
 
 Similarly, you can also output to stdout when reading from a file using the special value `-` with the `--out-file` option:
 
 .Example 6: Have the convert command reads from a file and output to stdout
- $ kroki convert simple.er --out-file -
+[source,cli]
+kroki convert simple.er --out-file -
 
 == Configuration
 
@@ -147,7 +158,8 @@ The CLI will look for the following locations:
 
 You can also specify an alternate config file using the `--config` option:
 
- $ kroki convert hello.dot --config config.yml
+[source,cli]
+kroki convert hello.dot --config config.yml
 
 The config file should contain the endpoint URL and the HTTP timeout.
 By default Kroki will use the demonstration server: https://demo.kroki.io and a timeout of 20 seconds.
@@ -171,5 +183,5 @@ If you don’t want to use a file you can also use the following environment var
 - `KROKI_ENDPOINT`
 - `KROKI_TIMEOUT`
 
-[]
- $ KROKI_ENDPOINT=https://localhost:8000 KROKI_TIMEOUT=1m kroki convert hello.dot
+[source,cli]
+KROKI_ENDPOINT=https://localhost:8000 KROKI_TIMEOUT=1m kroki convert hello.dot
