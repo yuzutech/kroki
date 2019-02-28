@@ -85,7 +85,7 @@ The same concept applies when sending the diagram as JSON:
 
 == Next
 
-* Install xref:setup/install.adoc[Kroki on your server] for the first time
+* Install xref:install.adoc[Kroki on your server] for the first time
 * Interact with the Kroki API using:
-** <<http-cli, an HTTP client>>
-** <<kroki-cli, Kroki CLI>>
+** xref:http-client[an HTTP client]
+** xref:kroki-cli[Kroki CLI]
