@@ -1,6 +1,5 @@
-* xref:install.adoc[Install]
-** xref:manual-install.adoc[Manual install]
 * xref:usage.adoc[Usage]
 ** xref:http-client.adoc[HTTP client]
 ** xref:kroki-cli.adoc[Kroki CLI]
-
+* xref:install.adoc[Install]
+** xref:manual-install.adoc[Manual install]
