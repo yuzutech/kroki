@@ -41,7 +41,7 @@ class CommanderTest {
         assertThat(Files.exists(Paths.get("/tmp/blns.fail"))).isFalse();
         assertThat(new String(result)).isEqualTo("");
       } catch (IllegalStateException e) {
-        assertThat(e).hasMessageStartingWith("Process returns an error (exit code is: 1) - error: Error: <stdin>: syntax error in line");
+        assertThat(e).hasMessageStartingWith("Command returns an error (exit code 1) Error: <stdin>: syntax error in line");
       }
     }
   }

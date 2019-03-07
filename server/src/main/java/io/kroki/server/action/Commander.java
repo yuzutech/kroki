@@ -28,7 +28,7 @@ public class Commander {
     int exitValue = process.exitValue();
     if (exitValue != 0) {
       String errorMessage = new String(read(process.getInputStream()));
-      throw new IllegalStateException("Process returns an error (exit code is: " + exitValue + ") - error: " + errorMessage);
+      throw new IllegalStateException("Command returns an error (exit code " + exitValue + ") " + errorMessage);
     } else {
       InputStream inputStream = process.getInputStream();
       return read(inputStream);
