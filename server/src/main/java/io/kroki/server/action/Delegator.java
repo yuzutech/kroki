@@ -8,6 +8,8 @@ import io.netty.handler.codec.http.HttpHeaderValues;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.http.HttpServerResponse;
+import io.vertx.core.json.DecodeException;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.ext.web.client.WebClient;
@@ -36,8 +38,17 @@ public class Delegator {
           } else {
             logging.delegate(httpResponse, host, port, requestURI);
             String contentType = httpResponse.getHeader(HttpHeaders.CONTENT_TYPE.toString());
-            if (HttpHeaderValues.TEXT_PLAIN.contentEquals(contentType) || HttpHeaderValues.APPLICATION_JSON.contentEquals(contentType)) {
-              routingContext.fail(new BadRequestException(httpResponse.body().toString()));
+            if (HttpHeaderValues.APPLICATION_JSON.contentEquals(contentType)) {
+              try {
+                JsonObject json = httpResponse.bodyAsJsonObject();
+                if (json != null) {
+                  routingContext.fail(new BadRequestException(json.getString("error", "Unexpected error")));
+                } else {
+                  routingContext.fail(httpResponse.statusCode());
+                }
+              } catch (DecodeException e) {
+                routingContext.fail(httpResponse.statusCode());
+              }
             } else {
               routingContext.fail(httpResponse.statusCode());
             }
