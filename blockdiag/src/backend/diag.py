@@ -45,7 +45,7 @@ def generate_diag(app, diagram_type, output_format, source):
         elif output_format == 'svg':
             xml_text = drawer.drawer.save(None, None, drawer.format)
             return xml_text
-    except (ParseException, RuntimeError) as err:
+    except (ParseException, Exception) as err:
         raise GenerateError('Unable to generate the ' + diagram_type + ' diagram from source',
                             status_code=400,
                             payload={

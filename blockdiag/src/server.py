@@ -11,46 +11,86 @@ from blockdiag import __version__ as blockdiag_version
 from actdiag import __version__ as actdiag_version
 from nwdiag import __version__ as nwdiag_version
 from seqdiag import __version__ as seqdiag_version
+from werkzeug.exceptions import default_exceptions
+from werkzeug.exceptions import HTTPException
 
-application = Flask(__name__)
+
+def make_json_app(import_name, **kwargs):
+    """
+    Creates a JSON-oriented Flask app.
+    All error responses that you don't specifically
+    manage yourself will have application/json content
+    type, and will contain JSON like this (just an example):
+    { "message": "405: Method Not Allowed" }
+    """
+    def make_json_error(ex):
+        response = jsonify({"error": str(ex.description)})
+        response.status_code = (ex.code
+                                if isinstance(ex, HTTPException)
+                                else 500)
+        return response
+
+    app = Flask(import_name, **kwargs)
+
+    for code in iter(default_exceptions.keys()):
+        app.errorhandler(code)(make_json_error)
+
+    return app
+
+
+application = make_json_app(__name__)
 
 
 class InvalidUsage(Exception):
     status_code = 400
 
-    def __init__(self, message, status_code=None, payload=None):
+    def __init__(self, error, status_code=None, payload=None):
         Exception.__init__(self)
-        self.message = message
+        self.error = error
         if status_code is not None:
             self.status_code = status_code
         self.payload = payload
 
     def to_dict(self):
         rv = dict(self.payload or ())
-        rv['message'] = self.message
+        rv['error'] = self.error
         return rv
 
 
 def _generate_diagram(app, diagram_type, output_format, source):
-    result = generate_diag(app, diagram_type, output_format, source)
-    output_format = output_format.lower()
-    if output_format == 'png':
-        response = send_file(io.BytesIO(result),
-                             attachment_filename='result.png',
-                             mimetype='image/png')
-        return response
-    elif output_format == 'pdf':
-        response = make_response(result)
-        response.headers['Content-Type'] = 'application/pdf'
-        response.headers['Content-Disposition'] = 'inline; filename=%s.pdf' % 'result'
-        return response
-    elif output_format == 'svg':
-        response = make_response(result)
-        response.headers["Content-Type"] = "image/svg+xml; charset=utf-8"
-        return response
-    else:
-        raise InvalidUsage('Unsupported output format: %s. Must be one of: png, svg or pdf.',
-                           status_code=400)
+    try:
+        output_format = output_format.lower()
+        if output_format == 'png':
+            result = generate_diag(app, diagram_type, output_format, source)
+            response = send_file(io.BytesIO(result),
+                                 attachment_filename='result.png',
+                                 mimetype='image/png')
+            return response
+        elif output_format == 'pdf':
+            result = generate_diag(app, diagram_type, output_format, source)
+            response = make_response(result)
+            response.headers['Content-Type'] = 'application/pdf'
+            response.headers['Content-Disposition'] = 'inline; filename=result.pdf'
+            return response
+        elif output_format == 'svg':
+            result = generate_diag(app, diagram_type, output_format, source)
+            response = make_response(result)
+            response.headers["Content-Type"] = "image/svg+xml; charset=utf-8"
+            return response
+        else:
+            raise InvalidUsage('Unsupported output format: %s. Must be one of: png, svg or pdf.' % output_format,
+                               status_code=400)
+    except GenerateError as err:
+        raise err
+    except Exception as err:
+        raise GenerateError('Unexpected error',
+                            status_code=500,
+                            payload={
+                                'source': source,
+                                'output_format': output_format,
+                                'diagram_type': diagram_type,
+                                'error': str(err)
+                            })
 
 
 @application.route('/_status', methods=['GET'])
