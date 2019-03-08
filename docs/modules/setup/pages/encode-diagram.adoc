@@ -12,7 +12,7 @@ On this page you will learn how to encode a diagram using:
 - <<java, Java>>
 - <<go, Go>>
 
-[nodejs]
+[#nodejs]
 == Node.js
 
 To compress our diagram with deflate algorithm, we are going to use {uri-gh-pako}[pako] -- a high speed zlib port to JavaScript.
@@ -38,7 +38,7 @@ console.log(result)
 <3> Create a `Buffer` from the compressed data and encode to Base64
 <4> Replace `+` and `/` characters to make it "URL safe"
 
-[javascript]
+[#javascript]
 == JavaScript
 
 We recommend to encode your diagram as UTF-8.
@@ -94,21 +94,21 @@ console.log(result)
 <4> Replace `+` and `/` characters to make it "URL safe"
 
 
-[python]
+[#python]
 == Python
 
 ```python
 include::example$encode.py[]
 ```
 
-[java]
+[#java]
 == Java
 
 ```java
 include::example$Encode.java[]
 ```
 
-[go]
+[#go]
 == Go
 
 ```go
