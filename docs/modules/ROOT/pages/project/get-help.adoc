@@ -21,6 +21,6 @@ Any significant change or decision about the project is logged there.
 
 If you need to switch to real time input, you may be interested in visiting one of the chat rooms:
 
-* {uri-chat-users}[kroki/community^] (Gitter) -- Community support for Antora users.
+* {uri-chat-users}[kroki/community^] (Gitter) -- Community support for Kroki users.
 
 The discussion logs for these rooms are archived, but there is no guarantee those logs will be saved indefinitely.
