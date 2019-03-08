@@ -1,0 +1,116 @@
+= Encode diagrams
+:uri-gh-pako: https://github.com/nodeca/pako
+:uri-mdn-textencoder: https://developer.mozilla.org/en-US/docs/Web/API/TextEncoder
+:uri-mdn-textencoder-browser-compat: {uri-mdn-textencoder}#Browser_compatibility
+
+When using GET requests, your diagram must be encoded in the URL using a deflate + base64 algorithm.
+On this page you will learn how to encode a diagram using:
+
+- <<nodejs, Node.js>>
+- <<javascript, JavaScript>>
+- <<python, Python>>
+- <<java, Java>>
+- <<go, Go>>
+
+[nodejs]
+== Node.js
+
+To compress our diagram with deflate algorithm, we are going to use {uri-gh-pako}[pako] -- a high speed zlib port to JavaScript.
+Once `pako` is installed, you can use the `deflate` method:
+
+```javascript
+const pako = require('pako')
+
+const diagramSource = `digraph G {
+  Hello->World
+}`
+
+const data = Buffer.from(diagramSource, 'utf8') // <1>
+const compressed = pako.deflate(data, { level: 9 }) // <2>
+const result = Buffer.from(compressed)
+  .toString('base64') // <3>
+  .replace(/\+/g, '-').replace(/\//g, '_') // <4>
+
+console.log(result)
+```
+<1> Create a `Buffer` from the diagram source using the default UTF-8 encoding
+<2> Compress data with deflate algorithm using a compression level of 9 (best compression).
+<3> Create a `Buffer` from the compressed data and encode to Base64
+<4> Replace `+` and `/` characters to make it "URL safe"
+
+[javascript]
+== JavaScript
+
+We recommend to encode your diagram as UTF-8.
+To do so, we can use {uri-mdn-textencoder}[`TextEncoder`]:
+
+```javascript
+new TextEncoder('utf-8').encode(diagramSource)
+```
+
+Unfortunately `TextEncoder` is not yet available on {uri-mdn-textencoder-browser-compat}[all browsers].
+To workaround this issue, we can define a function to encode our diagram:
+
+```javascript
+function textEncode(str) {
+  if (window.TextEncoder) {
+    return new TextEncoder('utf-8').encode(str);
+  }
+  var utf8 = unescape(encodeURIComponent(str));
+  var result = new Uint8Array(utf8.length);
+  for (var i = 0; i < utf8.length; i++) {
+    result[i] = utf8.charCodeAt(i);
+  }
+  return result;
+}
+```
+
+The above code will use `TextEncoder` if it's available and otherwise it will use a fallback implementation.
+
+Now that our diagram is encoded as UTF-8 in a `Uint8Array`, we can use _pako_ to compress it.
+As a reminder, {uri-gh-pako}[pako] is a high speed zlib port to JavaScript:
+
+```html
+<script src="https://unpkg.com/pako@1.0.10/dist/pako_deflate.min.js"></script>
+```
+
+To compress our diagram diagram we are going to use the `deflate` method provided by `pako`:
+
+
+```javascript
+var diagramSource = 'digraph G { Hello->World }'
+
+var data = textEncode(source) // <1>
+var compressed = pako.deflate(data, { level: 9, to: 'string' }) // <2>
+var result = btoa(compressed) // <3>
+  .replace(/\+/g, '-').replace(/\//g, '_') // <4>
+
+console.log(result)
+```
+<1> Encode the diagram as UTF8 in a `Uint8Array` (using the `textEncode` function declared above)
+<2> Compress data with deflate algorithm using a compression level of 9 (best compression).
+`pako` is available as a global variable.
+<3> Encode to Base64 using `btoa` global function
+<4> Replace `+` and `/` characters to make it "URL safe"
+
+
+[python]
+== Python
+
+```python
+include::example$encode.py[]
+```
+
+[java]
+== Java
+
+```java
+include::example$Encode.java[]
+```
+
+[go]
+== Go
+
+```go
+include::example$encode.go[]
+```

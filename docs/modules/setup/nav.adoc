@@ -1,4 +1,5 @@
 * xref:usage.adoc[Usage]
+** xref:encode-diagram.adoc[Encode diagrams]
 ** xref:http-client.adoc[HTTP client]
 ** xref:kroki-cli.adoc[Kroki CLI]
 * xref:install.adoc[Install]
