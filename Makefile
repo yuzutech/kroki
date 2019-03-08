@@ -1,4 +1,4 @@
-LATEST_VERSION = 0.0.3
+LATEST_VERSION = 0.0.4
 
 default:
 
