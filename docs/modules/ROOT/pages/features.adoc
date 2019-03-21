@@ -7,5 +7,8 @@ Simple::
 Kroki provides a unified API for all the diagram libraries.
 Learn once convert anything!
 
+Free & Open source::
+All the code is available on GitHub and our goal is to provide Kroki as a free service.
+
 Fast::
 Built using a modern architecture, Kroki offers great performance.
