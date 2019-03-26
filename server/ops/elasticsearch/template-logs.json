@@ -1,0 +1,22 @@
+{
+  "index_patterns": [
+    "filebeat-*"
+  ],
+  "order": 10,
+  "mappings": {
+    "_doc": {
+      "properties": {
+        "mdc": {
+          "properties": {
+            "bytes_read": {
+              "type": "long"
+            },
+            "took": {
+              "type": "long"
+            }
+          }
+        }
+      }
+    }
+  }
+}
