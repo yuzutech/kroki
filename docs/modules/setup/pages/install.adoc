@@ -9,6 +9,7 @@
 :uri-mermaid: https://mermaidjs.github.io/
 :uri-docker-get-started: https://docs.docker.com/get-started/
 :uri-docker-compose-install: https://docs.docker.com/compose/install/
+:uri-docker-container-networking: https://docs.docker.com/config/containers/container-networking/
 
 To convert plain text diagrams to images with Kroki,
 you first need to install the gateway server.
@@ -36,6 +37,24 @@ On this page, you'll learn:
 [source,docker-cli]
 docker run yuzutech/kroki
 
+The above command will effectively start a server on port 8000. +
+By default, when you start a container, it does not publish any of its ports to the outside world.
+To make a port available to services outside of Docker, you need to use the `--publish` or `-p` flag.
+For instance, if you want to map TCP port 8000 in the container to port 8080 on your host, use:
+
+[source,docker-cli]
+docker run -p8080:8000 yuzutech/kroki
+
+With the above command, the server will be available on your host at: http://localhost:8080 +
+You can read more about {uri-docker-container-networking}[container networking] in the Docker documentation.
+
+Finally, to start a container in detached mode, you use `-d` option:
+
+[source,docker-cli]
+docker run -p8080:8000 -d yuzutech/kroki
+
+=== Images
+
 {uri-docker-kroki-image}[yuzutech/kroki] image contains the following diagrams libraries out-of-the-box:
 
 * http://ditaa.sourceforge.net[Ditaa]
@@ -60,8 +79,6 @@ In other words, the following endpoints will be available:
 /svgbob
 /umlet
 ```
-
-== Companion Containers
 
 If you want to use _BlockDiag_, _ActDiag_, _NwDiag_, _SeqDiag_ or _Mermaid_, then you will also need to start companion containers:
 
