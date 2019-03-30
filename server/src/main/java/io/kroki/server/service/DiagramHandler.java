@@ -52,7 +52,12 @@ public class DiagramHandler {
       }
       String sourceEncoded = request.getParam("source_encoded");
       try {
-        String sourceDecoded = service.getSourceDecoder().decode(sourceEncoded);
+        String sourceDecoded;
+        if (sourceEncoded.startsWith("plain:")) {
+          sourceDecoded = sourceEncoded.substring("plain:".length(), sourceEncoded.length());
+        } else {
+          sourceDecoded = service.getSourceDecoder().decode(sourceEncoded);
+        }
         convert(routingContext, sourceDecoded, serviceName, fileFormat);
       } catch (DecodeException e) {
         routingContext.fail(new BadRequestException(e.getMessage(), e));
