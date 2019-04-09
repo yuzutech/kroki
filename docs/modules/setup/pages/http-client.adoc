@@ -6,20 +6,20 @@ In the following example, we will demonstrate how to send requests using _cURL_ 
 Using https://curl.haxx.se/[_cURL_] to interact with the API is straightforward, open a terminal and type:
 
 [source,cli]
-curl https://demo.kroki.io/graphviz/svg --data-raw 'digraph G {Hello->World}'
+curl https://kroki.io/graphviz/svg --data-raw 'digraph G {Hello->World}'
 
 If you are more familiar with https://httpie.org/[_HTTPie_], you can send a JSON request:
 
 [source,cli]
-http https://demo.kroki.io/ diagram_type='graphviz' output_format='svg' diagram_source='digraph G {Hello->World}'
+http https://kroki.io/ diagram_type='graphviz' output_format='svg' diagram_source='digraph G {Hello->World}'
 
 Both _cURL_ and _HTTPie_ can also send a `GET` request with the diagram encoded:
 
 [source,cli]
-curl https://demo.kroki.io/graphviz/svg/eNpLyUwvSizIUHBXqPZIzcnJ17ULzy_KSanlAgB1EAjQ
+curl https://kroki.io/graphviz/svg/eNpLyUwvSizIUHBXqPZIzcnJ17ULzy_KSanlAgB1EAjQ
 
 [source,cli]
-http https://demo.kroki.io/graphviz/svg/eNpLyUwvSizIUHBXqPZIzcnJ17ULzy_KSanlAgB1EAjQ
+http https://kroki.io/graphviz/svg/eNpLyUwvSizIUHBXqPZIzcnJ17ULzy_KSanlAgB1EAjQ
 
 
 It's also possible to send a file, for instance an Entity Relationship Diagram named [.path]_project.erd_:
@@ -41,7 +41,7 @@ Person *--1 Location
 ```
 
 [source,cli]
-curl https://demo.kroki.io/erd/svg --data-binary '@project.erd'
+curl https://kroki.io/erd/svg --data-binary '@project.erd'
 
 [source,cli]
-cat project.erd | http https://demo.kroki.io/erd/svg Content-Type:text/plain
+cat project.erd | http https://kroki.io/erd/svg Content-Type:text/plain

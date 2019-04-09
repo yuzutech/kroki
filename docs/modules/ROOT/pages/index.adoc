@@ -1,4 +1,5 @@
 = Kroki Documentation
+:uri-exoscale: https://www.exoscale.com/
 
 [discrete.tagline]
 === Convert plain text diagrams to images !
@@ -13,10 +14,7 @@ Select this option if you want to download and install Kroki on your own infrast
 Please refer to the xref:setup:install.adoc[documentation] to install Kroki.
 
 Free service::
-*We are actively looking for sponsors to provide Kroki as a free service.* +
+Thanks to {uri-exoscale}[Exoscale], which has kindly offered two servers, we can provide Kroki as a _free service_! +
+However, some parts of the infrastructure are still host on other providers, so *we are still looking for sponsors to cover all the expenses*.
++
 If you are interested, please 👋 mailto:hello@kroki.io[contact us].
-
-We also provide a server for demonstration purpose at: https://demo.kroki.io.
-
-CAUTION: Please note that the demonstration server usage is restricted to reasonable, non-commercial use-cases.
-We provide no guarantee regarding uptime or latency.
