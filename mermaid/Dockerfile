@@ -18,7 +18,7 @@ RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 npm ci
 RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-${ARCH} . -o app.bin
 
 # Create the image
-FROM alpine:3.8
+FROM alpine:3.9
 
 COPY --from=builder /app/app.bin /node/bin/mermaid
 COPY assets /app/assets
