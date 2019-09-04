@@ -36,7 +36,7 @@ public class Svgbob implements DiagramService {
         return DiagramSource.decode(encoded, false);
       }
     };
-    this.diagramResponse = new DiagramResponse(new Caching("8.0.0"));
+    this.diagramResponse = new DiagramResponse(new Caching("0.4.1"));
   }
 
   @Override

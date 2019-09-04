@@ -37,7 +37,7 @@ The Docker image contains the following diagrams libraries out-of-the-box:
 //|Binary `/usr/bin/dot`
 
 |https://github.com/skanaar/nomnoml[Nomnoml]
-|0.3.0
+|0.6.1
 //|Binary `/node/bin/nomnoml`
 
 |https://github.com/plantuml/plantuml[PlantUML]
@@ -84,5 +84,5 @@ The Docker image contains the following diagrams libraries out-of-the-box:
 |===
 |Diagram Type | Version
 |https://github.com/knsv/mermaid[Mermaid]
-|8.0.0
+|8.2.6
 |===
