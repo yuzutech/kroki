@@ -10,14 +10,14 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Guillaume Grossetie",
   "license": "MIT",
   "dependencies": {
     "micro": "9.3.3",
     "puppeteer": "1.14.0"
   },
   "devDependencies": {
-    "mermaid": "8.0.0",
+    "mermaid": "^8.2.6",
     "standard": "12.0.1"
   }
 }
