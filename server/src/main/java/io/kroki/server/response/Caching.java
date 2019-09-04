@@ -12,7 +12,7 @@ public class Caching {
 
   private static final Logger logger = LoggerFactory.getLogger(Caching.class);
 
-  private final long compileTime = 1551269257004L;
+  private final long compileTime = 1567581178724L;
   private final String version;
 
   public Caching(String version) {
