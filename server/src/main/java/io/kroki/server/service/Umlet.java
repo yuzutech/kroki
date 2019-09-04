@@ -3,13 +3,11 @@ package io.kroki.server.service;
 import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.DecodeException;
-import io.kroki.server.format.ContentType;
 import io.kroki.server.format.FileFormat;
 import io.kroki.server.response.Caching;
 import io.kroki.server.response.DiagramResponse;
 import io.kroki.umlet.UmletConverter;
 import io.vertx.core.Vertx;
-import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.web.RoutingContext;
 
