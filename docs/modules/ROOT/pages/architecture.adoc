@@ -63,16 +63,16 @@ The Docker image contains the following diagrams libraries out-of-the-box:
 [options="header",cols="1,1m"]
 |===
 |Diagram Type | Version
-|https://github.com/knsv/mermaid[ActDiag]
+|https://github.com/blockdiag/actdiag[ActDiag]
 |8.0.0
 
-|https://github.com/knsv/mermaid[BlockDiag]
+|https://github.com/blockdiag/blockdiag[BlockDiag]
 |1.5.4
 
-|https://github.com/knsv/mermaid[NwDiag]
+|https://github.com/blockdiag/nwdiag[NwDiag]
 |1.0.4
 
-|https://github.com/knsv/mermaid[SeqDiag]
+|https://github.com/blockdiag/seqdiag[SeqDiag]
 |0.9.6
 |===
 
