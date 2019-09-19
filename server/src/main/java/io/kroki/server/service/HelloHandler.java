@@ -16,7 +16,11 @@ public class HelloHandler {
   public HelloHandler() {
     this.rowTemplate = Utils.readResourceToBuffer("web/version_row.html").toString();
     this.tableTemplate = Utils.readResourceToBuffer("web/version_table.html").toString();
-    this.pageTemplate = Utils.readResourceToBuffer("web/hello.html").toString();
+    String stylesheet = Utils.readResourceToBuffer("web/root/css/main.css").toString();
+    String logo = Utils.readResourceToBuffer("web/root/assets/logo.svg").toString();
+    this.pageTemplate = Utils.readResourceToBuffer("web/hello.html").toString()
+      .replace("{stylesheet}", stylesheet)
+      .replace("{logo}", logo);
   }
 
   public Handler<RoutingContext> create() {
