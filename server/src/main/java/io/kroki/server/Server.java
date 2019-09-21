@@ -27,7 +27,6 @@ import io.vertx.ext.web.Route;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.CorsHandler;
-import io.vertx.ext.web.handler.StaticHandler;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -88,8 +87,6 @@ public class Server extends AbstractVerticle {
       .handler(new DiagramRest(registry).create());
     router.get("/")
       .handler(new HelloHandler().create());
-    router.get("/*")
-      .handler(StaticHandler.create("web/root"));
 
     // Default route
     Route route = router.route("/*");

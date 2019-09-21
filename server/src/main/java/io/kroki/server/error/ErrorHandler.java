@@ -2,7 +2,6 @@ package io.kroki.server.error;
 
 import io.kroki.server.log.Logging;
 import io.vertx.core.http.HttpHeaders;
-import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -11,7 +10,6 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.impl.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
 
 import java.util.List;
 
@@ -33,7 +31,11 @@ public class ErrorHandler implements io.vertx.ext.web.handler.ErrorHandler {
 
   public ErrorHandler(boolean displayExceptionDetails) {
     this.displayExceptionDetails = displayExceptionDetails;
-    this.errorTemplate = Utils.readResourceToBuffer("web/error.html").toString();
+    String stylesheet = Utils.readResourceToBuffer("web/root/css/main.css").toString();
+    String logo = Utils.readResourceToBuffer("web/root/assets/logo.svg").toString();
+    this.errorTemplate = Utils.readResourceToBuffer("web/error.html").toString()
+      .replace("{stylesheet}", stylesheet)
+      .replace("{logo}", logo);
     this.logging = new Logging(logger);
   }
 
@@ -124,7 +126,8 @@ public class ErrorHandler implements io.vertx.ext.web.handler.ErrorHandler {
         htmlErrorMessage = errorMessage;
       }
       response.end(
-        errorTemplate.replace("{title}", title)
+        errorTemplate
+          .replace("{title}", title)
           .replace("{errorCode}", Integer.toString(errorCode))
           .replace("{errorMessage}", htmlErrorMessage)
           .replace("{stackTrace}", stack.toString())
