@@ -1,0 +1,5 @@
+language: java
+
+script:
+  - make installLocalDependencies
+  - make buildServer
