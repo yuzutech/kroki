@@ -1,4 +1,5 @@
 language: java
+jdk: openjdk12
 
 script:
   - make installLocalDependencies
