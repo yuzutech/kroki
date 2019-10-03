@@ -1,0 +1,9 @@
+language: java
+
+jdk: openjdk12
+
+install: true
+
+script:
+  - make installLocalDependencies
+  - make buildServer
