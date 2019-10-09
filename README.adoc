@@ -102,6 +102,8 @@ To build all the Docker images, use the following command:
 
  $ sudo make buildDockerImages
 
+NOTE: `sudo` might not be needed depending on your distribution and `docker` configuration.
+
 == Run
 
 Once the Docker images are built, you can run Kroki using `docker`:
