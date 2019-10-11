@@ -1,13 +1,4 @@
 # build static executable binary
 FROM ekidd/rust-musl-builder
 
-RUN git clone https://github.com/ivanceras/svgbob.git /home/rust/src
-
-RUN sudo chown -R rust:rust .
-
-WORKDIR /home/rust/src/svgbob_cli
-
-# version 0.4.1
-RUN git checkout 43fb0364e989d0e9a7656b148c947d47cc769622
-
-RUN cargo build --release
+RUN cargo install --version 0.4.2 svgbob_cli
