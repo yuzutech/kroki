@@ -1,5 +1,8 @@
 language: java
 
+services:
+  - docker
+
 jdk: openjdk12
 
 install: true
@@ -7,3 +10,4 @@ install: true
 script:
   - make installLocalDependencies
   - make buildServer
+  - make buildDockerImages

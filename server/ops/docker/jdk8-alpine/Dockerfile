@@ -1,8 +1,8 @@
 FROM openjdk:8u191-jdk-alpine3.8
 
-COPY --from=kroki-builder-static-svgbob:0.4.1 /home/rust/src/svgbob_cli/target/x86_64-unknown-linux-musl/release/svgbob /rust/bin/svgbob
-COPY --from=kroki-builder-static-erd:0.2.0.0 /root/.local/bin/erd /haskell/bin/erd
-COPY --from=kroki-builder-nomnoml:0.6.1-alpine /app/app.bin /node/bin/nomnoml
+COPY --from=kroki-builder-static-svgbob:latest /home/rust/.cargo/bin/svgbob /rust/bin/svgbob
+COPY --from=kroki-builder-static-erd:latest /root/.local/bin/erd /haskell/bin/erd
+COPY --from=kroki-builder-nomnoml:latest /app/app.bin /node/bin/nomnoml
 
 RUN apk add --update --no-cache \
            graphviz \
