@@ -20,7 +20,7 @@ buildDockerImages:
 
 tagDockerImages:
 	docker tag kroki-builder-static-erd:latest kroki-builder-static-erd:0.2.0.0
-	docker tag kroki-builder-static-svgbob:latest kroki-builder-static-svgbob:0.4.1
+	docker tag kroki-builder-static-svgbob:latest kroki-builder-static-svgbob:0.4.2
 	docker tag kroki-builder-nomnoml:latest kroki-builder-nomnoml:0.6.1
 
 showExamples:
