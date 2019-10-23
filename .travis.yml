@@ -1,5 +1,8 @@
 language: java
 
+node_js:
+  - 12
+
 services:
   - docker
 
@@ -11,3 +14,5 @@ script:
   - make installLocalDependencies
   - make buildServer
   - make buildDockerImages
+  - npm install
+  - make smokeTests
