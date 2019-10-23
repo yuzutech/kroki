@@ -51,7 +51,9 @@ smokeTests:
 	&& echo \
 	&& docker-compose --file "$(SMOKE_TESTS_DIR)/docker-compose.yaml" ps \
 	&& echo \
-	&& for port in {8000..8002}; do "$(SMOKE_TESTS_DIR)/wait-for-it.sh" "localhost:$$port" --timeout="$(COMPOSE_TIMEOUT)"; done \
+	&& "$(SMOKE_TESTS_DIR)/wait-for-it.sh" localhost:8000 --timeout="$(COMPOSE_TIMEOUT)" \
+	&& "$(SMOKE_TESTS_DIR)/wait-for-it.sh" localhost:8001 --timeout="$(COMPOSE_TIMEOUT)" \
+	&& "$(SMOKE_TESTS_DIR)/wait-for-it.sh" localhost:8002 --timeout="$(COMPOSE_TIMEOUT)" \
 	&& echo \
 	&& echo 'Waiting for the containers'\'' services to be available... ($(SERVICES_TIMEOUT) seconds)' \
 	&& sleep "$(SERVICES_TIMEOUT)" \
