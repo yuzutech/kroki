@@ -11,6 +11,6 @@
     "mocha": "^6.2.2"
   },
   "scripts": {
-    "test": "mocha tests/smoketests/smoke.js"
+    "test": "mocha tests/smoke/smoke.js"
   }
 }
