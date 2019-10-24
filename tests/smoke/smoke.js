@@ -22,14 +22,14 @@ chai.use(chaiHttp);
 
 var expect = chai.expect;
 
-tests.forEach((testItem) => {
-  it(`${testItem.engine} should answer with HTTP 200`, function(done) {
+tests.forEach((testCase) => {
+  it(`${testCase.engine} should answer with HTTP 200`, function(done) {
     chai.request('localhost:8000')
-      .post(`/${testItem.engine}/svg`)
+      .post(`/${testCase.engine}/svg`)
       .type('text/plain')
       .set('Content-Type', 'text/plain')
       .set('Accept', 'image/svg+xml')
-      .send(fs.readFileSync(`${__dirname}/diagrams/${testItem.file}`))
+      .send(fs.readFileSync(`${__dirname}/diagrams/${testCase.file}`))
       .end((error, response) => {
         expect(error).to.be.null;
         expect(response).to.have.status(200);
