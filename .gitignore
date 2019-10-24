@@ -1,4 +1,4 @@
 target/
 *.iml
 .vertx/
-node_modules
+/node_modules/
