@@ -1,8 +1,9 @@
 {
-  "name": "smoke-tests",
+  "name": "kroki-smoke-tests",
   "version": "1.0.0",
   "description": "",
   "main": "smoke.js",
+  "private": true,
   "dependencies": {
     "chai": "^4.2.0",
     "chai-http": "^4.3.0"
