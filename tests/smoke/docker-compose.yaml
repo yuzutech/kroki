@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  kroki:
+    build:
+      context: ../../server/
+      dockerfile: ops/docker/jdk8-alpine/Dockerfile
+    depends_on:
+      - blockdiag
+      - mermaid
+    environment:
+      - KROKI_BLOCKDIAG_HOST=blockdiag
+      - KROKI_MERMAID_HOST=mermaid
+    ports:
+      - "8000:8000"
+
+  blockdiag:
+    build: ../../blockdiag
+    ports:
+      - "8001:8001"
+
+  mermaid:
+    build: ../../mermaid
+    ports:
+      - "8002:8002"

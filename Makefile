@@ -1,5 +1,9 @@
 LATEST_VERSION = 0.0.7
 
+SMOKE_TESTS_DIR=tests/smoke
+COMPOSE_TIMEOUT=20
+SERVICES_TIMEOUT=15
+
 default:
 
 installLocalDependencies:
@@ -41,4 +45,18 @@ pushDockerImages:
 	docker push yuzutech/kroki:$(LATEST_VERSION)
 	docker push yuzutech/kroki-blockdiag:$(LATEST_VERSION)
 	docker push yuzutech/kroki-mermaid:$(LATEST_VERSION)
+
+smokeTests:
+	@docker-compose --file "$(SMOKE_TESTS_DIR)/docker-compose.yaml" up --detach \
+	&& echo \
+	&& docker-compose --file "$(SMOKE_TESTS_DIR)/docker-compose.yaml" ps \
+	&& echo \
+	&& "$(SMOKE_TESTS_DIR)/wait-for-it.sh" localhost:8000 --timeout="$(COMPOSE_TIMEOUT)" \
+	&& "$(SMOKE_TESTS_DIR)/wait-for-it.sh" localhost:8001 --timeout="$(COMPOSE_TIMEOUT)" \
+	&& "$(SMOKE_TESTS_DIR)/wait-for-it.sh" localhost:8002 --timeout="$(COMPOSE_TIMEOUT)" \
+	&& echo \
+	&& echo 'Waiting for the containers'\'' services to be available... ($(SERVICES_TIMEOUT) seconds)' \
+	&& sleep "$(SERVICES_TIMEOUT)" \
+	&& npm test \
+	&& docker-compose -f "$(SMOKE_TESTS_DIR)/docker-compose.yaml" stop
 
