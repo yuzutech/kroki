@@ -13,6 +13,7 @@ import net.sourceforge.plantuml.BlockUml;
 import net.sourceforge.plantuml.ErrorUml;
 import net.sourceforge.plantuml.FileFormatOption;
 import net.sourceforge.plantuml.LineLocation;
+import net.sourceforge.plantuml.OptionFlags;
 import net.sourceforge.plantuml.SourceStringReader;
 import net.sourceforge.plantuml.code.Base64Coder;
 import net.sourceforge.plantuml.core.Diagram;
@@ -34,9 +35,23 @@ public class Plantuml implements DiagramService {
 
   private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG, FileFormat.JPEG, FileFormat.BASE64);
 
-  private static final Pattern INCLUDE_RX = Pattern.compile("^\\s*!include(?:url)?\\s+.*");
+  private static final Pattern INCLUDE_RX = Pattern.compile("^\\s*!include(?:url)?\\s+(.*)");
+  private static final Pattern STDLIB_PATH_RX = Pattern.compile("<([a-zA-Z0-9]+)/[^>]+>");
+
   private final SourceDecoder sourceDecoder;
   private final DiagramResponse diagramResponse;
+  private static final List<String> STDLIB = Arrays.asList(
+    "aws",
+    "awslib",
+    "azure",
+    "c4",
+    "cloudinsight",
+    "cloudogu",
+    "kubernetes",
+    "material",
+    "office",
+    "osa",
+    "tupadr3");
 
   public Plantuml() {
     this.sourceDecoder = new SourceDecoder() {
@@ -46,6 +61,8 @@ public class Plantuml implements DiagramService {
       }
     };
     this.diagramResponse = new DiagramResponse(new Caching(Version.etag()));
+    // Disable include for security reasons
+    OptionFlags.ALLOW_INCLUDE = false;
   }
 
   @Override
@@ -131,7 +148,7 @@ public class Plantuml implements DiagramService {
     return result;
   }
 
-  private String sanitize(String input) throws IOException {
+  static String sanitize(String input) throws IOException {
     try (BufferedReader reader = new BufferedReader(new StringReader(input))) {
       StringBuilder sb = new StringBuilder();
       String line = reader.readLine();
@@ -143,9 +160,18 @@ public class Plantuml implements DiagramService {
     }
   }
 
-  private void ignoreInclude(String line, StringBuilder sb) {
+  private static void ignoreInclude(String line, StringBuilder sb) {
     Matcher matcher = INCLUDE_RX.matcher(line);
-    if (!matcher.matches()) {
+    if (matcher.matches()) {
+      String include = matcher.group(1);
+      Matcher stdlibPathMatcher = STDLIB_PATH_RX.matcher(include);
+      if (stdlibPathMatcher.matches()) {
+        String prefix = stdlibPathMatcher.group(1).toLowerCase();
+        if (STDLIB.contains(prefix)) {
+          sb.append(line).append("\n");
+        }
+      }
+    } else {
       sb.append(line).append("\n");
     }
   }
