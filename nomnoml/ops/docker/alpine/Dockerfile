@@ -6,7 +6,8 @@ ENV PLATFORM alpine
 ENV ARCH x64
 RUN /usr/local/bin/pkg-fetch ${NODE} ${PLATFORM} ${ARCH}
 
-COPY . /app
+COPY index.js package.json package-lock.json /app/
 WORKDIR /app
 
+RUN npm i
 RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-${ARCH} . -o app.bin

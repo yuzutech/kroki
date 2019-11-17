@@ -10,7 +10,7 @@ const tests = [
   { engine: 'mermaid', file: 'contribute.mmd'},
   { engine: 'plantuml', file: 'architecture.puml'},
   { engine: 'svgbob', file: 'cloud.bob'},
-  // { engine: 'nomnoml', file: 'pirate.nomnoml'},
+  { engine: 'nomnoml', file: 'pirate.nomnoml'},
 ];
 
 const chai = require('chai');
