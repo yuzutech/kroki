@@ -84,5 +84,5 @@ The Docker image contains the following diagrams libraries out-of-the-box:
 |===
 |Diagram Type | Version
 |https://github.com/knsv/mermaid[Mermaid]
-|8.2.6
+|8.4.3
 |===
