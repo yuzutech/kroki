@@ -1,5 +1,10 @@
 FROM node:10.15.0-alpine
 
+# Workaround: https://github.com/nodejs/docker-node/issues/813#issuecomment-407339011
+# Error: could not get uid/gid
+# [ 'nobody', 0 ]
+RUN npm config set unsafe-perm true
+
 RUN npm install -g pkg pkg-fetch
 ENV NODE node10
 ENV PLATFORM alpine
