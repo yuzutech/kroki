@@ -1,16 +1,18 @@
 package io.kroki.server.format;
 
 import io.kroki.server.error.Message;
-import io.kroki.server.error.UnsupportedFormatException;
 
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum FileFormat {
-  PNG, SVG, JPEG, PDF, BASE64;
+  PNG, SVG, JPEG, PDF, BASE64, TXT, UTXT;
 
   public net.sourceforge.plantuml.FileFormat toPlantumlFileFormat() {
+    if (this == TXT) {
+      return net.sourceforge.plantuml.FileFormat.ATXT;
+    }
     return net.sourceforge.plantuml.FileFormat.valueOf(this.name());
   }
 

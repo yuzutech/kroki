@@ -17,6 +17,8 @@ public class ContentType {
     map.put(FileFormat.SVG, "image/svg+xml");
     map.put(FileFormat.PDF, "application/pdf");
     map.put(FileFormat.BASE64, "text/plain; charset=x-user-defined");
+    map.put(FileFormat.TXT, "text/plain");
+    map.put(FileFormat.UTXT, "text/plain; charset=utf-8");
     CONTENT_TYPE = Collections.unmodifiableMap(map);
   }
 

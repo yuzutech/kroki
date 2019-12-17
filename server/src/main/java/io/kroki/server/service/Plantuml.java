@@ -33,7 +33,7 @@ import java.util.regex.Pattern;
 
 public class Plantuml implements DiagramService {
 
-  private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG, FileFormat.JPEG, FileFormat.BASE64);
+  private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG, FileFormat.JPEG, FileFormat.BASE64, FileFormat.TXT, FileFormat.UTXT);
 
   private static final Pattern INCLUDE_RX = Pattern.compile("^\\s*!include(?:url)?\\s+(.*)");
   private static final Pattern STDLIB_PATH_RX = Pattern.compile("<([a-zA-Z0-9]+)/[^>]+>");

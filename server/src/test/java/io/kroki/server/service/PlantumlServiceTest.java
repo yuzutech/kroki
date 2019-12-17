@@ -113,4 +113,34 @@ public class PlantumlServiceTest {
     assertThatThrownBy(() -> Plantuml.convert(diagram, FileFormat.SVG))
       .hasMessage("cannot include /etc/password (line: 1)");
   }
+
+  @Test
+  void should_return_an_ascii_text_diagram() {
+    String diagram = "@startuml\nBob->Alice:hello\n@enduml";
+    byte[] convert = Plantuml.convert(diagram, FileFormat.TXT);
+    assertThat(new String(convert)).isEqualTo(
+      "     ,---.          ,-----.\n" +
+      "     |Bob|          |Alice|\n" +
+      "     `-+-'          `--+--'\n" +
+      "       |    hello      |   \n" +
+      "       |-------------->|   \n" +
+      "     ,-+-.          ,--+--.\n" +
+      "     |Bob|          |Alice|\n" +
+      "     `---'          `-----'\n");
+  }
+
+  @Test
+  void should_return_an_unicode_text_diagram() {
+    String diagram = "@startuml\nBob->Alice:hello\n@enduml";
+    byte[] convert = Plantuml.convert(diagram, FileFormat.UTXT);
+    assertThat(new String(convert)).isEqualTo(
+      "     ┌───┐          ┌─────┐\n" +
+      "     │Bob│          │Alice│\n" +
+      "     └─┬─┘          └──┬──┘\n" +
+      "       │    hello      │   \n" +
+      "       │──────────────>│   \n" +
+      "     ┌─┴─┐          ┌──┴──┐\n" +
+      "     │Bob│          │Alice│\n" +
+      "     └───┘          └─────┘\n");
+  }
 }
