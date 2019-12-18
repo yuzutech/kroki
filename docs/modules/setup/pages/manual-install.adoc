@@ -1,4 +1,4 @@
-= Manual install
+= Manual Install
 :uri-gh-releases: https://github.com/yuzutech/kroki/releases
 
 Assumptions:

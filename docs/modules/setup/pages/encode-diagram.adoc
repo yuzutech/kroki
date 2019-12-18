@@ -1,4 +1,4 @@
-= Encode diagrams
+= Encode Diagrams
 :uri-gh-pako: https://github.com/nodeca/pako
 :uri-mdn-textencoder: https://developer.mozilla.org/en-US/docs/Web/API/TextEncoder
 :uri-mdn-textencoder-browser-compat: {uri-mdn-textencoder}#Browser_compatibility

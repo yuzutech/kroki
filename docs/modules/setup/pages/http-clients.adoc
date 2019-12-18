@@ -1,4 +1,4 @@
-= HTTP client
+= HTTP Clients
 
 You can interact with _Kroki_ using *any HTTP client*.
 In the following example, we will demonstrate how to send requests using _cURL_ and _HTTPie_.
