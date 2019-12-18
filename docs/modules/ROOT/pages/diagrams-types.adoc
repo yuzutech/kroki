@@ -1,0 +1,30 @@
+= Diagrams Types
+
+Here's a non-exhaustive list of diagrams you can create using Kroki.
+
+UML::
+* Block diagram
+* Sequence diagram
+* Activity diagram
+* Network diagram
+* Use case diagram
+* Class diagram
+* State diagram
+* Object diagram
+* Deployment diagram
+* Timing diagram
+* Entity Relationship Diagram
+
+C4::
+* C4 Context diagram
+* C4 Container diagram
+* C4 Component diagram
+
+Diagram::
+* Object Oriented Graph
+* Work Breakdown Structure
+* Mind Map diagram
+* Gantt diagram
+* Ditaa diagram
+
+Looking for inspiration? Visit the https://kroki.io/examples.html[examples] page.
