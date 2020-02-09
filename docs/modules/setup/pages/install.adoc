@@ -6,6 +6,9 @@
 :uri-seqdiag: http://blockdiag.com/en/seqdiag/index.html
 :uri-actdiag: http://blockdiag.com/en/actdiag/index.html
 :uri-nwdiag: http://blockdiag.com/en/nwdiag/index.html
+:uri-nwdiag: http://blockdiag.com/en/nwdiag/index.html
+:uri-rackdiag: http://blockdiag.com/en/nwdiag/rackdiag-examples.html
+:uri-packetdiag: http://blockdiag.com/en/nwdiag/packetdiag-examples.html
 :uri-mermaid: https://mermaidjs.github.io/
 :uri-docker-get-started: https://docs.docker.com/get-started/
 :uri-docker-compose-install: https://docs.docker.com/compose/install/
@@ -83,7 +86,13 @@ In other words, the following endpoints will be available:
 If you want to use _BlockDiag_, _ActDiag_, _NwDiag_, _SeqDiag_ or _Mermaid_, then you will also need to start companion containers:
 
 {uri-docker-kroki-blockdiag-image}[yuzutech/kroki-blockdiag]::
-Provides block, sequence, activity and network diagrams for Kroki using respectively {uri-blockdiag}[BlockDiag], {uri-seqdiag}[SeqDiag], {uri-actdiag}[ActDiag] and {uri-nwdiag}[NwDiag] libraries.
+Provides block, sequence, activity and network diagrams for Kroki using respectively
+{uri-blockdiag}[BlockDiag],
+{uri-seqdiag}[SeqDiag],
+{uri-actdiag}[ActDiag],
+{uri-nwdiag}[NwDiag]
+{uri-packetdiag}[PacketDiag],
+and {uri-rackdiag}[RackDiag] libraries.
 
 {uri-docker-kroki-mermaid-image}[yuzutech/kroki-mermaid]::
 Provides flowchart, sequence and Gantt diagrams for Kroki using {uri-mermaid}[Mermaid].

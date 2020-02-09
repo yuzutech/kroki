@@ -36,7 +36,9 @@ public class HelloHandler {
       serviceVersions.add(new ServiceVersion("mermaid", "8.4.3"));
       serviceVersions.add(new ServiceVersion("nomnoml", "0.6.1"));
       serviceVersions.add(new ServiceVersion("nwdiag", "1.0.4"));
+      serviceVersions.add(new ServiceVersion("packetdiag", "1.0.4"));
       serviceVersions.add(new ServiceVersion("plantuml", "1.2019.9"));
+      serviceVersions.add(new ServiceVersion("rackdiag", "1.0.4"));
       serviceVersions.add(new ServiceVersion("seqdiag", "0.9.6"));
       serviceVersions.add(new ServiceVersion("svgbob", "0.4.2"));
       serviceVersions.add(new ServiceVersion("umlet", "14.3.0"));

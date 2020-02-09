@@ -1,4 +1,4 @@
-= BlockDiag (BlockDiag, SeqDiag, ActDiag and NwDiag)
+= BlockDiag (BlockDiag, SeqDiag, ActDiag, NwDiag, PacketDiag and RackDiag)
 
 Kroki companion server for diagrams libraries written in Python.
 

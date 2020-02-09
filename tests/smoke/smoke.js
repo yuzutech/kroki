@@ -11,12 +11,13 @@ const tests = [
   { engine: 'plantuml', file: 'architecture.puml'},
   { engine: 'svgbob', file: 'cloud.bob'},
   { engine: 'nomnoml', file: 'pirate.nomnoml'},
+  { engine: 'packetdiag', file: 'packet.diag' },
+  { engine: 'rackdiag', file: 'rack.diag' },
 ];
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const fs = require('fs');
-const assert = require('assert');
 
 chai.use(chaiHttp);
 

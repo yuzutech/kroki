@@ -1,5 +1,7 @@
 import io
 from flask import Flask, send_file, make_response, jsonify
+from rackdiag.command import RackdiagApp
+from packetdiag.command import PacketdiagApp
 from blockdiag.command import BlockdiagApp
 from seqdiag.command import SeqdiagApp
 from nwdiag.command import NwdiagApp
@@ -7,6 +9,8 @@ from actdiag.command import ActdiagApp
 from backend.diag import generate_diag
 from backend.error import GenerateError
 from flask import request
+from rackdiag import __version__ as rackdiag_version
+from packetdiag import __version__ as packetdiag_version
 from blockdiag import __version__ as blockdiag_version
 from actdiag import __version__ as actdiag_version
 from nwdiag import __version__ as nwdiag_version
@@ -101,9 +105,21 @@ def status():
             'blockdiag': blockdiag_version,
             'actdiag': actdiag_version,
             'nwdiag': nwdiag_version,
+            'rackdiag': rackdiag_version,
+            'packetdiag': packetdiag_version,
             'seqdiag': seqdiag_version
         }
     )
+
+
+@application.route('/rackdiag/<string:output_format>', methods=['POST'])
+def rackdiag(output_format, source=None):
+    return _generate_diagram(RackdiagApp(), 'block', output_format, source or request.get_data(as_text=True))
+
+
+@application.route('/packetdiag/<string:output_format>', methods=['POST'])
+def packetdiag(output_format, source=None):
+    return _generate_diagram(PacketdiagApp(), 'block', output_format, source or request.get_data(as_text=True))
 
 
 @application.route('/blockdiag/<string:output_format>', methods=['POST'])
@@ -137,8 +153,13 @@ def diag(output_format):
         return actdiag(output_format, source)
     elif source.startswith('nwdiag'):
         return nwdiag(output_format, source)
+    elif source.startswith('rackdiag'):
+        return rackdiag(output_format, source)
+    elif source.startswith('packetdiag'):
+        return packetdiag(output_format, source)
     else:
-        raise InvalidUsage('Diagram source must begin with one of the following: blockdiag, seqdiag, actdiag or nwdiag',
+        raise InvalidUsage('Diagram source must begin with one of the following: '
+                           'blockdiag, seqdiag, actdiag, nwdiag, packetdiag or rackdiag',
                            status_code=400)
 
 
