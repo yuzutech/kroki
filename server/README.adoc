@@ -44,6 +44,8 @@ To keep the Docker image as small as possible, the following libraries are provi
  * SeqDiag
  * ActDiag
  * NwDiag
+ * PacketDiag
+ * RackDiag
 
 When one of the above library is requested, Kroki server will delegate the call.
 

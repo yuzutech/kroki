@@ -7,7 +7,7 @@ ifdef::env-github[]
 image:https://travis-ci.org/yuzutech/kroki.svg?branch=master[Travis build status, link=https://travis-ci.org/yuzutech/kroki]
 endif::[]
 
-{uri-kroki}[Kroki] provides a unified API with support for BlockDiag (BlockDiag, SeqDiag, ActDiag, NwDiag), C4 (with PlantUML), Ditaa, Erd, GraphViz, Nomnoml, Mermaid, PlantUML, SvgBob and UMLet... and more to come!
+{uri-kroki}[Kroki] provides a unified API with support for BlockDiag (BlockDiag, SeqDiag, ActDiag, NwDiag, PacketDiag, RackDiag), C4 (with PlantUML), Ditaa, Erd, GraphViz, Nomnoml, Mermaid, PlantUML, SvgBob and UMLet... and more to come!
 
 == Quickstart
 
@@ -79,7 +79,7 @@ nomnoml::
 A Node.js CLI on top of the _Nomnoml_ diagram library.
 
 blockdiag::
-A companion web server written in Python (powered by _Flask_ and _Gunicorn_) that provides _BlockDiag_, _SeqDiag_, _ActDiag_ and _NwDiag_ diagrams libraries.
+A companion web server written in Python (powered by _Flask_ and _Gunicorn_) that provides _BlockDiag_, _SeqDiag_, _ActDiag_, _NwDiag_, _PacketDiag_ and _RackDiag_ diagrams libraries.
 
 mermaid::
 A companion web server written in JavaScript (powered by _micro_) that provides _Mermaid_ diagram library.
@@ -112,7 +112,7 @@ Once the Docker images are built, you can run Kroki using `docker`:
 
 === Companion Containers
 
-If you want to use _BlockDiag_, _ActDiag_, _NwDiag_, _SeqDiag_ or _Mermaid_, then you will also need to start companion containers.
+If you want to use _BlockDiag_, _ActDiag_, _NwDiag_, _SeqDiag_, _PacketDiag_, _RackDiag_ or _Mermaid_, then you will also need to start companion containers.
 
 You can use `docker-compose` to run multiple containers:
 
