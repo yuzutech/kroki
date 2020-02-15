@@ -68,6 +68,7 @@ you can override its location manually using an environment variable or a Java s
 `KROKI_ERD_BIN_PATH`:: Path to `erd` binary
 `KROKI_DOT_BIN_PATH`:: Path to `dot` binary
 `KROKI_NOMNOML_BIN_PATH`:: Path to `nomnoml` binary
+`KROKI_VEGA_BIN_PATH`:: Path to `vega` binary
 
 For instance, if `dot` is located at [.path]_/path/to/dot_, you can configure the path using a system property:
 

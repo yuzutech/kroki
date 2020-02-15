@@ -14,6 +14,7 @@ import io.kroki.server.service.Nomnoml;
 import io.kroki.server.service.Plantuml;
 import io.kroki.server.service.Svgbob;
 import io.kroki.server.service.Umlet;
+import io.kroki.server.service.Vega;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.AsyncResult;
@@ -81,6 +82,7 @@ public class Server extends AbstractVerticle {
     registry.register(new Svgbob(vertx, config), "svgbob");
     registry.register(new Nomnoml(vertx, config), "nomnoml");
     registry.register(new Mermaid(vertx, config), "mermaid");
+    registry.register(new Vega(vertx, config), "vega");
 
     router.post("/")
       .handler(bodyHandler)

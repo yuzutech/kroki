@@ -13,6 +13,7 @@ const tests = [
   { engine: 'nomnoml', file: 'pirate.nomnoml'},
   { engine: 'packetdiag', file: 'packet.diag' },
   { engine: 'rackdiag', file: 'rack.diag' },
+  { engine: 'vega', file: 'bar-chart.vega' },
 ];
 
 const chai = require('chai');

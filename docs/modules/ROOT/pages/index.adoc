@@ -4,7 +4,7 @@
 [discrete.tagline]
 === Convert plain text diagrams to images !
 
-Kroki provides a unified HTTP API with support for BlockDiag (BlockDiag, SeqDiag, ActDiag, NwDiag), C4 (with PlantUML), Ditaa, Erd, GraphViz, Mermaid, Nomnoml, PlantUML, SvgBob and UMLet... and more to come!
+Kroki provides a unified HTTP API with support for BlockDiag (BlockDiag, SeqDiag, ActDiag, NwDiag), C4 (with PlantUML), Ditaa, Erd, GraphViz, Mermaid, Nomnoml, PlantUML, SvgBob, UMLet and Vega... and more to come!
 
 Kroki is available as a Self-Managed instance. +
 We are also _actively_ looking for sponsors to provide Kroki as a free service:

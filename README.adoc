@@ -7,7 +7,7 @@ ifdef::env-github[]
 image:https://travis-ci.org/yuzutech/kroki.svg?branch=master[Travis build status, link=https://travis-ci.org/yuzutech/kroki]
 endif::[]
 
-{uri-kroki}[Kroki] provides a unified API with support for BlockDiag (BlockDiag, SeqDiag, ActDiag, NwDiag, PacketDiag, RackDiag), C4 (with PlantUML), Ditaa, Erd, GraphViz, Nomnoml, Mermaid, PlantUML, SvgBob and UMLet... and more to come!
+{uri-kroki}[Kroki] provides a unified API with support for BlockDiag (BlockDiag, SeqDiag, ActDiag, NwDiag, PacketDiag, RackDiag), C4 (with PlantUML), Ditaa, Erd, GraphViz, Nomnoml, Mermaid, PlantUML, SvgBob, UMLet, Vega... and more to come!
 
 == Quickstart
 
@@ -24,13 +24,14 @@ You can also call Kroki with `POST`:
 
  POST /
 
-```json
+[source,json]
+----
 {
   "diagram_source": "Bob -> Alice : hello",
   "diagram_type": "plantuml",
   "output_format": "svg"
 }
-```
+----
 
 In this case, you don't need to encode your diagram.
 
@@ -39,30 +40,34 @@ The output format will be specified using the `Accept` header and the diagram so
 
  POST /plantuml
 
-```
+[source]
+----
 Accept: image/svg+xml
 Content-Type: text/plain
 
 Bob -> Alice : hello
-```
+----
 
 You can also define the output format in the URL if you don't want to add an `Accept` header:
 
  POST /plantuml/svg
-```
+
+[source]
+----
 Content-Type: text/plain
 
 Bob -> Alice : hello
-```
+----
 
 The same concept applies when sending the diagram as JSON:
 
  POST /plantuml/svg
-```json
+[source,json]
+----
 {
   "diagram_source": "Bob -> Alice : hello"
 }
-```
+----
 
 == Project layout
 
@@ -77,6 +82,9 @@ A tiny Java API on top of _UMlet_ (mini) to generate diagrams.
 
 nomnoml::
 A Node.js CLI on top of the _Nomnoml_ diagram library.
+
+vega::
+A Node.js CLI on top of the _vega_ diagram library.
 
 blockdiag::
 A companion web server written in Python (powered by _Flask_ and _Gunicorn_) that provides _BlockDiag_, _SeqDiag_, _ActDiag_, _NwDiag_, _PacketDiag_ and _RackDiag_ diagrams libraries.
@@ -117,7 +125,8 @@ If you want to use _BlockDiag_, _ActDiag_, _NwDiag_, _SeqDiag_, _PacketDiag_, _R
 You can use `docker-compose` to run multiple containers:
 
 .docker-compose.yml
-```yml
+[source,yml]
+----
 version: "3"
 services:
   core:
@@ -135,6 +144,6 @@ services:
     image: yuzutech/kroki-mermaid
     ports:
       - "8002:8002"
-```
+----
 
  $ docker-compose up -d
