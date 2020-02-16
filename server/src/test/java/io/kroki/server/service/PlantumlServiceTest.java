@@ -2,7 +2,7 @@ package io.kroki.server.service;
 
 import io.kroki.server.error.BadRequestException;
 import io.kroki.server.format.FileFormat;
-import org.assertj.core.api.ThrowableAssert;
+import io.kroki.server.security.SafeMode;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -50,7 +50,7 @@ public class PlantumlServiceTest {
       "myFunction --> myCosmosDb\n" +
       "mySecondFunction --> mySecondCosmosDb\n" +
       "@enduml";
-    byte[] convert = Plantuml.convert(Plantuml.sanitize(diagram), FileFormat.SVG);
+    byte[] convert = Plantuml.convert(Plantuml.sanitize(diagram, SafeMode.SECURE), FileFormat.SVG);
     assertThat(convert).isNotEmpty();
   }
 
@@ -63,7 +63,7 @@ public class PlantumlServiceTest {
       "!include <azure\n" +
       "!include </azure\n" +
       "@enduml";
-    String result = Plantuml.sanitize(diagram);
+    String result = Plantuml.sanitize(diagram, SafeMode.SECURE);
     assertThat(result).isEqualTo("@startuml\n@enduml\n");
   }
 
@@ -82,7 +82,7 @@ public class PlantumlServiceTest {
       "!include <osa/ai.puml>\n" +
       "!include <tupadr3/common>\n" +
       "@enduml";
-    String result = Plantuml.sanitize(diagram);
+    String result = Plantuml.sanitize(diagram, SafeMode.SECURE);
     assertThat(result).isEqualTo(diagram + "\n");
   }
 
@@ -92,7 +92,7 @@ public class PlantumlServiceTest {
       "!include https://foo.bar\n" +
       "  !includeurl   https://foo.bar\n" +
       "@enduml";
-    String result = Plantuml.sanitize(diagram);
+    String result = Plantuml.sanitize(diagram, SafeMode.SECURE);
     assertThat(result).isEqualTo("@startuml\n@enduml\n");
   }
 
@@ -101,8 +101,21 @@ public class PlantumlServiceTest {
     String diagram = "@startuml\n" +
       "!include /etc/password\n" +
       "@enduml";
-    String result = Plantuml.sanitize(diagram);
+    String result = Plantuml.sanitize(diagram, SafeMode.SECURE);
     assertThat(result).isEqualTo("@startuml\n@enduml\n");
+  }
+
+  @Test
+  void should_not_sanitize_include_in_unsafe_mode() throws IOException {
+    String diagram = "@startuml\n" +
+      "!include /foo/bar\n" +
+      "!include bar\n" +
+      "!include <foo/Bar>\n" +
+      "!include https://foo.bar\n" +
+      "  !includeurl   https://foo.bar\n" +
+      "@enduml";
+    String result = Plantuml.sanitize(diagram, SafeMode.UNSAFE);
+    assertThat(result).isEqualTo(diagram);
   }
 
   @Test

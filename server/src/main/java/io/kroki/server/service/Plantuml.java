@@ -7,7 +7,9 @@ import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
 import io.kroki.server.response.Caching;
 import io.kroki.server.response.DiagramResponse;
+import io.kroki.server.security.SafeMode;
 import io.vertx.core.http.HttpServerResponse;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import net.sourceforge.plantuml.BlockUml;
 import net.sourceforge.plantuml.ErrorUml;
@@ -38,6 +40,7 @@ public class Plantuml implements DiagramService {
   private static final Pattern INCLUDE_RX = Pattern.compile("^\\s*!include(?:url)?\\s+(.*)");
   private static final Pattern STDLIB_PATH_RX = Pattern.compile("<([a-zA-Z0-9]+)/[^>]+>");
 
+  private final SafeMode safeMode;
   private final SourceDecoder sourceDecoder;
   private final DiagramResponse diagramResponse;
   private static final List<String> STDLIB = Arrays.asList(
@@ -53,7 +56,8 @@ public class Plantuml implements DiagramService {
     "osa",
     "tupadr3");
 
-  public Plantuml() {
+  public Plantuml(JsonObject config) {
+    this.safeMode = SafeMode.get(config.getString("KROKI_SAFE_MODE", "secure"), SafeMode.SECURE);
     this.sourceDecoder = new SourceDecoder() {
       @Override
       public String decode(String encoded) throws DecodeException {
@@ -80,7 +84,7 @@ public class Plantuml implements DiagramService {
     HttpServerResponse response = routingContext.response();
     String source;
     try {
-      source = sanitize(sourceDecoded);
+      source = sanitize(sourceDecoded, this.safeMode);
       source = withDelimiter(source);
     } catch (IOException e) {
       if (e instanceof UnsupportedEncodingException) {
@@ -148,7 +152,10 @@ public class Plantuml implements DiagramService {
     return result;
   }
 
-  static String sanitize(String input) throws IOException {
+  static String sanitize(String input, SafeMode safeMode) throws IOException {
+    if (safeMode == SafeMode.UNSAFE) {
+      return input;
+    }
     try (BufferedReader reader = new BufferedReader(new StringReader(input))) {
       StringBuilder sb = new StringBuilder();
       String line = reader.readLine();

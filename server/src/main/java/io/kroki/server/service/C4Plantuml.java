@@ -6,7 +6,9 @@ import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
 import io.kroki.server.response.Caching;
 import io.kroki.server.response.DiagramResponse;
+import io.kroki.server.security.SafeMode;
 import io.vertx.core.http.HttpServerResponse;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import net.sourceforge.plantuml.version.Version;
 
@@ -27,6 +29,7 @@ public class C4Plantuml implements DiagramService {
 
   private static final Pattern INCLUDE_RX = Pattern.compile("^\\s*!include(?:url)?\\s+(?<path>.*)");
 
+  private final SafeMode safeMode;
   private final String c4;
   private final String c4Component;
   private final String c4Container;
@@ -34,7 +37,8 @@ public class C4Plantuml implements DiagramService {
   private final SourceDecoder sourceDecoder;
   private final DiagramResponse diagramResponse;
 
-  public C4Plantuml() {
+  public C4Plantuml(JsonObject config) {
+    this.safeMode = SafeMode.get(config.getString("KROKI_SAFE_MODE", "secure"), SafeMode.SECURE);
     try {
       this.c4 = read("c4.puml");
       // context includes c4
@@ -104,6 +108,8 @@ public class C4Plantuml implements DiagramService {
         sb.append(c4Container).append("\n");
       } else if (path.toLowerCase().contains("c4_context.puml")) {
         sb.append(c4Context).append("\n");
+      } else if (safeMode == SafeMode.UNSAFE) {
+        sb.append(line).append("\n");
       }
     } else {
       sb.append(line).append("\n");
@@ -112,6 +118,9 @@ public class C4Plantuml implements DiagramService {
 
   private String read(String resource) throws IOException {
     InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream(resource);
+    if (input == null) {
+      throw new IOException("Unable to get resource: " + resource);
+    }
     try (BufferedReader buffer = new BufferedReader(new InputStreamReader(input))) {
       return buffer.lines().collect(Collectors.joining("\n"));
     }

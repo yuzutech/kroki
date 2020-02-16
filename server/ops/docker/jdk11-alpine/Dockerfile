@@ -4,6 +4,7 @@ COPY --from=kroki-builder-static-svgbob:0.4.1 /home/rust/src/svgbob_cli/target/x
 COPY --from=kroki-builder-static-erd:0.2.0.0 /root/.local/bin/erd /haskell/bin/erd
 COPY --from=kroki-builder-nomnoml:0.6.1 /app/app.bin /node/bin/nomnoml
 
+ENV KROKI_SAFE_MODE=secure
 ENV KROKI_SVGBOB_BIN_PATH=/rust/bin/svgbob
 ENV KROKI_ERD_BIN_PATH=/haskell/bin/erd
 ENV KROKI_DOT_BIN_PATH=/usr/bin/dot
