@@ -38,10 +38,28 @@ java -DKROKI_PORT=1234 -jar kroki-server.jar
 Kroki can be configured using environment variables or Java system properties.
 We've already seen how to change the port using `KROKI_PORT`, let's find out how to configure diagram binary paths.
 
+=== Safe Mode
+
+Kroki provides security levels that restrict access to files on the file system and on the network.
+Each level includes the restrictions enabled in the prior security level.
+
+- `UNSAFE`: disables any security features.
+- `SECURE`: prevents attempts to read files from the file system or from the network.
+
+By default, Kroki is running in `SECURE` mode.
+
+While running in `SECURE` mode, Kroki will prevent PlantUML from including files using the `!include` or `!includeurl` directive.
+If you want to enable this feature, you can set the safe mode using the environment variable `KROKI_SAFE_MODE`:
+
+[source,java-cli]
+java -DKROKI_SAFE_MODE=unsafe -jar kroki-server.jar
+
+NOTE: The value is case insensitive, so both `UNSAFE` and `unsafe` will work.
+
 === Diagram Binary Paths
 
 Kroki depends on external binaries to generate images.
-By default Kroki will locate these binaries in the `PATH` environment variable.
+By default, Kroki will locate these binaries in the `PATH` environment variable.
 
 In case you've installed a diagram library in a way where the executable is not in the `PATH`,
 you can override its location manually using an environment variable or a Java system property:

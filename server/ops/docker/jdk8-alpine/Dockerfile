@@ -15,6 +15,7 @@ COPY ops/docker/ld-musl-x86_64.path /etc/ld-musl-x86_64.path
 
 COPY ops/docker/logback.xml /etc/logback.xml
 
+ENV KROKI_SAFE_MODE=secure
 ENV KROKI_SVGBOB_BIN_PATH=/rust/bin/svgbob
 ENV KROKI_ERD_BIN_PATH=/haskell/bin/erd
 ENV KROKI_DOT_BIN_PATH=/usr/bin/dot
