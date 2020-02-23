@@ -25,8 +25,9 @@ public class Vega implements DiagramService {
   private final SourceDecoder sourceDecoder;
   private final DiagramResponse diagramResponse;
   private final SafeMode safeMode;
+  private final Commander commander;
 
-  public Vega(Vertx vertx, JsonObject config) {
+  public Vega(Vertx vertx, JsonObject config, Commander commander) {
     this.vertx = vertx;
     this.binPath = config.getString("KROKI_VEGA_BIN_PATH", "vega");
     this.sourceDecoder = new SourceDecoder() {
@@ -37,6 +38,7 @@ public class Vega implements DiagramService {
     };
     this.diagramResponse = new DiagramResponse(new Caching("5.9.1"));
     this.safeMode = SafeMode.get(config.getString("KROKI_SAFE_MODE", "secure"), SafeMode.SECURE);
+    this.commander = commander;
   }
 
   @Override
@@ -70,6 +72,6 @@ public class Vega implements DiagramService {
   }
 
   private byte[] vega(byte[] source, String format) throws IOException, InterruptedException, IllegalStateException {
-    return Commander.execute(source, binPath, "--output-format=" + format + " --safe-mode=" + safeMode.name().toLowerCase());
+    return commander.execute(source, binPath, "--output-format=" + format, "--safe-mode=" + safeMode.name().toLowerCase());
   }
 }

@@ -24,8 +24,9 @@ public class Erd implements DiagramService {
   private final String binPath;
   private final SourceDecoder sourceDecoder;
   private final DiagramResponse diagramResponse;
+  private final Commander commander;
 
-  public Erd(Vertx vertx, JsonObject config) {
+  public Erd(Vertx vertx, JsonObject config, Commander commander) {
     this.vertx = vertx;
     this.binPath = config.getString("KROKI_ERD_BIN_PATH", "erd");
     this.sourceDecoder = new SourceDecoder() {
@@ -35,6 +36,7 @@ public class Erd implements DiagramService {
       }
     };
     this.diagramResponse = new DiagramResponse(new Caching("0.1.3.0"));
+    this.commander = commander;
   }
 
   @Override
@@ -69,6 +71,6 @@ public class Erd implements DiagramService {
 
   private byte[] erd(byte[] source, String format) throws IOException, InterruptedException, IllegalStateException {
     // Supported format: bmp, dot, eps, gif, jpg, pdf, plain, png, ps, ps2, svg, tiff
-    return Commander.execute(source, binPath, "--fmt=" + format);
+    return commander.execute(source, binPath, "--fmt=" + format);
   }
 }

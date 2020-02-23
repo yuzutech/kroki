@@ -24,8 +24,9 @@ public class Svgbob implements DiagramService {
   private final String binPath;
   private final SourceDecoder sourceDecoder;
   private final DiagramResponse diagramResponse;
+  private final Commander commander;
 
-  public Svgbob(Vertx vertx, JsonObject config) {
+  public Svgbob(Vertx vertx, JsonObject config, Commander commander) {
     this.vertx = vertx;
     this.binPath = config.getString("KROKI_SVGBOB_BIN_PATH", "svgbob");
     this.sourceDecoder = new SourceDecoder() {
@@ -35,6 +36,7 @@ public class Svgbob implements DiagramService {
       }
     };
     this.diagramResponse = new DiagramResponse(new Caching("0.4.1"));
+    this.commander = commander;
   }
 
   @Override
@@ -68,6 +70,6 @@ public class Svgbob implements DiagramService {
   }
 
   private byte[] svgbob(byte[] source) throws IOException, InterruptedException, IllegalStateException {
-    return Commander.execute(source, binPath);
+    return commander.execute(source, binPath);
   }
 }

@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Commander {
 
-  public static byte[] execute(byte[] source, String... cmd) throws IOException, InterruptedException, IllegalStateException {
+  public byte[] execute(byte[] source, String... cmd) throws IOException, InterruptedException, IllegalStateException {
     ProcessBuilder builder = new ProcessBuilder();
     builder.command(cmd);
     builder.redirectErrorStream(true);
@@ -35,7 +35,7 @@ public class Commander {
     }
   }
 
-  private static byte[] read(InputStream input) throws IOException {
+  private byte[] read(InputStream input) throws IOException {
     ByteArrayOutputStream buffer = new ByteArrayOutputStream();
     byte[] data = new byte[2048];
     int index;

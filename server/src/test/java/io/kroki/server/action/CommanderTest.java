@@ -15,7 +15,7 @@ class CommanderTest {
 
   @Test
   void should_throw_an_exception_when_bin_not_found() {
-    assertThatThrownBy(() -> Commander.execute("".getBytes(), "/path/not/found/dot"))
+    assertThatThrownBy(() -> new Commander().execute("".getBytes(), "/path/not/found/dot"))
       .isInstanceOf(IOException.class)
       .hasMessageStartingWith("Cannot run program \"/path/not/found/dot\"");
   }
@@ -37,7 +37,7 @@ class CommanderTest {
   void should_not_fail(String source) throws IOException, InterruptedException {
     if (Files.isExecutable(Paths.get("/usr/bin/dot"))) {
       try {
-        byte[] result = Commander.execute(source.getBytes(), "dot");
+        byte[] result = new Commander().execute(source.getBytes(), "dot");
         assertThat(Files.exists(Paths.get("/tmp/blns.fail"))).isFalse();
         assertThat(new String(result)).isEqualTo("");
       } catch (IllegalStateException e) {

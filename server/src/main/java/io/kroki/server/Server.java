@@ -1,5 +1,6 @@
 package io.kroki.server;
 
+import io.kroki.server.action.Commander;
 import io.kroki.server.error.ErrorHandler;
 import io.kroki.server.service.Blockdiag;
 import io.kroki.server.service.C4Plantuml;
@@ -71,18 +72,19 @@ public class Server extends AbstractVerticle {
       .allowedHeaders(allowedHeaders)
       .allowedMethods(allowedMethods));
 
+    Commander commander = new Commander();
     DiagramRegistry registry = new DiagramRegistry(router, bodyHandler);
     registry.register(new Plantuml(config), "plantuml");
     registry.register(new C4Plantuml(config), "c4plantuml");
     registry.register(new Ditaa(), "ditaa");
     registry.register(new Blockdiag(vertx, config), "blockdiag", "seqdiag", "actdiag", "nwdiag", "packetdiag", "rackdiag");
     registry.register(new Umlet(vertx), "umlet");
-    registry.register(new Graphviz(vertx, config), "graphviz", "dot");
-    registry.register(new Erd(vertx, config), "erd");
-    registry.register(new Svgbob(vertx, config), "svgbob");
-    registry.register(new Nomnoml(vertx, config), "nomnoml");
+    registry.register(new Graphviz(vertx, config, commander), "graphviz", "dot");
+    registry.register(new Erd(vertx, config, commander), "erd");
+    registry.register(new Svgbob(vertx, config, commander), "svgbob");
+    registry.register(new Nomnoml(vertx, config, commander), "nomnoml");
     registry.register(new Mermaid(vertx, config), "mermaid");
-    registry.register(new Vega(vertx, config), "vega");
+    registry.register(new Vega(vertx, config, commander), "vega");
 
     router.post("/")
       .handler(bodyHandler)
