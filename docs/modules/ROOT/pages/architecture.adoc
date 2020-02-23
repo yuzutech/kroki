@@ -52,6 +52,10 @@ The Docker image contains the following diagrams libraries out-of-the-box:
 |14.3.0
 //|Java library
 
+|https://github.com/vega/vega[Vega]
+|5.9.1
+//|Binary `/node/bin/vega`
+
 |===
 
 == Companion Servers

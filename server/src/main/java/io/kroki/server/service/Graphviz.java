@@ -24,8 +24,9 @@ public class Graphviz implements DiagramService {
   private final String binPath;
   private final SourceDecoder sourceDecoder;
   private final DiagramResponse diagramResponse;
+  private final Commander commander;
 
-  public Graphviz(Vertx vertx, JsonObject config) {
+  public Graphviz(Vertx vertx, JsonObject config, Commander commander) {
     this.vertx = vertx;
     this.binPath = config.getString("KROKI_DOT_BIN_PATH", "dot");
     this.sourceDecoder = new SourceDecoder() {
@@ -35,6 +36,7 @@ public class Graphviz implements DiagramService {
       }
     };
     this.diagramResponse = new DiagramResponse(new Caching("2.40.1"));
+    this.commander = commander;
   }
 
   @Override
@@ -73,6 +75,6 @@ public class Graphviz implements DiagramService {
     // jpe jpeg jpg json json0 mp pdf pic plain plain-ext
     // png pov ps ps2
     // svg svgz tk vml vmlz vrml wbmp x11 xdot xdot1.2 xdot1.4 xdot_json xlib
-    return Commander.execute(source, binPath, "-T" + format);
+    return commander.execute(source, binPath, "-T" + format);
   }
 }

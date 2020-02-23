@@ -3,6 +3,8 @@ FROM openjdk:8u191-jdk-alpine3.8
 COPY --from=kroki-builder-static-svgbob:latest /home/rust/.cargo/bin/svgbob /rust/bin/svgbob
 COPY --from=kroki-builder-static-erd:latest /root/.local/bin/erd /haskell/bin/erd
 COPY --from=kroki-builder-nomnoml:latest /app/app.bin /node/bin/nomnoml
+COPY --from=kroki-builder-vega:latest /app/app.bin /node/bin/vega
+COPY --from=kroki-builder-vega:latest /app/canvas.node /node/bin/canvas.node
 
 RUN apk add --update --no-cache \
            graphviz \
@@ -20,6 +22,7 @@ ENV KROKI_SVGBOB_BIN_PATH=/rust/bin/svgbob
 ENV KROKI_ERD_BIN_PATH=/haskell/bin/erd
 ENV KROKI_DOT_BIN_PATH=/usr/bin/dot
 ENV KROKI_NOMNOML_BIN_PATH=/node/bin/nomnoml
+ENV KROKI_VEGA_BIN_PATH=/node/bin/vega
 ENV JAVA_OPTS="-Dlogback.configurationFile=/etc/logback.xml"
 
 EXPOSE 8000

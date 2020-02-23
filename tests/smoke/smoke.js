@@ -13,28 +13,39 @@ const tests = [
   { engine: 'nomnoml', file: 'pirate.nomnoml'},
   { engine: 'packetdiag', file: 'packet.diag' },
   { engine: 'rackdiag', file: 'rack.diag' },
-];
+  { engine: 'vega', file: 'bar-chart.vega' },
+]
 
-const chai = require('chai');
-const chaiHttp = require('chai-http');
-const fs = require('fs');
+const chai = require('chai')
+const chaiHttp = require('chai-http')
+const fs = require('fs')
 
-chai.use(chaiHttp);
+chai.use(chaiHttp)
 
-var expect = chai.expect;
+const expect = chai.expect
 
-tests.forEach((testCase) => {
-  it(`${testCase.engine} should answer with HTTP 200`, function(done) {
-    chai.request('localhost:8000')
+const sendRequest = async (testCase) => {
+  try {
+    return await chai.request('localhost:8000')
       .post(`/${testCase.engine}/svg`)
       .type('text/plain')
       .set('Content-Type', 'text/plain')
       .set('Accept', 'image/svg+xml')
       .send(fs.readFileSync(`${__dirname}/diagrams/${testCase.file}`))
-      .end((error, response) => {
-        expect(error).to.be.null;
-        expect(response).to.have.status(200);
-        done(); 
-      });
-  });
-});
+  } catch (err) {
+    console.error('error:', err)
+    throw err
+  }
+}
+
+tests.forEach((testCase) => {
+  it(`${testCase.engine} should answer with HTTP 200`, async function() {
+    const response = await sendRequest(testCase)
+    try {
+      expect(response.status).to.equal(200)
+    } catch (err) {
+      console.log('response:', response.text)
+      throw err;
+    }
+  })
+})

@@ -23,8 +23,9 @@ public class Nomnoml implements DiagramService {
   private final String binPath;
   private final SourceDecoder sourceDecoder;
   private final DiagramResponse diagramResponse;
+  private final Commander commander;
 
-  public Nomnoml(Vertx vertx, JsonObject config) {
+  public Nomnoml(Vertx vertx, JsonObject config, Commander commander) {
     this.vertx = vertx;
     this.binPath = config.getString("KROKI_NOMNOML_BIN_PATH", "nomnoml");
     this.sourceDecoder = new SourceDecoder() {
@@ -34,6 +35,7 @@ public class Nomnoml implements DiagramService {
       }
     };
     this.diagramResponse = new DiagramResponse(new Caching("0.6.1"));
+    this.commander = commander;
   }
 
   @Override
@@ -67,6 +69,6 @@ public class Nomnoml implements DiagramService {
   }
 
   private byte[] nomnoml(byte[] source) throws IOException, InterruptedException, IllegalStateException {
-    return Commander.execute(source, binPath);
+    return commander.execute(source, binPath);
   }
 }
