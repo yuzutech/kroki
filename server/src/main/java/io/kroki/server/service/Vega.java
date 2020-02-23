@@ -7,6 +7,7 @@ import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
 import io.kroki.server.response.Caching;
 import io.kroki.server.response.DiagramResponse;
+import io.kroki.server.security.SafeMode;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonObject;
@@ -14,7 +15,6 @@ import io.vertx.ext.web.RoutingContext;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class Vega implements DiagramService {
@@ -24,6 +24,7 @@ public class Vega implements DiagramService {
   private final String binPath;
   private final SourceDecoder sourceDecoder;
   private final DiagramResponse diagramResponse;
+  private final SafeMode safeMode;
 
   public Vega(Vertx vertx, JsonObject config) {
     this.vertx = vertx;
@@ -35,6 +36,7 @@ public class Vega implements DiagramService {
       }
     };
     this.diagramResponse = new DiagramResponse(new Caching("5.9.1"));
+    this.safeMode = SafeMode.get(config.getString("KROKI_SAFE_MODE", "secure"), SafeMode.SECURE);
   }
 
   @Override
@@ -68,6 +70,6 @@ public class Vega implements DiagramService {
   }
 
   private byte[] vega(byte[] source, String format) throws IOException, InterruptedException, IllegalStateException {
-    return Commander.execute(source, binPath, "-T" + format);
+    return Commander.execute(source, binPath, "--output-format=" + format + " --safe-mode=" + safeMode.name().toLowerCase());
   }
 }

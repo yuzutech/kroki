@@ -1,9 +1,13 @@
 #!/usr/bin/env node
 const vega = require('vega')
+const argv = require('yargs')
+  .version(false)
+  .argv
 
 const encoding = 'utf-8'
 let data
 let format = 'svg'
+let safeMode = 'secure'
 
 async function convert () {
   const source = data.toString(encoding)
@@ -12,6 +16,14 @@ async function convert () {
   }
   try {
     const spec = JSON.parse(source)
+    if (safeMode === 'secure' && spec && spec.data && Array.isArray(spec.data)) {
+      const dataWithUrlAttribute = spec.data.filter((item) => item.url)
+      if (dataWithUrlAttribute && dataWithUrlAttribute.length > 0) {
+        console.error(`Unable to load data from an URL while running in secure mode.
+Please include your data set as 'values' or run Kroki in unsafe mode using the KROKI_SAFE_MODE environment variable.`)
+        process.exit(13) // permission denied
+      }
+    }
     const view = new vega.View(vega.parse(spec), { renderer: 'none' })
     if (format === 'svg') {
       const svg = await view.toSVG()
@@ -26,21 +38,25 @@ async function convert () {
       stream.on('data', chunk => { process.stdout.write(chunk) })
     } else {
       console.error(`Unknown output format: ${format}. Must be one of: svg, png or pdf.`)
+      process.exit(22) // invalid argument
     }
   } catch (err) {
     console.error(err)
+    process.exit(1)
   }
 }
 
 (async () => {
-  const [, , ...args] = process.argv
-  if (args[0] === '--version') {
+  if (argv.version) {
     const version = require('./package.json').dependencies.vega
     console.log(`vega ${version}`)
-    return
+    process.exit(0)
   }
-  if (args[0] && args[0].startsWith('-T')) {
-    format = args[0].substr(2)
+  if (argv.outputFormat) {
+    format = argv.outputFormat
+  }
+  if (argv.safeMode) {
+    safeMode = argv.safeMode.toLowerCase()
   }
   if (process.stdin.isTTY) {
     // Even though executed by name, the first argument is still "node",
