@@ -56,6 +56,10 @@ The Docker image contains the following diagrams libraries out-of-the-box:
 |5.9.1
 //|Binary `/node/bin/vega`
 
+|https://github.com/vega/vega-lite[Vega-Lite]
+|4.4.0
+//|Binary `/node/bin/vega`
+
 |===
 
 == Companion Servers

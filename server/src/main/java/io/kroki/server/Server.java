@@ -84,7 +84,8 @@ public class Server extends AbstractVerticle {
     registry.register(new Svgbob(vertx, config, commander), "svgbob");
     registry.register(new Nomnoml(vertx, config, commander), "nomnoml");
     registry.register(new Mermaid(vertx, config), "mermaid");
-    registry.register(new Vega(vertx, config, commander), "vega");
+    registry.register(new Vega(vertx, config, Vega.SpecFormat.DEFAULT, commander), "vega");
+    registry.register(new Vega(vertx, config, Vega.SpecFormat.LITE, commander), "vegalite");
 
     router.post("/")
       .handler(bodyHandler)
