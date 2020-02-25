@@ -27,4 +27,17 @@ Diagram::
 * Gantt diagram
 * Ditaa diagram
 
+Visualization::
+* Bar charts
+* Line & area charts
+* Circular charts
+* Scatter plots
+* Distributions
+* Geographic maps
+* Tree diagrams
+* Network diagrams
+* Heatmaps
+* Word clouds
+* Beeswarm plots
+
 Looking for inspiration? Visit the https://kroki.io/examples.html[examples] page.
