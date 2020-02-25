@@ -68,6 +68,8 @@ docker run -p8080:8000 -d yuzutech/kroki
 ** https://github.com/RicardoNiepel/C4-PlantUML[C4 model] (with PlantUML)
 * https://github.com/ivanceras/svgbob[Svgbob]
 * https://github.com/umlet/umlet[UMlet]
+* https://github.com/vega/vega[Vega]
+* https://github.com/vega/vega-lite[Vega-Lite]
 
 In other words, the following endpoints will be available:
 
@@ -81,6 +83,8 @@ In other words, the following endpoints will be available:
 /plantuml
 /svgbob
 /umlet
+/vega
+/vegalite
 ```
 
 If you want to use _BlockDiag_, _ActDiag_, _NwDiag_, _SeqDiag_ or _Mermaid_, then you will also need to start companion containers:
