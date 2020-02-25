@@ -1,4 +1,4 @@
-LATEST_VERSION = 0.0.11
+LATEST_VERSION = 0.0.12
 
 SMOKE_TESTS_DIR=tests/smoke
 COMPOSE_TIMEOUT=20
@@ -49,7 +49,7 @@ pushDockerImages:
 	docker push yuzutech/kroki-mermaid:$(LATEST_VERSION)
 
 smokeTests:
-	@docker-compose --file "$(SMOKE_TESTS_DIR)/docker-compose.yaml" up --detach \
+	@docker-compose --file "$(SMOKE_TESTS_DIR)/docker-compose.yaml" up --build --detach \
 	&& echo \
 	&& docker-compose --file "$(SMOKE_TESTS_DIR)/docker-compose.yaml" ps \
 	&& echo \
