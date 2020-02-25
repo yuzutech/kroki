@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 const vega = require('vega')
+const vegaLite = require('vega-lite')
 const argv = require('yargs')
   .version(false)
   .argv
@@ -8,6 +9,7 @@ const encoding = 'utf-8'
 let data
 let format = 'svg'
 let safeMode = 'secure'
+let specFormat = 'default'
 
 async function convert () {
   const source = data.toString(encoding)
@@ -15,7 +17,10 @@ async function convert () {
     return
   }
   try {
-    const spec = JSON.parse(source)
+    let spec = JSON.parse(source)
+    if (specFormat === 'lite') {
+      spec = vegaLite.compile(spec).spec
+    }
     if (safeMode === 'secure' && spec && spec.data && Array.isArray(spec.data)) {
       const dataWithUrlAttribute = spec.data.filter((item) => item.url)
       if (dataWithUrlAttribute && dataWithUrlAttribute.length > 0) {
@@ -57,6 +62,9 @@ Please include your data set as 'values' or run Kroki in unsafe mode using the K
   }
   if (argv.safeMode) {
     safeMode = argv.safeMode.toLowerCase()
+  }
+  if (argv.specFormat) {
+    specFormat = argv.specFormat.toLowerCase()
   }
   if (process.stdin.isTTY) {
     // Even though executed by name, the first argument is still "node",

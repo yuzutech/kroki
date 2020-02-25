@@ -84,7 +84,7 @@ nomnoml::
 A Node.js CLI on top of the _Nomnoml_ diagram library.
 
 vega::
-A Node.js CLI on top of the _vega_ diagram library.
+A Node.js CLI on top of the _vega_ diagram library. Also supports Vega-Lite concise grammar.
 
 blockdiag::
 A companion web server written in Python (powered by _Flask_ and _Gunicorn_) that provides _BlockDiag_, _SeqDiag_, _ActDiag_, _NwDiag_, _PacketDiag_ and _RackDiag_ diagrams libraries.

@@ -14,6 +14,7 @@ const tests = [
   { engine: 'packetdiag', file: 'packet.diag' },
   { engine: 'rackdiag', file: 'rack.diag' },
   { engine: 'vega', file: 'bar-chart.vega' },
+  { engine: 'vegalite', file: 'discretizing-scale.vlite' },
 ]
 
 const chai = require('chai')
