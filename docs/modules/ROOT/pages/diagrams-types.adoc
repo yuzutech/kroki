@@ -26,6 +26,8 @@ Diagram::
 * Mind Map diagram
 * Gantt diagram
 * Ditaa diagram
+* Packet diagram
+* Rack diagram
 
 Visualization::
 * Bar charts
