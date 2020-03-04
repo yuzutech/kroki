@@ -7,7 +7,7 @@ gunicorn==19.9.0
 itsdangerous==1.1.0
 Jinja2==2.10.1
 MarkupSafe==1.1.0
-nwdiag==1.0.4
+nwdiag==2.0.0
 Pillow==6.2.0
 reportlab==3.5.12
 seqdiag==0.9.6
