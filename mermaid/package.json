@@ -18,6 +18,6 @@
   },
   "devDependencies": {
     "mermaid": "8.4.3",
-    "standard": "12.0.1"
+    "standard": "14.3.1"
   }
 }
