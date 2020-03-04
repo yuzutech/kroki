@@ -17,7 +17,7 @@
     "puppeteer": "1.14.0"
   },
   "devDependencies": {
-    "mermaid": "8.4.3",
+    "mermaid": "8.4.8",
     "standard": "14.3.1"
   }
 }
