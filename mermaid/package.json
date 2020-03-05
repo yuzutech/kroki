@@ -13,7 +13,7 @@
   "author": "Guillaume Grossetie",
   "license": "MIT",
   "dependencies": {
-    "micro": "9.3.3",
+    "micro": "9.3.4",
     "puppeteer": "1.14.0"
   },
   "devDependencies": {
