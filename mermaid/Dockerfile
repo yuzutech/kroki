@@ -1,5 +1,5 @@
 # Package the Node.js project into a single binary
-FROM node:10.15.0-alpine as builder
+FROM node:13.8.0-alpine as builder
 
 # Workaround: https://github.com/nodejs/docker-node/issues/813#issuecomment-407339011
 # Error: could not get uid/gid
