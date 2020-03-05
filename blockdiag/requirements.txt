@@ -3,7 +3,7 @@ blockdiag==1.5.4
 Click==7.0
 Flask==1.0.2
 funcparserlib==0.3.6
-gunicorn==19.9.0
+gunicorn==20.0.4
 itsdangerous==1.1.0
 Jinja2==2.10.1
 MarkupSafe==1.1.0
