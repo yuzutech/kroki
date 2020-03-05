@@ -1,5 +1,5 @@
 actdiag==0.5.4
-blockdiag==1.5.4
+blockdiag==2.0.1
 Click==7.0
 Flask==1.0.2
 funcparserlib==0.3.6
