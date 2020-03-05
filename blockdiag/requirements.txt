@@ -1,4 +1,4 @@
-actdiag==0.5.4
+actdiag==2.0.0
 blockdiag==1.5.4
 Click==7.0
 Flask==1.0.2
