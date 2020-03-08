@@ -1,0 +1,10 @@
+rackdiag {
+  16U;
+  1: UPS [2U];
+  3: DB Server;
+  4: Web Server;
+  5: Web Server;
+  6: Web Server;
+  7: Load Balancer;
+  8: L3 Switch;
+}

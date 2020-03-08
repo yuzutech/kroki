@@ -4,7 +4,7 @@ import zlib
 
 
 def encode(source):
-    return base64.urlsafe_b64encode(zlib.compress(source, 9))
+    return base64.urlsafe_b64encode(zlib.compress(source.encode('utf-8'), 9)).decode('utf-8')
 
 
 def section(title):
