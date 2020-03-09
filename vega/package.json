@@ -18,7 +18,7 @@
     "canvas": "2.6.1",
     "vega": "5.10.0",
     "vega-lite": "4.5.1",
-    "yargs": "15.1.0"
+    "yargs": "15.3.0"
   },
   "devDependencies": {
     "standard": "14.3.1"
