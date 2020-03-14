@@ -1,0 +1,25 @@
+{
+  "name": "kroki-wavedrom",
+  "version": "1.0.0",
+  "description": "A CLI built on top of the WaveDrom diagram library.",
+  "bin": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "standard"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yuzutech/kroki.git"
+  },
+  "keywords": [],
+  "author": "Guillaume Grossetie",
+  "dependencies": {
+    "wavedrom": "2.3.2",
+    "json5": "2.1.1",
+    "onml": "1.2.0"
+  },
+  "devDependencies": {
+    "standard": "14.3.1"
+  }
+}

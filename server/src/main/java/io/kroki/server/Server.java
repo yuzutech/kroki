@@ -16,6 +16,7 @@ import io.kroki.server.service.Plantuml;
 import io.kroki.server.service.Svgbob;
 import io.kroki.server.service.Umlet;
 import io.kroki.server.service.Vega;
+import io.kroki.server.service.Wavedrom;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.AsyncResult;
@@ -86,6 +87,7 @@ public class Server extends AbstractVerticle {
     registry.register(new Mermaid(vertx, config), "mermaid");
     registry.register(new Vega(vertx, config, Vega.SpecFormat.DEFAULT, commander), "vega");
     registry.register(new Vega(vertx, config, Vega.SpecFormat.LITE, commander), "vegalite");
+    registry.register(new Wavedrom(vertx, config, commander), "wavedrom");
 
     router.post("/")
       .handler(bodyHandler)

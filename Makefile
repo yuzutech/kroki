@@ -17,6 +17,7 @@ buildServer:
 buildDockerImages:
 	cd nomnoml && $(MAKE) package
 	cd vega && $(MAKE) package
+	cd wavedrom && $(MAKE) package
 	docker build -f server/ops/docker/build-static-erd -t kroki-builder-static-erd .
 	docker build -f server/ops/docker/build-static-svgbob -t kroki-builder-static-svgbob .
 	cd server && $(MAKE) package
@@ -28,6 +29,7 @@ tagDockerImages:
 	docker tag kroki-builder-static-svgbob:latest kroki-builder-static-svgbob:0.4.2
 	docker tag kroki-builder-nomnoml:latest kroki-builder-nomnoml:0.6.2
 	docker tag kroki-builder-vega:latest kroki-builder-vega:5.10.0-4.7.0
+	docker tag kroki-builder-wavedrom:latest kroki-builder-wavedrom:2.3.2
 
 showExamples:
 	python blockdiag/examples.py
