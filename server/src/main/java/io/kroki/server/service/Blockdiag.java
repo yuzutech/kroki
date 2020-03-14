@@ -35,7 +35,7 @@ public class Blockdiag implements DiagramService {
     };
     this.host = config.getString("KROKI_BLOCKDIAG_HOST", "127.0.0.1");
     this.port = config.getInteger("KROKI_BLOCKDIAG_PORT", 8001);
-    this.diagramResponse = new DiagramResponse(new Caching("1.5.4"));
+    this.diagramResponse = new DiagramResponse(new Caching("2.0.1"));
   }
 
   @Override
