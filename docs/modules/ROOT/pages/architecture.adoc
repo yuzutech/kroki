@@ -20,7 +20,7 @@ The Docker image contains the following diagrams libraries out-of-the-box:
 |===
 |Diagram Type | Version
 |https://github.com/RicardoNiepel/C4-PlantUML[C4 with PlantUML]
-|1.2018.14
+|1.2020.2
 //|Java library (depends on GraphViz)
 
 |http://ditaa.sourceforge.net[Ditaa]
@@ -37,11 +37,11 @@ The Docker image contains the following diagrams libraries out-of-the-box:
 //|Binary `/usr/bin/dot`
 
 |https://github.com/skanaar/nomnoml[Nomnoml]
-|0.6.1
+|0.6.2
 //|Binary `/node/bin/nomnoml`
 
 |https://github.com/plantuml/plantuml[PlantUML]
-|1.2018.14
+|1.2020.2
 //|Java library (depends on GraphViz)
 
 |https://github.com/ivanceras/svgbob[Svgbob]
@@ -53,11 +53,11 @@ The Docker image contains the following diagrams libraries out-of-the-box:
 //|Java library
 
 |https://github.com/vega/vega[Vega]
-|5.9.1
+|5.10.0
 //|Binary `/node/bin/vega`
 
 |https://github.com/vega/vega-lite[Vega-Lite]
-|4.4.0
+|4.7.0
 //|Binary `/node/bin/vega`
 
 |===
@@ -75,13 +75,19 @@ The Docker image contains the following diagrams libraries out-of-the-box:
 |8.0.0
 
 |https://github.com/blockdiag/blockdiag[BlockDiag]
-|1.5.4
+|2.0.1
 
 |https://github.com/blockdiag/nwdiag[NwDiag]
-|1.0.4
+|2.0.0
+
+|https://github.com/blockdiag/nwdiag/tree/master/src/packetdiag[PacketDiag]
+|2.0.0
+
+|https://github.com/blockdiag/nwdiag/tree/master/src/rackdiag[RackDiag]
+|2.0.0
 
 |https://github.com/blockdiag/seqdiag[SeqDiag]
-|0.9.6
+|2.0.0
 |===
 
 === Mermaid
@@ -92,5 +98,5 @@ The Docker image contains the following diagrams libraries out-of-the-box:
 |===
 |Diagram Type | Version
 |https://github.com/knsv/mermaid[Mermaid]
-|8.4.3
+|8.4.8
 |===

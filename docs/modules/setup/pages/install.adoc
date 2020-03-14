@@ -6,7 +6,6 @@
 :uri-seqdiag: http://blockdiag.com/en/seqdiag/index.html
 :uri-actdiag: http://blockdiag.com/en/actdiag/index.html
 :uri-nwdiag: http://blockdiag.com/en/nwdiag/index.html
-:uri-nwdiag: http://blockdiag.com/en/nwdiag/index.html
 :uri-rackdiag: http://blockdiag.com/en/nwdiag/rackdiag-examples.html
 :uri-packetdiag: http://blockdiag.com/en/nwdiag/packetdiag-examples.html
 :uri-mermaid: https://mermaidjs.github.io/

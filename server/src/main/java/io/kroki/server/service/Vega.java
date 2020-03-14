@@ -38,9 +38,9 @@ public class Vega implements DiagramService {
       }
     };
     if (specFormat == SpecFormat.DEFAULT) {
-      this.diagramResponse = new DiagramResponse(new Caching("5.9.1"));
+      this.diagramResponse = new DiagramResponse(new Caching("5.10.0"));
     } else {
-      this.diagramResponse = new DiagramResponse(new Caching("4.4.0")); // Vega Lite
+      this.diagramResponse = new DiagramResponse(new Caching("4.7.0")); // Vega Lite
     }
     this.safeMode = SafeMode.get(config.getString("KROKI_SAFE_MODE", "secure"), SafeMode.SECURE);
     this.commander = commander;
