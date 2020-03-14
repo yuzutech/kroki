@@ -28,6 +28,7 @@ Diagram::
 * Ditaa diagram
 * Packet diagram
 * Rack diagram
+* Digital Timing diagram (waveform)
 
 Visualization::
 * Bar charts
