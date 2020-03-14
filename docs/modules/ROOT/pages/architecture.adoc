@@ -60,6 +60,10 @@ The Docker image contains the following diagrams libraries out-of-the-box:
 |4.7.0
 //|Binary `/node/bin/vega`
 
+|https://github.com/wavedrom/wavedrom[WaveDrom]
+|2.3.2
+//|Binary `/node/bin/wavedrom`
+
 |===
 
 == Companion Servers

@@ -15,6 +15,7 @@ const tests = [
   { engine: 'rackdiag', file: 'rack.diag' },
   { engine: 'vega', file: 'bar-chart.vega' },
   { engine: 'vegalite', file: 'discretizing-scale.vlite' },
+  { engine: 'wavedrom', file: 'wavedrom.json5' },
 ]
 
 const chai = require('chai')

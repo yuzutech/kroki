@@ -44,6 +44,7 @@ public class HelloHandler {
       serviceVersions.add(new ServiceVersion("umlet", "14.3.0"));
       serviceVersions.add(new ServiceVersion("vega", "5.10.0"));
       serviceVersions.add(new ServiceVersion("vegalite", "4.7.0"));
+      serviceVersions.add(new ServiceVersion("wavedrom", "2.3.2"));
       String versionsTable = generateVersionsTable(serviceVersions);
       routingContext
         .response()
