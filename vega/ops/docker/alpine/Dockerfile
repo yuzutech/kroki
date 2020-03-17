@@ -1,10 +1,12 @@
-FROM node:12.16.1-alpine
+FROM node:10.15.0-alpine
 
 # Workaround: https://github.com/nodejs/docker-node/issues/813#issuecomment-407339011
 # Error: could not get uid/gid
 # [ 'nobody', 0 ]
 RUN npm config set unsafe-perm true
 
+# system dependencies for "canvas" Node package
+# https://github.com/Automattic/node-canvas/issues/866
 RUN apk add --no-cache \
         build-base \
         g++ \

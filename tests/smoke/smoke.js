@@ -1,21 +1,21 @@
 const tests = [
-  { engine: 'graphviz', file: 'hello.dot' },
-  { engine: 'blockdiag', file: 'kroki.diag' },
-  { engine: 'seqdiag', file: 'sequence.diag' },
-  { engine: 'actdiag', file: 'actions.diag'},
-  { engine: 'nwdiag', file: 'network.diag'},
-  { engine: 'c4plantuml', file: 'banking-system.puml'},
-  { engine: 'ditaa', file: 'components.ditaa'},
-  { engine: 'erd', file: 'schema.erd'},
-  { engine: 'mermaid', file: 'contribute.mmd'},
-  { engine: 'plantuml', file: 'architecture.puml'},
-  { engine: 'svgbob', file: 'cloud.bob'},
-  { engine: 'nomnoml', file: 'pirate.nomnoml'},
-  { engine: 'packetdiag', file: 'packet.diag' },
-  { engine: 'rackdiag', file: 'rack.diag' },
-  { engine: 'vega', file: 'bar-chart.vega' },
-  { engine: 'vegalite', file: 'discretizing-scale.vlite' },
-  { engine: 'wavedrom', file: 'wavedrom.json5' },
+  {engine: 'graphviz', file: 'hello.dot', outputFormat: ['svg']},
+  {engine: 'blockdiag', file: 'kroki.diag', outputFormat: ['svg']},
+  {engine: 'seqdiag', file: 'sequence.diag', outputFormat: ['svg']},
+  {engine: 'actdiag', file: 'actions.diag', outputFormat: ['svg']},
+  {engine: 'nwdiag', file: 'network.diag', outputFormat: ['svg']},
+  {engine: 'c4plantuml', file: 'banking-system.puml', outputFormat: ['svg']},
+  {engine: 'ditaa', file: 'components.ditaa', outputFormat: ['svg']},
+  {engine: 'erd', file: 'schema.erd', outputFormat: ['svg']},
+  {engine: 'mermaid', file: 'contribute.mmd', outputFormat: ['svg']},
+  {engine: 'plantuml', file: 'architecture.puml', outputFormat: ['svg']},
+  {engine: 'svgbob', file: 'cloud.bob', outputFormat: ['svg']},
+  {engine: 'nomnoml', file: 'pirate.nomnoml', outputFormat: ['svg']},
+  {engine: 'packetdiag', file: 'packet.diag', outputFormat: ['svg']},
+  {engine: 'rackdiag', file: 'rack.diag', outputFormat: ['svg']},
+  {engine: 'vega', file: 'bar-chart.vega', outputFormat: ['svg', 'png', 'pdf']},
+  {engine: 'vegalite', file: 'discretizing-scale.vlite', outputFormat: ['svg', 'png', 'pdf']},
+  {engine: 'wavedrom', file: 'wavedrom.json5', outputFormat: ['svg']},
 ]
 
 const chai = require('chai')
@@ -26,13 +26,19 @@ chai.use(chaiHttp)
 
 const expect = chai.expect
 
-const sendRequest = async (testCase) => {
+const mimeType = {
+  svg: 'image/svg+xml',
+  png: 'image/png',
+  pdf: 'application/pdf'
+}
+
+const sendRequest = async (testCase, outputFormat) => {
   try {
     return await chai.request('localhost:8000')
-      .post(`/${testCase.engine}/svg`)
+      .post(`/${testCase.engine}/${outputFormat}`)
       .type('text/plain')
       .set('Content-Type', 'text/plain')
-      .set('Accept', 'image/svg+xml')
+      .set('Accept', mimeType[outputFormat])
       .send(fs.readFileSync(`${__dirname}/diagrams/${testCase.file}`))
   } catch (err) {
     console.error('error:', err)
@@ -41,13 +47,15 @@ const sendRequest = async (testCase) => {
 }
 
 tests.forEach((testCase) => {
-  it(`${testCase.engine} should answer with HTTP 200`, async function() {
-    const response = await sendRequest(testCase)
-    try {
-      expect(response.status).to.equal(200)
-    } catch (err) {
-      console.log('response:', response.text)
-      throw err;
-    }
+  testCase.outputFormat.forEach(outputFormat => {
+    it(`${testCase.engine}/${outputFormat} should answer with HTTP 200`, async function() {
+      const response = await sendRequest(testCase, outputFormat)
+      try {
+        expect(response.status).to.equal(200)
+      } catch (err) {
+        console.log('response:', response.text)
+        throw err;
+      }
+    })
   })
 })
