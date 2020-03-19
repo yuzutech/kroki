@@ -3,9 +3,14 @@ package io.kroki.server.service;
 import io.vertx.core.Handler;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.impl.Utils;
+import net.sourceforge.plantuml.Run;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+import java.util.ResourceBundle;
 
 public class HelloHandler {
 
@@ -14,11 +19,19 @@ public class HelloHandler {
   private final String pageTemplate;
 
   public HelloHandler() {
+    Properties applicationProperties = new Properties();
+    try(InputStream inputStream = HelloHandler.class.getResourceAsStream("/application.properties")){
+      applicationProperties.load(inputStream);
+    } catch (IOException e) {
+      throw new RuntimeException("Unable to load application.properties", e);
+    }
     this.rowTemplate = Utils.readResourceToBuffer("web/version_row.html").toString();
     this.tableTemplate = Utils.readResourceToBuffer("web/version_table.html").toString();
     String stylesheet = Utils.readResourceToBuffer("web/root/css/main.css").toString();
     String logo = Utils.readResourceToBuffer("web/root/assets/logo.svg").toString();
     this.pageTemplate = Utils.readResourceToBuffer("web/hello.html").toString()
+      .replace("{appSHA1}", applicationProperties.getProperty("app.sha1", ""))
+      .replace("{appVersion}", applicationProperties.getProperty("app.version", ""))
       .replace("{stylesheet}", stylesheet)
       .replace("{logo}", logo);
   }

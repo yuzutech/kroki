@@ -2097,6 +2097,7 @@ a.has-text-danger:hover, a.has-text-danger:focus {
 .footer .logo {
   max-height: 1rem;
   padding-bottom: 0;
+  margin-bottom: 0;
 }
 
 .logo {
@@ -2107,4 +2108,19 @@ a.has-text-danger:hover, a.has-text-danger:focus {
 
 .section {
   min-height: calc(100vh - 174px);
+}
+
+.tag {
+  background-color: #363636;
+  color: #fff;
+  align-items: center;
+  border-radius: 4px;
+  display: inline-flex;
+  font-size: .75rem;
+  height: 2em;
+  justify-content: center;
+  line-height: 1.5;
+  padding-left: .75em;
+  padding-right: .75em;
+  white-space: nowrap;
 }
