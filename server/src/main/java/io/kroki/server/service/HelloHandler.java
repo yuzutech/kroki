@@ -42,7 +42,7 @@ public class HelloHandler {
       // QUESTION: should we dynamically fetch the versions ?
       serviceVersions.add(new ServiceVersion("actdiag", "2.0.0"));
       serviceVersions.add(new ServiceVersion("blockdiag", "2.0.1"));
-      serviceVersions.add(new ServiceVersion("c4plantuml", "1.2020.2"));
+      serviceVersions.add(new ServiceVersion("c4plantuml", "1.2020.3"));
       serviceVersions.add(new ServiceVersion("ditaa", "1.3.13"));
       serviceVersions.add(new ServiceVersion("erd", "0.1.3.0"));
       serviceVersions.add(new ServiceVersion("graphviz", "2.40.1"));
@@ -50,7 +50,7 @@ public class HelloHandler {
       serviceVersions.add(new ServiceVersion("nomnoml", "0.6.2"));
       serviceVersions.add(new ServiceVersion("nwdiag", "2.0.0"));
       serviceVersions.add(new ServiceVersion("packetdiag", "2.0.0"));
-      serviceVersions.add(new ServiceVersion("plantuml", "1.2020.2"));
+      serviceVersions.add(new ServiceVersion("plantuml", "1.2020.3"));
       serviceVersions.add(new ServiceVersion("rackdiag", "2.0.0"));
       serviceVersions.add(new ServiceVersion("seqdiag", "2.0.0"));
       serviceVersions.add(new ServiceVersion("svgbob", "0.4.2"));
