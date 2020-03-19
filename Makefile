@@ -1,4 +1,4 @@
-LATEST_VERSION = 0.1.0
+LATEST_VERSION = 0.2.0
 
 SMOKE_TESTS_DIR=tests/smoke
 COMPOSE_TIMEOUT=20
@@ -13,6 +13,9 @@ installLocalDependencies:
 
 buildServer:
 	mvn clean package
+
+setServerVersion:
+	mvn versions:set -DnewVersion=$(LATEST_VERSION)
 
 buildDockerImages:
 	cd nomnoml && $(MAKE) package
