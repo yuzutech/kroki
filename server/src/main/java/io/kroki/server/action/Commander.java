@@ -11,6 +11,7 @@ public class Commander {
 
   public byte[] execute(byte[] source, String... cmd) throws IOException, InterruptedException, IllegalStateException {
     ProcessBuilder builder = new ProcessBuilder();
+    builder.redirectOutput(ProcessBuilder.Redirect.INHERIT); // synchronous IO otherwise the output can be incomplete!
     builder.command(cmd);
     builder.redirectErrorStream(true);
     Process process = builder.start();
