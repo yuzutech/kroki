@@ -75,3 +75,32 @@ For instance, if `dot` is located at [.path]_/path/to/dot_, you can configure th
 
 [source,java-cli]
 java -DKROKI_DOT_BIN_PATH=/path/to/dot -jar kroki-server.jar
+
+=== Command timeout
+
+By default, Kroki will wait at most 5 seconds when calling a diagram binary to get a response.
+In most scenarios, 5 seconds is more than enough but, if needed, you can adjust the timeout using the `KROKI_COMMAND_TIMEOUT` environment variable.
+
+The expected format is a duration with a time unit:
+
+[horizontal]
+`d`:: Days
+`h`:: Hours
+`m`:: Minutes
+`s`:: Seconds
+`ms`:: Milliseconds
+`micros`:: Microseconds
+`nanos`:: Nanoseconds
+
+A few examples:
+
+[source]
+----
+KROKI_COMMAND_TIMEOUT=10s # <1>
+KROKI_COMMAND_TIMEOUT=1m # <2>
+KROKI_COMMAND_TIMEOUT=4000ms # <3>
+----
+<1> 10 seconds
+<2> 1 minute
+<3> 4 seconds in milliseconds
+

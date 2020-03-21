@@ -1,5 +1,7 @@
 package io.kroki.server.action;
 
+import io.kroki.server.unit.TimeValue;
+import io.vertx.core.json.JsonObject;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -7,6 +9,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -15,7 +19,7 @@ class CommanderTest {
 
   @Test
   void should_throw_an_exception_when_bin_not_found() {
-    assertThatThrownBy(() -> new Commander().execute("".getBytes(), "/path/not/found/dot"))
+    assertThatThrownBy(() -> new Commander(new JsonObject()).execute("".getBytes(), "/path/not/found/dot"))
       .isInstanceOf(IOException.class)
       .hasMessageStartingWith("Cannot run program \"/path/not/found/dot\"");
   }
@@ -37,7 +41,7 @@ class CommanderTest {
   void should_not_fail(String source) throws IOException, InterruptedException {
     if (Files.isExecutable(Paths.get("/usr/bin/dot"))) {
       try {
-        byte[] result = new Commander().execute(source.getBytes(), "dot");
+        byte[] result = new Commander(new JsonObject()).execute(source.getBytes(), "dot");
         assertThat(Files.exists(Paths.get("/tmp/blns.fail"))).isFalse();
         assertThat(new String(result)).isEqualTo("");
       } catch (IllegalStateException e) {
@@ -45,5 +49,39 @@ class CommanderTest {
         assertThat(e).hasMessageEndingWith(" (exit code 1)");
       }
     }
+  }
+
+  @Test
+  void should_configure_the_timeout_in_milliseconds() {
+    HashMap<String, Object> config = new HashMap<>();
+    config.put("KROKI_COMMAND_TIMEOUT", "4000ms");
+    Commander commander = new Commander(new JsonObject(config));
+    assertThat(commander.commandTimeout).isEqualTo(new TimeValue(4000, TimeUnit.MILLISECONDS));
+  }
+
+  @Test
+  void should_configure_the_timeout_in_seconds() {
+    HashMap<String, Object> config = new HashMap<>();
+    config.put("KROKI_COMMAND_TIMEOUT", "15s");
+    Commander commander = new Commander(new JsonObject(config));
+    assertThat(commander.commandTimeout).isEqualTo(new TimeValue(15, TimeUnit.SECONDS));
+  }
+
+  @Test
+  void should_configure_the_timeout_in_minutes() {
+    HashMap<String, Object> config = new HashMap<>();
+    config.put("KROKI_COMMAND_TIMEOUT", "1m");
+    Commander commander = new Commander(new JsonObject(config));
+    assertThat(commander.commandTimeout).isEqualTo(new TimeValue(1, TimeUnit.MINUTES));
+  }
+
+  @Test
+  void should_throw_an_exception_if_timeunit_invalid() {
+    HashMap<String, Object> config = new HashMap<>();
+    config.put("KROKI_COMMAND_TIMEOUT", "4y");
+    assertThatThrownBy(() -> new Commander(new JsonObject(config)))
+      .isInstanceOf(IllegalArgumentException.class)
+      .hasMessageStartingWith("Failed to parse environment variable 'KROKI_COMMAND_TIMEOUT' with value '4y' as a time value: unit is missing or unrecognized");
+
   }
 }
