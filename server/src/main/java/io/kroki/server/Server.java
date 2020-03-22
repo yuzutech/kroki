@@ -73,7 +73,7 @@ public class Server extends AbstractVerticle {
       .allowedHeaders(allowedHeaders)
       .allowedMethods(allowedMethods));
 
-    Commander commander = new Commander();
+    Commander commander = new Commander(config);
     DiagramRegistry registry = new DiagramRegistry(router, bodyHandler);
     registry.register(new Plantuml(config), "plantuml");
     registry.register(new C4Plantuml(config), "c4plantuml");

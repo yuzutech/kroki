@@ -1,13 +1,22 @@
 package io.kroki.server.action;
 
+import io.kroki.server.unit.TimeValue;
+import io.vertx.core.json.JsonObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InterruptedIOException;
 import java.io.OutputStream;
-import java.util.concurrent.TimeUnit;
 
 public class Commander {
+
+  protected TimeValue commandTimeout;
+
+  public Commander(JsonObject config) {
+    String value = config.getString("KROKI_COMMAND_TIMEOUT", "5s");
+    this.commandTimeout = TimeValue.parseTimeValue(value, "KROKI_COMMAND_TIMEOUT");
+  }
 
   public byte[] execute(byte[] source, String... cmd) throws IOException, InterruptedException, IllegalStateException {
     ProcessBuilder builder = new ProcessBuilder();
@@ -21,10 +30,10 @@ public class Commander {
     stdin.flush();
     stdin.close();
 
-    process.waitFor(5L, TimeUnit.SECONDS);
+    process.waitFor(this.commandTimeout.duration(), this.commandTimeout.timeUnit());
     if (process.isAlive()) {
       process.destroyForcibly();
-      throw new InterruptedIOException("Process was forcibly killed (not responding after 5 seconds)");
+      throw new InterruptedIOException("Process was forcibly killed (not responding after " + this.commandTimeout + " seconds)");
     }
     int exitValue = process.exitValue();
     if (exitValue != 0) {
