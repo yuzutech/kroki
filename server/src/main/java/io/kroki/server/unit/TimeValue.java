@@ -93,6 +93,10 @@ public class TimeValue implements Comparable<TimeValue> {
     return duration;
   }
 
+  public long millis() {
+    return timeUnit.toMillis(duration);
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
