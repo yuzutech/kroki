@@ -59,39 +59,4 @@
   <path d="M 660 252 L 660 300" fill="none" stroke="rgb(0,0,0)" />
   <rect fill="rgb(255,255,255)" height="40" stroke="rgb(0,0,0)" width="104" x="608" y="300" />
   <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="24" x="660.0" y="326">db02</text>
-  <rect fill="rgb(0,0,0)" height="40" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" width="104" x="155" y="162" />
-  <rect fill="rgb(0,0,0)" height="40" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" width="104" x="307" y="162" />
-  <rect fill="rgb(0,0,0)" height="40" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" width="104" x="459" y="306" />
-  <rect fill="rgb(0,0,0)" height="40" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" width="104" x="611" y="306" />
-  <path d="M 131 103 L 435 103 A2,4 0 0 1 435 111 L 131 111 A2,4 0 0 1 131 103" fill="rgb(0,0,0)" style="filter:url(#filter_blur)" />
-  <path d="M 131 247 L 739 247 A2,4 0 0 1 739 255 L 131 255 A2,4 0 0 1 131 247" fill="rgb(0,0,0)" style="filter:url(#filter_blur)" />
-  <path d="M 128 100 L 432 100 A2,4 0 0 1 432 108 L 128 108 A2,4 0 0 1 128 100" fill="rgb(185,203,228)" stroke="rgb(0,0,0)" />
-  <path d="M 432 108 A2,4 0 0 1 432 100" fill="none" stroke="rgb(0,0,0)" />
-  <path d="M 128 100 L 432 100" fill="none" stroke="none" />
-  <path d="M 280 35 L 280 100" fill="none" stroke="rgb(0,0,0)" />
-  <path d="M 128 244 L 736 244 A2,4 0 0 1 736 252 L 128 252 A2,4 0 0 1 128 244" fill="rgb(185,203,228)" stroke="rgb(0,0,0)" />
-  <path d="M 736 252 A2,4 0 0 1 736 244" fill="none" stroke="rgb(0,0,0)" />
-  <path d="M 128 244 L 736 244" fill="none" stroke="none" />
-  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="18" x="111.0" y="103">dmz</text>
-  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="72" x="84.0" y="116">210.x.x.x/24</text>
-  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="48" x="96.0" y="247">internal</text>
-  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="72" x="84.0" y="260">172.x.x.x/24</text>
-  <path d="M 204 108 L 204 156" fill="none" stroke="rgb(0,0,0)" />
-  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="54" x="243.0" y="136">210.x.x.1</text>
-  <path d="M 204 196 L 204 244" fill="none" stroke="rgb(0,0,0)" />
-  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="54" x="243.0" y="224">172.x.x.1</text>
-  <rect fill="rgb(255,255,255)" height="40" stroke="rgb(0,0,0)" width="104" x="152" y="156" />
-  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="30" x="204.0" y="182">web01</text>
-  <path d="M 356 108 L 356 156" fill="none" stroke="rgb(0,0,0)" />
-  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="54" x="395.0" y="136">210.x.x.2</text>
-  <path d="M 356 196 L 356 244" fill="none" stroke="rgb(0,0,0)" />
-  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="54" x="395.0" y="224">172.x.x.2</text>
-  <rect fill="rgb(255,255,255)" height="40" stroke="rgb(0,0,0)" width="104" x="304" y="156" />
-  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="30" x="356.0" y="182">web02</text>
-  <path d="M 508 252 L 508 300" fill="none" stroke="rgb(0,0,0)" />
-  <rect fill="rgb(255,255,255)" height="40" stroke="rgb(0,0,0)" width="104" x="456" y="300" />
-  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="24" x="508.0" y="326">db01</text>
-  <path d="M 660 252 L 660 300" fill="none" stroke="rgb(0,0,0)" />
-  <rect fill="rgb(255,255,255)" height="40" stroke="rgb(0,0,0)" width="104" x="608" y="300" />
-  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="24" x="660.0" y="326">db02</text>
 </svg>

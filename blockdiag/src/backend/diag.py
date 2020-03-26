@@ -65,7 +65,6 @@ def generate_diag(app, diagram_type, output_format, source):
                                                nodoctype=app.options.nodoctype,
                                                transparency=app.options.transparency)
         drawer.draw()
-        drawer.drawer._run()
         if output_format == 'png':
             png_image = drawer.drawer.save(None, None, drawer.format)
             return png_image
