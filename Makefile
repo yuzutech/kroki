@@ -14,6 +14,13 @@ installLocalDependencies:
 buildServer:
 	mvn clean package
 
+# requires Python 3.8 in the $PATH
+installBlockDiag:
+	cd blockdiag && pip3.8 install -r requirements.txt
+
+testBlockDiag:
+	cd blockdiag && python3.8 -m unittest test/test_diag.py
+
 setServerVersion:
 	mvn versions:set -DnewVersion=$(LATEST_VERSION)
 

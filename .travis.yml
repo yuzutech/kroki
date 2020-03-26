@@ -10,7 +10,12 @@ jdk: openjdk12
 
 install: true
 
+before_install:
+  - pyenv install -s 3.8.1
+  - pyenv local 3.8.1
+
 script:
+  - make installBlockDiag && make testBlockDiag
   - make installLocalDependencies
   - make buildServer
   - make buildDockerImages
