@@ -10,14 +10,18 @@ from seqdiag.command import SeqdiagApp
 from nwdiag.command import NwdiagApp
 from actdiag.command import ActdiagApp
 
-class TestStringMethods(unittest.TestCase):
+class TestDiag(unittest.TestCase):
 
-    def _generate(self, diagram_type):
-        with open('test/fixtures/' + diagram_type + '_source.txt', 'r') as file:
+    def _generate(self, name, diagram_type = None):
+        with open('test/fixtures/' + name + '_source.txt', 'r') as file:
             source = file.read()
-        with open('test/fixtures/' + diagram_type + '_expected.svg', 'r') as file:
+        with open('test/fixtures/' + name + '_expected.svg', 'r') as file:
             lines = file.readlines()
             expected = '\n'.join([item.strip() for item in lines])
+
+        if diagram_type is None:
+            diagram_type = name
+
         if diagram_type == 'nwdiag':
             app, name = NwdiagApp(), 'network'
         elif diagram_type == 'blockdiag':
@@ -48,6 +52,11 @@ class TestStringMethods(unittest.TestCase):
 
     def test_seqdiag(self):
         actual, expected = self._generate('seqdiag')
+        self.maxDiff = None
+        self.assertEqual(actual, expected)
+
+    def test_seqdiag_issue_134(self):
+        actual, expected = self._generate('seqdiag_issue_134', 'seqdiag')
         self.maxDiff = None
         self.assertEqual(actual, expected)
 
