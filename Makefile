@@ -34,13 +34,6 @@ buildDockerImages:
 	cd blockdiag && $(MAKE) package
 	cd mermaid && $(MAKE) package
 
-tagDockerImages:
-	docker tag kroki-builder-static-erd:latest kroki-builder-static-erd:0.2.0.0
-	docker tag kroki-builder-static-svgbob:latest kroki-builder-static-svgbob:0.4.2
-	docker tag kroki-builder-nomnoml:latest kroki-builder-nomnoml:0.6.2
-	docker tag kroki-builder-vega:latest kroki-builder-vega:5.10.0-4.7.0
-	docker tag kroki-builder-wavedrom:latest kroki-builder-wavedrom:2.3.2
-
 showExamples:
 	python blockdiag/examples.py
 
