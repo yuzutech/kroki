@@ -20,7 +20,7 @@ The Docker image contains the following diagrams libraries out-of-the-box:
 |===
 |Diagram Type | Version
 |https://github.com/RicardoNiepel/C4-PlantUML[C4 with PlantUML]
-|1.2020.3
+|1.2020.4
 //|Java library (depends on GraphViz)
 
 |http://ditaa.sourceforge.net[Ditaa]
@@ -41,7 +41,7 @@ The Docker image contains the following diagrams libraries out-of-the-box:
 //|Binary `/node/bin/nomnoml`
 
 |https://github.com/plantuml/plantuml[PlantUML]
-|1.2020.3
+|1.2020.4
 //|Java library (depends on GraphViz)
 
 |https://github.com/ivanceras/svgbob[Svgbob]
@@ -57,7 +57,7 @@ The Docker image contains the following diagrams libraries out-of-the-box:
 //|Binary `/node/bin/vega`
 
 |https://github.com/vega/vega-lite[Vega-Lite]
-|4.7.0
+|4.8.1
 //|Binary `/node/bin/vega`
 
 |https://github.com/wavedrom/wavedrom[WaveDrom]
