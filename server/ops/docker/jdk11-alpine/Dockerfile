@@ -1,3 +1,4 @@
+# based on alpine 3.11
 FROM adoptopenjdk/openjdk11:jre-11.0.6_10-alpine
 
 COPY --from=kroki-builder-static-svgbob:latest /home/rust/.cargo/bin/svgbob /rust/bin/svgbob
@@ -8,6 +9,8 @@ COPY --from=kroki-builder-vega:latest /app/canvas.node /node/bin/canvas.node
 COPY --from=kroki-builder-wavedrom:latest /app/app.bin /node/bin/wavedrom
 
 RUN apk add --update --no-cache \
+           libjpeg \
+           giflib-dev \
            graphviz \
            ttf-freefont
 
