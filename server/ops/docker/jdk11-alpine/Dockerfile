@@ -29,4 +29,4 @@ EXPOSE 8000
 
 COPY target/kroki-server.jar .
 
-ENTRYPOINT exec java $JAVA_OPTS -XX:+UnlockExperimentalVMOptions -jar kroki-server.jar
+ENTRYPOINT exec java $JAVA_OPTS -jar kroki-server.jar
