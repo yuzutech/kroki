@@ -1,0 +1,6 @@
+(draw-column-headers)
+(draw-box "Address" {:span 4})
+(draw-box "Size" {:span 2})
+(draw-box 0 {:span 2})
+(draw-gap "Payload")
+(draw-bottom)

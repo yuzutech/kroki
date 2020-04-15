@@ -7,6 +7,7 @@ COPY --from=kroki-builder-nomnoml:latest /app/app.bin /node/bin/nomnoml
 COPY --from=kroki-builder-vega:latest /app/app.bin /node/bin/vega
 COPY --from=kroki-builder-vega:latest /app/canvas.node /node/bin/canvas.node
 COPY --from=kroki-builder-wavedrom:latest /app/app.bin /node/bin/wavedrom
+COPY --from=kroki-builder-bytefield:latest /app/app.bin /node/bin/bytefield
 
 RUN apk add --update --no-cache \
            libjpeg \
@@ -23,6 +24,7 @@ ENV KROKI_DOT_BIN_PATH=/usr/bin/dot
 ENV KROKI_NOMNOML_BIN_PATH=/node/bin/nomnoml
 ENV KROKI_VEGA_BIN_PATH=/node/bin/vega
 ENV KROKI_WAVEDROM_BIN_PATH=/node/bin/wavedrom
+ENV KROKI_BYTEFIELD_BIN_PATH=/node/bin/bytefield
 ENV JAVA_OPTS="-Dlogback.configurationFile=/etc/logback.xml"
 
 EXPOSE 8000

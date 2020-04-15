@@ -3,14 +3,12 @@ package io.kroki.server.service;
 import io.vertx.core.Handler;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.impl.Utils;
-import net.sourceforge.plantuml.Run;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.ResourceBundle;
 
 public class HelloHandler {
 
@@ -42,6 +40,7 @@ public class HelloHandler {
       // QUESTION: should we dynamically fetch the versions ?
       serviceVersions.add(new ServiceVersion("actdiag", "2.0.0"));
       serviceVersions.add(new ServiceVersion("blockdiag", "2.0.1"));
+      serviceVersions.add(new ServiceVersion("bytefield", "1.4.1"));
       serviceVersions.add(new ServiceVersion("c4plantuml", "1.2020.4"));
       serviceVersions.add(new ServiceVersion("ditaa", "1.3.13"));
       serviceVersions.add(new ServiceVersion("erd", "0.1.3.0"));

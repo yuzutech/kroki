@@ -17,6 +17,7 @@ const tests = [
   {engine: 'vega', file: 'bar-chart.vega', outputFormat: ['svg', 'png', 'pdf']},
   {engine: 'vegalite', file: 'discretizing-scale.vlite', outputFormat: ['svg', 'png', 'pdf']},
   {engine: 'wavedrom', file: 'wavedrom.json5', outputFormat: ['svg']},
+  {engine: 'bytefield', file: 'bytefield.bf', outputFormat: ['svg']},
 ]
 
 const chai = require('chai')
