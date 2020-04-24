@@ -4,7 +4,7 @@ services:
   kroki:
     build:
       context: ../../server/
-      dockerfile: ops/docker/jdk8-alpine/Dockerfile
+      dockerfile: ops/docker/jdk11-alpine/Dockerfile
     depends_on:
       - blockdiag
       - mermaid

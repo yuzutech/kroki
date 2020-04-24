@@ -1,4 +1,5 @@
-FROM openjdk:8u191-jdk-alpine3.8
+# based on alpine 3.11
+FROM adoptopenjdk/openjdk11:jre-11.0.6_10-alpine
 
 COPY --from=kroki-builder-static-svgbob:latest /home/rust/.cargo/bin/svgbob /rust/bin/svgbob
 COPY --from=kroki-builder-static-erd:latest /root/.local/bin/erd /haskell/bin/erd
@@ -8,13 +9,10 @@ COPY --from=kroki-builder-vega:latest /app/canvas.node /node/bin/canvas.node
 COPY --from=kroki-builder-wavedrom:latest /app/app.bin /node/bin/wavedrom
 
 RUN apk add --update --no-cache \
+           libjpeg \
+           giflib-dev \
            graphviz \
            ttf-freefont
-
-# Workaround: https://github.com/docker-library/openjdk/issues/77
-# Error loading shared library libjli.so: No such file or directory (needed by /usr/bin/java)
-# Error relocating /usr/bin/java: JLI_Launch: symbol not found
-COPY ops/docker/ld-musl-x86_64.path /etc/ld-musl-x86_64.path
 
 COPY ops/docker/logback.xml /etc/logback.xml
 
@@ -31,4 +29,4 @@ EXPOSE 8000
 
 COPY target/kroki-server.jar .
 
-ENTRYPOINT exec java $JAVA_OPTS -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -jar kroki-server.jar
+ENTRYPOINT exec java $JAVA_OPTS -jar kroki-server.jar
