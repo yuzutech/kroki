@@ -1,0 +1,61 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  test-blockdiag:
+    runs-on: ubuntu-18.04
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install python 3.8.1
+      uses: gabrielfalcao/pyenv-action@v5
+      with:
+        default: 3.8.1
+        command: pip install -U pip  # upgrade pip after installing python
+
+    - name: Create virtualenv for python 3.8.1
+      run: pyenv local 3.8.1
+
+    - name: Install BlockDiag
+      run: make installBlockDiag
+
+    - name: Test BlockDiag
+      run: make testBlockDiag
+
+  test-containers:
+    runs-on: ubuntu-18.04
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up JDK 11
+      uses: actions/setup-java@v1
+      with:
+        java-version: 11
+
+    - name: Install Java dependencies
+      run: make installLocalDependencies
+
+    - name: Build Java server
+      run: make buildServer
+
+    - name: Setup Docker
+      uses: docker-practice/actions-setup-docker@master
+      with:
+        docker_version: 19.03.8
+        docker_channel: stable
+
+    - name: Build container images
+      run: make buildDockerImages
+
+    - name: 'Setup Node.js 12'
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+
+    - name: Install Node dependencies
+      run: npm install
+
+    - name: Run smoke tests
+      run: make smokeTests
