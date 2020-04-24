@@ -33,6 +33,7 @@ buildDockerImages:
 	cd server && $(MAKE) package
 	cd blockdiag && $(MAKE) package
 	cd mermaid && $(MAKE) package
+	cd bpmn && $(MAKE) package
 
 showExamples:
 	python blockdiag/examples.py
@@ -44,6 +45,7 @@ releaseDockerImages:
 	docker tag yuzutech/kroki:latest yuzutech/kroki:latest
 	docker tag yuzutech/kroki-blockdiag:latest yuzutech/kroki-blockdiag:latest
 	docker tag yuzutech/kroki-mermaid:latest yuzutech/kroki-mermaid:latest
+	docker tag yuzutech/kroki-bpmn:latest yuzutech/kroki-bpmn:latest
 
 pushDockerImages:
 	docker push yuzutech/kroki:latest
@@ -52,6 +54,7 @@ pushDockerImages:
 	docker push yuzutech/kroki:$(LATEST_VERSION)
 	docker push yuzutech/kroki-blockdiag:$(LATEST_VERSION)
 	docker push yuzutech/kroki-mermaid:$(LATEST_VERSION)
+	docker push yuzutech/kroki-bpmn:$(LATEST_VERSION)
 
 smokeTests:
 	@docker-compose --file "$(SMOKE_TESTS_DIR)/docker-compose.yaml" up --build --detach \

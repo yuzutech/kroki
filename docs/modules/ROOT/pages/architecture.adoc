@@ -12,6 +12,9 @@ A companion web server written in Python (powered by _Flask_ and _Gunicorn_) tha
 Mermaid::
 A companion web server written in JavaScript (powered by _micro_) that provides _Mermaid_ diagram library.
 
+BPMN::
+A companion web server written in JavaScript (powered by _micro_) that provides _bpmn-js_ to render bpmn diagrams.
+
 == Gateway Server
 
 The Docker image contains the following diagrams libraries out-of-the-box:
@@ -103,4 +106,15 @@ The Docker image contains the following diagrams libraries out-of-the-box:
 |Diagram Type | Version
 |https://github.com/knsv/mermaid[Mermaid]
 |8.4.8
+|===
+
+=== BPMN
+
+The Docker image contains the following diagrams libraries out-of-the-box:
+
+[options="header",cols="1,1m"]
+|===
+|Diagram Type | Version
+|https://bpmn.io/toolkit/bpmn-js/[bpmn-js]
+|6.5.1
 |===
