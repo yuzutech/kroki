@@ -6,6 +6,7 @@
 ifdef::env-github[]
 image:https://travis-ci.org/yuzutech/kroki.svg?branch=master[Travis build status, link=https://travis-ci.org/yuzutech/kroki]
 image:https://github.com/yuzutech/kroki/workflows/CI/badge.svg?branch=master[GitHub Actions build status, link=https://github.com/yuzutech/kroki/actions]
+image:https://badges.gitter.im/gitterHQ/gitter.png[Gitter chat, link=https://gitter.im/kroki-project/community]
 endif::[]
 
 {uri-kroki}[Kroki] provides a unified API with support for BlockDiag (BlockDiag, SeqDiag, ActDiag, NwDiag, PacketDiag, RackDiag), C4 (with PlantUML), Ditaa, Erd, GraphViz, Nomnoml, Mermaid, PlantUML, SvgBob, UMLet, Vega... and more to come!
