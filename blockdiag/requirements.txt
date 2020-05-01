@@ -8,7 +8,7 @@ itsdangerous==1.1.0
 Jinja2==2.11.2
 MarkupSafe==1.1.1
 nwdiag==2.0.0
-Pillow==7.1.1
+Pillow==7.1.2
 reportlab==3.5.42
 seqdiag==2.0.0
 webcolors==1.11.1
