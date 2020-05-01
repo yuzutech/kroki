@@ -14,8 +14,10 @@ Once you've downloaded the archive, extract the `kroki` binary file from the arc
 
 If installation was successful, the command should report the version of Kroki CLI:
 
-[source,txt,subs=attributes]
+[literal,subs=attributes]
+....
 kroki {kroki-cli-version} {kroki-cli-sha} [https://kroki.io]
+....
 
 [NOTE]
 ====

@@ -74,7 +74,8 @@ docker run -p8080:8000 -d yuzutech/kroki
 
 In other words, the following endpoints will be available:
 
-```
+[literal]
+....
 /c4plantuml
 /ditaa
 /erd
@@ -86,7 +87,7 @@ In other words, the following endpoints will be available:
 /umlet
 /vega
 /vegalite
-```
+....
 
 If you want to use _BlockDiag_, _ActDiag_, _NwDiag_, _SeqDiag_, _Mermaid_ or _BPMN_, then you will also need to start companion containers:
 
@@ -110,7 +111,8 @@ You can use `docker-compose` to run multiple containers.
 Here's an example where we start all the containers:
 
 .docker-compose.yml
-```yml
+[source,yml]
+----
 version: "3"
 services:
  core:
@@ -133,7 +135,7 @@ services:
    image: yuzutech/kroki-bpmn
    expose:
      - "8003"
-```
+----
 
 [source,docker-cli]
 docker-compose up -d
