@@ -46,7 +46,7 @@ public class HelloHandler {
       serviceVersions.add(new ServiceVersion("ditaa", "1.3.13"));
       serviceVersions.add(new ServiceVersion("erd", "0.1.3.0"));
       serviceVersions.add(new ServiceVersion("graphviz", "2.40.1"));
-      serviceVersions.add(new ServiceVersion("mermaid", "8.4.8"));
+      serviceVersions.add(new ServiceVersion("mermaid", "8.5.0"));
       serviceVersions.add(new ServiceVersion("nomnoml", "0.7.1"));
       serviceVersions.add(new ServiceVersion("nwdiag", "2.0.0"));
       serviceVersions.add(new ServiceVersion("packetdiag", "2.0.0"));
