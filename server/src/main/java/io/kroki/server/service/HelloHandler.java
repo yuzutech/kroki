@@ -40,6 +40,7 @@ public class HelloHandler {
       // QUESTION: should we dynamically fetch the versions ?
       serviceVersions.add(new ServiceVersion("actdiag", "2.0.0"));
       serviceVersions.add(new ServiceVersion("blockdiag", "2.0.1"));
+      serviceVersions.add(new ServiceVersion("bpmn", "6.5.1"));
       serviceVersions.add(new ServiceVersion("bytefield", "1.4.1"));
       serviceVersions.add(new ServiceVersion("c4plantuml", "1.2020.4"));
       serviceVersions.add(new ServiceVersion("ditaa", "1.3.13"));
