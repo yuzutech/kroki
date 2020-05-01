@@ -2,21 +2,7 @@ package io.kroki.server;
 
 import io.kroki.server.action.Commander;
 import io.kroki.server.error.ErrorHandler;
-import io.kroki.server.service.Blockdiag;
-import io.kroki.server.service.C4Plantuml;
-import io.kroki.server.service.DiagramRegistry;
-import io.kroki.server.service.DiagramRest;
-import io.kroki.server.service.Ditaa;
-import io.kroki.server.service.Erd;
-import io.kroki.server.service.Graphviz;
-import io.kroki.server.service.HelloHandler;
-import io.kroki.server.service.Mermaid;
-import io.kroki.server.service.Nomnoml;
-import io.kroki.server.service.Plantuml;
-import io.kroki.server.service.Svgbob;
-import io.kroki.server.service.Umlet;
-import io.kroki.server.service.Vega;
-import io.kroki.server.service.Wavedrom;
+import io.kroki.server.service.*;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.AsyncResult;
@@ -88,6 +74,7 @@ public class Server extends AbstractVerticle {
     registry.register(new Vega(vertx, config, Vega.SpecFormat.DEFAULT, commander), "vega");
     registry.register(new Vega(vertx, config, Vega.SpecFormat.LITE, commander), "vegalite");
     registry.register(new Wavedrom(vertx, config, commander), "wavedrom");
+    registry.register(new Bpmn(vertx, config), "bpmn");
 
     router.post("/")
       .handler(bodyHandler)

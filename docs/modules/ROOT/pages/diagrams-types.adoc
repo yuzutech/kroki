@@ -29,6 +29,7 @@ Diagram::
 * Packet diagram
 * Rack diagram
 * Digital Timing diagram (waveform)
+* BPMN diagram
 
 Visualization::
 * Bar charts

@@ -1,0 +1,23 @@
+{
+  "name": "bpmn-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "bin": "src/index.js",
+  "scripts": {
+    "prestart": "cp node_modules/bpmn-js/dist/bpmn-viewer.production.min.js assets/bpmn-viewer.production.min.js",
+    "start": "node src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Heiko Does",
+  "license": "MIT",
+  "dependencies": {
+    "bpmn-js": "^6.5.1",
+    "micro": "9.3.4",
+    "puppeteer": "3.0.1"
+  },
+  "devDependencies": {
+    "standard": "14.3.3"
+  }
+}

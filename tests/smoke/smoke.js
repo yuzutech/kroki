@@ -8,6 +8,7 @@ const tests = [
   {engine: 'ditaa', file: 'components.ditaa', outputFormat: ['svg']},
   {engine: 'erd', file: 'schema.erd', outputFormat: ['svg']},
   {engine: 'mermaid', file: 'contribute.mmd', outputFormat: ['svg']},
+  {engine: 'bpmn', file: 'example.bpmn', outputFormat: ['svg']},
   {engine: 'plantuml', file: 'architecture.puml', outputFormat: ['svg']},
   {engine: 'svgbob', file: 'cloud.bob', outputFormat: ['svg']},
   {engine: 'nomnoml', file: 'pirate.nomnoml', outputFormat: ['svg']},
