@@ -30,6 +30,7 @@ Diagram::
 * Rack diagram
 * Digital Timing diagram (waveform)
 * BPMN diagram
+* Bytefield diagram
 
 Visualization::
 * Bar charts
