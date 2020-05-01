@@ -7,7 +7,8 @@
   "scripts": {
     "prestart": "cp node_modules/bpmn-js/dist/bpmn-viewer.production.min.js assets/bpmn-viewer.production.min.js",
     "start": "node src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "standard src/**.js"
   },
   "keywords": [],
   "author": "Heiko Does",

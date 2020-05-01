@@ -12,11 +12,11 @@ function convert () {
   console.log(nomnoml.renderSvg(source))
 }
 
-const [ , , ...args ] = process.argv;
+const [, , ...args] = process.argv
 if (args[0] === '--version') {
   const version = require('./package.json').dependencies.nomnoml
   console.log(`nomnoml ${version}`)
-  return
+  process.exit(0)
 }
 
 if (process.stdin.isTTY) {
@@ -32,7 +32,7 @@ if (process.stdin.isTTY) {
 
   process.stdin.on('readable', function () {
     let chunk
-    while (chunk = process.stdin.read()) {
+    while ((chunk = process.stdin.read()) !== null) {
       data += chunk
     }
   })

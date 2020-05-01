@@ -1,7 +1,7 @@
 class Task {
   constructor (source) {
     this.source = source
-    this.mermaidConfig = {theme: 'default'}
+    this.mermaidConfig = { theme: 'default' }
   }
 }
 

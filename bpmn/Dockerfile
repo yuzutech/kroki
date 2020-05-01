@@ -19,6 +19,7 @@ COPY package.json package-lock.json /app/
 COPY src /app/src
 
 RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 npm ci
+RUN npm run lint
 
 RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-${ARCH} . -o app.bin
 
