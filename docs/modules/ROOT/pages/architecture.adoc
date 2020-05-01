@@ -22,6 +22,9 @@ The Docker image contains the following diagrams libraries out-of-the-box:
 [options="header",cols="1,1m"]
 |===
 |Diagram Type | Version
+|https://github.com/Deep-Symmetry/bytefield-svg[Bytefield]
+|1.4.1
+
 |https://github.com/RicardoNiepel/C4-PlantUML[C4 with PlantUML]
 |1.2020.4
 //|Java library (depends on GraphViz)
@@ -33,7 +36,6 @@ The Docker image contains the following diagrams libraries out-of-the-box:
 |https://github.com/BurntSushi/erd[Erd]
 |0.1.3.0
 //|Binary `/haskell/bin/erd`
-
 
 |https://www.graphviz.org/[GraphViz]
 |2.40.1
