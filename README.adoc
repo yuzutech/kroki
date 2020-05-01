@@ -94,6 +94,9 @@ A companion web server written in Python (powered by _Flask_ and _Gunicorn_) tha
 mermaid::
 A companion web server written in JavaScript (powered by _micro_) that provides _Mermaid_ diagram library.
 
+bpmn::
+A companion web server written in JavaScript (powered by _micro_) that provides _bpmn-js_ diagram library.
+
 == Build
 
 === Gateway Server
@@ -136,6 +139,7 @@ services:
     environment:
       - KROKI_BLOCKDIAG_HOST=blockdiag
       - KROKI_MERMAID_HOST=mermaid
+      - KROKI_BPMN_HOST=bpmn
     ports:
       - "8000:8000"
   blockdiag:
@@ -146,6 +150,10 @@ services:
     image: yuzutech/kroki-mermaid
     ports:
       - "8002:8002"
+bpmn:
+    image: yuzutech/kroki-bpmn
+    ports:
+      - "8003:8003"
 ----
 
  $ docker-compose up -d
