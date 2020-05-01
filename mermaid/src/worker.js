@@ -14,7 +14,7 @@ class Worker {
     })
     const page = await browser.newPage()
     try {
-      page.setViewport({height: 800, width: 600})
+      page.setViewport({ height: 800, width: 600 })
       await page.goto(this.pageUrl)
       // QUESTION: should we reuse the page for performance reason ?
       await page.$eval('#container', (container, definition, mermaidConfig) => {
@@ -30,12 +30,12 @@ class Worker {
       try {
         await page.close()
       } catch (e) {
-        console.warn(`Unable to close the page`, e)
+        console.warn('Unable to close the page', e)
       }
       try {
         await browser.disconnect()
       } catch (e) {
-        console.warn(`Unable to disconnect from the browser`, e)
+        console.warn('Unable to disconnect from the browser', e)
       }
     }
   }

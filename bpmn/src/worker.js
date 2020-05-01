@@ -14,44 +14,44 @@ class Worker {
     })
     const page = await browser.newPage()
     try {
-      page.setViewport({height: 800, width: 600})
+      page.setViewport({ height: 800, width: 600 })
       await page.goto(this.pageUrl)
       return await page.$eval('#container', (container, bpmnXML, options) => {
         container.innerHTML = bpmnXML
-        const viewer = new BpmnJS({container: container});
+        /* global BpmnJS */
+        const viewer = new BpmnJS({ container: container })
 
-        function loadDiagram() {
+        function loadDiagram () {
           return new Promise((resolve, reject) => {
             viewer.importXML(bpmnXML, function (err) {
               if (err) {
-                reject(err);
+                reject(err)
               } else {
-                resolve();
+                resolve()
               }
-            });
-          });
+            })
+          })
         }
 
-        function exportSVG() {
+        function exportSVG () {
           return new Promise((resolve, reject) => {
             viewer.saveSVG((err, svg) => {
               if (err) {
-                console.log('Failed to export', err);
-                reject(err);
+                console.log('Failed to export', err)
+                reject(err)
               } else {
-                resolve(svg);
+                resolve(svg)
               }
-            });
-          });
+            })
+          })
         }
 
         return loadDiagram().then(() => {
-            return exportSVG();
+          return exportSVG()
         }).catch((err) => {
-          throw err;
-        });
-
-      },  task.source, task.bpmnConfig);
+          throw err
+        })
+      }, task.source, task.bpmnConfig)
     } catch (e) {
       console.error('Unable to convert the diagram', e)
       throw e
@@ -59,12 +59,12 @@ class Worker {
       try {
         await page.close()
       } catch (e) {
-        console.warn(`Unable to close the page`, e)
+        console.warn('Unable to close the page', e)
       }
       try {
         await browser.disconnect()
       } catch (e) {
-        console.warn(`Unable to disconnect from the browser`, e)
+        console.warn('Unable to disconnect from the browser', e)
       }
     }
   }

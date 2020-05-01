@@ -11,11 +11,11 @@ const micro = require('micro')
   const server = micro(async (req, res) => {
     // TODO: add a /_status route (return mermaid version)
     // TODO: read the diagram source as plain text
-    const diagramSource = await micro.text(req, {limit: '10mb', encoding: 'utf8'})
+    const diagramSource = await micro.text(req, { limit: '10mb', encoding: 'utf8' })
     if (diagramSource) {
       try {
         const svg = await worker.convert(new Task(diagramSource))
-        res.setHeader('Content-Type', 'image/svg+xml');
+        res.setHeader('Content-Type', 'image/svg+xml')
         return micro.send(res, 200, svg)
       } catch (e) {
         console.log('e', e)
@@ -29,4 +29,3 @@ const micro = require('micro')
   console.error('Unable to start the service', error)
   process.exit(1)
 })
-

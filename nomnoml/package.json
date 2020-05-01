@@ -4,7 +4,8 @@
   "description": "A CLI built on top of the Nomnoml diagram library.",
   "bin": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "standard"
   },
   "license": "MIT",
   "repository": {
