@@ -9,7 +9,7 @@ function convert () {
   if (source === '') {
     return
   }
-  process.stdout.write(bytefieldProcessor(source, { embedded: true }))
+  process.stdout.write(bytefieldProcessor(source))
 }
 
 const [ , , ...args ] = process.argv;
