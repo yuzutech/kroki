@@ -43,6 +43,7 @@ releaseDockerImages:
 	docker tag yuzutech/kroki:latest yuzutech/kroki:$(LATEST_VERSION)
 	docker tag yuzutech/kroki-blockdiag:latest yuzutech/kroki-blockdiag:$(LATEST_VERSION)
 	docker tag yuzutech/kroki-mermaid:latest yuzutech/kroki-mermaid:$(LATEST_VERSION)
+	docker tag yuzutech/kroki-bpmn:latest yuzutech/kroki-bpmn:$(LATEST_VERSION)
 	docker tag yuzutech/kroki:latest yuzutech/kroki:latest
 	docker tag yuzutech/kroki-blockdiag:latest yuzutech/kroki-blockdiag:latest
 	docker tag yuzutech/kroki-mermaid:latest yuzutech/kroki-mermaid:latest
