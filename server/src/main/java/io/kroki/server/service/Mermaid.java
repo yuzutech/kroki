@@ -33,7 +33,7 @@ public class Mermaid implements DiagramService {
     };
     this.host = config.getString("KROKI_MERMAID_HOST", "127.0.0.1");
     this.port = config.getInteger("KROKI_MERMAID_PORT", 8002);
-    this.diagramResponse = new DiagramResponse(new Caching("8.4.8"));
+    this.diagramResponse = new DiagramResponse(new Caching("8.5.0"));
   }
 
   @Override

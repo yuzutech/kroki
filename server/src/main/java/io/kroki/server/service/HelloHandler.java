@@ -42,21 +42,21 @@ public class HelloHandler {
       serviceVersions.add(new ServiceVersion("blockdiag", "2.0.1"));
       serviceVersions.add(new ServiceVersion("bpmn", "6.5.1"));
       serviceVersions.add(new ServiceVersion("bytefield", "1.4.1"));
-      serviceVersions.add(new ServiceVersion("c4plantuml", "1.2020.4"));
+      serviceVersions.add(new ServiceVersion("c4plantuml", "1.2020.8"));
       serviceVersions.add(new ServiceVersion("ditaa", "1.3.13"));
       serviceVersions.add(new ServiceVersion("erd", "0.1.3.0"));
       serviceVersions.add(new ServiceVersion("graphviz", "2.40.1"));
-      serviceVersions.add(new ServiceVersion("mermaid", "8.4.8"));
-      serviceVersions.add(new ServiceVersion("nomnoml", "0.6.2"));
+      serviceVersions.add(new ServiceVersion("mermaid", "8.5.0"));
+      serviceVersions.add(new ServiceVersion("nomnoml", "0.7.1"));
       serviceVersions.add(new ServiceVersion("nwdiag", "2.0.0"));
       serviceVersions.add(new ServiceVersion("packetdiag", "2.0.0"));
-      serviceVersions.add(new ServiceVersion("plantuml", "1.2020.4"));
+      serviceVersions.add(new ServiceVersion("plantuml", "1.2020.8"));
       serviceVersions.add(new ServiceVersion("rackdiag", "2.0.0"));
       serviceVersions.add(new ServiceVersion("seqdiag", "2.0.0"));
       serviceVersions.add(new ServiceVersion("svgbob", "0.4.2"));
       serviceVersions.add(new ServiceVersion("umlet", "14.3.0"));
-      serviceVersions.add(new ServiceVersion("vega", "5.10.0"));
-      serviceVersions.add(new ServiceVersion("vegalite", "4.8.1"));
+      serviceVersions.add(new ServiceVersion("vega", "5.11.1"));
+      serviceVersions.add(new ServiceVersion("vegalite", "4.11.0"));
       serviceVersions.add(new ServiceVersion("wavedrom", "2.3.2"));
       String versionsTable = generateVersionsTable(serviceVersions);
       routingContext
