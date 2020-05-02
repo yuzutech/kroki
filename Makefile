@@ -53,6 +53,7 @@ pushDockerImages:
 	docker push yuzutech/kroki:latest
 	docker push yuzutech/kroki-blockdiag:latest
 	docker push yuzutech/kroki-mermaid:latest
+	docker push yuzutech/kroki-bpmn:latest
 	docker push yuzutech/kroki:$(LATEST_VERSION)
 	docker push yuzutech/kroki-blockdiag:$(LATEST_VERSION)
 	docker push yuzutech/kroki-mermaid:$(LATEST_VERSION)
