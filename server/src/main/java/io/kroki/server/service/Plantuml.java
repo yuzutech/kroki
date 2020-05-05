@@ -24,25 +24,31 @@ import net.sourceforge.plantuml.version.Version;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class Plantuml implements DiagramService {
 
   private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG, FileFormat.JPEG, FileFormat.BASE64, FileFormat.TXT, FileFormat.UTXT);
 
-  private static final Pattern INCLUDE_RX = Pattern.compile("^\\s*!include(?:url)?\\s+(.*)");
+  private static final Pattern INCLUDE_RX = Pattern.compile("^\\s*!include(?:url)?\\s+(.*)(?:!.*)?");
   private static final Pattern STDLIB_PATH_RX = Pattern.compile("<([a-zA-Z0-9]+)/[^>]+>");
 
   private final SafeMode safeMode;
   private final SourceDecoder sourceDecoder;
   private final DiagramResponse diagramResponse;
+  private final List<Pattern> includeWhitelist;
   private static final List<String> STDLIB = Arrays.asList(
     "aws",
     "awslib",
@@ -65,8 +71,26 @@ public class Plantuml implements DiagramService {
       }
     };
     this.diagramResponse = new DiagramResponse(new Caching(Version.etag()));
-    // Disable include for security reasons
-    OptionFlags.ALLOW_INCLUDE = false;
+    this.includeWhitelist = parseIncludeWhitelist(config.getString("KROKI_PLANTUML_INCLUDE_WHITELIST"));
+    // Disable unsafe include for security reasons
+    OptionFlags.ALLOW_INCLUDE = config.getBoolean("KROKI_PLANTUML_ALLOW_INCLUDE", false);
+    String plantUmlIncludePath = config.getString("KROKI_PLANTUML_INCLUDE_PATH");
+    if (plantUmlIncludePath != null) {
+      // NOTE: relying on classloading sequencing to ensure this gets set before ImportedFiles class is loaded by JVM
+      System.setProperty("plantuml.include.path", plantUmlIncludePath);
+    }
+  }
+
+  private static List<Pattern> parseIncludeWhitelist(String filename) {
+    if (filename != null && new File(filename).isFile()) {
+      try {
+        return Files.lines(Paths.get(filename)).filter(s -> !s.isEmpty()).map(Pattern::compile)
+          .collect(Collectors.toList());
+      } catch (IOException e) {
+        // ignore
+      }
+    }
+    return Collections.emptyList();
   }
 
   @Override
@@ -84,7 +108,7 @@ public class Plantuml implements DiagramService {
     HttpServerResponse response = routingContext.response();
     String source;
     try {
-      source = sanitize(sourceDecoded, this.safeMode);
+      source = sanitize(sourceDecoded, this.safeMode, this.includeWhitelist);
       source = withDelimiter(source);
     } catch (IOException e) {
       if (e instanceof UnsupportedEncodingException) {
@@ -153,6 +177,10 @@ public class Plantuml implements DiagramService {
   }
 
   static String sanitize(String input, SafeMode safeMode) throws IOException {
+    return sanitize(input, safeMode, Collections.emptySet());
+  }
+
+  static String sanitize(String input, SafeMode safeMode, Collection<Pattern> includeWhitelist) throws IOException {
     if (safeMode == SafeMode.UNSAFE) {
       return input;
     }
@@ -160,14 +188,14 @@ public class Plantuml implements DiagramService {
       StringBuilder sb = new StringBuilder();
       String line = reader.readLine();
       while (line != null) {
-        ignoreInclude(line, sb);
+        ignoreInclude(line, sb, includeWhitelist);
         line = reader.readLine();
       }
       return sb.toString();
     }
   }
 
-  private static void ignoreInclude(String line, StringBuilder sb) {
+  private static void ignoreInclude(String line, StringBuilder sb, Collection<Pattern> includeWhitelist) {
     Matcher matcher = INCLUDE_RX.matcher(line);
     if (matcher.matches()) {
       String include = matcher.group(1);
@@ -175,6 +203,16 @@ public class Plantuml implements DiagramService {
       if (stdlibPathMatcher.matches()) {
         String prefix = stdlibPathMatcher.group(1).toLowerCase();
         if (STDLIB.contains(prefix)) {
+          sb.append(line).append("\n");
+        }
+      } else {
+        if (!include.startsWith("http://") && !include.startsWith("https://")
+          && !include.startsWith("../") && !include.contains("/../") && !include.endsWith("/..")
+            && !include.startsWith("..\\") && !include.contains("\\..\\") && !include.endsWith("\\..")
+            && !include.contains("/..\\") && !include.contains("\\../")) {
+          // PlantUML's safety checking will suffice as it will only allow files in the include path
+          sb.append(line).append("\n");
+        } else if (includeWhitelist.stream().anyMatch(p -> p.matcher(include).matches())) {
           sb.append(line).append("\n");
         }
       }

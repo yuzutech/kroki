@@ -28,6 +28,10 @@ KROKI_DOT_BIN_PATH:: Path to the `dot` binary (provided by GraphViz)
 KROKI_NOMNOML_BIN_PATH:: Path to the `nomnoml` binary
 KROKI_BLOCKDIAG_HOST:: The host of the blockdiag server
 KROKI_BLOCKDIAG_PORT:: The port of the blockdiag server
+KROKI_SAFE_MODE:: Either `SECURE` (default) or `UNSAFE`. Determines whether to sanitize requests for formats that allow including external content
+KROKI_PLANTUML_INCLUDE_PATH:: The include path to set for PlantUML.
+KROKI_PLANTUML_INCLUDE_WHITELIST:: The name of a file that consists of a list or regexes for valid includes.
+KROKI_PLANTUML_ALLOW_INCLUDE:: Either `false` (default) or `true`. Determines if PlantUML will fetch `!include` directives that reference external URLs
 
 === Image
 
@@ -48,6 +52,24 @@ To keep the Docker image as small as possible, the following libraries are provi
  * RackDiag
 
 When one of the above library is requested, Kroki server will delegate the call.
+
+==== PlantUML include files
+
+As PlantUML syntax includes pre-processor directives that have the potential to access external resources, serving live content from Kroki server is only recommended when using the dfeault settings of `KROKI_SAFE_MODE=SECURE` and `KROKI_PLANTUML_ALLOW_INCLUDE=false`.
+
+If you are using Kroki server for offline image generation as part of your build tool chain, you may be able to change these defaults although it is not recommended.
+
+The recommended pattern for handling includes is to either extend the docker image or bind mount a directory containing the files you wish to include and then set the `KROKI_PLANTUML_INCLUDE_PATH` environment variable.
+
+For example:
+
+[source,bash]
+----
+$ mkdir example-lib
+$ printf "@startuml\nBob->Alice\n@enduml\n" > example-lib/bob.puml
+$ sudo docker run --publish=8000:8000 -v $(pwd)/example-lib:/example-lib -e KROKI_PLANTUML_INCLUDE_PATH=/example-lib yuzutech/kroki:latest
+$ curl http://localhost:8000/plantuml/svstartuml\n!include bob.puml\nAlice -> Bob\n@enduml' | python -c "import sys; import base64; import zlib; print(base64.urlsafe_b64encode(zlib.compress(sys.stdin.read(), 9)))")
+----
 
 == Manual install
 
