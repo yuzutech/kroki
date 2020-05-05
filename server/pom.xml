@@ -82,14 +82,14 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>ditaa</groupId>
+      <groupId>io.kroki.thirdparty.ditaa</groupId>
       <artifactId>ditaa</artifactId>
-      <version>${ditaa.version}</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>ditaa</groupId>
+      <groupId>io.kroki.thirdparty.ditaa</groupId>
       <artifactId>ditaa-mini</artifactId>
-      <version>${ditaa-mini.version}</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>net.sourceforge.plantuml</groupId>
