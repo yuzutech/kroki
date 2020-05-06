@@ -55,7 +55,7 @@ When one of the above library is requested, Kroki server will delegate the call.
 
 ==== PlantUML include files
 
-As PlantUML syntax includes pre-processor directives that have the potential to access external resources, serving live content from Kroki server is only recommended when using the dfeault settings of `KROKI_SAFE_MODE=SECURE` and `KROKI_PLANTUML_ALLOW_INCLUDE=false`.
+As PlantUML syntax includes pre-processor directives that have the potential to access external resources, serving live content from Kroki server is only recommended when using the default settings of `KROKI_SAFE_MODE=SECURE` and `KROKI_PLANTUML_ALLOW_INCLUDE=false`.
 
 If you are using Kroki server for offline image generation as part of your build tool chain, you may be able to change these defaults although it is not recommended.
 
@@ -79,5 +79,4 @@ If you don't want to use the Docker image, you will need to install all the depe
 * GraphViz: https://graphviz.gitlab.io/download/
 * Erd: https://github.com/BurntSushi/erd
 * Svgbob: https://github.com/ivanceras/svgbob
-
 
