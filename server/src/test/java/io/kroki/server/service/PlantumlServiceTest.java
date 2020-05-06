@@ -106,6 +106,15 @@ public class PlantumlServiceTest {
   }
 
   @Test
+  void should_sanitize_include_to_local_file2() throws IOException {
+    String diagram = "@startuml\n" +
+      "!include /etc/password #<aws/common>\n" +
+      "@enduml";
+    String result = Plantuml.sanitize(diagram, SafeMode.SECURE);
+    assertThat(result).isEqualTo("@startuml\n@enduml\n");
+  }
+
+  @Test
   void should_not_sanitize_include_in_unsafe_mode() throws IOException {
     String diagram = "@startuml\n" +
       "!include /foo/bar\n" +
@@ -116,6 +125,17 @@ public class PlantumlServiceTest {
       "@enduml";
     String result = Plantuml.sanitize(diagram, SafeMode.UNSAFE);
     assertThat(result).isEqualTo(diagram);
+  }
+
+  @Test
+  void should_not_sanitize_include_for_search_path_includes() throws IOException {
+    String diagram = "@startuml\n" +
+      "!include bar\n" +
+      "!include foo!1\n" +
+      "!includesub fooBar!BASIC\n" +
+      "@enduml";
+    String result = Plantuml.sanitize(diagram, SafeMode.SECURE);
+    assertThat(result.trim()).isEqualTo(diagram);
   }
 
   @Test
