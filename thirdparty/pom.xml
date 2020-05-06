@@ -9,13 +9,12 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>umlet</artifactId>
+  <artifactId>kroki-thirdparty</artifactId>
+  <packaging>pom</packaging>
+  <modules>
+    <module>ditaa</module>
+    <module>ditaa-mini</module>
+    <module>umlet-mini</module>
+  </modules>
 
-  <dependencies>
-    <dependency>
-      <groupId>io.kroki.thirdparty.com.umlet</groupId>
-      <artifactId>umlet-mini</artifactId>
-      <version>${project.parent.version}</version>
-    </dependency>
-  </dependencies>
 </project>

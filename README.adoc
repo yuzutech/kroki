@@ -101,11 +101,7 @@ A companion web server written in JavaScript (powered by _micro_) that provides 
 
 === Gateway Server
 
-The first step is to install the local dependencies in your local repository using `make`:
-
- $ make installLocalDependencies
-
-Then you can build the project using Maven:
+You can build the project using Maven:
 
  $ make buildServer
 
