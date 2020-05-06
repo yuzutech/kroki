@@ -21,6 +21,8 @@ import net.sourceforge.plantuml.code.Base64Coder;
 import net.sourceforge.plantuml.core.Diagram;
 import net.sourceforge.plantuml.error.PSystemError;
 import net.sourceforge.plantuml.version.Version;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -29,17 +31,21 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
+import java.util.regex.PatternSyntaxException;
+import java.util.stream.Stream;
 
 public class Plantuml implements DiagramService {
 
+  private static final Logger logger = LoggerFactory.getLogger(Plantuml.class);
   private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG, FileFormat.JPEG, FileFormat.BASE64, FileFormat.TXT, FileFormat.UTXT);
 
   /**
@@ -92,7 +98,7 @@ public class Plantuml implements DiagramService {
       }
     };
     this.diagramResponse = new DiagramResponse(new Caching(Version.etag()));
-    this.includeWhitelist = parseIncludeWhitelist(config.getString("KROKI_PLANTUML_INCLUDE_WHITELIST"));
+    this.includeWhitelist = parseIncludeWhitelist(config);
     // Disable unsafe include for security reasons
     OptionFlags.ALLOW_INCLUDE = config.getBoolean("KROKI_PLANTUML_ALLOW_INCLUDE", false);
     String plantUmlIncludePath = config.getString("KROKI_PLANTUML_INCLUDE_PATH");
@@ -102,13 +108,39 @@ public class Plantuml implements DiagramService {
     }
   }
 
-  private static List<Pattern> parseIncludeWhitelist(String filename) {
-    if (filename != null && new File(filename).isFile()) {
+  private static List<Pattern> parseIncludeWhitelist(JsonObject config) {
+    String filename = config.getString("KROKI_PLANTUML_INCLUDE_WHITELIST");
+    List<Pattern> result = new ArrayList<>();
+    if (filename != null) {
+      final Path path = Paths.get(filename);
+      if (Files.isRegularFile(path)) {
+        try {
+          Files.lines(path).filter(s -> !s.isEmpty()).flatMap(regex -> {
+            try {
+              return Stream.of(Pattern.compile(regex));
+            } catch (PatternSyntaxException e) {
+              logger.warn("Ignoring invalid regex {} in {}", regex, filename, e);
+              return Stream.empty();
+            }
+          }).forEach(result::add);
+        } catch (IOException e) {
+          logger.warn("Unable to read the PlantUML whitelist file: {}", filename, e);
+          return Collections.emptyList();
+        }
+      } else {
+        logger.warn("Unable to read the PlantUML whitelist file: {} as it is not a regular file", filename);
+      }
+    }
+    for (int i = 0; true; i++) {
+      final String regex = config.getString("KROKI_PLANTUML_INCLUDE_WHITELIST_" + i);
+      if (regex == null || regex.isEmpty()) {
+        // stop at the first missing index
+        break;
+      }
       try {
-        return Files.lines(Paths.get(filename)).filter(s -> !s.isEmpty()).map(Pattern::compile)
-          .collect(Collectors.toList());
-      } catch (IOException e) {
-        // ignore
+        result.add(Pattern.compile(regex));
+      } catch (PatternSyntaxException e) {
+        logger.warn("Ignoring invalid regex {} from KROKI_PLANTUML_INCLUDE_WHITELIST_{}", regex, i, e);
       }
     }
     return Collections.emptyList();
@@ -209,24 +241,26 @@ public class Plantuml implements DiagramService {
       StringBuilder sb = new StringBuilder();
       String line = reader.readLine();
       while (line != null) {
-        ignoreInclude(line, sb, includeWhitelist);
+        ignoreInclude(line, sb, safeMode, includeWhitelist);
         line = reader.readLine();
       }
       return sb.toString();
     }
   }
 
-  private static void ignoreInclude(String line, StringBuilder sb, Collection<Pattern> includeWhitelist) {
+  private static void ignoreInclude(String line, StringBuilder sb, SafeMode safeMode,
+                                    Collection<Pattern> includeWhitelist) {
     Matcher matcher = INCLUDE_RX.matcher(line);
     if (matcher.matches()) {
       String include = matcher.group(1);
       Matcher stdlibPathMatcher = STDLIB_PATH_RX.matcher(include);
       if (stdlibPathMatcher.matches()) {
         String prefix = stdlibPathMatcher.group(1).toLowerCase();
-        if (STDLIB.contains(prefix)) {
+        if (safeMode != SafeMode.SECURE || STDLIB.contains(prefix)) {
           sb.append(line).append("\n");
         }
-      } else if (!include.startsWith("<") // includes starting with < must only come from stdlib
+      } else if (safeMode != SafeMode.SECURE
+        && !include.startsWith("<") // includes starting with < must only come from stdlib
         && !include.startsWith("/") && !include.startsWith("\\") // no absolute paths,
         && !include.startsWith("http://") && !include.startsWith("https://") // no URLs
         // no path walking
@@ -250,7 +284,7 @@ public class Plantuml implements DiagramService {
         // * That will iterate the "plantuml.include.path" (note PlantUML is not well designed for embedding
         //   on this property as the ImportedFiles#INCLUDE_PATH is initialized once on classloading)
         // * At this point, if the INCLUDE_PATH included say `/example` and the include was `foo/bar.puml`
-        //   and there is a file `/example/foo/bar/puml` then that would stop the search with an `AFileRegular`
+        //   and there is a file `/example/foo/bar.puml` then that would stop the search with an `AFileRegular`
         //   instance. HOWEVER, the return value of ImportedFiles#getFile is guarded by ImportedFiles#isAllowed
         // * ImportedFiles#isAllowed will only permit AFile instances with the AFile#getSystemFolder() being
         //   contained in ImportedFiles#INCLUDE_PATH so as AFileRegular#getSystemFolder() always returned the

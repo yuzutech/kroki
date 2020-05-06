@@ -128,13 +128,13 @@ public class PlantumlServiceTest {
   }
 
   @Test
-  void should_not_sanitize_include_for_search_path_includes() throws IOException {
+  void should_not_sanitize_include_for_search_path_includes_in_safe_mode() throws IOException {
     String diagram = "@startuml\n" +
       "!include bar\n" +
       "!include foo!1\n" +
       "!includesub fooBar!BASIC\n" +
       "@enduml";
-    String result = Plantuml.sanitize(diagram, SafeMode.SECURE);
+    String result = Plantuml.sanitize(diagram, SafeMode.SAFE);
     assertThat(result.trim()).isEqualTo(diagram);
   }
 
