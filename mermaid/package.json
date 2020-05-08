@@ -16,7 +16,7 @@
   "dependencies": {
     "mermaid": "8.5.0",
     "micro": "9.3.4",
-    "puppeteer": "3.0.2"
+    "puppeteer": "3.0.4"
   },
   "devDependencies": {
     "standard": "14.3.3"
