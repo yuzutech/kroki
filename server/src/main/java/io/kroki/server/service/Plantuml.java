@@ -50,11 +50,11 @@ public class Plantuml implements DiagramService {
   /**
    * Extracts the target of the include/includeurl/includesub directive. The first and only matching group is the
    * target.
-   * <p />
+   * <p/>
    * We ignore any subpart/sub-document identifiers, i.e. anything after a {@code !} in the include name
-   * <p />
+   * <p/>
    * We ignore any trailing comments on the line, i.e. anything after a {@code #} in the include line
-   * <p />
+   * <p/>
    * Some sample patterns:
    * <ul>
    *   <li>{@code !include &lt;some/stdlib&gt;} includes a file from the stdlib</li>
@@ -247,15 +247,14 @@ public class Plantuml implements DiagramService {
     }
   }
 
-  private static void ignoreInclude(String line, StringBuilder sb, SafeMode safeMode,
-                                    Collection<Pattern> includeWhitelist) {
+  private static void ignoreInclude(String line, StringBuilder sb, SafeMode safeMode, Collection<Pattern> includeWhitelist) {
     Matcher matcher = INCLUDE_RX.matcher(line);
     if (matcher.matches()) {
       String include = matcher.group(1);
       Matcher stdlibPathMatcher = STDLIB_PATH_RX.matcher(include);
       if (stdlibPathMatcher.matches()) {
         String prefix = stdlibPathMatcher.group(1).toLowerCase();
-        if (safeMode != SafeMode.SECURE || STDLIB.contains(prefix)) {
+        if (STDLIB.contains(prefix)) {
           sb.append(line).append("\n");
         }
       } else if (safeMode != SafeMode.SECURE
