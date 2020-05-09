@@ -107,14 +107,14 @@ public class Plantuml implements DiagramService {
     }
   }
 
-  private static List<Pattern> parseIncludeWhitelist(JsonObject config) {
+  static List<Pattern> parseIncludeWhitelist(JsonObject config) {
     String filename = config.getString("KROKI_PLANTUML_INCLUDE_WHITELIST");
     List<Pattern> result = new ArrayList<>();
     if (filename != null) {
       final Path path = Paths.get(filename);
       if (Files.isRegularFile(path)) {
         try {
-          Files.lines(path).filter(s -> !s.isEmpty()).flatMap(regex -> {
+          Files.lines(path).map(String::trim).filter(s -> !s.isEmpty()).flatMap(regex -> {
             try {
               return Stream.of(Pattern.compile(regex));
             } catch (PatternSyntaxException e) {
@@ -142,7 +142,7 @@ public class Plantuml implements DiagramService {
         logger.warn("Ignoring invalid regex {} from KROKI_PLANTUML_INCLUDE_WHITELIST_{}", regex, i, e);
       }
     }
-    return Collections.emptyList();
+    return result;
   }
 
   @Override
