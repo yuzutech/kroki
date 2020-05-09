@@ -118,28 +118,28 @@ public class Plantuml implements DiagramService {
             try {
               return Stream.of(Pattern.compile(regex));
             } catch (PatternSyntaxException e) {
-              logger.warn("Ignoring invalid regex {} in {}", regex, filename, e);
+              logger.warn("Ignoring invalid regex '{}' in '{}'", regex, filename, e);
               return Stream.empty();
             }
           }).forEach(result::add);
         } catch (IOException e) {
-          logger.warn("Unable to read the PlantUML whitelist file: {}", filename, e);
+          logger.warn("Unable to read the PlantUML whitelist file '{}'", filename, e);
           return Collections.emptyList();
         }
       } else {
-        logger.warn("Unable to read the PlantUML whitelist file: {} as it is not a regular file", filename);
+        logger.warn("Unable to read the PlantUML whitelist file '{}' as it is not a regular file", filename);
       }
     }
     for (int i = 0; true; i++) {
       final String regex = config.getString("KROKI_PLANTUML_INCLUDE_WHITELIST_" + i);
-      if (regex == null || regex.isEmpty()) {
+      if (regex == null || regex.trim().isEmpty()) {
         // stop at the first missing index
         break;
       }
       try {
-        result.add(Pattern.compile(regex));
+        result.add(Pattern.compile(regex.trim()));
       } catch (PatternSyntaxException e) {
-        logger.warn("Ignoring invalid regex {} from KROKI_PLANTUML_INCLUDE_WHITELIST_{}", regex, i, e);
+        logger.warn("Ignoring invalid regex '{}' from KROKI_PLANTUML_INCLUDE_WHITELIST_{}", regex.trim(), i, e);
       }
     }
     return result;
