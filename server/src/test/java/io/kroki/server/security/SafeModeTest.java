@@ -32,4 +32,11 @@ public class SafeModeTest {
     assertThat(SafeMode.get("", SafeMode.SECURE)).isEqualTo(SafeMode.SECURE);
     assertThat(SafeMode.get("   ", SafeMode.SECURE)).isEqualTo(SafeMode.SECURE);
   }
+
+  @Test
+  void safe_mode_are_comparable() {
+    assertThat(SafeMode.UNSAFE.value).isLessThan(SafeMode.SAFE.value);
+    assertThat(SafeMode.UNSAFE.value).isLessThan(SafeMode.SECURE.value);
+    assertThat(SafeMode.SAFE.value).isLessThan(SafeMode.SECURE.value);
+  }
 }
