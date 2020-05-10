@@ -44,16 +44,15 @@ import java.util.stream.Stream;
 
 public class Plantuml implements DiagramService {
 
-  private static final Logger logger = LoggerFactory.getLogger(Plantuml.class);
-  private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG, FileFormat.JPEG, FileFormat.BASE64, FileFormat.TXT, FileFormat.UTXT);
-
   /**
-   * Extracts the target of the include/includeurl/includesub directive. The first and only matching group is the
-   * target.
+   * Extracts the target of the include/includeurl/includesub directive.
+   * he first and only matching group is the target.
    * <p/>
    * We ignore any subpart/sub-document identifiers, i.e. anything after a {@code !} in the include name
    * <p/>
    * We ignore any trailing comments on the line, i.e. anything after a {@code #} in the include line
+   * <p/>
+   * The path should contain any character except a space (unless the space is escaped).
    * <p/>
    * Some sample patterns:
    * <ul>
@@ -64,11 +63,16 @@ public class Plantuml implements DiagramService {
    *   <li>{@code !include search-path-file!2} includes the 3rd document in a file on the "plantuml.include.path"</li>
    *   <li>{@code !includesub search-path-file!SUBID} includes the SUBID subpart of a file on the "plantuml.include.path"</li>
    *   <li>{@code !includeurl http://some/url} deprecated include of an external resource by URL</li>
+   *   <li>{@code !include /some/path\ with\ spaces} an absolute path with escaped spaces</li>
+   *   <li>{@code !include /absolute/file/path # home directory} an absolute path with a trailing comment (#)</li>
    * </ul>
    *
    * @see <a href="https://plantuml.com/preprocessing">PlantUML Preprocessing</a>
    */
-  private static final Pattern INCLUDE_RX = Pattern.compile("^\\s*!include(?:url|sub)?\\s+(.*)(?:!.*)?(?:#.*)?");
+  public static final Pattern INCLUDE_RX = Pattern.compile("^\\s*!include(?:url|sub)?\\s+(?<path>(?:(?<=\\\\)[ ]|[^ ])+)(.*)");
+
+  private static final Logger logger = LoggerFactory.getLogger(Plantuml.class);
+  private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG, FileFormat.JPEG, FileFormat.BASE64, FileFormat.TXT, FileFormat.UTXT);
   private static final Pattern STDLIB_PATH_RX = Pattern.compile("<([a-zA-Z0-9]+)/[^>]+>");
 
   private final SafeMode safeMode;
@@ -250,7 +254,7 @@ public class Plantuml implements DiagramService {
   private static void ignoreInclude(String line, StringBuilder sb, SafeMode safeMode, Collection<Pattern> includeWhitelist) {
     Matcher matcher = INCLUDE_RX.matcher(line);
     if (matcher.matches()) {
-      String include = matcher.group(1);
+      String include = matcher.group("path").trim();
       Matcher stdlibPathMatcher = STDLIB_PATH_RX.matcher(include);
       if (stdlibPathMatcher.matches()) {
         String prefix = stdlibPathMatcher.group(1).toLowerCase();

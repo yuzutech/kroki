@@ -9,9 +9,11 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -110,6 +112,70 @@ public class PlantumlServiceTest {
       "@enduml";
     String result = Plantuml.sanitize(diagram, SafeMode.SECURE);
     assertThat(result).isEqualTo("@startuml\n@enduml\n");
+  }
+
+  @Test
+  void should_sanitize_include_to_local_file_even_if_whitelisted_when_secure_mode_secure() throws IOException {
+    String diagram = "@startuml\n" +
+      "!include /etc/password\n" +
+      "@enduml";
+    String result = Plantuml.sanitize(diagram, SafeMode.SECURE, Collections.singletonList(Pattern.compile("/etc/password")));
+    assertThat(result).isEqualTo("@startuml\n@enduml\n");
+  }
+
+  @Test
+  void should_preserve_include_to_local_file_if_whitelisted_and_secure_mode_safe_or_unsafe() throws IOException {
+    String diagram = "@startuml\n" +
+      "!include    /etc/password    # comment \n" +
+      "@enduml\n";
+    String result = Plantuml.sanitize(diagram, SafeMode.SAFE, Collections.singletonList(Pattern.compile("/etc/password")));
+    assertThat(result).isEqualTo(diagram);
+  }
+
+  @Test
+  void should_include_index_in_regular_expression() throws IOException {
+    String diagram = "@startuml\n" +
+      "!include    /etc/password!1    # comment \n" +
+      "@enduml\n";
+    String result = Plantuml.sanitize(diagram, SafeMode.SAFE, Collections.singletonList(Pattern.compile("/etc/password!1")));
+    assertThat(result).isEqualTo(diagram);
+  }
+
+  @Test
+  void should_extract_path_without_comment() {
+    Matcher matcher = Plantuml.INCLUDE_RX.matcher("!include   /etc/password!1   # comment");
+    assertThat(matcher.matches()).isTrue();
+    assertThat(matcher.group("path")).isEqualTo("/etc/password!1");
+  }
+
+  @Test
+  void should_extract_path_with_escaped_spaces() {
+    Matcher matcher = Plantuml.INCLUDE_RX.matcher("!include /etc/path\\ with\\ spaces/file # comment");
+    assertThat(matcher.matches()).isTrue();
+    assertThat(matcher.group("path")).isEqualTo("/etc/path\\ with\\ spaces/file");
+  }
+
+  @Test
+  void should_extract_remote_path_from_include() {
+    Matcher matcher = Plantuml.INCLUDE_RX.matcher("!include https://foo.bar");
+    assertThat(matcher.matches()).isTrue();
+    assertThat(matcher.group("path")).isEqualTo("https://foo.bar");
+  }
+
+  @Test
+  void should_extract_remote_path_from_includeurl_with_spaces_before_after() {
+    Matcher matcher = Plantuml.INCLUDE_RX.matcher("  !includeurl   https://foo.bar");
+    assertThat(matcher.matches()).isTrue();
+    assertThat(matcher.group("path")).isEqualTo("https://foo.bar");
+  }
+
+  @Test
+  void should_preserve_include_with_comment_to_local_file_if_whitelisted_and_secure_mode_safe_or_unsafe() throws IOException {
+    String diagram = "@startuml\n" +
+      "!include   /etc/password   # comment \n" +
+      "@enduml\n";
+    String result = Plantuml.sanitize(diagram, SafeMode.SAFE, Collections.singletonList(Pattern.compile("/etc/password")));
+    assertThat(result).isEqualTo(diagram);
   }
 
   @Test
