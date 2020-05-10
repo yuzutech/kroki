@@ -34,6 +34,9 @@ jobs:
       with:
         java-version: 11
 
+    - name: Install Java dependencies
+      run: make installLocalDependencies
+
     - name: Build Java server
       run: make buildServer
 
