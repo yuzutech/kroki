@@ -13,9 +13,9 @@
 
   <dependencies>
     <dependency>
-      <groupId>io.kroki.thirdparty.com.umlet</groupId>
+      <groupId>com.umlet</groupId>
       <artifactId>umlet-mini</artifactId>
-      <version>${project.parent.version}</version>
+      <version>14.3.0</version>
     </dependency>
   </dependencies>
 </project>

@@ -16,6 +16,7 @@ before_install:
 
 script:
   - make installBlockDiag && make testBlockDiag
+  - make installLocalDependencies
   - make buildServer
   - make buildDockerImages
   - npm install
