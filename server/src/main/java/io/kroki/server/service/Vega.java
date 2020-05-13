@@ -12,7 +12,6 @@ import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
-
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -78,9 +77,18 @@ public class Vega implements DiagramService {
   }
 
   private byte[] vega(byte[] source, String format) throws IOException, InterruptedException, IllegalStateException {
+    final String vegaSafeMode;
+    switch (safeMode) {
+      case UNSAFE:
+        vegaSafeMode = "unsafe";
+        break;
+      default:
+        vegaSafeMode = "secure";
+        break;
+    }
     return commander.execute(source, binPath,
       "--output-format=" + format,
-      "--safe-mode=" + safeMode.name().toLowerCase(),
+      "--safe-mode=" + vegaSafeMode,
       "--spec-format=" + specFormat.name().toLowerCase());
   }
 

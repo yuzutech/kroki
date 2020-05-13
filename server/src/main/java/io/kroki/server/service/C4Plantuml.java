@@ -20,36 +20,26 @@ import java.io.StringReader;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class C4Plantuml implements DiagramService {
 
   private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG, FileFormat.JPEG, FileFormat.BASE64);
 
-  private static final Pattern INCLUDE_RX = Pattern.compile("^\\s*!include(?:url)?\\s+(?<path>.*)");
-
   private final SafeMode safeMode;
-  private final String c4;
-  private final String c4Component;
-  private final String c4Container;
-  private final String c4Context;
+  private static final String c4 = read("c4.puml");
+  // context includes c4
+  private static final String c4Context= c4 + read("c4_context.puml");
+  // container includes context
+  private static final String c4Container= c4Context + read("c4_container.puml");
+  // component includes container
+  private static final String c4Component = c4Container + read("c4_component.puml");
+
   private final SourceDecoder sourceDecoder;
   private final DiagramResponse diagramResponse;
 
   public C4Plantuml(JsonObject config) {
     this.safeMode = SafeMode.get(config.getString("KROKI_SAFE_MODE", "secure"), SafeMode.SECURE);
-    try {
-      this.c4 = read("c4.puml");
-      // context includes c4
-      this.c4Context = c4 + read("c4_context.puml");
-      // container includes context
-      this.c4Container = c4Context + read("c4_container.puml");
-      // component includes container
-      this.c4Component = c4Container + read("c4_component.puml");
-    } catch (IOException e) {
-      throw new RuntimeException("Unable to initialize the C4 PlantUML service", e);
-    }
     this.sourceDecoder = new SourceDecoder() {
       @Override
       public String decode(String encoded) throws DecodeException {
@@ -74,7 +64,7 @@ public class C4Plantuml implements DiagramService {
     HttpServerResponse response = routingContext.response();
     String source;
     try {
-      source = sanitize(sourceDecoded);
+      source = sanitize(sourceDecoded, safeMode);
       source = Plantuml.withDelimiter(source);
     } catch (IOException e) {
       routingContext.fail(e);
@@ -84,20 +74,20 @@ public class C4Plantuml implements DiagramService {
     diagramResponse.end(response, sourceDecoded, fileFormat, data);
   }
 
-  private String sanitize(String input) throws IOException {
+  static String sanitize(String input, SafeMode safeMode) throws IOException {
     try (BufferedReader reader = new BufferedReader(new StringReader(input))) {
       StringBuilder sb = new StringBuilder();
       String line = reader.readLine();
       while (line != null) {
-        processInclude(line, sb);
+        processInclude(line, sb, safeMode);
         line = reader.readLine();
       }
       return sb.toString();
     }
   }
 
-  private void processInclude(String line, StringBuilder sb) {
-    Matcher matcher = INCLUDE_RX.matcher(line);
+  private static void processInclude(String line, StringBuilder sb, SafeMode safeMode) {
+    Matcher matcher = Plantuml.INCLUDE_RX.matcher(line);
     if (matcher.matches()) {
       String path = matcher.group("path");
       if (path.toLowerCase().contains("c4.puml")) {
@@ -116,13 +106,17 @@ public class C4Plantuml implements DiagramService {
     }
   }
 
-  private String read(String resource) throws IOException {
+  private static String read(String resource){
     InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream(resource);
-    if (input == null) {
-      throw new IOException("Unable to get resource: " + resource);
-    }
-    try (BufferedReader buffer = new BufferedReader(new InputStreamReader(input))) {
-      return buffer.lines().collect(Collectors.joining("\n"));
+    try {
+      if (input == null) {
+        throw new IOException("Unable to get resource: " + resource);
+      }
+      try (BufferedReader buffer = new BufferedReader(new InputStreamReader(input))) {
+        return buffer.lines().collect(Collectors.joining("\n"));
+      }
+    } catch (IOException e) {
+      throw new RuntimeException("Unable to initialize the C4 PlantUML service", e);
     }
   }
 }
