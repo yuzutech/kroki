@@ -22,8 +22,8 @@ import io.kroki.server.service.Wavedrom;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.AsyncResult;
-import io.vertx.core.Future;
 import io.vertx.core.Handler;
+import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServer;
@@ -39,17 +39,17 @@ import java.util.Set;
 public class Server extends AbstractVerticle {
 
   @Override
-  public void start(Future<Void> startFuture) {
+  public void start(Promise<Void> startPromise) {
     ConfigRetriever retriever = ConfigRetriever.create(vertx);
     retriever.getConfig(configResult -> {
       if (configResult.failed()) {
-        startFuture.fail(configResult.cause());
+        startPromise.fail(configResult.cause());
       } else {
         start(vertx, configResult.result(), startResult -> {
           if (startResult.succeeded()) {
-            startFuture.complete();
+            startPromise.complete();
           } else {
-            startFuture.fail(startResult.cause());
+            startPromise.fail(startResult.cause());
           }
         });
       }
