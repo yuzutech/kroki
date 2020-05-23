@@ -23,10 +23,10 @@ The Docker image contains the following diagrams libraries out-of-the-box:
 |===
 |Diagram Type | Version
 |https://github.com/Deep-Symmetry/bytefield-svg[Bytefield]
-|1.4.1
+|1.4.3
 
 |https://github.com/RicardoNiepel/C4-PlantUML[C4 with PlantUML]
-|1.2020.8
+|1.2020.10
 //|Java library (depends on GraphViz)
 
 |http://ditaa.sourceforge.net[Ditaa]
@@ -42,11 +42,11 @@ The Docker image contains the following diagrams libraries out-of-the-box:
 //|Binary `/usr/bin/dot`
 
 |https://github.com/skanaar/nomnoml[Nomnoml]
-|0.7.1
+|0.7.2
 //|Binary `/node/bin/nomnoml`
 
 |https://github.com/plantuml/plantuml[PlantUML]
-|1.2020.8
+|1.2020.10
 //|Java library (depends on GraphViz)
 
 |https://github.com/ivanceras/svgbob[Svgbob]
@@ -58,11 +58,11 @@ The Docker image contains the following diagrams libraries out-of-the-box:
 //|Java library
 
 |https://github.com/vega/vega[Vega]
-|5.11.1
+|5.12.1
 //|Binary `/node/bin/vega`
 
 |https://github.com/vega/vega-lite[Vega-Lite]
-|4.11.0
+|4.12.2
 //|Binary `/node/bin/vega`
 
 |https://github.com/wavedrom/wavedrom[WaveDrom]
@@ -107,7 +107,7 @@ The Docker image contains the following diagrams libraries out-of-the-box:
 |===
 |Diagram Type | Version
 |https://github.com/knsv/mermaid[Mermaid]
-|8.5.0
+|8.5.1
 |===
 
 === BPMN

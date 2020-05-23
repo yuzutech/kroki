@@ -34,7 +34,7 @@ public class Bytefield implements DiagramService {
         return DiagramSource.decode(encoded);
       }
     };
-    this.diagramResponse = new DiagramResponse(new Caching("1.4.1"));
+    this.diagramResponse = new DiagramResponse(new Caching("1.4.3"));
     this.commander = commander;
   }
 
