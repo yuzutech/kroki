@@ -106,7 +106,6 @@ public class Plantuml implements DiagramService {
     OptionFlags.ALLOW_INCLUDE = config.getBoolean("KROKI_PLANTUML_ALLOW_INCLUDE", false);
     String plantUmlIncludePath = config.getString("KROKI_PLANTUML_INCLUDE_PATH");
     if (plantUmlIncludePath != null) {
-      // NOTE: relying on classloading sequencing to ensure this gets set before ImportedFiles class is loaded by JVM
       System.setProperty("plantuml.include.path", plantUmlIncludePath);
     }
   }
