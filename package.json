@@ -9,7 +9,7 @@
     "chai-http": "^4.3.0"
   },
   "devDependencies": {
-    "mocha": "^7.1.2"
+    "mocha": "^7.2.0"
   },
   "scripts": {
     "test": "mocha tests/smoke/smoke.js"
