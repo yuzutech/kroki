@@ -24,7 +24,7 @@ RUN npm run lint
 RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-${ARCH} . -o app.bin
 
 # Create the image
-FROM alpine:3.11.6
+FROM alpine:3.12.0
 
 COPY --from=builder /app/app.bin /node/bin/bpmn
 COPY assets /app/assets
