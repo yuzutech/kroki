@@ -2,10 +2,10 @@
 :kroki-cli-version: 0.1.0
 :kroki-cli-sha: 4afafe2e51df4d02a21661e1d8838a146b5cba66
 :uri-kroki-cli-doc: https://github.com/yuzutech/kroki-cli/blob/master/README.adoc
-:uri-kroki-cli-gh-release: https://github.com/yuzutech/kroki-cli/releases/tag/v{kroki-cli-version}
+:uri-kroki-cli-gh-releases: https://github.com/yuzutech/kroki-cli/releases/
 
 The easiest way to interact with Kroki is probably to use the _Kroki CLI_.
-This client is available on {uri-kroki-cli-gh-release}[Linux, macOS, Windows and OpenBSD] and provides a user-friendly Command Line Interface.
+This client is available on {uri-kroki-cli-gh-releases}[Linux, macOS, Windows and OpenBSD] and provides a user-friendly Command Line Interface.
 
 Once you've downloaded the archive, extract the `kroki` binary file from the archive to a directory, then open a terminal and type:
 
