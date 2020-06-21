@@ -2,7 +2,7 @@
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
     <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
       <layout class="ch.qos.logback.contrib.json.classic.JsonLayout">
-        <jsonFormatter class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter"/>
+        <jsonFormatter class="io.kroki.server.log.LogbackJsonFormatter"/>
         <appendLineSeparator>true</appendLineSeparator>
       </layout>
     </encoder>
