@@ -24,6 +24,10 @@ public class Logging {
       MDC.put("path", request.path());
       MDC.put("service_name", serviceName);
       MDC.put("bytes_read", String.valueOf(request.bytesRead()));
+      String userAgent = request.getHeader("User-Agent");
+      if (userAgent != null) {
+        MDC.put("user_agent", userAgent);
+      }
       logger.info("Request received {} {}", request.method(), request.path());
     } finally {
       MDC.remove("action");
@@ -31,6 +35,7 @@ public class Logging {
       MDC.remove("path");
       MDC.remove("service_name");
       MDC.remove("bytes_read");
+      MDC.remove("user_agent");
     }
   }
 
@@ -44,6 +49,10 @@ public class Logging {
       MDC.put("service_name", serviceName);
       MDC.put("file_format", fileFormat.getName());
       MDC.put("took", took);
+      String userAgent = request.getHeader("User-Agent");
+      if (userAgent != null) {
+        MDC.put("user_agent", userAgent);
+      }
       logger.info("Convert took {}ms", took);
     } finally {
       MDC.remove("action");
@@ -52,6 +61,7 @@ public class Logging {
       MDC.remove("service_name");
       MDC.remove("file_format");
       MDC.remove("took");
+      MDC.remove("user_agent");
     }
   }
 
@@ -64,6 +74,10 @@ public class Logging {
       MDC.put("path", request.path());
       MDC.put("error_code", String.valueOf(errorCode));
       MDC.put("error_message", errorMessage);
+      String userAgent = request.getHeader("User-Agent");
+      if (userAgent != null) {
+        MDC.put("user_agent", userAgent);
+      }
       if (failure != null) {
         MDC.put("failure_class_name", failure.getClass().getName());
         logger.error("An error occurred", failure);
@@ -77,6 +91,7 @@ public class Logging {
       MDC.remove("error_code");
       MDC.remove("error_message");
       MDC.remove("failure_class_name");
+      MDC.remove("user_agent");
     }
   }
 
