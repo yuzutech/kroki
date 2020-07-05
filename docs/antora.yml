@@ -1,6 +1,28 @@
 name: kroki
 title: Kroki
 version: master
+asciidoc:
+  attributes:
+    actdiag-version: 2.0.0
+    blockdiag-version: 2.0.1
+    bpmnjs-version: 7.2.1
+    bytefield-version: 1.4.3
+    c4plantuml-version: 1.2020.15
+    ditaa-version: 1.3.13
+    erd-version: 0.1.3.0
+    graphviz-version: 2.40.1
+    mermaid-version: 8.5.2
+    nomnoml-version: 0.7.2
+    nwdiag-version: 2.0.0
+    packetdiag-version: 2.0.0
+    plantuml-version: 1.2020.15
+    rackdiag-version: 2.0.0
+    seqdiag-version: 2.0.0
+    svgbob-version: 0.4.2
+    umlet-version: 14.3.0
+    vega-version: 5.13.0
+    vegalite-version: 4.13.1
+    wavedrom-version: 2.3.2
 nav:
 - modules/ROOT/nav.adoc
 - modules/setup/nav.adoc
