@@ -14,7 +14,7 @@
   "author": "Heiko Does",
   "license": "MIT",
   "dependencies": {
-    "bpmn-js": "^6.5.1",
+    "bpmn-js": "^7.2.1",
     "micro": "9.3.4",
     "puppeteer": "4.0.1"
   },
