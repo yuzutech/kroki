@@ -23,50 +23,50 @@ The Docker image contains the following diagrams libraries out-of-the-box:
 |===
 |Diagram Type | Version
 |https://github.com/Deep-Symmetry/bytefield-svg[Bytefield]
-|1.4.3
+|{bytefield-version}
 
 |https://github.com/RicardoNiepel/C4-PlantUML[C4 with PlantUML]
-|1.2020.10
+|{c4plantuml-version}
 //|Java library (depends on GraphViz)
 
 |http://ditaa.sourceforge.net[Ditaa]
-|1.3.13
+|{ditaa-version}
 //|Java library
 
 |https://github.com/BurntSushi/erd[Erd]
-|0.1.3.0
+|{erd-version}
 //|Binary `/haskell/bin/erd`
 
 |https://www.graphviz.org/[GraphViz]
-|2.40.1
+|{graphviz-version}
 //|Binary `/usr/bin/dot`
 
 |https://github.com/skanaar/nomnoml[Nomnoml]
-|0.7.2
+|{nomnoml-version}
 //|Binary `/node/bin/nomnoml`
 
 |https://github.com/plantuml/plantuml[PlantUML]
-|1.2020.10
+|{plantuml-version}
 //|Java library (depends on GraphViz)
 
 |https://github.com/ivanceras/svgbob[Svgbob]
-|0.4.2
+|{svgbob-version}
 //|Binary `/rust/bin/svgbob`
 
 |https://github.com/umlet/umlet[UMlet]
-|14.3.0
+|{umlet-version}
 //|Java library
 
 |https://github.com/vega/vega[Vega]
-|5.12.1
+|{vega-version}
 //|Binary `/node/bin/vega`
 
 |https://github.com/vega/vega-lite[Vega-Lite]
-|4.12.2
+|{vegalite-version}
 //|Binary `/node/bin/vega`
 
 |https://github.com/wavedrom/wavedrom[WaveDrom]
-|2.3.2
+|{wavedrom-version}
 //|Binary `/node/bin/wavedrom`
 
 |===
@@ -81,22 +81,22 @@ The Docker image contains the following diagrams libraries out-of-the-box:
 |===
 |Diagram Type | Version
 |https://github.com/blockdiag/actdiag[ActDiag]
-|8.0.0
+|{actdiag-version}
 
 |https://github.com/blockdiag/blockdiag[BlockDiag]
-|2.0.1
+|{blockdiag-version}
 
 |https://github.com/blockdiag/nwdiag[NwDiag]
-|2.0.0
+|{nwdiag-version}
 
 |https://github.com/blockdiag/nwdiag/tree/master/src/packetdiag[PacketDiag]
-|2.0.0
+|{packetdiag-version}
 
 |https://github.com/blockdiag/nwdiag/tree/master/src/rackdiag[RackDiag]
-|2.0.0
+|{rackdiag-version}
 
 |https://github.com/blockdiag/seqdiag[SeqDiag]
-|2.0.0
+|{seqdiag-version}
 |===
 
 === Mermaid
@@ -107,7 +107,7 @@ The Docker image contains the following diagrams libraries out-of-the-box:
 |===
 |Diagram Type | Version
 |https://github.com/knsv/mermaid[Mermaid]
-|8.5.1
+|{mermaid-version}
 |===
 
 === BPMN
@@ -118,5 +118,5 @@ The Docker image contains the following diagrams libraries out-of-the-box:
 |===
 |Diagram Type | Version
 |https://bpmn.io/toolkit/bpmn-js/[bpmn-js]
-|6.5.1
+|{bpmnjs-version}
 |===
