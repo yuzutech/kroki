@@ -8,7 +8,6 @@ import io.vertx.ext.web.codec.BodyCodec;
 import io.vertx.junit5.VertxExtension;
 import io.vertx.junit5.VertxTestContext;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -17,7 +16,6 @@ import java.net.ServerSocket;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Disabled
 @ExtendWith(VertxExtension.class)
 class ServerTest {
 
@@ -38,7 +36,7 @@ class ServerTest {
     client.get(port, "localhost", "/")
       .as(BodyCodec.string())
       .send(testContext.succeeding(response -> testContext.verify(() -> {
-        assertThat(response.body()).isEqualTo("Plop");
+        assertThat(response.body()).contains("https://kroki.io");
         testContext.completeNow();
       })));
   }

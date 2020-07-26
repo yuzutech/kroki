@@ -11,10 +11,12 @@ import io.kroki.server.service.DiagramRest;
 import io.kroki.server.service.Ditaa;
 import io.kroki.server.service.Erd;
 import io.kroki.server.service.Graphviz;
+import io.kroki.server.service.HealthHandler;
 import io.kroki.server.service.HelloHandler;
 import io.kroki.server.service.Mermaid;
 import io.kroki.server.service.Nomnoml;
 import io.kroki.server.service.Plantuml;
+import io.kroki.server.service.ServiceVersion;
 import io.kroki.server.service.Svgbob;
 import io.kroki.server.service.Umlet;
 import io.kroki.server.service.Vega;
@@ -30,10 +32,12 @@ import io.vertx.core.http.HttpServer;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Route;
 import io.vertx.ext.web.Router;
+import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.CorsHandler;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class Server extends AbstractVerticle {
@@ -96,8 +100,23 @@ public class Server extends AbstractVerticle {
     router.post("/")
       .handler(bodyHandler)
       .handler(new DiagramRest(registry).create());
+
+    // health
+    HealthHandler healthHandler = new HealthHandler();
+    Handler<RoutingContext> healthHandlerService = healthHandler.create();
+    router.get("/health")
+      .handler(healthHandlerService);
+    router.get("/v1/health") // versioned URL (alias)
+      .handler(healthHandlerService);
+    router.get("/healthz") // k8s liveness default URL (alias)
+      .handler(healthHandlerService);
+
+    // hello
+    List<ServiceVersion> serviceVersions = healthHandler.getServiceVersions();
+    String krokiBuildHash = healthHandler.getKrokiBuildHash();
+    String krokiVersionNumber = healthHandler.getKrokiVersionNumber();
     router.get("/")
-      .handler(new HelloHandler().create());
+      .handler(new HelloHandler(serviceVersions, krokiVersionNumber, krokiBuildHash).create());
 
     // Default route
     Route route = router.route("/*");
