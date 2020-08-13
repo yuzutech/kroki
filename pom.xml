@@ -4,7 +4,7 @@
   <groupId>io.kroki</groupId>
   <artifactId>kroki</artifactId>
   <packaging>pom</packaging>
-  <version>0.6.0</version>
+  <version>0.7.0</version>
   <modules>
     <module>server</module>
     <module>umlet</module>
