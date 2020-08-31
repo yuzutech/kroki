@@ -15,7 +15,7 @@
   "keywords": [],
   "author": "Guillaume Grossetie",
   "dependencies": {
-    "nomnoml": "^0.8.0"
+    "nomnoml": "^0.10.0"
   },
   "devDependencies": {
     "standard": "14.3.4"
