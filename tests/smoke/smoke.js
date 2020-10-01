@@ -18,6 +18,7 @@ const tests = [
   {engine: 'vegalite', file: 'discretizing-scale.vlite', outputFormat: ['svg', 'png', 'pdf']},
   {engine: 'wavedrom', file: 'wavedrom.json5', outputFormat: ['svg']},
   {engine: 'bytefield', file: 'bytefield.bf', outputFormat: ['svg']},
+  {engine: 'umlet', file: 'umlet.xml', outputFormat: ['svg']}
 ]
 
 const chai = require('chai')
@@ -48,15 +49,39 @@ const sendRequest = async (testCase, outputFormat) => {
   }
 }
 
-tests.forEach((testCase) => {
-  testCase.outputFormat.forEach(outputFormat => {
-    it(`${testCase.engine}/${outputFormat} should answer with HTTP 200`, async function() {
-      const response = await sendRequest(testCase, outputFormat)
+describe('Diagrams', () => {
+  tests.forEach((testCase) => {
+    testCase.outputFormat.forEach(outputFormat => {
+      it(`${testCase.engine}/${outputFormat} should answer with HTTP 200`, async () => {
+        const response = await sendRequest(testCase, outputFormat)
+        try {
+          expect(response.status).to.equal(200)
+        } catch (err) {
+          console.log('response:', response.text)
+          throw err
+        }
+      })
+    })
+  })
+})
+
+describe('Health', () => {
+  ['/health', '/healthz', '/v1/health'].forEach((endpoint) => {
+    it(`should return health status from ${endpoint}`, async () => {
+      const response = await chai.request('localhost:8000')
+        .get(endpoint)
+        .set('Accept', 'application/health+json')
+        .send()
+
       try {
         expect(response.status).to.equal(200)
+        expect(response.body.status).to.equal('pass')
+        const engines = tests.map((it) => it.engine)
+        engines.push('kroki')
+        expect(response.body.version).to.have.keys(engines)
       } catch (err) {
         console.log('response:', response.text)
-        throw err;
+        throw err
       }
     })
   })
