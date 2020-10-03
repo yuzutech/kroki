@@ -10,6 +10,7 @@ import io.kroki.server.service.DiagramRegistry;
 import io.kroki.server.service.DiagramRest;
 import io.kroki.server.service.Ditaa;
 import io.kroki.server.service.Erd;
+import io.kroki.server.service.Excalidraw;
 import io.kroki.server.service.Graphviz;
 import io.kroki.server.service.HealthHandler;
 import io.kroki.server.service.HelloHandler;
@@ -96,6 +97,7 @@ public class Server extends AbstractVerticle {
     registry.register(new Wavedrom(vertx, config, commander), "wavedrom");
     registry.register(new Bpmn(vertx, config), "bpmn");
     registry.register(new Bytefield(vertx, config, commander), "bytefield");
+    registry.register(new Excalidraw(vertx, config), "excalidraw");
 
     router.post("/")
       .handler(bodyHandler)

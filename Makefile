@@ -35,6 +35,7 @@ buildDockerImages:
 	cd blockdiag && $(MAKE) package
 	cd mermaid && $(MAKE) package
 	cd bpmn && $(MAKE) package
+	cd excalidraw && $(MAKE) package
 
 showExamples:
 	python blockdiag/examples.py
@@ -43,20 +44,24 @@ releaseDockerImages:
 	docker tag yuzutech/kroki:latest yuzutech/kroki:$(LATEST_VERSION)
 	docker tag yuzutech/kroki-blockdiag:latest yuzutech/kroki-blockdiag:$(LATEST_VERSION)
 	docker tag yuzutech/kroki-mermaid:latest yuzutech/kroki-mermaid:$(LATEST_VERSION)
+	docker tag yuzutech/kroki-excalidraw:latest yuzutech/kroki-excalidraw:$(LATEST_VERSION)
 	docker tag yuzutech/kroki-bpmn:latest yuzutech/kroki-bpmn:$(LATEST_VERSION)
 	docker tag yuzutech/kroki:latest yuzutech/kroki:latest
 	docker tag yuzutech/kroki-blockdiag:latest yuzutech/kroki-blockdiag:latest
 	docker tag yuzutech/kroki-mermaid:latest yuzutech/kroki-mermaid:latest
+	docker tag yuzutech/kroki-excalidraw:latest yuzutech/kroki-excalidraw:latest
 	docker tag yuzutech/kroki-bpmn:latest yuzutech/kroki-bpmn:latest
 
 pushDockerImages:
 	docker push yuzutech/kroki:latest
 	docker push yuzutech/kroki-blockdiag:latest
 	docker push yuzutech/kroki-mermaid:latest
+	docker push yuzutech/kroki-excalidraw:latest
 	docker push yuzutech/kroki-bpmn:latest
 	docker push yuzutech/kroki:$(LATEST_VERSION)
 	docker push yuzutech/kroki-blockdiag:$(LATEST_VERSION)
 	docker push yuzutech/kroki-mermaid:$(LATEST_VERSION)
+	docker push yuzutech/kroki-excalidraw:$(LATEST_VERSION)
 	docker push yuzutech/kroki-bpmn:$(LATEST_VERSION)
 
 smokeTests:
@@ -67,6 +72,8 @@ smokeTests:
 	&& "$(SMOKE_TESTS_DIR)/wait-for-it.sh" localhost:8000 --timeout="$(COMPOSE_TIMEOUT)" \
 	&& "$(SMOKE_TESTS_DIR)/wait-for-it.sh" localhost:8001 --timeout="$(COMPOSE_TIMEOUT)" \
 	&& "$(SMOKE_TESTS_DIR)/wait-for-it.sh" localhost:8002 --timeout="$(COMPOSE_TIMEOUT)" \
+	&& "$(SMOKE_TESTS_DIR)/wait-for-it.sh" localhost:8003 --timeout="$(COMPOSE_TIMEOUT)" \
+	&& "$(SMOKE_TESTS_DIR)/wait-for-it.sh" localhost:8004 --timeout="$(COMPOSE_TIMEOUT)" \
 	&& echo \
 	&& echo 'Waiting for the containers'\'' services to be available... ($(SERVICES_TIMEOUT) seconds)' \
 	&& sleep "$(SERVICES_TIMEOUT)" \

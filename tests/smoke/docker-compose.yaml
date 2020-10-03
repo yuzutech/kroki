@@ -9,10 +9,12 @@ services:
       - blockdiag
       - mermaid
       - bpmn
+      - excalidraw
     environment:
       - KROKI_BLOCKDIAG_HOST=blockdiag
       - KROKI_MERMAID_HOST=mermaid
       - KROKI_BPMN_HOST=bpmn
+      - KROKI_EXCALIDRAW_HOST=excalidraw
     ports:
       - "8000:8000"
 
@@ -25,7 +27,13 @@ services:
     build: ../../mermaid
     ports:
       - "8002:8002"
+
   bpmn:
     build: ../../bpmn
     ports:
       - "8003:8003"
+
+  excalidraw:
+    build: ../../excalidraw
+    ports:
+      - "8004:8004"

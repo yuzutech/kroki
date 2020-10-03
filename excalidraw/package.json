@@ -1,0 +1,22 @@
+{
+  "name": "excalidraw-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "bin": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "standard src/**.js"
+  },
+  "keywords": [],
+  "author": "Guillaume Grossetie",
+  "license": "MIT",
+  "dependencies": {
+    "micro": "9.3.4",
+    "puppeteer": "5.3.1"
+  },
+  "devDependencies": {
+    "standard": "14.3.4"
+  }
+}
