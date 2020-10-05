@@ -16,7 +16,7 @@
   "author": "Guillaume Grossetie",
   "dependencies": {
     "canvas": "2.6.1",
-    "vega": "5.16.1",
+    "vega": "5.17.0",
     "vega-lite": "4.16.8",
     "yargs": "16.0.3"
   },
