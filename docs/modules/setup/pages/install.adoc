@@ -61,6 +61,7 @@ docker run -p8080:8000 -d yuzutech/kroki
 
 {uri-docker-kroki-image}[yuzutech/kroki] image contains the following diagrams libraries out-of-the-box:
 
+* https://bytefield-svg.deepsymmetry.org/[Bytefield]
 * http://ditaa.sourceforge.net[Ditaa]
 * https://github.com/BurntSushi/erd[Erd]
 * https://www.graphviz.org/[GraphViz]
@@ -71,11 +72,13 @@ docker run -p8080:8000 -d yuzutech/kroki
 * https://github.com/umlet/umlet[UMlet]
 * https://github.com/vega/vega[Vega]
 * https://github.com/vega/vega-lite[Vega-Lite]
+* https://wavedrom.com[WaveDrom]
 
 In other words, the following endpoints will be available:
 
 [literal]
 ....
+/bytefield
 /c4plantuml
 /ditaa
 /erd
@@ -87,6 +90,7 @@ In other words, the following endpoints will be available:
 /umlet
 /vega
 /vegalite
+/wavedrom
 ....
 
 If you want to use _BlockDiag_, _ActDiag_, _NwDiag_, _SeqDiag_, _Mermaid_ or _BPMN_, then you will also need to start companion containers:
