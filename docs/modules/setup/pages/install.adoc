@@ -1,8 +1,8 @@
 = Install Kroki
-:uri-docker-kroki-image: https://cloud.docker.com/u/yuzutech/repository/docker/yuzutech/kroki
-:uri-docker-kroki-blockdiag-image: https://cloud.docker.com/u/yuzutech/repository/docker/yuzutech/kroki-blockdiag
-:uri-docker-kroki-mermaid-image: https://cloud.docker.com/u/yuzutech/repository/docker/yuzutech/kroki-mermaid
-:uri-docker-kroki-bpmn-image: https://cloud.docker.com/u/yuzutech/repository/docker/yuzutech/kroki-bpmn
+:uri-docker-kroki-image: https://hub.docker.com/r/yuzutech/kroki
+:uri-docker-kroki-blockdiag-image: https://hub.docker.com/r/yuzutech/kroki-blockdiag
+:uri-docker-kroki-mermaid-image: https://hub.docker.com/r/yuzutech/kroki-mermaid
+:uri-docker-kroki-bpmn-image: https://hub.docker.com/r/yuzutech/kroki-bpmn
 :uri-blockdiag: http://blockdiag.com/en/blockdiag/index.html
 :uri-seqdiag: http://blockdiag.com/en/seqdiag/index.html
 :uri-actdiag: http://blockdiag.com/en/actdiag/index.html
