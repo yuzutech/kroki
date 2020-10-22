@@ -5,23 +5,23 @@ asciidoc:
   attributes:
     actdiag-version: 2.0.0
     blockdiag-version: 2.0.1
-    bpmnjs-version: 7.3.0
+    bpmnjs-version: 7.4.0
     bytefield-version: 1.5.0
-    c4plantuml-version: 1.2020.15
+    c4plantuml-version: 1.2020.19
     ditaa-version: 1.3.13
     erd-version: 0.1.3.0
     graphviz-version: 2.40.1
-    mermaid-version: 8.7.0
-    nomnoml-version: 0.7.2
+    mermaid-version: 8.8.2
+    nomnoml-version: 1.2.0
     nwdiag-version: 2.0.0
     packetdiag-version: 2.0.0
-    plantuml-version: 1.2020.15
+    plantuml-version: 1.2020.19
     rackdiag-version: 2.0.0
     seqdiag-version: 2.0.0
     svgbob-version: 0.4.2
     umlet-version: 14.3.0
-    vega-version: 5.13.0
-    vegalite-version: 4.14.1
+    vega-version: 5.17.0
+    vegalite-version: 4.17.0
     wavedrom-version: 2.3.2
 nav:
 - modules/ROOT/nav.adoc
