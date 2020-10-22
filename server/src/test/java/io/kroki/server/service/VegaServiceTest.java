@@ -31,19 +31,18 @@ public class VegaServiceTest {
     HttpServerResponse httpServerResponseMock = mock(HttpServerResponse.class);
     when(routingContextMock.response()).thenReturn(httpServerResponseMock);
     when(httpServerResponseMock.putHeader(any(CharSequence.class), any(CharSequence.class))).thenReturn(httpServerResponseMock);
-    when(commanderMock.execute(any(), any())).thenReturn("<svg></svg>".getBytes());
+    when(commanderMock.execute(any(), any())).thenReturn("<svg>vega</svg>".getBytes());
     HashMap<String, Object> config = new HashMap<>();
     config.put("KROKI_SAFE_MODE", "unsafe");
     config.put("KROKI_VEGA_BIN_PATH", "/path/to/vega");
-    CountDownLatch lock = new CountDownLatch(1);
+    CountDownLatch lock = new CountDownLatch(2);
     Vega vegaService = new Vega(vertx, new JsonObject(config), Vega.SpecFormat.DEFAULT, commanderMock);
     vegaService.convert(routingContextMock, "{}", "vega", FileFormat.SVG);
-    // wait for close at most 2000ms
-    vertx.close(event -> lock.countDown());
+    // wait 2000ms for the request to complete
     lock.await(2000, TimeUnit.MILLISECONDS);
     // verify
     Mockito.verify(commanderMock).execute("{}".getBytes(), "/path/to/vega", "--output-format=svg", "--safe-mode=unsafe", "--spec-format=default");
-    Mockito.verify(httpServerResponseMock).end(argThat((ArgumentMatcher<Buffer>) argument -> argument.toString().equals("<svg></svg>")));
+    Mockito.verify(httpServerResponseMock).end(argThat((ArgumentMatcher<Buffer>) argument -> argument.toString().equals("<svg>vega</svg>")));
   }
 
   @Test
@@ -54,18 +53,17 @@ public class VegaServiceTest {
     HttpServerResponse httpServerResponseMock = mock(HttpServerResponse.class);
     when(routingContextMock.response()).thenReturn(httpServerResponseMock);
     when(httpServerResponseMock.putHeader(any(CharSequence.class), any(CharSequence.class))).thenReturn(httpServerResponseMock);
-    when(commanderMock.execute(any(), any())).thenReturn("<svg></svg>".getBytes());
+    when(commanderMock.execute(any(), any())).thenReturn("<svg>vega-lite</svg>".getBytes());
     HashMap<String, Object> config = new HashMap<>();
     config.put("KROKI_SAFE_MODE", "unsafe");
     config.put("KROKI_VEGA_BIN_PATH", "/path/to/vega");
     CountDownLatch lock = new CountDownLatch(1);
     Vega vegaService = new Vega(vertx, new JsonObject(config), Vega.SpecFormat.LITE, commanderMock);
-    vegaService.convert(routingContextMock, "{}", "vega", FileFormat.SVG);
-    // wait for close at most 2000ms
-    vertx.close(event -> lock.countDown());
+    vegaService.convert(routingContextMock, "{}", "vegalite", FileFormat.SVG);
+    // wait 2000ms for the request to complete
     lock.await(2000, TimeUnit.MILLISECONDS);
     // verify
     Mockito.verify(commanderMock).execute("{}".getBytes(), "/path/to/vega", "--output-format=svg", "--safe-mode=unsafe", "--spec-format=lite");
-    Mockito.verify(httpServerResponseMock).end(argThat((ArgumentMatcher<Buffer>) argument -> argument.toString().equals("<svg></svg>")));
+    Mockito.verify(httpServerResponseMock).end(argThat((ArgumentMatcher<Buffer>) argument -> argument.toString().equals("<svg>vega-lite</svg>")));
   }
 }
