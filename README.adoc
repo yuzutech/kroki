@@ -152,7 +152,7 @@ services:
     image: yuzutech/kroki-mermaid
     ports:
       - "8002:8002"
-bpmn:
+  bpmn:
     image: yuzutech/kroki-bpmn
     ports:
       - "8003:8003"
