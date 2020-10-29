@@ -4,28 +4,28 @@ class Task {
     this.mermaidConfig = {
       theme: 'default',
       class: {
-        useMaxWidth: false,
+        useMaxWidth: false
       },
       er: {
-        useMaxWidth: false,
+        useMaxWidth: false
       },
       flowchart: {
-        useMaxWidth: false,
+        useMaxWidth: false
       },
       gantt: {
-        useMaxWidth: false,
+        useMaxWidth: false
       },
       git: {
-        useMaxWidth: false,
+        useMaxWidth: false
       },
       journey: {
-        useMaxWidth: false,
+        useMaxWidth: false
       },
       sequence: {
-        useMaxWidth: false,
+        useMaxWidth: false
       },
       state: {
-        useMaxWidth: false,
+        useMaxWidth: false
       }
     }
   }
