@@ -42,7 +42,7 @@ console.log(result)
 [#javascript]
 == JavaScript
 
-We recommend to encode your diagram as UTF-8.
+We recommend encoding your diagram as UTF-8.
 To do so, we can use {uri-mdn-textencoder}[`TextEncoder`]:
 
 [source,javascript]
