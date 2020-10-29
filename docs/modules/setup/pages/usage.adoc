@@ -94,5 +94,5 @@ POST /graphviz/svg
 
 * Install xref:install.adoc[Kroki on your server] for the first time
 * Interact with the Kroki API using:
-** xref:http-client.adoc[an HTTP client]
+** xref:http-clients.adoc[an HTTP client]
 ** xref:kroki-cli.adoc[Kroki CLI]
