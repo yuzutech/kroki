@@ -1,0 +1,22 @@
+version: "3"
+services:
+  core:
+    image: yuzutech/kroki
+    environment:
+      - KROKI_BLOCKDIAG_HOST=blockdiag
+      - KROKI_MERMAID_HOST=mermaid
+      - KROKI_BPMN_HOST=bpmn
+    ports:
+      - "8000:8000"
+  blockdiag:
+    image: yuzutech/kroki-blockdiag
+    expose:
+      - "8001"
+  mermaid:
+    image: yuzutech/kroki-mermaid
+    expose:
+      - "8002"
+  bpmn:
+    image: yuzutech/kroki-bpmn
+    expose:
+      - "8003"
