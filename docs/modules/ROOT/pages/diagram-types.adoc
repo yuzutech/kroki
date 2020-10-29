@@ -1,4 +1,4 @@
-= Diagrams Types
+= Diagram Types
 
 Here's a non-exhaustive list of diagrams you can create using Kroki.
 
