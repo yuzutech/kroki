@@ -24,7 +24,8 @@ http https://kroki.io/graphviz/svg/eNpLyUwvSizIUHBXqPZIzcnJ17ULzy_KSanlAgB1EAjQ
 
 It's also possible to send a file, for instance an Entity Relationship Diagram named [.path]_project.erd_:
 
-```erd
+[source,erd]
+----
 [Person]
 *name
 height
@@ -38,7 +39,7 @@ state
 country
 
 Person *--1 Location
-```
+----
 
 [source,cli]
 curl https://kroki.io/erd/svg --data-binary '@project.erd'

@@ -9,8 +9,6 @@ image:https://github.com/yuzutech/kroki/workflows/CI/badge.svg?branch=master[Git
 image:https://badges.gitter.im/gitterHQ/gitter.svg[Gitter chat, link=https://gitter.im/kroki-project/community]
 endif::[]
 
-
-
 {uri-kroki}[Kroki] provides a unified API with support for BlockDiag (BlockDiag, SeqDiag, ActDiag, NwDiag, PacketDiag, RackDiag), BPMN, Bytefield, C4 (with PlantUML), Ditaa, Erd, GraphViz, Mermaid, Nomnoml, PlantUML, SvgBob, UMLet, Vega, Vega-Lite and WaveDrom... and more to come!
 
 == Quickstart
@@ -99,6 +97,12 @@ A companion web server written in JavaScript (powered by _micro_) that provides 
 bpmn::
 A companion web server written in JavaScript (powered by _micro_) that provides _bpmn-js_ diagram library.
 
+bytefield::
+A Node.js CLI on top of the _bytefield-svg_ diagram library.
+
+wavedrom::
+A Node.js CLI on top of the _wavedrom_ diagram library.
+
 == Build
 
 === Gateway Server
@@ -152,7 +156,7 @@ services:
     image: yuzutech/kroki-mermaid
     ports:
       - "8002:8002"
-bpmn:
+  bpmn:
     image: yuzutech/kroki-bpmn
     ports:
       - "8003:8003"

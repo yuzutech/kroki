@@ -39,13 +39,14 @@ You can also call Kroki with `POST`:
 [source,http]
 POST /
 
-```json
+[source,json]
+----
 {
   "diagram_source": "digraph G {Hello->World}",
   "diagram_type": "graphviz",
   "output_format": "svg"
 }
-```
+----
 
 In this case, you don't need to encode your diagram.
 
@@ -84,15 +85,16 @@ The same concept applies when sending the diagram as JSON:
 [source,http]
 POST /graphviz/svg
 
-```json
+[source,json]
+----
 {
   "diagram_source": "digraph G {Hello->World}"
 }
-```
+----
 
 == Next
 
 * Install xref:install.adoc[Kroki on your server] for the first time
 * Interact with the Kroki API using:
-** xref:http-client.adoc[an HTTP client]
+** xref:http-clients.adoc[an HTTP client]
 ** xref:kroki-cli.adoc[Kroki CLI]

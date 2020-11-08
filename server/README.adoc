@@ -26,6 +26,9 @@ KROKI_SVGBOB_BIN_PATH:: Path to the `svgbob` binary
 KROKI_ERD_BIN_PATH:: Path to the `erd` binary
 KROKI_DOT_BIN_PATH:: Path to the `dot` binary (provided by GraphViz)
 KROKI_NOMNOML_BIN_PATH:: Path to the `nomnoml` binary
+KROKI_VEGA_BIN_PATH:: Path to the `vega` binary (it supports both Vega and Vega-Lite grammar)
+KROKI_WAVEDROM_BIN_PATH:: Path to the `wavedrom` binary
+KROKI_BYTEFIELD_BIN_PATH:: Path to the `bytefield-svg` binary
 KROKI_BLOCKDIAG_HOST:: The host of the blockdiag server
 KROKI_BLOCKDIAG_PORT:: The port of the blockdiag server
 KROKI_SAFE_MODE:: One of:
@@ -38,7 +41,7 @@ KROKI_SAFE_MODE:: One of:
 +
 [NOTE]
 --
-Some of the diagram libraries allow referencing external entities by URL or accessing resources from the filesystem.
+Some diagram libraries allow referencing external entities by URL or accessing resources from the filesystem.
 
 For example PlantUML allows the `!import` directive to pull fragments from the filesystem or a remote URL or the standard library.
 
@@ -46,6 +49,7 @@ It is the responsibility of the upstream codebases to ensure that they can be sa
 Because Kroki does not perform code review of these services, our default setting is to be paranoid and block imports unless known safe.
 We encourage anyone running their own Kroki server to review the services security settings and select the security mode appropriate for their use case.
 --
+
 KROKI_PLANTUML_INCLUDE_PATH:: The include path to set for PlantUML.
 KROKI_PLANTUML_INCLUDE_WHITELIST:: The name of a file that consists of a list of Java regular expressions for valid includes.
 KROKI_PLANTUML_INCLUDE_WHITELIST_0, KROKI_PLANTUML_INCLUDE_WHITELIST_1, ... KROKI_PLANTUML_INCLUDE_WHITELIST___N__:: One regex to add to the include whitelist per environment variable. Search will stop at the first empty or undefined integer number.

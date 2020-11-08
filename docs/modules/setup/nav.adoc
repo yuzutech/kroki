@@ -4,3 +4,4 @@
 ** xref:kroki-cli.adoc[Kroki CLI]
 * xref:install.adoc[Install]
 ** xref:manual-install.adoc[Manual Install]
+* xref:configuration.adoc[Configuration]

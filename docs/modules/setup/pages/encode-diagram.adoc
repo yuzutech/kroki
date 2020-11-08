@@ -18,7 +18,8 @@ On this page you will learn how to encode a diagram using:
 To compress our diagram with deflate algorithm, we are going to use {uri-gh-pako}[pako] -- a high speed zlib port to JavaScript.
 Once `pako` is installed, you can use the `deflate` method:
 
-```javascript
+[source,javascript]
+----
 const pako = require('pako')
 
 const diagramSource = `digraph G {
@@ -32,7 +33,7 @@ const result = Buffer.from(compressed)
   .replace(/\+/g, '-').replace(/\//g, '_') // <4>
 
 console.log(result)
-```
+----
 <1> Create a `Buffer` from the diagram source using the default UTF-8 encoding
 <2> Compress data with deflate algorithm using a compression level of 9 (best compression).
 <3> Create a `Buffer` from the compressed data and encode to Base64
@@ -41,17 +42,19 @@ console.log(result)
 [#javascript]
 == JavaScript
 
-We recommend to encode your diagram as UTF-8.
+We recommend encoding your diagram as UTF-8.
 To do so, we can use {uri-mdn-textencoder}[`TextEncoder`]:
 
-```javascript
+[source,javascript]
+----
 new TextEncoder('utf-8').encode(diagramSource)
-```
+----
 
 Unfortunately `TextEncoder` is not yet available on {uri-mdn-textencoder-browser-compat}[all browsers].
 To workaround this issue, we can define a function to encode our diagram:
 
-```javascript
+[source,javascript]
+----
 function textEncode(str) {
   if (window.TextEncoder) {
     return new TextEncoder('utf-8').encode(str);
@@ -63,30 +66,31 @@ function textEncode(str) {
   }
   return result;
 }
-```
+----
 
 The above code will use `TextEncoder` if it's available and otherwise it will use a fallback implementation.
 
 Now that our diagram is encoded as UTF-8 in a `Uint8Array`, we can use _pako_ to compress it.
 As a reminder, {uri-gh-pako}[pako] is a high speed zlib port to JavaScript:
 
-```html
+[source,html]
+----
 <script src="https://unpkg.com/pako@1.0.10/dist/pako_deflate.min.js"></script>
-```
+----
 
 To compress our diagram diagram we are going to use the `deflate` method provided by `pako`:
 
-
-```javascript
+[source,javascript]
+----
 var diagramSource = 'digraph G { Hello->World }'
 
-var data = textEncode(source) // <1>
+var data = textEncode(diagramSource) // <1>
 var compressed = pako.deflate(data, { level: 9, to: 'string' }) // <2>
 var result = btoa(compressed) // <3>
   .replace(/\+/g, '-').replace(/\//g, '_') // <4>
 
 console.log(result)
-```
+----
 <1> Encode the diagram as UTF8 in a `Uint8Array` (using the `textEncode` function declared above)
 <2> Compress data with deflate algorithm using a compression level of 9 (best compression).
 `pako` is available as a global variable.
@@ -97,20 +101,23 @@ console.log(result)
 [#python]
 == Python
 
-```python
+[source,python]
+----
 include::example$encode.py[]
-```
+----
 
 [#java]
 == Java
 
-```java
+[source,java]
+----
 include::example$Encode.java[]
-```
+----
 
 [#go]
 == Go
 
-```go
+[source,go]
+----
 include::example$encode.go[]
-```
+----

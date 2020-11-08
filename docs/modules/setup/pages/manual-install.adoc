@@ -21,86 +21,8 @@ Once you've downloaded the _jar_ file, open a terminal an type:
 java -jar kroki-server.jar
 
 The above command will start a web server on port `8000`.
+You can change the port using an environment variable, or a Java system property named `KROKI_PORT`.
 
-[NOTE]
-====
-You can change the port using an environment variable or a Java system property named `KROKI_PORT`:
+== Learn more
 
-[source,java-cli]
-KROKI_PORT=1234 java -jar kroki-server.jar
-
-[source,java-cli]
-java -DKROKI_PORT=1234 -jar kroki-server.jar
-====
-
-== Configuration
-
-Kroki can be configured using environment variables or Java system properties.
-We've already seen how to change the port using `KROKI_PORT`, let's find out how to configure diagram binary paths.
-
-=== Safe Mode
-
-Kroki provides security levels that restrict access to files on the file system and on the network.
-Each level includes the restrictions enabled in the prior security level.
-
-- `UNSAFE`: disables any security features.
-- `SECURE`: prevents attempts to read files from the file system or from the network.
-
-By default, Kroki is running in `SECURE` mode.
-
-While running in `SECURE` mode, Kroki will prevent PlantUML from including files using the `!include` or `!includeurl` directive.
-If you want to enable this feature, you can set the safe mode using the environment variable `KROKI_SAFE_MODE`:
-
-[source,java-cli]
-java -DKROKI_SAFE_MODE=unsafe -jar kroki-server.jar
-
-NOTE: The value is case insensitive, so both `UNSAFE` and `unsafe` will work.
-
-=== Diagram Binary Paths
-
-Kroki depends on external binaries to generate images.
-By default, Kroki will locate these binaries in the `PATH` environment variable.
-
-In case you've installed a diagram library in a way where the executable is not in the `PATH`,
-you can override its location manually using an environment variable or a Java system property:
-
-`KROKI_SVGBOB_BIN_PATH`:: Path to `svgbob` binary
-`KROKI_ERD_BIN_PATH`:: Path to `erd` binary
-`KROKI_DOT_BIN_PATH`:: Path to `dot` binary
-`KROKI_NOMNOML_BIN_PATH`:: Path to `nomnoml` binary
-`KROKI_VEGA_BIN_PATH`:: Path to `vega` binary (it supports both Vega and Vega-Lite grammar)
-`KROKI_WAVEDROM_BIN_PATH`:: Path to `wavedrom` binary
-
-For instance, if `dot` is located at [.path]_/path/to/dot_, you can configure the path using a system property:
-
-[source,java-cli]
-java -DKROKI_DOT_BIN_PATH=/path/to/dot -jar kroki-server.jar
-
-=== Command timeout
-
-By default, Kroki will wait at most 5 seconds when calling a diagram binary to get a response.
-In most scenarios, 5 seconds is more than enough but, if needed, you can adjust the timeout using the `KROKI_COMMAND_TIMEOUT` environment variable.
-
-The expected format is a duration with a time unit:
-
-[horizontal]
-`d`:: Days
-`h`:: Hours
-`m`:: Minutes
-`s`:: Seconds
-`ms`:: Milliseconds
-`micros`:: Microseconds
-`nanos`:: Nanoseconds
-
-A few examples:
-
-[source]
-----
-KROKI_COMMAND_TIMEOUT=10s # <1>
-KROKI_COMMAND_TIMEOUT=1m # <2>
-KROKI_COMMAND_TIMEOUT=4000ms # <3>
-----
-<1> 10 seconds
-<2> 1 minute
-<3> 4 seconds in milliseconds
-
+- xref:configuration.adoc[Configure Kroki]

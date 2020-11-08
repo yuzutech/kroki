@@ -1,0 +1,102 @@
+= Configuration
+
+Kroki can be configured using environment variables or Java system properties.
+
+== Port
+
+By default, Kroki will start a web server on port `8000`.
+You can change the port using `KROKI_PORT`:
+
+[source,java-cli]
+KROKI_PORT=1234 java -jar kroki-server.jar
+
+[source,java-cli]
+java -DKROKI_PORT=1234 -jar kroki-server.jar
+
+== Safe Mode
+
+Kroki provides security levels that restrict access to files on the file system and on the network.
+Each level includes the restrictions enabled in the prior security level:
+
+- `UNSAFE`: disables any security features.
+- `SAFE`: Assume the diagram libraries secure mode request sanitization is sufficient.
+- `SECURE`: prevents attempts to read files from the file system or from the network.
+
+By default, Kroki is running in `SECURE` mode.
+
+[NOTE]
+====
+Some diagram libraries allow referencing external entities by URL or accessing resources from the filesystem.
+
+For example PlantUML allows the `!import` directive to pull fragments from the filesystem or a remote URL or the standard library.
+
+It is the responsibility of the upstream codebases to ensure that they can be safely used without risk.
+Because Kroki does not perform code review of these services, our default setting is to be paranoid and block imports unless known safe.
+We encourage anyone running their own Kroki server to review the services security settings and select the security mode appropriate for their use case.
+====
+
+While running in `SECURE` mode, Kroki will prevent PlantUML from including files using the `!include` or `!includeurl` directive.
+
+If you want to enable this feature, you can set the safe mode using the environment variable `KROKI_SAFE_MODE`:
+
+[source,java-cli]
+java -DKROKI_SAFE_MODE=unsafe -jar kroki-server.jar
+
+TIP: The value is case-insensitive, so both `UNSAFE` and `unsafe` will work.
+
+It's also possible to restrict the PlantUML `!include` directive using the following environment variables when running in `SAFE` mode:
+
+KROKI_PLANTUML_INCLUDE_PATH:: The include path to set for PlantUML.
+KROKI_PLANTUML_INCLUDE_WHITELIST:: The name of a file that consists of a list of Java regular expressions for valid includes.
+KROKI_PLANTUML_INCLUDE_WHITELIST_0, KROKI_PLANTUML_INCLUDE_WHITELIST_1, ... KROKI_PLANTUML_INCLUDE_WHITELIST___N__:: One regex to add to the include whitelist per environment variable. Search will stop at the first empty or undefined integer number.
+KROKI_PLANTUML_ALLOW_INCLUDE:: Either `false` (default) or `true`. Determines if PlantUML will fetch `!include` directives that reference external URLs.For example, PlantUML allows the !import directive to pull fragments from the filesystem or a remote URL or the standard library.
+
+== Diagram Binary Paths
+
+Kroki depends on external binaries to generate images.
+By default, Kroki will locate these binaries in the `PATH` environment variable.
+
+In case you've installed a diagram library in a way where the executable is not in the `PATH`,
+you can override its location manually using an environment variable or a Java system property:
+
+`KROKI_SVGBOB_BIN_PATH`:: Path to `svgbob` binary
+`KROKI_ERD_BIN_PATH`:: Path to `erd` binary
+`KROKI_DOT_BIN_PATH`:: Path to `dot` binary
+`KROKI_NOMNOML_BIN_PATH`:: Path to `nomnoml` binary
+`KROKI_BYTEFIELD_BIN_PATH`:: Path to the `bytefield-svg` binary
+`KROKI_VEGA_BIN_PATH`:: Path to `vega` binary (it supports both Vega and Vega-Lite grammar)
+`KROKI_WAVEDROM_BIN_PATH`:: Path to `wavedrom` binary
+
+For instance, if `dot` is located at [.path]_/path/to/dot_, you can configure the path using a system property:
+
+[source,java-cli]
+java -DKROKI_DOT_BIN_PATH=/path/to/dot -jar kroki-server.jar
+
+== Command timeout
+
+By default, Kroki will wait at most 5 seconds when calling a diagram binary to get a response.
+In most scenarios, 5 seconds is more than enough but, if needed, you can adjust the timeout using the `KROKI_COMMAND_TIMEOUT` environment variable.
+
+The expected format is a duration with a time unit:
+
+[horizontal]
+`d`:: Days
+`h`:: Hours
+`m`:: Minutes
+`s`:: Seconds
+`ms`:: Milliseconds
+`micros`:: Microseconds
+`nanos`:: Nanoseconds
+
+A few examples:
+
+[source]
+----
+KROKI_COMMAND_TIMEOUT=10s # <1>
+KROKI_COMMAND_TIMEOUT=1m # <2>
+KROKI_COMMAND_TIMEOUT=4000ms # <3>
+----
+<1> 10 seconds
+<2> 1 minute
+<3> 4 seconds in milliseconds
+
