@@ -15,7 +15,7 @@
     <logback.version>1.2.3</logback.version>
     <vertx.version>3.9.4</vertx.version>
     <junit.jupiter.version>5.7.0</junit.jupiter.version>
-    <assertj-core.version>3.18.0</assertj-core.version>
+    <assertj-core.version>3.18.1</assertj-core.version>
     <mockito-core.version>3.6.0</mockito-core.version>
     <plantuml.version>1.2020.19</plantuml.version>
     <ditaa-mini.version>0.11</ditaa-mini.version>
