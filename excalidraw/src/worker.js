@@ -17,8 +17,9 @@ class Worker {
       page.setViewport({ height: 800, width: 600 })
       await page.goto(this.pageUrl)
       // QUESTION: should we reuse the page for performance reason ?
-      return await page.evaluate((definition) => {
-        return Promise.resolve(window.Excalidraw.renderSvg(definition))
+      return await page.evaluate(async (definition) => {
+        const svgElement = window.ExcalidrawUtils.exportToSvg(JSON.parse(definition))
+        return svgElement.outerHTML
       }, task.source)
     } catch (e) {
       console.error('Unable to convert the diagram', e)

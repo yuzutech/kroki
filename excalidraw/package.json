@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "bin": "src/index.js",
   "scripts": {
+    "prestart": "cp node_modules/@excalidraw/utils/dist/excalidraw-utils.min.js assets/excalidraw-utils.min.js",
     "start": "node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "standard src/**.js"
@@ -13,10 +14,11 @@
   "author": "Guillaume Grossetie",
   "license": "MIT",
   "dependencies": {
+    "@excalidraw/utils": "0.1.0-test",
     "micro": "9.3.4",
-    "puppeteer": "5.3.1"
+    "puppeteer": "5.4.1"
   },
   "devDependencies": {
-    "standard": "14.3.4"
+    "standard": "16.0.2"
   }
 }
