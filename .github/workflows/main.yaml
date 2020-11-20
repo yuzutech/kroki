@@ -19,6 +19,10 @@ jobs:
       with:
         default: 3.8.6
         command: pip install -U pip  # upgrade pip after installing python
+      env:
+        # allow unsecure commands add-path and set-env until v7 is available
+        # see: https://github.com/gabrielfalcao/pyenv-action/issues/99
+        ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 
     - name: Create virtualenv for python 3.8.6
       run: pyenv local 3.8.6
