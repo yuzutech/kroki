@@ -15,7 +15,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install python 3.8.1
-      uses: gabrielfalcao/pyenv-action@v5
+      uses: gabrielfalcao/pyenv-action@v6
       with:
         default: 3.8.1
         command: pip install -U pip  # upgrade pip after installing python
