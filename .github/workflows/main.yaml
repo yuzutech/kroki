@@ -14,18 +14,21 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Install python 3.8.6
+    - name: Install python 3.8.1
       uses: gabrielfalcao/pyenv-action@v6
       with:
-        default: 3.8.6
+        # we cannot use 3.8.6 because pyenv 1.2.18 does not have the "definition" of this version,
+        # and thus cannot install it!
+        # see: https://github.com/gabrielfalcao/pyenv-action/pull/100
+        default: 3.8.1
         command: pip install -U pip  # upgrade pip after installing python
       env:
         # allow unsecure commands add-path and set-env until v7 is available
         # see: https://github.com/gabrielfalcao/pyenv-action/issues/99
         ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 
-    - name: Create virtualenv for python 3.8.6
-      run: pyenv local 3.8.6
+    - name: Create virtualenv for python 3.8.1
+      run: pyenv local 3.8.1
 
     - name: Install BlockDiag
       run: make installBlockDiag
