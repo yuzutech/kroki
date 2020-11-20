@@ -16,7 +16,7 @@
   "dependencies": {
     "bpmn-js": "^7.2.1",
     "micro": "9.3.4",
-    "puppeteer": "5.4.1"
+    "puppeteer": "5.5.0"
   },
   "devDependencies": {
     "standard": "16.0.2"
