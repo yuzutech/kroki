@@ -14,14 +14,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Install python 3.8.1
+    - name: Install python 3.8.6
       uses: gabrielfalcao/pyenv-action@v6
       with:
-        default: 3.8.1
+        default: 3.8.6
         command: pip install -U pip  # upgrade pip after installing python
 
-    - name: Create virtualenv for python 3.8.1
-      run: pyenv local 3.8.1
+    - name: Create virtualenv for python 3.8.6
+      run: pyenv local 3.8.6
 
     - name: Install BlockDiag
       run: make installBlockDiag
