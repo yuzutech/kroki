@@ -44,44 +44,41 @@ public class ErrorHandler implements io.vertx.ext.web.handler.ErrorHandler {
     HttpServerResponse response = context.response();
     Throwable failure = context.failure();
     int errorCode = context.statusCode();
-    String errorMessage = null;
+    String errorMessage = response.getStatusMessage();
     String statusMessage = null;
     String htmlErrorMessage = null;
-    if (errorCode != -1) {
-      context.response().setStatusCode(errorCode);
-      errorMessage = response.getStatusMessage();
+    if (failure instanceof BadRequestException) {
+      errorCode = 400;
+      errorMessage = failure.getMessage();
+      statusMessage = "Bad Request";
+      htmlErrorMessage = ((BadRequestException) failure).getMessageHTML();
+    } else if (failure instanceof ServiceUnavailableException) {
+      errorCode = 503;
+      errorMessage = failure.getMessage();
+      statusMessage = "Service Unavailable";
+      htmlErrorMessage = ((ServiceUnavailableException) failure).getMessageHTML();
+    } else if (failure instanceof IllegalStateException) {
+      errorCode = 500;
+      errorMessage = failure.getMessage();
+      if (errorMessage == null) {
+        errorMessage = "Internal Server Error";
+      }
     } else {
-      if (failure instanceof BadRequestException) {
-        errorCode = 400;
-        errorMessage = failure.getMessage();
-        statusMessage = "Bad Request";
-        htmlErrorMessage = ((BadRequestException) failure).getMessageHTML();
-      } else if (failure instanceof ServiceUnavailableException) {
-        errorCode = 503;
-        errorMessage = failure.getMessage();
-        statusMessage = "Service Unavailable";
-        htmlErrorMessage = ((ServiceUnavailableException) failure).getMessageHTML();
-      } else if (failure instanceof IllegalStateException) {
+      if (errorCode < 400 || errorCode > 500) {
         errorCode = 500;
+      }
+      if (displayExceptionDetails) {
         errorMessage = failure.getMessage();
-        if (errorMessage == null) {
-          errorMessage = "Internal Server Error";
-        }
-      } else {
-        errorCode = 500;
-        if (displayExceptionDetails) {
-          errorMessage = failure.getMessage();
-        }
-        if (errorMessage == null) {
-          errorMessage = "Internal Server Error";
-        }
       }
-      if (statusMessage == null) {
-        statusMessage = errorMessage;
+      if (errorMessage == null || errorMessage.trim().isEmpty()) {
+        errorMessage = "Internal Server Error";
       }
-      // no new lines are allowed in the status message
-      response.setStatusMessage(statusMessage.replaceAll("[\\r\\n]", " "));
     }
+    if (statusMessage == null) {
+      statusMessage = errorMessage;
+    }
+    // no new lines are allowed in the status message
+    response.setStatusMessage(statusMessage.replaceAll("[\\r\\n]", " "));
     logging.error(context, errorCode, errorMessage);
     answerWithError(context, errorCode, errorMessage, htmlErrorMessage);
   }
