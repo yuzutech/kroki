@@ -1,0 +1,194 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/nomnoml"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+  labels:
+    - "📜 javascript"
+    - "🔗 dependencies"
+- package-ecosystem: docker
+  directory: "/server/ops/docker/jdk11-alpine"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+  labels:
+    - "🐋 docker"
+    - "🔗 dependencies"
+- package-ecosystem: docker
+  directory: "/vega/ops/docker/alpine"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: node
+    versions:
+    - ">= 11.a"
+    - "< 12"
+  - dependency-name: node
+    versions:
+    - ">= 12.a"
+    - "< 13"
+  - dependency-name: node
+    versions:
+    - ">= 13.a"
+    - "< 14"
+  - dependency-name: node
+    versions:
+    - ">= 14.a"
+    - "< 15"
+  - dependency-name: node
+    versions:
+    - ">= 15.a"
+    - "< 16"
+  labels:
+    - "🐋 docker"
+    - "🔗 dependencies"
+- package-ecosystem: npm
+  directory: "/mermaid"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+  labels:
+    - "📜 javascript"
+    - "🔗 dependencies"
+- package-ecosystem: docker
+  directory: "/bytefield/ops/docker/alpine"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: node
+    versions:
+    - ">= 13.a"
+    - "< 14"
+  - dependency-name: node
+    versions:
+    - ">= 14.a"
+    - "< 15"
+  labels:
+    - "🐋 docker"
+    - "🔗 dependencies"
+- package-ecosystem: npm
+  directory: "/bytefield"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+  labels:
+    - "📜 javascript"
+    - "🔗 dependencies"
+- package-ecosystem: npm
+  directory: "/bpmn"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+  labels:
+    - "📜 javascript"
+    - "🔗 dependencies"
+- package-ecosystem: docker
+  directory: "/bpmn"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: node
+    versions:
+    - ">= 13.a"
+    - "< 14"
+  - dependency-name: node
+    versions:
+    - ">= 14.a"
+    - "< 15"
+  labels:
+    - "🐋 docker"
+    - "🔗 dependencies"
+- package-ecosystem: docker
+  directory: "/nomnoml/ops/docker/alpine"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: node
+    versions:
+    - ">= 13.a"
+    - "< 14"
+  - dependency-name: node
+    versions:
+    - ">= 14.a"
+    - "< 15"
+  labels:
+    - "🐋 docker"
+    - "🔗 dependencies"
+- package-ecosystem: docker
+  directory: "/mermaid"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: node
+    versions:
+    - ">= 13.a"
+    - "< 14"
+  - dependency-name: node
+    versions:
+    - ">= 14.a"
+    - "< 15"
+  labels:
+    - "🐋 docker"
+    - "🔗 dependencies"
+- package-ecosystem: docker
+  directory: "/blockdiag"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+  labels:
+    - "🐋 docker"
+    - "🔗 dependencies"
+- package-ecosystem: npm
+  directory: "/vega"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+  labels:
+    - "📜 javascript"
+    - "🔗 dependencies"
+- package-ecosystem: pip
+  directory: "/blockdiag"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+  labels:
+    - "🐍 python"
+    - "🔗 dependencies"
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+  labels:
+    - "📜 javascript"
+    - "🔗 dependencies"
+- package-ecosystem: maven
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+  labels:
+    - "☕ java"
+    - "🔗 dependencies"
