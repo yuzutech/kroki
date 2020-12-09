@@ -72,7 +72,7 @@ For instance, if `dot` is located at [.path]_/path/to/dot_, you can configure th
 [source,java-cli]
 java -DKROKI_DOT_BIN_PATH=/path/to/dot -jar kroki-server.jar
 
-== Command timeout
+== Command Timeout
 
 By default, Kroki will wait at most 5 seconds when calling a diagram binary to get a response.
 In most scenarios, 5 seconds is more than enough but, if needed, you can adjust the timeout using the `KROKI_COMMAND_TIMEOUT` environment variable.
@@ -100,3 +100,15 @@ KROKI_COMMAND_TIMEOUT=4000ms # <3>
 <2> 1 minute
 <3> 4 seconds in milliseconds
 
+== Companion Container Host and Port
+
+You can configure the host and port on which every companion container will be listening:
+
+KROKI_BLOCKDIAG_HOST:: Host of the BlockDiag container (default: `127.0.0.1`).
+KROKI_BLOCKDIAG_PORT:: Port of the BlockDiag container (default: `8001`).
+KROKI_MERMAID_HOST:: Host of the Mermaid container (default: `127.0.0.1`).
+KROKI_MERMAID_PORT:: Port of the Mermaid container (default: `8002`).
+KROKI_BPMN_HOST:: Host of the BPMN container (default: `127.0.0.1`).
+KROKI_BPMN_PORT:: Port of the BPMN container (default: `8003`).
+
+NOTE: If you are using the default `docker-compose.yaml` file you can rely on the default values.
