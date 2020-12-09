@@ -6,11 +6,12 @@
 When using GET requests, your diagram must be encoded in the URL using a deflate + base64 algorithm.
 On this page you will learn how to encode a diagram using:
 
-- <<nodejs, Node.js>>
-- <<javascript, JavaScript>>
-- <<python, Python>>
-- <<java, Java>>
-- <<go, Go>>
+- xref:nodejs[]
+- xref:javascript[]
+- xref:python[]
+- xref:java[]
+- xref:go[]
+- xref:php[]
 
 [#nodejs]
 == Node.js
@@ -120,4 +121,12 @@ include::example$Encode.java[]
 [source,go]
 ----
 include::example$encode.go[]
+----
+
+[#php]
+== PHP
+
+[source,php]
+----
+include::example$encode.php[]
 ----
