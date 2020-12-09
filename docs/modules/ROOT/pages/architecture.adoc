@@ -13,7 +13,10 @@ Mermaid::
 A companion web server written in JavaScript (powered by _micro_) that provides _Mermaid_ diagram library.
 
 BPMN::
-A companion web server written in JavaScript (powered by _micro_) that provides _bpmn-js_ to render bpmn diagrams.
+A companion web server written in JavaScript (powered by _micro_) that provides _bpmn-js_ to render BPMN diagrams.
+
+Excalidraw::
+A companion web server written in JavaScript (powered by _micro_) that provides https://excalidraw.com/[_Excalidraw_] to render diagrams.
 
 == Gateway Server
 
@@ -119,4 +122,15 @@ The Docker image contains the following diagrams libraries out-of-the-box:
 |Diagram Type | Version
 |https://bpmn.io/toolkit/bpmn-js/[bpmn-js]
 |{bpmnjs-version}
+|===
+
+=== Excalidraw
+
+The Docker image contains the following diagrams libraries out-of-the-box:
+
+[options="header",cols="1,1m"]
+|===
+|Diagram Type | Version
+|https://github.com/excalidraw/excalidraw[Excalidraw]
+|{excalidraw-version}
 |===

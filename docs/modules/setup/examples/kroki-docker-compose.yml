@@ -20,3 +20,7 @@ services:
     image: yuzutech/kroki-bpmn
     expose:
       - "8003"
+  excalidraw:
+    image: yuzutech/kroki-excalidraw
+    expose:
+      - "8004"
