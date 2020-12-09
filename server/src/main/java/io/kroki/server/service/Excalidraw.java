@@ -33,7 +33,7 @@ public class Excalidraw implements DiagramService {
     };
     this.host = config.getString("KROKI_EXCALIDRAW_HOST", "127.0.0.1");
     this.port = config.getInteger("KROKI_EXCALIDRAW_PORT", 8004);
-    this.diagramResponse = new DiagramResponse(new Caching("f2135ab"));
+    this.diagramResponse = new DiagramResponse(new Caching("0.1.0"));
   }
 
   @Override
