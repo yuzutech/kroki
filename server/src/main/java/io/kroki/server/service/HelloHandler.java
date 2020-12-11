@@ -1,6 +1,7 @@
 package io.kroki.server.service;
 
 import io.vertx.core.Handler;
+import io.vertx.core.Vertx;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.impl.Utils;
 
@@ -13,13 +14,13 @@ public class HelloHandler {
   private final String pageTemplate;
   private final List<ServiceVersion> serviceVersions;
 
-  public HelloHandler(List<ServiceVersion> serviceVersions, String krokiVersionNumber, String krokiBuildHash) {
+  public HelloHandler(Vertx vertx, List<ServiceVersion> serviceVersions, String krokiVersionNumber, String krokiBuildHash) {
     this.serviceVersions = serviceVersions;
-    this.rowTemplate = Utils.readResourceToBuffer("web/version_row.html").toString();
-    this.tableTemplate = Utils.readResourceToBuffer("web/version_table.html").toString();
-    String stylesheet = Utils.readResourceToBuffer("web/root/css/main.css").toString();
-    String logo = Utils.readResourceToBuffer("web/root/assets/logo.svg").toString();
-    this.pageTemplate = Utils.readResourceToBuffer("web/hello.html").toString()
+    this.rowTemplate = vertx.fileSystem().readFileBlocking("web/version_row.html").toString();
+    this.tableTemplate = vertx.fileSystem().readFileBlocking("web/version_table.html").toString();
+    String stylesheet = vertx.fileSystem().readFileBlocking("web/root/css/main.css").toString();
+    String logo = vertx.fileSystem().readFileBlocking("web/root/assets/logo.svg").toString();
+    this.pageTemplate = vertx.fileSystem().readFileBlocking("web/hello.html").toString()
       .replace("{appSHA1}", krokiBuildHash)
       .replace("{appVersion}", krokiVersionNumber)
       .replace("{stylesheet}", stylesheet)

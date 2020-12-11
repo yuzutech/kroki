@@ -1,11 +1,12 @@
 package io.kroki.server.error;
 
 import io.vertx.core.MultiMap;
+import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;
-import io.vertx.core.http.impl.headers.VertxHttpHeaders;
+import io.vertx.core.http.impl.headers.HeadersMultiMap;
 import io.vertx.ext.web.RoutingContext;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -20,6 +21,7 @@ public class ErrorHandlerTest {
 
   @Test
   void should_return_internal_server_error_json() {
+    Vertx vertx = Vertx.vertx();
     RoutingContext routingContext = mock(RoutingContext.class);
     HttpServerResponse httpServerResponse = jsonServerResponse();
     HttpServerRequest httpServerRequest = mock(HttpServerRequest.class);
@@ -28,7 +30,7 @@ public class ErrorHandlerTest {
     when(routingContext.response()).thenReturn(httpServerResponse);
     when(routingContext.request()).thenReturn(httpServerRequest);
     when(httpServerRequest.method()).thenReturn(HttpMethod.GET);
-    ErrorHandler errorHandler = new ErrorHandler(false);
+    ErrorHandler errorHandler = new ErrorHandler(vertx, false);
 
     errorHandler.handle(routingContext);
 
@@ -39,6 +41,7 @@ public class ErrorHandlerTest {
 
   @Test
   void should_return_unsupported_format_error_json() {
+    Vertx vertx = Vertx.vertx();
     RoutingContext routingContext = mock(RoutingContext.class);
     HttpServerResponse httpServerResponse = jsonServerResponse();
     HttpServerRequest httpServerRequest = mock(HttpServerRequest.class);
@@ -50,7 +53,7 @@ public class ErrorHandlerTest {
     supportedDiagrams.add("svg");
     when(routingContext.failure()).thenReturn(new UnsupportedDiagramTypeException("png", supportedDiagrams));
     when(httpServerRequest.method()).thenReturn(HttpMethod.GET);
-    ErrorHandler errorHandler = new ErrorHandler(false);
+    ErrorHandler errorHandler = new ErrorHandler(vertx, false);
 
     errorHandler.handle(routingContext);
 
@@ -61,6 +64,7 @@ public class ErrorHandlerTest {
 
   @Test
   void should_return_internal_server_error_json_with_default_status_code() {
+    Vertx vertx = Vertx.vertx();
     RoutingContext routingContext = mock(RoutingContext.class);
     HttpServerResponse httpServerResponse = jsonServerResponse();
     HttpServerRequest httpServerRequest = mock(HttpServerRequest.class);
@@ -70,7 +74,7 @@ public class ErrorHandlerTest {
     when(routingContext.response()).thenReturn(httpServerResponse);
     when(routingContext.request()).thenReturn(httpServerRequest);
     when(httpServerRequest.method()).thenReturn(HttpMethod.GET);
-    ErrorHandler errorHandler = new ErrorHandler(false);
+    ErrorHandler errorHandler = new ErrorHandler(vertx, false);
 
     errorHandler.handle(routingContext);
 
@@ -81,6 +85,7 @@ public class ErrorHandlerTest {
 
   @Test
   void should_return_service_unavailable_error_json() {
+    Vertx vertx = Vertx.vertx();
     RoutingContext routingContext = mock(RoutingContext.class);
     HttpServerResponse httpServerResponse = jsonServerResponse();
     HttpServerRequest httpServerRequest = mock(HttpServerRequest.class);
@@ -91,7 +96,7 @@ public class ErrorHandlerTest {
     when(routingContext.request()).thenReturn(httpServerRequest);
     when(routingContext.failure()).thenReturn(new ServiceUnavailableException("Mermaid service is unavailable!"));
     when(httpServerRequest.method()).thenReturn(HttpMethod.GET);
-    ErrorHandler errorHandler = new ErrorHandler(false);
+    ErrorHandler errorHandler = new ErrorHandler(vertx, false);
 
     errorHandler.handle(routingContext);
 
@@ -103,7 +108,7 @@ public class ErrorHandlerTest {
   private HttpServerResponse jsonServerResponse() {
     HttpServerResponse httpServerResponse = mock(HttpServerResponse.class);
 
-    MultiMap headers = new VertxHttpHeaders();
+    MultiMap headers = new HeadersMultiMap();
     headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
     when(httpServerResponse.headers()).thenReturn(headers);
     return httpServerResponse;
