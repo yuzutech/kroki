@@ -103,6 +103,9 @@ A Node.js CLI on top of the _bytefield-svg_ diagram library.
 wavedrom::
 A Node.js CLI on top of the _wavedrom_ diagram library.
 
+excalidraw::
+A companion web server written in JavaScript (powered by _micro_) that provides _Excalidraw_.
+
 == Build
 
 === Gateway Server
