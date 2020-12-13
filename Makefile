@@ -80,3 +80,15 @@ smokeTests:
 	&& npm test \
 	&& docker-compose -f "$(SMOKE_TESTS_DIR)/docker-compose.yaml" stop
 
+installJavaScriptDependencies:
+	npm i --prefix bpmn
+	npm run prestart --prefix bpmn
+	npm i --prefix bytefield
+	npm i --prefix excalidraw
+	npm run prestart --prefix excalidraw
+	npm i --prefix mermaid
+	npm run prestart --prefix excalidraw
+	npm i --prefix nomnoml
+	npm i --prefix vega
+	npm i --prefix wavedrom
+

@@ -34,7 +34,7 @@ public class Nomnoml implements DiagramService {
         return DiagramSource.decode(encoded);
       }
     };
-    this.diagramResponse = new DiagramResponse(new Caching("1.2.0"));
+    this.diagramResponse = new DiagramResponse(new Caching("1.3.1"));
     this.commander = commander;
   }
 
