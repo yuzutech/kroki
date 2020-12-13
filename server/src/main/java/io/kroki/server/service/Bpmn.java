@@ -33,7 +33,7 @@ public class Bpmn implements DiagramService {
     };
     this.host = config.getString("KROKI_BPMN_HOST", "127.0.0.1");
     this.port = config.getInteger("KROKI_BPMN_PORT", 8003);
-    this.diagramResponse = new DiagramResponse(new Caching("7.4.0"));
+    this.diagramResponse = new DiagramResponse(new Caching("7.4.1"));
   }
 
   @Override
