@@ -5,20 +5,29 @@ import io.vertx.core.json.JsonObject;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class CommanderTest {
+
+  private static final Logger logger = LoggerFactory.getLogger(CommanderTest.class);
 
   @Test
   void should_throw_an_exception_when_bin_not_found() {
@@ -54,13 +63,28 @@ class CommanderTest {
     }
   }
 
+  private static final Pattern GRAPHVIZ_CLI_VERSION = Pattern.compile("^dot - graphviz version (?<version>[0-9]{1,2}\\.[0-9]{1,3}\\.[0-9]{1,3}).*");
+
   @Test
   void should_convert_diagram() throws IOException, InterruptedException {
     if (Files.isExecutable(Paths.get("/usr/bin/dot"))) {
       String source = read("hello.dot");
-      byte[] result = new Commander(new JsonObject()).execute(source.getBytes(), "dot", "-T", "svg");
-      String output = new String(result);
-      assertThat(output.trim()).isEqualTo(read("hello.expected.svg").trim());
+      byte[] versionResult = new Commander(new JsonObject()).execute(new byte[0], "dot", "-V");
+      String versionOutput = new String(versionResult);
+      Matcher matcher = GRAPHVIZ_CLI_VERSION.matcher(versionOutput);
+      if (matcher.matches()) {
+        String version = matcher.group("version");
+        // output depends on the version!
+        if (version.equals("2.43.0")) {
+          byte[] result = new Commander(new JsonObject()).execute(source.getBytes(), "dot", "-T", "svg");
+          String output = new String(result);
+          assertThat(output.trim()).isEqualTo(read("hello.expected.svg").trim());
+        } else {
+          logger.warn("GraphViz version mismatch, expected 2.43.0, got " + version + ", unable to run the result, ignoring.");
+        }
+      }
+    } else {
+      logger.warn("/usr/bin/dot not found, unable to run the test, ignoring.");
     }
   }
 
@@ -105,6 +129,38 @@ class CommanderTest {
     assertThatThrownBy(() -> new Commander(new JsonObject(config)))
       .isInstanceOf(IllegalArgumentException.class)
       .hasMessageStartingWith("Failed to parse environment variable 'KROKI_COMMAND_TIMEOUT' with value '4y' as a time value: unit is missing or unrecognized");
+  }
+
+  /**
+   * Visually compare two images.
+   *
+   * @return the pixels difference in percent
+   */
+  @SuppressWarnings("unused")
+  double compareVisually(InputStream refImage, InputStream image) throws IOException {
+    BufferedImage ref = ImageIO.read(refImage);
+    BufferedImage img = ImageIO.read(image);
+    int pixels = ref.getHeight() * ref.getWidth();
+    int diff = bufferedImagesEqual(ref, img);
+    return diff * 1.0 / pixels;
+  }
+
+  int bufferedImagesEqual(BufferedImage ref, BufferedImage img) {
+    int pixelDifference = 0;
+    int width = Math.max(ref.getWidth(), img.getWidth());
+    int height = Math.max(ref.getHeight(), img.getHeight());
+    for (int x = 0; x < width; x++) {
+      for (int y = 0; y < height; y++) {
+        try {
+          if (ref.getRGB(x, y) != img.getRGB(x, y)) {
+            pixelDifference++;
+          }
+        } catch (ArrayIndexOutOfBoundsException e) {
+          pixelDifference++;
+        }
+      }
+    }
+    return pixelDifference;
   }
 
   private String read(String name) throws IOException {
