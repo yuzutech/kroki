@@ -115,6 +115,24 @@
       <artifactId>mockito-core</artifactId>
       <version>${mockito-core.version}</version>
     </dependency>
+    <!--
+    Due to a bug in JDK 8 we need to add vertx-codegen as a test dependency otherwise the following exception is thrown:
+
+    org.mockito.exceptions.base.MockitoException:
+    Mockito cannot mock this class: interface io.vertx.ext.web.RoutingContext
+
+    Mockito can only mock visible & non-final classes.
+    If you're not sure why you're getting this error, please report to the mailing list.
+
+    Underlying exception : java.lang.IllegalStateException: Error invoking java.lang.reflect.Method#getAnnotatedReturnType
+    -->
+    <!-- https://github.com/mockito/mockito/issues/366 -->
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-codegen</artifactId>
+      <version>${vertx.version}</version>
+      <scope>test</scope>
+    </dependency>
     <dependency>
       <groupId>io.vertx</groupId>
       <artifactId>vertx-junit5</artifactId>
