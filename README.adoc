@@ -163,6 +163,10 @@ services:
     image: yuzutech/kroki-bpmn
     ports:
       - "8003:8003"
+  excalidraw:
+    image: yuzutech/kroki-excalidraw
+    ports:
+      - "8004:8004"
 ----
 
  $ docker-compose up -d
