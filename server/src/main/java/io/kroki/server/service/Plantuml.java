@@ -27,6 +27,8 @@ import org.slf4j.LoggerFactory;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
@@ -40,6 +42,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Plantuml implements DiagramService {
@@ -76,6 +79,17 @@ public class Plantuml implements DiagramService {
   private static final Pattern STDLIB_PATH_RX = Pattern.compile("<([a-zA-Z0-9]+)/[^>]+>");
 
   private final SafeMode safeMode;
+  private static final String c4 = read("c4.puml");
+  // context includes c4
+  private static final String c4Context= c4 + read("c4_context.puml");
+  // container includes context
+  private static final String c4Container= c4Context + read("c4_container.puml");
+  // component includes container
+  private static final String c4Component = c4Container + read("c4_component.puml");
+  // deployment includes container
+  private static final String c4Deployment = c4Container + read("c4_deployment.puml");
+  // dynamic includes component
+  private static final String c4Dynamic = c4Component + read("c4_dynamic.puml");
   private final SourceDecoder sourceDecoder;
   private final DiagramResponse diagramResponse;
   private final List<Pattern> includeWhitelist;
@@ -260,48 +274,76 @@ public class Plantuml implements DiagramService {
         if (STDLIB.contains(prefix)) {
           sb.append(line).append("\n");
         }
-      } else if (safeMode.value < SafeMode.SECURE.value) {
-        if (!include.startsWith("<") // includes starting with < must only come from stdlib
-          && !include.startsWith("/") && !include.startsWith("\\") // no absolute paths,
-          && !include.startsWith("http://") && !include.startsWith("https://") // no URLs
-          // no path walking
-          && !include.startsWith("../") && !include.contains("/../") && !include.endsWith("/..")
-          && !include.startsWith("..\\") && !include.contains("\\..\\") && !include.endsWith("\\..")
-          && !include.contains("/..\\") && !include.contains("\\../")) {
-          // PlantUML's safety checking will suffice as it will only allow files directly in the include path
+      } else {
+        if (include.toLowerCase().contains("c4.puml")) {
+          sb.append(c4).append("\n");
+        } else if (include.toLowerCase().contains("c4_component.puml")) {
+          sb.append(c4Component).append("\n");
+        } else if (include.toLowerCase().contains("c4_container.puml")) {
+          sb.append(c4Container).append("\n");
+        } else if (include.toLowerCase().contains("c4_context.puml")) {
+          sb.append(c4Context).append("\n");
+        } else if (include.toLowerCase().contains("c4_deployment.puml")) {
+          sb.append(c4Deployment).append("\n");
+        } else if (include.toLowerCase().contains("c4_dynamic.puml")) {
+          sb.append(c4Dynamic).append("\n");
+        } else if (safeMode.value < SafeMode.SECURE.value) {
+          if (!include.startsWith("<") // includes starting with < must only come from stdlib
+            && !include.startsWith("/") && !include.startsWith("\\") // no absolute paths,
+            && !include.startsWith("http://") && !include.startsWith("https://") // no URLs
+            // no path walking
+            && !include.startsWith("../") && !include.contains("/../") && !include.endsWith("/..")
+            && !include.startsWith("..\\") && !include.contains("\\..\\") && !include.endsWith("\\..")
+            && !include.contains("/..\\") && !include.contains("\\../")) {
+            // PlantUML's safety checking will suffice as it will only allow files directly in the include path
 
-          // Note: we are relying on the PlantUML include checking algorithm:
-          // * See ImportedFiles#executeInclude and ImportedFiles#executeIncludesub
-          // * !importsub does not work with URLs or the standard library
-          // * Imports that start with `http://` or `https://` are resolved from the URL, that is generally
-          //   unsafe unless you can trust the source of the URL, thus we do not permit here.
-          // * Imports wrapped in `<` and `>` are resolved only from the standard library and thus should be
-          //   a fixed set guarded by `/stdlib/${name}-abx.repx` resources on the classpath, in any case we
-          //   ignore stdlib import validation here
-          // * Absolute imports could refer to any file, so we exclude those, though FileWithSuffix#fileOk()
-          //   should restrict accessible files to only those "approved"
-          // * We only auto-permit "search path" includes that do not attempt search path escaping with `..`
-          // * The import or importsub that we auto-permit will result in a call to ImportedFiles.getFile(...)
-          // * That will iterate the "plantuml.include.path" (note PlantUML is not well designed for embedding
-          //   on this property as the ImportedFiles#INCLUDE_PATH is initialized once on classloading)
-          // * At this point, if the INCLUDE_PATH included say `/example` and the include was `foo/bar.puml`
-          //   and there is a file `/example/foo/bar.puml` then that would stop the search with an `AFileRegular`
-          //   instance. HOWEVER, the return value of ImportedFiles#getFile is guarded by ImportedFiles#isAllowed
-          // * ImportedFiles#isAllowed will only permit AFile instances with the AFile#getSystemFolder() being
-          //   contained in ImportedFiles#INCLUDE_PATH so as AFileRegular#getSystemFolder() always returned the
-          //   parent folder of the file and include of `foo/bar.puml` found on an include path of `/example`
-          //   resolving to `/example/foo/bar.puml` will have a system folder of `/example/foo` which is not
-          //   one of the folders whitelisted in the include path and thus the include will be resolved as not-found
-          //
-          // Effectively only imports that are immediate children of the folders listed in "plantuml.include.path"
-          // are eligible for inlcude (unless OptionFlags.ALLOW_INCLUDE has been set to true)
-          sb.append(line).append("\n");
-        } else if (includeWhitelist.stream().anyMatch(p -> p.matcher(include).matches())) {
-          sb.append(line).append("\n");
+            // Note: we are relying on the PlantUML include checking algorithm:
+            // * See ImportedFiles#executeInclude and ImportedFiles#executeIncludesub
+            // * !importsub does not work with URLs or the standard library
+            // * Imports that start with `http://` or `https://` are resolved from the URL, that is generally
+            //   unsafe unless you can trust the source of the URL, thus we do not permit here.
+            // * Imports wrapped in `<` and `>` are resolved only from the standard library and thus should be
+            //   a fixed set guarded by `/stdlib/${name}-abx.repx` resources on the classpath, in any case we
+            //   ignore stdlib import validation here
+            // * Absolute imports could refer to any file, so we exclude those, though FileWithSuffix#fileOk()
+            //   should restrict accessible files to only those "approved"
+            // * We only auto-permit "search path" includes that do not attempt search path escaping with `..`
+            // * The import or importsub that we auto-permit will result in a call to ImportedFiles.getFile(...)
+            // * That will iterate the "plantuml.include.path" (note PlantUML is not well designed for embedding
+            //   on this property as the ImportedFiles#INCLUDE_PATH is initialized once on classloading)
+            // * At this point, if the INCLUDE_PATH included say `/example` and the include was `foo/bar.puml`
+            //   and there is a file `/example/foo/bar.puml` then that would stop the search with an `AFileRegular`
+            //   instance. HOWEVER, the return value of ImportedFiles#getFile is guarded by ImportedFiles#isAllowed
+            // * ImportedFiles#isAllowed will only permit AFile instances with the AFile#getSystemFolder() being
+            //   contained in ImportedFiles#INCLUDE_PATH so as AFileRegular#getSystemFolder() always returned the
+            //   parent folder of the file and include of `foo/bar.puml` found on an include path of `/example`
+            //   resolving to `/example/foo/bar.puml` will have a system folder of `/example/foo` which is not
+            //   one of the folders whitelisted in the include path and thus the include will be resolved as not-found
+            //
+            // Effectively only imports that are immediate children of the folders listed in "plantuml.include.path"
+            // are eligible for inlcude (unless OptionFlags.ALLOW_INCLUDE has been set to true)
+            sb.append(line).append("\n");
+          } else if (includeWhitelist.stream().anyMatch(p -> p.matcher(include).matches())) {
+            sb.append(line).append("\n");
+          }
         }
       }
     } else {
       sb.append(line).append("\n");
+    }
+  }
+
+  private static String read(String resource){
+    InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream(resource);
+    try {
+      if (input == null) {
+        throw new IOException("Unable to get resource: " + resource);
+      }
+      try (BufferedReader buffer = new BufferedReader(new InputStreamReader(input))) {
+        return buffer.lines().collect(Collectors.joining("\n"));
+      }
+    } catch (IOException e) {
+      throw new RuntimeException("Unable to initialize the C4 PlantUML service", e);
     }
   }
 }

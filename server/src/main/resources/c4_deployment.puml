@@ -1,0 +1,20 @@
+
+' Styling
+' ##################################
+
+skinparam rectangle<<node>> {
+    Shadowing false
+    StereotypeFontSize 0
+    FontColor #000000
+    BorderColor #A2A2A2
+    BorderStyle solid
+}
+
+' Elements
+' ##################################
+!unquoted function Deployment_Node($alias, $label)
+!return 'rectangle "=='+$label+'" <<node>> as '+$alias
+!endfunction
+!unquoted function Deployment_Node($alias, $label, $type)
+!return 'rectangle "=='+$label+'\n<size:'+$TECHN_FONT_SIZE+'>['+$type+']</size>" <<node>> as '+$alias
+!endfunction
