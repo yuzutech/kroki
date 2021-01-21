@@ -25,7 +25,7 @@ ENV KROKI_NOMNOML_BIN_PATH=/node/bin/nomnoml
 ENV KROKI_VEGA_BIN_PATH=/node/bin/vega
 ENV KROKI_WAVEDROM_BIN_PATH=/node/bin/wavedrom
 ENV KROKI_BYTEFIELD_BIN_PATH=/node/bin/bytefield
-ENV JAVA_OPTS="-Dlogback.configurationFile=/etc/logback.xml"
+ENV JAVA_OPTS="-Dlogback.configurationFile=/etc/logback.xml -Dvertx.logger-delegate-factory-class-name=io.vertx.core.logging.SLF4JLogDelegateFactory"
 
 EXPOSE 8000
 
