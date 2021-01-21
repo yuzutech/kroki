@@ -14,8 +14,17 @@ public class C4PlantumlServiceTest {
     String diagram = "@startuml\n" +
       "!include /path/to/c4.puml # comment \n" +
       "@enduml";
-    String result = C4Plantuml.sanitize(diagram, SafeMode.SECURE);
-    assertThat(result).contains("https://github.com/RicardoNiepel/C4-PlantUML");
+    String result = Plantuml.sanitize(diagram, SafeMode.SECURE);
+    assertThat(result).contains("https://github.com/plantuml-stdlib/C4-PlantUML");
+  }
+
+  @Test
+  void should_preserve_stdlib_include() throws IOException {
+    String diagram = "@startuml\n" +
+      "!include <c4/C4.puml> # comment \n" +
+      "@enduml\n";
+    String result = Plantuml.sanitize(diagram, SafeMode.SECURE);
+    assertThat(result).isEqualTo(diagram);
   }
 
   @Test
@@ -25,7 +34,7 @@ public class C4PlantumlServiceTest {
       "!include https://foo.bar\n" +
       "  !includeurl   https://foo.bar\n" +
       "@enduml\n";
-    String result = C4Plantuml.sanitize(diagram, SafeMode.UNSAFE);
+    String result = Plantuml.sanitize(diagram, SafeMode.UNSAFE);
     assertThat(result).isEqualTo(diagram);
   }
 }

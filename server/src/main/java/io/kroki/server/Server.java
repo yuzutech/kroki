@@ -5,7 +5,6 @@ import io.kroki.server.error.ErrorHandler;
 import io.kroki.server.service.Blockdiag;
 import io.kroki.server.service.Bpmn;
 import io.kroki.server.service.Bytefield;
-import io.kroki.server.service.C4Plantuml;
 import io.kroki.server.service.DiagramRegistry;
 import io.kroki.server.service.DiagramRest;
 import io.kroki.server.service.Ditaa;
@@ -83,7 +82,7 @@ public class Server extends AbstractVerticle {
     Commander commander = new Commander(config);
     DiagramRegistry registry = new DiagramRegistry(router, bodyHandler);
     registry.register(new Plantuml(config), "plantuml");
-    registry.register(new C4Plantuml(config), "c4plantuml");
+    registry.register(new Plantuml(config), "c4plantuml");
     registry.register(new Ditaa(), "ditaa");
     registry.register(new Blockdiag(vertx, config), "blockdiag", "seqdiag", "actdiag", "nwdiag", "packetdiag", "rackdiag");
     registry.register(new Umlet(vertx), "umlet");
