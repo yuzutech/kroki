@@ -37,7 +37,7 @@ public class Vega implements DiagramService {
       }
     };
     if (specFormat == SpecFormat.DEFAULT) {
-      this.diagramResponse = new DiagramResponse(new Caching("5.17.0"));
+      this.diagramResponse = new DiagramResponse(new Caching("5.17.3"));
     } else {
       this.diagramResponse = new DiagramResponse(new Caching("4.17.0")); // Vega Lite
     }

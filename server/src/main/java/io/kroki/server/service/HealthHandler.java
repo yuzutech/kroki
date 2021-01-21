@@ -32,9 +32,9 @@ public class HealthHandler {
     // QUESTION: should we dynamically fetch the versions ?
     serviceVersions.add(new ServiceVersion("actdiag", "2.0.0"));
     serviceVersions.add(new ServiceVersion("blockdiag", "2.0.1"));
-    serviceVersions.add(new ServiceVersion("bpmn", "7.4.1"));
+    serviceVersions.add(new ServiceVersion("bpmn", "8.0.1"));
     serviceVersions.add(new ServiceVersion("bytefield", "1.5.0"));
-    serviceVersions.add(new ServiceVersion("c4plantuml", "1.2020.23"));
+    serviceVersions.add(new ServiceVersion("c4plantuml", "1.2021.0"));
     serviceVersions.add(new ServiceVersion("ditaa", "1.3.13"));
     serviceVersions.add(new ServiceVersion("erd", "0.1.3.0"));
     serviceVersions.add(new ServiceVersion("excalidraw", "0.1.0"));
@@ -43,12 +43,12 @@ public class HealthHandler {
     serviceVersions.add(new ServiceVersion("nomnoml", "1.3.1"));
     serviceVersions.add(new ServiceVersion("nwdiag", "2.0.0"));
     serviceVersions.add(new ServiceVersion("packetdiag", "2.0.0"));
-    serviceVersions.add(new ServiceVersion("plantuml", "1.2020.23"));
+    serviceVersions.add(new ServiceVersion("plantuml", "1.2021.0"));
     serviceVersions.add(new ServiceVersion("rackdiag", "2.0.0"));
     serviceVersions.add(new ServiceVersion("seqdiag", "2.0.0"));
     serviceVersions.add(new ServiceVersion("svgbob", "0.4.2"));
     serviceVersions.add(new ServiceVersion("umlet", "14.3.0"));
-    serviceVersions.add(new ServiceVersion("vega", "5.17.0"));
+    serviceVersions.add(new ServiceVersion("vega", "5.17.3"));
     serviceVersions.add(new ServiceVersion("vegalite", "4.17.0"));
     serviceVersions.add(new ServiceVersion("wavedrom", "2.3.2"));
   }
