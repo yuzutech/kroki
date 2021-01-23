@@ -81,8 +81,8 @@ public class Server extends AbstractVerticle {
 
     Commander commander = new Commander(config);
     DiagramRegistry registry = new DiagramRegistry(router, bodyHandler);
-    registry.register(new Plantuml(config), "plantuml");
-    registry.register(new Plantuml(config), "c4plantuml");
+    registry.register(new Plantuml(vertx, config), "plantuml");
+    registry.register(new Plantuml(vertx, config), "c4plantuml");
     registry.register(new Ditaa(vertx), "ditaa");
     registry.register(new Blockdiag(vertx, config), "blockdiag", "seqdiag", "actdiag", "nwdiag", "packetdiag", "rackdiag");
     registry.register(new Umlet(vertx), "umlet");
