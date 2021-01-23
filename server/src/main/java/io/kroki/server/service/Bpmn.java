@@ -5,11 +5,12 @@ import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
-import io.kroki.server.response.Caching;
-import io.kroki.server.response.DiagramResponse;
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
-import io.vertx.ext.web.RoutingContext;
+import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.ext.web.client.WebClient;
 
 import java.util.Collections;
@@ -21,7 +22,6 @@ public class Bpmn implements DiagramService {
   private final String host;
   private final int port;
   private final SourceDecoder sourceDecoder;
-  private final DiagramResponse diagramResponse;
 
   public Bpmn(Vertx vertx, JsonObject config) {
     this.client = WebClient.create(vertx);
@@ -33,7 +33,6 @@ public class Bpmn implements DiagramService {
     };
     this.host = config.getString("KROKI_BPMN_HOST", "127.0.0.1");
     this.port = config.getInteger("KROKI_BPMN_PORT", 8003);
-    this.diagramResponse = new DiagramResponse(new Caching("8.0.1"));
   }
 
   @Override
@@ -47,7 +46,14 @@ public class Bpmn implements DiagramService {
   }
 
   @Override
-  public void convert(RoutingContext routingContext, String sourceDecoded, String serviceName, FileFormat fileFormat) {
-    Delegator.delegate(client, routingContext, diagramResponse, host, port, "/" + serviceName + "/" + fileFormat.getName(), sourceDecoded);
+  public String getVersion() {
+    return "8.0.1";
+  }
+
+  @Override
+  public void convert(String sourceDecoded, String serviceName, FileFormat fileFormat, Handler<AsyncResult<Buffer>> handler) {
+    String requestURI = "/" + serviceName + "/" + fileFormat.getName();
+    Handler<AsyncResult<HttpResponse<Buffer>>> responseHandler = Delegator.createHandler(host, port, requestURI, handler);
+    Delegator.delegate(client, host, port, requestURI, sourceDecoded, responseHandler);
   }
 }

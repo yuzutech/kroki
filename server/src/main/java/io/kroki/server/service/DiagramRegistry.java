@@ -1,5 +1,6 @@
 package io.kroki.server.service;
 
+import io.kroki.server.response.Caching;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.BodyHandler;
 
@@ -19,7 +20,7 @@ public class DiagramRegistry {
   }
 
   public void register(DiagramService diagramService, String... names) {
-    DiagramHandler diagramHandler = new DiagramHandler(diagramService);
+    DiagramHandler diagramHandler = new DiagramHandler(diagramService, new Caching(diagramService.getVersion()));
     for (String name : names) {
       registry.put(name, diagramHandler);
       router.get("/" + name + "/:output_format/:source_encoded")

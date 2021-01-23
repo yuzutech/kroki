@@ -8,8 +8,11 @@ import io.kroki.server.error.UnsupportedMimeTypeException;
 import io.kroki.server.format.ContentType;
 import io.kroki.server.format.FileFormat;
 import io.kroki.server.log.Logging;
+import io.kroki.server.response.Caching;
+import io.kroki.server.response.DiagramResponse;
 import io.vertx.core.Handler;
 import io.vertx.core.http.HttpServerRequest;
+import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.MIMEHeader;
 import io.vertx.ext.web.ParsedHeaderValue;
@@ -26,10 +29,16 @@ public class DiagramHandler {
   private static final Logger logger = LoggerFactory.getLogger(DiagramHandler.class);
   private final DiagramService service;
   private final Logging logging;
+  private final DiagramResponse diagramResponse;
 
   public DiagramHandler(DiagramService service) {
+    this(service, null);
+  }
+
+  public DiagramHandler(DiagramService service, Caching caching) {
     this.service = service;
     this.logging = new Logging(logger);
+    this.diagramResponse = new DiagramResponse(caching);
   }
 
   public Handler<RoutingContext> createRequestReceived(String serviceName) {
@@ -148,10 +157,16 @@ public class DiagramHandler {
 
   public void convert(RoutingContext routingContext, String sourceDecoded, String serviceName, FileFormat fileFormat) {
     long start = System.currentTimeMillis();
-    try {
-      service.convert(routingContext, sourceDecoded, serviceName, fileFormat);
-    } finally {
+    service.convert(sourceDecoded, serviceName, fileFormat, res -> {
       logging.convert(routingContext, start, serviceName, fileFormat);
-    }
+      if (res.failed()) {
+        routingContext.fail(res.cause());
+      } else {
+        HttpServerResponse response = routingContext.response();
+        if (!response.closed()) {
+          diagramResponse.end(response, sourceDecoded, fileFormat, res.result());
+        }
+      }
+    });
   }
 }

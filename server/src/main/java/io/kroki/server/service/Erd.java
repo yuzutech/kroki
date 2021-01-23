@@ -5,12 +5,11 @@ import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
-import io.kroki.server.response.Caching;
-import io.kroki.server.response.DiagramResponse;
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
-import io.vertx.core.http.HttpServerResponse;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
-import io.vertx.ext.web.RoutingContext;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -23,7 +22,6 @@ public class Erd implements DiagramService {
   private final Vertx vertx;
   private final String binPath;
   private final SourceDecoder sourceDecoder;
-  private final DiagramResponse diagramResponse;
   private final Commander commander;
 
   public Erd(Vertx vertx, JsonObject config, Commander commander) {
@@ -35,7 +33,6 @@ public class Erd implements DiagramService {
         return DiagramSource.decode(encoded);
       }
     };
-    this.diagramResponse = new DiagramResponse(new Caching("0.1.3.0"));
     this.commander = commander;
   }
 
@@ -50,8 +47,12 @@ public class Erd implements DiagramService {
   }
 
   @Override
-  public void convert(RoutingContext routingContext, String sourceDecoded, String serviceName, FileFormat fileFormat) {
-    HttpServerResponse response = routingContext.response();
+  public String getVersion() {
+    return "0.1.3.0";
+  }
+
+  @Override
+  public void convert(String sourceDecoded, String serviceName, FileFormat fileFormat, Handler<AsyncResult<Buffer>> handler) {
     vertx.executeBlocking(future -> {
       try {
         byte[] result = erd(sourceDecoded.getBytes(), fileFormat.getName());
@@ -59,14 +60,7 @@ public class Erd implements DiagramService {
       } catch (IOException | InterruptedException | IllegalStateException e) {
         future.fail(e);
       }
-    }, res -> {
-      if (res.failed()) {
-        routingContext.fail(res.cause());
-        return;
-      }
-      byte[] result = (byte[]) res.result();
-      diagramResponse.end(response, sourceDecoded, fileFormat, result);
-    });
+    }, res -> handler.handle(res.map(o -> Buffer.buffer((byte[]) o))));
   }
 
   private byte[] erd(byte[] source, String format) throws IOException, InterruptedException, IllegalStateException {

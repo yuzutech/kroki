@@ -7,10 +7,11 @@ import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
 import io.kroki.server.response.Caching;
 import io.kroki.server.response.DiagramResponse;
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
-import io.vertx.core.http.HttpServerResponse;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
-import io.vertx.ext.web.RoutingContext;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -50,8 +51,12 @@ public class Graphviz implements DiagramService {
   }
 
   @Override
-  public void convert(RoutingContext routingContext, String sourceDecoded, String serviceName, FileFormat fileFormat) {
-    HttpServerResponse response = routingContext.response();
+  public String getVersion() {
+    return "2.40.1";
+  }
+
+  @Override
+  public void convert(String sourceDecoded, String serviceName, FileFormat fileFormat, Handler<AsyncResult<Buffer>> handler) {
     vertx.executeBlocking(future -> {
       try {
         byte[] result = dot(sourceDecoded.getBytes(), fileFormat.getName());
@@ -59,14 +64,7 @@ public class Graphviz implements DiagramService {
       } catch (IOException | InterruptedException | IllegalStateException e) {
         future.fail(e);
       }
-    }, res -> {
-      if (res.failed()) {
-        routingContext.fail(res.cause());
-        return;
-      }
-      byte[] result = (byte[]) res.result();
-      diagramResponse.end(response, sourceDecoded, fileFormat, result);
-    });
+    }, res -> handler.handle(res.map(o -> Buffer.buffer((byte[]) o))));
   }
 
   private byte[] dot(byte[] source, String format) throws IOException, InterruptedException, IllegalStateException {

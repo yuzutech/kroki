@@ -63,7 +63,7 @@ public class HealthHandler {
       krokiVersion.put("build_hash", krokiBuildHash);
       versions.put("kroki", krokiVersion);
       data.put("version", versions);
-      for (ServiceVersion serviceVersion: serviceVersions) {
+      for (ServiceVersion serviceVersion : serviceVersions) {
         versions.put(serviceVersion.getService(), serviceVersion.getVersion());
       }
       routingContext
