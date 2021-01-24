@@ -8,6 +8,8 @@ import io.kroki.server.format.FileFormat;
 import io.kroki.server.response.Caching;
 import io.kroki.server.response.DiagramResponse;
 import io.kroki.server.security.SafeMode;
+import io.kroki.server.unit.TimeValue;
+import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
@@ -78,6 +80,7 @@ public class Plantuml implements DiagramService {
   private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG, FileFormat.JPEG, FileFormat.BASE64, FileFormat.TXT, FileFormat.UTXT);
   private static final Pattern STDLIB_PATH_RX = Pattern.compile("<([a-zA-Z0-9]+)/[^>]+>");
 
+  private final Vertx vertx;
   private final SafeMode safeMode;
   private static final String c4 = read("c4.puml");
   // context includes c4
@@ -106,7 +109,8 @@ public class Plantuml implements DiagramService {
     "osa",
     "tupadr3");
 
-  public Plantuml(JsonObject config) {
+  public Plantuml(Vertx vertx, JsonObject config) {
+    this.vertx = vertx;
     this.safeMode = SafeMode.get(config.getString("KROKI_SAFE_MODE", "secure"), SafeMode.SECURE);
     this.sourceDecoder = new SourceDecoder() {
       @Override
@@ -122,6 +126,15 @@ public class Plantuml implements DiagramService {
     if (plantUmlIncludePath != null) {
       System.setProperty("plantuml.include.path", plantUmlIncludePath);
     }
+    TimeValue convertTimeout;
+    if (config.containsKey("KROKI_PLANTUML_CONVERT_TIMEOUT")) {
+      String convertPlantumlTimeoutValue = config.getString("KROKI_PLANTUML_CONVERT_TIMEOUT", "20s");
+      convertTimeout = TimeValue.parseTimeValue(convertPlantumlTimeoutValue, "KROKI_PLANTUML_CONVERT_TIMEOUT");
+    } else {
+      String convertTimeoutValue = config.getString("KROKI_CONVERT_TIMEOUT", "20s");
+      convertTimeout = TimeValue.parseTimeValue(convertTimeoutValue, "KROKI_CONVERT_TIMEOUT");
+    }
+    OptionFlags.getInstance().setTimeoutMs(convertTimeout.millis());
   }
 
   static List<Pattern> parseIncludeWhitelist(JsonObject config) {
@@ -187,8 +200,22 @@ public class Plantuml implements DiagramService {
       }
       return;
     }
-    byte[] data = convert(source, fileFormat);
-    diagramResponse.end(response, sourceDecoded, fileFormat, data);
+    final String primeSource = source;
+    vertx.executeBlocking(future -> {
+      try {
+        byte[] data = convert(primeSource, fileFormat);
+        future.complete(data);
+      } catch (IllegalStateException e) {
+        future.fail(e);
+      }
+    }, res -> {
+      if (res.failed()) {
+        routingContext.fail(res.cause());
+        return;
+      }
+      byte[] result = (byte[]) res.result();
+      diagramResponse.end(response, sourceDecoded, fileFormat, result);
+    });
   }
 
   static byte[] convert(String source, FileFormat format) {

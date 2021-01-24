@@ -100,6 +100,42 @@ KROKI_COMMAND_TIMEOUT=4000ms # <3>
 <2> 1 minute
 <3> 4 seconds in milliseconds
 
+== Convert Timeout
+
+By default, Kroki will wait at most 20 seconds when calling a Java library to convert a digram.
+In most scenarios, 20 seconds is more than enough but, if needed, you can adjust the timeout using the `KROKI_CONVERT_TIMEOUT` environment variable.
+
+The expected format is a duration with a time unit:
+
+[horizontal]
+`d`:: Days
+`h`:: Hours
+`m`:: Minutes
+`s`:: Seconds
+`ms`:: Milliseconds
+`micros`:: Microseconds
+`nanos`:: Nanoseconds
+
+A few examples:
+
+[source]
+----
+KROKI_CONVERT_TIMEOUT=10s # <1>
+KROKI_CONVERT_TIMEOUT=1m # <2>
+KROKI_CONVERT_TIMEOUT=4000ms # <3>
+----
+<1> 10 seconds
+<2> 1 minute
+<3> 4 seconds in milliseconds
+
+You can also configure a specific timeout for each diagram library.
+Currently, only PlantUML supports this configuration:
+
+- `KROKI_PLANTUML_CONVERT_TIMEOUT`
+
+Please note that this specific configuration will override `KROKI_CONVERT_TIMEOUT`.
+In other words, diagram library timeouts (for instance, `KROKI_PLANTUML_CONVERT_TIMEOUT`) have higher precedence than `KROKI_CONVERT_TIMEOUT`.
+
 == Companion Container Host and Port
 
 You can configure the host and port on which every companion container will be listening:
