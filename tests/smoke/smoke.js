@@ -19,7 +19,8 @@ const tests = [
   {engine: 'wavedrom', file: 'wavedrom.json5', outputFormat: ['svg']},
   {engine: 'bytefield', file: 'bytefield.bf', outputFormat: ['svg']},
   {engine: 'umlet', file: 'umlet.xml', outputFormat: ['svg']},
-  {engine: 'excalidraw', file: 'venn.excalidraw', outputFormat: ['svg']}
+  {engine: 'excalidraw', file: 'venn.excalidraw', outputFormat: ['svg']},
+  {engine: 'pikchr', file: 'sqlite-architecture.pikchr', outputFormat: ['svg']}
 ]
 
 const chai = require('chai')

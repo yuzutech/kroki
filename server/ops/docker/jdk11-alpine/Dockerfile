@@ -15,6 +15,7 @@ COPY --from=kroki-builder-vega:latest /app/app.bin /usr/bin/vega
 COPY --from=kroki-builder-vega:latest /app/canvas.node /usr/bin/canvas.node
 COPY --from=kroki-builder-wavedrom:latest /app/app.bin /usr/bin/wavedrom
 COPY --from=kroki-builder-bytefield:latest /app/app.bin /usr/bin/bytefield
+COPY --from=kroki-builder-static-pikchr:latest /build/pikchr /usr/bin/pikchr
 
 RUN apk add --update --no-cache \
            libjpeg \
@@ -37,6 +38,7 @@ ENV KROKI_NOMNOML_BIN_PATH=/usr/bin/nomnoml
 ENV KROKI_VEGA_BIN_PATH=/usr/bin/vega
 ENV KROKI_WAVEDROM_BIN_PATH=/usr/bin/wavedrom
 ENV KROKI_BYTEFIELD_BIN_PATH=/usr/bin/bytefield
+ENV KROKI_PIKCHR_BIN_PATH=/usr/bin/pikchr
 ENV JAVA_OPTS="-Dlogback.configurationFile=/etc/kroki/logback.xml -Dvertx.logger-delegate-factory-class-name=io.vertx.core.logging.SLF4JLogDelegateFactory"
 
 COPY --chown=kroki:kroki target/kroki-server.jar /usr/local/kroki/kroki-server.jar

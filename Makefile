@@ -31,6 +31,7 @@ buildDockerImages:
 	cd bytefield && $(MAKE) package
 	docker build -f server/ops/docker/build-static-erd -t kroki-builder-static-erd .
 	docker build -f server/ops/docker/build-static-svgbob -t kroki-builder-static-svgbob .
+	docker build -f server/ops/docker/build-static-pikchr -t kroki-builder-static-pikchr .
 	cd server && $(MAKE) package
 	cd blockdiag && $(MAKE) package
 	cd mermaid && $(MAKE) package

@@ -43,6 +43,7 @@ public class HealthHandler {
     serviceVersions.add(new ServiceVersion("nomnoml", "1.3.1"));
     serviceVersions.add(new ServiceVersion("nwdiag", "2.0.0"));
     serviceVersions.add(new ServiceVersion("packetdiag", "2.0.0"));
+    serviceVersions.add(new ServiceVersion("pikchr", "7269f78c4a"));
     serviceVersions.add(new ServiceVersion("plantuml", "1.2021.1"));
     serviceVersions.add(new ServiceVersion("rackdiag", "2.0.0"));
     serviceVersions.add(new ServiceVersion("seqdiag", "2.0.0"));
