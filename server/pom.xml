@@ -130,7 +130,7 @@
     <dependency>
       <groupId>com.twelvemonkeys.imageio</groupId>
       <artifactId>imageio-batik</artifactId>
-      <version>3.6.1</version>
+      <version>3.6.2</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
