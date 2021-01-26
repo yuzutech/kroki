@@ -1,11 +1,17 @@
 version: "3"
 services:
-  core:
+  kroki:
     image: yuzutech/kroki
+    depends_on:
+      - blockdiag
+      - mermaid
+      - bpmn
+      - excalidraw
     environment:
       - KROKI_BLOCKDIAG_HOST=blockdiag
       - KROKI_MERMAID_HOST=mermaid
       - KROKI_BPMN_HOST=bpmn
+      - KROKI_EXCALIDRAW_HOST=excalidraw
     ports:
       - "8000:8000"
   blockdiag:
@@ -24,3 +30,4 @@ services:
     image: yuzutech/kroki-excalidraw
     expose:
       - "8004"
+
