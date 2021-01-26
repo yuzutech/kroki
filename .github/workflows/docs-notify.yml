@@ -1,0 +1,20 @@
+name: Docs
+
+on:
+  push:
+    paths:
+      - 'docs/**'
+    branches:
+      - master
+
+jobs:
+  trigger_publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Notify docs.kroki.io
+        uses: peter-evans/repository-dispatch@master
+        with:
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          repository: yuzutech/docs.kroki.io
+          event-type: kroki
