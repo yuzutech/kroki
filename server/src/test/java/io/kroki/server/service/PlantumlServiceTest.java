@@ -45,6 +45,92 @@ public class PlantumlServiceTest {
   }
 
   @Test
+  void should_preserve_archimate_stdlib_include() throws IOException {
+    String diagram = "@startuml\n" +
+      "!include <archimate/Archimate>\n" +
+      "\n" +
+      "title Archimate Sample - Internet Browser\n" +
+      "\n" +
+      "' Elements\n" +
+      "Business_Object(businessObject, \"A Business Object\")\n" +
+      "Business_Process(someBusinessProcess,\"Some Business Process\")\n" +
+      "Business_Service(itSupportService, \"IT Support for Business (Application Service)\")\n" +
+      "\n" +
+      "Application_DataObject(dataObject, \"Web Page Data \\n 'on the fly'\")\n" +
+      "Application_Function(webpageBehaviour, \"Web page behaviour\")\n" +
+      "Application_Component(ActivePartWebPage, \"Active Part of the web page \\n 'on the fly'\")\n" +
+      "\n" +
+      "Technology_Artifact(inMemoryItem,\"in memory / 'on the fly' html/javascript\")\n" +
+      "Technology_Service(internetBrowser, \"Internet Browser Generic & Plugin\")\n" +
+      "Technology_Service(internetBrowserPlugin, \"Some Internet Browser Plugin\")\n" +
+      "Technology_Service(webServer, \"Some web server\")\n" +
+      "\n" +
+      "'Relationships\n" +
+      "Rel_Flow_Left(someBusinessProcess, businessObject, \"\")\n" +
+      "Rel_Serving_Up(itSupportService, someBusinessProcess, \"\")\n" +
+      "Rel_Specialization_Up(webpageBehaviour, itSupportService, \"\")\n" +
+      "Rel_Flow_Right(dataObject, webpageBehaviour, \"\")\n" +
+      "Rel_Specialization_Up(dataObject, businessObject, \"\")\n" +
+      "Rel_Assignment_Left(ActivePartWebPage, webpageBehaviour, \"\")\n" +
+      "Rel_Specialization_Up(inMemoryItem, dataObject, \"\")\n" +
+      "Rel_Realization_Up(inMemoryItem, ActivePartWebPage, \"\")\n" +
+      "Rel_Specialization_Right(inMemoryItem,internetBrowser, \"\")\n" +
+      "Rel_Serving_Up(internetBrowser, webpageBehaviour, \"\")\n" +
+      "Rel_Serving_Up(internetBrowserPlugin, webpageBehaviour, \"\")\n" +
+      "Rel_Aggregation_Right(internetBrowser, internetBrowserPlugin, \"\")\n" +
+      "Rel_Access_Up(webServer, inMemoryItem, \"\")\n" +
+      "Rel_Serving_Up(webServer, internetBrowser, \"\")\n" +
+      "@enduml";
+    byte[] convert = Plantuml.convert(Plantuml.sanitize(diagram, SafeMode.SAFE), FileFormat.SVG);
+    assertThat(convert).isNotEmpty();
+  }
+
+  @Test
+  void should_preserve_elastic_stdlib_include() throws IOException {
+    String diagram = "@startuml\n" +
+      "!include <elastic/common>\n" +
+      "!include <elastic/elasticsearch/elasticsearch>\n" +
+      "!include <elastic/logstash/logstash>\n" +
+      "!include <elastic/kibana/kibana>\n" +
+      "\n" +
+      "ELASTICSEARCH(ElasticSearch, \"Search and Analyze\",database)\n" +
+      "LOGSTASH(Logstash, \"Parse and Transform\",node)\n" +
+      "KIBANA(Kibana, \"Visualize\",agent) \n" +
+      "\n" +
+      "Logstash -right-> ElasticSearch: Transformed Data\n" +
+      "ElasticSearch -right-> Kibana: Data to View\n" +
+      "@enduml";
+    byte[] convert = Plantuml.convert(Plantuml.sanitize(diagram, SafeMode.SAFE), FileFormat.SVG);
+    assertThat(convert).isNotEmpty();
+  }
+
+
+  @Test
+  void should_preserve_logos_stdlib_include() throws IOException {
+    String diagram = "@startuml\n" +
+      "!include <logos/kafka>\n" +
+      "!include <logos/cassandra>\n" +
+      "!include <logos/flask>\n" +
+      "!include <logos/kotlin>\n" +
+      "\n" +
+      "title Gil Barbara's logos example\n" +
+      "\n" +
+      "skinparam monochrome true\n" +
+      "\n" +
+      "rectangle \"<$flask>\\nwebapp\" as webapp\n" +
+      "queue \"<$kafka>\" as kafka\n" +
+      "rectangle \"<$kotlin>\\ndaemon\" as daemon\n" +
+      "database \"<$cassandra>\" as cassandra\n" +
+      "\n" +
+      "webapp -> kafka\n" +
+      "kafka -> daemon\n" +
+      "daemon --> cassandra\n" +
+      "@enduml";
+    byte[] convert = Plantuml.convert(Plantuml.sanitize(diagram, SafeMode.SAFE), FileFormat.SVG);
+    assertThat(convert).isNotEmpty();
+  }
+
+  @Test
   void should_preserve_stdlib_include() throws IOException {
     String diagram = "@startuml\n" +
       "!include <azure/AzureRaw>\n" +

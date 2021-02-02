@@ -94,13 +94,16 @@ public class Plantuml implements DiagramService {
   private final DiagramResponse diagramResponse;
   private final List<Pattern> includeWhitelist;
   private static final List<String> STDLIB = Arrays.asList(
+    "archimate",
     "aws",
     "awslib",
     "azure",
     "c4",
     "cloudinsight",
     "cloudogu",
+    "elastic",
     "kubernetes",
+    "logos",
     "material",
     "office",
     "osa",
