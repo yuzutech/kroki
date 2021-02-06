@@ -30,17 +30,23 @@ import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.json.JsonObject;
+import io.vertx.core.net.SocketAddress;
 import io.vertx.ext.web.Route;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.CorsHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public class Server extends AbstractVerticle {
+
+  private static final Logger logger = LoggerFactory.getLogger(Server.class);
+  private static final int DEFAULT_PORT = 8000;
 
   @Override
   public void start(Promise<Void> startPromise) {
@@ -124,6 +130,82 @@ public class Server extends AbstractVerticle {
     route.handler(routingContext -> routingContext.fail(404));
     route.failureHandler(new ErrorHandler(false));
 
-    server.requestHandler(router).listen(config.getInteger("KROKI_PORT", 8000), listenHandler);
+    server.requestHandler(router).listen(getListenAddress(config), listenHandler);
+  }
+
+  /**
+   * Get the address the service will listen on.
+   * @param config configuration
+   * @return the address
+   */
+  static SocketAddress getListenAddress(JsonObject config) {
+    String krokiListen = config.getString("KROKI_LISTEN");
+    // higher precedence over KROKI_PORT
+    if (krokiListen != null) {
+      if (krokiListen.charAt(0) == '[') {
+        return getIPv6ListenAddress(krokiListen);
+      }
+      int lastColonIndex = krokiListen.lastIndexOf(":");
+      if (lastColonIndex < 0) {
+        // contains a single value without any colon, assume that the value is a host or IP (use the default port)
+        return SocketAddress.inetSocketAddress(DEFAULT_PORT, krokiListen);
+      }
+      // listen address using IPv4 or host must contain a single colon
+      long colonCount = krokiListen.chars().filter(ch -> ch == ':').count();
+      if (colonCount > 1) {
+        throw new IllegalArgumentException(String.format("KROKI_LISTEN is not a valid listen address '%s', format must be: 'host:5678', ':5678', '1.2.3.4:5678', '[2041:0:140f::875b:131b]:5678' or '[2041:0:140f::875b:131b]'", krokiListen));
+      }
+      int port = Integer.parseInt(krokiListen.substring(lastColonIndex + 1));
+      String hostValue = krokiListen.substring(0, lastColonIndex);
+      String host;
+      if (hostValue.isEmpty()) {
+        // default host to listen on both IPv4 and IPv6
+        host = "[::]";
+      } else {
+        host = hostValue;
+      }
+      return SocketAddress.inetSocketAddress(port, host);
+    }
+    // default host to listen on IPv4
+    return SocketAddress.inetSocketAddress(getListenPort(config), "0.0.0.0");
+  }
+
+  /**
+   * Get the address the service will listen on from IPv6.
+   * @param listen listen value
+   * @return the address
+   */
+  private static SocketAddress getIPv6ListenAddress(String listen) {
+    int lastColonIndex = listen.lastIndexOf(":");
+    int lastSquareBracketIndex = listen.lastIndexOf(']');
+    if (lastSquareBracketIndex + 1 == listen.length()) {
+      // value does not contain a port
+      return SocketAddress.inetSocketAddress(DEFAULT_PORT, listen);
+    }
+    return SocketAddress.inetSocketAddress(Integer.parseInt(listen.substring(lastColonIndex + 1)), listen.substring(0, lastSquareBracketIndex + 1));
+  }
+
+  /**
+   * Get the port the service will listen on.
+   * @param config configuration
+   * @return the port
+   */
+  static int getListenPort(JsonObject config) {
+    int port;
+    if (config.getString("KROKI_CONTAINER_SUPPORT") != null) {
+      // Enable container support
+      // Kubernetes and Docker link automatically set KROKI_PORT to "tcp://ip:port"
+      String portValue = config.getString("KROKI_PORT", String.valueOf(DEFAULT_PORT));
+      if (portValue.startsWith("tcp://")) {
+        logger.warn("KROKI_PORT is not an integer value '{}', it's very likely that the value was automatically set by the container runtime, ignoring and using default port 8000", portValue);
+        port = DEFAULT_PORT;
+      } else {
+        // fail fast if the value is not an integer
+        port = Integer.parseInt(portValue);
+      }
+    } else {
+      port = config.getInteger("KROKI_PORT", DEFAULT_PORT);
+    }
+    return port;
   }
 }
