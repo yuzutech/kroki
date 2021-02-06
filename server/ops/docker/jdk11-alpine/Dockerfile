@@ -1,5 +1,5 @@
-# based on alpine 3.11
-FROM adoptopenjdk/openjdk11:jre-11.0.6_10-alpine
+# based on alpine 3.12
+FROM adoptopenjdk/openjdk11:jre-11.0.10_9-alpine
 
 COPY --from=kroki-builder-static-svgbob:latest /home/rust/.cargo/bin/svgbob /rust/bin/svgbob
 COPY --from=kroki-builder-static-erd:latest /root/.local/bin/erd /haskell/bin/erd
