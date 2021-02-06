@@ -4,12 +4,11 @@ import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
-import io.kroki.server.response.Caching;
-import io.kroki.server.response.DiagramResponse;
 import io.kroki.umlet.UmletConverter;
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
-import io.vertx.core.http.HttpServerResponse;
-import io.vertx.ext.web.RoutingContext;
+import io.vertx.core.buffer.Buffer;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -21,7 +20,6 @@ public class Umlet implements DiagramService {
 
   private final Vertx vertx;
   private final SourceDecoder sourceDecoder;
-  private final DiagramResponse diagramResponse;
 
   public Umlet(Vertx vertx) {
     this.vertx = vertx;
@@ -31,7 +29,6 @@ public class Umlet implements DiagramService {
         return DiagramSource.decode(encoded);
       }
     };
-    this.diagramResponse = new DiagramResponse(new Caching("14.3.0"));
   }
 
   @Override
@@ -45,8 +42,12 @@ public class Umlet implements DiagramService {
   }
 
   @Override
-  public void convert(RoutingContext routingContext, String sourceDecoded, String serviceName, FileFormat fileFormat) {
-    HttpServerResponse response = routingContext.response();
+  public String getVersion() {
+    return "14.3.0";
+  }
+
+  @Override
+  public void convert(String sourceDecoded, String serviceName, FileFormat fileFormat, Handler<AsyncResult<Buffer>> handler) {
     vertx.executeBlocking(future -> {
       try {
         byte[] result = UmletConverter.convert(sourceDecoded, fileFormat.getName());
@@ -54,13 +55,6 @@ public class Umlet implements DiagramService {
       } catch (IOException e) {
         future.fail(e);
       }
-    }, res -> {
-      if (res.failed()) {
-        routingContext.fail(res.cause());
-        return;
-      }
-      byte[] result = (byte[]) res.result();
-      diagramResponse.end(response, sourceDecoded, fileFormat, result);
-    });
+    }, res -> handler.handle(res.map(o -> Buffer.buffer((byte[]) o))));
   }
 }

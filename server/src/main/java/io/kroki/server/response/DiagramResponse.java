@@ -15,7 +15,9 @@ public class DiagramResponse {
   }
 
   public void end(HttpServerResponse response, String source, String contentType, Buffer buffer) {
-    caching.addHeaderForCache(response, source);
+    if (caching != null) {
+      caching.addHeaderForCache(response, source);
+    }
     response
       .putHeader(HttpHeaders.CONTENT_TYPE, contentType)
       .end(buffer);

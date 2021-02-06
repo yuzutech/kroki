@@ -4,16 +4,14 @@ import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
-import io.kroki.server.response.Caching;
-import io.kroki.server.response.DiagramResponse;
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
-import io.vertx.core.http.HttpServerResponse;
-import io.vertx.ext.web.RoutingContext;
+import io.vertx.core.buffer.Buffer;
 import org.stathissideris.ascii2image.core.CommandLineConverter;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -24,7 +22,6 @@ public class Ditaa implements DiagramService {
 
   private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.SVG, FileFormat.PNG);
   private final SourceDecoder sourceDecoder;
-  private final DiagramResponse diagramResponse;
   private final Vertx vertx;
 
   public Ditaa(Vertx vertx) {
@@ -35,7 +32,6 @@ public class Ditaa implements DiagramService {
         return DiagramSource.decode(encoded, false);
       }
     };
-    this.diagramResponse = new DiagramResponse(new Caching("1.3.13"));
   }
 
   @Override
@@ -49,8 +45,12 @@ public class Ditaa implements DiagramService {
   }
 
   @Override
-  public void convert(RoutingContext routingContext, String sourceDecoded, String serviceName, FileFormat fileFormat) {
-    HttpServerResponse response = routingContext.response();
+  public String getVersion() {
+    return "1.3.13";
+  }
+
+  @Override
+  public void convert(String sourceDecoded, String serviceName, FileFormat fileFormat, Handler<AsyncResult<Buffer>> handler) {
     vertx.executeBlocking(future -> {
       try {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -59,14 +59,7 @@ public class Ditaa implements DiagramService {
       } catch (IllegalStateException e) {
         future.fail(e);
       }
-    }, res -> {
-      if (res.failed()) {
-        routingContext.fail(res.cause());
-        return;
-      }
-      byte[] result = (byte[]) res.result();
-      diagramResponse.end(response, sourceDecoded, fileFormat, result);
-    });
+    }, res -> handler.handle(res.map(o -> Buffer.buffer((byte[]) o))));
   }
 
   static void convert(FileFormat fileFormat, InputStream inputStream, OutputStream outputStream) {

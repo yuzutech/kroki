@@ -1,18 +1,18 @@
 package io.kroki.server.service;
 
+import io.kroki.server.action.Delegator;
 import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.BadRequestException;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
-import io.kroki.server.response.Caching;
-import io.kroki.server.response.DiagramResponse;
 import io.kroki.server.security.SafeMode;
 import io.kroki.server.unit.TimeValue;
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
-import io.vertx.core.http.HttpServerResponse;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
-import io.vertx.ext.web.RoutingContext;
 import net.sourceforge.plantuml.BlockUml;
 import net.sourceforge.plantuml.ErrorUml;
 import net.sourceforge.plantuml.FileFormatOption;
@@ -84,9 +84,9 @@ public class Plantuml implements DiagramService {
   private final SafeMode safeMode;
   private static final String c4 = read("c4.puml");
   // context includes c4
-  private static final String c4Context= c4 + read("c4_context.puml");
+  private static final String c4Context = c4 + read("c4_context.puml");
   // container includes context
-  private static final String c4Container= c4Context + read("c4_container.puml");
+  private static final String c4Container = c4Context + read("c4_container.puml");
   // component includes container
   private static final String c4Component = c4Container + read("c4_component.puml");
   // deployment includes container
@@ -94,7 +94,6 @@ public class Plantuml implements DiagramService {
   // dynamic includes component
   private static final String c4Dynamic = c4Component + read("c4_dynamic.puml");
   private final SourceDecoder sourceDecoder;
-  private final DiagramResponse diagramResponse;
   private final List<Pattern> includeWhitelist;
   private static final List<String> STDLIB = Arrays.asList(
     "archimate",
@@ -121,7 +120,6 @@ public class Plantuml implements DiagramService {
         return DiagramSource.plantumlDecode(encoded);
       }
     };
-    this.diagramResponse = new DiagramResponse(new Caching(Version.etag()));
     this.includeWhitelist = parseIncludeWhitelist(config);
     // Disable unsafe include for security reasons
     OptionFlags.ALLOW_INCLUDE = config.getBoolean("KROKI_PLANTUML_ALLOW_INCLUDE", false);
@@ -189,17 +187,21 @@ public class Plantuml implements DiagramService {
   }
 
   @Override
-  public void convert(RoutingContext routingContext, String sourceDecoded, String serviceName, FileFormat fileFormat) {
-    HttpServerResponse response = routingContext.response();
+  public String getVersion() {
+    return Version.versionString();
+  }
+
+  @Override
+  public void convert(String sourceDecoded, String serviceName, FileFormat fileFormat, Handler<AsyncResult<Buffer>> handler) {
     String source;
     try {
       source = sanitize(sourceDecoded, this.safeMode, this.includeWhitelist);
       source = withDelimiter(source);
     } catch (IOException e) {
       if (e instanceof UnsupportedEncodingException) {
-        routingContext.fail(new BadRequestException("Characters must be encoded in UTF-8.", e));
+        handler.handle(new Delegator.Failure(new BadRequestException("Characters must be encoded in UTF-8.", e)));
       } else {
-        routingContext.fail(e);
+        handler.handle(new Delegator.Failure(e));
       }
       return;
     }
@@ -211,14 +213,7 @@ public class Plantuml implements DiagramService {
       } catch (IllegalStateException e) {
         future.fail(e);
       }
-    }, res -> {
-      if (res.failed()) {
-        routingContext.fail(res.cause());
-        return;
-      }
-      byte[] result = (byte[]) res.result();
-      diagramResponse.end(response, sourceDecoded, fileFormat, result);
-    });
+    }, res -> handler.handle(res.map(o -> Buffer.buffer((byte[]) o))));
   }
 
   static byte[] convert(String source, FileFormat format) {
@@ -363,7 +358,7 @@ public class Plantuml implements DiagramService {
     }
   }
 
-  private static String read(String resource){
+  private static String read(String resource) {
     InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream(resource);
     try {
       if (input == null) {
