@@ -66,6 +66,19 @@ describe('Diagrams', () => {
   })
 })
 
+describe('Chinese font', () => {
+  it(`plantuml should compute correct text length (issue#574)`, async () => {
+    const testCase = {engine: 'plantuml', file: 'chinese.puml'}
+    const response = await sendRequest(testCase, 'svg')
+    try {
+      expect(response.body.toString('utf8')).to.include('textLength="56"')
+    } catch (err) {
+      console.log('response:', response.text)
+      throw err
+    }
+  })
+})
+
 describe('Health', () => {
   ['/health', '/healthz', '/v1/health'].forEach((endpoint) => {
     it(`should return health status from ${endpoint}`, async () => {

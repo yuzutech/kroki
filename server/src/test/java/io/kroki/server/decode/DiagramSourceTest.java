@@ -61,6 +61,14 @@ class DiagramSourceTest {
   }
 
   @Test
+  void should_decode_cjk_encoded_source() throws DecodeException {
+    String sourceDecoded = DiagramSource.plantumlDecode("SoWkIImgoStCIybDBE1Iq59uicFNqwbBNxRtFftGmUMG2XI7o040");
+    assertThat(sourceDecoded).isEqualTo("@startmindmap\n" +
+      " * 为啥重合\n" +
+      "@endmindmap");
+  }
+
+  @Test
   void should_not_trim() throws IOException, DecodeException {
     String source = "\n" +
       "    +----------+\n" +
