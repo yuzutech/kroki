@@ -87,7 +87,7 @@ installJavaScriptDependencies:
 	npm i --prefix excalidraw
 	npm run prestart --prefix excalidraw
 	npm i --prefix mermaid
-	npm run prestart --prefix excalidraw
+	npm run prestart --prefix mermaid
 	npm i --prefix nomnoml
 	npm i --prefix vega
 	npm i --prefix wavedrom
