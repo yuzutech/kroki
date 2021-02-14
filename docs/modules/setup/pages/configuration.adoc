@@ -1,17 +1,46 @@
 = Configuration
+:url-k8s-environment-variables: https://kubernetes.io/docs/concepts/services-networking/service/#environment-variables
 
 Kroki can be configured using environment variables or Java system properties.
 
-== Port
+== Server Listening
 
-By default, Kroki will start a web server on port `8000`.
-You can change the port using `KROKI_PORT`:
-
-[source,java-cli]
-KROKI_PORT=1234 java -jar kroki-server.jar
+By default, Kroki will bind to all network interfaces (`0.0.0.0`) on port `8000`.
+You can change on which host and port the server will listen for incoming requests using `KROKI_LISTEN`:
 
 [source,java-cli]
-java -DKROKI_PORT=1234 -jar kroki-server.jar
+KROKI_LISTEN=127.0.0.1:1234 java -jar kroki-server.jar
+
+[source,java-cli]
+java -DKROKI_LISTEN=127.0.0.1:1234 -jar kroki-server.jar
+
+With the above configuration, the server will bind to `127.0.0.1` (i.e., loopback address) on port 1234.
+
+[NOTE]
+====
+If the port is unspecified, the server will listen on port `8000`.
+If the host is unspecified, the server will use `[::]` (i.e., bind to all network interfaces and accept connections from both IPv6 or IPv4 hosts)
+
+`KROKI_LISTEN` also accepts IPv6 enclosed within square brackets (`[` and `]`),
+for instance: `KROKI_LISTEN=[2001:db8:1f70::999:de8:7648:6e8]:1234`.
+====
+
+
+[IMPORTANT]
+====
+*`KROKI_PORT` is deprecated and will be removed in the future.*
+
+We are deprecating this option because it conflicts with Kubernetes and Docker built-in environnement variables.
+For reference, {url-k8s-environment-variables}[Kubernetes will automatically set the environment variable] `{SERVICE_NAME}_PORT` to `tcp://1.2.3.4:8000`.
+As you might have guessed, if you use `KROKI` as a service name, there's going to be a problem!
+In fact, Kroki expects the value of `KROKI_PORT` to be an integer value. +
+To workaround this issue, until `KROKI_PORT` is removed, you can explicitly define the environment variable `KROKI_PORT=8000`.
+
+If you were using a custom port (for instance, `KROKI_PORT=1234`), you can replace it by `KROKI_LISTEN=0.0.0.0:1234` (which is strictly equivalent). +
+If you want to bind to IPv4 and IPv6, you can use `KROKI_LISTEN=:1234` or the longer form `KROKI_LISTEN=[::]:1234`.
+
+If you want to learn about this deprecation, you can read: https://github.com/yuzutech/kroki/issues/576
+====
 
 == Safe Mode
 

@@ -5,6 +5,9 @@
   <artifactId>kroki</artifactId>
   <packaging>pom</packaging>
   <version>0.10.0</version>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
   <modules>
     <module>server</module>
     <module>umlet</module>
