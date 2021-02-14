@@ -6,10 +6,12 @@ import io.vertx.core.http.HttpServerRequest;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.client.HttpResponse;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 
 public class Logging {
 
+  public static final Logger deprecationLogger = LoggerFactory.getLogger("io.kroki.server.deprecation");
   private final Logger logger;
 
   public Logging(Logger logger) {
@@ -114,4 +116,6 @@ public class Logging {
       MDC.remove("error_message");
     }
   }
+
+
 }

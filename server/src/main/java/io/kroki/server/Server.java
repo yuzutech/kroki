@@ -2,6 +2,7 @@ package io.kroki.server;
 
 import io.kroki.server.action.Commander;
 import io.kroki.server.error.ErrorHandler;
+import io.kroki.server.log.Logging;
 import io.kroki.server.service.Blockdiag;
 import io.kroki.server.service.Bpmn;
 import io.kroki.server.service.Bytefield;
@@ -205,6 +206,11 @@ public class Server extends AbstractVerticle {
       }
     } else {
       port = config.getInteger("KROKI_PORT", DEFAULT_PORT);
+      if (port != DEFAULT_PORT) {
+        Logging.deprecationLogger.warn("KROKI_PORT is deprecated and will be removed in a future version, please use KROKI_LISTEN=0.0.0.0:{} - documentation: {}",
+          port,
+          "https://docs.kroki.io/kroki/setup/configuration/");
+      }
     }
     return port;
   }
