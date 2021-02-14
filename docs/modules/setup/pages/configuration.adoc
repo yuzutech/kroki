@@ -22,7 +22,7 @@ If the port is unspecified, the server will listen on port `8000`.
 If the host is unspecified, the server will use `[::]` (i.e., bind to all network interfaces and accept connections from both IPv6 or IPv4 hosts)
 
 `KROKI_LISTEN` also accepts IPv6 enclosed within square brackets (`[` and `]`),
-for instance: `KROKI_LISTEN=2001:db8:1f70::999:de8:7648:6e8]:1234`.
+for instance: `KROKI_LISTEN=[2001:db8:1f70::999:de8:7648:6e8]:1234`.
 ====
 
 
