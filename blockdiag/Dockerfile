@@ -18,4 +18,4 @@ COPY src .
 
 EXPOSE 8001
 
-CMD ["gunicorn", "--bind", "0.0.0.0:8001", "wsgi"]
+CMD ["gunicorn", "--preload", "--bind", "0.0.0.0:8001", "wsgi"]
