@@ -3,6 +3,7 @@
 :uri-docker-kroki-blockdiag-image: https://hub.docker.com/r/yuzutech/kroki-blockdiag
 :uri-docker-kroki-mermaid-image: https://hub.docker.com/r/yuzutech/kroki-mermaid
 :uri-docker-kroki-bpmn-image: https://hub.docker.com/r/yuzutech/kroki-bpmn
+:uri-docker-kroki-excalidraw-image: https://hub.docker.com/r/yuzutech/kroki-excalidraw
 :uri-blockdiag: http://blockdiag.com/en/blockdiag/index.html
 :uri-seqdiag: http://blockdiag.com/en/seqdiag/index.html
 :uri-actdiag: http://blockdiag.com/en/actdiag/index.html
@@ -11,6 +12,7 @@
 :uri-packetdiag: http://blockdiag.com/en/nwdiag/packetdiag-examples.html
 :uri-mermaid: https://mermaidjs.github.io/
 :uri-bpmn: https://bpmn.io/toolkit/bpmn-js/
+:uri-excalidraw: https://excalidraw.com/
 :uri-docker-get-started: https://docs.docker.com/get-started/
 :uri-docker-compose-install: https://docs.docker.com/compose/install/
 :uri-docker-container-networking: https://docs.docker.com/config/containers/container-networking/
@@ -95,21 +97,23 @@ In other words, the following endpoints will be available:
 
 If you want to use _BlockDiag_, _ActDiag_, _NwDiag_, _SeqDiag_, _Mermaid_ or _BPMN_, then you will also need to start companion containers:
 
-{uri-docker-kroki-blockdiag-image}[yuzutech/kroki-blockdiag]::
+{uri-docker-kroki-blockdiag-image}[yuzutech/kroki-blockdiag^]::
 Provides block, sequence, activity and network diagrams for Kroki using respectively
-{uri-blockdiag}[BlockDiag],
-{uri-seqdiag}[SeqDiag],
-{uri-actdiag}[ActDiag],
-{uri-nwdiag}[NwDiag]
-{uri-packetdiag}[PacketDiag],
-and {uri-rackdiag}[RackDiag] libraries.
+{uri-blockdiag}[BlockDiag^],
+{uri-seqdiag}[SeqDiag^],
+{uri-actdiag}[ActDiag^],
+{uri-nwdiag}[NwDiag^]
+{uri-packetdiag}[PacketDiag^],
+and {uri-rackdiag}[RackDiag^] libraries.
 
-{uri-docker-kroki-mermaid-image}[yuzutech/kroki-mermaid]::
-Provides flowchart, sequence and Gantt diagrams for Kroki using {uri-mermaid}[Mermaid].
+{uri-docker-kroki-mermaid-image}[yuzutech/kroki-mermaid^]::
+Provides flowchart, sequence and Gantt diagrams for Kroki using {uri-mermaid}[Mermaid^].
 
-{uri-docker-kroki-bpmn-image}[yuzutech/kroki-bpmn]::
-Provides BPMN diagrams for Kroki using {uri-bpmn}[bpmn-js].
+{uri-docker-kroki-bpmn-image}[yuzutech/kroki-bpmn^]::
+Provides BPMN diagrams for Kroki using {uri-bpmn}[bpmn-js^].
 
+{uri-docker-kroki-excalidraw-image}[yuzutech/kroki-excalidraw^]::
+Provides BPMN diagrams for Kroki using {uri-excalidraw}[Excalidraw^].
 
 You can use `docker-compose` to run multiple containers.
 Here's an example where we start all the containers:
