@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+  labels:
+    app: blockdiag
+  name: blockdiag
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: blockdiag
+  template:
+    metadata:
+      labels:
+        app: blockdiag
+    spec:
+      containers:
+      - image: yuzutech/kroki-blockdiag
+        name: blockdiag
+        ports:
+        - containerPort: 8001
+      restartPolicy: Always

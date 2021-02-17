@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+  labels:
+    app: kroki
+  name: kroki
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kroki
+  template:
+    metadata:
+      labels:
+        app: kroki
+    spec:
+      containers:
+      - env:
+        - name: KROKI_BLOCKDIAG_HOST
+          value: blockdiag
+        - name: KROKI_BPMN_HOST
+          value: bpmn
+        - name: KROKI_EXCALIDRAW_HOST
+          value: excalidraw
+        - name: KROKI_MERMAID_HOST
+          value: mermaid
+        image: yuzutech/kroki
+        name: kroki
+        ports:
+        - containerPort: 8000
+      restartPolicy: Always
