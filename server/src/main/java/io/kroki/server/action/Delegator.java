@@ -61,13 +61,6 @@ public class Delegator {
           handler.handle(new Failure(result.cause()));
         }
       }
-      handler.handle(result.map(o -> {
-        HttpResponse<Buffer> httpResponse = result.result();
-        if (httpResponse.statusCode() == 200) {
-          return httpResponse.body();
-        }
-        return null;
-      }));
     };
   }
 
