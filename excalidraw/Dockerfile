@@ -26,13 +26,18 @@ RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-${ARCH} . -o app.bin
 # Create the image
 FROM alpine:3.12.0
 
-COPY --from=builder /app/app.bin /node/bin/excalidraw
-COPY assets /app/assets
-ENV KROKI_EXCALIDRAW_PAGE_URL=file:///app/assets/index.html
+RUN addgroup -g 1000 kroki && adduser -D -G kroki -u 1000 kroki
 
 RUN apk add --no-cache --update chromium
+
+COPY --from=builder /app/app.bin /usr/bin/excalidraw
+COPY --chown=kroki:kroki assets /usr/local/kroki/assets
+
+ENV KROKI_EXCALIDRAW_PAGE_URL=file:///usr/local/kroki/assets/index.html
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/lib/chromium/chrome
 
 EXPOSE 8004
 
-ENTRYPOINT ["/node/bin/excalidraw"]
+USER kroki
+
+ENTRYPOINT ["/usr/bin/excalidraw"]
