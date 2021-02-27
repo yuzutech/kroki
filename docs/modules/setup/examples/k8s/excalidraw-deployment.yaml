@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+  labels:
+    app: excalidraw
+  name: excalidraw
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: excalidraw
+  template:
+    metadata:
+      labels:
+        app: excalidraw
+    spec:
+      containers:
+      - image: yuzutech/kroki-excalidraw
+        name: excalidraw
+        ports:
+        - containerPort: 8004
+      restartPolicy: Always

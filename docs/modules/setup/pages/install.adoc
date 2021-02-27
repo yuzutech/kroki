@@ -16,6 +16,8 @@
 :uri-docker-get-started: https://docs.docker.com/get-started/
 :uri-docker-compose-install: https://docs.docker.com/compose/install/
 :uri-docker-container-networking: https://docs.docker.com/config/containers/container-networking/
+:uri-k8s-publish-service: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
+:uri-k8s-definition-files: https://raw.githubusercontent.com/yuzutech/kroki/master/docs/modules/setup/examples/k8s
 
 To convert plain text diagrams to images with Kroki,
 you first need to install the gateway server.
@@ -58,6 +60,21 @@ Finally, to start a container in detached mode, you use `-d` option:
 
 [source,docker-cli]
 docker run -p8080:8000 -d yuzutech/kroki
+
+== Using docker-compose
+
+You can use `docker-compose` to run multiple containers.
+Here's an example where we start all the containers:
+
+.docker-compose.yml
+[source,yml]
+----
+include::example$kroki-docker-compose.yml[]
+----
+
+[source,docker-cli]
+docker-compose up -d
+
 
 === Images
 
@@ -115,14 +132,119 @@ Provides BPMN diagrams for Kroki using {uri-bpmn}[bpmn-js^].
 {uri-docker-kroki-excalidraw-image}[yuzutech/kroki-excalidraw^]::
 Provides BPMN diagrams for Kroki using {uri-excalidraw}[Excalidraw^].
 
-You can use `docker-compose` to run multiple containers.
-Here's an example where we start all the containers:
+== Using Kubernetes
 
-.docker-compose.yml
-[source,yml]
+This section will explain how to install Kroki on Kubernetes using the `default` namespace.
+
+[IMPORTANT]
+====
+To allow external access to your Kroki internal service,
+you will to publish the service using `ClusterIP`, `NodePort`, `LoadBalancer` or `ExternalName`.
+
+In this example, we will use `Ingress` to expose the service on port 8000.
+
+To learn more about how to publish a service, please consult the {uri-k8s-publish-service}[Kubernetes documentation]
+====
+
+You can link:{attachmentsdir}/kroki-k8s.zip[download a bundle (zip file)] that contains all the required `Deployment`, `Service` and `Ingress` definition files to deploy Kroki on Kubernetes.
+
+Once you've downloaded the .zip file, extract the content of the zip file into a folder named _kroki-k8s_.
+
+[TIP]
+====
+If you have `wget` and `unzip` installed on your machine, open a terminal and type:
+
+[source,cli]
 ----
-include::example$kroki-docker-compose.yml[]
+wget http://docs.kroki.io/kroki/setup/_attachments/kroki-k8s.zip -O kroki-k8s.zip
+unzip kroki-k8s.zip -d kroki-k8s
+----
+The above commands will download the zip file and extract it into a folder named _kroki-k8s_.
+====
+
+Use the command `kubectl apply` to create all the required Kubernetes objects:
+
+[source,cli]
+----
+kubectl apply -f /path/to/kroki-k8s
 ----
 
-[source,docker-cli]
-docker-compose up -d
+Do not forget to replace `/path/to/kroki-k8s` with the actual path to the folder that contains the definition files (`.yaml`)
+
+Alternatively, you install them individually from GitHub, open a terminal and type:
+
+.Add BlockDiag service
+[source,cli,subs=+attributes]
+----
+kubectl apply -f {uri-k8s-definition-files}/blockdiag-deployment.yaml
+kubectl apply -f {uri-k8s-definition-files}/blockdiag-service.yaml
+----
+
+.Add Mermaid service
+[source,cli,subs=+attributes]
+----
+kubectl apply -f {uri-k8s-definition-files}/mermaid-deployment.yaml
+kubectl apply -f {uri-k8s-definition-files}/mermaid-service.yaml
+----
+
+.Add BPMN service
+[source,cli,subs=+attributes]
+----
+kubectl apply -f {uri-k8s-definition-files}/bpmn-deployment.yaml
+kubectl apply -f {uri-k8s-definition-files}/bpmn-service.yaml
+----
+
+.Add Excalidraw service
+[source,cli,subs=+attributes]
+----
+kubectl apply -f {uri-k8s-definition-files}/excalidraw-deployment.yaml
+kubectl apply -f {uri-k8s-definition-files}/excalidraw-service.yaml
+----
+
+.Add Kroki service
+[source,cli,subs=+attributes]
+----
+kubectl apply -f {uri-k8s-definition-files}/kroki-deployment.yaml
+kubectl apply -f {uri-k8s-definition-files}/kroki-service.yaml
+----
+
+.Add Ingress
+[source,cli,subs=+attributes]
+kubectl apply -f {uri-k8s-definition-files}/kroki-ingress.yaml
+
+Verify that Kroki service is running using `kubectl get pod`:
+
+[source,cli]
+kubectl get pod
+
+If the installation was successful, the command should report a list of running pods:
+
+....
+NAME                          READY   STATUS    RESTARTS   AGE
+blockdiag-7bd6c989b7-zhvj8    1/1     Running   0          24s
+bpmn-6cfccf9bc4-6w4px         1/1     Running   0          24s
+excalidraw-5b84995fcb-dh57t   1/1     Running   0          24s
+kroki-6b49bcb7c4-x2ksc        1/1     Running   0          23s
+mermaid-7bff5c9959-hkrxx      1/1     Running   0          22s
+....
+
+To make sure that Kroki is working, open a terminal and type:
+
+[source,cli]
+kubectl port-forward service/kroki 8000:8000
+
+The above command will forward local port 8000 to port 8000 on the `service/kroki` Pod.
+In other words, Kroki will be accessible on localhost:8000.
+
+Open a second terminal and type:
+
+[source,cli]
+curl http://localhost:8000/seqdiag/svg/eNorTi1MyUxMV6jmUlBIKsovL04tUtC1UyhPTQKyyoCc6JzEpNQcBVsFJXfXEAX9zLyU1Aq9jJLcHKVYayQ9Nrq6CE3WhA0L8A8GmpaUk5-un5yfm5uaVwIxD6EWqDElsSQxKbE4FUmfp1-wa1CIAg49IFfANOFxXS0A68hQUg==
+
+[NOTE]
+=====
+To uninstall Kroki, you can use the command `kubectl delete`:
+
+[source,cli]
+kubectl delete -f /path/to/kroki-k8s
+=====

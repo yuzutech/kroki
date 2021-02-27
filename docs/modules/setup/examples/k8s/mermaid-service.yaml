@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+  labels:
+    app: mermaid
+  name: mermaid
+spec:
+  ports:
+  - name: "8002"
+    port: 8002
+    targetPort: 8002
+  selector:
+    app: mermaid

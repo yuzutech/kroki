@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+  labels:
+    app: mermaid
+  name: mermaid
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mermaid
+  template:
+    metadata:
+      labels:
+        app: mermaid
+    spec:
+      containers:
+      - image: yuzutech/kroki-mermaid
+        name: mermaid
+        ports:
+        - containerPort: 8002
+      restartPolicy: Always

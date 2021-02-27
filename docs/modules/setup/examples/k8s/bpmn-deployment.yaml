@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+  labels:
+    app: bpmn
+  name: bpmn
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bpmn
+  template:
+    metadata:
+      labels:
+        app: bpmn
+    spec:
+      containers:
+      - image: yuzutech/kroki-bpmn
+        name: bpmn
+        ports:
+        - containerPort: 8003
+      restartPolicy: Always
