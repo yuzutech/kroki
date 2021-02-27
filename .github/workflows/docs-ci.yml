@@ -1,0 +1,69 @@
+name: Docs CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  test-kind:
+    runs-on: ubuntu-18.04
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Kubernetes Kind
+        run: |
+          curl -Lo ./kind "https://kind.sigs.k8s.io/dl/v0.10.0/kind-$(uname)-amd64"
+          chmod +x ./kind
+
+      - name: Install kubectl
+        run: |
+          curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+          chmod +x ./kubectl
+
+      - name: Create cluster
+        run: ./kind create cluster
+
+      - name: Install Kroki
+        run: ./kubectl apply -f docs/modules/setup/examples/k8s
+
+      - name: Wait until available
+        run: ./kubectl wait --for=condition=available --timeout=120s --all deployments
+
+      - name: Check pod
+        run: ./kubectl get pod
+
+      - name: Forward port 8000 (background)
+        run: ./kubectl port-forward service/kroki 8000:8000 &
+
+      - name: Test SeqDiag
+        run: curl -o /dev/null -s -w "%{http_code}\n" http://localhost:8000/seqdiag/svg/eNorTi1MyUxMV6jmUlBIKsovL04tUtC1UyhPTQKyyoCc6JzEpNQcBVsFJXfXEAX9zLyU1Aq9jJLcHKVYayQ9Nrq6CE3WhA0L8A8GmpaUk5-un5yfm5uaVwIxD6EWqDElsSQxKbE4FUmfp1-wa1CIAg49IFfANOFxXS0A68hQUg== | grep 200
+
+      - name: Uninstall Kroki
+        run: ./kubectl delete -f docs/modules/setup/examples/k8s
+
+      - name: Delete cluster
+        run: ./kind delete cluster
+
+  test-dockercompose:
+    runs-on: ubuntu-18.04
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Docker
+        # taken from https://github.com/docker/github-actions/blob/0f18e2abad9a4ac2963d2516246787375b5ec917/Dockerfile#L32
+        run: curl -fL https://download.docker.com/linux/static/stable/x86_64/docker-20.10.4.tgz | tar xzO docker/docker > docker && sudo mv -f docker /usr/bin/docker && sudo chmod +x /usr/bin/docker
+
+      - name: docker-compose up
+        run: docker-compose -f docs/modules/setup/examples/kroki-docker-compose.yml up -d
+
+      - name: Wait until available
+        run: |
+          ./tests/smoke/wait-for-it.sh localhost:8000 --timeout=40
+          sleep 20
+
+      - name: Test SeqDiag
+        run: curl -o /dev/null -s -w "%{http_code}\n" http://localhost:8000/seqdiag/svg/eNorTi1MyUxMV6jmUlBIKsovL04tUtC1UyhPTQKyyoCc6JzEpNQcBVsFJXfXEAX9zLyU1Aq9jJLcHKVYayQ9Nrq6CE3WhA0L8A8GmpaUk5-un5yfm5uaVwIxD6EWqDElsSQxKbE4FUmfp1-wa1CIAg49IFfANOFxXS0A68hQUg== | grep 200
