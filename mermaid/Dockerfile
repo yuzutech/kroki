@@ -26,11 +26,9 @@ RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-${ARCH} . -o app.bin
 # Create the image
 FROM alpine:3.13.2
 
-RUN apk add --no-cache --update chromium
-
 RUN addgroup -g 1000 kroki && adduser -D -G kroki -u 1000 kroki
 
-USER kroki
+RUN apk add --no-cache --update chromium
 
 COPY --from=builder /app/app.bin /usr/bin/mermaid
 COPY --chown=kroki:kroki assets /usr/local/kroki/assets
@@ -39,5 +37,7 @@ ENV KROKI_MERMAID_PAGE_URL=file:///usr/local/kroki/assets/index.html
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/lib/chromium/chrome
 
 EXPOSE 8002
+
+USER kroki
 
 ENTRYPOINT ["/usr/bin/mermaid"]
