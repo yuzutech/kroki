@@ -32,8 +32,8 @@ RUN apk add --no-cache --update chromium
 
 COPY --from=builder /app/app.bin /usr/bin/mermaid
 COPY --chown=kroki:kroki assets /usr/local/kroki/assets
-ENV KROKI_MERMAID_PAGE_URL=file:///usr/local/kroki/assets/index.html
 
+ENV KROKI_MERMAID_PAGE_URL=file:///usr/local/kroki/assets/index.html
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/lib/chromium/chrome
 
 EXPOSE 8002
