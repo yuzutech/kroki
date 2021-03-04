@@ -5,7 +5,7 @@
   "main": "smoke.js",
   "private": true,
   "dependencies": {
-    "chai": "^4.3.0",
+    "chai": "^4.3.3",
     "chai-http": "^4.3.0"
   },
   "devDependencies": {
