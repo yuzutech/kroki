@@ -19,6 +19,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ExtendWith(VertxExtension.class)
 class ServerTest {
 
+  public static String randomAlphaString(int length) {
+    StringBuilder builder = new StringBuilder(length);
+    for (int i = 0; i < length; i++) {
+      char c = (char) (65 + 25 * Math.random());
+      builder.append(c);
+    }
+    return builder.toString();
+  }
+
   private int port;
 
   @BeforeEach
@@ -37,6 +46,17 @@ class ServerTest {
       .as(BodyCodec.string())
       .send(testContext.succeeding(response -> testContext.verify(() -> {
         assertThat(response.body()).contains("https://kroki.io");
+        testContext.completeNow();
+      })));
+  }
+
+  @Test
+  void http_server_long_uri_414(Vertx vertx, VertxTestContext testContext) {
+    WebClient client = WebClient.create(vertx);
+    client.get(port, "localhost", "/" + randomAlphaString(5000))
+      .as(BodyCodec.string())
+      .send(testContext.succeeding(response -> testContext.verify(() -> {
+        assertThat(response.statusCode()).isEqualTo(414);
         testContext.completeNow();
       })));
   }
