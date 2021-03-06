@@ -186,3 +186,6 @@ Some diagrams, like Excalidraw, have verbose textual descriptions that will prod
 If the URI requested by the client is longer than the server is willing to interpret, the server will return a 414 (Request-URI Too Long) response status code.
 The https://netty.io/4.0/api/io/netty/handler/codec/http/HttpRequestDecoder.html#HttpRequestDecoder--[default max URI length] in Vert.x is 4096.
 You can update this default value by setting `KROKI_MAX_URI_LENGTH` environment variable.
+
+TIP: The most browsers support >64k, also newer Edge, but that's a bit excessive so start with lower value.
+If you're supporting Edge 16 then the max value should be 10240, for IE 11 not more than 5120.
