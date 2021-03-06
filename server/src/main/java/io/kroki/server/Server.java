@@ -69,10 +69,9 @@ public class Server extends AbstractVerticle {
   }
 
   static void start(Vertx vertx, JsonObject config, Handler<AsyncResult<HttpServer>> listenHandler) {
-    Integer maxInitialLineLength = config.getInteger("KROKI_MAX_LINE_LENGTH");
+    Integer maxInitialLineLength = config.getInteger("KROKI_MAX_URI_LENGTH");
     HttpServerOptions serverOptions = new HttpServerOptions();
     if (maxInitialLineLength != null) {
-      logger.info("KROKI_MAX_LINE_LENGTH: {}", maxInitialLineLength);
       serverOptions.setMaxInitialLineLength(maxInitialLineLength);
     }
 

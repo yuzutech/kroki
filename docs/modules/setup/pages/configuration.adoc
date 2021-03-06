@@ -185,4 +185,4 @@ NOTE: If you are using the default `docker-compose.yaml` file you can rely on th
 Some diagrams, like Excalidraw, have verbose textual descriptions that will produce long URI.
 If the URI requested by the client is longer than the server is willing to interpret, the server will return a 414 (Request-URI Too Long) response status code.
 The https://netty.io/4.0/api/io/netty/handler/codec/http/HttpRequestDecoder.html#HttpRequestDecoder--[default max URI length] in Vert.x is 4096.
-This could be changed by setting `KROKI_MAX_LINE_LENGTH` environment variable.
+You can update this default value by setting `KROKI_MAX_URI_LENGTH` environment variable.

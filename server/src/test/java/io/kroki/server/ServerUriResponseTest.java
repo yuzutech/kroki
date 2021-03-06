@@ -27,7 +27,7 @@ public class ServerUriResponseTest {
     ServerSocket socket = new ServerSocket(0);
     port = socket.getLocalPort();
     socket.close();
-    DeploymentOptions options = new DeploymentOptions().setConfig(new JsonObject().put("KROKI_PORT", port).put("KROKI_MAX_LINE_LENGTH", 80000));
+    DeploymentOptions options = new DeploymentOptions().setConfig(new JsonObject().put("KROKI_PORT", port).put("KROKI_MAX_URI_LENGTH", 80000));
     vertx.deployVerticle(new Server(), options, testContext.completing());
   }
 
