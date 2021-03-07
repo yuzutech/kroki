@@ -69,12 +69,11 @@ public class Server extends AbstractVerticle {
   }
 
   static void start(Vertx vertx, JsonObject config, Handler<AsyncResult<HttpServer>> listenHandler) {
-    Integer maxInitialLineLength = config.getInteger("KROKI_MAX_URI_LENGTH");
+    Integer maxUriLength = config.getInteger("KROKI_MAX_URI_LENGTH");
     HttpServerOptions serverOptions = new HttpServerOptions();
-    if (maxInitialLineLength != null) {
-      serverOptions.setMaxInitialLineLength(maxInitialLineLength);
+    if (maxUriLength != null) {
+      serverOptions.setMaxInitialLineLength(maxUriLength);
     }
-
     HttpServer server = vertx.createHttpServer(serverOptions);
     Router router = Router.router(vertx);
     BodyHandler bodyHandler = BodyHandler.create(false).setBodyLimit(config.getLong("KROKI_BODY_LIMIT", BodyHandler.DEFAULT_BODY_LIMIT));
