@@ -179,3 +179,14 @@ KROKI_EXCALIDRAW_HOST:: Host of the Excalidraw container (default: `127.0.0.1`).
 KROKI_EXCALIDRAW_PORT:: Port of the Excalidraw container (default: `8004`).
 
 NOTE: If you are using the default `docker-compose.yaml` file you can rely on the default values.
+
+== Max URI length
+
+Some diagrams, like Excalidraw, have verbose textual descriptions that will produce long URI.
+If the URI requested by the client is longer than the server is willing to interpret, the server will return a 414 (Request-URI Too Long) response status code.
+The https://netty.io/4.0/api/io/netty/handler/codec/http/HttpRequestDecoder.html#HttpRequestDecoder--[default max URI length] in Vert.x is 4096.
+You can update this default value by setting `KROKI_MAX_URI_LENGTH` environment variable.
+
+TIP: Keep in mind that browsers also have a URI limit on `<img>` tags.
+Most modern browsers https://stackoverflow.com/questions/417142/what-is-the-maximum-length-of-a-url-in-different-browsers/417184#417184[support a URI length greater than 64000] on `<img>` tags but this value is probably a bit excessive.
+We recommend to use a maximum length that's not greater than 8192 and not greater than 5120 if you are supporting IE 11.

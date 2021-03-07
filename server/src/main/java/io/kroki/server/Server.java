@@ -30,6 +30,7 @@ import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServer;
+import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.net.SocketAddress;
 import io.vertx.ext.web.Route;
@@ -68,7 +69,12 @@ public class Server extends AbstractVerticle {
   }
 
   static void start(Vertx vertx, JsonObject config, Handler<AsyncResult<HttpServer>> listenHandler) {
-    HttpServer server = vertx.createHttpServer();
+    Integer maxUriLength = config.getInteger("KROKI_MAX_URI_LENGTH");
+    HttpServerOptions serverOptions = new HttpServerOptions();
+    if (maxUriLength != null) {
+      serverOptions.setMaxInitialLineLength(maxUriLength);
+    }
+    HttpServer server = vertx.createHttpServer(serverOptions);
     Router router = Router.router(vertx);
     BodyHandler bodyHandler = BodyHandler.create(false).setBodyLimit(config.getLong("KROKI_BODY_LIMIT", BodyHandler.DEFAULT_BODY_LIMIT));
 

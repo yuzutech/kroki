@@ -14,19 +14,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import java.io.IOException;
 import java.net.ServerSocket;
 
+import static io.kroki.server.ServerTest.randomAlphaString;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(VertxExtension.class)
-class ServerTest {
-
-  public static String randomAlphaString(int length) {
-    StringBuilder builder = new StringBuilder(length);
-    for (int i = 0; i < length; i++) {
-      char c = (char) (65 + 25 * Math.random());
-      builder.append(c);
-    }
-    return builder.toString();
-  }
+public class ServerUriResponseTest {
 
   private int port;
 
@@ -35,28 +27,17 @@ class ServerTest {
     ServerSocket socket = new ServerSocket(0);
     port = socket.getLocalPort();
     socket.close();
-    DeploymentOptions options = new DeploymentOptions().setConfig(new JsonObject().put("KROKI_PORT", port));
+    DeploymentOptions options = new DeploymentOptions().setConfig(new JsonObject().put("KROKI_PORT", port).put("KROKI_MAX_URI_LENGTH", 80000));
     vertx.deployVerticle(new Server(), options, testContext.completing());
   }
 
   @Test
-  void http_server_check_response(Vertx vertx, VertxTestContext testContext) {
-    WebClient client = WebClient.create(vertx);
-    client.get(port, "localhost", "/")
-      .as(BodyCodec.string())
-      .send(testContext.succeeding(response -> testContext.verify(() -> {
-        assertThat(response.body()).contains("https://kroki.io");
-        testContext.completeNow();
-      })));
-  }
-
-  @Test
-  void http_server_long_uri_414(Vertx vertx, VertxTestContext testContext) {
+  void http_server_long_uri_not_414(Vertx vertx, VertxTestContext testContext) {
     WebClient client = WebClient.create(vertx);
     client.get(port, "localhost", "/" + randomAlphaString(5000))
       .as(BodyCodec.string())
       .send(testContext.succeeding(response -> testContext.verify(() -> {
-        assertThat(response.statusCode()).isEqualTo(414);
+        assertThat(response.statusCode()).isNotEqualTo(414);
         testContext.completeNow();
       })));
   }
