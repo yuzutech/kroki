@@ -130,12 +130,12 @@ public class Server extends AbstractVerticle {
     String krokiBuildHash = healthHandler.getKrokiBuildHash();
     String krokiVersionNumber = healthHandler.getKrokiVersionNumber();
     router.get("/")
-      .handler(new HelloHandler(serviceVersions, krokiVersionNumber, krokiBuildHash).create());
+      .handler(new HelloHandler(vertx, serviceVersions, krokiVersionNumber, krokiBuildHash).create());
 
     // Default route
     Route route = router.route("/*");
     route.handler(routingContext -> routingContext.fail(404));
-    route.failureHandler(new ErrorHandler(false));
+    route.failureHandler(new ErrorHandler(vertx, false));
 
     server.requestHandler(router).listen(getListenAddress(config), listenHandler);
   }

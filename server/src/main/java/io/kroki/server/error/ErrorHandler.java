@@ -1,6 +1,7 @@
 package io.kroki.server.error;
 
 import io.kroki.server.log.Logging;
+import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonArray;
@@ -29,11 +30,11 @@ public class ErrorHandler implements io.vertx.ext.web.handler.ErrorHandler {
   private final String errorTemplate;
 
 
-  public ErrorHandler(boolean displayExceptionDetails) {
+  public ErrorHandler(Vertx vertx, boolean displayExceptionDetails) {
     this.displayExceptionDetails = displayExceptionDetails;
-    String stylesheet = Utils.readResourceToBuffer("web/root/css/main.css").toString();
-    String logo = Utils.readResourceToBuffer("web/root/assets/logo.svg").toString();
-    this.errorTemplate = Utils.readResourceToBuffer("web/error.html").toString()
+    String stylesheet = vertx.fileSystem().readFileBlocking("web/root/css/main.css").toString();
+    String logo = vertx.fileSystem().readFileBlocking("web/root/assets/logo.svg").toString();
+    this.errorTemplate = vertx.fileSystem().readFileBlocking("web/error.html").toString()
       .replace("{stylesheet}", stylesheet)
       .replace("{logo}", logo);
     this.logging = new Logging(logger);
