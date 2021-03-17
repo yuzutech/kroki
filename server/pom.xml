@@ -17,7 +17,7 @@
     <junit.jupiter.version>5.7.1</junit.jupiter.version>
     <assertj-core.version>3.19.0</assertj-core.version>
     <mockito-core.version>3.7.7</mockito-core.version>
-    <plantuml.version>1.2021.1</plantuml.version>
+    <plantuml.version>1.2021.2</plantuml.version>
     <ditaa-mini.version>0.11</ditaa-mini.version>
     <ditaa.version>1.3.13</ditaa.version>
     <slf4j-api.version>1.7.30</slf4j-api.version>
