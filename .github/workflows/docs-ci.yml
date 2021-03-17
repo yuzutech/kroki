@@ -2,9 +2,13 @@ name: Docs CI
 
 on:
   push:
+    paths:
+      - 'docs/**'
     branches:
       - master
   pull_request:
+    paths:
+      - 'docs/**'
     branches:
       - '*'
 
