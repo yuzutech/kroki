@@ -8,7 +8,7 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
-import org.stathissideris.ascii2image.core.CommandLineConverter;
+import org.stathissideris.ditaa.core.CommandLineConverter;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
