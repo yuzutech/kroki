@@ -16,6 +16,7 @@ import io.kroki.server.service.HealthHandler;
 import io.kroki.server.service.HelloHandler;
 import io.kroki.server.service.Mermaid;
 import io.kroki.server.service.Nomnoml;
+import io.kroki.server.service.Pikchr;
 import io.kroki.server.service.Plantuml;
 import io.kroki.server.service.ServiceVersion;
 import io.kroki.server.service.Svgbob;
@@ -110,6 +111,7 @@ public class Server extends AbstractVerticle {
     registry.register(new Bpmn(vertx, config), "bpmn");
     registry.register(new Bytefield(vertx, config, commander), "bytefield");
     registry.register(new Excalidraw(vertx, config), "excalidraw");
+    registry.register(new Pikchr(vertx, config, commander), "pikchr");
 
     router.post("/")
       .handler(bodyHandler)

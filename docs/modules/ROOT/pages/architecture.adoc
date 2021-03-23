@@ -48,6 +48,9 @@ The Docker image contains the following diagrams libraries out-of-the-box:
 |{nomnoml-version}
 //|Binary `/node/bin/nomnoml`
 
+|https://github.com/drhsqlite/pikchr[Pikchr]
+|{pikchr-version}
+
 |https://github.com/plantuml/plantuml[PlantUML]
 |{plantuml-version}
 //|Java library (depends on GraphViz)
