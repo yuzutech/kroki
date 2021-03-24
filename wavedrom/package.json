@@ -15,7 +15,7 @@
   "keywords": [],
   "author": "Guillaume Grossetie",
   "dependencies": {
-    "json5": "2.1.1",
+    "json5": "2.2.0",
     "onml": "1.2.0",
     "wavedrom": "2.3.2"
   },
