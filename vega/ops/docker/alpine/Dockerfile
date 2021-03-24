@@ -25,5 +25,6 @@ COPY index.js package.json package-lock.json /app/
 WORKDIR /app
 
 RUN npm i
+RUN npm run lint
 RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-${ARCH} . -o app.bin
 RUN cp /app/node_modules/canvas/build/Release/canvas.node  /app/
