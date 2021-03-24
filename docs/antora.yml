@@ -5,9 +5,9 @@ asciidoc:
   attributes:
     actdiag-version: 2.0.0
     blockdiag-version: 2.0.1
-    bpmnjs-version: 8.2.0
+    bpmnjs-version: 8.2.2
     bytefield-version: 1.5.0
-    c4plantuml-version: 1.2021.1
+    c4plantuml-version: 1.2021.3
     ditaa-version: 1.3.13
     erd-version: 0.1.3.0
     excalidraw-version: 0.1.0
@@ -17,14 +17,14 @@ asciidoc:
     nwdiag-version: 2.0.0
     packetdiag-version: 2.0.0
     pikchr-version: '7269f78c4a'
-    plantuml-version: 1.2021.1
+    plantuml-version: 1.2021.3
     rackdiag-version: 2.0.0
     seqdiag-version: 2.0.0
     svgbob-version: 0.4.2
     umlet-version: 14.3.0
-    vega-version: 5.19.1
+    vega-version: 5.20.0
     vegalite-version: 4.17.0
-    wavedrom-version: 2.3.2
+    wavedrom-version: 2.6.8
 nav:
 - modules/ROOT/nav.adoc
 - modules/setup/nav.adoc
