@@ -22,10 +22,7 @@ RUN apk add --update --no-cache \
            giflib-dev \
            graphviz \
            ttf-freefont \
-# Chinese font (available only in edge/testing)
- && apk add --update --no-cache \
-            --repository https://dl-cdn.alpinelinux.org/alpine/edge/testing/ \
-           wqy-zenhei
+           font-noto-cjk
 
 COPY --chown=kroki:kroki ops/docker/logback.xml /etc/kroki/logback.xml
 
