@@ -156,6 +156,24 @@ updates:
   labels:
     - "🐋 docker"
     - "🔗 dependencies"
+- package-ecosystem: docker
+  directory: "/excalidraw"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+  labels:
+    - "🐋 docker"
+    - "🔗 dependencies"
+- package-ecosystem: docker
+  directory: "/wavedrom/ops/docker/alpine"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+  labels:
+    - "🐋 docker"
+    - "🔗 dependencies"
 - package-ecosystem: npm
   directory: "/vega"
   schedule:
@@ -191,4 +209,22 @@ updates:
   open-pull-requests-limit: 10
   labels:
     - "☕ java"
+    - "🔗 dependencies"
+- package-ecosystem: npm
+  directory: "/wavedrom"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+  labels:
+    - "📜 javascript"
+    - "🔗 dependencies"
+- package-ecosystem: npm
+  directory: "/excalidraw"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+  labels:
+    - "📜 javascript"
     - "🔗 dependencies"
