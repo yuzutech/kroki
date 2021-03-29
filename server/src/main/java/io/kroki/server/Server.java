@@ -23,6 +23,7 @@ import io.kroki.server.service.Svgbob;
 import io.kroki.server.service.Umlet;
 import io.kroki.server.service.Vega;
 import io.kroki.server.service.Wavedrom;
+import io.kroki.server.service.Bitfield;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.AsyncResult;
@@ -108,6 +109,7 @@ public class Server extends AbstractVerticle {
     registry.register(new Vega(vertx, config, Vega.SpecFormat.DEFAULT, commander), "vega");
     registry.register(new Vega(vertx, config, Vega.SpecFormat.LITE, commander), "vegalite");
     registry.register(new Wavedrom(vertx, config, commander), "wavedrom");
+    registry.register(new Bitfield(vertx, config, commander), "bitfield");
     registry.register(new Bpmn(vertx, config), "bpmn");
     registry.register(new Bytefield(vertx, config, commander), "bytefield");
     registry.register(new Excalidraw(vertx, config), "excalidraw");

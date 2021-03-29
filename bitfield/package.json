@@ -1,0 +1,25 @@
+{
+  "name": "kroki-bitfield",
+  "version": "1.0.0",
+  "description": "A CLI built on top of the Bitfield diagram library.",
+  "bin": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "standard"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yuzutech/kroki.git"
+  },
+  "keywords": [],
+  "author": "Guillaume Grossetie",
+  "dependencies": {
+    "json5": "2.2.0",
+    "onml": "2.1.0",
+    "bit-field": "1.3.6"
+  },
+  "devDependencies": {
+    "standard": "16.0.3"
+  }
+}
