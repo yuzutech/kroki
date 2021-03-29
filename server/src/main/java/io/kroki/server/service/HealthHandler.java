@@ -52,7 +52,6 @@ public class HealthHandler {
     serviceVersions.add(new ServiceVersion("vega", "5.20.0"));
     serviceVersions.add(new ServiceVersion("vegalite", "4.17.0"));
     serviceVersions.add(new ServiceVersion("wavedrom", "2.3.2"));
-    serviceVersions.add(new ServiceVersion("bitfield", "1.3.6"));
   }
 
   public Handler<RoutingContext> create() {
