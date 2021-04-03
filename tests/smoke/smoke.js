@@ -17,6 +17,7 @@ const tests = [
   {engine: 'vega', file: 'bar-chart.vega', outputFormat: ['svg', 'png', 'pdf']},
   {engine: 'vegalite', file: 'discretizing-scale.vlite', outputFormat: ['svg', 'png', 'pdf']},
   {engine: 'wavedrom', file: 'wavedrom.json5', outputFormat: ['svg']},
+  {engine: 'wavedrom', file: 'bitfield.json5', outputFormat: ['svg']},
   {engine: 'bytefield', file: 'bytefield.bf', outputFormat: ['svg']},
   {engine: 'umlet', file: 'umlet.xml', outputFormat: ['svg']},
   {engine: 'excalidraw', file: 'venn.excalidraw', outputFormat: ['svg']},
@@ -91,7 +92,7 @@ describe('Health', () => {
       try {
         expect(response.status).to.equal(200)
         expect(response.body.status).to.equal('pass')
-        const engines = tests.map((it) => it.engine)
+        const engines = Array.from(new Set(tests.map((it) => it.engine)))
         engines.push('kroki')
         expect(response.body.version).to.have.keys(engines)
       } catch (err) {
