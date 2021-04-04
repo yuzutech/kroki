@@ -1,7 +1,7 @@
 {
-  "name": "mermaid-server",
+  "name": "@kroki/mermaid-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "A micro server built on top of the Mermaid diagram library.",
   "main": "src/index.js",
   "bin": "src/index.js",
   "scripts": {
@@ -13,6 +13,10 @@
   "keywords": [],
   "author": "Guillaume Grossetie",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yuzutech/kroki.git"
+  },
   "dependencies": {
     "mermaid": "8.9.2",
     "micro": "9.3.4",

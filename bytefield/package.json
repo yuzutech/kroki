@@ -1,5 +1,5 @@
 {
-  "name": "kroki-bytefield",
+  "name": "@kroki/bytefield",
   "version": "1.0.0",
   "description": "A CLI built on top of the bytefield diagram library.",
   "bin": "index.js",

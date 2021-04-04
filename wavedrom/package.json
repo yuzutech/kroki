@@ -1,5 +1,5 @@
 {
-  "name": "kroki-wavedrom",
+  "name": "@kroki/wavedrom",
   "version": "1.0.0",
   "description": "A CLI built on top of the WaveDrom diagram library.",
   "bin": "index.js",

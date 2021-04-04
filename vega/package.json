@@ -1,5 +1,5 @@
 {
-  "name": "kroki-vega",
+  "name": "@kroki/vega",
   "version": "1.0.0",
   "description": "A CLI built on top of the Vega diagram library.",
   "bin": "index.js",
