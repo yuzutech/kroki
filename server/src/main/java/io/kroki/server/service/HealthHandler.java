@@ -39,7 +39,7 @@ public class HealthHandler {
     serviceVersions.add(new ServiceVersion("erd", "0.1.3.0"));
     serviceVersions.add(new ServiceVersion("excalidraw", "0.1.0"));
     serviceVersions.add(new ServiceVersion("graphviz", "2.40.1"));
-    serviceVersions.add(new ServiceVersion("mermaid", "8.9.0"));
+    serviceVersions.add(new ServiceVersion("mermaid", "8.9.2"));
     serviceVersions.add(new ServiceVersion("nomnoml", "1.3.1"));
     serviceVersions.add(new ServiceVersion("nwdiag", "2.0.0"));
     serviceVersions.add(new ServiceVersion("packetdiag", "2.0.0"));
@@ -49,9 +49,9 @@ public class HealthHandler {
     serviceVersions.add(new ServiceVersion("seqdiag", "2.0.0"));
     serviceVersions.add(new ServiceVersion("svgbob", "0.4.2"));
     serviceVersions.add(new ServiceVersion("umlet", "14.3.0"));
-    serviceVersions.add(new ServiceVersion("vega", "5.20.0"));
+    serviceVersions.add(new ServiceVersion("vega", "5.20.2"));
     serviceVersions.add(new ServiceVersion("vegalite", "4.17.0"));
-    serviceVersions.add(new ServiceVersion("wavedrom", "2.3.2"));
+    serviceVersions.add(new ServiceVersion("wavedrom", "2.6.8"));
   }
 
   public Handler<RoutingContext> create() {

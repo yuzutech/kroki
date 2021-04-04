@@ -12,7 +12,7 @@ asciidoc:
     erd-version: 0.1.3.0
     excalidraw-version: 0.1.0
     graphviz-version: 2.40.1
-    mermaid-version: 8.9.0
+    mermaid-version: 8.9.2
     nomnoml-version: 1.3.1
     nwdiag-version: 2.0.0
     packetdiag-version: 2.0.0
@@ -22,7 +22,7 @@ asciidoc:
     seqdiag-version: 2.0.0
     svgbob-version: 0.4.2
     umlet-version: 14.3.0
-    vega-version: 5.20.0
+    vega-version: 5.20.2
     vegalite-version: 4.17.0
     wavedrom-version: 2.6.8
 nav:
