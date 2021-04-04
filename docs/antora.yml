@@ -23,7 +23,7 @@ asciidoc:
     svgbob-version: 0.4.2
     umlet-version: 14.3.0
     vega-version: 5.20.2
-    vegalite-version: 4.17.0
+    vegalite-version: 5.0.0
     wavedrom-version: 2.6.8
 nav:
 - modules/ROOT/nav.adoc

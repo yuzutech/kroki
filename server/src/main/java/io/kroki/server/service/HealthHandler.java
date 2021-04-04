@@ -50,7 +50,7 @@ public class HealthHandler {
     serviceVersions.add(new ServiceVersion("svgbob", "0.4.2"));
     serviceVersions.add(new ServiceVersion("umlet", "14.3.0"));
     serviceVersions.add(new ServiceVersion("vega", "5.20.2"));
-    serviceVersions.add(new ServiceVersion("vegalite", "4.17.0"));
+    serviceVersions.add(new ServiceVersion("vegalite", "5.0.0"));
     serviceVersions.add(new ServiceVersion("wavedrom", "2.6.8"));
   }
 
