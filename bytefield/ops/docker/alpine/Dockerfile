@@ -5,11 +5,14 @@ FROM node:12.19.0-alpine
 # [ 'nobody', 0 ]
 RUN npm config set unsafe-perm true
 
-RUN npm install -g pkg pkg-fetch
+# Workaround: https://github.com/vercel/pkg-fetch/issues/165
+# use pkg-fetch 2.6.0 because alpine binaries are not available on pkg-fetch 3.x
+RUN npm install -g pkg@4.5.1 pkg-fetch@2.6.0
+
 ENV NODE node10
 ENV PLATFORM alpine
 ENV ARCH x64
-RUN /usr/local/bin/pkg-fetch ${NODE} ${PLATFORM} ${ARCH}
+RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM} -a ${ARCH}
 
 COPY index.js package.json package-lock.json /app/
 WORKDIR /app
