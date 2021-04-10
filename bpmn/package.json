@@ -18,7 +18,7 @@
     "url": "https://github.com/yuzutech/kroki.git"
   },
   "dependencies": {
-    "bpmn-js": "8.2.2",
+    "bpmn-js": "8.3.0",
     "micro": "9.3.4",
     "puppeteer": "8.0.0"
   },
