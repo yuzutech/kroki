@@ -1,16 +1,17 @@
 package io.kroki.server.service;
 
+import io.kroki.server.action.DitaaContext;
 import io.kroki.server.error.BadRequestException;
 import io.kroki.server.format.FileFormat;
 import io.kroki.server.security.SafeMode;
 import io.vertx.core.json.JsonObject;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -463,5 +464,186 @@ public class PlantumlServiceTest {
     assertThat(patterns)
       .extracting("pattern")
       .containsExactly("/path1", "/path2", "/path3");
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {
+    "@startuml\nditaa -> hello\n@enduml",
+    "@startuml\n@starditaa->@endditaa\n@enduml",
+    "@startuml\n[@startditaa->@endditaa\n@enduml",
+    "@startuml\nBob->Alice: \\\nditaa\nFoo->Bar\n@enduml",
+  })
+  void should_not_find_ditaa_context(String input) {
+    DitaaContext ditaaContext = Plantuml.findDitaaContext(input);
+    assertThat(ditaaContext).isNull();
+  }
+
+  @Test
+  void should_find_ditaa_context_with_ditaa_keyword() {
+    DitaaContext ditaaContext = Plantuml.findDitaaContext("@startuml\n" +
+      "ditaa\n" +
+      "    Input                           Output\n" +
+      "\n" +
+      "+-----------+                     +----------+\n" +
+      "|  Client   |=------------------->| Kroki.io |\n" +
+      "+-----------+                     +----------+\n" +
+      "@enduml");
+    assertThat(ditaaContext).isNotNull();
+    assertThat(ditaaContext.getOptions()).isNull();
+    assertThat(ditaaContext.getSource()).isEqualTo("    Input                           Output\n" +
+      "\n" +
+      "+-----------+                     +----------+\n" +
+      "|  Client   |=------------------->| Kroki.io |\n" +
+      "+-----------+                     +----------+\n"
+    );
+  }
+
+  @Test
+  void should_find_ditaa_context_with_ditaa_keyword_empty_opts() {
+    DitaaContext ditaaContext = Plantuml.findDitaaContext("@startuml\n" +
+      "ditaa()\n" +
+      "    Input                           Output\n" +
+      "\n" +
+      "+-----------+                     +----------+\n" +
+      "|  Client   |=------------------->| Kroki.io |\n" +
+      "+-----------+                     +----------+\n" +
+      "@enduml");
+    assertThat(ditaaContext).isNotNull();
+    assertThat(ditaaContext.getOptions()).isEqualTo("");
+    assertThat(ditaaContext.getSource()).isEqualTo("    Input                           Output\n" +
+      "\n" +
+      "+-----------+                     +----------+\n" +
+      "|  Client   |=------------------->| Kroki.io |\n" +
+      "+-----------+                     +----------+\n"
+    );
+  }
+
+  @Test
+  void should_find_ditaa_context_with_ditaa_keyword_opts() {
+    DitaaContext ditaaContext = Plantuml.findDitaaContext("@startuml\n" +
+      "ditaa(--no-shadows, scale=0.7)\n" +
+      "    Input                           Output\n" +
+      "\n" +
+      "+-----------+                     +----------+\n" +
+      "|  Client   |=------------------->| Kroki.io |\n" +
+      "+-----------+                     +----------+\n" +
+      "@enduml");
+    assertThat(ditaaContext).isNotNull();
+    assertThat(ditaaContext.getOptions()).isEqualTo("--no-shadows, scale=0.7");
+    assertThat(ditaaContext.getSource()).isEqualTo("    Input                           Output\n" +
+      "\n" +
+      "+-----------+                     +----------+\n" +
+      "|  Client   |=------------------->| Kroki.io |\n" +
+      "+-----------+                     +----------+\n"
+    );
+  }
+
+  @Test
+  void should_find_ditaa_context_with_startditaa_opts() {
+    DitaaContext ditaaContext = Plantuml.findDitaaContext("@startditaa -E\n" +
+      "    Input                           Output\n" +
+      "\n" +
+      "+-----------+                     +----------+\n" +
+      "|  Client   |=------------------->| Kroki.io |\n" +
+      "+-----------+                     +----------+\n" +
+      "@endditaa");
+    assertThat(ditaaContext).isNotNull();
+    assertThat(ditaaContext.getOptions()).isEqualTo(" -E");
+    assertThat(ditaaContext.getSource()).isEqualTo("    Input                           Output\n" +
+      "\n" +
+      "+-----------+                     +----------+\n" +
+      "|  Client   |=------------------->| Kroki.io |\n" +
+      "+-----------+                     +----------+\n"
+    );
+  }
+
+  @Test
+  void should_extract_startditaa_block() {
+    DitaaContext ditaaContext = Plantuml.findDitaaContext("@startuml\n" +
+      "\n" +
+      "  @startditaa -E\n" +
+      "    Input                           Output\n" +
+      "\n" +
+      "+-----------+                     +----------+\n" +
+      "|  Client   |=------------------->| Kroki.io |\n" +
+      "+-----------+                     +----------+\n" +
+      "\n  " +
+      "@endditaa\n" +
+      "" +
+      "" +
+      "" +
+      "" +
+      "" +
+      "@endditaa\n" +
+      "@enduml");
+    assertThat(ditaaContext).isNotNull();
+    assertThat(ditaaContext.getOptions()).isEqualTo(" -E");
+    assertThat(ditaaContext.getSource()).isEqualTo("    Input                           Output\n" +
+      "\n" +
+      "+-----------+                     +----------+\n" +
+      "|  Client   |=------------------->| Kroki.io |\n" +
+      "+-----------+                     +----------+\n" +
+      "\n"
+    );
+  }
+
+  @Test
+  void should_extract_ditaa_keyword_block() {
+    DitaaContext ditaaContext = Plantuml.findDitaaContext("@startuml\n" +
+      "\n" +
+      "  ditaa(-E)\n" +
+      "    Input                           Output\n" +
+      "\n" +
+      "+-----------+                     +----------+\n" +
+      "|  Client   |=------------------->| Kroki.io |\n" +
+      "+-----------+                     +----------+\n" +
+      "\n  " +
+      "@endditaa\n" +
+      "" +
+      "" +
+      "" +
+      "" +
+      "" +
+      "@endditaa\n" +
+      "@enduml");
+    assertThat(ditaaContext).isNotNull();
+    assertThat(ditaaContext.getOptions()).isEqualTo("-E");
+    assertThat(ditaaContext.getSource()).isEqualTo("    Input                           Output\n" +
+      "\n" +
+      "+-----------+                     +----------+\n" +
+      "|  Client   |=------------------->| Kroki.io |\n" +
+      "+-----------+                     +----------+\n" +
+      "\n"
+    );
+  }
+
+  @Test
+  void should_extract_ditaa_keyword_block_without_opts() {
+    DitaaContext ditaaContext = Plantuml.findDitaaContext("@startuml\n" +
+      "\n" +
+      "  ditaa  \n" +
+      "    Input                           Output\n" +
+      "\n" +
+      "+-----------+                     +----------+\n" +
+      "|  Client   |=------------------->| Kroki.io |\n" +
+      "+-----------+                     +----------+\n" +
+      "\n  " +
+      "@endditaa\n" +
+      "" +
+      "" +
+      "" +
+      "" +
+      "" +
+      "@endditaa\n" +
+      "@enduml");
+    assertThat(ditaaContext).isNotNull();
+    assertThat(ditaaContext.getOptions()).isNull();
+    assertThat(ditaaContext.getSource()).isEqualTo("    Input                           Output\n" +
+      "\n" +
+      "+-----------+                     +----------+\n" +
+      "|  Client   |=------------------->| Kroki.io |\n" +
+      "+-----------+                     +----------+\n" +
+      "\n"
+    );
   }
 }
