@@ -42,6 +42,7 @@ public class Logging {
       MDC.remove("service_name");
       MDC.remove("bytes_read");
       MDC.remove("user_agent");
+      MDC.remove("referrer");
     }
   }
 
@@ -72,6 +73,7 @@ public class Logging {
       MDC.remove("file_format");
       MDC.remove("took");
       MDC.remove("user_agent");
+      MDC.remove("referrer");
     }
   }
 
@@ -106,6 +108,7 @@ public class Logging {
       MDC.remove("error_message");
       MDC.remove("failure_class_name");
       MDC.remove("user_agent");
+      MDC.remove("referrer");
     }
   }
 
