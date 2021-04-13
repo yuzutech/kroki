@@ -1,11 +1,13 @@
 package io.kroki.server.service;
 
 import io.kroki.server.action.Delegator;
+import io.kroki.server.action.DitaaContext;
 import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.BadRequestException;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
+import io.kroki.server.log.Logging;
 import io.kroki.server.security.SafeMode;
 import io.kroki.server.unit.TimeValue;
 import io.vertx.core.AsyncResult;
@@ -27,6 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -75,6 +78,8 @@ public class Plantuml implements DiagramService {
    * @see <a href="https://plantuml.com/preprocessing">PlantUML Preprocessing</a>
    */
   public static final Pattern INCLUDE_RX = Pattern.compile("^\\s*!include(?:url|sub)?\\s+(?<path>(?:(?<=\\\\)[ ]|[^ ])+)(.*)");
+  private static final Pattern STARTDITAA_BLOCK_RX = Pattern.compile("(?:^| +)@startditaa(?<opts>\\s\\S*)\\n(?<source>.*?) *@endditaa", Pattern.MULTILINE | Pattern.DOTALL);
+  private static final Pattern DITAA_KEYWORD_BOCK_RX = Pattern.compile("@startuml(:?\\s*)(?:^| +)ditaa(?:(?:\\((?<opts>[^)]*)\\))?| *)\\n(?<source>.*?) *@end(?:ditaa|uml)", Pattern.MULTILINE | Pattern.DOTALL);
 
   private static final Logger logger = LoggerFactory.getLogger(Plantuml.class);
   private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG, FileFormat.JPEG, FileFormat.BASE64, FileFormat.TXT, FileFormat.UTXT);
@@ -82,6 +87,7 @@ public class Plantuml implements DiagramService {
 
   private final Vertx vertx;
   private final SafeMode safeMode;
+  private final Logging logging;
   private static final String c4 = read("c4.puml");
   // context includes c4
   private static final String c4Context = c4 + read("c4_context.puml");
@@ -121,6 +127,7 @@ public class Plantuml implements DiagramService {
       }
     };
     this.includeWhitelist = parseIncludeWhitelist(config);
+    this.logging = new Logging(logger);
     // Disable unsafe include for security reasons
     OptionFlags.ALLOW_INCLUDE = config.getBoolean("KROKI_PLANTUML_ALLOW_INCLUDE", false);
     String plantUmlIncludePath = config.getString("KROKI_PLANTUML_INCLUDE_PATH");
@@ -196,6 +203,7 @@ public class Plantuml implements DiagramService {
     String source;
     try {
       source = sanitize(sourceDecoded, this.safeMode, this.includeWhitelist);
+      source = source.trim();
       source = withDelimiter(source);
     } catch (IOException e) {
       if (e instanceof UnsupportedEncodingException) {
@@ -206,14 +214,31 @@ public class Plantuml implements DiagramService {
       return;
     }
     final String primeSource = source;
-    vertx.executeBlocking(future -> {
-      try {
-        byte[] data = convert(primeSource, fileFormat);
-        future.complete(data);
-      } catch (IllegalStateException e) {
-        future.fail(e);
-      }
-    }, res -> handler.handle(res.map(o -> Buffer.buffer((byte[]) o))));
+    DitaaContext ditaaContext = findDitaaContext(source);
+    if (ditaaContext != null) {
+      logging.reroute("plantuml", "ditaa", ditaaContext.getSource(), fileFormat);
+      // found a ditaa context, delegate to the optimized ditaa service
+      vertx.executeBlocking(future -> {
+        try {
+          ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+          // REMIND: options are unsupported for now.
+          Ditaa.convert(fileFormat, new ByteArrayInputStream(ditaaContext.getSource().getBytes()), outputStream);
+          future.complete(outputStream.toByteArray());
+        } catch (IllegalStateException e) {
+          future.fail(e);
+        }
+      }, res -> handler.handle(res.map(o -> Buffer.buffer((byte[]) o))));
+    } else {
+      // ...otherwise, continue with PlantUML
+      vertx.executeBlocking(future -> {
+        try {
+          byte[] data = convert(primeSource, fileFormat);
+          future.complete(data);
+        } catch (IllegalStateException e) {
+          future.fail(e);
+        }
+      }, res -> handler.handle(res.map(o -> Buffer.buffer((byte[]) o))));
+    }
   }
 
   static byte[] convert(String source, FileFormat format) {
@@ -370,5 +395,29 @@ public class Plantuml implements DiagramService {
     } catch (IOException e) {
       throw new RuntimeException("Unable to initialize the C4 PlantUML service", e);
     }
+  }
+
+  /**
+   * Try to find a ditaa context from a PlantUML source.
+   * @param source PlantUML source
+   * @return a {@link DitaaContext} or null if not found
+   */
+  static DitaaContext findDitaaContext(String source) {
+    if (source.contains("@startditaa") && source.contains("@endditaa")) {
+      Matcher ditaablockMatcher = STARTDITAA_BLOCK_RX.matcher(source);
+      if (ditaablockMatcher.find()) {
+        String ditaaOptions = ditaablockMatcher.group("opts");
+        String ditaaSource = ditaablockMatcher.group("source");
+        return new DitaaContext(ditaaSource, ditaaOptions);
+      }
+    } else {
+      Matcher ditaaMatcher = DITAA_KEYWORD_BOCK_RX.matcher(source);
+      if (ditaaMatcher.find()) {
+        String ditaaOptions = ditaaMatcher.group("opts");
+        String ditaaSource = ditaaMatcher.group("source");
+        return new DitaaContext(ditaaSource, ditaaOptions);
+      }
+    }
+    return null;
   }
 }

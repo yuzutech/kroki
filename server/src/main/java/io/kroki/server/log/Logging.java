@@ -77,6 +77,22 @@ public class Logging {
     }
   }
 
+  public void reroute(String from, String to, String source, FileFormat fileFormat) {
+    try {
+      MDC.put("action", "reroute");
+      MDC.put("service_name_from", from);
+      MDC.put("service_name_to", to);
+      MDC.put("source", source);
+      MDC.put("file_format", fileFormat.getName());
+      logger.info("Reroute");
+    } finally {
+      MDC.remove("action");
+      MDC.remove("service_name_from");
+      MDC.remove("service_name_to");
+      MDC.remove("file_format");
+    }
+  }
+
   public void error(RoutingContext routingContext, int errorCode, String errorMessage) {
     HttpServerRequest request = routingContext.request();
     Throwable failure = routingContext.failure();
