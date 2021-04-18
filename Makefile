@@ -4,6 +4,9 @@ SMOKE_TESTS_DIR=tests/smoke
 COMPOSE_TIMEOUT=20
 SERVICES_TIMEOUT=15
 
+# Python is used for blockdiag module and to display examples
+PYTHON=python3.8
+
 default:
 
 installLocalDependencies:
@@ -13,32 +16,31 @@ installLocalDependencies:
 buildServer:
 	mvn clean package
 
-# requires Python 3.8 in the $PATH
 installBlockDiag:
-	cd blockdiag && pip3.8 install -r requirements.txt
+	cd blockdiag && $(PYTHON) -m pip install -r requirements.txt
 
 testBlockDiag:
-	cd blockdiag && python3.8 -m unittest test/test_diag.py
+	cd blockdiag && $(PYTHON) -m unittest test/test_diag.py
 
 setServerVersion:
 	mvn versions:set -DnewVersion=$(LATEST_VERSION)
 
 buildDockerImages:
-	cd nomnoml && $(MAKE) package
-	cd vega && $(MAKE) package
-	cd wavedrom && $(MAKE) package
-	cd bytefield && $(MAKE) package
+	$(MAKE) -C nomnoml package
+	$(MAKE) -C vega package
+	$(MAKE) -C wavedrom package
+	$(MAKE) -C bytefield package
 	docker build -f server/ops/docker/build-static-erd -t kroki-builder-static-erd .
 	docker build -f server/ops/docker/build-static-svgbob -t kroki-builder-static-svgbob .
 	docker build -f server/ops/docker/build-static-pikchr -t kroki-builder-static-pikchr .
-	cd server && $(MAKE) package
-	cd blockdiag && $(MAKE) package
-	cd mermaid && $(MAKE) package
-	cd bpmn && $(MAKE) package
-	cd excalidraw && $(MAKE) package
+	$(MAKE) -C server package
+	$(MAKE) -C blockdiag package
+	$(MAKE) -C mermaid package
+	$(MAKE) -C bpmn package
+	$(MAKE) -C excalidraw package
 
 showExamples:
-	python blockdiag/examples.py
+	$(PYTHON) blockdiag/examples.py
 
 releaseDockerImages:
 	docker tag yuzutech/kroki:latest yuzutech/kroki:$(LATEST_VERSION)
