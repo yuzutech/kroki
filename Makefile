@@ -4,6 +4,8 @@ SMOKE_TESTS_DIR=tests/smoke
 COMPOSE_TIMEOUT=20
 SERVICES_TIMEOUT=15
 
+PYTHON=python3.8
+
 default:
 
 installLocalDependencies:
@@ -15,10 +17,10 @@ buildServer:
 
 # requires Python 3.8 in the $PATH
 installBlockDiag:
-	cd blockdiag && pip3.8 install -r requirements.txt
+	cd blockdiag && $(PYTHON) -m pip install -r requirements.txt
 
 testBlockDiag:
-	cd blockdiag && python3.8 -m unittest test/test_diag.py
+	cd blockdiag && $(PYTHON) -m unittest test/test_diag.py
 
 setServerVersion:
 	mvn versions:set -DnewVersion=$(LATEST_VERSION)
@@ -38,7 +40,7 @@ buildDockerImages:
 	cd excalidraw && $(MAKE) package
 
 showExamples:
-	python blockdiag/examples.py
+	$(PYTHON) blockdiag/examples.py
 
 releaseDockerImages:
 	docker tag yuzutech/kroki:latest yuzutech/kroki:$(LATEST_VERSION)
