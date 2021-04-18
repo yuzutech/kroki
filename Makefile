@@ -4,6 +4,7 @@ SMOKE_TESTS_DIR=tests/smoke
 COMPOSE_TIMEOUT=20
 SERVICES_TIMEOUT=15
 
+# Python is used for blockdiag module and to display examples
 PYTHON=python3.8
 
 default:
@@ -15,7 +16,6 @@ installLocalDependencies:
 buildServer:
 	mvn clean package
 
-# requires Python 3.8 in the $PATH
 installBlockDiag:
 	cd blockdiag && $(PYTHON) -m pip install -r requirements.txt
 
