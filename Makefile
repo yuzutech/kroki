@@ -26,18 +26,18 @@ setServerVersion:
 	mvn versions:set -DnewVersion=$(LATEST_VERSION)
 
 buildDockerImages:
-	cd nomnoml && $(MAKE) package
-	cd vega && $(MAKE) package
-	cd wavedrom && $(MAKE) package
-	cd bytefield && $(MAKE) package
+	$(MAKE) -C nomnoml package
+	$(MAKE) -C vega package
+	$(MAKE) -C wavedrom package
+	$(MAKE) -C bytefield package
 	docker build -f server/ops/docker/build-static-erd -t kroki-builder-static-erd .
 	docker build -f server/ops/docker/build-static-svgbob -t kroki-builder-static-svgbob .
 	docker build -f server/ops/docker/build-static-pikchr -t kroki-builder-static-pikchr .
-	cd server && $(MAKE) package
-	cd blockdiag && $(MAKE) package
-	cd mermaid && $(MAKE) package
-	cd bpmn && $(MAKE) package
-	cd excalidraw && $(MAKE) package
+	$(MAKE) -C server package
+	$(MAKE) -C blockdiag package
+	$(MAKE) -C mermaid package
+	$(MAKE) -C bpmn package
+	$(MAKE) -C excalidraw package
 
 showExamples:
 	$(PYTHON) blockdiag/examples.py
