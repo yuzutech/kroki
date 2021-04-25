@@ -89,7 +89,10 @@ public class Server extends AbstractVerticle {
     allowedMethods.add(HttpMethod.GET);
     allowedMethods.add(HttpMethod.POST);
     allowedMethods.add(HttpMethod.OPTIONS);
-    router.route().handler(CorsHandler.create("*")
+    // REMIND: In order to accept requests with `Origin: null` header, we are using the value ".*" instead of "*".
+    // This can be reverted back to "*" once https://github.com/vert-x3/vertx-web/issues/1933 is fixed.
+    // Reference: https://github.com/yuzutech/kroki/pull/711
+    router.route().handler(CorsHandler.create(".*")
       .allowedHeaders(allowedHeaders)
       .allowedMethods(allowedMethods));
 
