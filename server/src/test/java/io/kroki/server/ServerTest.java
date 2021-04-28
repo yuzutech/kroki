@@ -51,6 +51,30 @@ class ServerTest {
   }
 
   @Test
+  void http_server_check_cors_handling_regular_origin(Vertx vertx, VertxTestContext testContext) {
+    WebClient client = WebClient.create(vertx);
+    client.get(port, "localhost", "/")
+      .putHeader("Origin", "http://localhost")
+      .as(BodyCodec.string())
+      .send(testContext.succeeding(response -> testContext.verify(() -> {
+        assertThat(response.statusCode()).isEqualTo(200);
+        testContext.completeNow();
+      })));
+  }
+
+  @Test
+  void http_server_check_cors_handling_null_origin(Vertx vertx, VertxTestContext testContext) {
+    WebClient client = WebClient.create(vertx);
+    client.get(port, "localhost", "/")
+      .putHeader("Origin", "null")
+      .as(BodyCodec.string())
+      .send(testContext.succeeding(response -> testContext.verify(() -> {
+        assertThat(response.statusCode()).isEqualTo(200);
+        testContext.completeNow();
+      })));
+  }
+
+  @Test
   void http_server_long_uri_414(Vertx vertx, VertxTestContext testContext) {
     WebClient client = WebClient.create(vertx);
     client.get(port, "localhost", "/" + randomAlphaString(5000))
