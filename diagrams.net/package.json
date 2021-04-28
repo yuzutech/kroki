@@ -1,0 +1,28 @@
+{
+  "name": "@kroki/diagramsnet-server",
+  "version": "1.0.0",
+  "description": "A micro server built on top of the diagrams.net service.",
+  "main": "src/index.js",
+  "bin": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "lint": "standard src/**.js"
+  },
+  "keywords": [],
+  "author": "Guillaume Grossetie",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yuzutech/kroki.git"
+  },
+  "dependencies": {
+    "micro": "9.3.4",
+    "puppeteer": "12.0.1"
+  },
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "dirty-chai": "^2.0.1",
+    "pngjs": "^6.0.0",
+    "standard": "16.0.4"
+  }
+}
