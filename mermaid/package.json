@@ -20,7 +20,7 @@
   "dependencies": {
     "mermaid": "8.9.3",
     "micro": "9.3.4",
-    "puppeteer": "9.0.0"
+    "puppeteer": "9.1.1"
   },
   "devDependencies": {
     "standard": "16.0.3"
