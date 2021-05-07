@@ -1,10 +1,3 @@
-' convert it with additional command line argument -DRELATIVE_INCLUDE="." to use locally
-!if %variable_exists("RELATIVE_INCLUDE")
-  !include %get_variable_value("RELATIVE_INCLUDE")/C4_Container.puml
-!else
-  !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
-!endif
-
 ' Scope: A single container.
 ' Primary elements: Components within the container in scope.
 ' Supporting elements: Containers (within the software system in scope) plus people and software systems directly connected to the components.
