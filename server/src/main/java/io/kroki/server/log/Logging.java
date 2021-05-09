@@ -89,6 +89,7 @@ public class Logging {
       MDC.remove("action");
       MDC.remove("service_name_from");
       MDC.remove("service_name_to");
+      MDC.remove("source");
       MDC.remove("file_format");
     }
   }
