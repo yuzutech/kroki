@@ -1,0 +1,21 @@
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - DOCKERHUB.md
+      - .github/workflows/dockerhub-description.yml
+jobs:
+  dockerHubDescription:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Docker Hub Description
+        uses: peter-evans/dockerhub-description@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          repository: yuzutech/kroki
+          short-description: ${{ github.event.repository.description }}
+          readme-filepath: ./DOCKERHUB.md

@@ -1,0 +1,66 @@
+# Kroki
+
+Convert plain text diagrams to images !
+
+Kroki provides a unified API with support for BlockDiag (BlockDiag, SeqDiag, ActDiag, NwDiag, PacketDiag, RackDiag), BPMN, Bytefield, C4 (with PlantUML), Ditaa, Erd, Excalidraw, GraphViz, Mermaid, Nomnoml, Pikchr, PlantUML, SvgBob, UMLet, Vega, Vega-Lite, WaveDrom... and more to come!
+
+## Getting Started
+
+### Prerequisities
+
+In order to run this container you'll need docker installed.
+
+* [Windows](https://docs.docker.com/docker-for-windows/)
+* [OS X](https://docs.docker.com/docker-for-mac/)
+* [Linux](https://docs.docker.com/get-started/)
+
+### Usage
+
+See also the [installation](https://docs.kroki.io/kroki/setup/configuration/) docs in the [Kroki documentation](https://docs.kroki.io/)
+
+#### start a kroki instance
+
+`$ docker run --name some-kroki -d yuzutech/kroki`
+
+This image includes `EXPOSE 8000` (the kroki port), so standard container linking will make it automatically available to the linked containers. If you want to map port 8000 in the container to a port on your host, please use the `--publish` or `-p` flag:
+
+`$ docker run -p8000:8000 --name some-kroki -d yuzutech/kroki`
+
+#### connect with kroki-blockdiag
+
+We recommend using docker-composer to connect with [kroki-blockdiag](https://hub.docker.com/r/yuzutech/kroki-blockdiag) and/or [kroki-mermaid](https://hub.docker.com/r/yuzutech/kroki-mermaid)
+
+```
+version: "3"
+services:
+  core:
+    image: yuzutech/kroki
+    environment:
+      - KROKI_BLOCKDIAG_HOST=blockdiag
+      - KROKI_MERMAID_HOST=mermaid
+    ports:
+      - "8000:8000"
+  blockdiag:
+    image: yuzutech/kroki-blockdiag
+    ports:
+      - "8001:8001"
+  mermaid:
+    image: yuzutech/kroki-mermaid
+    ports:
+      - "8002:8002"
+```
+
+If you don't want to use `docker-compose`, you can configure the network to connect the two containers and use the `KROKI_BLOCKDIAG_HOST` and `KROKI_BLOCKDIAG_PORT` environment variables to configure the host and port of the kroki-blockdiag server. In the same way, you can use `KROKI_MERMAID_HOST` and `KROKI_MERMAID_PORT` environment variables to configure the host and port of the kroki-mermaid server.
+
+### Environment Variables
+The Kroki image uses several environment variables. While none of the variables are required, they may significantly aid you in using the image.
+
+See the [configuration](https://docs.kroki.io/kroki/setup/configuration/) docs in the [Kroki documentation](https://docs.kroki.io/)
+
+## Versioning
+
+We use SemVer for versioning.
+
+## License
+
+This project is licensed under the MIT License.
