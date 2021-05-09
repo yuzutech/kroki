@@ -5,7 +5,7 @@ on:
     paths:
       - 'docs/**'
     branches:
-      - master
+      - main
 
 jobs:
   trigger_publish:
@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Notify docs.kroki.io
-        uses: peter-evans/repository-dispatch@master
+        uses: peter-evans/repository-dispatch@1.1.3
         with:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           repository: yuzutech/docs.kroki.io
