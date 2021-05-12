@@ -1,7 +1,7 @@
 actdiag==2.0.0
 blockdiag==2.0.1
 Click==7.1.2
-Flask==1.1.2
+Flask==2.0.0
 funcparserlib==0.3.6
 gunicorn==20.1.0
 itsdangerous==1.1.0
