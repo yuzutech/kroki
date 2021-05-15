@@ -20,7 +20,7 @@ See also the [installation](https://docs.kroki.io/kroki/setup/configuration/) do
 
 #### start a kroki instance
 
-`$ docker run --name some-kroki -d yuzutech/kroki`
+    $ docker run --name some-kroki -d yuzutech/kroki
 
 This image includes `EXPOSE 8000` (the kroki port), so standard container linking will make it automatically available to the linked containers. If you want to map port 8000 in the container to a port on your host, please use the `--publish` or `-p` flag:
 
