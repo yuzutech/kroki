@@ -6,7 +6,7 @@ on:
       - DOCKERHUB.md
       - .github/workflows/dockerhub-description.yml
 jobs:
-  dockerHubDescription:
+  docker-hub-description:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
