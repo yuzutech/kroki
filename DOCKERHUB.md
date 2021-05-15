@@ -26,7 +26,7 @@ This image includes `EXPOSE 8000` (the kroki port), so standard container linkin
 
 `$ docker run -p8000:8000 --name some-kroki -d yuzutech/kroki`
 
-#### connect with kroki-blockdiag
+#### connect with companion containers
 
 We recommend using docker-composer to connect with companion containers, such as [kroki-blockdiag](https://hub.docker.com/r/yuzutech/kroki-blockdiag) and/or [kroki-mermaid](https://hub.docker.com/r/yuzutech/kroki-mermaid)
 
