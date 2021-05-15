@@ -50,7 +50,14 @@ services:
       - "8002:8002"
 ```
 
-If you don't want to use `docker-compose`, you can configure the network to connect the two containers and use the `KROKI_BLOCKDIAG_HOST` and `KROKI_BLOCKDIAG_PORT` environment variables to configure the host and port of the kroki-blockdiag server. In the same way, you can use `KROKI_MERMAID_HOST` and `KROKI_MERMAID_PORT` environment variables to configure the host and port of the kroki-mermaid server.
+If you don't want to use `docker-compose`, you can configure the host and port for each companion container using environment variables:
+
+|Container|Host|Port|
+|--|--|--|
+|`kroki-blockdiag`|`KROKI_BLOCKDIAG_HOST`|`KROKI_BLOCKDIAG_PORT`|
+|`kroki-mermaid`|`KROKI_MERMAID_HOST`|`KROKI_MERMAID_PORT`|
+|`kroki-bpmn`|`KROKI_BPMN_HOST`|`KROKI_BPMN_PORT`|
+|`kroki-excalidraw`|`KROKI_EXCALIDRAW_HOST`|`KROKI_EXCALIDRAW_PORT`|
 
 ### Environment Variables
 The Kroki image uses several environment variables. While none of the variables are required, they may significantly aid you in using the image.
