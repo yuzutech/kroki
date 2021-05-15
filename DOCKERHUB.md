@@ -66,7 +66,7 @@ See the [configuration](https://docs.kroki.io/kroki/setup/configuration/) docs i
 
 ## Versioning
 
-We use SemVer for versioning.
+We use [SemVer](https://semver.org/) for versioning.
 
 ## License
 
