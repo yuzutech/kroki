@@ -24,7 +24,7 @@ See also the [installation](https://docs.kroki.io/kroki/setup/configuration/) do
 
 This image includes `EXPOSE 8000` (the kroki port), so standard container linking will make it automatically available to the linked containers. If you want to map port 8000 in the container to a port on your host, please use the `--publish` or `-p` flag:
 
-`$ docker run -p8000:8000 --name some-kroki -d yuzutech/kroki`
+    $ docker run -p8000:8000 --name some-kroki -d yuzutech/kroki
 
 #### connect with companion containers
 
