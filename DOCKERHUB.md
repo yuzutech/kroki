@@ -28,8 +28,8 @@ This image includes `EXPOSE 8000` (the kroki port), so standard container linkin
 
 #### connect with companion containers
 
-We recommend using docker-composer to connect with companion containers, such as [kroki-blockdiag](https://hub.docker.com/r/yuzutech/kroki-blockdiag) and/or [kroki-mermaid](https://hub.docker.com/r/yuzutech/kroki-mermaid)
-
+We recommend using docker-composer to connect with companion containers, such as 
+[kroki-bpmn](https://hub.docker.com/r/yuzutech/kroki-bpmn), [kroki-blockdiag](https://hub.docker.com/r/yuzutech/kroki-blockdiag), [kroki-excalidraw](https://hub.docker.com/r/yuzutech/kroki-excalidraw) and/or [kroki-mermaid](https://hub.docker.com/r/yuzutech/kroki-mermaid)
 ```
 version: "3"
 services:
@@ -48,16 +48,26 @@ services:
     image: yuzutech/kroki-mermaid
     ports:
       - "8002:8002"
+  bpmn:
+    image: yuzutech/kroki-bpmn
+    ports:
+      - "8003:8003"
+  excalidraw:
+    image: yuzutech/kroki-excalidraw
+    ports:
+      - "8004:8004"
 ```
 
 If you don't want to use `docker-compose`, you can configure the host and port for each companion container using environment variables:
 
-|Container|Host|Port|
-|--|--|--|
-|`kroki-blockdiag`|`KROKI_BLOCKDIAG_HOST`|`KROKI_BLOCKDIAG_PORT`|
-|`kroki-mermaid`|`KROKI_MERMAID_HOST`|`KROKI_MERMAID_PORT`|
-|`kroki-bpmn`|`KROKI_BPMN_HOST`|`KROKI_BPMN_PORT`|
+|Container         | Host                  | Port                  |
+|------------------|-----------------------|-----------------------|
+|`kroki-blockdiag` |`KROKI_BLOCKDIAG_HOST` |`KROKI_BLOCKDIAG_PORT` |
+|`kroki-mermaid`   |`KROKI_MERMAID_HOST`   |`KROKI_MERMAID_PORT`   |
+|`kroki-bpmn`      |`KROKI_BPMN_HOST`      |`KROKI_BPMN_PORT`      |
 |`kroki-excalidraw`|`KROKI_EXCALIDRAW_HOST`|`KROKI_EXCALIDRAW_PORT`|
+
+For Kubernetes installation follow the description in the [install using Kubernetes](https://docs.kroki.io/kroki/setup/install/#_using_kubernetes).
 
 ### Environment Variables
 The Kroki image uses several environment variables. While none of the variables are required, they may significantly aid you in using the image.
