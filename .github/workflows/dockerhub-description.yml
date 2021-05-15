@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - master
+      - main
     paths:
       - DOCKERHUB.md
       - .github/workflows/dockerhub-description.yml
