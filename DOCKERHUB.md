@@ -28,7 +28,7 @@ This image includes `EXPOSE 8000` (the kroki port), so standard container linkin
 
 #### connect with kroki-blockdiag
 
-We recommend using docker-composer to connect with [kroki-blockdiag](https://hub.docker.com/r/yuzutech/kroki-blockdiag) and/or [kroki-mermaid](https://hub.docker.com/r/yuzutech/kroki-mermaid)
+We recommend using docker-composer to connect with companion containers, such as [kroki-blockdiag](https://hub.docker.com/r/yuzutech/kroki-blockdiag) and/or [kroki-mermaid](https://hub.docker.com/r/yuzutech/kroki-mermaid)
 
 ```
 version: "3"
