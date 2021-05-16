@@ -1,9 +1,8 @@
 on:
-  [workflow_dispatch, release]:
-    branches:
-      - main
-    paths:
-      - DOCKERHUB.md
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
       - .github/workflows/dockerhub-description.yml
 jobs:
   docker-hub-description:
