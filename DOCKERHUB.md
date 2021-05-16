@@ -29,7 +29,7 @@ This image includes `EXPOSE 8000` (the kroki port), so standard container linkin
 #### connect with companion containers
 
 We recommend using docker-composer to connect with companion containers, such as 
-[kroki-bpmn](https://hub.docker.com/r/yuzutech/kroki-bpmn), [kroki-blockdiag](https://hub.docker.com/r/yuzutech/kroki-blockdiag), [kroki-excalidraw](https://hub.docker.com/r/yuzutech/kroki-excalidraw) and/or [kroki-mermaid](https://hub.docker.com/r/yuzutech/kroki-mermaid)
+[kroki-bpmn](https://hub.docker.com/r/yuzutech/kroki-bpmn), [kroki-blockdiag](https://hub.docker.com/r/yuzutech/kroki-blockdiag), [kroki-excalidraw](https://hub.docker.com/r/yuzutech/kroki-excalidraw) and [kroki-mermaid](https://hub.docker.com/r/yuzutech/kroki-mermaid)
 ```
 version: "3"
 services:
@@ -38,6 +38,8 @@ services:
     environment:
       - KROKI_BLOCKDIAG_HOST=blockdiag
       - KROKI_MERMAID_HOST=mermaid
+      - KROKI_BPMN_HOST=bpmn
+      - KROKI_EXCALIDRAW_HOST=excalidraw
     ports:
       - "8000:8000"
   blockdiag:
@@ -70,6 +72,7 @@ If you don't want to use `docker-compose`, you can configure the host and port f
 For Kubernetes installation follow the description in the [install using Kubernetes](https://docs.kroki.io/kroki/setup/install/#_using_kubernetes).
 
 ### Environment Variables
+
 The Kroki image uses several environment variables. While none of the variables are required, they may significantly aid you in using the image.
 
 See the [configuration](https://docs.kroki.io/kroki/setup/configuration/) docs in the [Kroki documentation](https://docs.kroki.io/)
