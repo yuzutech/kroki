@@ -53,5 +53,5 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: yuzutech/kroki-blockdiag
-          short-description: Companion image for blockdiag to use with kroki server
+          short-description: Companion server for Kroki that provides BlockDiag, SeqDiag, ActDiag, NwDiag, PacketDiag and RackDiag
           readme-filepath: ./DOCKERHUB-COMPANION.md
