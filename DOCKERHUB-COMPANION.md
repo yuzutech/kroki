@@ -1,6 +1,6 @@
 # Kroki Companion Image
 
-Image to use together with this server: [yuzutech/kroki](https://hub.docker.com/r/yuzutech/kroki)
+Provides additional diagram libraries to [yuzutech/kroki](https://hub.docker.com/r/yuzutech/kroki).
 
 GitHub repository: [kroki](https://github.com/yuzutech/kroki)
 
