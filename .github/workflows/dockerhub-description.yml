@@ -26,7 +26,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: yuzutech/kroki-bpmn
-          short-description: Companion image for BPMN to use with kroki server
+          short-description: Companion server for Kroki that provides BPMN
           readme-filepath: ./DOCKERHUB-COMPANION.md
 
       - name: Docker Hub Description - excalidraw
@@ -35,7 +35,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: yuzutech/kroki-excalidraw
-          short-description: Companion image for excalidraw to use with kroki server
+          short-description: Companion server for Kroki that provides Excalidraw
           readme-filepath: ./DOCKERHUB-COMPANION.md
 
       - name: Docker Hub Description - mermaid
@@ -44,7 +44,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: yuzutech/kroki-mermaid
-          short-description: Companion image for mermaid to use with kroki server
+          short-description: Companion server for Kroki that provides Mermaid
           readme-filepath: ./DOCKERHUB-COMPANION.md
 
       - name: Docker Hub Description - blockdiag

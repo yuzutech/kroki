@@ -1,4 +1,4 @@
-# Kroki Companion Image
+# Kroki Companion Server
 
 Provides additional diagram libraries to [yuzutech/kroki](https://hub.docker.com/r/yuzutech/kroki).
 
