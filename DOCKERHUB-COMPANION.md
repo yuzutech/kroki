@@ -2,7 +2,7 @@
 
 Provides additional diagram libraries to [yuzutech/kroki](https://hub.docker.com/r/yuzutech/kroki).
 
-GitHub repository: [kroki](https://github.com/yuzutech/kroki)
+Read the [Kroki installation](https://docs.kroki.io/kroki/setup/install/#_images) to learn how to start Kroki companion containers.
 
 ## Usage
 
