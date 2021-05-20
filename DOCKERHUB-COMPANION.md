@@ -10,7 +10,7 @@ Use this images with:
 * [Docker-compose](https://docs.kroki.io/kroki/setup/install/#_using_docker_compose)
 * [Kubernetes](https://docs.kroki.io/kroki/setup/install/#_using_kubernetes)
 
-For installation and configuration see [Kroki docs](https://docs.kroki.io/)
+To learn more about Kroki, read the [documentation](https://docs.kroki.io/).
 
 ## Versioning
 
