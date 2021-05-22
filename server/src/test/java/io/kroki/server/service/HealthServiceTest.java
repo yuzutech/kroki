@@ -26,7 +26,7 @@ public class HealthServiceTest {
     List<ServiceVersion> serviceVersions = healthHandler.getServiceVersions();
     assertThat(krokiBuildHash).isNotEmpty();
     assertThat(krokiVersionNumber).isNotEmpty();
-    assertThat(serviceVersions).contains(new ServiceVersion("plantuml", "1.2021.5"));
+    assertThat(serviceVersions).contains(new ServiceVersion("plantuml", "1.2021.6"));
   }
 
   @Test
