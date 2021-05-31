@@ -1,10 +1,9 @@
 #!/usr/bin/env node
-const vega = require('vega')
-const vegaLite = require('vega-lite')
 const argv = require('yargs')
   .version(false)
   .argv
 
+const { convert: convertVega } = require('./convert.js')
 const encoding = 'utf-8'
 let data
 let format = 'svg'
@@ -17,35 +16,22 @@ async function convert () {
     return
   }
   try {
-    let spec = JSON.parse(source)
-    if (specFormat === 'lite') {
-      spec = vegaLite.compile(spec).spec
-    }
-    if (safeMode === 'secure' && spec && spec.data && Array.isArray(spec.data)) {
-      const dataWithUrlAttribute = spec.data.filter((item) => item.url)
-      if (dataWithUrlAttribute && dataWithUrlAttribute.length > 0) {
-        console.error(`Unable to load data from an URL while running in secure mode.
-Please include your data set as 'values' or run Kroki in unsafe mode using the KROKI_SAFE_MODE environment variable.`)
+    const result = await convertVega(source, {
+      specFormat,
+      safeMode,
+      format
+    })
+    process.stdout.write(result)
+  } catch (err) {
+    if (err && err.name) {
+      if (err.name === 'UnsafeIncludeError') {
+        console.error(err.message)
         process.exit(13) // permission denied
+      } else if (err.name === 'IllegalArgumentError') {
+        console.error(err.message)
+        process.exit(22) // invalid argument
       }
     }
-    const view = new vega.View(vega.parse(spec), { renderer: 'none' })
-    if (format === 'svg') {
-      const svg = await view.toSVG()
-      console.log(svg)
-    } else if (format === 'png') {
-      const canvas = await view.toCanvas()
-      const stream = canvas.createPNGStream()
-      stream.on('data', chunk => { process.stdout.write(chunk) })
-    } else if (format === 'pdf') {
-      const canvas = await view.toCanvas(undefined, { type: 'pdf', context: { textDrawingMode: 'glyph' } })
-      const stream = canvas.createPDFStream()
-      stream.on('data', chunk => { process.stdout.write(chunk) })
-    } else {
-      console.error(`Unknown output format: ${format}. Must be one of: svg, png or pdf.`)
-      process.exit(22) // invalid argument
-    }
-  } catch (err) {
     console.error(err)
     process.exit(1)
   }

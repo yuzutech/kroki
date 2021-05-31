@@ -4,7 +4,7 @@
   "description": "A CLI built on top of the Vega diagram library.",
   "bin": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha test.js",
     "lint": "standard"
   },
   "license": "MIT",
@@ -21,6 +21,10 @@
     "yargs": "16.2.0"
   },
   "devDependencies": {
+    "chai": "^4.3.4",
+    "dirty-chai": "^2.0.1",
+    "mocha": "^8.4.0",
+    "sinon": "^11.1.1",
     "standard": "16.0.3"
   }
 }
