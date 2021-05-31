@@ -39,7 +39,7 @@ async function convert () {
 
 (async () => {
   if (argv.version) {
-    const version = require('./package.json').dependencies.vega
+    const version = require('../package.json').dependencies.vega
     console.log(`vega ${version}`)
     process.exit(0)
   }

@@ -11,7 +11,7 @@ class UnsafeIncludeError extends Error {
 class IllegalArgumentError extends Error {
   constructor (message) {
     super(message)
-    this.name = 'IllegalArgument'
+    this.name = 'IllegalArgumentError'
   }
 }
 
@@ -19,9 +19,9 @@ class IllegalArgumentError extends Error {
  * Suppress non critical messages (i.e., warning, info and debug messages) to prevent writing on stderr or stdout.
  */
 const nullLogger = {
-  warn: (args) => {},
-  info: (args) => {},
-  debug: (args) => {}
+  warn: _ => {},
+  info: _ => {},
+  debug: _ => {}
 }
 
 async function convert (source, options) {
@@ -33,7 +33,7 @@ async function convert (source, options) {
   if (safeMode === 'secure' && spec && spec.data && Array.isArray(spec.data)) {
     const dataWithUrlAttribute = spec.data.filter((item) => item.url)
     if (dataWithUrlAttribute && dataWithUrlAttribute.length > 0) {
-      throw UnsafeIncludeError(`Unable to load data from an URL while running in secure mode.
+      throw new UnsafeIncludeError(`Unable to load data from an URL while running in secure mode.
 Please include your data set as 'values' or run Kroki in unsafe mode using the KROKI_SAFE_MODE environment variable.`)
     }
   }

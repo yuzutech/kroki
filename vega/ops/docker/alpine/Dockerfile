@@ -24,7 +24,9 @@ ENV PLATFORM alpine
 ENV ARCH x64
 RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM} -a ${ARCH}
 
-COPY index.js package.json package-lock.json /app/
+COPY src /app/src
+COPY tests /app/tests
+COPY package.json package-lock.json /app/
 WORKDIR /app
 
 RUN npm i

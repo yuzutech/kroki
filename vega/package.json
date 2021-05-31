@@ -2,10 +2,10 @@
   "name": "@kroki/vega",
   "version": "1.0.0",
   "description": "A CLI built on top of the Vega diagram library.",
-  "bin": "index.js",
+  "bin": "src/index.js",
   "scripts": {
-    "test": "mocha test.js",
-    "lint": "standard"
+    "test": "mocha tests/test.js",
+    "lint": "standard src tests"
   },
   "license": "MIT",
   "repository": {
