@@ -12,7 +12,7 @@ import io.vertx.core.json.DecodeException;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.ext.web.client.WebClient;
-import io.vertx.ext.web.handler.impl.HttpStatusException;
+import io.vertx.ext.web.handler.HttpException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,13 +45,13 @@ public class Delegator {
               if (json != null) {
                 handler.handle(new Failure(new BadRequestException(json.getString("error", "Unexpected error"))));
               } else {
-                handler.handle(new Failure(new HttpStatusException(httpResponse.statusCode())));
+                handler.handle(new Failure(new HttpException(httpResponse.statusCode())));
               }
             } catch (DecodeException e) {
-              handler.handle(new Failure(new HttpStatusException(httpResponse.statusCode())));
+              handler.handle(new Failure(new HttpException(httpResponse.statusCode())));
             }
           } else {
-            handler.handle(new Failure(new HttpStatusException(httpResponse.statusCode())));
+            handler.handle(new Failure(new HttpException(httpResponse.statusCode())));
           }
         }
       } else {
