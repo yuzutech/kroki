@@ -16,6 +16,8 @@
 :uri-docker-get-started: https://docs.docker.com/get-started/
 :uri-docker-compose-install: https://docs.docker.com/compose/install/
 :uri-docker-container-networking: https://docs.docker.com/config/containers/container-networking/
+:uri-podman-get-started: https://podman.io/getting-started/
+:uri-podman-compose-install: https://github.com/containers/podman-compose
 :uri-k8s-publish-service: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
 :uri-k8s-definition-files: https://raw.githubusercontent.com/yuzutech/kroki/master/docs/modules/setup/examples/k8s
 
@@ -64,7 +66,7 @@ docker run -p8080:8000 -d yuzutech/kroki
 == Using docker-compose
 
 You can use `docker-compose` to run multiple containers.
-Here's an example where we start all the containers:
+Here's an example where we start all the containers, this time exposing host port 8000:
 
 .docker-compose.yml
 [source,yml]
@@ -75,6 +77,28 @@ include::example$kroki-docker-compose.yml[]
 [source,docker-cli]
 docker-compose up -d
 
+== Using Podman
+
+Podman is a drop-in replacement for Docker for Linux systems only, and is available for many distributions.
+It is light-weight, does not need a daemon running in the background, and is built with container security in mind.
+
+Using Podman is a useful intermediate development and testing step before lifting your Kroki implementation into Kubernetes.
+
+== Using podman-compose
+Use `podman-compose`, a helper program  just like docker-compose to run multiple containers without the Docker daemon.
+This is a useful intermediate step before lifting your Kroki implementation into Kubernetes.
+
+With Podman 3, there is support for Docker Compose if you want to use that
+
+Assumptions:
+
+* [x] {uri-podman-get-started}[Podman] is installed on your machine.
+* [x] {uri-podman-compose-install}[Podman-compose] is installed on your machine.
+
+Use the same docker-compose.yml file as in <<using-docker-compose>>.
+
+[source,docker-cli]
+podman-compose up -d
 
 === Images
 
