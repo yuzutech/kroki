@@ -24,11 +24,12 @@ public class Commander {
   public byte[] execute(byte[] source, String... cmd) throws IOException, InterruptedException, IllegalStateException {
     ProcessBuilder builder = new ProcessBuilder();
     builder.command(cmd);
-    builder.redirectErrorStream(true);
     Process process = builder.start();
 
-    ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-    Thread processStdoutReader = readProcessStdout(process, buffer);
+    ByteArrayOutputStream stdoutBuffer = new ByteArrayOutputStream();
+    Thread processStdoutReader = readProcessStdout(process, stdoutBuffer);
+    ByteArrayOutputStream stderrBuffer = new ByteArrayOutputStream();
+    Thread readProcessStderr = readProcessStderr(process, stdoutBuffer);
 
     OutputStream stdin = process.getOutputStream();
     stdin.write(source);
@@ -38,7 +39,9 @@ public class Commander {
     process.waitFor(this.commandTimeout.duration(), this.commandTimeout.timeUnit());
     // writing to stdout is asynchronous, wait until there is no more data in the stdout stream
     processStdoutReader.join(readStdoutTimeout.millis());
-    byte[] output = buffer.toByteArray();
+    // writing to stderr is asynchronous, wait until there is no more data in the stderr stream
+    readProcessStderr.join(readStdoutTimeout.millis());
+    byte[] output = stdoutBuffer.toByteArray();
 
     if (process.isAlive()) {
       process.destroyForcibly();
@@ -46,7 +49,7 @@ public class Commander {
     }
     int exitValue = process.exitValue();
     if (exitValue != 0) {
-      String errorMessage = new String(output);
+      String errorMessage = new String(output) + stderrBuffer;
       throw new IllegalStateException(errorMessage + " (exit code " + exitValue + ")");
     } else {
       return output;
@@ -64,6 +67,23 @@ public class Commander {
         }
       } catch (IOException e) {
         throw new RuntimeException("Unable to read stdout", e);
+      }
+    });
+    thread.start();
+    return thread;
+  }
+
+  private static Thread readProcessStderr(final Process process, final ByteArrayOutputStream buffer) {
+    InputStream input = process.getErrorStream();
+    Thread thread = new Thread(() -> {
+      byte[] data = new byte[2048];
+      int index;
+      try {
+        while ((index = input.read(data, 0, data.length)) != -1) {
+          buffer.write(data, 0, index);
+        }
+      } catch (IOException e) {
+        throw new RuntimeException("Unable to read stderr", e);
       }
     });
     thread.start();
