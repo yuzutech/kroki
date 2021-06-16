@@ -73,7 +73,8 @@ Assumptions:
 * [x] {uri-podman-get-started}[Podman] is installed on your machine.
 * [x] {uri-podman-compose-install}[Podman-compose] is installed on your machine.
 
-Here's an example where we start all the containers, this time exposing host port 8000:
+Here's an example where we start all the containers.
+In this example host port 8000 is exposed.
 
 .docker-compose.yml
 [source,yml]
