@@ -82,21 +82,32 @@ docker-compose up -d
 Podman is a drop-in replacement for Docker for Linux systems only, and is available for many distributions.
 It is light-weight, does not need a daemon running in the background, and is built with container security in mind.
 
-Using Podman is a useful intermediate development and testing step before lifting your Kroki implementation into Kubernetes.
+Using Podman is a useful learning, development and testing step for running pods of containers in your linux environment.
+It is also a useful intermediate step if you are looking to lift your Kroki implementation into a Kubernetes environment.
+
+To use `podman`:
+
+. Replace the keyword `docker` in the above steps for docker, with `podman`.
+
 
 == Using podman-compose
-Use `podman-compose`, a helper program  just like docker-compose to run multiple containers without the Docker daemon.
-This is a useful intermediate step before lifting your Kroki implementation into Kubernetes.
 
-With Podman 3, there is support for Docker Compose if you want to use that
+To start a set of containers together in the same pod, use `podman-compose`.
+It is a helper program for podman with the same purpose as `docker-compose` except that it runs containers without a daemon and in certain configurations is able to run as a normal user instead of root.
+
+Using podman-compose does not require installing the docker-compose application.
+
+NOTE: This is different to the latest release of Podman v3, which requires `docker-compose` be installed.
 
 Assumptions:
 
 * [x] {uri-podman-get-started}[Podman] is installed on your machine.
 * [x] {uri-podman-compose-install}[Podman-compose] is installed on your machine.
 
-Use the same docker-compose.yml file as in <<using-docker-compose>>.
+To use the the same docker-compose.yml file as in <<using-docker-compose>>:
 
+. Bring up your pod:
++
 [source,docker-cli]
 podman-compose up -d
 
