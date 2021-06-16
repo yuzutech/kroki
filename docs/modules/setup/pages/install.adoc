@@ -26,16 +26,11 @@ you first need to install the gateway server.
 
 [TIP]
 ====
-We recommend installing Kroki using *Docker*, especially if you don't want to manually install diagrams libraries.
+We recommend installing Kroki using containers with either *Docker* or *Podman*, especially if you don't want to manually install diagrams libraries.
 
 However, you can also install each diagrams libraries that you want to use and run the gateway server as a _standalone executable jar_.
 Consult the xref:manual-install.adoc[manual install page] to find out how.
 ====
-
-Assumptions:
-
-* [x] {uri-docker-get-started}[Docker] is installed on your machine.
-* [x] {uri-docker-compose-install}[Docker Compose] is installed on your machine (optional).
 
 On this page, you'll learn:
 
@@ -43,6 +38,12 @@ On this page, you'll learn:
 * [x] How to configure Kroki
 
 == Using Docker
+
+Assumptions:
+
+* [x] {uri-docker-get-started}[Docker] is installed on your machine.
+
+To start the Kroki gateway server, run the command:
 
 [source,docker-cli]
 docker run yuzutech/kroki
@@ -66,6 +67,12 @@ docker run -p8080:8000 -d yuzutech/kroki
 == Using docker-compose
 
 You can use `docker-compose` to run multiple containers.
+
+Assumptions:
+
+* [x] {uri-podman-get-started}[Podman] is installed on your machine.
+* [x] {uri-podman-compose-install}[Podman-compose] is installed on your machine.
+
 Here's an example where we start all the containers, this time exposing host port 8000:
 
 .docker-compose.yml
@@ -85,9 +92,16 @@ It is light-weight, does not need a daemon running in the background, and is bui
 Using Podman is a useful learning, development and testing step for running pods of containers in your linux environment.
 It is also a useful intermediate step if you are looking to lift your Kroki implementation into a Kubernetes environment.
 
-To use `podman`:
+Assumptions:
 
-. Replace the keyword `docker` in the above steps for docker, with `podman`.
+* [x] {uri-docker-get-started}[Docker] is installed on your machine.
+
+To start the Kroki gateway server using `podman`, run the command:
+
+[source,docker-cli]
+podman run yuzutech/kroki
+
+NOTE: The only difference is using `podman` instead of `docker`.
 
 
 == Using podman-compose
@@ -104,10 +118,8 @@ Assumptions:
 * [x] {uri-podman-get-started}[Podman] is installed on your machine.
 * [x] {uri-podman-compose-install}[Podman-compose] is installed on your machine.
 
-To use the the same docker-compose.yml file as in <<using-docker-compose>>:
+To use the the same docker-compose.yml file as in <<using-docker-compose>> and bring up your pod, run the command:
 
-. Bring up your pod:
-+
 [source,docker-cli]
 podman-compose up -d
 
