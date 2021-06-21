@@ -19,7 +19,7 @@
     <mockito-core.version>3.11.0</mockito-core.version>
     <plantuml.version>1.2021.7</plantuml.version>
     <ditaa-mini.version>0.14</ditaa-mini.version>
-    <slf4j-api.version>1.7.30</slf4j-api.version>
+    <slf4j-api.version>1.7.31</slf4j-api.version>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
