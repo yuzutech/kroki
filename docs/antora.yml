@@ -5,19 +5,19 @@ asciidoc:
   attributes:
     actdiag-version: 2.0.0
     blockdiag-version: 2.0.1
-    bpmnjs-version: 8.5.0
+    bpmnjs-version: 8.6.0
     bytefield-version: 1.5.0
-    c4plantuml-version: 1.2021.5
+    c4plantuml-version: 1.2021.6
     ditaa-version: 1.3.13
     erd-version: 0.1.3.0
     excalidraw-version: 0.1.0
     graphviz-version: 2.40.1
-    mermaid-version: 8.9.3
-    nomnoml-version: 1.3.1
+    mermaid-version: 8.10.1
+    nomnoml-version: 1.4.0
     nwdiag-version: 2.0.0
     packetdiag-version: 2.0.0
     pikchr-version: '7269f78c4a'
-    plantuml-version: 1.2021.5
+    plantuml-version: 1.2021.6
     rackdiag-version: 2.0.0
     seqdiag-version: 2.0.0
     svgbob-version: 0.4.2

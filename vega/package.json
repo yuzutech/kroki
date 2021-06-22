@@ -2,10 +2,10 @@
   "name": "@kroki/vega",
   "version": "1.0.0",
   "description": "A CLI built on top of the Vega diagram library.",
-  "bin": "index.js",
+  "bin": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "standard"
+    "test": "mocha tests/test.js",
+    "lint": "standard src tests"
   },
   "license": "MIT",
   "repository": {
@@ -15,12 +15,16 @@
   "keywords": [],
   "author": "Guillaume Grossetie",
   "dependencies": {
-    "canvas": "2.7.0",
+    "canvas": "2.8.0",
     "vega": "5.20.2",
     "vega-lite": "5.1.0",
-    "yargs": "16.2.0"
+    "yargs": "17.0.1"
   },
   "devDependencies": {
+    "chai": "^4.3.4",
+    "dirty-chai": "^2.0.1",
+    "mocha": "^9.0.0",
+    "sinon": "^11.1.1",
     "standard": "16.0.3"
   }
 }

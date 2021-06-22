@@ -5,7 +5,7 @@
   <parent>
     <artifactId>kroki</artifactId>
     <groupId>io.kroki</groupId>
-    <version>0.12.1</version>
+    <version>0.13.0</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
@@ -13,11 +13,11 @@
 
   <properties>
     <logback.version>1.2.3</logback.version>
-    <vertx.version>4.0.3</vertx.version>
-    <junit.jupiter.version>5.7.1</junit.jupiter.version>
-    <assertj-core.version>3.19.0</assertj-core.version>
-    <mockito-core.version>3.9.0</mockito-core.version>
-    <plantuml.version>1.2021.5</plantuml.version>
+    <vertx.version>4.1.0</vertx.version>
+    <junit.jupiter.version>5.7.2</junit.jupiter.version>
+    <assertj-core.version>3.20.0</assertj-core.version>
+    <mockito-core.version>3.11.0</mockito-core.version>
+    <plantuml.version>1.2021.7</plantuml.version>
     <ditaa-mini.version>0.14</ditaa-mini.version>
     <slf4j-api.version>1.7.30</slf4j-api.version>
     <maven.compiler.source>1.8</maven.compiler.source>
@@ -157,7 +157,7 @@
       <plugin>
         <groupId>pl.project13.maven</groupId>
         <artifactId>git-commit-id-plugin</artifactId>
-        <version>4.0.4</version>
+        <version>4.0.5</version>
         <executions>
           <execution>
             <id>get-the-git-infos</id>

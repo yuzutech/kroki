@@ -18,9 +18,9 @@
     "url": "https://github.com/yuzutech/kroki.git"
   },
   "dependencies": {
-    "mermaid": "8.9.3",
+    "mermaid": "8.10.2",
     "micro": "9.3.4",
-    "puppeteer": "9.1.1"
+    "puppeteer": "10.0.0"
   },
   "devDependencies": {
     "standard": "16.0.3"
