@@ -8,8 +8,8 @@ metadata:
   name: excalidraw
 spec:
   ports:
-  - name: "8003"
-    port: 8003
-    targetPort: 8003
+  - name: "8004"
+    port: 8004
+    targetPort: 8004
   selector:
     app: excalidraw
