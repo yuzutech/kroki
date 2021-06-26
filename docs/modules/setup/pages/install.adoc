@@ -73,7 +73,7 @@ docker run -p8080:8000 yuzutech/kroki
 
 Using podman::
 
-[source,docker-cli]
+[source,podman-cli]
 podman run -p8080:8000 yuzutech/kroki
 
 After the above command, the server will be available on your host at: `\http://localhost:**8080**`
