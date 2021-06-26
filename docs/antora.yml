@@ -25,6 +25,10 @@ asciidoc:
     vega-version: 5.20.2
     vegalite-version: 5.1.0
     wavedrom-version: 2.6.9
+    uri-docker-get-started: https://docs.docker.com/get-started/
+    uri-podman-get-started: https://podman.io/getting-started/
+    uri-docker-compose-install: https://docs.docker.com/compose/install/
+    uri-podman-compose-install: https://github.com/containers/podman-compose/
 nav:
 - modules/ROOT/nav.adoc
 - modules/setup/nav.adoc

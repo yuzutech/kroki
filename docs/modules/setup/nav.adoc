@@ -3,5 +3,6 @@
 ** xref:http-clients.adoc[HTTP Clients]
 ** xref:kroki-cli.adoc[Kroki CLI]
 * xref:install.adoc[Install]
+//** xref:about-docker-podman.adoc[About Docker and Podman]
 ** xref:manual-install.adoc[Manual Install]
 * xref:configuration.adoc[Configuration]

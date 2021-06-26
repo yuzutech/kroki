@@ -1,0 +1,42 @@
+= About Docker and Podman for Kroki
+
+In this section you will learn:
+
+* [x] Scenarios for running Kroki with Docker or Podman
+* [x] A high level view of Docker and Podman
+
+[discrete]
+== Rough considerations when choosing Docker or Podman
+
+Considerations for using Docker:
+
+* You are running Windows and just want to have Kroki running at home on your own machine or server.
+* Docker is already installed on your linux system.
+
+Considerations for using Podman:
+
+* Running containers and pods of containers on Linux
+* Cyber security and security by design
+* Organizational deployments
+* Learning about containers and pods on Linux
+* Testing Kroki before lifting to Kubernetes
+
+[]
+
+About {uri-docker-get-started}[Docker] and {uri-docker-compose-install}[Docker Compose]::
+Docker runs containers using a client server architecture, with a background daemon.
+Docker Compose starts multiple containers together.
+The Docker Compose yaml configuration file is a standard way to describe a set of containers that must be started together.
+
+About {uri-podman-get-started}[Podman]::
+Podman is a drop-in replacement for Docker on Linux systems only and is available for many distributions.
+It is light-weight in not needing a background daemon always running running in the background, and is built with container security in mind being able to be run as a normal user as well as root.
+For enterprise deployments it is a useful step in learning to deploy, run and test pods on containers in a linux environment before lifting your Kroki implementation into a Kubernetes environment.
+Using Docker Compose to support Podman requires Podman 3.
+
+About {uri-podman-compose-install}[Podman-compose]::
+Podman-compose is a scripted implementation of docker-compose with a Podman backend.
+Its objective is to be able to run docker-compose.yml unmodified and rootless.
+It provides a drop-in replacement for docker-compose.
+Using podman-compose requires Podman.
+
