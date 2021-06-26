@@ -13,16 +13,12 @@
 :uri-mermaid: https://mermaidjs.github.io/
 :uri-bpmn: https://bpmn.io/toolkit/bpmn-js/
 :uri-excalidraw: https://excalidraw.com/
-:uri-docker-get-started: https://docs.docker.com/get-started/
-:uri-podman-get-started: https://podman.io/getting-started/
-:uri-docker-compose-install: https://docs.docker.com/compose/install/
-:uri-podman-compose-install: https://github.com/containers/podman-compose
 :uri-docker-container-networking: https://docs.docker.com/config/containers/container-networking/
 :uri-podman-container-networking: https://podman.io/getting-started/network
 :uri-k8s-publish-service: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
 :uri-k8s-definition-files: https://raw.githubusercontent.com/yuzutech/kroki/master/docs/modules/setup/examples/k8s
-:uri-localhost-8000: pass:q[`http://localhost:8000[http://localhost:**8000**]`]
-:uri-localhost-8080: pass:q[`http://localhost:8080[http://localhost:80**80**]`]
+:uri-localhost-8000: pass:q[\http://localhost:**8000**]
+:uri-localhost-8080: pass:q[\http://localhost:**8080**]
 
 To convert plain text diagrams to images with Kroki,
 you first need to install the gateway server.
@@ -30,7 +26,7 @@ you first need to install the gateway server.
 [TIP]
 ====
 We recommend installing Kroki using containers with either *Docker* or *Podman*, especially if you don't want to manually install diagrams libraries.
-Read more about choosing Docker or Podman on this page in <<about-docker-and-podman-for-kroki>>.
+Read more about choosing Docker or Podman at xref:about-docker-podman.adoc[].
 
 However, you can also install each diagrams libraries that you want to use and run the gateway server as a _standalone executable jar_.
 Consult the xref:manual-install.adoc[manual install page] to find out how.
@@ -41,8 +37,9 @@ On this page, you'll learn:
 * [x] How to run Kroki
 * [x] How to configure Kroki
 
-== Installing the Kroki gateway server
-Installing and running the Kroki gateway server by itself gets you started quickly to begin creating diagrams provided by the <<yuzutech-kroki,yuzutech/kroki image>>.
+== Install the Kroki gateway server
+
+Installing and running the Kroki gateway server by itself gets you started quickly to begin creating diagrams provided by the <<yuzutech-kroki,`yuzutech/kroki`>> image.
 
 Assumptions:
 
@@ -50,69 +47,72 @@ Assumptions:
 
 To start the Kroki gateway server on its default port 8000, run the command:
 
-* _Using docker:_
-+
-[source,docker-cli,subs=+quotes]
-*docker* run yuzutech/kroki
+Using docker::
 
-* _Using podman:_
-+
-[source,podman-cli,subs=+quotes]
-*podman* run yuzutech/kroki
+[source,docker-cli]
+docker run yuzutech/kroki
 
-After the above command, the server will be available on your host at: {uri-localhost-8000}
+Using podman::
 
-*Mapping a different port*
+[source,podman-cli]
+podman run yuzutech/kroki
+
+After the above command, the server will be available on your host at: `{uri-localhost-8000}`
+
+[discrete]
+=== Mapping a different port
 
 By default, when you start a container, it does not publish any of its ports to the outside world.
 To make a port available to services outside of Docker or Podman, you need to use the `--publish` or `-p` flag.
 For instance, if you want to map your host's TCP port 8080 to port 8000 in the kroki container, use:
 
-* _Using docker:_
-+
-[source,docker-cli,subs=+quotes]
-docker run *-p8080:8000* yuzutech/kroki
+Using docker::
 
-* _Using podman:_
-+
-[source,docker-cli,subs=+quotes]
-podman run *-p8080:8000* yuzutech/kroki
+[source,docker-cli]
+docker run -p8080:8000 yuzutech/kroki
 
-After the above command, the server will be available on your host at: {uri-localhost-8080}
+Using podman::
+
+[source,docker-cli]
+podman run -p8080:8000 yuzutech/kroki
+
+After the above command, the server will be available on your host at: `\http://localhost:**8080**`
 
 You can read more about {uri-docker-container-networking}[Docker container networking] and {uri-podman-container-networking}[Podman networking] in their documentation.
 
-*Detached mode*
+[discrete]
+=== Detached mode
 
 The previous methods above ran the containers in the foreground, requiring you to press control-c to stop them.
 Starting containers in detached mode runs them in the background, requiring you to use the Docker/Podman `stop` or `kill` command to stop them.
 
 Finally, to start a container in detached mode, you use `-d` option:
 
-* _Using docker:_
-+
-[source,docker-cli,subs=+quotes]
-docker run -p8080:8000 **-d** yuzutech/kroki
+Using docker::
 
-* _Using podman:_
-+
-[source,docker-cli,subs=+quotes]
-podman run -p8080:8000 **-d** yuzutech/kroki
+[source,docker-cli]
+docker run -p8080:8000 -d yuzutech/kroki
 
-After the above command, the server will be available on your host at: {uri-localhost-8080}
+Using podman::
+
+[source,podman-cli]
+podman run -p8080:8000 -d yuzutech/kroki
+
+After the above command, the server will be available on your host at: `{uri-localhost-8080}`
 
 == Run multiple Kroki containers together
 
 Running multiple containers allows you to use all the diagram features of Kroki in your environment provided by the <<images>>.
-The gateway server container provided by the image <<yuzutech-kroki,yuzutech/kroki image>> is the minimum requirement.
+The gateway server container provided by the image <<yuzutech-kroki,`yuzutech/kroki`>> image is the minimum requirement.
 
-*Example of running them all together*
+[discrete]
+=== Example of running them all together
 
 Here's an example where we start all the Kroki containers together as a group (or pod) in detached mode.
 
 This time, host port 8000 is exposed.
 
-The same Kroki `docker-compose` yaml configuration file below is used by all examples of running the different Kroki containers together.
+The same Kroki `docker-compose.yml` configuration file below is used by all examples of running the different Kroki containers together.
 
 .docker-compose.yml
 [source,yml]
@@ -120,8 +120,8 @@ The same Kroki `docker-compose` yaml configuration file below is used by all exa
 include::example$kroki-docker-compose.yml[]
 ----
 
-
-*Use Docker or Podman with Docker Compose*
+[discrete]
+=== Use Docker or Podman with Docker Compose
 
 Assumptions:
 
@@ -131,9 +131,11 @@ Assumptions:
 
 Run:
 
-    docker-compose up -d
+[source,docker-cli]
+docker-compose up -d
 
-*Use Podman with podman-compose*
+[discrete]
+=== Use Podman with podman-compose
 
 Assumptions:
 
@@ -142,51 +144,16 @@ Assumptions:
 
 Run:
 
-    podman-compose up -d
+[source,podman-cli]
+podman-compose up -d
 
-*Testing after starting*
+[discrete]
+=== Testing after starting
 
-After starting the containers the servers will be available on your host at: {uri-localhost-8080}
+After starting the containers the servers will be available on your host at: `{uri-localhost-8080}`
 
-== About Docker and Podman for Kroki
-In this section you will learn:
-
-* [x] Scenarios for running Kroki with Docker or Podman
-* [x] A high level view of Docker and Podman
-
-*Rough considerations when choosing Docker or Podman*
-
-Considerations for using Docker:
-
-* You are running Windows and just want to have Kroki running at home on your own machine or server.
-* Docker is already installed on your linux system.
-
-Considerations for using Podman:
-
-* Running containers and pods of containers on Linux
-* Cyber security and security by design
-* Organizational deployments
-* Learning about containers and pods on Linux
-* Testing Kroki before lifting to Kubernetes
-
-*About {uri-docker-get-started}[Docker] and {uri-docker-compose-install}[Docker Compose]:*
-Docker runs containers using a client server architecture, with a background daemon.
-Docker Compose starts multiple containers together.
-The Docker Compose yaml configuration file is a standard way to describe a set of containers that must be started together.
-
-*About {uri-podman-get-started}[Podman]:*
-Podman is a drop-in replacement for Docker on Linux systems only and is available for many distributions.
-It is light-weight in not needing a background daemon always running running in the background, and is built with container security in mind being able to be run as a normal user as well as root.
-For enterprise deployments it is a useful step in learning to deploy, run and test pods on containers in a linux environment before lifting your Kroki implementation into a Kubernetes environment.
-Using Docker Compose to support Podman requires Podman 3.
-
-*About {uri-podman-compose-install}[Podman-compose]:*
-Podman-compose is a scripted implementation of docker-compose with a Podman backend.
-Its objective is to be able to run docker-compose.yml unmodified and rootless.
-It provides a drop-in replacement for docker-compose.
-Using podman-compose requires Podman.
-
-=== Images
+[#images]
+== Images
 
 [#yuzutech-kroki]
 {uri-docker-kroki-image}[yuzutech/kroki] image contains the following diagrams libraries out-of-the-box:
@@ -196,6 +163,7 @@ Using podman-compose requires Podman.
 * https://github.com/BurntSushi/erd[Erd]
 * https://www.graphviz.org/[GraphViz]
 * https://github.com/skanaar/nomnoml[Nomnoml]
+* https://github.com/drhsqlite/pikchr[Pikchr]
 * https://github.com/plantuml/plantuml[PlantUML]
 ** https://github.com/RicardoNiepel/C4-PlantUML[C4 model] (with PlantUML)
 * https://github.com/ivanceras/svgbob[Svgbob]
@@ -215,6 +183,7 @@ In other words, the following endpoints will be available:
 /graphviz
 /dot
 /nomnoml
+/pikchr
 /plantuml
 /svgbob
 /umlet
@@ -223,7 +192,7 @@ In other words, the following endpoints will be available:
 /wavedrom
 ....
 
-If you want to use _BlockDiag_, _ActDiag_, _NwDiag_, _SeqDiag_, _Mermaid_ or _BPMN_, then you will also need to start companion containers:
+If you want to use additional diagrams (such as _BlockDiag_, _Mermaid_, _Excalidraw_ or _BPMN_), then you will also need to start companion containers:
 
 [#yuzutech-kroki-blockdiag]
 {uri-docker-kroki-blockdiag-image}[yuzutech/kroki-blockdiag^]::
@@ -247,7 +216,7 @@ Provides BPMN diagrams for Kroki using {uri-bpmn}[bpmn-js^].
 {uri-docker-kroki-excalidraw-image}[yuzutech/kroki-excalidraw^]::
 Provides BPMN diagrams for Kroki using {uri-excalidraw}[Excalidraw^].
 
-== Using Kubernetes
+== Use Kubernetes
 
 This section will explain how to install Kroki on Kubernetes using the `default` namespace.
 
