@@ -18,7 +18,6 @@
 :uri-k8s-publish-service: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
 :uri-k8s-definition-files: https://raw.githubusercontent.com/yuzutech/kroki/master/docs/modules/setup/examples/k8s
 :uri-localhost-8000: pass:q[\http://localhost:**8000**]
-:uri-localhost-8080: pass:q[\http://localhost:**8080**]
 
 To convert plain text diagrams to images with Kroki,
 you first need to install the gateway server.
@@ -45,7 +44,7 @@ Assumptions:
 
 * [x] {uri-docker-get-started}[Docker] or {uri-podman-get-started}[Podman] is installed on your machine.
 
-To start the Kroki gateway server on its default port 8000, run the command:
+To start the Kroki gateway server, run the command:
 
 Using docker::
 
@@ -57,26 +56,34 @@ Using podman::
 [source,podman-cli]
 podman run yuzutech/kroki
 
-After the above command, the server will be available on your host at: `{uri-localhost-8000}`
+[IMPORTANT]
+====
+By default, when you start a container, it does not publish any of its ports to the outside world. +
+To make a port available to services outside of Docker or Podman, you need to use the `--publish` or `-p` flag.
+====
 
 [discrete]
-=== Mapping a different port
+=== Published port
 
-By default, when you start a container, it does not publish any of its ports to the outside world.
-To make a port available to services outside of Docker or Podman, you need to use the `--publish` or `-p` flag.
-For instance, if you want to map your host's TCP port 8080 to port 8000 in the Kroki container, use:
+To map a container port to a port on your Docker host, you need to use the `--publish` or `-p` flag.
 
 Using docker::
 
 [source,docker-cli]
-docker run -p8080:8000 yuzutech/kroki
+docker run -p8000:8000 yuzutech/kroki
 
 Using podman::
 
 [source,podman-cli]
-podman run -p8080:8000 yuzutech/kroki
+podman run -p8000:8000 yuzutech/kroki
 
-After the above command, the server will be available on your host at: `\http://localhost:**8080**`
+After the above command, the server will be available on your host at: `{uri-localhost-8000}`
+
+[NOTE]
+====
+You can also map a different TCP port on the Docker host.
+For instance, if you want to map your host's TCP port 1234 to port 8000 in the Kroki container, use: `-p1234:8000`.
+====
 
 You can read more about {uri-docker-container-networking}[Docker container networking] and {uri-podman-container-networking}[Podman networking] in their documentation.
 
