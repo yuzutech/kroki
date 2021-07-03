@@ -100,14 +100,14 @@ Finally, to start a container in detached mode, you use `-d` option:
 Using docker::
 
 [source,docker-cli]
-docker run -p8080:8000 -d yuzutech/kroki
+docker run -p8000:8000 -d yuzutech/kroki
 
 Using podman::
 
 [source,podman-cli]
-podman run -p8080:8000 -d yuzutech/kroki
+podman run -p8000:8000 -d yuzutech/kroki
 
-After the above command, the server will be available on your host at: `{uri-localhost-8080}`
+After the above command, the server will be available on your host at: `{uri-localhost-8000}`
 
 == Run multiple Kroki containers together
 
@@ -118,8 +118,6 @@ The gateway server container provided by the image <<yuzutech-kroki,`yuzutech/kr
 === Example of running them all together
 
 Here's an example where we start all the Kroki containers together as a group (or pod) in detached mode.
-
-This time, we are mapping TCP port 8000 in the container to port 8000 on the Docker host.
 
 The same Kroki `docker-compose.yml` configuration file below is used by all examples of running the different Kroki containers together.
 
