@@ -64,7 +64,7 @@ After the above command, the server will be available on your host at: `{uri-loc
 
 By default, when you start a container, it does not publish any of its ports to the outside world.
 To make a port available to services outside of Docker or Podman, you need to use the `--publish` or `-p` flag.
-For instance, if you want to map your host's TCP port 8080 to port 8000 in the kroki container, use:
+For instance, if you want to map your host's TCP port 8080 to port 8000 in the Kroki container, use:
 
 Using docker::
 
@@ -110,7 +110,7 @@ The gateway server container provided by the image <<yuzutech-kroki,`yuzutech/kr
 
 Here's an example where we start all the Kroki containers together as a group (or pod) in detached mode.
 
-This time, host port 8000 is exposed.
+This time, we are mapping TCP port 8000 in the container to port 8000 on the Docker host.
 
 The same Kroki `docker-compose.yml` configuration file below is used by all examples of running the different Kroki containers together.
 
@@ -150,7 +150,7 @@ podman-compose up -d
 [discrete]
 === Testing after starting
 
-After starting the containers the servers will be available on your host at: `{uri-localhost-8080}`
+After starting the containers the servers will be available on your host at: `{uri-localhost-8000}`
 
 [#images]
 == Images
