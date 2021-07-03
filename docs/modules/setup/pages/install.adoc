@@ -83,6 +83,8 @@ After the above command, the server will be available on your host at: `{uri-loc
 ====
 You can also map a different TCP port on the Docker host.
 For instance, if you want to map your host's TCP port 1234 to port 8000 in the Kroki container, use: `-p1234:8000`.
+
+In this case, the server will be available on your host at: `\http://localhost:1234`
 ====
 
 You can read more about {uri-docker-container-networking}[Docker container networking] and {uri-podman-container-networking}[Podman networking] in their documentation.
