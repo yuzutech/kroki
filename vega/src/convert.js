@@ -24,6 +24,12 @@ const nullLogger = {
   debug: _ => {}
 }
 
+/**
+ *
+ * @param source
+ * @param options
+ * @returns {Promise<string|Buffer>}
+ */
 async function convert (source, options) {
   const { safeMode, specFormat, format } = options
   let spec = JSON.parse(source)
@@ -37,27 +43,27 @@ async function convert (source, options) {
 Please include your data set as 'values' or run Kroki in unsafe mode using the KROKI_SAFE_MODE environment variable.`)
     }
   }
-  const view = new vega.View(vega.parse(spec), { renderer: 'none' })
+  const view = new vega.View(vega.parse(spec), { renderer: 'none' }).finalize()
   if (format === 'svg') {
     return await view.toSVG()
   }
   if (format === 'png') {
     const canvas = await view.toCanvas()
-    const stream = canvas.createPNGStream()
-    let data
+    const data = []
     return new Promise((resolve, reject) => {
-      stream.on('data', chunk => { data += chunk })
-      stream.on('finish', () => resolve(data))
+      const stream = canvas.createPNGStream()
+      stream.on('data', (chunk) => data.push(chunk))
+      stream.on('end', () => resolve(Buffer.concat(data)))
       stream.on('error', (error) => reject(error))
     })
   }
   if (format === 'pdf') {
     const canvas = await view.toCanvas(undefined, { type: 'pdf', context: { textDrawingMode: 'glyph' } })
-    const stream = canvas.createPDFStream()
-    let data
+    const data = []
     return new Promise((resolve, reject) => {
-      stream.on('data', chunk => { data += chunk })
-      stream.on('finish', () => resolve(data))
+      const stream = canvas.createPDFStream()
+      stream.on('data', (chunk) => data.push(chunk))
+      stream.on('end', () => resolve(Buffer.concat(data)))
       stream.on('error', (error) => reject(error))
     })
   }

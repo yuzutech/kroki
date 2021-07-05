@@ -1,6 +1,8 @@
 /* global describe, it */
 'use strict'
 
+const ospath = require('path')
+const fs = require('fs').promises
 const sinon = require('sinon')
 const chai = require('chai')
 const expect = chai.expect
@@ -80,5 +82,33 @@ describe('#convert', function () {
       process.stdout.write.restore()
       process.stderr.write.restore()
     }
+  })
+  it('should convert a Vega-Lite definition to PNG', async function () {
+    const input = await fs.readFile(ospath.join(__dirname, 'fixtures', 'diag.vlite'), 'utf8')
+    const pngBuffer = await convert(input, {
+      specFormat: 'lite',
+      safeMode: 'safe',
+      format: 'png'
+    })
+    expect(Buffer.byteLength(pngBuffer) > 20000)
+  })
+  it('should convert a Vega-Lite definition to PDF', async function () {
+    const input = await fs.readFile(ospath.join(__dirname, 'fixtures', 'diag.vlite'), 'utf8')
+    const pdfBuffer = await convert(input, {
+      specFormat: 'lite',
+      safeMode: 'safe',
+      format: 'pdf'
+    })
+    expect(Buffer.byteLength(pdfBuffer) > 20000)
+    // REMIND: unable to strictly compare the PDF because it contains metadata! (more specifically the creation date!)
+  })
+  it('should convert a Vega-Lite definition to SVG', async function () {
+    const input = await fs.readFile(ospath.join(__dirname, 'fixtures', 'diag.vlite'), 'utf8')
+    const svg = await convert(input, {
+      specFormat: 'lite',
+      safeMode: 'safe',
+      format: 'svg'
+    })
+    expect(svg.length > 20000)
   })
 })
