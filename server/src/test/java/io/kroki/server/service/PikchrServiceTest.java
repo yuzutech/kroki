@@ -29,7 +29,7 @@ public class PikchrServiceTest {
     Pikchr pikchrService = new Pikchr(vertx, new JsonObject(config), commanderMock);
 
     VertxTestContext testContext = new VertxTestContext();
-    pikchrService.convert("{}", "pikchr", FileFormat.SVG, testContext.succeeding(buffer -> testContext.verify(() -> {
+    pikchrService.convert("{}", "pikchr", FileFormat.SVG, new JsonObject(), testContext.succeeding(buffer -> testContext.verify(() -> {
       assertThat(buffer.toString()).isEqualTo("<svg>pikchr</svg>");
       testContext.completeNow();
     })));

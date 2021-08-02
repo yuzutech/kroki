@@ -199,7 +199,7 @@ public class Plantuml implements DiagramService {
   }
 
   @Override
-  public void convert(String sourceDecoded, String serviceName, FileFormat fileFormat, Handler<AsyncResult<Buffer>> handler) {
+  public void convert(String sourceDecoded, String serviceName, FileFormat fileFormat, JsonObject options, Handler<AsyncResult<Buffer>> handler) {
     String source;
     try {
       source = sanitize(sourceDecoded, this.safeMode, this.includeWhitelist);

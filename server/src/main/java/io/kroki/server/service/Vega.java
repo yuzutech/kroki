@@ -60,7 +60,7 @@ public class Vega implements DiagramService {
   }
 
   @Override
-  public void convert(String sourceDecoded, String serviceName, FileFormat fileFormat, Handler<AsyncResult<Buffer>> handler) {
+  public void convert(String sourceDecoded, String serviceName, FileFormat fileFormat, JsonObject options, Handler<AsyncResult<Buffer>> handler) {
     vertx.executeBlocking(future -> {
       try {
         byte[] result = vega(sourceDecoded.getBytes(), fileFormat.getName());
@@ -72,15 +72,7 @@ public class Vega implements DiagramService {
   }
 
   private byte[] vega(byte[] source, String format) throws IOException, InterruptedException, IllegalStateException {
-    final String vegaSafeMode;
-    switch (safeMode) {
-      case UNSAFE:
-        vegaSafeMode = "unsafe";
-        break;
-      default:
-        vegaSafeMode = "secure";
-        break;
-    }
+    String vegaSafeMode = safeMode == SafeMode.UNSAFE ? "unsafe" : "secure";
     return commander.execute(source, binPath,
       "--output-format=" + format,
       "--safe-mode=" + vegaSafeMode,

@@ -29,7 +29,7 @@ public class VegaServiceTest {
     Vega vegaService = new Vega(vertx, new JsonObject(config), Vega.SpecFormat.DEFAULT, commanderMock);
 
     VertxTestContext testContext = new VertxTestContext();
-    vegaService.convert("{}", "vega", FileFormat.SVG, testContext.succeeding(buffer -> testContext.verify(() -> {
+    vegaService.convert("{}", "vega", FileFormat.SVG, new JsonObject(), testContext.succeeding(buffer -> testContext.verify(() -> {
       assertThat(buffer.toString()).isEqualTo("<svg>vega</svg>");
       testContext.completeNow();
     })));
@@ -51,7 +51,7 @@ public class VegaServiceTest {
     config.put("KROKI_VEGA_BIN_PATH", "/path/to/vega");
     Vega vegaService = new Vega(vertx, new JsonObject(config), Vega.SpecFormat.LITE, commanderMock);
     VertxTestContext testContext = new VertxTestContext();
-    vegaService.convert("{}", "vegalite", FileFormat.SVG, testContext.succeeding(buffer -> testContext.verify(() -> {
+    vegaService.convert("{}", "vegalite", FileFormat.SVG, new JsonObject(), testContext.succeeding(buffer -> testContext.verify(() -> {
       assertThat(buffer.toString()).isEqualTo("<svg>vega-lite</svg>");
       testContext.completeNow();
     })));

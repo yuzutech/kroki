@@ -11,28 +11,28 @@ class ServerConfigTest {
 
   @Test
   void throw_exception_when_non_ipv6_listen_address_contains_more_than_one_colon() {
-    assertThatThrownBy(() ->  Server.getListenAddress(new JsonObject().put("KROKI_LISTEN", "localhost:1234:5678")))
+    assertThatThrownBy(() -> Server.getListenAddress(new JsonObject().put("KROKI_LISTEN", "localhost:1234:5678")))
       .isInstanceOf(IllegalArgumentException.class)
       .hasMessageStartingWith("KROKI_LISTEN is not a valid listen address 'localhost:1234:5678', format must be: 'host:5678', ':5678', '1.2.3.4:5678', '[2041:0:140f::875b:131b]:5678' or '[2041:0:140f::875b:131b]'");
   }
 
   @Test
   void throw_exception_when_listen_address_contains_host_as_port() {
-    assertThatThrownBy(() ->  Server.getListenAddress(new JsonObject().put("KROKI_LISTEN", ":localhost")))
+    assertThatThrownBy(() -> Server.getListenAddress(new JsonObject().put("KROKI_LISTEN", ":localhost")))
       .isInstanceOf(NumberFormatException.class)
       .hasMessageStartingWith("For input string: \"localhost\"");
   }
 
   @Test
   void throw_exception_when_listen_address_contains_ipv4_as_port() {
-    assertThatThrownBy(() ->  Server.getListenAddress(new JsonObject().put("KROKI_LISTEN", ":192.168.0.1")))
+    assertThatThrownBy(() -> Server.getListenAddress(new JsonObject().put("KROKI_LISTEN", ":192.168.0.1")))
       .isInstanceOf(NumberFormatException.class)
       .hasMessageStartingWith("For input string: \"192.168.0.1\"");
   }
 
   @Test
   void throw_exception_when_listen_address_contains_an_empty_port() {
-    assertThatThrownBy(() ->  Server.getListenAddress(new JsonObject().put("KROKI_LISTEN", "localhost:")))
+    assertThatThrownBy(() -> Server.getListenAddress(new JsonObject().put("KROKI_LISTEN", "localhost:")))
       .isInstanceOf(IllegalArgumentException.class)
       .hasMessageStartingWith("For input string: \"\"");
   }

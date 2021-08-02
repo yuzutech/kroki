@@ -5,6 +5,8 @@ import io.kroki.server.error.UnsupportedDiagramTypeException;
 import io.kroki.server.error.UnsupportedFormatException;
 import io.kroki.server.format.FileFormat;
 import io.vertx.core.Handler;
+import io.vertx.core.MultiMap;
+import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 
@@ -46,7 +48,12 @@ public class DiagramRest {
       }
       try {
         FileFormat fileFormat = diagramHandler.validate(diagramType, outputFormat);
-        diagramHandler.convert(routingContext, diagramSource, diagramType, fileFormat);
+        JsonObject diagramOptions = body.getJsonObject("diagram_options", new JsonObject());
+        HttpServerRequest request = routingContext.request();
+        MultiMap headers = request.headers();
+        MultiMap params = request.params();
+        JsonObject options = DiagramHandler.getOptions(diagramOptions, headers, params);
+        diagramHandler.convert(routingContext, diagramSource, diagramType, fileFormat, options);
       } catch (UnsupportedFormatException e) {
         routingContext.fail(e);
       }
