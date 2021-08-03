@@ -69,7 +69,7 @@ describe('Diagrams', () => {
 })
 
 describe('Chinese font', () => {
-  it(`plantuml should compute correct text length (issue#574)`, async () => {
+  it('plantuml should compute correct text length (issue#574)', async () => {
     const testCase = {engine: 'plantuml', file: 'chinese.puml'}
     const response = await sendRequest(testCase, 'svg')
     try {
