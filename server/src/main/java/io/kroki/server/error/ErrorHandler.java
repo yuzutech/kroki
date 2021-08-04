@@ -1,17 +1,23 @@
 package io.kroki.server.error;
 
+import com.kitfox.svg.SVGException;
 import io.kroki.server.log.Logging;
 import io.vertx.core.Vertx;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.MIMEHeader;
 import io.vertx.ext.web.RoutingContext;
-import io.vertx.ext.web.impl.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 public class ErrorHandler implements io.vertx.ext.web.handler.ErrorHandler {
@@ -143,28 +149,59 @@ public class ErrorHandler implements io.vertx.ext.web.handler.ErrorHandler {
         }
         jsonError.put("stack", stack);
       }
-
       response.putHeader(HttpHeaders.CONTENT_TYPE, "application/json");
       response.end(jsonError.encode());
       return true;
     }
 
     if (mime.startsWith("text/plain")) {
+      String completeErrorMessage = getCompleteErrorMessage(context, errorCode, errorMessage);
       response.putHeader(HttpHeaders.CONTENT_TYPE, "text/plain");
-      StringBuilder sb = new StringBuilder();
-      sb.append("Error ");
-      sb.append(errorCode);
-      sb.append(": ");
-      sb.append(errorMessage);
-      if (context.failure() != null && displayExceptionDetails) {
-        for (StackTraceElement elem : context.failure().getStackTrace()) {
-          sb.append("\tat ").append(elem).append("\n");
-        }
-      }
-      response.end(sb.toString());
+      response.end(completeErrorMessage);
       return true;
     }
 
+    if (mime.startsWith("image/svg+xml")) {
+      String completeErrorMessage = getCompleteErrorMessage(context, errorCode, errorMessage);
+      try {
+        String svgImage = ErrorImage.buildSVGImage(completeErrorMessage).getSource();
+        response.putHeader(HttpHeaders.CONTENT_TYPE, "image/svg+xml");
+        response.end(svgImage);
+        return true;
+      } catch (IOException | SVGException e) {
+        logger.warn("Unable to generate error image", e);
+        return false;
+      }
+    }
+
+    if (mime.startsWith("image/png") || mime.startsWith("image/*")) {
+      String completeErrorMessage = getCompleteErrorMessage(context, errorCode, errorMessage);
+      try ( ByteArrayOutputStream output = new ByteArrayOutputStream()) {
+        BufferedImage bufferedImage = ErrorImage.buildPNGImage(completeErrorMessage);
+        ImageIO.write(bufferedImage, "png", output);
+        response.putHeader(HttpHeaders.CONTENT_TYPE, "image/png");
+        response.end(Buffer.buffer(output.toByteArray()));
+        return true;
+      } catch (IOException | SVGException e) {
+        logger.warn("Unable to generate error image", e);
+        return false;
+      }
+    }
+
     return false;
+  }
+
+  private String getCompleteErrorMessage(RoutingContext context, int errorCode, String errorMessage) {
+    StringBuilder sb = new StringBuilder();
+    sb.append("Error ");
+    sb.append(errorCode);
+    sb.append(": ");
+    sb.append(errorMessage);
+    if (context.failure() != null && displayExceptionDetails) {
+      for (StackTraceElement elem : context.failure().getStackTrace()) {
+        sb.append("\tat ").append(elem).append("\n");
+      }
+    }
+    return sb.toString();
   }
 }
