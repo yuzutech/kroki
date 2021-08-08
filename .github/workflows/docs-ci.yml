@@ -29,13 +29,15 @@ jobs:
         run: |
           curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
           chmod +x ./kubectl
-          ./kubectl version
 
       - name: Create cluster
         run: ./kind create cluster
 
       - name: Install Kroki
         run: ./kubectl apply -f docs/modules/setup/examples/k8s
+
+      - name: Kubectl version
+        run: ./kubectl version
 
       - name: Wait until available
         run: ./kubectl wait --for=condition=available --timeout=120s --all deployments
