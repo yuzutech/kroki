@@ -11,6 +11,7 @@ on:
       - 'docs/**'
     branches:
       - '*'
+  workflow_dispatch:
 
 jobs:
   test-kind:
