@@ -40,7 +40,7 @@ jobs:
         run: ./kubectl version
 
       - name: Wait until available
-        run: ./kubectl wait --for=condition=available --timeout=120s --all deployments
+        run: ./kubectl wait --for=condition=available --timeout=240s --all deployments.apps
 
       - name: Check pod
         run: ./kubectl get pod
