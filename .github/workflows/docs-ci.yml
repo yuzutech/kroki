@@ -21,13 +21,13 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install Kubernetes Kind
         run: |
-          curl -Lo ./kind "https://kind.sigs.k8s.io/dl/v0.10.0/kind-$(uname)-amd64"
+          curl -Lo ./kind "https://kind.sigs.k8s.io/dl/v0.11.1/kind-linux-amd64"
           chmod +x ./kind
           ./kind version
 
       - name: Install kubectl
         run: |
-          curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+          curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.21.3/bin/linux/amd64/kubectl
           chmod +x ./kubectl
 
       - name: Create cluster
@@ -40,7 +40,7 @@ jobs:
         run: ./kubectl version
 
       - name: Wait until available
-        run: ./kubectl wait --for=condition=available --timeout=240s --all deployments.apps
+        run: ./kubectl wait --for=condition=available --timeout=120s --all deployments.apps
 
       - name: Check pod
         run: ./kubectl get pod
