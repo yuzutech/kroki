@@ -3,6 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.kroki</groupId>
   <artifactId>kroki</artifactId>
+  <name>kroki</name>
   <packaging>pom</packaging>
   <version>0.14.0</version>
   <properties>
@@ -29,5 +30,4 @@
       </plugin>
     </plugins>
   </build>
-  <name>kroki</name>
 </project>

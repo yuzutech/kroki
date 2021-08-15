@@ -7,13 +7,20 @@ import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.http.impl.headers.HeadersMultiMap;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
+import io.vertx.ext.web.impl.ParsableHeaderValuesContainer;
+import io.vertx.ext.web.impl.ParsableMIMEValue;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatcher;
 import org.mockito.Mockito;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -105,9 +112,46 @@ public class ErrorHandlerTest {
     Mockito.verify(httpServerResponse).end("{\"error\":{\"code\":503,\"message\":\"Mermaid service is unavailable!\"}}");
   }
 
+  @Test
+  void should_return_svg_error_image() {
+    Vertx vertx = Vertx.vertx();
+    RoutingContext routingContext = mock(RoutingContext.class);
+    HttpServerResponse httpServerResponse = plainResponse();
+    HttpServerRequest httpServerRequest = mock(HttpServerRequest.class);
+
+    when(httpServerResponse.getStatusMessage()).thenReturn(null);
+    when(routingContext.parsedHeaders()).thenReturn(new ParsableHeaderValuesContainer(
+      Collections.singletonList(new ParsableMIMEValue("image/svg+xml")),
+      new ArrayList<>(),
+      new ArrayList<>(),
+      new ArrayList<>(),
+      new ParsableMIMEValue("*/*")
+    ));
+    when(routingContext.response()).thenReturn(httpServerResponse);
+    when(routingContext.request()).thenReturn(httpServerRequest);
+    when(routingContext.failure()).thenReturn(new BadRequestException("Syntax Error? (line: 1)"));
+    when(httpServerRequest.method()).thenReturn(HttpMethod.GET);
+    ErrorHandler errorHandler = new ErrorHandler(vertx, false);
+
+    errorHandler.handle(routingContext);
+
+    Mockito.verify(httpServerResponse).setStatusMessage("Bad Request");
+    Mockito.verify(httpServerResponse).setStatusCode(400);
+    Mockito.verify(httpServerResponse).end(argThat((ArgumentMatcher<String>) argument ->
+      argument.contains("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n") &&
+        argument.contains("<tspan x=\"10\" dy=\"16\">Error 400: Syntax Error? (line: 1)</tspan>\n")
+    ));
+  }
+
+  private HttpServerResponse plainResponse() {
+    HttpServerResponse httpServerResponse = mock(HttpServerResponse.class);
+    MultiMap headers = new HeadersMultiMap();
+    when(httpServerResponse.headers()).thenReturn(headers);
+    return httpServerResponse;
+  }
+
   private HttpServerResponse jsonServerResponse() {
     HttpServerResponse httpServerResponse = mock(HttpServerResponse.class);
-
     MultiMap headers = new HeadersMultiMap();
     headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
     when(httpServerResponse.headers()).thenReturn(headers);
