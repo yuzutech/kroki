@@ -1,0 +1,158 @@
+= Using Docker or Podman
+:uri-docker-container-networking: https://docs.docker.com/config/containers/container-networking/
+:uri-podman-container-networking: https://podman.io/getting-started/network
+:uri-local-kroki-access: http://localhost:8000
+
+This page covers how to install and run Kroki locally using the prebuilt Kroki container images from Docker Hub.
+
+TIP: To get started fast and convert plain text diagrams to images with Kroki,
+you need only to install the gateway server.
+
+We recommend installing and running Kroki locally using containers with either *Docker* or *Podman*, especially if you don't want to manually install diagrams libraries.
+
+On this page, you'll learn:
+
+* [x] How to get started with one container which is the minimum needed to run Kroki
+* [x] How to run Kroki with Docker or Podman using prebuilt Kroki container images from Docker Hub
+* [x] How to run multiple Kroki containers for serving more diagram types.
+
+== Prerequisites
+
+Container software of choice::
+You will need in your environment Docker or Podman software to run the Kroki containers.
++
+Read more about choosing Docker or Podman at xref:about-docker-podman.adoc[].
+
+Kroki containers::
+You will need access to the xref:install.adoc#images[Kroki container images] that are either:
+
+* On Docker Hub via an internet connection
++
+_This guide uses these images._
+* The above Docker Hub images stored locally
+* Your own built Kroki container images
+
+== Install the Kroki gateway server
+
+Installing and running the Kroki gateway server by itself gets you started quickly to begin creating diagrams provided by the xref:install.adoc#yuzutech-kroki[`yuzutech/kroki`] image.
+
+Assumptions:
+
+* [x] {uri-docker-get-started}[Docker] or {uri-podman-get-started}[Podman] is installed on your machine.
+
+To start the Kroki gateway server, run the command:
+
+Using docker::
+
+[source,docker-cli]
+docker run yuzutech/kroki
+
+Using podman::
+
+[source,podman-cli]
+podman run yuzutech/kroki
+
+[IMPORTANT]
+====
+By default, when you start a container, it does not publish any of its ports to the outside world. +
+To make a port available to services outside of Docker or Podman, you need to use the `--publish` or `-p` flag.
+====
+
+[discrete]
+=== Published port
+
+To map a container port to a port on your Docker host, you need to use the `--publish` or `-p` flag.
+
+Using docker::
+
+[source,docker-cli]
+docker run -p8000:8000 yuzutech/kroki
+
+Using podman::
+
+[source,podman-cli]
+podman run -p8000:8000 yuzutech/kroki
+
+After the above command, the server will be available on your host at: `{uri-local-kroki-access}`
+
+[NOTE]
+====
+You can also map a different TCP port on the Docker host.
+For instance, if you want to map your host's TCP port 1234 to port 8000 in the Kroki container, use: `-p1234:8000`.
+
+In this case, the server will be available on your host at: `\http://localhost:1234`
+====
+
+You can read more about {uri-docker-container-networking}[Docker container networking] and {uri-podman-container-networking}[Podman networking] in their documentation.
+
+[discrete]
+=== Detached mode
+
+The previous methods above ran the containers in the foreground, requiring you to press control-c to stop them.
+Starting containers in detached mode runs them in the background, requiring you to use the Docker/Podman `stop` or `kill` command to stop them.
+
+Finally, to start a container in detached mode, you use `-d` option:
+
+Using docker::
+
+[source,docker-cli]
+docker run -p8000:8000 -d yuzutech/kroki
+
+Using podman::
+
+[source,podman-cli]
+podman run -p8000:8000 -d yuzutech/kroki
+
+After the above command, the server will be available on your host at: `{uri-local-kroki-access}`
+
+== Run multiple Kroki containers together
+
+Running multiple containers allows you to use all the diagram features of Kroki in your environment provided by the <<images>>.
+The gateway server container provided by the image <<yuzutech-kroki,`yuzutech/kroki`>> image is the minimum requirement.
+
+[discrete]
+=== Example of running them all together
+
+Here's an example where we start all the Kroki containers together as a group (or pod) in detached mode.
+
+The same Kroki `docker-compose.yml` configuration file below is used by all examples of running the different Kroki containers together.
+
+.docker-compose.yml
+[source,yml]
+----
+include::example$kroki-docker-compose.yml[]
+----
+
+[discrete]
+=== Use Docker or Podman with Docker Compose
+
+Assumptions:
+
+* [x] {uri-docker-get-started}[Docker] *or* {uri-podman-get-started}[Podman 3] is installed on your machine.
+      Note the mutual exclusivity.
+* [x] {uri-docker-compose-install}[Docker Compose] is installed
+
+Run:
+
+[source,docker-cli]
+docker-compose up -d
+
+[discrete]
+=== Use Podman with podman-compose
+
+Assumptions:
+
+* [x] {uri-podman-get-started}[Podman] is installed on your machine.
+* [x] {uri-podman-compose-install}[Podman-Compose] is installed on your machine.
+
+Run:
+
+[source,podman-cli]
+podman-compose up -d
+
+[discrete]
+=== Testing after starting
+
+After starting the containers the servers will be available.
+
+Test that you see the Kroki services page in your browser on your host at URL: `{uri-local-kroki-access}`
