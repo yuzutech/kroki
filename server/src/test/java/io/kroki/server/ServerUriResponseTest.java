@@ -27,17 +27,30 @@ public class ServerUriResponseTest {
     ServerSocket socket = new ServerSocket(0);
     port = socket.getLocalPort();
     socket.close();
-    DeploymentOptions options = new DeploymentOptions().setConfig(new JsonObject().put("KROKI_PORT", port).put("KROKI_MAX_URI_LENGTH", 80000));
-    vertx.deployVerticle(new Server(), options, testContext.completing());
+    DeploymentOptions options = new DeploymentOptions().setConfig(new JsonObject().put("KROKI_PORT", port).put("KROKI_MAX_URI_LENGTH", 8192));
+    vertx.deployVerticle(new Server(), options, testContext.succeedingThenComplete());
   }
 
   @Test
   void http_server_long_uri_not_414(Vertx vertx, VertxTestContext testContext) {
     WebClient client = WebClient.create(vertx);
-    client.get(port, "localhost", "/" + randomAlphaString(5000))
+    client.get(port, "localhost", "/" + randomAlphaString(6000))
       .as(BodyCodec.string())
       .send(testContext.succeeding(response -> testContext.verify(() -> {
         assertThat(response.statusCode()).isNotEqualTo(414);
+        testContext.completeNow();
+      })));
+  }
+
+  @Test
+  void http_server_long_uri_414(Vertx vertx, VertxTestContext testContext) {
+    WebClient client = WebClient.create(vertx);
+    client.get(port, "localhost", "/" + randomAlphaString(9000))
+      .as(BodyCodec.string())
+      .send(testContext.succeeding(response -> testContext.verify(() -> {
+        assertThat(response.statusCode()).isEqualTo(414);
+        assertThat(response.statusMessage()).isEqualTo("Request-URI Too Long");
+        assertThat(response.body()).isEqualTo("Error 414: The request URI's length exceeds 8192. You can update this value by setting KROKI_MAX_URI_LENGTH environment variable. Please read: https://docs.kroki.io/kroki/setup/configuration/#_max_uri_length for more information.");
         testContext.completeNow();
       })));
   }

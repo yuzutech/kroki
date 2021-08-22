@@ -1,5 +1,6 @@
 package io.kroki.server.log;
 
+import io.kroki.server.error.ErrorInfo;
 import io.kroki.server.format.FileFormat;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpServerRequest;
@@ -94,15 +95,13 @@ public class Logging {
     }
   }
 
-  public void error(RoutingContext routingContext, int errorCode, String errorMessage) {
-    HttpServerRequest request = routingContext.request();
-    Throwable failure = routingContext.failure();
+  public void error(HttpServerRequest request, ErrorInfo errorInfo) {
     try {
       MDC.put("action", "error");
       MDC.put("method", request.method().toString());
       MDC.put("path", request.path());
-      MDC.put("error_code", String.valueOf(errorCode));
-      MDC.put("error_message", errorMessage);
+      MDC.put("error_code", String.valueOf(errorInfo.getCode()));
+      MDC.put("error_message", errorInfo.getMessage());
       String userAgent = request.getHeader("User-Agent");
       if (userAgent != null) {
         MDC.put("user_agent", userAgent);
@@ -111,6 +110,7 @@ public class Logging {
       if (referer != null) {
         MDC.put("referrer", referer);
       }
+      Throwable failure = errorInfo.getFailure();
       if (failure != null) {
         MDC.put("failure_class_name", failure.getClass().getName());
         logger.error("An error occurred", failure);
