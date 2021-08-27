@@ -84,56 +84,55 @@ public class ErrorHandler implements io.vertx.ext.web.handler.ErrorHandler {
     if (statusMessage == null) {
       statusMessage = errorMessage;
     }
-    // no new lines are allowed in the status message
-    response.setStatusMessage(statusMessage.replaceAll("[\\r\\n]", " "));
-    logging.error(context, errorCode, errorMessage);
-    answerWithError(context, errorCode, errorMessage, htmlErrorMessage);
+    handleError(new ErrorContext(context.request(), context.response(), statusMessage, new ErrorInfo(context.failure(), errorCode, errorMessage, htmlErrorMessage)));
   }
 
-  private void answerWithError(RoutingContext context, int errorCode, String errorMessage, String htmlErrorMessage) {
-    context.response().setStatusCode(errorCode);
-    if (!sendErrorResponseMIME(context, errorCode, errorMessage, htmlErrorMessage) && !sendErrorAcceptMIME(context, errorCode, errorMessage, htmlErrorMessage)) {
+  public void handleError(ErrorContext errorContext) {
+    HttpServerResponse response = errorContext.getResponse();
+    response.setStatusMessage(errorContext.getStatusMessage());
+    logging.error(errorContext.getRequest(), errorContext.getErrorInfo());
+    response.setStatusCode(errorContext.getErrorCode());
+    ErrorInfo errorInfo = errorContext.getErrorInfo();
+    if (!sendErrorResponseMIME(response, errorInfo) && !sendErrorAcceptMIME(response, errorContext.getAcceptableMimes(), errorInfo)) {
       // fallback plain/text
-      sendError(context, "text/plain", errorCode, errorMessage, htmlErrorMessage);
+      sendError(response, "text/plain", errorInfo);
     }
   }
 
-  private boolean sendErrorResponseMIME(RoutingContext context, int errorCode, String errorMessage, String htmlErrorMessage) {
+  private boolean sendErrorResponseMIME(HttpServerResponse response, ErrorInfo errorInfo) {
     // does the response already set the mime type?
-    String mime = context.response().headers().get(HttpHeaders.CONTENT_TYPE);
-    return mime != null && sendError(context, mime, errorCode, errorMessage, htmlErrorMessage);
+    String mime = response.headers().get(HttpHeaders.CONTENT_TYPE);
+    return mime != null && sendError(response, mime, errorInfo);
   }
 
-  private boolean sendErrorAcceptMIME(RoutingContext context, int errorCode, String errorMessage, String htmlErrorMessage) {
+  private boolean sendErrorAcceptMIME(HttpServerResponse response, List<MIMEHeader> acceptableMimes, ErrorInfo errorInfo) {
     // respect the client accept order
-    List<MIMEHeader> acceptableMimes = context.parsedHeaders().accept();
     for (MIMEHeader accept : acceptableMimes) {
-      if (sendError(context, accept.value(), errorCode, errorMessage, htmlErrorMessage)) {
+      if (sendError(response, accept.value(), errorInfo)) {
         return true;
       }
     }
     return false;
   }
 
-  private boolean sendError(RoutingContext context, String mime, int errorCode, String errorMessage, String htmlErrorMessage) {
+  private boolean sendError(HttpServerResponse response, String mime, ErrorInfo errorInfo) {
+    Throwable failure = errorInfo.getFailure();
+    int errorCode = errorInfo.getCode();
+    String errorMessage = errorInfo.getMessage();
     final String title = "\uD83E\uDD16 bip... bip... something wrong happened!";
-    HttpServerResponse response = context.response();
     if (mime.startsWith("text/html")) {
       StringBuilder stack = new StringBuilder();
-      if (context.failure() != null && displayExceptionDetails) {
-        for (StackTraceElement elem : context.failure().getStackTrace()) {
+      if (failure != null && displayExceptionDetails) {
+        for (StackTraceElement elem : failure.getStackTrace()) {
           stack.append("<li>").append(elem).append("</li>");
         }
       }
       response.putHeader(HttpHeaders.CONTENT_TYPE, "text/html");
-      if (htmlErrorMessage == null) {
-        htmlErrorMessage = errorMessage;
-      }
       response.end(
         errorTemplate
           .replace("{title}", title)
           .replace("{errorCode}", Integer.toString(errorCode))
-          .replace("{errorMessage}", htmlErrorMessage)
+          .replace("{errorMessage}", errorInfo.getHtmlMessage())
           .replace("{stackTrace}", stack.toString())
       );
       return true;
@@ -142,9 +141,9 @@ public class ErrorHandler implements io.vertx.ext.web.handler.ErrorHandler {
     if (mime.startsWith("application/json")) {
       JsonObject jsonError = new JsonObject();
       jsonError.put("error", new JsonObject().put("code", errorCode).put("message", errorMessage));
-      if (context.failure() != null && displayExceptionDetails) {
+      if (failure != null && displayExceptionDetails) {
         JsonArray stack = new JsonArray();
-        for (StackTraceElement elem : context.failure().getStackTrace()) {
+        for (StackTraceElement elem : failure.getStackTrace()) {
           stack.add(elem.toString());
         }
         jsonError.put("stack", stack);
@@ -155,14 +154,14 @@ public class ErrorHandler implements io.vertx.ext.web.handler.ErrorHandler {
     }
 
     if (mime.startsWith("text/plain")) {
-      String completeErrorMessage = getCompleteErrorMessage(context, errorCode, errorMessage);
+      String completeErrorMessage = getCompleteErrorMessage(failure, errorCode, errorMessage);
       response.putHeader(HttpHeaders.CONTENT_TYPE, "text/plain");
       response.end(completeErrorMessage);
       return true;
     }
 
     if (mime.startsWith("image/svg+xml")) {
-      String completeErrorMessage = getCompleteErrorMessage(context, errorCode, errorMessage);
+      String completeErrorMessage = getCompleteErrorMessage(failure, errorCode, errorMessage);
       try {
         String svgImage = ErrorImage.buildSVGImage(completeErrorMessage).getSource();
         response.putHeader(HttpHeaders.CONTENT_TYPE, "image/svg+xml");
@@ -175,7 +174,7 @@ public class ErrorHandler implements io.vertx.ext.web.handler.ErrorHandler {
     }
 
     if (mime.startsWith("image/png") || mime.startsWith("image/*")) {
-      String completeErrorMessage = getCompleteErrorMessage(context, errorCode, errorMessage);
+      String completeErrorMessage = getCompleteErrorMessage(failure, errorCode, errorMessage);
       try ( ByteArrayOutputStream output = new ByteArrayOutputStream()) {
         BufferedImage bufferedImage = ErrorImage.buildPNGImage(completeErrorMessage);
         ImageIO.write(bufferedImage, "png", output);
@@ -191,14 +190,14 @@ public class ErrorHandler implements io.vertx.ext.web.handler.ErrorHandler {
     return false;
   }
 
-  private String getCompleteErrorMessage(RoutingContext context, int errorCode, String errorMessage) {
+  private String getCompleteErrorMessage(Throwable failure, int errorCode, String errorMessage) {
     StringBuilder sb = new StringBuilder();
     sb.append("Error ");
     sb.append(errorCode);
     sb.append(": ");
     sb.append(errorMessage);
-    if (context.failure() != null && displayExceptionDetails) {
-      for (StackTraceElement elem : context.failure().getStackTrace()) {
+    if (failure != null && displayExceptionDetails) {
+      for (StackTraceElement elem : failure.getStackTrace()) {
         sb.append("\tat ").append(elem).append("\n");
       }
     }

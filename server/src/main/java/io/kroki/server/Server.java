@@ -2,6 +2,7 @@ package io.kroki.server;
 
 import io.kroki.server.action.Commander;
 import io.kroki.server.error.ErrorHandler;
+import io.kroki.server.error.InvalidRequestHandler;
 import io.kroki.server.log.Logging;
 import io.kroki.server.service.Blockdiag;
 import io.kroki.server.service.Bpmn;
@@ -140,13 +141,18 @@ public class Server extends AbstractVerticle {
     // Default route
     Route route = router.route("/*");
     route.handler(routingContext -> routingContext.fail(404));
-    route.failureHandler(new ErrorHandler(vertx, false));
+    ErrorHandler errorHandler = new ErrorHandler(vertx, false);
+    route.failureHandler(errorHandler);
 
-    server.requestHandler(router).listen(getListenAddress(config), listenHandler);
+    server
+      .invalidRequestHandler(new InvalidRequestHandler(errorHandler, serverOptions.getMaxInitialLineLength()))
+      .requestHandler(router)
+      .listen(getListenAddress(config), listenHandler);
   }
 
   /**
    * Get the address the service will listen on.
+   *
    * @param config configuration
    * @return the address
    */
@@ -184,6 +190,7 @@ public class Server extends AbstractVerticle {
 
   /**
    * Get the address the service will listen on from IPv6.
+   *
    * @param listen listen value
    * @return the address
    */
@@ -199,6 +206,7 @@ public class Server extends AbstractVerticle {
 
   /**
    * Get the port the service will listen on.
+   *
    * @param config configuration
    * @return the port
    */

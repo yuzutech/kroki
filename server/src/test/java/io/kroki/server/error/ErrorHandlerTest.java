@@ -7,16 +7,11 @@ import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.http.impl.headers.HeadersMultiMap;
-import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
-import io.vertx.ext.web.impl.ParsableHeaderValuesContainer;
-import io.vertx.ext.web.impl.ParsableMIMEValue;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatcher;
 import org.mockito.Mockito;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -31,7 +26,7 @@ public class ErrorHandlerTest {
     Vertx vertx = Vertx.vertx();
     RoutingContext routingContext = mock(RoutingContext.class);
     HttpServerResponse httpServerResponse = jsonServerResponse();
-    HttpServerRequest httpServerRequest = mock(HttpServerRequest.class);
+    HttpServerRequest httpServerRequest = mockHttpServerRequest();
 
     when(httpServerResponse.getStatusMessage()).thenReturn(null);
     when(routingContext.response()).thenReturn(httpServerResponse);
@@ -51,7 +46,7 @@ public class ErrorHandlerTest {
     Vertx vertx = Vertx.vertx();
     RoutingContext routingContext = mock(RoutingContext.class);
     HttpServerResponse httpServerResponse = jsonServerResponse();
-    HttpServerRequest httpServerRequest = mock(HttpServerRequest.class);
+    HttpServerRequest httpServerRequest = mockHttpServerRequest();
 
     when(httpServerResponse.getStatusMessage()).thenReturn(null);
     when(routingContext.response()).thenReturn(httpServerResponse);
@@ -74,7 +69,7 @@ public class ErrorHandlerTest {
     Vertx vertx = Vertx.vertx();
     RoutingContext routingContext = mock(RoutingContext.class);
     HttpServerResponse httpServerResponse = jsonServerResponse();
-    HttpServerRequest httpServerRequest = mock(HttpServerRequest.class);
+    HttpServerRequest httpServerRequest = mockHttpServerRequest();
 
     when(httpServerResponse.getStatusMessage()).thenReturn(null);
     when(routingContext.statusCode()).thenReturn(-1);
@@ -95,7 +90,7 @@ public class ErrorHandlerTest {
     Vertx vertx = Vertx.vertx();
     RoutingContext routingContext = mock(RoutingContext.class);
     HttpServerResponse httpServerResponse = jsonServerResponse();
-    HttpServerRequest httpServerRequest = mock(HttpServerRequest.class);
+    HttpServerRequest httpServerRequest = mockHttpServerRequest();
 
     when(httpServerResponse.getStatusMessage()).thenReturn(null);
     when(routingContext.statusCode()).thenReturn(-1);
@@ -120,13 +115,9 @@ public class ErrorHandlerTest {
     HttpServerRequest httpServerRequest = mock(HttpServerRequest.class);
 
     when(httpServerResponse.getStatusMessage()).thenReturn(null);
-    when(routingContext.parsedHeaders()).thenReturn(new ParsableHeaderValuesContainer(
-      Collections.singletonList(new ParsableMIMEValue("image/svg+xml")),
-      new ArrayList<>(),
-      new ArrayList<>(),
-      new ArrayList<>(),
-      new ParsableMIMEValue("*/*")
-    ));
+    MultiMap headers = new HeadersMultiMap();
+    headers.add(HttpHeaders.ACCEPT, "image/svg+xml");
+    when(httpServerRequest.headers()).thenReturn(headers);
     when(routingContext.response()).thenReturn(httpServerResponse);
     when(routingContext.request()).thenReturn(httpServerRequest);
     when(routingContext.failure()).thenReturn(new BadRequestException("Syntax Error? (line: 1)"));
@@ -156,5 +147,13 @@ public class ErrorHandlerTest {
     headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
     when(httpServerResponse.headers()).thenReturn(headers);
     return httpServerResponse;
+  }
+
+  private HttpServerRequest mockHttpServerRequest() {
+    HttpServerRequest httpServerRequest = mock(HttpServerRequest.class);
+    MultiMap headers = new HeadersMultiMap();
+    headers.add(HttpHeaders.ACCEPT, "application/json");
+    when(httpServerRequest.headers()).thenReturn(headers);
+    return httpServerRequest;
   }
 }
