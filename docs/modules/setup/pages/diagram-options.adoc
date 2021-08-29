@@ -1,0 +1,114 @@
+= Diagram Options
+
+== BlockDiag
+
+Applies to `blockdiag`, `seqdiag`, `actdiag`, `nwdiag`, `packetdiag` and `rackdiag`:
+
+[cols="1m,1a,2a",opts="header"]
+|===
+|Name
+|Allowable Values
+|Description
+
+|antialias
+|_boolean_ +
+`true`, *`false`*
+|Pass diagram image to anti-alias filter
+
+|no-transparency
+|_boolean_ +
+*`true`*, `false`
+|Do not make transparent background of diagram (PNG only)
+
+|size
+|_dimension format {width}x{height}_ +
+ex. `320x240`
+|Size of diagram
+
+|no-doctype
+|_boolean_ +
+`true`, *`false`*
+|Do not output doctype definition tags (SVG only)
+|===
+
+== GraphViz
+
+[cols="1m,1a,2a",opts="header"]
+|===
+|Name
+|Allowable Values
+|Description
+
+|graph-attribute-{name}
+|_any_ +
+*`true`*
+|Set a graph attribute: https://graphviz.org/doc/info/command.html#-G
+
+|node-attribute-{name}
+|_any_ +
+*`true`*
+|Set a default node attribute: https://graphviz.org/doc/info/command.html#-N
+
+|edge-attribute-{name}
+|_any_ +
+*`true`*
+|Set a default edge attribute: https://graphviz.org/doc/info/command.html#-E
+
+|layout
+|
+*`dot`* +
+`neato` +
+`fdp` +
+`sfdp` +
+`twopi` +
+`circo`
+|Specifies which default layout algorithm to use, overriding the default from the command name: https://graphviz.org/doc/info/command.html#-K
+
+|scale
+|_double_ +
+*`72.0`*
+|Set input scale to scale.
+If this value is omitted, 72.0 is used.
+This number is used to convert the point coordinate units used in the pos attribute into inches, which is what is expected by neato and fdp: https://graphviz.org/doc/info/command.html#-s
+|===
+
+== Svgbob
+
+[cols="1m,1a,2a",opts="header"]
+|===
+|Name
+|Allowable Values
+|Description
+
+|background
+|_any_ +
+*`white`*
+|Backdrop background will be filled with this color
+
+|font-family
+|_any_ +
+*`arial`*
+|Text will be rendered with this font
+
+|font-size
+|_integer_ +
+*`14`*
+|Text will be rendered with this font size
+
+|fill-color
+|_any_ +
+*`black`*
+|Solid shapes will be filled with this color
+
+|scale
+|_any_ +
+*`1`*
+|Scale the entire svg (dimensions, font size, stroke width) by this factor
+
+|stroke-width
+|_any_ +
+*`2`* 
+|Stroke width for all lines
+
+|===
+

@@ -61,23 +61,23 @@ class InvalidUsage(Exception):
         return rv
 
 
-def _generate_diagram(app, diagram_type, output_format, source):
+def _generate_diagram(app, diagram_type, output_format, source, options):
     try:
         output_format = output_format.lower()
         if output_format == 'png':
-            result = generate_diag(app, diagram_type, output_format, source)
+            result = generate_diag(app, diagram_type, output_format, source, options)
             response = send_file(io.BytesIO(result),
                                  attachment_filename='result.png',
                                  mimetype='image/png')
             return response
         elif output_format == 'pdf':
-            result = generate_diag(app, diagram_type, output_format, source)
+            result = generate_diag(app, diagram_type, output_format, source, options)
             response = make_response(result)
             response.headers['Content-Type'] = 'application/pdf'
             response.headers['Content-Disposition'] = 'inline; filename=result.pdf'
             return response
         elif output_format == 'svg':
-            result = generate_diag(app, diagram_type, output_format, source)
+            result = generate_diag(app, diagram_type, output_format, source, options)
             response = make_response(result)
             response.headers["Content-Type"] = "image/svg+xml; charset=utf-8"
             return response
@@ -114,32 +114,32 @@ def status():
 
 @application.route('/rackdiag/<string:output_format>', methods=['POST'])
 def rackdiag(output_format, source=None):
-    return _generate_diagram(RackdiagApp(), 'block', output_format, source or request.get_data(as_text=True))
+    return _generate_diagram(RackdiagApp(), 'block', output_format, source or request.get_data(as_text=True), request.args)
 
 
 @application.route('/packetdiag/<string:output_format>', methods=['POST'])
 def packetdiag(output_format, source=None):
-    return _generate_diagram(PacketdiagApp(), 'block', output_format, source or request.get_data(as_text=True))
+    return _generate_diagram(PacketdiagApp(), 'block', output_format, source or request.get_data(as_text=True), request.args)
 
 
 @application.route('/blockdiag/<string:output_format>', methods=['POST'])
 def blockdiag(output_format, source=None):
-    return _generate_diagram(BlockdiagApp(), 'block', output_format, source or request.get_data(as_text=True))
+    return _generate_diagram(BlockdiagApp(), 'block', output_format, source or request.get_data(as_text=True), request.args)
 
 
 @application.route('/seqdiag/<string:output_format>', methods=['POST'])
 def seqdiag(output_format, source=None):
-    return _generate_diagram(SeqdiagApp(), 'sequence', output_format, source or request.get_data(as_text=True))
+    return _generate_diagram(SeqdiagApp(), 'sequence', output_format, source or request.get_data(as_text=True), request.args)
 
 
 @application.route('/actdiag/<string:output_format>', methods=['POST'])
 def actdiag(output_format, source=None):
-    return _generate_diagram(ActdiagApp(), 'activity', output_format, source or request.get_data(as_text=True))
+    return _generate_diagram(ActdiagApp(), 'activity', output_format, source or request.get_data(as_text=True), request.args)
 
 
 @application.route('/nwdiag/<string:output_format>', methods=['POST'])
 def nwdiag(output_format, source=None):
-    return _generate_diagram(NwdiagApp(), 'network', output_format, source or request.get_data(as_text=True))
+    return _generate_diagram(NwdiagApp(), 'network', output_format, source or request.get_data(as_text=True), request.args)
 
 
 @application.route('/<string:output_format>', methods=['POST'])
