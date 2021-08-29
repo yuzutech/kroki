@@ -1,18 +1,24 @@
 import unittest
 import sys
-sys.path.append('src')
 
-from backend.diag import generate_diag
 from rackdiag.command import RackdiagApp
 from packetdiag.command import PacketdiagApp
 from blockdiag.command import BlockdiagApp
 from seqdiag.command import SeqdiagApp
 from nwdiag.command import NwdiagApp
 from actdiag.command import ActdiagApp
+from werkzeug.datastructures import MultiDict
+
+sys.path.append('src')
+from backend.diag import generate_diag
+from server import InvalidUsage
+
 
 class TestDiag(unittest.TestCase):
 
-    def _generate(self, name, diagram_type = None):
+    def _generate(self, name, diagram_type=None, options=None):
+        if options is None:
+            options = MultiDict()
         with open('test/fixtures/' + name + '_source.txt', 'r') as file:
             source = file.read()
         with open('test/fixtures/' + name + '_expected.svg', 'r') as file:
@@ -36,7 +42,7 @@ class TestDiag(unittest.TestCase):
             app, name = RackdiagApp(), 'rack'
         else:
             raise InvalidUsage('Unknown diagram type: ' + diagram_type)
-        result = generate_diag(app, name, 'svg', source)
+        result = generate_diag(app, name, 'svg', source, options)
         actual = '\n'.join([item.strip() for item in result.split('\n')])
         return actual, expected
 
@@ -74,6 +80,14 @@ class TestDiag(unittest.TestCase):
         actual, expected = self._generate('rackdiag')
         self.maxDiff = None
         self.assertEqual(actual, expected)
+
+    def test_blockdiag_with_options(self):
+        actual, expected = self._generate('blockdiag_options', 'blockdiag', options=MultiDict([
+            ('no-doctype', '')
+        ]))
+        self.maxDiff = None
+        self.assertEqual(actual, expected)
+
 
 if __name__ == '__main__':
     unittest.main()
