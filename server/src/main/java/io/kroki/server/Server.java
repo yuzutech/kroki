@@ -20,6 +20,7 @@ import io.kroki.server.service.Nomnoml;
 import io.kroki.server.service.Pikchr;
 import io.kroki.server.service.Plantuml;
 import io.kroki.server.service.ServiceVersion;
+import io.kroki.server.service.Structurizr;
 import io.kroki.server.service.Svgbob;
 import io.kroki.server.service.Umlet;
 import io.kroki.server.service.Vega;
@@ -116,6 +117,7 @@ public class Server extends AbstractVerticle {
     registry.register(new Bytefield(vertx, config, commander), "bytefield");
     registry.register(new Excalidraw(vertx, config), "excalidraw");
     registry.register(new Pikchr(vertx, config, commander), "pikchr");
+    registry.register(new Structurizr(vertx), "structurizr");
 
     router.post("/")
       .handler(bodyHandler)

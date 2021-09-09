@@ -4,7 +4,6 @@ import com.structurizr.dsl.StructurizrDslParser;
 import com.structurizr.dsl.StructurizrDslParserException;
 import com.structurizr.io.plantuml.StructurizrPlantUMLWriter;
 import com.structurizr.view.View;
-import io.kroki.server.action.Delegator;
 import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.BadRequestException;
@@ -14,11 +13,13 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
+import io.vertx.core.json.JsonObject;
 
 import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class Structurizr implements DiagramService {
@@ -57,10 +58,10 @@ public class Structurizr implements DiagramService {
   }
 
   @Override
-  public void convert(String sourceDecoded, String serviceName, FileFormat fileFormat, Handler<AsyncResult<Buffer>> handler) {
+  public void convert(String sourceDecoded, String serviceName, FileFormat fileFormat, JsonObject options, Handler<AsyncResult<Buffer>> handler) {
     vertx.executeBlocking(future -> {
       try {
-        byte[] data = convert(sourceDecoded, fileFormat, this.structurizrPlantUMLWriter);
+        byte[] data = convert(sourceDecoded, fileFormat, this.structurizrPlantUMLWriter, options);
         future.complete(data);
       } catch (IllegalStateException e) {
         future.fail(e);
@@ -68,21 +69,30 @@ public class Structurizr implements DiagramService {
     }, res -> handler.handle(res.map(o -> Buffer.buffer((byte[]) o))));
   }
 
-  static byte[] convert(String source, FileFormat fileFormat, StructurizrPlantUMLWriter structurizrPlantUMLWriter) {
+  static byte[] convert(String source, FileFormat fileFormat, StructurizrPlantUMLWriter structurizrPlantUMLWriter, JsonObject options) {
     StructurizrDslParser parser = new StructurizrDslParser();
     try {
       parser.parse(source);
       Collection<View> views = parser.getWorkspace().getViews().getViews();
-      Optional<View> optionalView = views.stream().findFirst();
-      if (optionalView.isPresent()) {
-        // for now, take the first view
-        View firstView = optionalView.get();
-        StringWriter stringWriter = new StringWriter();
-        structurizrPlantUMLWriter.write(firstView, stringWriter);
-        String plantumlDiagram = stringWriter.toString();
-        return Plantuml.convert(plantumlDiagram, fileFormat);
+      if (views.isEmpty()) {
+        throw new BadRequestException("Empty diagram, does not have any view.");
       }
-      throw new BadRequestException("Empty diagram, does not have any view.");
+      View selectedView;
+      String viewKey = options.getString("view-key");
+      if (viewKey != null && !viewKey.trim().isEmpty()) {
+        Optional<View> viewFound = views.stream().filter(view -> Objects.equals(view.getKey(), viewKey)).findFirst();
+        if (!viewFound.isPresent()) {
+          throw new BadRequestException("Unable to find view for key: " + viewKey + ".");
+        }
+        selectedView = viewFound.get();
+      } else {
+        // take the first view if not specified
+        selectedView = views.iterator().next();
+      }
+      StringWriter stringWriter = new StringWriter();
+      structurizrPlantUMLWriter.write(selectedView, stringWriter);
+      String plantumlDiagram = stringWriter.toString();
+      return Plantuml.convert(plantumlDiagram, fileFormat);
     } catch (StructurizrDslParserException e) {
       throw new BadRequestException("Unable to parse the Structurizr DSL.", e);
     }
