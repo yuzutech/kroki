@@ -315,13 +315,13 @@ public class PlantumlServiceTest {
     byte[] convert = Plantuml.convert(diagram, FileFormat.TXT);
     assertThat(new String(convert)).isEqualTo(
       "     ,---.          ,-----.\n" +
-      "     |Bob|          |Alice|\n" +
-      "     `-+-'          `--+--'\n" +
-      "       |    hello      |   \n" +
-      "       |-------------->|   \n" +
-      "     ,-+-.          ,--+--.\n" +
-      "     |Bob|          |Alice|\n" +
-      "     `---'          `-----'\n");
+        "     |Bob|          |Alice|\n" +
+        "     `-+-'          `--+--'\n" +
+        "       |    hello      |   \n" +
+        "       |-------------->|   \n" +
+        "     ,-+-.          ,--+--.\n" +
+        "     |Bob|          |Alice|\n" +
+        "     `---'          `-----'\n");
   }
 
   @Test
@@ -330,13 +330,13 @@ public class PlantumlServiceTest {
     byte[] convert = Plantuml.convert(diagram, FileFormat.UTXT);
     assertThat(new String(convert)).isEqualTo(
       "     ┌───┐          ┌─────┐\n" +
-      "     │Bob│          │Alice│\n" +
-      "     └─┬─┘          └──┬──┘\n" +
-      "       │    hello      │   \n" +
-      "       │──────────────>│   \n" +
-      "     ┌─┴─┐          ┌──┴──┐\n" +
-      "     │Bob│          │Alice│\n" +
-      "     └───┘          └─────┘\n");
+        "     │Bob│          │Alice│\n" +
+        "     └─┬─┘          └──┬──┘\n" +
+        "       │    hello      │   \n" +
+        "       │──────────────>│   \n" +
+        "     ┌─┴─┐          ┌──┴──┐\n" +
+        "     │Bob│          │Alice│\n" +
+        "     └───┘          └─────┘\n");
   }
 
   @Test

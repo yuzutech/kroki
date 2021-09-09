@@ -1,5 +1,6 @@
 package io.kroki.server.service;
 
+import io.vertx.core.MultiMap;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.ext.web.MIMEHeader;
@@ -9,16 +10,19 @@ import io.vertx.ext.web.RoutingContext;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class MockDiagramRequest {
 
-  private MIMEHeader mimeHeader;
-  private HttpServerRequest httpServerRequest;
-  private RoutingContext routingContext;
-  private List<MIMEHeader> accepts = new ArrayList<>();
+  private final MIMEHeader mimeHeader;
+  private final HttpServerRequest httpServerRequest;
+  private final RoutingContext routingContext;
+  private final List<MIMEHeader> accepts = new ArrayList<>();
+  private MultiMap params = MultiMap.caseInsensitiveMultiMap();
+  private MultiMap headers = MultiMap.caseInsensitiveMultiMap();
 
   public MockDiagramRequest() {
     routingContext = mock(RoutingContext.class);
@@ -31,6 +35,8 @@ public class MockDiagramRequest {
     when(routingContext.parsedHeaders()).thenReturn(parsedHeaderValues);
     when(routingContext.request()).thenReturn(httpServerRequest);
     when(routingContext.currentRoute()).thenReturn(currentRoute);
+    when(httpServerRequest.params()).thenReturn(this.params);
+    when(httpServerRequest.headers()).thenReturn(this.headers);
   }
 
   public void addAccept(String mimeType) {
@@ -48,7 +54,22 @@ public class MockDiagramRequest {
   }
 
   public void addParam(String key, String value) {
+    this.params.add(key, value);
+    when(httpServerRequest.params()).thenReturn(this.params);
     when(httpServerRequest.getParam(key)).thenReturn(value);
+  }
+
+  public void setHeaders(MultiMap headers) {
+    this.headers = headers;
+    when(httpServerRequest.headers()).thenReturn(this.headers);
+  }
+
+  public void setParams(MultiMap params) {
+    this.params = params;
+    when(httpServerRequest.params()).thenReturn(this.params);
+    for (Map.Entry<String, String> entry : params) {
+      when(httpServerRequest.getParam(entry.getKey())).thenReturn(entry.getValue());
+    }
   }
 
   public void setPath(String path) {

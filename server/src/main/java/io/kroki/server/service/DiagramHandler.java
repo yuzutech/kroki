@@ -11,6 +11,7 @@ import io.kroki.server.log.Logging;
 import io.kroki.server.response.Caching;
 import io.kroki.server.response.DiagramResponse;
 import io.vertx.core.Handler;
+import io.vertx.core.MultiMap;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonObject;
@@ -21,7 +22,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class DiagramHandler {
@@ -62,7 +65,10 @@ public class DiagramHandler {
       String sourceEncoded = request.getParam("source_encoded");
       try {
         String sourceDecoded = service.getSourceDecoder().decode(sourceEncoded);
-        convert(routingContext, sourceDecoded, serviceName, fileFormat);
+        MultiMap headers = request.headers();
+        MultiMap params = request.params();
+        JsonObject options = getOptions(new JsonObject(), headers, params);
+        convert(routingContext, sourceDecoded, serviceName, fileFormat, options);
       } catch (DecodeException e) {
         routingContext.fail(new BadRequestException(e.getMessage(), e));
       }
@@ -74,6 +80,7 @@ public class DiagramHandler {
       try {
         FileFormat fileFormat;
         String diagramSource;
+        JsonObject jsonBody;
         MIMEHeader contentType = routingContext.parsedHeaders().contentType();
         if (contentType != null && contentType.value() != null && contentType.value().equals("application/json")) {
           String bodyAsString = routingContext.getBodyAsString();
@@ -81,7 +88,7 @@ public class DiagramHandler {
             routingContext.fail(new BadRequestException("Request body must not be empty."));
             return;
           }
-          JsonObject jsonBody = new JsonObject(bodyAsString);
+          jsonBody = new JsonObject(bodyAsString);
           diagramSource = jsonBody.getString("diagram_source");
           if (diagramSource == null || diagramSource.trim().isEmpty()) {
             routingContext.fail(new BadRequestException("Field diagram_source must not be empty."));
@@ -90,6 +97,7 @@ public class DiagramHandler {
           fileFormat = getOutputFileFormatFromJsonRequest(serviceName, routingContext, jsonBody);
         } else {
           // assumes that the Content-Type is "plain/text" (default)
+          jsonBody = new JsonObject();
           diagramSource = routingContext.getBodyAsString();
           if (diagramSource == null || diagramSource.trim().isEmpty()) {
             routingContext.fail(new BadRequestException("Request body must not be empty."));
@@ -97,7 +105,12 @@ public class DiagramHandler {
           }
           fileFormat = getOutputFileFormatFromTextRequest(serviceName, routingContext);
         }
-        convert(routingContext, diagramSource, serviceName, fileFormat);
+        HttpServerRequest request = routingContext.request();
+        MultiMap headers = request.headers();
+        MultiMap params = request.params();
+        JsonObject diagramOptions = jsonBody.getJsonObject("diagram_options", new JsonObject());
+        JsonObject options = getOptions(diagramOptions, headers, params);
+        convert(routingContext, diagramSource, serviceName, fileFormat, options);
       } catch (UnsupportedFormatException | UnsupportedMimeTypeException | UndefinedOutputFormatException e) {
         routingContext.fail(e);
       }
@@ -144,6 +157,27 @@ public class DiagramHandler {
     throw new UnsupportedMimeTypeException(mimeTypes, serviceName, supportedFormats);
   }
 
+  static JsonObject getOptions(JsonObject diagramOptions, MultiMap headers, MultiMap params) {
+    Map<String, Object> options = new HashMap<>();
+    for (Map.Entry<String, String> paramEntry : params.entries()) {
+      if (paramEntry.getKey().equalsIgnoreCase("source_encoded") || paramEntry.getKey().equalsIgnoreCase("output_format")) {
+        continue;
+      }
+      options.put(paramEntry.getKey().toLowerCase(), paramEntry.getValue());
+    }
+    for (Map.Entry<String, String> headerEntry : headers.entries()) {
+      if (headerEntry.getKey().toLowerCase().startsWith("kroki-diagram-options-")) {
+        String key = headerEntry.getKey().toLowerCase().replace("kroki-diagram-options-", "");
+        options.put(key, headerEntry.getValue());
+      }
+    }
+    for (String diagramOptionName : diagramOptions.fieldNames()) {
+      Object value = diagramOptions.getValue(diagramOptionName);
+      options.put(diagramOptionName.toLowerCase(), value);
+    }
+    return new JsonObject(options);
+  }
+
   // delegate
 
   public FileFormat validate(String serviceName, String outputFormat) {
@@ -155,9 +189,9 @@ public class DiagramHandler {
     return fileFormat;
   }
 
-  public void convert(RoutingContext routingContext, String sourceDecoded, String serviceName, FileFormat fileFormat) {
+  public void convert(RoutingContext routingContext, String sourceDecoded, String serviceName, FileFormat fileFormat, JsonObject options) {
     long start = System.currentTimeMillis();
-    service.convert(sourceDecoded, serviceName, fileFormat, res -> {
+    service.convert(sourceDecoded, serviceName, fileFormat, options, res -> {
       logging.convert(routingContext, start, serviceName, fileFormat);
       if (res.failed()) {
         routingContext.fail(res.cause());

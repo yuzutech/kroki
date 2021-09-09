@@ -35,9 +35,26 @@ def set_dimension_attributes(data):
     return data
 
 
-def generate_diag(app, diagram_type, output_format, source):
-    options = ['-T' + output_format, 'file']
-    app.parse_options(options)
+def generate_diag(app, diagram_type, output_format, source, options):
+    cli_options = ['-T' + output_format]
+    antialias = options.get('antialias')
+    if antialias is not None:
+        cli_options.append('--antialias')
+
+    no_transparency = options.get('no-transparency')
+    if no_transparency is not None and output_format == 'png':
+        cli_options.append('--no-transparency')
+
+    size = options.get('size')
+    if size is not None:
+        cli_options.append('--size=' + size)
+
+    no_doctype = options.get('no-doctype')
+    if no_doctype is not None and output_format == 'svg':
+        cli_options.append('--nodoctype')
+
+    cli_options.append('file')
+    app.parse_options(cli_options)
 
     output_format = output_format.lower()
     if output_format == 'pdf':

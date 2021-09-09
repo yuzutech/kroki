@@ -2,6 +2,7 @@
 ** xref:encode-diagram.adoc[Encode Diagrams]
 ** xref:http-clients.adoc[HTTP Clients]
 ** xref:kroki-cli.adoc[Kroki CLI]
+** xref:diagram-options.adoc[Diagram Options]
 * xref:install.adoc[Install]
 //** xref:about-docker-podman.adoc[About Docker and Podman]
 ** xref:use-docker-or-podman.adoc[Using Docker or Podman]

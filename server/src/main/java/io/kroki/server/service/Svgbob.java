@@ -12,6 +12,7 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -52,10 +53,10 @@ public class Svgbob implements DiagramService {
   }
 
   @Override
-  public void convert(String sourceDecoded, String serviceName, FileFormat fileFormat, Handler<AsyncResult<Buffer>> handler) {
+  public void convert(String sourceDecoded, String serviceName, FileFormat fileFormat, JsonObject options, Handler<AsyncResult<Buffer>> handler) {
     vertx.executeBlocking(future -> {
       try {
-        byte[] result = svgbob(sourceDecoded.getBytes());
+        byte[] result = svgbob(sourceDecoded.getBytes(), options);
         future.complete(result);
       } catch (IOException | InterruptedException | IllegalStateException e) {
         future.fail(e);
@@ -63,7 +64,23 @@ public class Svgbob implements DiagramService {
     }, res -> handler.handle(res.map(o -> Buffer.buffer((byte[]) o))));
   }
 
-  private byte[] svgbob(byte[] source) throws IOException, InterruptedException, IllegalStateException {
+  private byte[] svgbob(byte[] source, JsonObject options) throws IOException, InterruptedException, IllegalStateException {
+    List<String> commands = new ArrayList<>();
+    commands.add(binPath);
+    addOption("background", options, commands);
+    addOption("fill-color", options, commands);
+    addOption("font-family", options, commands);
+    addOption("font-size", options, commands);
+    addOption("scale", options, commands);
+    addOption("stroke-width", options, commands);
     return commander.execute(source, binPath);
+  }
+
+  private void addOption(String optionKey, JsonObject options, List<String> commands) {
+    String value = options.getString(optionKey);
+    if (value != null) {
+      String safeValue = value.replaceAll("[-\"$/@*&=;:!\\\\]", "");
+      commands.add("--" + optionKey + "=\"" + safeValue + "\"");
+    }
   }
 }

@@ -51,7 +51,7 @@ public class Wavedrom implements DiagramService {
   }
 
   @Override
-  public void convert(String sourceDecoded, String serviceName, FileFormat fileFormat, Handler<AsyncResult<Buffer>> handler) {
+  public void convert(String sourceDecoded, String serviceName, FileFormat fileFormat, JsonObject options, Handler<AsyncResult<Buffer>> handler) {
     vertx.executeBlocking(future -> {
       try {
         byte[] result = vega(sourceDecoded.getBytes());

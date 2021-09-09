@@ -6,13 +6,17 @@ import io.kroki.server.error.DecodeException;
 import io.kroki.server.error.UnsupportedFormatException;
 import io.kroki.server.error.UnsupportedMimeTypeException;
 import io.kroki.server.format.FileFormat;
+import io.vertx.core.MultiMap;
 import io.vertx.core.http.HttpMethod;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
 import java.util.List;
 
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
@@ -86,7 +90,7 @@ class DiagramHandlerTest {
     mockDiagramRequest.addParam("source_encoded", "SyfFKj2rKt3CoKnELR1Io4ZDoSa70000");
     RoutingContext routingContext = mockDiagramRequest.getRoutingContext();
     diagramHandler.createGet("plantuml").handle(routingContext);
-    verify(mockDiagramService).convert(eq("@startuml\nBob -> Alice : hello\n@enduml"), eq("plantuml"), eq(FileFormat.SVG), any());
+    verify(mockDiagramService).convert(eq("@startuml\nBob -> Alice : hello\n@enduml"), eq("plantuml"), eq(FileFormat.SVG), any(), any());
   }
 
   /**
@@ -111,7 +115,7 @@ class DiagramHandlerTest {
 
     RoutingContext routingContext = mockDiagramRequest.getRoutingContext();
     diagramHandler.createPost("plantuml").handle(routingContext);
-    verify(mockDiagramService).convert(eq("Bob -> Alice : hello"), eq("plantuml"), eq(FileFormat.SVG), any());
+    verify(mockDiagramService).convert(eq("Bob -> Alice : hello"), eq("plantuml"), eq(FileFormat.SVG), any(), any());
   }
 
   /**
@@ -135,7 +139,7 @@ class DiagramHandlerTest {
 
     RoutingContext routingContext = mockDiagramRequest.getRoutingContext();
     diagramHandler.createPost("plantuml").handle(routingContext);
-    verify(mockDiagramService).convert(eq("Bob -> Alice : hello"), eq("plantuml"), eq(FileFormat.SVG), any());
+    verify(mockDiagramService).convert(eq("Bob -> Alice : hello"), eq("plantuml"), eq(FileFormat.SVG), any(), any());
   }
 
   /**
@@ -160,7 +164,7 @@ class DiagramHandlerTest {
 
     RoutingContext routingContext = mockDiagramRequest.getRoutingContext();
     diagramHandler.createPost("plantuml").handle(routingContext);
-    verify(mockDiagramService).convert(eq("Bob -> Alice : hello"), eq("plantuml"), eq(FileFormat.SVG), any());
+    verify(mockDiagramService).convert(eq("Bob -> Alice : hello"), eq("plantuml"), eq(FileFormat.SVG), any(), any());
   }
 
   /**
@@ -183,7 +187,7 @@ class DiagramHandlerTest {
 
     RoutingContext routingContext = mockDiagramRequest.getRoutingContext();
     diagramHandler.createPost("plantuml").handle(routingContext);
-    verify(mockDiagramService).convert(eq("Bob -> Alice : hello"), eq("plantuml"), eq(FileFormat.SVG), any());
+    verify(mockDiagramService).convert(eq("Bob -> Alice : hello"), eq("plantuml"), eq(FileFormat.SVG), any(), any());
   }
 
   /**
@@ -208,7 +212,111 @@ class DiagramHandlerTest {
     // handle
     RoutingContext routingContext = mockDiagramRequest.getRoutingContext();
     diagramHandler.createPost("plantuml").handle(routingContext);
-    verify(mockDiagramService).convert(eq("Bob -> Alice : hello"), eq("plantuml"), eq(FileFormat.SVG), any());
+    verify(mockDiagramService).convert(eq("Bob -> Alice : hello"), eq("plantuml"), eq(FileFormat.SVG), any(), any());
+  }
+
+  @Test
+  void should_extract_options_as_query_params_from_get_request() {
+    DiagramService mockDiagramService = mockDiagramService(Lists.newArrayList(FileFormat.SVG), new SourceDecoder() {
+      @Override
+      public String decode(String encoded) throws DecodeException {
+        return DiagramSource.decode(encoded);
+      }
+    });
+    DiagramHandler diagramHandler = new DiagramHandler(mockDiagramService);
+    MockDiagramRequest mockDiagramRequest = new MockDiagramRequest();
+    MultiMap params = MultiMap.caseInsensitiveMultiMap();
+    // /graphviz/svg/eNpLyUwvSizIUKhWSFTQtVNIUqgFADrsBaY=
+    params.add("output_format", "svg");
+    params.add("source_encoded", "eNpLyUwvSizIUKhWSFTQtVNIUqgFADrsBaY=");
+    params.add("node-attribute-fontcolor", "Crimson");
+    params.add("node-attribute-shape", "rect");
+    params.add("layout", "neato");
+    params.add("graph-attribute-fontcolor", "SteelBlue");
+    params.add("graph-attribute-label", "Hello World");
+    params.add("edge-attribute-color", "NavajoWhite");
+    params.add("edge-attribute-arrowhead", "diamond");
+    mockDiagramRequest.setParams(params);
+    mockDiagramRequest.setHeaders(MultiMap.caseInsensitiveMultiMap());
+    mockDiagramRequest.setMethod(HttpMethod.GET);
+    RoutingContext routingContext = mockDiagramRequest.getRoutingContext();
+    diagramHandler.createGet("graphviz").handle(routingContext);
+    JsonObject options = new JsonObject();
+    options.put("layout", "neato");
+    options.put("edge-attribute-arrowhead", "diamond");
+    options.put("graph-attribute-fontcolor", "SteelBlue");
+    options.put("node-attribute-fontcolor", "Crimson");
+    options.put("edge-attribute-color", "NavajoWhite");
+    options.put("node-attribute-shape", "rect");
+    options.put("graph-attribute-label", "Hello World");
+    verify(mockDiagramService).convert(eq("digraph { a -> b }"), eq("graphviz"), eq(FileFormat.SVG), eq(options), any());
+  }
+
+  @Test
+  void should_extract_options_as_headers_from_get_request() {
+    DiagramService mockDiagramService = mockDiagramService(Lists.newArrayList(FileFormat.SVG), new SourceDecoder() {
+      @Override
+      public String decode(String encoded) throws DecodeException {
+        return DiagramSource.decode(encoded);
+      }
+    });
+    DiagramHandler diagramHandler = new DiagramHandler(mockDiagramService);
+    MockDiagramRequest mockDiagramRequest = new MockDiagramRequest();
+    MultiMap params = MultiMap.caseInsensitiveMultiMap();
+    // /graphviz/svg/eNpLyUwvSizIUKhWSFTQtVNIUqgFADrsBaY=
+    params.add("output_format", "svg");
+    params.add("source_encoded", "eNpLyUwvSizIUKhWSFTQtVNIUqgFADrsBaY=");
+    mockDiagramRequest.setParams(params);
+    MultiMap headers = MultiMap.caseInsensitiveMultiMap();
+    headers.add("kroki-diagram-options-node-attribute-fontcolor", "Crimson");
+    headers.add("KROKI-DIAGRAM-OPTIONS-NODE-ATTRIBUTE-SHAPE", "rect");
+    headers.add("KROKI-DIAGRAM-OPTIONS-layout", "neato");
+    headers.add("KROKI-DIAGRAM-OPTIONS-GRAPH-ATTRIBUTE-FONTCOLOR", "SteelBlue");
+    headers.add("kroki-diagram-options-graph-attribute-label", "Hello World");
+    headers.add("kroki-diagram-options-EDGE-ATTRIBUTE-COLOR", "NavajoWhite");
+    headers.add("Kroki-Diagram-Options-Edge-Attribute-ArrowHead", "diamond");
+    mockDiagramRequest.setHeaders(headers);
+    mockDiagramRequest.setMethod(HttpMethod.GET);
+    RoutingContext routingContext = mockDiagramRequest.getRoutingContext();
+    diagramHandler.createGet("graphviz").handle(routingContext);
+    JsonObject options = new JsonObject();
+    options.put("layout", "neato");
+    options.put("edge-attribute-arrowhead", "diamond");
+    options.put("graph-attribute-fontcolor", "SteelBlue");
+    options.put("node-attribute-fontcolor", "Crimson");
+    options.put("edge-attribute-color", "NavajoWhite");
+    options.put("node-attribute-shape", "rect");
+    options.put("graph-attribute-label", "Hello World");
+    verify(mockDiagramService).convert(eq("digraph { a -> b }"), eq("graphviz"), eq(FileFormat.SVG), eq(options), any());
+  }
+
+  @Test
+  void should_extract_options_using_precedence_order_json_body() {
+    JsonObject diagramOptions = new JsonObject();
+    diagramOptions.put("node-attribute-fontcolor", "DarkSalmon");
+    MultiMap headers = MultiMap.caseInsensitiveMultiMap();
+    headers.add("kroki-diagram-options-node-attribute-fontcolor", "LightSalmon");
+    MultiMap params = MultiMap.caseInsensitiveMultiMap();
+    params.add("node-attribute-fontcolor", "Crimson");
+    JsonObject actual = DiagramHandler.getOptions(diagramOptions, headers, params);
+    // JSON body has higher precedence over both HTTP headers and query parameters
+    HashMap<String, Object> expected = new HashMap<>();
+    expected.put("node-attribute-fontcolor", "DarkSalmon");
+    assertThat(actual.getMap()).isEqualTo(expected);
+  }
+
+  @Test
+  void should_extract_options_using_precedence_order_http_header() {
+    JsonObject diagramOptions = new JsonObject();
+    MultiMap headers = MultiMap.caseInsensitiveMultiMap();
+    headers.add("kroki-diagram-options-node-attribute-fontcolor", "LightSalmon");
+    MultiMap params = MultiMap.caseInsensitiveMultiMap();
+    params.add("node-attribute-fontcolor", "Crimson");
+    JsonObject actual = DiagramHandler.getOptions(diagramOptions, headers, params);
+    // HTTP headers have higher precedence over query parameters
+    HashMap<String, Object> expected = new HashMap<>();
+    expected.put("node-attribute-fontcolor", "LightSalmon");
+    assertThat(actual.getMap()).isEqualTo(expected);
   }
 
   private DiagramService mockDiagramService(List<FileFormat> supportedFormats, SourceDecoder sourceDecoder) {

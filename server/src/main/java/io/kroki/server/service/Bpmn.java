@@ -51,7 +51,7 @@ public class Bpmn implements DiagramService {
   }
 
   @Override
-  public void convert(String sourceDecoded, String serviceName, FileFormat fileFormat, Handler<AsyncResult<Buffer>> handler) {
+  public void convert(String sourceDecoded, String serviceName, FileFormat fileFormat, JsonObject options, Handler<AsyncResult<Buffer>> handler) {
     String requestURI = "/" + serviceName + "/" + fileFormat.getName();
     Handler<AsyncResult<HttpResponse<Buffer>>> responseHandler = Delegator.createHandler(host, port, requestURI, handler);
     Delegator.delegate(client, host, port, requestURI, sourceDecoded, responseHandler);

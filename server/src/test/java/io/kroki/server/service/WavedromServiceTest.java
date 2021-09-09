@@ -2,9 +2,7 @@ package io.kroki.server.service;
 
 import io.kroki.server.action.Commander;
 import io.kroki.server.format.FileFormat;
-import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
-import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
@@ -35,7 +33,7 @@ public class WavedromServiceTest {
     config.put("KROKI_WAVEDROM_BIN_PATH", "/path/to/wavedrom");
     Wavedrom wavedromService = new Wavedrom(vertx, new JsonObject(config), commanderMock);
     VertxTestContext testContext = new VertxTestContext();
-    wavedromService.convert("{}", "wavedrom", FileFormat.SVG, testContext.succeeding(buffer -> testContext.verify(() -> {
+    wavedromService.convert("{}", "wavedrom", FileFormat.SVG, new JsonObject(), testContext.succeeding(buffer -> testContext.verify(() -> {
       assertThat(buffer.toString()).isEqualTo("<svg>wavedrom</svg>");
       testContext.completeNow();
     })));

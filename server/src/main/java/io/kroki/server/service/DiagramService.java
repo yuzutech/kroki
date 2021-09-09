@@ -5,6 +5,7 @@ import io.kroki.server.format.FileFormat;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.buffer.Buffer;
+import io.vertx.core.json.JsonObject;
 
 import java.util.List;
 
@@ -16,5 +17,5 @@ public interface DiagramService {
 
   String getVersion();
 
-  void convert(String sourceDecoded, String serviceName, FileFormat fileFormat, Handler<AsyncResult<Buffer>> handler);
+  void convert(String sourceDecoded, String serviceName, FileFormat fileFormat, JsonObject options, Handler<AsyncResult<Buffer>> handler);
 }
