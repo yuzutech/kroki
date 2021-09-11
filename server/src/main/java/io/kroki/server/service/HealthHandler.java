@@ -36,7 +36,7 @@ public class HealthHandler {
     serviceVersions.add(new ServiceVersion("bytefield", "1.5.0"));
     serviceVersions.add(new ServiceVersion("c4plantuml", "1.2021.8"));
     serviceVersions.add(new ServiceVersion("ditaa", "1.3.13"));
-    serviceVersions.add(new ServiceVersion("erd", "0.1.3.0"));
+    serviceVersions.add(new ServiceVersion("erd", "0.2.1.0"));
     serviceVersions.add(new ServiceVersion("excalidraw", "0.1.0"));
     serviceVersions.add(new ServiceVersion("graphviz", "2.40.1"));
     serviceVersions.add(new ServiceVersion("mermaid", "8.11.0"));
