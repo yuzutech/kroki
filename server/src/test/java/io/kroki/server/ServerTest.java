@@ -36,7 +36,7 @@ class ServerTest {
     port = socket.getLocalPort();
     socket.close();
     DeploymentOptions options = new DeploymentOptions().setConfig(new JsonObject().put("KROKI_PORT", port));
-    vertx.deployVerticle(new Server(), options, testContext.completing());
+    vertx.deployVerticle(new Server(), options, testContext.succeedingThenComplete());
   }
 
   @Test
