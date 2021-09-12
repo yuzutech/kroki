@@ -72,6 +72,50 @@ If this value is omitted, 72.0 is used.
 This number is used to convert the point coordinate units used in the pos attribute into inches, which is what is expected by neato and fdp: https://graphviz.org/doc/info/command.html#-s
 |===
 
+== PlantUML
+
+[cols="1m,1a,2a",opts="header"]
+|===
+|Name
+|Allowable Values
+|Description
+
+|theme
+|_string_
+
+- `amiga`
+- `black-knight`
+- `bluegray`
+- `blueprint`
+- `cerulean-outline`
+- `cerulean`
+- `crt-amber`
+- `crt-green`
+- `cyborg-outline`
+- `cyborg`
+- `hacker`
+- `hacker-hold`
+- `lightgray`
+- `materia-outline`
+- `materia`
+- `metal`
+- `mimeograph`
+- `minty`
+- `plain`
+- `resume-light`
+- `sandstone`
+- `silver`
+- `sketchy-outline`
+- `sketchy`
+- `spacelab`
+- `superhero-outline`
+- `superhero`
+- `united`
+
+|Use a specific theme (it will prepend the `!theme` directive in your diagram)
+
+|===
+
 == Structurizr
 
 [cols="1m,1a,2a",opts="header"]

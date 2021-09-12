@@ -80,6 +80,7 @@ public class Plantuml implements DiagramService {
   public static final Pattern INCLUDE_RX = Pattern.compile("^\\s*!include(?:url|sub)?\\s+(?<path>(?:(?<=\\\\)[ ]|[^ ])+)(.*)");
   private static final Pattern STARTDITAA_BLOCK_RX = Pattern.compile("(?:^| +)@startditaa(?<opts>\\s\\S*)\\n(?<source>.*?) *@endditaa", Pattern.MULTILINE | Pattern.DOTALL);
   private static final Pattern DITAA_KEYWORD_BOCK_RX = Pattern.compile("@startuml(:?\\s*)(?:^| +)ditaa(?:(?:\\((?<opts>[^)]*)\\))?| *)\\n(?<source>.*?) *@end(?:ditaa|uml)", Pattern.MULTILINE | Pattern.DOTALL);
+  private static final Pattern START_BLOCK_RX = Pattern.compile("^(@start.*\\n)");
 
   private static final Logger logger = LoggerFactory.getLogger(Plantuml.class);
   private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG, FileFormat.JPEG, FileFormat.BASE64, FileFormat.TXT, FileFormat.UTXT);
@@ -232,7 +233,7 @@ public class Plantuml implements DiagramService {
       // ...otherwise, continue with PlantUML
       vertx.executeBlocking(future -> {
         try {
-          byte[] data = convert(primeSource, fileFormat);
+          byte[] data = convert(primeSource, fileFormat, options);
           future.complete(data);
         } catch (IllegalStateException e) {
           future.fail(e);
@@ -241,8 +242,13 @@ public class Plantuml implements DiagramService {
     }
   }
 
-  static byte[] convert(String source, FileFormat format) {
+  static byte[] convert(String source, FileFormat format, JsonObject options) {
     try {
+      String theme = options.getString("theme");
+      if (theme != null && !theme.trim().isEmpty()) {
+        // add !theme directive just after the @start directive
+        source = START_BLOCK_RX.matcher(source).replaceAll("$1!theme " + theme + "\n");
+      }
       SourceStringReader reader = new SourceStringReader(source);
       if (format == FileFormat.BASE64) {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
