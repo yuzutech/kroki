@@ -72,6 +72,20 @@ If this value is omitted, 72.0 is used.
 This number is used to convert the point coordinate units used in the pos attribute into inches, which is what is expected by neato and fdp: https://graphviz.org/doc/info/command.html#-s
 |===
 
+== Structurizr
+
+[cols="1m,1a,2a",opts="header"]
+|===
+|Name
+|Allowable Values
+|Description
+
+|view-key
+|_string_
+|Key of the view (if the workspace contains more than one view)
+
+|===
+
 == Svgbob
 
 [cols="1m,1a,2a",opts="header"]
