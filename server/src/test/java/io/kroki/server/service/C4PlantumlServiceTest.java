@@ -2,6 +2,7 @@ package io.kroki.server.service;
 
 import io.kroki.server.format.FileFormat;
 import io.kroki.server.security.SafeMode;
+import io.vertx.core.json.JsonObject;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -62,7 +63,7 @@ public class C4PlantumlServiceTest {
     System.setProperty("socksProxyPort", "1234");
     try {
       // should not use the network!
-      byte[] convert = Plantuml.convert(Plantuml.sanitize(diagram, SafeMode.SAFE), FileFormat.SVG);
+      byte[] convert = Plantuml.convert(Plantuml.sanitize(diagram, SafeMode.SAFE), FileFormat.SVG, new JsonObject());
       assertThat(convert).isNotEmpty();
     } finally {
       System.clearProperty("socksProxyHost");

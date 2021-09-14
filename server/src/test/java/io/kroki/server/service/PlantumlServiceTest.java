@@ -9,7 +9,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.util.Collections;
@@ -18,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -27,7 +30,7 @@ public class PlantumlServiceTest {
   @Test
   void should_return_a_syntax_error_exception() {
     String diagram = "@startuml\nBob\\->Alice hello\n@enduml";
-    assertThatThrownBy(() -> Plantuml.convert(diagram, FileFormat.SVG))
+    assertThatThrownBy(() -> Plantuml.convert(diagram, FileFormat.SVG, new JsonObject()))
       .isInstanceOf(BadRequestException.class)
       .hasMessageStartingWith("Syntax Error? (line: 1)");
   }
@@ -35,7 +38,7 @@ public class PlantumlServiceTest {
   @Test
   void should_return_an_empty_diagram_exception() {
     String diagram = "Bob->Alice:hello";
-    assertThatThrownBy(() -> Plantuml.convert(diagram, FileFormat.SVG))
+    assertThatThrownBy(() -> Plantuml.convert(diagram, FileFormat.SVG, new JsonObject()))
       .isInstanceOf(BadRequestException.class)
       .hasMessageStartingWith("Empty diagram, missing delimiters?");
   }
@@ -43,7 +46,7 @@ public class PlantumlServiceTest {
   @Test
   void should_return_a_diagram() {
     String diagram = "@startuml\nBob->Alice:hello\n@enduml";
-    byte[] convert = Plantuml.convert(diagram, FileFormat.SVG);
+    byte[] convert = Plantuml.convert(diagram, FileFormat.SVG, new JsonObject());
     assertThat(convert).isNotEmpty();
   }
 
@@ -84,7 +87,7 @@ public class PlantumlServiceTest {
       "Rel_Access_Up(webServer, inMemoryItem, \"\")\n" +
       "Rel_Serving_Up(webServer, internetBrowser, \"\")\n" +
       "@enduml";
-    byte[] convert = Plantuml.convert(Plantuml.sanitize(diagram, SafeMode.SAFE), FileFormat.SVG);
+    byte[] convert = Plantuml.convert(Plantuml.sanitize(diagram, SafeMode.SAFE), FileFormat.SVG, new JsonObject());
     assertThat(convert).isNotEmpty();
   }
 
@@ -103,10 +106,9 @@ public class PlantumlServiceTest {
       "Logstash -right-> ElasticSearch: Transformed Data\n" +
       "ElasticSearch -right-> Kibana: Data to View\n" +
       "@enduml";
-    byte[] convert = Plantuml.convert(Plantuml.sanitize(diagram, SafeMode.SAFE), FileFormat.SVG);
+    byte[] convert = Plantuml.convert(Plantuml.sanitize(diagram, SafeMode.SAFE), FileFormat.SVG, new JsonObject());
     assertThat(convert).isNotEmpty();
   }
-
 
   @Test
   void should_preserve_logos_stdlib_include() throws IOException {
@@ -129,7 +131,7 @@ public class PlantumlServiceTest {
       "kafka -> daemon\n" +
       "daemon --> cassandra\n" +
       "@enduml";
-    byte[] convert = Plantuml.convert(Plantuml.sanitize(diagram, SafeMode.SAFE), FileFormat.SVG);
+    byte[] convert = Plantuml.convert(Plantuml.sanitize(diagram, SafeMode.SAFE), FileFormat.SVG, new JsonObject());
     assertThat(convert).isNotEmpty();
   }
 
@@ -148,7 +150,7 @@ public class PlantumlServiceTest {
       "myFunction --> myCosmosDb\n" +
       "mySecondFunction --> mySecondCosmosDb\n" +
       "@enduml";
-    byte[] convert = Plantuml.convert(Plantuml.sanitize(diagram, SafeMode.SECURE), FileFormat.SVG);
+    byte[] convert = Plantuml.convert(Plantuml.sanitize(diagram, SafeMode.SECURE), FileFormat.SVG, new JsonObject());
     assertThat(convert).isNotEmpty();
   }
 
@@ -305,38 +307,42 @@ public class PlantumlServiceTest {
     String diagram = "@startuml\n" +
       "!include /etc/password\n" +
       "@enduml";
-    assertThatThrownBy(() -> Plantuml.convert(diagram, FileFormat.SVG))
+    assertThatThrownBy(() -> Plantuml.convert(diagram, FileFormat.SVG, new JsonObject()))
       .hasMessage("cannot include /etc/password (line: 1)");
   }
 
   @Test
   void should_return_an_ascii_text_diagram() {
     String diagram = "@startuml\nBob->Alice:hello\n@enduml";
-    byte[] convert = Plantuml.convert(diagram, FileFormat.TXT);
+    byte[] convert = Plantuml.convert(diagram, FileFormat.TXT, new JsonObject());
+    //@formatter:off
     assertThat(new String(convert)).isEqualTo(
       "     ,---.          ,-----.\n" +
-        "     |Bob|          |Alice|\n" +
-        "     `-+-'          `--+--'\n" +
-        "       |    hello      |   \n" +
-        "       |-------------->|   \n" +
-        "     ,-+-.          ,--+--.\n" +
-        "     |Bob|          |Alice|\n" +
-        "     `---'          `-----'\n");
+      "     |Bob|          |Alice|\n" +
+      "     `-+-'          `--+--'\n" +
+      "       |    hello      |   \n" +
+      "       |-------------->|   \n" +
+      "     ,-+-.          ,--+--.\n" +
+      "     |Bob|          |Alice|\n" +
+      "     `---'          `-----'\n");
+    //@formatter:on
   }
 
   @Test
   void should_return_an_unicode_text_diagram() {
     String diagram = "@startuml\nBob->Alice:hello\n@enduml";
-    byte[] convert = Plantuml.convert(diagram, FileFormat.UTXT);
+    byte[] convert = Plantuml.convert(diagram, FileFormat.UTXT, new JsonObject());
+    //@formatter:off
     assertThat(new String(convert)).isEqualTo(
       "     ┌───┐          ┌─────┐\n" +
-        "     │Bob│          │Alice│\n" +
-        "     └─┬─┘          └──┬──┘\n" +
-        "       │    hello      │   \n" +
-        "       │──────────────>│   \n" +
-        "     ┌─┴─┐          ┌──┴──┐\n" +
-        "     │Bob│          │Alice│\n" +
-        "     └───┘          └─────┘\n");
+      "     │Bob│          │Alice│\n" +
+      "     └─┬─┘          └──┬──┘\n" +
+      "       │    hello      │   \n" +
+      "       │──────────────>│   \n" +
+      "     ┌─┴─┐          ┌──┴──┐\n" +
+      "     │Bob│          │Alice│\n" +
+      "     └───┘          └─────┘\n");
+    //@formatter:on
   }
 
   @Test
@@ -645,5 +651,24 @@ public class PlantumlServiceTest {
       "+-----------+                     +----------+\n" +
       "\n"
     );
+  }
+
+  @Test
+  void should_use_specified_theme() throws IOException {
+    String diagram = "@startuml\nBob->Alice:hello\n@enduml";
+    JsonObject options = new JsonObject();
+    options.put("theme", "minty");
+    byte[] convert = Plantuml.convert(diagram, FileFormat.SVG, options);
+    assertThat(stripComments(new String(convert))).isEqualTo(read("./plantuml_with_minty_theme.svg"));
+  }
+
+  private String read(String name) throws IOException {
+    try (BufferedReader buffer = new BufferedReader(new InputStreamReader(PlantumlServiceTest.class.getClassLoader().getResourceAsStream(name)))) {
+      return buffer.lines().collect(Collectors.joining("\n"));
+    }
+  }
+
+  private String stripComments(String xmlContent) {
+    return xmlContent.replaceAll("<!--[\\s\\S]*?-->", "");
   }
 }

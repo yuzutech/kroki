@@ -92,7 +92,7 @@ public class Structurizr implements DiagramService {
       StringWriter stringWriter = new StringWriter();
       structurizrPlantUMLWriter.write(selectedView, stringWriter);
       String plantumlDiagram = stringWriter.toString();
-      return Plantuml.convert(plantumlDiagram, fileFormat);
+      return Plantuml.convert(plantumlDiagram, fileFormat, new JsonObject());
     } catch (StructurizrDslParserException e) {
       throw new BadRequestException("Unable to parse the Structurizr DSL.", e);
     }
