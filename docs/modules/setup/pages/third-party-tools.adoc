@@ -1,0 +1,19 @@
+= Third Party Tools
+:uri-diagramit: https://diagramit.herokuapp.com/
+:uri-intellij-asciidoc-plugin: https://github.com/asciidoctor/asciidoctor-intellij-plugin/
+:uri-keenwrite: https://github.com/DaveJarvis/keenwrite/
+
+A list of third party tools, developed by the community, that relies on Kroki.
+
+== Diagram it
+
+{uri-diagramit}[A public service] that allows you to generate diagrams directly from a public source file.
+
+== IntelliJ AsciiDoc Plugin
+
+{uri-intellij-asciidoc-plugin}[A plugin for the IntelliJ platform] (IntelliJ IDEA, RubyMine, etc.) that provides support for the AsciiDoc markup language.
+The preview supports rendering diagrams using Kroki.
+
+== KeenWrite
+
+{uri-keenwrite}[A Java-based desktop text editor] with live preview, string interpolation, and formulas.

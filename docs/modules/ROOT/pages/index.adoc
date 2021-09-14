@@ -1,6 +1,5 @@
 = Kroki Documentation
 :uri-exoscale: https://www.exoscale.com/
-:uri-diagramit: https://github.com/marcosvst/diagramit
 
 [discrete.tagline]
 === Convert plain text diagrams to images !
@@ -19,6 +18,6 @@ Thanks to {uri-exoscale}[Exoscale], which has kindly offered two servers, we can
 However, some parts of the infrastructure are still host on other providers, so *we are still looking for sponsors to cover all the expenses*.
 +
 If you are interested, please 👋 mailto:hello@kroki.io[contact us].
-
-The public instance of Kroki does not do any remote call for performance/security reasons. Also we want to keep the API as simple as possible, so it takes a text diagram as input and returns an image.
-If you want to generate diagrams directly from a public source file, check this other project named {uri-diagramit}[Diagram it] that was built upon Kroki and allow you to generate the diagram only by providing the diagram's public source file path.
++
+NOTE: The public instance of Kroki does not do any remote call for performance and security reasons.
+We also want to keep the API as simple as possible, so it takes a text diagram as input and returns an image.
