@@ -1,0 +1,39 @@
+= Third Party Tools
+:url-diagramit: https://diagramit.herokuapp.com/
+:url-intellij-asciidoc-plugin: https://github.com/asciidoctor/asciidoctor-intellij-plugin/
+:url-keenwrite: https://github.com/DaveJarvis/keenwrite/
+:url-niolesk: https://niolesk.top/
+
+A list of third party tools, developed by the community, that relies on Kroki.
+
+== Diagram it
+
+{url-diagramit}[A public service] that allows you to generate diagrams directly from a public source file.
+
+[TIP]
+====
+You can use this service to generate diagrams from public URL. +
+For instance: https://diagramit.herokuapp.com/v1/vega/generate?source=https://github.com/yuzutech/kroki/blob/main/tests/smoke/diagrams/bar-chart.vega
+
+Here, we generate a Vega diagram from a public GitHub URL: https://github.com/yuzutech/kroki/blob/main/tests/smoke/diagrams/bar-chart.vega
+====
+
+== IntelliJ AsciiDoc Plugin
+
+{url-intellij-asciidoc-plugin}[A plugin for the IntelliJ platform] (IntelliJ IDEA, RubyMine, etc.) that provides support for the AsciiDoc markup language.
+The preview supports rendering diagrams using Kroki.
+
+== KeenWrite
+
+{url-keenwrite}[A Java-based desktop text editor] with live preview, string interpolation, and formulas.
+
+== Niolesk
+
+{url-niolesk}[An online editor] for Kroki.
+
+[TIP]
+====
+Add any Kroki URL after `https://niolesk.top/#` and you'll be able to edit your diagram.
+
+Here's an example: https://niolesk.top/#https://kroki.io/plantuml/svg/eNpTLMlIzU1VyM3MK6nk4nLKT9K1c8zJTE61UvBIzcnJVwQArksKZQ==
+====
