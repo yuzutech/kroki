@@ -22,7 +22,8 @@ RUN apk add --update --no-cache \
            giflib-dev \
            graphviz \
            ttf-freefont \
-           font-noto-cjk
+           font-noto-cjk \
+           fontconfig
 
 COPY --chown=kroki:kroki ops/docker/logback.xml /etc/kroki/logback.xml
 
