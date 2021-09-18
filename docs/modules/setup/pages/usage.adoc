@@ -92,6 +92,63 @@ POST /graphviz/svg
 }
 ----
 
+== Options
+
+Some diagram libraries relies on options declared outside the diagram definition. +
+To do pass options to the underlying diagram library, you can declare them as query parameters, as attributes in the JSON body or as HTTP headers.
+
+=== Query parameters
+
+For `GET` requests, you can pass diagram options as query parameters:
+
+[source,http]
+----
+GET /graphviz/svg/eNpLyUwvSizIUHBXqPZIzcnJ17ULzy_KSanlAgB1EAjQ?key=value
+----
+
+=== POST requests
+
+When using `POST` you can declare options in the `diagram_options`:
+
+[source,http]
+POST /
+
+[source,json]
+----
+{
+  "diagram_source": "digraph G {Hello->World}",
+  "diagram_type": "graphviz",
+  "output_format": "svg",
+  "diagram_options": {
+    "key": "value"
+  }
+}
+----
+
+=== HTTP headers
+
+Finally, you can pass options using HTTP headers prefixed by `Kroki-Diagram-Options`:
+
+[source,request]
+----
+POST /graphviz
+Accept: image/svg+xml
+Content-Type: text/plain
+Kroki-Diagram-Options-Key: value
+
+digraph G {
+  Hello->World
+}
+----
+
+Kroki defines the precedence order as follows:
+
+1. JSON body
+2. HTTP header
+3. Query parameter
+
+To find out what options are available, please read the xref:diagram-options.adoc[] page.
+
 == Next
 
 * Install xref:install.adoc[Kroki on your server] for the first time
