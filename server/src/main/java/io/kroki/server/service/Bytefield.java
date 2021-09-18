@@ -47,7 +47,7 @@ public class Bytefield implements DiagramService {
 
   @Override
   public String getVersion() {
-    return "1.4.3";
+    return "1.6.0";
   }
 
   @Override
