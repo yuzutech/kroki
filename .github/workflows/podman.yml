@@ -1,0 +1,49 @@
+name: Podman
+
+on:
+  push:
+    paths-ignore:
+      - 'docs/**'
+    branches:
+      - main
+  pull_request:
+    paths-ignore:
+      - 'docs/**'
+    branches:
+      - '*'
+
+jobs:
+  test-containers:
+    runs-on: ubuntu-18.04
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Install Java dependencies
+        run: make installLocalDependencies
+
+      - name: Build Java server
+        run: make buildServer
+
+      - name: Setup Podman
+        run: sudo apt-get install podman
+
+      - name: Build gateway container
+        run: make -C server package
+
+      - name: Run gateway container
+        run: podman run yuzutech/kroki:latest
+
+      - name: Wait until available
+        run: |
+          ./tests/smoke/wait-for-it.sh localhost:8000 --timeout=40
+          sleep 20
+
+      - name: Test PlantUML
+        run: curl -o /dev/null -s -w "%{http_code}\n" http://localhost:8000/plantuml/svg/eNpzyk_StXPMyUxOtVLwSM3JyQcAMQcFqw== | grep 200
+
