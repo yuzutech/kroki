@@ -43,7 +43,7 @@ jobs:
           make -C server package
 
       - name: Run gateway container
-        run: podman run -d -p8000:8000 yuzutech/kroki:latest
+        run: podman run -d -p8000:8000 docker-daemon:yuzutech/kroki:latest
 
       - name: Wait until available
         run: |
