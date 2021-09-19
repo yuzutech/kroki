@@ -34,7 +34,13 @@ jobs:
         run: sudo apt-get install podman
 
       - name: Build gateway container
-        run: make -C server package
+        run: |
+          make -C nomnoml package
+          make -C vega package
+          make -C wavedrom package
+          make -C bytefield package
+          make -C server buildStaticBinaries
+          make -C server package
 
       - name: Run gateway container
         run: podman run yuzutech/kroki:latest
