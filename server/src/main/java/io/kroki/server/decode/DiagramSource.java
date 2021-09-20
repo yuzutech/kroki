@@ -54,7 +54,7 @@ public class DiagramSource {
     return text;
   }
 
-  public static byte[] encode(String decoded) throws IOException {
+  public static byte[] encode(String decoded) {
     return Base64.getUrlEncoder().encode(Zlib.compress(decoded.getBytes()));
   }
 }

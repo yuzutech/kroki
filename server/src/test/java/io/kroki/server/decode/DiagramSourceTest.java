@@ -69,7 +69,7 @@ class DiagramSourceTest {
   }
 
   @Test
-  void should_not_trim() throws IOException, DecodeException {
+  void should_not_trim() throws DecodeException {
     String source = "\n" +
       "    +----------+\n" +
       "    |   FAQ:   |\n" +
