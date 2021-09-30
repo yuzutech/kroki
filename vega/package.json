@@ -18,7 +18,7 @@
     "canvas": "2.8.0",
     "vega": "5.20.2",
     "vega-lite": "5.1.1",
-    "yargs": "17.1.1"
+    "yargs": "17.2.1"
   },
   "devDependencies": {
     "chai": "^4.3.4",
