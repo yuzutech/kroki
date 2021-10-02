@@ -18,6 +18,10 @@ const tests = [
 ]
 
 describe('#convert', function () {
+
+  // Puppeteer can take some time to start
+  this.timeout(10000)
+
   tests.forEach((testCase) => {
     it(`should return an XML compatible SVG with content: ${testCase.content}`, async function () {
       const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']})
