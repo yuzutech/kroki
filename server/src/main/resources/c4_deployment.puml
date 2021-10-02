@@ -25,7 +25,7 @@ SetDefaultLegendEntries("person\nsystem\ncontainer\nexternal_person\nexternal_sy
 ' ##################################
 
 ' PlantUML supports no automatic line breaks of "PlantUML containers" (C4 Deployment_Node is a "PlantUML container")
-' therefore Deployment_Node() implements an automatic line break based on spaces (like in all other objects).
+' therefore (Deployment_)Node() implements an automatic line break based on spaces (like in all other objects).
 ' If a $type contains \n then these are used (and no automatic space based line breaks are done)
 ' $NODE_TYPE_MAX_CHAR_WIDTH defines the automatic line break position
 !global $NODE_TYPE_MAX_CHAR_WIDTH = 35

@@ -1,5 +1,5 @@
 ' C4-PlantUML
-' https://github.com/plantuml-stdlib/C4-PlantUML/tree/v2.2.0
+' https://github.com/plantuml-stdlib/C4-PlantUML/tree/v2.3.0
 
 ' Colors
 ' ##################################
@@ -9,12 +9,16 @@
 !global $ARROW_COLOR = "#666666"
 
 !global $BOUNDARY_COLOR = "#444444"
-!global $BOUNDARY_BG_COLOR = "#FFFFFF"
+!global $BOUNDARY_BG_COLOR = "transparent"
 
 !global $LEGEND_FONT_COLOR = "#FFFFFF"
 !global $LEGEND_TITLE_COLOR = "#000000"
-!global $LEGEND_UNDEFINED_BG_COLOR = "#D5CFEE"
-!global $LEGEND_UNDEFINED_FONT_COLOR = "#8B77E4"
+' %darken(darkkhaki,50), #khaki
+!global $LEGEND_DARK_COLOR = "#66622E"
+!global $LEGEND_LIGHT_COLOR = "#khaki"
+
+' Labels
+' ##################################
 
 !global $LEGEND_SHADOW_TEXT = "(shadow) "
 !global $LEGEND_NO_SHADOW_TEXT = "(no shadow) "
@@ -22,11 +26,25 @@
 !global $LEGEND_NO_FONT_TEXT = "(no text color) "
 !global $LEGEND_NO_BG_TEXT = "(no back color) "
 !global $LEGEND_NO_LINE_TEXT = "(no line color) "
+!global $LEGEND_ROUNDED_BOX = "(rounded box) "
+!global $LEGEND_EIGHT_SIDED = "(eight sided) "
+!global $LEGEND_DOTTED_LINE = "(dotted) "
+!global $LEGEND_DASHED_LINE = "(dashed) "
+!global $LEGEND_BOLD_LINE = "(bold) "
 
 ' Styling
 ' ##################################
 
 !global $TECHN_FONT_SIZE = 12
+!global $ROUNDED_BOX_SIZE = 25
+!global $EIGHT_SIDED_SIZE = 18
+
+!global $ROUNDED_BOX = "roundedBox"
+!global $EIGHT_SIDED = "eightSided"
+
+!global $DOTTED_LINE = "dotted"
+!global $DASHED_LINE = "dashed"
+!global $BOLD_LINE = "bold"
 
 skinparam defaultTextAlignment center
 
@@ -36,6 +54,13 @@ skinparam maxMessageSize 150
 skinparam LegendBorderColor transparent
 skinparam LegendBackgroundColor transparent
 skinparam LegendFontColor $LEGEND_FONT_COLOR
+
+skinparam shadowing<<legendArea>> false
+' #00000000 is transparent
+skinparam rectangle<<legendArea>> {
+    backgroundcolor #00000000
+    bordercolor #00000000
+}
 
 skinparam rectangle {
     StereotypeFontSize 12
@@ -52,13 +77,24 @@ skinparam queue {
     shadowing false
 }
 
-skinparam Arrow {
+skinparam arrow {
     Color $ARROW_COLOR
     FontColor $ARROW_COLOR
     FontSize 12
 }
 
-' Some boundary skinparam have to be set a package skinparams too (PlantUML uses internal packages)
+skinparam actor {
+    StereotypeFontSize 12
+    shadowing false
+    style awesome
+}
+
+skinparam person {
+    StereotypeFontSize 12
+    shadowing false
+}
+
+' Some boundary skinparams have to be set as package skinparams too (PlantUML uses internal packages)
 skinparam package {
     StereotypeFontSize 6
     StereotypeFontColor $BOUNDARY_BG_COLOR
@@ -102,6 +138,7 @@ skinparam rectangle<<boundary>> {
   !return $stereos
 !endfunction
 
+' element specific (unused are hidden based on mask)
 !unquoted function $toStereos($elementType, $tags)
   !if (%strlen($tags) == 0)
     !$stereos = '<<' + $elementType + '>>'
@@ -109,25 +146,38 @@ skinparam rectangle<<boundary>> {
     !return $stereos
   !endif
   !$stereos = ''
+  !$mask = $resetMask()
   !$brPos = %strpos($tags, "+")
   !while ($brPos >= 0)
     !$tag = %substr($tags, 0, $brPos)
     !$stereos = $stereos + '<<' + $tag + '>>'
+    !$mergedMask = $combineMaskWithTag($mask, $tag)
+    !if ($mergedMask != $mask)
 %set_variable_value("$" + $tag + "Legend", %true())
+      !$mask = $mergedMask
+    !endif
     !$tags = %substr($tags, $brPos+1)
     !$brPos = %strpos($tags, "+")
   !endwhile
   !if (%strlen($tags)>0)
     !$stereos = $stereos + '<<' + $tags + '>>'
+    !$mergedMask = $combineMaskWithTag($mask, $tags)
+    !if ($mergedMask != $mask)
 %set_variable_value("$" + $tags + "Legend", %true())
+      !$mask = $mergedMask
+    !endif
   !endif
   ' has to be last, otherwise PlantUML overwrites all tag specific skinparams
   !$stereos = $stereos + '<<' + $elementType + '>>'
+  !$mergedMask = $combineMaskWithTag($mask, $elementType)
+  !if ($mergedMask != $mask)
 %set_variable_value("$" + $elementType + "Legend", %true())
+    !$mask = $mergedMask
+  !endif
   !return $stereos
 !endfunction
 
-!function $elementTagSkinparams($element, $tagStereo, $bgColor, $fontColor, $borderColor, $shadowing)
+!function $elementTagSkinparams($element, $tagStereo, $bgColor, $fontColor, $borderColor, $shadowing, $shape)
   !$elementSkin = "skinparam " + $element +"<<" + $tagStereo + ">> {" + %newline()
   !if ($fontColor!="")
     !if ($tagStereo != "boundary")
@@ -147,14 +197,28 @@ skinparam rectangle<<boundary>> {
   !if ($shadowing == "false")
     !$elementSkin = $elementSkin + "    Shadowing<<" + $tagStereo + ">> " + "false" + %newline()
   !endif
+  ' only rectangle supports shape(d corners), define both skinparam that overlays are working
+  !if ($shape!="" && $element == "rectangle")
+    !if ($shape == $ROUNDED_BOX)
+      !$elementSkin = $elementSkin + "    RoundCorner " + $ROUNDED_BOX_SIZE+ %newline()
+      !$elementSkin = $elementSkin + "    DiagonalCorner " + "0" + %newline()
+    !elseif ($shape == $EIGHT_SIDED)
+      !$elementSkin = $elementSkin + "    RoundCorner " + "0" + %newline()
+      !$elementSkin = $elementSkin + "    DiagonalCorner " + $EIGHT_SIDED_SIZE+ %newline()
+    !endif
+  !endif
   !$elementSkin = $elementSkin + "}" + %newline()
   !return $elementSkin
 !endfunction
 
-!unquoted procedure $defineSkinparams($tagStereo, $bgColor, $fontColor, $borderColor, $shadowing)
-  !$tagSkin = $elementTagSkinparams("rectangle", $tagStereo, $bgColor, $fontColor, $borderColor, $shadowing)
-  !$tagSkin = $tagSkin + $elementTagSkinparams("database", $tagStereo, $bgColor, $fontColor, $borderColor, $shadowing)
-  !$tagSkin = $tagSkin + $elementTagSkinparams("queue", $tagStereo, $bgColor, $fontColor, $borderColor, $shadowing)
+!unquoted procedure $defineSkinparams($tagStereo, $bgColor, $fontColor, $borderColor, $shadowing, $shape)
+  ' only rectangle supports shape(d corners)
+  !$tagSkin = $elementTagSkinparams("rectangle", $tagStereo, $bgColor, $fontColor, $borderColor, $shadowing, $shape)
+  !$tagSkin = $tagSkin + $elementTagSkinparams("database", $tagStereo, $bgColor, $fontColor, $borderColor, $shadowing, "")
+  !$tagSkin = $tagSkin + $elementTagSkinparams("queue", $tagStereo, $bgColor, $fontColor, $borderColor, $shadowing, "")
+  ' actor has style awesome, therefore $fontColor is ignored and text uses $bgColor too
+  !$tagSkin = $tagSkin + $elementTagSkinparams("actor", $tagStereo, $bgColor, $bgColor, $borderColor, $shadowing, "")
+  !$tagSkin = $tagSkin + $elementTagSkinparams("person", $tagStereo, $bgColor, $fontColor, $borderColor, $shadowing, "")
   !if ($tagStereo == "boundary" && $bgColor!="")
     !$tagSkin = $tagSkin + "skinparam package<<boundary>>StereotypeFontColor " + $bgColor + %newline()
     !$tagSkin = $tagSkin + "skinparam rectangle<<boundary>>StereotypeFontColor " + $bgColor + %newline()
@@ -163,50 +227,160 @@ $tagSkin
 !endprocedure
 
 ' arrow colors cannot start with # (legend background has to start with #)
-!function ColorNoHash($c)
+!function $colorWithoutHash($c)
   !if (%substr($c, 0, 1) == "#")
     !$c = %substr($c,1)
   !endif
   !return $c
 !endfunction
 
-!unquoted procedure $defineRelSkinparams($tagStereo, $textColor, $lineColor)
-  !$elementSkin = "skinparam Arrow<<" + $tagStereo + ">> {" + %newline()
+!unquoted procedure $defineRelSkinparams($tagStereo, $textColor, $lineColor, $lineStyle)
+  !$elementSkin = "skinparam arrow<<" + $tagStereo + ">> {" + %newline()
   !$elementSkin = $elementSkin + "    Color "
   !if ($lineColor!="")
-    !$elementSkin = $elementSkin + ColorNoHash($lineColor)
+    !$elementSkin = $elementSkin + $colorWithoutHash($lineColor)
   !endif
   !if ($textColor!="")
-    !$elementSkin = $elementSkin + ";text:" + ColorNoHash($textColor)
+    !$elementSkin = $elementSkin + ";text:" + $colorWithoutHash($textColor)
+  !endif
+  !if ($lineStyle!="")
+    !$elementSkin = $elementSkin + ";line." + $lineStyle
   !endif
   !$elementSkin = $elementSkin + %newline()
   !$elementSkin = $elementSkin + "}" + %newline()
 $elementSkin
 !endprocedure
 
-!function $tagLegendEntry($tagStereo, $bgColor, $fontColor, $borderColor, $shadowing)
+' %is_dark() requires PlantUML version >=1.2021.6
+!if (%function_exists("%is_dark"))
+  !$PlantUMLSupportsDynamicLegendColor = %true()
+!else
+  !$PlantUMLSupportsDynamicLegendColor = %false()
+  !log "dynamic undefined legend colors" requires PlantUML version >= 1.2021.6, therefore only static assigned colors are used
+!endif
+
+!unquoted function $contrastLegend($color)
+  !if (%is_dark($color))
+    !$value = $LEGEND_LIGHT_COLOR
+  !else
+    !$value = $LEGEND_DARK_COLOR
+  !endif
+  !return $value
+!endfunction
+
+!unquoted function $flatLegend($color)
+  !if (%is_dark($color))
+    !$value = $LEGEND_DARK_COLOR
+  !else
+    !$value = $LEGEND_LIGHT_COLOR
+  !endif
+  !return $value
+!endfunction
+
+' legend background has to start with #
+!function $colorWithHash($c)
+  !if (%substr($c, 0, 1) != "#")
+    !$c = "#" + $c
+  !endif
+  !return $c
+!endfunction
+
+!function $addMaskFlag($mask, $attr)
+  !if ($attr == "")
+    !$mask = $mask + "0"
+  !else
+    !$mask = $mask + "1"
+  !endif
+  !return $mask
+!endfunction
+
+!function $orFlags($flag1, $flag2)
+  !if ($flag1 == "0" && $flag2 == "0")
+    !return "0"
+  !endif
+  !return "1"
+!endfunction
+
+!function $tagLegendMask($bgColor, $fontColor, $borderColor, $shadowing, $shape)
+  !$mask = ""
+  !$mask = $addMaskFlag($mask, $bgColor)
+  !$mask = $addMaskFlag($mask, $fontColor)
+  !$mask = $addMaskFlag($mask, $borderColor)
+  !$mask = $addMaskFlag($mask, $shadowing)
+  !$mask = $addMaskFlag($mask, $shape)
+  !return $mask
+!endfunction
+
+!function $resetMask()
+  !return "00000"
+!endfunction
+
+!function $combineMasks($mask1, $mask2)
+  !$mask = ""
+  !$mask = $mask + $orFlags(%substr($mask1, 0, 1), %substr($mask2, 0, 1))
+  !$mask = $mask + $orFlags(%substr($mask1, 1, 1), %substr($mask2, 1, 1))
+  !$mask = $mask + $orFlags(%substr($mask1, 2, 1), %substr($mask2, 2, 1))
+  !$mask = $mask + $orFlags(%substr($mask1, 3, 1), %substr($mask2, 3, 1))
+  !$mask = $mask + $orFlags(%substr($mask1, 4, 1), %substr($mask2, 4, 1))
+  !return $mask
+!endfunction
+
+!function $combineMaskWithTag($mask1, $tag)
+  !$mask2 = %get_variable_value("$" + $tag+ "LegendMask")
+  !if ($mask2=="")
+    ' !log combineMaskWithTag $mask1, $tag, ... only $mask1
+    !return $mask1
+  !endif
+
+  ' !log combineMaskWithTag $mask1, $tag, $mask2 ... $combineMasks($mask1, $mask2)
+  !return  $combineMasks($mask1, $mask2)
+!endfunction
+
+!function $tagLegendEntry($tagStereo, $bgColor, $fontColor, $borderColor, $shadowing, $shape)
+  !$bg = $bgColor
+  !$fo = $fontColor
+  !$bo = $borderColor
+
+  !if ($fo == "")
+    !if ($bg != "")
+!if ($PlantUMLSupportsDynamicLegendColor)
+      !$fo = $contrastLegend($bg)
+!else
+      !$fo = $LEGEND_DARK_COLOR
+!endif
+    !else
+      !if ($bo == "")
+        !$fo = $LEGEND_DARK_COLOR
+        !$bg = $LEGEND_LIGHT_COLOR
+      !else
+!if ($PlantUMLSupportsDynamicLegendColor)
+        !$fo = $flatLegend($bo)
+        !$bg = $contrastLegend($bo)
+!else
+        !$fo = $LEGEND_DARK_COLOR
+        !$bg = $LEGEND_LIGHT_COLOR
+!endif
+      !endif
+    !endif
+  !else
+    !if ($bg == "")
+!if ($PlantUMLSupportsDynamicLegendColor)
+      !$bg = $contrastLegend($fo)
+!else
+      !$bg = $LEGEND_LIGHT_COLOR
+!endif
+    !endif
+  !endif
+
+  !if ($bo == "")
+    !$bo = $bg
+  !endif
+
   !$tagEntry = "|"
-  !if ($bgColor!="")
-    !$bg = $bgColor
-  !else
-    !$bg = $LEGEND_UNDEFINED_BG_COLOR
-  !endif
-  ' named colors have to start with # too
-  !if (%substr($bg, 0, 1) != "#")
-    !$bg = "#" + $bg
-  !endif
-  !$tagEntry = $tagEntry + "<" + $bg +">"
+  !$tagEntry = $tagEntry + "<" + $colorWithHash($bg) +">" 
   ' <U+25AF> ..white rectangle
-  !if ($borderColor!="")
-    !$tagEntry = $tagEntry + "<color:"+$borderColor+"> <U+25AF></color> "
-  !else
-    !$tagEntry = $tagEntry + "<color:"+$bg+"> <U+25AF></color> "
-  !endif
-  !if ($fontColor!="")
-    !$tagEntry = $tagEntry + "<color:"+$fontColor+">"
-  !else
-    !$tagEntry = $tagEntry + "<color:"+$LEGEND_UNDEFINED_FONT_COLOR+">"
-  !endif
+  !$tagEntry = $tagEntry + "<color:"+$bo+"> <U+25AF></color> "
+  !$tagEntry = $tagEntry + "<color:"+$fo+">"
   !$tagEntry = $tagEntry + " " + $tagStereo + " "
   !if ($shadowing == "true")
     !$tagEntry = $tagEntry + $LEGEND_SHADOW_TEXT
@@ -214,9 +388,15 @@ $elementSkin
   !if ($shadowing == "false")
     !$tagEntry = $tagEntry + $LEGEND_NO_SHADOW_TEXT
   !endif
+  !if ($shape == $ROUNDED_BOX)
+    !$tagEntry = $tagEntry + $LEGEND_ROUNDED_BOX
+  !endif
+  !if ($shape == $EIGHT_SIDED)
+    !$tagEntry = $tagEntry + $LEGEND_EIGHT_SIDED
+  !endif
   !if ($fontColor == "" && $bgColor == "")
       !$tagEntry = $tagEntry + $LEGEND_NO_FONT_BG_TEXT
-  !else
+  !else 
     !if ($fontColor == "")
       !$tagEntry = $tagEntry + $LEGEND_NO_FONT_TEXT
     !endif
@@ -226,22 +406,32 @@ $elementSkin
   !endif
   !$tagEntry = $tagEntry + "</color> "
   !$tagEntry = $tagEntry + "|"
-  !return $tagEntry
+  !return $tagEntry 
 !endfunction
 
-!function $tagRelLegendEntry($tagStereo, $textColor, $lineColor)
+!function $tagRelLegendEntry($tagStereo, $textColor, $lineColor, $lineStyle)
+  !$tc = $textColor
+  !$lc = $lineColor
+
+  !if ($tc=="")
+!if ($PlantUMLSupportsDynamicLegendColor)
+    !$tc = $flatLegend($ARROW_COLOR)
+!else
+    !$tc = $LEGEND_DARK_COLOR
+!endif
+  !endif
+  !if ($lc=="")
+!if ($PlantUMLSupportsDynamicLegendColor)
+    !$lc = $flatLegend($ARROW_COLOR)
+!else
+    !$lc = $LEGEND_DARK_COLOR
+!endif
+  !endif
+
   !$tagEntry = "|"
   ' <U+2500> ..white line
-  !if ($lineColor!="")
-    !$tagEntry = $tagEntry + "<color:"+$lineColor+"> <U+2500></color> "
-  !else
-    !$tagEntry = $tagEntry + " <U+2500> "
-  !endif
-  !if ($textColor!="")
-    !$tagEntry = $tagEntry + "<color:"+$textColor+">"
-  !else
-    !$tagEntry = $tagEntry + "<color:"+$LEGEND_UNDEFINED_FONT_COLOR+">"
-  !endif
+  !$tagEntry = $tagEntry + "<color:"+$lc+"> <U+2500></color> "
+  !$tagEntry = $tagEntry + "<color:"+$tc+">"
   !$tagEntry = $tagEntry + " " + $tagStereo + " "
   !if ($textColor == "")
     !$tagEntry = $tagEntry + $LEGEND_NO_FONT_TEXT
@@ -249,31 +439,48 @@ $elementSkin
   !if ($lineColor == "")
     !$tagEntry = $tagEntry + $LEGEND_NO_LINE_TEXT
   !endif
+  !if ($lineStyle != "")
+    !if ($lineStyle == $DOTTED_LINE)
+      !$tagEntry = $tagEntry + $LEGEND_DOTTED_LINE
+    !elseif ($lineStyle == $DASHED_LINE)
+      !$tagEntry = $tagEntry + $LEGEND_DASHED_LINE
+    !elseif ($lineStyle == $BOLD_LINE)
+      !$tagEntry = $tagEntry + $LEGEND_BOLD_LINE
+    !else
+      !$tagEntry = $tagEntry + "(" + $lineStyle + ") "
+    !endif
+  !endif
   !$tagEntry = $tagEntry + "</color> "
   !$tagEntry = $tagEntry + "|"
-  !return $tagEntry
+  !return $tagEntry 
 !endfunction
 
-!unquoted procedure $addTagToLegend($tagStereo, $bgColor="", $fontColor="", $borderColor="", $shadowing="")
+!global $LEGEND_DOTTED_LINE = "(dotted) "
+!global $LEGEND_DASHED_LINE = "(dashed) "
+!global $LEGEND_BOLD_LINE = "(bold) "
+
+!unquoted procedure $addTagToLegend($tagStereo, $bgColor="", $fontColor="", $borderColor="", $shadowing="", $shape="")
 '' if a combined element tag is defined (e.g. "v1.0&v1.1") then it is typically a merged color,
-'' like a new $fontColor="#fdae61" therefore it should be added to the legend
+'' like a new $fontColor="#fdae61" therefore it should be added to the legend 
 '' and the & combined tags will be not removed
 '  !if (%strpos($tagStereo, "&")<0)
-    !$tagEntry = $tagLegendEntry($tagStereo, $bgColor, $fontColor, $borderColor, $shadowing)
+   !$tagEntry = $tagLegendEntry($tagStereo, $bgColor, $fontColor, $borderColor, $shadowing, $shape)
 %set_variable_value("$" + $tagStereo + "LegendEntry", $tagEntry)
     !$tagCustomLegend = $tagCustomLegend + $tagStereo + "\n"
+  !$tagMask = $tagLegendMask( $bgColor, $fontColor, $borderColor, $shadowing, $shape)
+%set_variable_value("$" + $tagStereo + "LegendMask", $tagMask)
 '  !endif
 !endprocedure
 
-!unquoted procedure $addRelTagToLegend($tagStereo, $textColor="", $lineColor="")
+!unquoted procedure $addRelTagToLegend($tagStereo, $textColor="", $lineColor="", $lineStyle="")
 '' Arrows have a bug with stereotype/skinparams and cannot combine text colors of one stereotype
-'' and the line color of another stereotype. Therefore the text color of one tag and the line color
+'' and the line color of another stereotype. Therefore the text color of one tag and the line color 
 '' of another tag have to be combined via a "workaround" tag ("v1.0&v1.1").
-'' This workaround tag could be theoretically removed in the legend but after that there would
-'' be an inconsistency between the element tags and the rel tags and therefore
+'' This workaround tag could be theoretically removed in the legend but after that there would 
+'' be an inconsistency between the element tags and the rel tags and therefore 
 '' & combined workaround tags are not removed too (and in unlikely cases the color itself could be changed)
 '  !if (%strpos($tagStereo, "&")<0)
-    !$tagEntry = $tagRelLegendEntry($tagStereo, $textColor, $lineColor)
+    !$tagEntry = $tagRelLegendEntry($tagStereo, $textColor, $lineColor, $lineStyle)
 %set_variable_value("$" + $tagStereo + "_LineLegendEntry", $tagEntry)
     !$tagCustomLegend = $tagCustomLegend + $tagStereo + "_Line\n"
 '  !endif
@@ -297,23 +504,46 @@ $elementSkin
   !endif
 !endprocedure
 
+!function RoundedBoxShape()
+!return $ROUNDED_BOX
+!endfunction
+
+!function EightSidedShape()
+!return $EIGHT_SIDED
+!endfunction
+
+!function DottedLine()
+!return $DOTTED_LINE
+!endfunction
+
+!function DashedLine()
+!return $DASHED_LINE
+!endfunction
+
+!function BoldLine()
+!return $BOLD_LINE
+!endfunction
+
 ' used by new defined tags
-!unquoted procedure AddElementTag($tagStereo, $bgColor="", $fontColor="", $borderColor="", $shadowing="")
-$defineSkinparams($tagStereo, $bgColor, $fontColor, $borderColor, $shadowing)
-$addTagToLegend($tagStereo, $bgColor, $fontColor, $borderColor, $shadowing)
+!unquoted procedure AddElementTag($tagStereo, $bgColor="", $fontColor="", $borderColor="", $shadowing="", $shape="")
+$defineSkinparams($tagStereo, $bgColor, $fontColor, $borderColor, $shadowing, $shape)
+$addTagToLegend($tagStereo, $bgColor, $fontColor, $borderColor, $shadowing, $shape)
 !endprocedure
 
 ' used by new defined rel tags
-!unquoted procedure AddRelTag($tagStereo, $textColor="", $lineColor="")
-$defineRelSkinparams($tagStereo, $textColor, $lineColor)
-$addRelTagToLegend($tagStereo, $textColor, $lineColor)
+!unquoted procedure AddRelTag($tagStereo, $textColor="", $lineColor="", $lineStyle = "")
+$defineRelSkinparams($tagStereo, $textColor, $lineColor, $lineStyle)
+$addRelTagToLegend($tagStereo, $textColor, $lineColor, $lineStyle)
 !endprocedure
 
 ' update the style of existing elements like person, ...
-!unquoted procedure UpdateElementStyle($elementName, $bgColor="", $fontColor="", $borderColor="", $shadowing="")
-$defineSkinparams($elementName, $bgColor, $fontColor, $borderColor, $shadowing)
-  !$tagEntry = $tagLegendEntry($elementName, $bgColor, $fontColor, $borderColor, $shadowing)
+!unquoted procedure UpdateElementStyle($elementName, $bgColor="", $fontColor="", $borderColor="", $shadowing="", $shape="")
+$defineSkinparams($elementName, $bgColor, $fontColor, $borderColor, $shadowing, $shape)
+  !$tagEntry = $tagLegendEntry($elementName, $bgColor, $fontColor, $borderColor, $shadowing, $shape)
 %set_variable_value("$" + $elementName + "LegendEntry", $tagEntry)
+  ' default tags sets at least bgColor and fontColor
+  !$tagMask = $tagLegendMask("CHANGED", "CHANGED", $borderColor, $shadowing, $shape)
+%set_variable_value("$" + $elementName + "LegendMask", $tagMask)
 !endprocedure
 
 /' @deprecated in favor of UpdateElementStyle '/
@@ -323,14 +553,14 @@ UpdateElementStyle($elementName, $bgColor, $fontColor, $borderColor, $shadowing)
 
 ' update the style of default relation, it has to set both properties (combined statement not working)
 !unquoted procedure UpdateRelStyle($textColor, $lineColor)
-  !$elementSkin = "skinparam Arrow {" + %newline()
+  !$elementSkin = "skinparam arrow {" + %newline()
   !$elementSkin = $elementSkin + "    Color " + $lineColor + %newline()
   !$elementSkin = $elementSkin + "    FontColor " + $textColor + %newline()
   !$elementSkin = $elementSkin + "}" + %newline()
 $elementSkin
 !endprocedure
 
-' tags/stereotypes have to be delimited with \n
+' tags/stereotypes have to be delimited with \n 
 !unquoted procedure SetDefaultLegendEntries($tagStereoEntries)
   !$tagDefaultLegend = $tagStereoEntries
 !endprocedure
@@ -362,7 +592,7 @@ $elementSkin
 !if (%strpos($descr, "\n") >= 0)
 !else
   !while (%strlen($descr)>$width)
-    !$brPos = $width
+    !$brPos = $width 
     !while ($brPos>0 && %substr($descr, $brPos, 1)!= ' ')
       !$brPos = $brPos - 1
     !endwhile
@@ -490,6 +720,25 @@ SetPropertyHeader("Property","Value")
 ' Layout
 ' ##################################
 
+!procedure $getHideStereotype($hideStereotype) 
+!if ($hideStereotype=="true")
+hide stereotype
+!endif
+!endprocedure
+
+!procedure $getLegendTable() 
+<#00000000,#00000000>|<color:$LEGEND_TITLE_COLOR>**Legend**</color> |
+$showActiveLegendEntries($tagDefaultLegend)
+$showActiveLegendEntries($tagCustomLegend)
+!endprocedure
+
+!procedure $getLegendArea($areaAlias, $hideStereotype) 
+$getHideStereotype($hideStereotype)
+rectangle $areaAlias<<legendArea>> [
+$getLegendTable()
+]
+!endprocedure
+
 !procedure HIDE_STEREOTYPE()
 hide stereotype
 !endprocedure
@@ -505,25 +754,33 @@ center footer <font color=red>Warning:</font> Created for discussion, needs to b
 top to bottom direction
 !endprocedure
 
-!procedure LAYOUT_LEFT_RIGHT()
+!procedure LAYOUT_LEFT_RIGHT() 
 left to right direction
 !endprocedure
 
 ' has to be last call in diagram
 !unquoted procedure SHOW_LEGEND($hideStereotype="true")
-!if ($hideStereotype=="true")
-hide stereotype
-!endif
+$getHideStereotype($hideStereotype)
 legend right
-|<color:$LEGEND_TITLE_COLOR>**Legend**</color> |
-$showActiveLegendEntries($tagDefaultLegend)
-$showActiveLegendEntries($tagCustomLegend)
+$getLegendTable()
 endlegend
 !endprocedure
 
 /' @deprecated in favor of SHOW_LEGEND '/
 !unquoted procedure SHOW_DYNAMIC_LEGEND($hideStereotype="true")
 SHOW_LEGEND($hideStereotype)
+!endprocedure
+
+' legend is reserved and cannot be uses as alias of SHOW_FLOATING_LEGEND() therefore
+' LEGEND() is introduced. It returns the default name of the floating alias "floating_legend_alias"
+' and can be used in the Lay_Distance() calls
+!function LEGEND()
+!return "floating_legend_alias"
+!endfunction
+
+' enables that legend can be located in drawing area of the diagram. It has to be last call in diagram followed by Lay_Distance()
+!unquoted procedure SHOW_FLOATING_LEGEND($alias=LEGEND(), $hideStereotype="true")
+$getLegendArea($alias, $hideStereotype)
 !endprocedure
 
 ' Boundaries
@@ -549,7 +806,7 @@ rectangle "$getBoundary($label, $type)" $toStereos("boundary", $tags) as $alias 
   !$rel = $alias1 + ' ' + $direction + ' ' + $alias2
   !if ($tags != "")
     !$rel = $rel + ' ' + $toStereos($tags)
-  !endif
+  !endif  
   !$rel = $rel + ' : '
   !if ($sprite != "")
     ' if it starts with & it's a OpenIconic, details see https://useiconic.com/open/
@@ -557,8 +814,8 @@ rectangle "$getBoundary($label, $type)" $toStereos("boundary", $tags) as $alias 
       !$rel = $rel + '<$'+$sprite+'> '
     !else
       !$rel = $rel + '<'+$sprite+'> '
-    !endif
-  !endif
+    !endif    
+  !endif  
   !if ($link != "")
     !$rel = $rel + '**[[' + $link + ' ' + $label + ']]**'
   !else
@@ -661,6 +918,10 @@ $getRel("<<-RIGHT->>", $from, $to, $label, $techn, $descr, $sprite, $tags, $link
 ' Layout Helpers
 ' ##################################
 
+!function $getHiddenLine($distance)
+  !return '-[hidden]' + %substr('------------', 0, %intval($distance) + 1)
+!endfunction
+
 !unquoted procedure Lay_D($from, $to)
 $from -[hidden]D- $to
 !endprocedure
@@ -672,4 +933,11 @@ $from -[hidden]R- $to
 !endprocedure
 !unquoted procedure Lay_L($from, $to)
 $from -[hidden]L- $to
+!endprocedure
+
+' PlantUML bug: lines which does "not match" with the orientation/direction of the diagram
+' uses the same length therefore the method offers no direction at all.
+' If a direction is required the Lay_...() methods can be used
+!unquoted procedure Lay_Distance($from, $to, $distance="0")
+$from $getHiddenLine($distance) $to
 !endprocedure
