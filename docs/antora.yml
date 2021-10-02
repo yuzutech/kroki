@@ -12,7 +12,7 @@ asciidoc:
     erd-version: 0.2.1.0
     excalidraw-version: 0.1.0
     graphviz-version: 2.40.1
-    mermaid-version: 8.12.1
+    mermaid-version: 8.13.2
     nomnoml-version: 1.4.0
     nwdiag-version: 2.0.0
     packetdiag-version: 2.0.0
@@ -22,7 +22,7 @@ asciidoc:
     seqdiag-version: 2.0.0
     svgbob-version: 0.5.3
     umlet-version: 14.3.0
-    vega-version: 5.20.2
+    vega-version: 5.21.0
     vegalite-version: 5.1.1
     wavedrom-version: 2.8.1
     uri-docker-get-started: https://docs.docker.com/get-started/
