@@ -14,7 +14,7 @@ installLocalDependencies:
 	mvn install:install-file -Dfile=./server/lib/ditaamini-0.14.jar -DgroupId=ditaa -DartifactId=ditaa-mini -Dversion=0.14 -Dpackaging=jar
 
 buildServer:
-	mvn clean package
+	mvn --no-transfer-progress clean package
 
 installBlockDiag:
 	cd blockdiag && $(PYTHON) -m pip install -r requirements.txt
