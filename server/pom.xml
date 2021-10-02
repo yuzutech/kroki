@@ -88,12 +88,12 @@
     <dependency>
       <groupId>com.structurizr</groupId>
       <artifactId>structurizr-dsl</artifactId>
-      <version>1.14.0</version>
+      <version>1.15.0</version>
     </dependency>
     <dependency>
       <groupId>com.structurizr</groupId>
-      <artifactId>structurizr-plantuml</artifactId>
-      <version>1.6.3</version>
+      <artifactId>structurizr-export</artifactId>
+      <version>1.2.0</version>
       <exclusions>
         <exclusion>
           <groupId>com.structurizr</groupId>

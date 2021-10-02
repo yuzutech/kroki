@@ -1,6 +1,6 @@
 package io.kroki.server.service;
 
-import com.structurizr.io.plantuml.StructurizrPlantUMLWriter;
+import com.structurizr.io.plantuml.StructurizrPlantUMLExporter;
 import io.kroki.server.error.BadRequestException;
 import io.kroki.server.format.FileFormat;
 import io.vertx.core.json.JsonObject;
@@ -27,7 +27,7 @@ public class StructurizrServiceTest {
     if (Files.isExecutable(Paths.get("/usr/bin/dot"))) {
       String source = read("./gettingstarted.structurizr");
       String expected = read("./gettingstarted.expected.svg");
-      byte[] result = Structurizr.convert(source, FileFormat.SVG, new StructurizrPlantUMLWriter(), new JsonObject());
+      byte[] result = Structurizr.convert(source, FileFormat.SVG, new StructurizrPlantUMLExporter(), new JsonObject());
       assertThat(stripComments(new String(result))).isEqualToIgnoringNewLines(expected);
     } else {
       logger.info("/usr/bin/dot not found, skipping test.");
@@ -41,7 +41,7 @@ public class StructurizrServiceTest {
       String expected = read("./bigbank.containers.expected.svg");
       JsonObject options = new JsonObject();
       options.put("view-key", "Containers");
-      byte[] result = Structurizr.convert(source, FileFormat.SVG, new StructurizrPlantUMLWriter(), options);
+      byte[] result = Structurizr.convert(source, FileFormat.SVG, new StructurizrPlantUMLExporter(), options);
       assertThat(stripComments(new String(result))).isEqualToIgnoringNewLines(expected);
     } else {
       logger.info("/usr/bin/dot not found, skipping test.");
@@ -55,7 +55,7 @@ public class StructurizrServiceTest {
       String expected = read("./bigbank.systemcontext.expected.svg");
       JsonObject options = new JsonObject();
       options.put("view-key", "SystemContext");
-      byte[] result = Structurizr.convert(source, FileFormat.SVG, new StructurizrPlantUMLWriter(), options);
+      byte[] result = Structurizr.convert(source, FileFormat.SVG, new StructurizrPlantUMLExporter(), options);
       assertThat(stripComments(new String(result))).isEqualToIgnoringNewLines(expected);
     } else {
       logger.info("/usr/bin/dot not found, skipping test.");
@@ -67,7 +67,7 @@ public class StructurizrServiceTest {
     String source = read("./bigbank.structurizr");
     JsonObject options = new JsonObject();
     options.put("view-key", "NonExisting");
-    assertThatThrownBy(() -> Structurizr.convert(source, FileFormat.SVG, new StructurizrPlantUMLWriter(), options))
+    assertThatThrownBy(() -> Structurizr.convert(source, FileFormat.SVG, new StructurizrPlantUMLExporter(), options))
       .isInstanceOf(BadRequestException.class)
       .hasMessage("Unable to find view for key: NonExisting.");
   }
@@ -75,9 +75,17 @@ public class StructurizrServiceTest {
   @Test
   public void should_throw_exception_when_diagram_is_empty() throws IOException {
     String source = read("./no-view.structurizr");
-    assertThatThrownBy(() -> Structurizr.convert(source, FileFormat.SVG, new StructurizrPlantUMLWriter(), new JsonObject()))
+    assertThatThrownBy(() -> Structurizr.convert(source, FileFormat.SVG, new StructurizrPlantUMLExporter(), new JsonObject()))
       .isInstanceOf(BadRequestException.class)
       .hasMessage("Empty diagram, does not have any view.");
+  }
+
+  @Test
+  public void should_throw_exception_when_script_directive_used() throws IOException {
+    String source = read("./script.structurizr");
+    assertThatThrownBy(() -> Structurizr.convert(source, FileFormat.SVG, new StructurizrPlantUMLExporter(), new JsonObject()))
+      .isInstanceOf(BadRequestException.class)
+      .hasMessage("Unable to parse the Structurizr DSL. Error running inline script, caused by java.lang.RuntimeException: Could not load a scripting engine for extension \"kts\" at line 5: }.");
   }
 
   private String stripComments(String xmlContent) {

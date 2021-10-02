@@ -2,7 +2,15 @@ package io.kroki.server.service;
 
 import com.structurizr.dsl.StructurizrDslParser;
 import com.structurizr.dsl.StructurizrDslParserException;
-import com.structurizr.io.plantuml.StructurizrPlantUMLWriter;
+import com.structurizr.io.Diagram;
+import com.structurizr.io.plantuml.StructurizrPlantUMLExporter;
+import com.structurizr.view.ComponentView;
+import com.structurizr.view.ContainerView;
+import com.structurizr.view.CustomView;
+import com.structurizr.view.DeploymentView;
+import com.structurizr.view.DynamicView;
+import com.structurizr.view.SystemContextView;
+import com.structurizr.view.SystemLandscapeView;
 import com.structurizr.view.View;
 import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
@@ -25,7 +33,7 @@ import java.util.Optional;
 public class Structurizr implements DiagramService {
 
   private final Vertx vertx;
-  private final StructurizrPlantUMLWriter structurizrPlantUMLWriter;
+  private final StructurizrPlantUMLExporter structurizrPlantUMLExporter;
   private final SourceDecoder sourceDecoder;
 
   // same as PlantUML since we convert Structurizr DSL to PlantUML
@@ -33,7 +41,7 @@ public class Structurizr implements DiagramService {
 
   public Structurizr(Vertx vertx) {
     this.vertx = vertx;
-    this.structurizrPlantUMLWriter = new StructurizrPlantUMLWriter();
+    this.structurizrPlantUMLExporter = new StructurizrPlantUMLExporter();
     this.sourceDecoder = new SourceDecoder() {
       @Override
       public String decode(String encoded) throws DecodeException {
@@ -61,7 +69,7 @@ public class Structurizr implements DiagramService {
   public void convert(String sourceDecoded, String serviceName, FileFormat fileFormat, JsonObject options, Handler<AsyncResult<Buffer>> handler) {
     vertx.executeBlocking(future -> {
       try {
-        byte[] data = convert(sourceDecoded, fileFormat, this.structurizrPlantUMLWriter, options);
+        byte[] data = convert(sourceDecoded, fileFormat, this.structurizrPlantUMLExporter, options);
         future.complete(data);
       } catch (IllegalStateException e) {
         future.fail(e);
@@ -69,7 +77,7 @@ public class Structurizr implements DiagramService {
     }, res -> handler.handle(res.map(o -> Buffer.buffer((byte[]) o))));
   }
 
-  static byte[] convert(String source, FileFormat fileFormat, StructurizrPlantUMLWriter structurizrPlantUMLWriter, JsonObject options) {
+  static byte[] convert(String source, FileFormat fileFormat, StructurizrPlantUMLExporter structurizrPlantUMLExporter, JsonObject options) {
     StructurizrDslParser parser = new StructurizrDslParser();
     try {
       parser.parse(source);
@@ -89,12 +97,32 @@ public class Structurizr implements DiagramService {
         // take the first view if not specified
         selectedView = views.iterator().next();
       }
-      StringWriter stringWriter = new StringWriter();
-      structurizrPlantUMLWriter.write(selectedView, stringWriter);
-      String plantumlDiagram = stringWriter.toString();
-      return Plantuml.convert(plantumlDiagram, fileFormat, new JsonObject());
+      final Diagram diagram;
+      if (selectedView instanceof DynamicView) {
+        diagram = structurizrPlantUMLExporter.export((DynamicView) selectedView);
+      } else if (selectedView instanceof DeploymentView) {
+        diagram = structurizrPlantUMLExporter.export((DeploymentView) selectedView);
+      } else if (selectedView instanceof ComponentView) {
+        diagram = structurizrPlantUMLExporter.export((ComponentView) selectedView);
+      } else if (selectedView instanceof ContainerView) {
+        diagram = structurizrPlantUMLExporter.export((ContainerView) selectedView);
+      } else if (selectedView instanceof SystemContextView) {
+        diagram = structurizrPlantUMLExporter.export((SystemContextView) selectedView);
+      } else if (selectedView instanceof SystemLandscapeView) {
+        diagram = structurizrPlantUMLExporter.export((SystemLandscapeView) selectedView);
+      } else {
+        throw new BadRequestException("View type is not supported: " + selectedView.getClass().getSimpleName() + ", must be a DynamicView, DeploymentView, ComponentView, ContainerView, SystemContextView or SystemLandscapeView.");
+      }
+      return Plantuml.convert(diagram.getDefinition(), fileFormat, new JsonObject());
     } catch (StructurizrDslParserException e) {
-      throw new BadRequestException("Unable to parse the Structurizr DSL.", e);
+      String cause = e.getMessage();
+      final String message;
+      if (cause != null && !cause.trim().isEmpty()) {
+        message = "Unable to parse the Structurizr DSL. " + cause + ".";
+      } else {
+        message = "Unable to parse the Structurizr DSL.";
+      }
+      throw new BadRequestException(message, e);
     }
   }
 }
