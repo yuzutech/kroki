@@ -1,3 +1,4 @@
+/* global XMLSerializer */
 const path = require('path')
 const puppeteer = require('puppeteer')
 
@@ -22,7 +23,14 @@ class Worker {
         window.mermaid.initialize(mermaidConfig)
         window.mermaid.init(undefined, container)
       }, task.source, task.mermaidConfig)
-      return await page.$eval('#container', container => container.innerHTML)
+      return await page.$eval('#container', container => {
+        const xmlSerializer = new XMLSerializer()
+        const nodes = []
+        for (let i = 0; i < container.childNodes.length; i++) {
+          nodes.push(xmlSerializer.serializeToString(container.childNodes[i]))
+        }
+        return nodes.join('')
+      })
     } catch (e) {
       console.error('Unable to convert the diagram', e)
       throw e

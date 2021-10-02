@@ -1,6 +1,8 @@
 # Package the Node.js project into a single binary
 FROM node:14.17.0-alpine3.13 as builder
 
+RUN apk add --no-cache --update chromium
+
 # Workaround: https://github.com/nodejs/docker-node/issues/813#issuecomment-407339011
 # Error: could not get uid/gid
 # [ 'nobody', 0 ]
@@ -13,13 +15,14 @@ ENV PLATFORM alpine
 ENV ARCH x64
 RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM} -a ${ARCH}
 
+COPY src /app/src
+COPY tests /app/tests
+COPY assets /app/assets
+COPY package.json package-lock.json /app/
 WORKDIR /app
 
-COPY package.json package-lock.json /app/
-COPY src /app/src
-
-RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 npm ci
-RUN npm run lint
+RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 npm i
+RUN npm run lint && PUPPETEER_EXECUTABLE_PATH=/usr/lib/chromium/chrome npm t
 
 RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-${ARCH} . -o app.bin
 
