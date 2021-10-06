@@ -19,6 +19,13 @@ C4::
 * C4 Context diagram
 * C4 Container diagram
 * C4 Component diagram
+* Software Architecture using Structurizr DSL
+** System Landscape diagram
+** System Context diagram
+** Container diagram
+** Component diagram
+** Dynamic diagram
+** Deployment diagram
 
 Diagram::
 * Object Oriented Graph

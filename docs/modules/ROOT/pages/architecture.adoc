@@ -55,6 +55,10 @@ The Docker image contains the following diagrams libraries out-of-the-box:
 |{plantuml-version}
 //|Java library (depends on GraphViz)
 
+|https://github.com/structurizr/dsl[Structurizr]
+|{structurizr-version}
+//|Java library/DSL
+
 |https://github.com/ivanceras/svgbob[Svgbob]
 |{svgbob-version}
 //|Binary `/rust/bin/svgbob`

@@ -47,6 +47,7 @@ public class HealthHandler {
     serviceVersions.add(new ServiceVersion("plantuml", "1.2021.10"));
     serviceVersions.add(new ServiceVersion("rackdiag", "2.0.0"));
     serviceVersions.add(new ServiceVersion("seqdiag", "2.0.0"));
+    serviceVersions.add(new ServiceVersion("structurizr", "1.15.0"));
     serviceVersions.add(new ServiceVersion("svgbob", "0.5.3"));
     serviceVersions.add(new ServiceVersion("umlet", "14.3.0"));
     serviceVersions.add(new ServiceVersion("vega", "5.21.0"));
