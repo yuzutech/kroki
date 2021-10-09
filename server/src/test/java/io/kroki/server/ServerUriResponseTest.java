@@ -54,4 +54,29 @@ public class ServerUriResponseTest {
         testContext.completeNow();
       })));
   }
+
+  @Test
+  void http_head_method_server_long_uri_not_414(Vertx vertx, VertxTestContext testContext) {
+    WebClient client = WebClient.create(vertx);
+    client.head(port, "localhost", "/" + randomAlphaString(6000))
+      .as(BodyCodec.string())
+      .send(testContext.succeeding(response -> testContext.verify(() -> {
+        assertThat(response.statusCode()).isNotEqualTo(414);
+        assertThat(response.body()).isNull();
+        testContext.completeNow();
+      })));
+  }
+
+  @Test
+  void http_head_method_server_long_uri_414(Vertx vertx, VertxTestContext testContext) {
+    WebClient client = WebClient.create(vertx);
+    client.head(port, "localhost", "/" + randomAlphaString(9000))
+      .as(BodyCodec.string())
+      .send(testContext.succeeding(response -> testContext.verify(() -> {
+        assertThat(response.statusCode()).isEqualTo(414);
+        assertThat(response.statusMessage()).isEqualTo("Request-URI Too Long");
+        assertThat(response.body()).isNull();
+        testContext.completeNow();
+      })));
+  }
 }

@@ -34,6 +34,9 @@ public class DiagramRegistry {
         .handler(bodyHandler)
         .handler(diagramHandler.createRequestReceived(name))
         .handler(diagramHandler.createPost(name));
+      router.head("/" + name + "/:output_format/:source_encoded")
+        .handler(diagramHandler.createRequestReceived(name))
+        .handler(diagramHandler.createGet(name));
     }
   }
 
