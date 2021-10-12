@@ -1,6 +1,7 @@
 class Task {
-  constructor (source) {
+  constructor (source, isPng = false) {
     this.source = source
+    this.isPng = isPng
     this.mermaidConfig = {
       theme: 'default',
       class: {

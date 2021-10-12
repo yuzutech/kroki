@@ -8,7 +8,7 @@ class Worker {
     this.pageUrl = process.env.KROKI_MERMAID_PAGE_URL || `file://${path.join(__dirname, '..', 'assets', 'index.html')}`
   }
 
-  async convert (task) {
+  async convert(task) {
     const browser = await puppeteer.connect({
       browserWSEndpoint: this.browserWSEndpoint,
       ignoreHTTPSErrors: true
@@ -23,14 +23,23 @@ class Worker {
         window.mermaid.initialize(mermaidConfig)
         window.mermaid.init(undefined, container)
       }, task.source, task.mermaidConfig)
-      return await page.$eval('#container', container => {
-        const xmlSerializer = new XMLSerializer()
-        const nodes = []
-        for (let i = 0; i < container.childNodes.length; i++) {
-          nodes.push(xmlSerializer.serializeToString(container.childNodes[i]))
-        }
-        return nodes.join('')
-      })
+
+      if (task.isPng) {
+        const svg = await page.$('#container > svg')
+        return await svg.screenshot({
+          type: 'png',
+          omitBackground: true,
+        })
+      } else {
+        return await page.$eval('#container', container => {
+          const xmlSerializer = new XMLSerializer()
+          const nodes = []
+          for (let i = 0; i < container.childNodes.length; i++) {
+            nodes.push(xmlSerializer.serializeToString(container.childNodes[i]))
+          }
+          return nodes.join('')
+        })
+      }
     } catch (e) {
       console.error('Unable to convert the diagram', e)
       throw e
