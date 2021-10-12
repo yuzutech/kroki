@@ -10,6 +10,7 @@ On this page you will learn how to encode a diagram using:
 - xref:javascript[]
 - xref:python[]
 - xref:java[]
+- xref:kotlin[]
 - xref:go[]
 - xref:php[]
 
@@ -113,6 +114,14 @@ include::example$encode.py[]
 [source,java]
 ----
 include::example$Encode.java[]
+----
+
+[#kotlin]
+== Kotlin
+
+[source,kotlin]
+----
+include::example$Encode.kt[]
 ----
 
 [#go]
