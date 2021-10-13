@@ -1,18 +1,13 @@
 package main
 
-import java.io.IOException
-import java.nio.charset.Charset
-import java.util.*
+import java.util.Base64
 import java.util.zip.Deflater
 
 object Encode {
 
-  @Throws(IOException::class)
-  fun encode(decoded: String): String = compress(decoded.toByteArray()).let {
-    String(Base64.getUrlEncoder().encode(it), Charset.forName("utf-8"))
-  }
+  fun encode(decoded: String): String =
+    String(Base64.getUrlEncoder().encode(compress(decoded.toByteArray())), Charsets.UTF_8)
 
-  @Throws(IOException::class)
   private fun compress(source: ByteArray): ByteArray {
     val deflater = Deflater()
     deflater.setInput(source)
