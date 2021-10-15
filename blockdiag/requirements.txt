@@ -12,4 +12,4 @@ Pillow==8.3.2
 reportlab==3.6.2
 seqdiag==2.0.0
 webcolors==1.11.1
-Werkzeug==2.0.1
+Werkzeug==2.0.2
