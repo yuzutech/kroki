@@ -190,3 +190,17 @@ You can update this default value by setting `KROKI_MAX_URI_LENGTH` environment 
 TIP: Keep in mind that browsers also have a URI limit on `<img>` tags.
 Most modern browsers https://stackoverflow.com/questions/417142/what-is-the-maximum-length-of-a-url-in-different-browsers/417184#417184[support a URI length greater than 64000] on `<img>` tags but this value is probably a bit excessive.
 We recommend to use a maximum length that's not greater than 8192 and not greater than 5120 if you are supporting IE 11.
+
+== Enabling SSL on the server
+
+SSL servers usually provide certificates to clients in order verify their identity to clients.
+You can enable this option by setting `KROKI_SSL` environment variable to true.
+By default, it is disabled.
+Server private key and certificate can be configured separately using .pem files by setting `KROKI_SSL_KEY` and `KROKI_SSL_CERT` environment variables.
+
+If SSL is enabled, either `KROKI_SSL_KEY` or `KROKI_SSL_CERT` must be configured.
+
+
+
+
+

@@ -77,7 +77,7 @@ public class Server extends AbstractVerticle {
     HttpServerOptions serverOptions = new HttpServerOptions();
     Optional<Integer> maxUriLength = Optional.ofNullable(config.getInteger("KROKI_MAX_URI_LENGTH"));
     maxUriLength.ifPresent(serverOptions::setMaxInitialLineLength);
-    boolean enableSSL = config.getBoolean("KROKI_SSL",false);
+    boolean enableSSL = config.getBoolean("KROKI_SSL", false);
     serverOptions.setSsl(enableSSL);
     setPemKeyCertOptions(config, serverOptions, enableSSL);
     HttpServer server = vertx.createHttpServer(serverOptions);
@@ -155,11 +155,13 @@ public class Server extends AbstractVerticle {
       .listen(getListenAddress(config), listenHandler);
   }
 
-  private static void setPemKeyCertOptions(JsonObject config, HttpServerOptions serverOptions,
-    boolean enableSSL) {
+  private static void setPemKeyCertOptions(JsonObject config, HttpServerOptions serverOptions, boolean enableSSL) {
     if (enableSSL) {
       Optional<String> keyPath = Optional.ofNullable(config.getString("KROKI_SSL_KEY"));
       Optional<String> certPath = Optional.ofNullable(config.getString("KROKI_SSL_CERT"));
+      if (!keyPath.isPresent() && !certPath.isPresent()) {
+        throw new IllegalArgumentException("KROKI_SSL_KEY or KROKI_SSL_CERT must be configured");
+      }
       PemKeyCertOptions pemKeyCertOptions = new PemKeyCertOptions();
       keyPath.ifPresent(pemKeyCertOptions::setKeyPath);
       certPath.ifPresent(pemKeyCertOptions::setCertPath);
