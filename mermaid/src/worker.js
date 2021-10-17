@@ -8,7 +8,7 @@ class Worker {
     this.pageUrl = process.env.KROKI_MERMAID_PAGE_URL || `file://${path.join(__dirname, '..', 'assets', 'index.html')}`
   }
 
-  async convert(task) {
+  async convert (task) {
     const browser = await puppeteer.connect({
       browserWSEndpoint: this.browserWSEndpoint,
       ignoreHTTPSErrors: true
@@ -28,7 +28,7 @@ class Worker {
         const svg = await page.$('#container > svg')
         return await svg.screenshot({
           type: 'png',
-          omitBackground: true,
+          omitBackground: true
         })
       } else {
         return await page.$eval('#container', container => {

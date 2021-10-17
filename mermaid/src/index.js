@@ -11,23 +11,23 @@ const micro = require('micro')
   const server = micro(async (req, res) => {
     // TODO: add a /_status route (return mermaid version)
     // TODO: read the diagram source as plain text
-    const outputType = req.url.match(/\/((?:png)|(?:svg))/)?.[1];
+    const outputType = req.url.match(/\/(png|svg)/)?.[1]
     if (outputType) {
-      const diagramSource = await micro.text(req, { limit: '1mb',  encoding: 'utf8' })
+      const diagramSource = await micro.text(req, { limit: '1mb', encoding: 'utf8' })
       if (diagramSource) {
         try {
-          const isPng = outputType == 'png'
+          const isPng = outputType === 'png'
           const output = await worker.convert(new Task(diagramSource, isPng))
           res.setHeader('Content-Type', isPng ? 'image/png' : 'image/svg+xml')
           return micro.send(res, 200, output)
         } catch (e) {
-          console.log('exception during convert', e)
+          console.log('Exception during convert', e)
           return micro.send(res, 400, 'Unable to convert the diagram')
         }
       }
-      micro.send(res, 400, 'Body must not be empty.')
+      return micro.send(res, 400, 'Body must not be empty.')
     }
-    micro.send(res, 400, 'Available endpoints are /svg and /png.')
+    return micro.send(res, 400, 'Available endpoints are /svg and /png.')
   })
   server.listen(8002)
 })().catch(error => {
