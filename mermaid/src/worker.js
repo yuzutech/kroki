@@ -2,6 +2,12 @@
 const path = require('path')
 const puppeteer = require('puppeteer')
 
+class SyntaxError extends Error {
+  constructor () {
+    super('Syntax error in graph')
+  }
+}
+
 class Worker {
   constructor (browserInstance) {
     this.browserWSEndpoint = browserInstance.wsEndpoint()
@@ -24,8 +30,13 @@ class Worker {
         window.mermaid.init(undefined, container)
       }, task.source, task.mermaidConfig)
 
+      // diagrams are directly under #containers, while the SVG generated upon syntax error is wrapped in a div
+      const svg = await page.$('#container > svg')
+      if (!svg) {
+        throw new SyntaxError()
+      }
+
       if (task.isPng) {
-        const svg = await page.$('#container > svg')
         return await svg.screenshot({
           type: 'png',
           omitBackground: true
@@ -40,9 +51,6 @@ class Worker {
           return nodes.join('')
         })
       }
-    } catch (e) {
-      console.error('Unable to convert the diagram', e)
-      throw e
     } finally {
       try {
         await page.close()
@@ -58,4 +66,7 @@ class Worker {
   }
 }
 
-module.exports = Worker
+module.exports = {
+  Worker,
+  SyntaxError
+}
