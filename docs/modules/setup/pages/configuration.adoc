@@ -200,7 +200,3 @@ Server private key and certificate can be configured separately using .pem files
 
 If SSL is enabled, both `KROKI_SSL_KEY` and `KROKI_SSL_CERT` must be configured.
 
-
-
-
-
