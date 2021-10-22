@@ -159,8 +159,8 @@ public class Server extends AbstractVerticle {
     if (enableSSL) {
       Optional<String> keyPath = Optional.ofNullable(config.getString("KROKI_SSL_KEY"));
       Optional<String> certPath = Optional.ofNullable(config.getString("KROKI_SSL_CERT"));
-      if (!keyPath.isPresent() && !certPath.isPresent()) {
-        throw new IllegalArgumentException("KROKI_SSL_KEY or KROKI_SSL_CERT must be configured");
+      if (!keyPath.isPresent() || !certPath.isPresent()) {
+        throw new IllegalArgumentException("KROKI_SSL_KEY and KROKI_SSL_CERT must be configured when SSL is enabled.");
       }
       PemKeyCertOptions pemKeyCertOptions = new PemKeyCertOptions();
       keyPath.ifPresent(pemKeyCertOptions::setKeyPath);
