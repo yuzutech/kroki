@@ -35,8 +35,8 @@ class ServerSSLTest {
     PemKeyCertOptions pemKeyCertOptions = SelfSignedCertificate.create().keyCertOptions();
     DeploymentOptions options = new DeploymentOptions().setConfig(
       new JsonObject().put("KROKI_PORT", port).put("KROKI_SSL", true)
-        .put("KROKI_SSL_KEY", pemKeyCertOptions.getKeyPath())
-        .put("KROKI_SSL_CERT", pemKeyCertOptions.getCertPath()));
+        .put("KROKI_SSL_KEY", pemKeyCertOptions.getKeyValue().toString())
+        .put("KROKI_SSL_CERT", pemKeyCertOptions.getCertValue().toString()));
     vertx.deployVerticle(new Server(), options, testContext.succeedingThenComplete());
   }
 
