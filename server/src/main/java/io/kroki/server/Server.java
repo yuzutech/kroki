@@ -31,6 +31,7 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerOptions;
@@ -157,14 +158,14 @@ public class Server extends AbstractVerticle {
 
   private static void setPemKeyCertOptions(JsonObject config, HttpServerOptions serverOptions, boolean enableSSL) {
     if (enableSSL) {
-      Optional<String> keyPath = Optional.ofNullable(config.getString("KROKI_SSL_KEY"));
-      Optional<String> certPath = Optional.ofNullable(config.getString("KROKI_SSL_CERT"));
-      if (!keyPath.isPresent() || !certPath.isPresent()) {
+      Optional<String> sslKey = Optional.ofNullable(config.getString("KROKI_SSL_KEY"));
+      Optional<String> sslCert = Optional.ofNullable(config.getString("KROKI_SSL_CERT"));
+      if (!sslKey.isPresent() || !sslCert.isPresent()) {
         throw new IllegalArgumentException("KROKI_SSL_KEY and KROKI_SSL_CERT must be configured when SSL is enabled.");
       }
       PemKeyCertOptions pemKeyCertOptions = new PemKeyCertOptions();
-      keyPath.ifPresent(pemKeyCertOptions::setKeyPath);
-      certPath.ifPresent(pemKeyCertOptions::setCertPath);
+      sslKey.ifPresent(keyValue -> pemKeyCertOptions.setKeyValue(Buffer.buffer(keyValue)));
+      sslCert.ifPresent(certValue -> pemKeyCertOptions.setCertValue(Buffer.buffer(certValue)));
       serverOptions.setPemKeyCertOptions(pemKeyCertOptions);
     }
   }
