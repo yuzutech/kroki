@@ -43,13 +43,12 @@ import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.CorsHandler;
-import java.util.Optional;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Server extends AbstractVerticle {
 
@@ -158,15 +157,14 @@ public class Server extends AbstractVerticle {
 
   private static void setPemKeyCertOptions(JsonObject config, HttpServerOptions serverOptions, boolean enableSSL) {
     if (enableSSL) {
-      Optional<String> sslKey = Optional.ofNullable(config.getString("KROKI_SSL_KEY"));
-      Optional<String> sslCert = Optional.ofNullable(config.getString("KROKI_SSL_CERT"));
-      if (!sslKey.isPresent() || !sslCert.isPresent()) {
+      Optional<String> sslKeyValue = Optional.ofNullable(config.getString("KROKI_SSL_KEY"));
+      Optional<String> sslCertValue = Optional.ofNullable(config.getString("KROKI_SSL_CERT"));
+      if (!sslKeyValue.isPresent() || !sslCertValue.isPresent()) {
         throw new IllegalArgumentException("KROKI_SSL_KEY and KROKI_SSL_CERT must be configured when SSL is enabled.");
       }
-      PemKeyCertOptions pemKeyCertOptions = new PemKeyCertOptions();
-      sslKey.ifPresent(keyValue -> pemKeyCertOptions.setKeyValue(Buffer.buffer(keyValue)));
-      sslCert.ifPresent(certValue -> pemKeyCertOptions.setCertValue(Buffer.buffer(certValue)));
-      serverOptions.setPemKeyCertOptions(pemKeyCertOptions);
+      serverOptions.setPemKeyCertOptions(
+        new PemKeyCertOptions().addKeyValue(Buffer.buffer(sslKeyValue.get()))
+          .addCertValue(Buffer.buffer(sslCertValue.get())));
     }
   }
 
