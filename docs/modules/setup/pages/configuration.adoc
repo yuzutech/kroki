@@ -198,7 +198,7 @@ You can enable this option by setting `KROKI_SSL` environment variable to true.
 By default, it is disabled.
 Server private key and certificate can be configured separately using .pem files by setting `KROKI_SSL_KEY` and `KROKI_SSL_CERT` environment variables.
 
-If SSL is enabled, either `KROKI_SSL_KEY` or `KROKI_SSL_CERT` must be configured.
+If SSL is enabled, both `KROKI_SSL_KEY` and `KROKI_SSL_CERT` must be configured.
 
 
 
