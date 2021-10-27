@@ -13,10 +13,13 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.ext.web.client.WebClient;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 public class Mermaid implements DiagramService {
+
+  private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG);
 
   private final WebClient client;
   private final String host;
@@ -37,7 +40,7 @@ public class Mermaid implements DiagramService {
 
   @Override
   public List<FileFormat> getSupportedFormats() {
-    return Collections.singletonList(FileFormat.SVG);
+    return SUPPORTED_FORMATS;
   }
 
   @Override
