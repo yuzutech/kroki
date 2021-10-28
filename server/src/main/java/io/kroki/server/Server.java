@@ -163,8 +163,10 @@ public class Server extends AbstractVerticle {
         throw new IllegalArgumentException("KROKI_SSL_KEY and KROKI_SSL_CERT must be configured when SSL is enabled.");
       }
       serverOptions.setPemKeyCertOptions(
-        new PemKeyCertOptions().addKeyValue(Buffer.buffer(sslKeyValue.get()))
-          .addCertValue(Buffer.buffer(sslCertValue.get())));
+        new PemKeyCertOptions()
+          .addKeyValue(Buffer.buffer(sslKeyValue.get()))
+          .addCertValue(Buffer.buffer(sslCertValue.get()))
+      );
     }
   }
 
