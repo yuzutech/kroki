@@ -1,8 +1,10 @@
 package io.kroki.server.error;
 
+import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.web.MIMEHeader;
+import io.vertx.ext.web.impl.HeaderParser;
 import io.vertx.ext.web.impl.ParsableMIMEValue;
 
 import java.util.List;
@@ -17,7 +19,7 @@ public class ErrorContext {
   private final String statusMessage;
 
   public ErrorContext(HttpServerRequest request, HttpServerResponse response, String statusMessage, ErrorInfo errorInfo) {
-    this.acceptableMimes = request.headers().getAll("accept").stream().map(ParsableMIMEValue::new).collect(Collectors.toList());
+    this.acceptableMimes = HeaderParser.sort(HeaderParser.convertToParsedHeaderValues(request.getHeader(HttpHeaders.ACCEPT), ParsableMIMEValue::new));
     this.request = request;
     this.response = response;
     // no new lines are allowed in the status message

@@ -12,7 +12,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatcher;
 import org.mockito.Mockito;
 
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.argThat;
@@ -115,9 +118,32 @@ public class ErrorHandlerTest {
     HttpServerRequest httpServerRequest = mock(HttpServerRequest.class);
 
     when(httpServerResponse.getStatusMessage()).thenReturn(null);
-    MultiMap headers = new HeadersMultiMap();
-    headers.add(HttpHeaders.ACCEPT, "image/svg+xml");
-    when(httpServerRequest.headers()).thenReturn(headers);
+    when(httpServerRequest.getHeader(HttpHeaders.ACCEPT)).thenReturn("image/svg+xml");
+    when(routingContext.response()).thenReturn(httpServerResponse);
+    when(routingContext.request()).thenReturn(httpServerRequest);
+    when(routingContext.failure()).thenReturn(new BadRequestException("Syntax Error? (line: 1)"));
+    when(httpServerRequest.method()).thenReturn(HttpMethod.GET);
+    ErrorHandler errorHandler = new ErrorHandler(vertx, false);
+
+    errorHandler.handle(routingContext);
+
+    Mockito.verify(httpServerResponse).setStatusMessage("Bad Request");
+    Mockito.verify(httpServerResponse).setStatusCode(400);
+    Mockito.verify(httpServerResponse).end(argThat((ArgumentMatcher<String>) argument ->
+      argument.contains("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n") &&
+        argument.contains("<tspan x=\"10\" dy=\"16\">Error 400: Syntax Error? (line: 1)</tspan>\n")
+    ));
+  }
+
+  @Test
+  void should_return_svg_error_image_when_accept_contains_image_svg_xml() {
+    Vertx vertx = Vertx.vertx();
+    RoutingContext routingContext = mock(RoutingContext.class);
+    HttpServerResponse httpServerResponse = plainResponse();
+    HttpServerRequest httpServerRequest = mock(HttpServerRequest.class);
+
+    when(httpServerResponse.getStatusMessage()).thenReturn(null);
+    when(httpServerRequest.getHeader(HttpHeaders.ACCEPT)).thenReturn("image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8");
     when(routingContext.response()).thenReturn(httpServerResponse);
     when(routingContext.request()).thenReturn(httpServerRequest);
     when(routingContext.failure()).thenReturn(new BadRequestException("Syntax Error? (line: 1)"));
