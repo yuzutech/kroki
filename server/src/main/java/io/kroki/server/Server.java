@@ -31,22 +31,24 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.json.JsonObject;
+import io.vertx.core.net.PemKeyCertOptions;
 import io.vertx.core.net.SocketAddress;
 import io.vertx.ext.web.Route;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.CorsHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Server extends AbstractVerticle {
 
@@ -72,11 +74,12 @@ public class Server extends AbstractVerticle {
   }
 
   static void start(Vertx vertx, JsonObject config, Handler<AsyncResult<HttpServer>> listenHandler) {
-    Integer maxUriLength = config.getInteger("KROKI_MAX_URI_LENGTH");
     HttpServerOptions serverOptions = new HttpServerOptions();
-    if (maxUriLength != null) {
-      serverOptions.setMaxInitialLineLength(maxUriLength);
-    }
+    Optional<Integer> maxUriLength = Optional.ofNullable(config.getInteger("KROKI_MAX_URI_LENGTH"));
+    maxUriLength.ifPresent(serverOptions::setMaxInitialLineLength);
+    boolean enableSSL = config.getBoolean("KROKI_SSL", false);
+    serverOptions.setSsl(enableSSL);
+    setPemKeyCertOptions(config, serverOptions, enableSSL);
     HttpServer server = vertx.createHttpServer(serverOptions);
     Router router = Router.router(vertx);
     BodyHandler bodyHandler = BodyHandler.create(false).setBodyLimit(config.getLong("KROKI_BODY_LIMIT", BodyHandler.DEFAULT_BODY_LIMIT));
@@ -150,6 +153,21 @@ public class Server extends AbstractVerticle {
       .invalidRequestHandler(new InvalidRequestHandler(errorHandler, serverOptions.getMaxInitialLineLength()))
       .requestHandler(router)
       .listen(getListenAddress(config), listenHandler);
+  }
+
+  private static void setPemKeyCertOptions(JsonObject config, HttpServerOptions serverOptions, boolean enableSSL) {
+    if (enableSSL) {
+      Optional<String> sslKeyValue = Optional.ofNullable(config.getString("KROKI_SSL_KEY"));
+      Optional<String> sslCertValue = Optional.ofNullable(config.getString("KROKI_SSL_CERT"));
+      if (!sslKeyValue.isPresent() || !sslCertValue.isPresent()) {
+        throw new IllegalArgumentException("KROKI_SSL_KEY and KROKI_SSL_CERT must be configured when SSL is enabled.");
+      }
+      serverOptions.setPemKeyCertOptions(
+        new PemKeyCertOptions()
+          .addKeyValue(Buffer.buffer(sslKeyValue.get()))
+          .addCertValue(Buffer.buffer(sslCertValue.get()))
+      );
+    }
   }
 
   /**
