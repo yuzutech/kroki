@@ -3,6 +3,14 @@
 :url-intellij-asciidoc-plugin: https://github.com/asciidoctor/asciidoctor-intellij-plugin/
 :url-keenwrite: https://github.com/DaveJarvis/keenwrite/
 :url-niolesk: https://niolesk.top/
+:url-vscode: https://code.visualstudio.com/
+:url-vscode-asciidoctor: https://marketplace.visualstudio.com/items?itemName=asciidoctor.asciidoctor-vscode
+:url-vscode-asciidoc-slides: https://marketplace.visualstudio.com/items?itemName=flobilosaurus.vscode-asciidoc-slides
+:url-gitlab: https://about.gitlab.com/
+:url-gitlab-int: https://docs.gitlab.com/ce/administration/integration/kroki.html
+:url-sphinx: https://www.sphinx-doc.org/
+:url-sphinx-int: https://github.com/sphinx-contrib/kroki
+:url-conf-kroki: https://marketplace.atlassian.com/apps/1224570
 
 A list of third party tools, developed by the community, that rely on Kroki.
 
@@ -37,3 +45,18 @@ Add any Kroki URL after `https://niolesk.top/#` and you'll be able to edit your 
 
 Here's an example: https://niolesk.top/#https://kroki.io/plantuml/svg/eNpTLMlIzU1VyM3MK6nk4nLKT9K1c8zJTE61UvBIzcnJVwQArksKZQ==
 ====
+
+== VS-Code
+
+The following {url-vscode}[Visual Studio Code] plugins support Kroki:
+
+ * {url-vscode-asciidoctor}[AsciiDoc]
+ * {url-vscode-asciidoc-slides}[AsciiDoc Slides]
+
+== Gitlab
+
+{url-gitlab}[Gitlab] can {url-gitlab-int}[use Kroki to render Images] in Markdown, AsciiDoc, reST and Textile documents.
+
+== Sphinx Documentation
+
+There is an {url-sphinx-int}[Kroki integration] for the {url-sphinx}[Sphinx documentation generator].
