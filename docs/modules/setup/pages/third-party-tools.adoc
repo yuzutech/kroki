@@ -4,7 +4,7 @@
 :url-keenwrite: https://github.com/DaveJarvis/keenwrite/
 :url-niolesk: https://niolesk.top/
 
-A list of third party tools, developed by the community, that relies on Kroki.
+A list of third party tools, developed by the community, that rely on Kroki.
 
 == Diagram it
 
