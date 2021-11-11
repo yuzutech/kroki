@@ -90,7 +90,7 @@ For example:
 $ mkdir example-lib
 $ printf "@startuml\nBob->Alice\n@enduml\n" > example-lib/bob.puml
 $ sudo docker run --publish=8000:8000 -v $(pwd)/example-lib:/example-lib -e KROKI_SAFE_MODE=SAFE -e KROKI_PLANTUML_INCLUDE_PATH=/example-lib yuzutech/kroki:latest
-$ curl http://localhost:8000/plantuml/svg/$(printf '@startuml\n!include bob.puml\nAlice -> Bob\n@enduml' | python -c "import sys; import base64; import zlib; print(base64.urlsafe_b64encode(zlib.compress(sys.stdin.read(), 9)))")
+$ curl http://localhost:8000/plantuml/svg/$(printf '@startuml\n!include bob.puml\nAlice -> Bob\n@enduml' | python -c "import sys; import base64; import zlib; print(base64.urlsafe_b64encode(zlib.compress(sys.stdin.read().encode('utf-8'), 9)).decode('ascii'))")
 ----
 
 == Manual install

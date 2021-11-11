@@ -21,7 +21,7 @@ digraph G {
 Here we are using a Python one-liner to encode our diagram using deflate + base64:
 
 [source,cli]
-cat hello.dot | python -c "import sys; import base64; import zlib; print(base64.urlsafe_b64encode(zlib.compress(sys.stdin.read(), 9)))"
+cat hello.dot | python -c "import sys; import base64; import zlib; print(base64.urlsafe_b64encode(zlib.compress(sys.stdin.read().encode('utf-8'), 9)).decode('ascii'))"
 
 The above command will return `eNpLyUwvSizIUHBXqPZIzcnJ17ULzy_KSanlAgB1EAjQ`.
 We can then copy this value in the URL:
