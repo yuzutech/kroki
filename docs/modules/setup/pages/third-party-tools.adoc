@@ -54,7 +54,7 @@ The following {url-vscode}[Visual Studio Code] plugins support Kroki:
 
 == Gitlab
 
-{url-gitlab}[Gitlab] can {url-gitlab-int}[use Kroki to render Images] in Markdown, AsciiDoc, reST and Textile documents.
+{url-gitlab}[Gitlab] can {url-gitlab-int}[use Kroki to render images] in Markdown, AsciiDoc, reST and Textile documents.
 
 == Sphinx Documentation
 
