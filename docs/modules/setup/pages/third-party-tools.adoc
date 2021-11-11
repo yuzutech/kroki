@@ -10,7 +10,6 @@
 :url-gitlab-int: https://docs.gitlab.com/ce/administration/integration/kroki.html
 :url-sphinx: https://www.sphinx-doc.org/
 :url-sphinx-int: https://github.com/sphinx-contrib/kroki
-:url-conf-kroki: https://marketplace.atlassian.com/apps/1224570
 
 A list of third party tools, developed by the community, that rely on Kroki.
 
