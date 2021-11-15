@@ -27,7 +27,7 @@ RUN npm run lint && PUPPETEER_EXECUTABLE_PATH=/usr/lib/chromium/chrome npm t
 RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-${ARCH} . -o app.bin
 
 # Create the image
-FROM alpine:3.13.5
+FROM alpine:3.14.3
 
 RUN addgroup -g 1000 kroki && adduser -D -G kroki -u 1000 kroki
 
