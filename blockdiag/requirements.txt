@@ -10,6 +10,6 @@ MarkupSafe==2.0.1
 nwdiag==2.0.0
 Pillow==8.4.0
 reportlab==3.6.2
-seqdiag==2.0.0
+seqdiag==3.0.0
 webcolors==1.11.1
 Werkzeug==2.0.2
