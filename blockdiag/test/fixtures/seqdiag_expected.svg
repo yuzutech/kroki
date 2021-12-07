@@ -48,7 +48,7 @@
   <polygon fill="rgb(0,0,0)" points="336,361 328,365 336,369" stroke="rgb(0,0,0)" />
   <path d="M 136 415 L 312 415" fill="none" stroke="rgb(0,0,0)" stroke-dasharray="4" />
   <polygon fill="rgb(0,0,0)" points="144,411 136,415 144,419" stroke="rgb(0,0,0)" />
-  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="90" x="185.0" y="133">GET /index.html</text>
-  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="108" x="194.0" y="248">POST /blog/comment</text>
-  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="84" x="374.0" y="313">INSERT comment</text>
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="90" x="189.0" y="131">GET /index.html</text>
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="108" x="198.0" y="246">POST /blog/comment</text>
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="84" x="378.0" y="311">INSERT comment</text>
 </svg>
