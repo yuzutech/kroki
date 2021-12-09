@@ -54,6 +54,7 @@ const sendRequest = async (testCase, outputFormat) => {
 }
 
 describe('Diagrams', () => {
+  this.timeout(5000)
   tests.forEach((testCase) => {
     testCase.outputFormat.forEach(outputFormat => {
       it(`${testCase.engine}/${outputFormat} should answer with HTTP 200`, async () => {
