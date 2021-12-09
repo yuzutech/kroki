@@ -53,7 +53,7 @@ const sendRequest = async (testCase, outputFormat) => {
   }
 }
 
-describe('Diagrams', () => {
+describe('Diagrams', function () {
   this.timeout(5000)
   tests.forEach((testCase) => {
     testCase.outputFormat.forEach(outputFormat => {
