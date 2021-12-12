@@ -1,5 +1,5 @@
 # Package the Node.js project into a single binary
-FROM node:14.18.2-alpine3.13 as builder
+FROM node:14.18.2-alpine3.14 as builder
 
 # Workaround: https://github.com/nodejs/docker-node/issues/813#issuecomment-407339011
 # Error: could not get uid/gid
@@ -24,7 +24,7 @@ RUN npm run lint
 RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-${ARCH} . -o app.bin
 
 # Create the image
-FROM alpine:3.13.5
+FROM alpine:3.14.3
 
 RUN addgroup -g 1000 kroki && adduser -D -G kroki -u 1000 kroki
 
