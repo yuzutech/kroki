@@ -30,29 +30,29 @@ public class HealthHandler {
     krokiBuildHash = applicationProperties.getProperty("app.sha1", "");
     serviceVersions = new ArrayList<>();
     // QUESTION: should we dynamically fetch the versions ?
-    serviceVersions.add(new ServiceVersion("actdiag", "2.0.0"));
-    serviceVersions.add(new ServiceVersion("blockdiag", "2.0.1"));
-    serviceVersions.add(new ServiceVersion("bpmn", "8.7.3"));
+    serviceVersions.add(new ServiceVersion("actdiag", "3.0.0"));
+    serviceVersions.add(new ServiceVersion("blockdiag", "3.0.0"));
+    serviceVersions.add(new ServiceVersion("bpmn", "8.8.3"));
     serviceVersions.add(new ServiceVersion("bytefield", "1.6.0"));
-    serviceVersions.add(new ServiceVersion("c4plantuml", "1.2021.10"));
+    serviceVersions.add(new ServiceVersion("c4plantuml", "1.2021.16"));
     serviceVersions.add(new ServiceVersion("ditaa", "1.3.13"));
     serviceVersions.add(new ServiceVersion("erd", "0.2.1.0"));
     serviceVersions.add(new ServiceVersion("excalidraw", "0.1.0"));
     serviceVersions.add(new ServiceVersion("graphviz", "2.40.1"));
-    serviceVersions.add(new ServiceVersion("mermaid", "8.13.2"));
+    serviceVersions.add(new ServiceVersion("mermaid", "8.13.5"));
     serviceVersions.add(new ServiceVersion("nomnoml", "1.4.0"));
-    serviceVersions.add(new ServiceVersion("nwdiag", "2.0.0"));
-    serviceVersions.add(new ServiceVersion("packetdiag", "2.0.0"));
+    serviceVersions.add(new ServiceVersion("nwdiag", "3.0.0"));
+    serviceVersions.add(new ServiceVersion("packetdiag", "3.0.0"));
     serviceVersions.add(new ServiceVersion("pikchr", "7269f78c4a"));
-    serviceVersions.add(new ServiceVersion("plantuml", "1.2021.10"));
-    serviceVersions.add(new ServiceVersion("rackdiag", "2.0.0"));
-    serviceVersions.add(new ServiceVersion("seqdiag", "2.0.0"));
-    serviceVersions.add(new ServiceVersion("structurizr", "1.15.0"));
+    serviceVersions.add(new ServiceVersion("plantuml", "1.2021.16"));
+    serviceVersions.add(new ServiceVersion("rackdiag", "3.0.0"));
+    serviceVersions.add(new ServiceVersion("seqdiag", "3.0.0"));
+    serviceVersions.add(new ServiceVersion("structurizr", "1.16.0"));
     serviceVersions.add(new ServiceVersion("svgbob", "0.5.3"));
     serviceVersions.add(new ServiceVersion("umlet", "14.3.0"));
     serviceVersions.add(new ServiceVersion("vega", "5.21.0"));
-    serviceVersions.add(new ServiceVersion("vegalite", "5.1.1"));
-    serviceVersions.add(new ServiceVersion("wavedrom", "2.6.9"));
+    serviceVersions.add(new ServiceVersion("vegalite", "5.2.0"));
+    serviceVersions.add(new ServiceVersion("wavedrom", "2.9.0"));
   }
 
   public Handler<RoutingContext> create() {
