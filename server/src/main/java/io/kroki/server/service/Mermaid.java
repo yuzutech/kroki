@@ -50,7 +50,7 @@ public class Mermaid implements DiagramService {
 
   @Override
   public String getVersion() {
-    return "8.13.2";
+    return "8.13.5";
   }
 
   @Override
