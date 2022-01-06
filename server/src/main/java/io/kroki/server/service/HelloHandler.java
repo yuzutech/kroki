@@ -2,6 +2,7 @@ package io.kroki.server.service;
 
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
+import io.vertx.core.http.HttpHeaders;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.impl.Utils;
 
@@ -32,6 +33,7 @@ public class HelloHandler {
       String versionsTable = generateVersionsTable(serviceVersions);
       routingContext
         .response()
+        .putHeader(HttpHeaders.CONTENT_TYPE, "text/html")
         .end(pageTemplate.replace("{versionsTable}", versionsTable));
     };
   }
