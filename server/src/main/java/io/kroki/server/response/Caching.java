@@ -6,6 +6,10 @@ import net.sourceforge.plantuml.code.AsciiEncoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.format.DateTimeFormatter;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.util.Locale;
 import java.security.MessageDigest;
 
 public class Caching {
@@ -14,6 +18,9 @@ public class Caching {
 
   private final long compileTime = 1567581178724L;
   private final String version;
+  private final DateTimeFormatter httpHeaderFormatter = DateTimeFormatter
+    .ofPattern("EEE, dd MMM yyyy HH:mm:ss z", Locale.ENGLISH)
+    .withZone(ZoneId.of("GMT"));
 
   public Caching(String version) {
     this.version = version;
@@ -23,11 +30,15 @@ public class Caching {
     long today = System.currentTimeMillis();
     final int maxAge = 3600 * 24 * 5;
     // Add http headers to force the browser to cache the image
-    response.putHeader(HttpHeaders.EXPIRES, String.valueOf(today + 1000L * maxAge));
-    response.putHeader(HttpHeaders.DATE, String.valueOf(today));
-    response.putHeader(HttpHeaders.LAST_MODIFIED, String.valueOf(compileTime));
+    response.putHeader(HttpHeaders.EXPIRES, httpDate(today + 1000L * maxAge));
+    response.putHeader(HttpHeaders.DATE, httpDate(today));
+    response.putHeader(HttpHeaders.LAST_MODIFIED, httpDate(compileTime));
     response.putHeader(HttpHeaders.CACHE_CONTROL, "public, max-age=" + maxAge);
     response.putHeader(HttpHeaders.ETAG, version + internalEtag(data));
+  }
+
+  private String httpDate(long millis) {
+    return httpHeaderFormatter.format(Instant.ofEpochMilli(millis));
   }
 
   private String internalEtag(String data) {
