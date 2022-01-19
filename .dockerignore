@@ -1,0 +1,4 @@
+.git/
+*.iml
+.vertx/
+**/node_modules/
