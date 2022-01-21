@@ -3,7 +3,6 @@ package io.kroki.server.decode;
 import io.kroki.server.error.DecodeException;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.util.Base64;
 
 import static org.assertj.core.api.Assertions.assertThat;

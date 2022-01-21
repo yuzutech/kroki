@@ -6,7 +6,6 @@ import com.structurizr.io.Diagram;
 import com.structurizr.io.plantuml.StructurizrPlantUMLExporter;
 import com.structurizr.view.ComponentView;
 import com.structurizr.view.ContainerView;
-import com.structurizr.view.CustomView;
 import com.structurizr.view.DeploymentView;
 import com.structurizr.view.DynamicView;
 import com.structurizr.view.SystemContextView;
@@ -23,7 +22,6 @@ import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
 
-import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
