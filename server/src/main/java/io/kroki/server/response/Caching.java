@@ -16,7 +16,7 @@ public class Caching {
 
   private static final Logger logger = LoggerFactory.getLogger(Caching.class);
 
-  private final long compileTime = 1567581178724L;
+  private final long compileTime;
   private final String version;
   private final DateTimeFormatter httpHeaderFormatter = DateTimeFormatter
     .ofPattern("EEE, dd MMM yyyy HH:mm:ss z", Locale.ENGLISH)
@@ -24,6 +24,9 @@ public class Caching {
 
   public Caching(String version) {
     this.version = version;
+    this.compileTime = Instant
+      .parse(Main.getApplicationProperty("app.buildTime", ""))
+      .toEpochMilli();
   }
 
   public void addHeaderForCache(HttpServerResponse response, String data) {
