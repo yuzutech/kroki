@@ -1,5 +1,6 @@
 package io.kroki.server.response;
 
+import io.kroki.server.Main;
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.http.HttpServerResponse;
 import net.sourceforge.plantuml.code.AsciiEncoder;
@@ -29,8 +30,7 @@ public class Caching {
       .toEpochMilli();
   }
 
-  public void addHeaderForCache(HttpServerResponse response, String data) {
-    long today = System.currentTimeMillis();
+  public void addHeaderForCache(HttpServerResponse response, String data, long today) {
     final int maxAge = 3600 * 24 * 5;
     // Add http headers to force the browser to cache the image
     response.putHeader(HttpHeaders.EXPIRES, httpDate(today + 1000L * maxAge));
