@@ -14,7 +14,6 @@ import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.ext.web.client.WebClient;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class Mermaid implements DiagramService {

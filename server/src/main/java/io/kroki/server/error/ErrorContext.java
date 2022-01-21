@@ -8,7 +8,6 @@ import io.vertx.ext.web.impl.HeaderParser;
 import io.vertx.ext.web.impl.ParsableMIMEValue;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ErrorContext {
 
