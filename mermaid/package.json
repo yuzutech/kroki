@@ -23,7 +23,7 @@
     "puppeteer": "13.0.1"
   },
   "devDependencies": {
-    "chai": "^4.3.4",
+    "chai": "^4.3.5",
     "dirty-chai": "^2.0.1",
     "mocha": "^9.1.3",
     "pngjs": "^6.0.0",
