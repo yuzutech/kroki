@@ -1,17 +1,16 @@
 package io.kroki.server.service;
 
+import io.kroki.server.Main;
+
 import io.vertx.core.Handler;
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.json.Json;
 import io.vertx.ext.web.RoutingContext;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 public class HealthHandler {
 
@@ -20,14 +19,8 @@ public class HealthHandler {
   private final List<ServiceVersion> serviceVersions;
 
   public HealthHandler() {
-    Properties applicationProperties = new Properties();
-    try (InputStream inputStream = HelloHandler.class.getResourceAsStream("/application.properties")) {
-      applicationProperties.load(inputStream);
-    } catch (IOException e) {
-      throw new RuntimeException("Unable to load application.properties", e);
-    }
-    krokiVersionNumber = applicationProperties.getProperty("app.version", "");
-    krokiBuildHash = applicationProperties.getProperty("app.sha1", "");
+    krokiVersionNumber = Main.getApplicationProperty("app.version", "");
+    krokiBuildHash = Main.getApplicationProperty("app.sha1", "");
     serviceVersions = new ArrayList<>();
     // QUESTION: should we dynamically fetch the versions ?
     serviceVersions.add(new ServiceVersion("actdiag", "3.0.0"));
