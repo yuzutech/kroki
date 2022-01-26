@@ -5,6 +5,7 @@ import com.kitfox.svg.SVGElement;
 import com.kitfox.svg.SVGException;
 import com.kitfox.svg.SVGUniverse;
 import com.kitfox.svg.app.beans.SVGIcon;
+import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import java.awt.Dimension;
 import java.awt.Graphics2D;
@@ -16,6 +17,13 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 
 public class ErrorImage {
+
+  static {
+    // enable JUL to SLF4J bridge
+    // JUL is used by https://github.com/blackears/svgSalamander (com.kitfox.svg)
+    SLF4JBridgeHandler.removeHandlersForRootLogger();
+    SLF4JBridgeHandler.install();
+  }
 
   public static SVGWithDimension buildSVGImage(String errorMessage) throws IOException, SVGException {
     String[] lines = errorMessage.split("\\n");
