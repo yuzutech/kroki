@@ -1,7 +1,5 @@
-package io.kroki.server;
+package io.kroki.server.response;
 
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.ArgumentMatchers.matches;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -12,22 +10,14 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
-import java.util.regex.Pattern;
 
+import io.kroki.server.Main;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 
-import io.kroki.server.response.Caching;
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.http.HttpServerResponse;
 
 public class ServerCachingTest {
-  @Captor
-  ArgumentCaptor<String> headerCaptor;
-
-  @Captor
-  ArgumentCaptor<String> valueCaptor;
 
   @Test
   void caching_header_test() {
@@ -41,16 +31,11 @@ public class ServerCachingTest {
       .ofPattern("EEE, dd MMM yyyy HH:mm:ss z", Locale.ENGLISH)
       .withZone(ZoneId.of("GMT"));
     String buildTimeStr = httpFormatter.format(Instant
-      .parse(Main.getApplicationProperty("app.buildTime", "app.buildTime missing!")));
-    Pattern buildTimeRE = Pattern.compile("^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), "
-      + "[0-3][0-9] (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) 202[2-9] "
-      + "[0-2][0-9]:[0-5][0-9]:[0-5][0-9] GMT$");
+      .parse(Main.getApplicationProperty("app.buildTime", "")));
 
-    
     verify(httpServerResponseMock, times(1)).putHeader(HttpHeaders.DATE, "Sun, 02 Jan 2022 03:04:05 GMT");
     verify(httpServerResponseMock, times(1)).putHeader(HttpHeaders.EXPIRES, "Fri, 07 Jan 2022 03:04:05 GMT");
     verify(httpServerResponseMock, times(1)).putHeader(HttpHeaders.LAST_MODIFIED, buildTimeStr);
-    verify(httpServerResponseMock, times(1)).putHeader(eq(HttpHeaders.LAST_MODIFIED), matches(buildTimeRE));
     verify(httpServerResponseMock, times(1)).putHeader(HttpHeaders.CACHE_CONTROL, "public, max-age=432000");
   }
 }

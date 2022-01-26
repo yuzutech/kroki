@@ -7,6 +7,7 @@ import net.sourceforge.plantuml.code.AsciiEncoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.nio.charset.StandardCharsets;
 import java.time.format.DateTimeFormatter;
 import java.time.Instant;
 import java.time.ZoneId;
@@ -30,7 +31,11 @@ public class Caching {
       .toEpochMilli();
   }
 
-  public void addHeaderForCache(HttpServerResponse response, String data, long today) {
+  public void addHeaderForCache(HttpServerResponse response, String data) {
+    addHeaderForCache(response, data, System.currentTimeMillis());
+  }
+
+  void addHeaderForCache(HttpServerResponse response, String data, long today) {
     final int maxAge = 3600 * 24 * 5;
     // Add http headers to force the browser to cache the image
     response.putHeader(HttpHeaders.EXPIRES, httpDate(today + 1000L * maxAge));
@@ -48,7 +53,7 @@ public class Caching {
     try {
       final AsciiEncoder coder = new AsciiEncoder();
       final MessageDigest msgDigest = MessageDigest.getInstance("MD5");
-      msgDigest.update(data.getBytes("UTF-8"));
+      msgDigest.update(data.getBytes(StandardCharsets.UTF_8));
       final byte[] digest = msgDigest.digest();
       return coder.encode(digest);
     } catch (Exception e) {
