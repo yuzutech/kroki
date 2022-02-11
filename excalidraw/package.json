@@ -20,7 +20,7 @@
   "dependencies": {
     "@excalidraw/utils": "0.1.0-test",
     "micro": "9.3.4",
-    "puppeteer": "13.1.2"
+    "puppeteer": "13.3.1"
   },
   "devDependencies": {
     "standard": "16.0.4"
