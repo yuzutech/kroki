@@ -14,7 +14,7 @@
   "keywords": [],
   "author": "Guillaume Grossetie",
   "dependencies": {
-    "bytefield-svg": "1.6.0"
+    "bytefield-svg": "1.6.1"
   },
   "devDependencies": {
     "standard": "16.0.4"
