@@ -1,10 +1,5 @@
-# /!\ WARNING /!\
-# Do not upgrade to "adoptopenjdk/openjdk11:jre-11.0.10_9-alpine"
-# This version is based on alpine 3.13.2 and will cause a SegFault!
-# https://github.com/AdoptOpenJDK/openjdk-docker/issues/520
-
 # based on alpine 3.12
-FROM adoptopenjdk/openjdk11:jre-11.0.9.1_1-alpine
+FROM eclipse-temurin:11.0.14_9-jre-alpine
 
 RUN addgroup -g 1000 kroki && adduser -D -G kroki -u 1000 kroki
 
