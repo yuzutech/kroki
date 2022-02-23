@@ -2,8 +2,8 @@ package io.kroki.server.service;
 
 import com.structurizr.dsl.StructurizrDslParser;
 import com.structurizr.dsl.StructurizrDslParserException;
-import com.structurizr.io.Diagram;
-import com.structurizr.io.plantuml.StructurizrPlantUMLExporter;
+import com.structurizr.export.Diagram;
+import com.structurizr.export.plantuml.StructurizrPlantUMLExporter;
 import com.structurizr.view.ComponentView;
 import com.structurizr.view.ContainerView;
 import com.structurizr.view.DeploymentView;

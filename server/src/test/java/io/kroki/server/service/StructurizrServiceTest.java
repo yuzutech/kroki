@@ -1,6 +1,6 @@
 package io.kroki.server.service;
 
-import com.structurizr.io.plantuml.StructurizrPlantUMLExporter;
+import com.structurizr.export.plantuml.StructurizrPlantUMLExporter;
 import io.kroki.server.error.BadRequestException;
 import io.kroki.server.format.FileFormat;
 import io.vertx.core.json.JsonObject;
