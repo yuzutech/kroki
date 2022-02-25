@@ -9,7 +9,7 @@ chai.use(dirtyChai)
 
 const PNG = require('pngjs').PNG
 
-const { Worker, SyntaxError } = require('../src/worker.js')
+const {Worker, SyntaxError} = require('../src/worker.js')
 const Task = require('../src/task.js')
 
 const svgTests = [
@@ -20,15 +20,19 @@ const svgTests = [
 ]
 
 const pngTests = [
-  {type: 'graph', width: 178, height: 168, content: `graph TD
+  {
+    type: 'graph', width: 178, height: 168, content: `graph TD
   A --> B
   C{{test}} --> D[(db)]
-  A --> D`},
-  {type: 'sequence', width: 504, height: 387, content: `sequenceDiagram
+  A --> D`
+  },
+  {
+    type: 'sequence', width: 504, height: 387, content: `sequenceDiagram
   Alice->>+John: Hello John, how are you?
   Alice->>+John: John, can you hear me?
   John-->>-Alice: Hi Alice, I can hear you!
-  John-->>-Alice: I feel great!`}
+  John-->>-Alice: I feel great!`
+  }
 ]
 
 const invalidSyntaxTests = [
@@ -36,8 +40,18 @@ const invalidSyntaxTests = [
   {endpoint: 'png', isPng: true}
 ]
 
-async function getBrowser() {
-  return puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']})
+async function getBrowser () {
+  return puppeteer.launch({
+    args: [
+      '--no-zygote',
+      '--disable-dev-shm-usage',
+      '--no-first-run',
+      '--no-initial-navigation',
+      '--single-process',
+      '--no-sandbox',
+      '--disable-setuid-sandbox'
+    ]
+  })
 }
 
 describe('#convert', function () {
@@ -64,9 +78,9 @@ describe('#convert', function () {
       const browser = await getBrowser()
       try {
         const worker = new Worker(browser)
-        const result = await worker.convert(new Task(testCase.content, true));
-        
-        const image = PNG.sync.read(result); // this will fail on invalid image
+        const result = await worker.convert(new Task(testCase.content, true))
+
+        const image = PNG.sync.read(result) // this will fail on invalid image
 
         expect(image.width).to.be.closeTo(testCase.width, 20)
         expect(image.height).to.be.closeTo(testCase.height, 50) // padding can make it vary more
