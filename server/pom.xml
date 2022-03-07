@@ -12,7 +12,7 @@
   <artifactId>kroki-server</artifactId>
 
   <properties>
-    <logback.version>1.2.10</logback.version>
+    <logback.version>1.2.11</logback.version>
     <vertx.version>4.2.5</vertx.version>
     <junit.jupiter.version>5.8.2</junit.jupiter.version>
     <assertj-core.version>3.22.0</assertj-core.version>
