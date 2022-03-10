@@ -4,7 +4,7 @@ Click==8.0.4
 Flask==2.0.3
 funcparserlib==1.0.0a0
 gunicorn==20.1.0
-itsdangerous==2.1.0
+itsdangerous==2.1.1
 Jinja2==3.0.3
 MarkupSafe==2.1.0
 nwdiag==3.0.0
