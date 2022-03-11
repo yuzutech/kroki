@@ -14,6 +14,7 @@ jobs:
         uses: actions/setup-java@v3.0.0
         with:
           java-version: 11
+          distribution: temurin
       - name: Install Java dependencies
         run: make installLocalDependencies
       - name: Build Java server
@@ -48,6 +49,7 @@ jobs:
         uses: actions/setup-java@v3.0.0
         with:
           java-version: 11
+          distribution: temurin
       - name: Install Java dependencies
         run: make installLocalDependencies
       - name: Build Java server
