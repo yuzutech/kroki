@@ -16,8 +16,8 @@
     <vertx.version>4.2.5</vertx.version>
     <junit.jupiter.version>5.8.2</junit.jupiter.version>
     <assertj-core.version>3.22.0</assertj-core.version>
-    <mockito-core.version>4.3.1</mockito-core.version>
-    <plantuml.version>1.2022.1</plantuml.version>
+    <mockito-core.version>4.4.0</mockito-core.version>
+    <plantuml.version>1.2022.2</plantuml.version>
     <ditaa-mini.version>0.14</ditaa-mini.version>
     <slf4j-api.version>1.7.36</slf4j-api.version>
     <maven.compiler.source>1.8</maven.compiler.source>
@@ -109,7 +109,7 @@
     <dependency>
       <groupId>com.structurizr</groupId>
       <artifactId>structurizr-core</artifactId>
-      <version>1.11.0</version>
+      <version>1.12.1</version>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
@@ -198,7 +198,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.10.0</version>
+        <version>3.10.1</version>
         <configuration>
           <source>1.8</source>
           <target>1.8</target>
