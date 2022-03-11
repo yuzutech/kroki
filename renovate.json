@@ -56,10 +56,6 @@
       "groupName": "Node dependencies"
     },
     {
-      "matchManagers": ["other"],
-      "groupName": "Other dependencies"
-    },
-    {
       "matchManagers": ["npm"],
       "matchPackagePatterns": [
         "puppeteer"
