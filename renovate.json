@@ -4,37 +4,9 @@
   ],
   "separateMajorMinor": true,
   "extends": [
-    ":preserveSemverRanges",
-    ":maintainLockFilesMonthly"
+    ":preserveSemverRanges"
   ],
   "packageRules": [
-    {
-      "matchPackagePatterns": [
-        "plantuml"
-      ],
-      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)?$",
-      "groupName": "PlantUML"
-    },
-    {
-      "matchPackagePatterns": [
-        "^org.mockito",
-        "^org.junit.jupiter",
-        "^org.assertj"
-      ],
-      "groupName": "Java testing packages"
-    },
-    {
-      "matchPackagePatterns": [
-        "^org.apache.maven.plugins"
-      ],
-      "groupName": "Maven plugins"
-    },
-    {
-      "matchPackagePatterns": [
-        "^com.structurizr"
-      ],
-      "groupName": "Structurizr packages"
-    },
     {
       "matchManagers": ["github-actions"],
       "groupName": "GitHub Actions"
@@ -42,10 +14,6 @@
     {
       "matchManagers": ["dockerfile"],
       "groupName": "Docker images"
-    },
-    {
-      "matchManagers": ["maven"],
-      "groupName": "Java dependencies"
     },
     {
       "matchManagers": ["pip_requirements"],
@@ -61,6 +29,41 @@
         "puppeteer"
       ],
       "groupName": "Puppeteer package"
+    },
+    {
+      "matchManagers": ["maven"],
+      "groupName": "Java dependencies"
+    },
+    {
+      "matchManagers": ["maven"],
+      "matchPackagePatterns": [
+        "^org.mockito",
+        "^org.junit.jupiter",
+        "^org.assertj"
+      ],
+      "groupName": "Java testing packages"
+    },
+    {
+      "matchManagers": ["maven"],
+      "matchPackagePatterns": [
+        "^org.apache.maven.plugins"
+      ],
+      "groupName": "Maven plugins"
+    },
+    {
+      "matchManagers": ["maven"],
+      "matchPackagePatterns": [
+        "^com.structurizr"
+      ],
+      "groupName": "Structurizr packages"
+    },
+    {
+      "matchManagers": ["maven"],
+      "matchPackagePatterns": [
+        "plantuml"
+      ],
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)?$",
+      "groupName": "PlantUML"
     }
   ],
   "lockFileMaintenance": {
