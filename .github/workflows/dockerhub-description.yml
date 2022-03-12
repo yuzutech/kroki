@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v3.0.0
 
       - name: Docker Hub Description
-        uses: peter-evans/dockerhub-description@v2.4.2
+        uses: peter-evans/dockerhub-description@v2.4.3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
@@ -21,7 +21,7 @@ jobs:
           readme-filepath: ./DOCKERHUB.md
 
       - name: Docker Hub Description - bpmn
-        uses: peter-evans/dockerhub-description@v2.4.2
+        uses: peter-evans/dockerhub-description@v2.4.3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
@@ -30,7 +30,7 @@ jobs:
           readme-filepath: ./DOCKERHUB-COMPANION.md
 
       - name: Docker Hub Description - excalidraw
-        uses: peter-evans/dockerhub-description@v2.4.2
+        uses: peter-evans/dockerhub-description@v2.4.3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
@@ -39,7 +39,7 @@ jobs:
           readme-filepath: ./DOCKERHUB-COMPANION.md
 
       - name: Docker Hub Description - mermaid
-        uses: peter-evans/dockerhub-description@v2.4.2
+        uses: peter-evans/dockerhub-description@v2.4.3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
@@ -48,7 +48,7 @@ jobs:
           readme-filepath: ./DOCKERHUB-COMPANION.md
 
       - name: Docker Hub Description - blockdiag
-        uses: peter-evans/dockerhub-description@v2.4.2
+        uses: peter-evans/dockerhub-description@v2.4.3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
