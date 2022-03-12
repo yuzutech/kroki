@@ -109,7 +109,7 @@
     <dependency>
       <groupId>com.structurizr</groupId>
       <artifactId>structurizr-core</artifactId>
-      <version>1.11.0</version>
+      <version>1.12.1</version>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
