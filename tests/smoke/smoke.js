@@ -46,6 +46,7 @@ const sendRequest = async (testCase, outputFormat) => {
       .type('text/plain')
       .set('Content-Type', 'text/plain')
       .set('Accept', mimeType[outputFormat])
+      .timeout(10000)
       .send(fs.readFileSync(`${__dirname}/diagrams/${testCase.file}`))
   } catch (err) {
     console.error('error:', err)
@@ -54,7 +55,7 @@ const sendRequest = async (testCase, outputFormat) => {
 }
 
 describe('Diagrams', function () {
-  this.timeout(5000)
+  this.timeout(15000)
   tests.forEach((testCase) => {
     testCase.outputFormat.forEach(outputFormat => {
       it(`${testCase.engine}/${outputFormat} should answer with HTTP 200`, async () => {
