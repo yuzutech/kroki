@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "micro": "9.3.4",
-    "puppeteer": "13.5.1"
+    "puppeteer": "10.4.0"
   },
   "devDependencies": {
     "chai": "^4.3.4",
