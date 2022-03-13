@@ -30,9 +30,7 @@ buildDockerImages:
 	$(MAKE) -C vega package
 	$(MAKE) -C wavedrom package
 	$(MAKE) -C bytefield package
-	docker build -f server/ops/docker/build-static-erd -t kroki-builder-static-erd .
-	docker build -f server/ops/docker/build-static-svgbob -t kroki-builder-static-svgbob .
-	docker build -f server/ops/docker/build-static-pikchr -t kroki-builder-static-pikchr .
+	$(MAKE) -C server/ops/docker package
 	$(MAKE) -C server package
 	$(MAKE) -C blockdiag package
 	$(MAKE) -C mermaid package
