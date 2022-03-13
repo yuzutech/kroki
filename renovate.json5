@@ -13,6 +13,13 @@
     },
     {
       "matchManagers": ["dockerfile"],
+      "matchPackagePatterns": ["node"],
+      // disable major updates as we want to stay on Node LTS
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    },
+    {
+      "matchManagers": ["dockerfile"],
       "groupName": "Docker images"
     },
     {
