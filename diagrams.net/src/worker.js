@@ -2,16 +2,10 @@
 const path = require('path')
 const puppeteer = require('puppeteer')
 
-class SyntaxError extends Error {
-  constructor () {
-    super('Syntax error in graph')
-  }
-}
-
 class Worker {
   constructor (browserInstance) {
     this.browserWSEndpoint = browserInstance.wsEndpoint()
-    this.pageUrl = process.env.KROKI_MERMAID_PAGE_URL || `file://${path.join(__dirname, '..', 'assets', 'index.html')}`
+    this.pageUrl = process.env.KROKI_DIAGRAMSNET_PAGE_URL || `file://${path.join(__dirname, '..', 'assets', 'index.html')}`
   }
 
   async convert (task) {
@@ -25,19 +19,20 @@ class Worker {
       await page.goto(this.pageUrl)
       // QUESTION: should we reuse the page for performance reason ?
       await page.evaluate((source) => {
+        /* global render */
         return render({
           xml: source,
           format: 'svg'
-        });
-      }, task.source);
+        })
+      }, task.source)
 
-      //default timeout is 30000 (30 sec)
+      // default timeout is 30000 (30 sec)
       await page.waitForSelector('#LoadingComplete')
 
-      //const bounds = await page.mainFrame().$eval('#LoadingComplete', div => div.getAttribute('bounds'))
-      //const pageId = await page.mainFrame().$eval('#LoadingComplete', div => div.getAttribute('page-id'))
-      //const scale = await page.mainFrame().$eval('#LoadingComplete', div => div.getAttribute('scale'))
-      //const pageCount = parseInt(await page.mainFrame().$eval('#LoadingComplete', div => div.getAttribute('pageCount')))
+      // const bounds = await page.mainFrame().$eval('#LoadingComplete', div => div.getAttribute('bounds'))
+      // const pageId = await page.mainFrame().$eval('#LoadingComplete', div => div.getAttribute('page-id'))
+      // const scale = await page.mainFrame().$eval('#LoadingComplete', div => div.getAttribute('scale'))
+      // const pageCount = parseInt(await page.mainFrame().$eval('#LoadingComplete', div => div.getAttribute('pageCount')))
 
       // diagrams are directly under #graph, while the SVG generated upon syntax error is wrapped in a div
       const svg = await page.$('#graph > svg')
@@ -72,6 +67,5 @@ class Worker {
 }
 
 module.exports = {
-  Worker,
-  SyntaxError
+  Worker
 }
