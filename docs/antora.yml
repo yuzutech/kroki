@@ -5,27 +5,27 @@ asciidoc:
   attributes:
     actdiag-version: 3.0.0
     blockdiag-version: 3.0.0
-    bpmnjs-version: 8.8.3
-    bytefield-version: 1.6.0
-    c4plantuml-version: 1.2021.16
+    bpmnjs-version: 9.0.2
+    bytefield-version: 1.6.1
+    c4plantuml-version: 1.2022.2
     ditaa-version: 1.3.13
     erd-version: 0.2.1.0
-    excalidraw-version: 0.1.0
+    excalidraw-version: 0.1.2
     graphviz-version: 2.40.1
-    mermaid-version: 8.13.5
+    mermaid-version: 8.14.0
     nomnoml-version: 1.4.0
     nwdiag-version: 3.0.0
     packetdiag-version: 3.0.0
     pikchr-version: '7269f78c4a'
-    plantuml-version: 1.2021.16
+    plantuml-version: 1.2022.2
     rackdiag-version: 3.0.0
     seqdiag-version: 3.0.0
-    structurizr-version: 1.16.0
+    structurizr-version: 1.18.0
     svgbob-version: 0.5.3
     umlet-version: 14.3.0
-    vega-version: 5.21.0
+    vega-version: 5.22.0
     vegalite-version: 5.2.0
-    wavedrom-version: 2.9.0
+    wavedrom-version: 2.9.1
     uri-docker-get-started: https://docs.docker.com/get-started/
     uri-podman-get-started: https://podman.io/getting-started/
     uri-docker-compose-install: https://docs.docker.com/compose/install/
