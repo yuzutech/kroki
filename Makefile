@@ -36,6 +36,7 @@ buildDockerImages:
 	$(MAKE) -C mermaid package
 	$(MAKE) -C bpmn package
 	$(MAKE) -C excalidraw package
+	$(MAKE) -C diagrams.net package
 
 showExamples:
 	$(PYTHON) blockdiag/examples.py

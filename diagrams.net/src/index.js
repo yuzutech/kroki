@@ -1,7 +1,8 @@
-const { Worker, SyntaxError } = require('./worker')
+const { Worker } = require('./worker')
 const Task = require('./task')
 const instance = require('./browser-instance')
 const micro = require('micro')
+const puppeteer = require('puppeteer')
 
 ;(async () => {
   // QUESTION: should we create a pool of Chrome instances ?
@@ -21,12 +22,10 @@ const micro = require('micro')
           res.setHeader('Content-Type', isPng ? 'image/png' : 'image/svg+xml')
           return micro.send(res, 200, output)
         } catch (e) {
-          if (e instanceof SyntaxError) {
-            return micro.send(res, 400, e.message)
-          } else {
+          if (!(e instanceof puppeteer.errors.TimeoutError)) {
             console.log('Exception during convert', e)
-            return micro.send(res, 500, 'An error occurred while converting the diagram')
           }
+          return micro.send(res, 500, 'An error occurred while converting the diagram')
         }
       }
       return micro.send(res, 400, 'Body must not be empty.')
