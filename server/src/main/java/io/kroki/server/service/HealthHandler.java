@@ -25,7 +25,7 @@ public class HealthHandler {
     // QUESTION: should we dynamically fetch the versions ?
     serviceVersions.add(new ServiceVersion("actdiag", "3.0.0"));
     serviceVersions.add(new ServiceVersion("blockdiag", "3.0.0"));
-    serviceVersions.add(new ServiceVersion("bpmn", "9.0.2"));
+    serviceVersions.add(new ServiceVersion("bpmn", "9.0.3"));
     serviceVersions.add(new ServiceVersion("bytefield", "1.6.1"));
     serviceVersions.add(new ServiceVersion("c4plantuml", "1.2022.2"));
     serviceVersions.add(new ServiceVersion("ditaa", "1.3.13"));
