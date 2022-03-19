@@ -6,6 +6,7 @@ class Worker {
   constructor (browserInstance) {
     this.browserWSEndpoint = browserInstance.wsEndpoint()
     this.pageUrl = process.env.KROKI_DIAGRAMSNET_PAGE_URL || `file://${path.join(__dirname, '..', 'assets', 'index.html')}`
+    this.convertTimeout = process.env.KROKI_DIAGRAMSNET_CONVERT_TIMEOUT || '15000'
   }
 
   async convert (task) {
@@ -26,8 +27,7 @@ class Worker {
         })
       }, task.source)
 
-      // default timeout is 30000 (30 sec)
-      await page.waitForSelector('#LoadingComplete')
+      await page.waitForSelector('#LoadingComplete', { timeout: this.convertTimeout })
 
       // const bounds = await page.mainFrame().$eval('#LoadingComplete', div => div.getAttribute('bounds'))
       // const pageId = await page.mainFrame().$eval('#LoadingComplete', div => div.getAttribute('page-id'))
