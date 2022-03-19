@@ -1,5 +1,5 @@
 # Package the Node.js project into a single binary
-FROM node:14.19.0-alpine3.15 as builder
+FROM node:14.19.1-alpine3.15 as builder
 
 RUN apk add --no-cache --update chromium
 
