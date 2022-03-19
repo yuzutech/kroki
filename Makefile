@@ -52,6 +52,7 @@ releaseDockerImages:
 	docker tag yuzutech/kroki-mermaid:latest yuzutech/kroki-mermaid:latest
 	docker tag yuzutech/kroki-excalidraw:latest yuzutech/kroki-excalidraw:latest
 	docker tag yuzutech/kroki-bpmn:latest yuzutech/kroki-bpmn:latest
+	docker tag yuzutech/kroki-diagramsnet:latest yuzutech/kroki-diagramsnet:latest
 
 pushDockerImages:
 	docker push yuzutech/kroki:latest
@@ -64,6 +65,7 @@ pushDockerImages:
 	docker push yuzutech/kroki-mermaid:$(LATEST_VERSION)
 	docker push yuzutech/kroki-excalidraw:$(LATEST_VERSION)
 	docker push yuzutech/kroki-bpmn:$(LATEST_VERSION)
+	docker push yuzutech/kroki-diagramsnet:$(LATEST_VERSION)
 
 smokeTests:
 	@docker-compose --file "$(SMOKE_TESTS_DIR)/docker-compose.yaml" up --build --detach \
@@ -81,6 +83,7 @@ installJavaScriptDependencies:
 	npm i --prefix bpmn
 	npm run prestart --prefix bpmn
 	npm i --prefix bytefield
+	npm i --prefix diagrams.net
 	npm i --prefix excalidraw
 	npm run prestart --prefix excalidraw
 	npm i --prefix mermaid
