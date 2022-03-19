@@ -9,6 +9,7 @@ import io.kroki.server.service.Bpmn;
 import io.kroki.server.service.Bytefield;
 import io.kroki.server.service.DiagramRegistry;
 import io.kroki.server.service.DiagramRest;
+import io.kroki.server.service.Diagramsnet;
 import io.kroki.server.service.Ditaa;
 import io.kroki.server.service.Erd;
 import io.kroki.server.service.Excalidraw;
@@ -121,6 +122,7 @@ public class Server extends AbstractVerticle {
     registry.register(new Excalidraw(vertx, config), "excalidraw");
     registry.register(new Pikchr(vertx, config, commander), "pikchr");
     registry.register(new Structurizr(vertx), "structurizr");
+    registry.register(new Diagramsnet(vertx, config), "diagramsnet");
 
     router.post("/")
       .handler(bodyHandler)

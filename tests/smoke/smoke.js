@@ -22,7 +22,12 @@ const tests = [
   {engine: 'umlet', file: 'umlet.xml', outputFormat: ['svg']},
   {engine: 'excalidraw', file: 'venn.excalidraw', outputFormat: ['svg']},
   {engine: 'pikchr', file: 'sqlite-architecture.pikchr', outputFormat: ['svg']},
-  {engine: 'structurizr', file: 'gettingstarted.structurizr', outputFormat: ['svg']}
+  {engine: 'structurizr', file: 'gettingstarted.structurizr', outputFormat: ['svg']},
+  {engine: 'diagramsnet', file: 'diagramsnet-infography.xml', outputFormat: ['svg', 'png']},
+  {engine: 'diagramsnet', file: 'diagramsnet-mindmap.xml', outputFormat: ['svg', 'png']},
+  {engine: 'diagramsnet', file: 'diagramsnet-network.xml', outputFormat: ['svg', 'png']},
+  {engine: 'diagramsnet', file: 'diagramsnet-ui.xml', outputFormat: ['svg', 'png']},
+  {engine: 'diagramsnet', file: 'diagramsnet-venn.xml', outputFormat: ['svg', 'png']}
 ]
 
 const chai = require('chai')
