@@ -107,8 +107,8 @@ After the above command, the server will be available on your host at: `{uri-loc
 
 == Run multiple Kroki containers together
 
-Running multiple containers allows you to use all the diagram features of Kroki in your environment provided by the <<images>>.
-The gateway server container provided by the image <<yuzutech-kroki,`yuzutech/kroki`>> image is the minimum requirement.
+Running multiple containers allows you to use all the diagram features of Kroki in your environment provided by the xref:install.adoc#images[images].
+The gateway server container provided by the image xref:install.adoc#yuzutech-kroki[`yuzutech/kroki`] image is the minimum requirement.
 
 [discrete]
 === Example of running them all together

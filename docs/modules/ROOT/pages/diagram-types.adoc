@@ -39,6 +39,7 @@ Diagram::
 * BPMN diagram
 * Bytefield diagram
 * Excalidraw
+* https://www.diagrams.net/[diagrams.net] (experimental)
 
 Visualization::
 * Bar charts

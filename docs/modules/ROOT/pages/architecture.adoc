@@ -18,6 +18,9 @@ A companion web server written in JavaScript (powered by _micro_) that provides 
 Excalidraw::
 A companion web server written in JavaScript (powered by _micro_) that provides https://excalidraw.com/[_Excalidraw_] to render diagrams.
 
+Diagrams.net::
+A companion web server written in JavaScript (powered by _micro_) that provides https://www.diagrams.net/[_diagrams.net_] to render diagrams.
+
 == Gateway Server
 
 The Docker image contains the following diagrams libraries out-of-the-box:
@@ -85,7 +88,7 @@ The Docker image contains the following diagrams libraries out-of-the-box:
 
 === BlockDiag
 
-The Docker image contains the following diagrams libraries out-of-the-box:
+The `yuzutech/kroki`  Docker image contains the following diagrams libraries out-of-the-box:
 
 [options="header",cols="1,1m"]
 |===
@@ -111,7 +114,7 @@ The Docker image contains the following diagrams libraries out-of-the-box:
 
 === Mermaid
 
-The Docker image contains the following diagrams libraries out-of-the-box:
+The `yuzutech/kroki-mermaid` Docker image contains the following diagrams libraries out-of-the-box:
 
 [options="header",cols="1,1m"]
 |===
@@ -122,7 +125,7 @@ The Docker image contains the following diagrams libraries out-of-the-box:
 
 === BPMN
 
-The Docker image contains the following diagrams libraries out-of-the-box:
+The `yuzutech/kroki-bpmn` Docker image contains the following diagrams libraries out-of-the-box:
 
 [options="header",cols="1,1m"]
 |===
@@ -133,11 +136,22 @@ The Docker image contains the following diagrams libraries out-of-the-box:
 
 === Excalidraw
 
-The Docker image contains the following diagrams libraries out-of-the-box:
+The `yuzutech/kroki-excalidraw` Docker image contains the following diagrams libraries out-of-the-box:
 
 [options="header",cols="1,1m"]
 |===
 |Diagram Type | Version
 |https://github.com/excalidraw/excalidraw[Excalidraw]
 |{excalidraw-version}
+|===
+
+=== Diagrams.net (experimental)
+
+The `yuzutech/kroki-diagramsnet` Docker image contains the following diagrams libraries out-of-the-box:
+
+[options="header",cols="1,1m"]
+|===
+|Diagram Type | Version
+|https://www.diagrams.net/[diagrams.net]
+|{diagramsnet-version}
 |===
