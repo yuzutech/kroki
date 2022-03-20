@@ -71,7 +71,7 @@ describe('Diagrams', function () {
   })
 })
 
-describe('Chinese font', () => {
+describe('CJK font', () => {
   it('plantuml should compute correct text length (issue#574)', async () => {
     const testCase = {engine: 'plantuml', file: 'chinese.puml'}
     const response = await sendRequest(testCase, 'svg')
@@ -82,7 +82,22 @@ describe('Chinese font', () => {
       throw err
     }
   })
+  it('mermaid should compute correct text length (issue#1167)', async () => {
+    const testCase = {engine: 'mermaid', file: 'japanese.mermaid'}
+    const response = await sendRequest(testCase, 'svg')
+    try {
+      const data = response.body.toString('utf8')
+      const boxWidthRegex = /<g class="node default" id="flowchart-B-3".*<foreignObject.*width="([0-9.]+)".*ううううううう<\/div><\/foreignObject>/
+      expect(data).to.match(boxWidthRegex)
+      const match = data.match(boxWidthRegex)
+      expect(parseInt(match[1])).to.be.greaterThan(110)
+    } catch (err) {
+      console.log('response:', response.text)
+      throw err
+    }
+  })
 })
+
 
 describe('Health', () => {
   ['/health', '/healthz', '/v1/health'].forEach((endpoint) => {
