@@ -23,6 +23,18 @@ java -jar kroki-server.jar
 The above command will start a web server on port `8000`.
 You can change the port using an environment variable, or a Java system property named `KROKI_PORT`.
 
+[IMPORTANT]
+====
+The Kroki server only includes the following JVM-based diagrams libraries:
+
+* http://ditaa.sourceforge.net[Ditaa]
+* https://github.com/plantuml/plantuml[PlantUML] including https://github.com/RicardoNiepel/C4-PlantUML[C4 model]
+* https://github.com/structurizr/dsl[Structurizr]
+* https://github.com/umlet/umlet[UMlet]
+
+If you want to use additional diagram libraries, you will either need to install them manually on your system or use xref:install.adoc#docker-podman[Docker or Podman].
+====
+
 == Learn more
 
 - xref:configuration.adoc[Configure Kroki]

@@ -15,6 +15,7 @@ services:
       - KROKI_MERMAID_HOST=mermaid
       - KROKI_BPMN_HOST=bpmn
       - KROKI_EXCALIDRAW_HOST=excalidraw
+      - KROKI_DIAGRAMSNET_HOST=diagramsnet
     ports:
       - "8000:8000"
 
@@ -37,3 +38,8 @@ services:
     build: ../../excalidraw
     expose:
       - "8004"
+
+  diagramsnet:
+    build: ../../diagrams.net
+    expose:
+      - "8005"

@@ -5,6 +5,7 @@
 :uri-docker-kroki-mermaid-image: https://hub.docker.com/r/yuzutech/kroki-mermaid
 :uri-docker-kroki-bpmn-image: https://hub.docker.com/r/yuzutech/kroki-bpmn
 :uri-docker-kroki-excalidraw-image: https://hub.docker.com/r/yuzutech/kroki-excalidraw
+:uri-docker-kroki-diagramsnet-image: https://hub.docker.com/r/yuzutech/kroki-diagramsnet
 // URIs of diagram generation application sites by diagram name
 :uri-blockdiag: http://blockdiag.com/en/blockdiag/index.html
 :uri-seqdiag: http://blockdiag.com/en/seqdiag/index.html
@@ -15,6 +16,7 @@
 :uri-mermaid: https://mermaidjs.github.io/
 :uri-bpmn: https://bpmn.io/toolkit/bpmn-js/
 :uri-excalidraw: https://excalidraw.com/
+:uri-diagramsnet: https://diagrams.net/
 
 This section covers installing Kroki locally.
 
@@ -28,7 +30,7 @@ On this page, you'll learn:
 == Get started
 To get started, use Docker or Podman to start the mandatory kroki container only.
 
-Use either <<Docker or Podman>> as the easiest and fastest method to get started running Kroki locally on a system with Internet access using the pre-built Kroki containers published on Docker Hub.
+Use either xref:#docker-podman[Docker or Podman] as the easiest and fastest method to get started running Kroki locally on a system with Internet access using the pre-built Kroki containers published on Docker Hub.
 
 Start the mandatory <<#yuzutech-kroki,`yuzutech/kroki`>> container only to use a large number of diagram libraries immediately including PlantUML, GraphViz and more.
 Depending on your diagram needs, this may be enough.
@@ -38,6 +40,7 @@ For the lists of diagram libraries pre-installed in each container see the <<kro
 NOTE: All the companion containers are _optional_.
 Only the <<yuzutech-kroki,yuzutech-kroki>> container is mandatory.
 
+[#docker-podman]
 == Docker or Podman
 We recommend installing Kroki using containers with either Docker or Podman, especially if you don't want to manually install diagrams libraries.
 
@@ -76,8 +79,7 @@ The {uri-docker-kroki-image}[yuzutech/kroki] image contains the gateway server, 
 * https://www.graphviz.org/[GraphViz]
 * https://github.com/skanaar/nomnoml[Nomnoml]
 * https://github.com/drhsqlite/pikchr[Pikchr]
-* https://github.com/plantuml/plantuml[PlantUML]
-** https://github.com/RicardoNiepel/C4-PlantUML[C4 model] (with PlantUML)
+* https://github.com/plantuml/plantuml[PlantUML] including https://github.com/RicardoNiepel/C4-PlantUML[C4 model]
 * https://github.com/structurizr/dsl[Structurizr]
 * https://github.com/ivanceras/svgbob[Svgbob]
 * https://github.com/umlet/umlet[UMlet]
@@ -138,3 +140,6 @@ Provides hand-drawn diagrams for Kroki using the {uri-excalidraw}[Excalidraw^] l
 {uri-docker-kroki-mermaid-image}[yuzutech/kroki-mermaid^]::
 Provides flowchart, sequence and Gantt diagrams for Kroki using the {uri-mermaid}[Mermaid^] library.
 
+[#yuzutech-kroki-diagramsnet]
+{uri-docker-kroki-diagramsnet-image}[yuzutech/kroki-diagramsnet^]  (experimental)::
+Provides diagrams for Kroki using the {uri-diagramsnet}[diagrams.net^] library.

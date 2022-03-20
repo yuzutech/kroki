@@ -11,6 +11,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.format.DateTimeFormatter;
 import java.time.Instant;
 import java.time.ZoneId;
+import java.time.format.DateTimeParseException;
 import java.util.Locale;
 import java.security.MessageDigest;
 
@@ -26,9 +27,17 @@ public class Caching {
 
   public Caching(String version) {
     this.version = version;
-    this.compileTime = Instant
-      .parse(Main.getApplicationProperty("app.buildTime", ""))
-      .toEpochMilli();
+    String appBuildTime = Main.getApplicationProperty("app.buildTime", "");
+    long compileTime;
+    try {
+      compileTime = Instant
+        .parse(appBuildTime)
+        .toEpochMilli();
+    } catch (DateTimeParseException e) {
+      logger.warn("Unable to parse: " + appBuildTime + ", using start time", e);
+      compileTime = Instant.now().toEpochMilli();
+    }
+    this.compileTime = compileTime;
   }
 
   public void addHeaderForCache(HttpServerResponse response, String data) {
