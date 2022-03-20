@@ -31,7 +31,9 @@ FROM alpine:3.15
 
 RUN addgroup -g 1000 kroki && adduser -D -G kroki -u 1000 kroki
 
-RUN apk add --no-cache --update chromium
+RUN apk add --no-cache --update \
+  chromium \
+  font-noto-cjk
 
 COPY --from=builder /app/app.bin /usr/bin/mermaid
 COPY --chown=kroki:kroki assets /usr/local/kroki/assets
