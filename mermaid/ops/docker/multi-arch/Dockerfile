@@ -1,0 +1,46 @@
+# Package the Node.js project into a single binary
+FROM node:14.19.1-alpine3.15 as builder
+
+RUN if [[ "$TARGETARCH" == "amd64" ]]; then apk add --no-cache --update chromium; fi
+
+# Workaround: https://github.com/nodejs/docker-node/issues/813#issuecomment-407339011
+# Error: could not get uid/gid
+# [ 'nobody', 0 ]
+RUN npm config set unsafe-perm true
+
+RUN npm install -g pkg@5.2.1 pkg-fetch@3.1.1
+
+ENV NODE node14
+ENV PLATFORM alpine
+ENV ARCH x64
+RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM} -a $([ "$TARGETARCH" == "amd64" ] && echo "x64" || echo "$TARGETARCH")
+
+COPY src /app/src
+COPY tests /app/tests
+COPY assets /app/assets
+COPY package.json package-lock.json /app/
+WORKDIR /app
+
+RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 npm i
+RUN npm run lint && if [[ "$TARGETARCH" == "amd64" ]]; then PUPPETEER_EXECUTABLE_PATH=/usr/lib/chromium/chrome npm t; fi
+
+RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-${ARCH} . -o app.bin
+
+# Create the image
+FROM alpine:3.15
+
+RUN addgroup -g 1000 kroki && adduser -D -G kroki -u 1000 kroki
+
+RUN apk add --no-cache --update chromium
+
+COPY --from=builder /app/app.bin /usr/bin/mermaid
+COPY --chown=kroki:kroki assets /usr/local/kroki/assets
+
+ENV KROKI_MERMAID_PAGE_URL=file:///usr/local/kroki/assets/index.html
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/lib/chromium/chrome
+
+EXPOSE 8002
+
+USER kroki
+
+ENTRYPOINT ["/usr/bin/mermaid"]
