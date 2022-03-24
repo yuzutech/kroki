@@ -2,7 +2,7 @@
 // URIs
 :uri-repo: https://github.com/yuzutech/kroki
 :uri-issues: {uri-repo}/issues
-:uri-chat-users: https://gitter.im/kroki-project/community
+:uri-chat-users: https://kroki.zulipchat.com/
 
 We encourage you to report issues, ask questions, share ideas, or discuss other aspects of this project using the communication tools provided below.
 
@@ -19,8 +19,8 @@ Any significant change or decision about the project is logged there.
 
 == Chat
 
-If you need to switch to real time input, you may be interested in visiting one of the chat rooms:
+If you need to switch to real time input, you may be interested in visiting one of the topics on Zulip:
 
-* {uri-chat-users}[kroki/community^] (Gitter) -- Community support for Kroki users.
+* {uri-chat-users}[kroki/community^] (Zulip) -- Community support for Kroki users.
 
 The discussion logs for these rooms are archived, but there is no guarantee those logs will be saved indefinitely.
