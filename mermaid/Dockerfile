@@ -1,5 +1,5 @@
 # Package the Node.js project into a single binary
-FROM node:14.19.1-alpine3.15 as builder
+FROM --platform=${TARGETPLATFORM:-linux/amd64} node:14.19.1-alpine3.15 as builder
 
 RUN if [[ "$TARGETARCH" == "amd64" ]]; then apk add --quiet --no-cache --update chromium; fi
 
