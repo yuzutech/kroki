@@ -11,12 +11,11 @@ RUN npm install -g pkg@5.2.1 pkg-fetch@3.1.1
 ENV NODE node14
 ENV PLATFORM alpine
 ENV ARCH x64
-RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM} -a ${ARCH}
-
-WORKDIR /app
+RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM} -a $([ "$TARGETARCH" == "amd64" ] && echo "x64" || echo "$TARGETARCH")
 
 COPY package.json package-lock.json /app/
 COPY src /app/src
+WORKDIR /app
 
 RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 npm ci
 RUN npm run lint

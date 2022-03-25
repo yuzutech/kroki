@@ -1,5 +1,3 @@
-LATEST_VERSION = 0.16.0
-
 SMOKE_TESTS_DIR=tests/smoke
 COMPOSE_TIMEOUT=20
 SERVICES_TIMEOUT=15
@@ -23,7 +21,10 @@ testBlockDiag:
 	cd blockdiag && $(PYTHON) -m unittest test/test_diag.py
 
 setServerVersion:
-	mvn versions:set -DnewVersion=$(LATEST_VERSION)
+ifndef RELEASE_VERSION
+		$(error RELEASE_VERSION is undefined)
+endif
+	mvn versions:set -DnewVersion=$(RELEASE_VERSION)
 
 buildDockerImages:
 	$(MAKE) -C nomnoml package
@@ -38,34 +39,21 @@ buildDockerImages:
 	$(MAKE) -C excalidraw package
 	$(MAKE) -C diagrams.net package
 
+publishDockerImages:
+	$(MAKE) -C nomnoml package
+	$(MAKE) -C vega package
+	$(MAKE) -C wavedrom package
+	$(MAKE) -C bytefield package
+	$(MAKE) -C server/ops/docker package
+	$(MAKE) -C server publish
+	$(MAKE) -C blockdiag publish
+	$(MAKE) -C mermaid publish
+	$(MAKE) -C bpmn publish
+	$(MAKE) -C excalidraw publish
+	$(MAKE) -C diagrams.net publish
+
 showExamples:
 	$(PYTHON) blockdiag/examples.py
-
-releaseDockerImages:
-	docker tag yuzutech/kroki:latest yuzutech/kroki:$(LATEST_VERSION)
-	docker tag yuzutech/kroki-blockdiag:latest yuzutech/kroki-blockdiag:$(LATEST_VERSION)
-	docker tag yuzutech/kroki-mermaid:latest yuzutech/kroki-mermaid:$(LATEST_VERSION)
-	docker tag yuzutech/kroki-excalidraw:latest yuzutech/kroki-excalidraw:$(LATEST_VERSION)
-	docker tag yuzutech/kroki-bpmn:latest yuzutech/kroki-bpmn:$(LATEST_VERSION)
-	docker tag yuzutech/kroki:latest yuzutech/kroki:latest
-	docker tag yuzutech/kroki-blockdiag:latest yuzutech/kroki-blockdiag:latest
-	docker tag yuzutech/kroki-mermaid:latest yuzutech/kroki-mermaid:latest
-	docker tag yuzutech/kroki-excalidraw:latest yuzutech/kroki-excalidraw:latest
-	docker tag yuzutech/kroki-bpmn:latest yuzutech/kroki-bpmn:latest
-	docker tag yuzutech/kroki-diagramsnet:latest yuzutech/kroki-diagramsnet:latest
-
-pushDockerImages:
-	docker push yuzutech/kroki:latest
-	docker push yuzutech/kroki-blockdiag:latest
-	docker push yuzutech/kroki-mermaid:latest
-	docker push yuzutech/kroki-excalidraw:latest
-	docker push yuzutech/kroki-bpmn:latest
-	docker push yuzutech/kroki:$(LATEST_VERSION)
-	docker push yuzutech/kroki-blockdiag:$(LATEST_VERSION)
-	docker push yuzutech/kroki-mermaid:$(LATEST_VERSION)
-	docker push yuzutech/kroki-excalidraw:$(LATEST_VERSION)
-	docker push yuzutech/kroki-bpmn:$(LATEST_VERSION)
-	docker push yuzutech/kroki-diagramsnet:$(LATEST_VERSION)
 
 smokeTests:
 	@docker-compose --file "$(SMOKE_TESTS_DIR)/docker-compose.yaml" up --build --detach \
