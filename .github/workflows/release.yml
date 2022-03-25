@@ -68,4 +68,4 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       - name: Publish Docker images
-        run: make publishDockerImages
+        run: RELEASE_VERSION=${GITHUB_REF#refs/*/v*} make publishDockerImages

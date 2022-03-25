@@ -40,6 +40,9 @@ buildDockerImages:
 	$(MAKE) -C diagrams.net package
 
 publishDockerImages:
+ifndef RELEASE_VERSION
+    $(error RELEASE_VERSION is undefined)
+endif
 	$(MAKE) -C nomnoml package
 	$(MAKE) -C vega package
 	$(MAKE) -C wavedrom package
