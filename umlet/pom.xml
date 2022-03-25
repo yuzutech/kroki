@@ -5,7 +5,7 @@
   <parent>
     <artifactId>kroki</artifactId>
     <groupId>io.kroki</groupId>
-    <version>0.17.0-rc.1</version>
+    <version>0.17.0-rc.2</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
