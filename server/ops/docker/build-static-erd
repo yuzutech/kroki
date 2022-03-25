@@ -1,9 +1,9 @@
 # build static executable binary
 FROM ubuntu:18.04
 
-RUN apt-get update && apt-get install -y graphviz curl git
+RUN apt-get -qq update && apt-get install -qq -y graphviz curl git > /dev/null
 
-RUN curl -sSL https://get.haskellstack.org/ | sh
+RUN curl -sSL https://get.haskellstack.org/ | sh -s - -q > /dev/null
 
 RUN git clone https://github.com/BurntSushi/erd.git
 
@@ -11,7 +11,8 @@ WORKDIR erd
 
 RUN git checkout v0.2.1.0
 
-RUN /usr/local/bin/stack install --ghc-options="-fPIC" \
+RUN /usr/local/bin/stack install --silent --ghc-options="-fPIC" \
   --ghc-options="-static" \
   --ghc-options="-optl=-static" \
-  --ghc-options="-optc=-static"
+  --ghc-options="-optc=-static" \
+  --ghc-options="-w"

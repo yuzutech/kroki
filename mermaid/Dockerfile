@@ -1,7 +1,7 @@
 # Package the Node.js project into a single binary
 FROM node:14.19.1-alpine3.15 as builder
 
-RUN if [[ "$TARGETARCH" == "amd64" ]]; then apk add --no-cache --update chromium; fi
+RUN if [[ "$TARGETARCH" == "amd64" ]]; then apk add --quiet --no-cache --update chromium; fi
 
 # Workaround: https://github.com/nodejs/docker-node/issues/813#issuecomment-407339011
 # Error: could not get uid/gid
@@ -31,7 +31,7 @@ FROM alpine:3.15
 
 RUN addgroup -g 1000 kroki && adduser -D -G kroki -u 1000 kroki
 
-RUN apk add --no-cache --update \
+RUN apk add --quiet --no-cache --update \
   chromium \
   font-noto-cjk
 

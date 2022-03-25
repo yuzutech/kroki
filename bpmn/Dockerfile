@@ -27,7 +27,7 @@ FROM alpine:3.15
 
 RUN addgroup -g 1000 kroki && adduser -D -G kroki -u 1000 kroki
 
-RUN apk add --no-cache --update chromium
+RUN apk add --quiet --no-cache --update chromium
 
 COPY --from=builder /app/app.bin /usr/bin/bpmn
 COPY --chown=kroki:kroki assets /usr/local/kroki/assets

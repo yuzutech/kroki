@@ -1,4 +1,4 @@
 # build static executable binary
 FROM ekidd/rust-musl-builder:1.56.1
 
-RUN cargo install --version 0.5.3 svgbob_cli
+RUN cargo install --quiet --version 0.5.3 svgbob_cli
