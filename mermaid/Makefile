@@ -6,13 +6,13 @@ default: package
 
 package:
 ifeq ($(MULTI_ARCH_AVAILABLE), 0)
-		docker buildx build -o type="image,push=false" --platform linux/amd64,linux/arm64 --tag yuzutech/kroki-mermaid:latest .
+	docker buildx build -o type="image,push=false" --platform linux/amd64,linux/arm64 --tag yuzutech/kroki-mermaid:latest .
 else
-		docker build -t yuzutech/kroki-mermaid .
+	docker build -t yuzutech/kroki-mermaid .
 endif
 
 publish:
 ifndef RELEASE_VERSION
-		$(error RELEASE_VERSION is undefined)
+	$(error RELEASE_VERSION is undefined)
 endif
 	docker buildx build --push --platform linux/amd64,linux/arm64 --tag yuzutech/kroki-mermaid:latest --tag yuzutech/kroki-mermaid:${RELEASE_VERSION} .

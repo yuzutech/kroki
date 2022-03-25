@@ -22,7 +22,7 @@ testBlockDiag:
 
 setServerVersion:
 ifndef RELEASE_VERSION
-		$(error RELEASE_VERSION is undefined)
+	$(error RELEASE_VERSION is undefined)
 endif
 	mvn versions:set -DnewVersion=$(RELEASE_VERSION)
 
@@ -41,7 +41,7 @@ buildDockerImages:
 
 publishDockerImages:
 ifndef RELEASE_VERSION
-    $(error RELEASE_VERSION is undefined)
+	$(error RELEASE_VERSION is undefined)
 endif
 	$(MAKE) -C nomnoml package
 	$(MAKE) -C vega package

@@ -8,7 +8,7 @@ package:
 
 publish: package
 ifndef RELEASE_VERSION
-		$(error RELEASE_VERSION is undefined)
+	$(error RELEASE_VERSION is undefined)
 endif
 	docker tag yuzutech/kroki:latest yuzutech/kroki:$(RELEASE_VERSION)
 	docker push yuzutech/kroki:latest

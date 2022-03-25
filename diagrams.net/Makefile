@@ -6,13 +6,13 @@ default: package
 
 package:
 ifeq ($(MULTI_ARCH_AVAILABLE), 0)
-		docker buildx build -o type="image,push=false" --platform linux/amd64,linux/arm64 --tag yuzutech/kroki-diagramsnet:latest .
+	docker buildx build -o type="image,push=false" --platform linux/amd64,linux/arm64 --tag yuzutech/kroki-diagramsnet:latest .
 else
-		docker build -t yuzutech/kroki-diagramsnet .
+	docker build -t yuzutech/kroki-diagramsnet .
 endif
 
 publish:
 ifndef RELEASE_VERSION
-		$(error RELEASE_VERSION is undefined)
+	$(error RELEASE_VERSION is undefined)
 endif
 	docker buildx build --push --platform linux/amd64,linux/arm64 --tag yuzutech/kroki-diagramsnet:latest --tag yuzutech/kroki-diagramsnet:${RELEASE_VERSION} .
