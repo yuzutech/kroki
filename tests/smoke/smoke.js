@@ -76,7 +76,8 @@ describe('Diagrams', function () {
   })
 })
 
-describe('CJK font', () => {
+describe('CJK font', function () {
+  this.timeout(15000)
   it('plantuml should compute correct text length (issue#574)', async () => {
     const testCase = {engine: 'plantuml', file: 'chinese.puml'}
     const response = await sendRequest(testCase, 'svg')
@@ -104,7 +105,8 @@ describe('CJK font', () => {
 })
 
 
-describe('Health', () => {
+describe('Health', function () {
+  this.timeout(15000)
   ['/health', '/healthz', '/v1/health'].forEach((endpoint) => {
     it(`should return health status from ${endpoint}`, async () => {
       const response = await chai.request('localhost:8000')
