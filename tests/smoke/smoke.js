@@ -107,7 +107,7 @@ describe('CJK font', function () {
 
 describe('Health', function () {
   this.timeout(15000)
-  ['/health', '/healthz', '/v1/health'].forEach((endpoint) => {
+  ;['/health', '/healthz', '/v1/health'].forEach((endpoint) => {
     it(`should return health status from ${endpoint}`, async () => {
       const response = await chai.request('localhost:8000')
         .get(endpoint)
