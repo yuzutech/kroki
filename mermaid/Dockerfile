@@ -12,7 +12,6 @@ RUN npm install -g pkg@5.2.1 pkg-fetch@3.1.1
 
 ENV NODE node14
 ENV PLATFORM alpine
-ENV ARCH x64
 RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM} -a $([ "$TARGETARCH" == "amd64" ] && echo "x64" || echo "$TARGETARCH")
 
 COPY package.json package-lock.json /app/
@@ -24,7 +23,7 @@ WORKDIR /app
 RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 npm i
 RUN npm run lint && if [[ "$TARGETARCH" == "amd64" ]]; then PUPPETEER_EXECUTABLE_PATH=/usr/lib/chromium/chrome npm t; fi
 
-RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-${ARCH} . -o app.bin
+RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-$([ "$TARGETARCH" == "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
 
 # Create the image
 FROM --platform=${TARGETPLATFORM:-linux/amd64} alpine:3.15
