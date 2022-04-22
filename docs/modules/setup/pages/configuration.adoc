@@ -220,14 +220,14 @@ cat key.pem | tr -d '\n' | sed 's/^/KROKI_SSL_KEY=/' >> .env
 The container can then be started with the environment variables set accordingly:
 
 Using docker::
-
++
 [source,bash]
 ----
 docker run -p8000:8000 -e KROKI_SSL=true --env-file=.env yuzutech/kroki
 ----
 
 Using podman::
-
++
 [source,bash]
 ----
 podman run -p8000:8000 -e KROKI_SSL=true --env-file=.env yuzutech/kroki
