@@ -1,5 +1,5 @@
 # Package the Node.js project into a single binary
-FROM --platform=${TARGETPLATFORM:-linux/amd64} node:14.19.1-alpine3.15 as builder
+FROM --platform=${TARGETPLATFORM:-linux/amd64} node:16.15.0-alpine3.15 as builder
 
 RUN if [[ "$TARGETARCH" == "amd64" ]]; then apk add --quiet --no-cache --update chromium; fi
 
@@ -8,9 +8,9 @@ RUN if [[ "$TARGETARCH" == "amd64" ]]; then apk add --quiet --no-cache --update 
 # [ 'nobody', 0 ]
 RUN npm config set unsafe-perm true
 
-RUN npm install -g pkg@5.2.1 pkg-fetch@3.1.1
+RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
 
-ENV NODE node14
+ENV NODE node16
 ENV PLATFORM alpine
 RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM} -a $([ "$TARGETARCH" == "amd64" ] && echo "x64" || echo "$TARGETARCH")
 
