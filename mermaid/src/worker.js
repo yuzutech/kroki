@@ -25,7 +25,7 @@ class Worker {
       await page.goto(this.pageUrl)
       // QUESTION: should we reuse the page for performance reason ?
       await page.$eval('#container', (container, definition, mermaidConfig) => {
-        container.innerHTML = definition
+        container.textContent = definition
         window.mermaid.initialize(mermaidConfig)
         window.mermaid.init(undefined, container)
       }, task.source, task.mermaidConfig)

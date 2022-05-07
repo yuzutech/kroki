@@ -101,4 +101,24 @@ describe('#convert', function () {
       }
     })
   })
+
+  it('should properly handle <> characters', async () => {
+    `sequenceDiagram
+    rect rgba(200, 150, 255, 0.2)
+    participant John
+    Note over John: Text in <<note>>
+    end`
+    const browser = await getBrowser()
+    try {
+      const worker = new Worker(browser)
+      const result = await worker.convert(new Task(`sequenceDiagram
+  rect rgba(200, 150, 255, 0.2)
+  participant John
+  Note over John: Text in <<note>>
+end`))
+      expect(result).to.contains('Text in &lt;&lt;note&gt;&gt;')
+    } finally {
+      await browser.close()
+    }
+  })
 })
