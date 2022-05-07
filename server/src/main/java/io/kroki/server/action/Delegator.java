@@ -10,6 +10,7 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.json.DecodeException;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.web.client.HttpRequest;
 import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.ext.web.client.WebClient;
 import io.vertx.ext.web.handler.HttpException;
@@ -17,16 +18,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.ConnectException;
+import java.util.Map;
+import java.util.function.Consumer;
 
 public class Delegator {
 
   private static final Logger logger = LoggerFactory.getLogger(Delegator.class);
   private static final Logging logging = new Logging(logger);
 
-  public static void delegate(WebClient client, String host, int port, String requestURI, String body, Handler<AsyncResult<HttpResponse<Buffer>>> handler) {
-    client
+  public static void delegate(WebClient client, String host, int port, String requestURI, String body, JsonObject options, Handler<AsyncResult<HttpResponse<Buffer>>> handler) {
+    HttpRequest<Buffer> request = client
       .post(port, host, requestURI)
-      .putHeader(HttpHeaders.ACCEPT.toString(), HttpHeaderValues.APPLICATION_JSON.toString())
+      .putHeader(HttpHeaders.ACCEPT.toString(), HttpHeaderValues.APPLICATION_JSON.toString());
+    options.stream().iterator().forEachRemaining(entry -> {
+      String key = entry.getKey();
+      String value = entry.getValue() != null ? entry.getValue().toString() : "";
+      request.addQueryParam(key, value);
+    });
+    request
       .sendBuffer(Buffer.buffer(body), handler);
   }
 
