@@ -17,6 +17,6 @@
     "bytefield-svg": "1.6.1"
   },
   "devDependencies": {
-    "standard": "16.0.4"
+    "standard": "17.0.0"
   }
 }
