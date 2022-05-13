@@ -1,5 +1,5 @@
 # based on alpine 3.12
-FROM eclipse-temurin:11.0.14_9-jre-alpine
+FROM eclipse-temurin:11.0.15_10-jre-alpine
 
 RUN addgroup -g 1000 kroki && adduser -D -G kroki -u 1000 kroki
 
