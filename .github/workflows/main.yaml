@@ -19,7 +19,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Install python 3.8.1
-      uses: gabrielfalcao/pyenv-action@v9
+      uses: gabrielfalcao/pyenv-action@v10
       with:
         # we cannot use 3.8.6 because pyenv 1.2.18 does not have the "definition" of this version,
         # and thus cannot install it!
