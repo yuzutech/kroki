@@ -7,18 +7,18 @@ asciidoc:
     blockdiag-version: 3.0.0
     bpmnjs-version: 9.0.3
     bytefield-version: 1.6.1
-    c4plantuml-version: 1.2022.3
+    c4plantuml-version: 1.2022.5
     diagramsnet-version: 16.2.4
     ditaa-version: 1.3.13
     erd-version: 0.2.1.0
     excalidraw-version: 0.1.2
     graphviz-version: 2.40.1
-    mermaid-version: 8.14.0
-    nomnoml-version: 1.4.0
+    mermaid-version: 9.1.1
+    nomnoml-version: 1.5.1
     nwdiag-version: 3.0.0
     packetdiag-version: 3.0.0
     pikchr-version: '7269f78c4a'
-    plantuml-version: 1.2022.3
+    plantuml-version: 1.2022.5
     rackdiag-version: 3.0.0
     seqdiag-version: 3.0.0
     structurizr-version: 1.19.1
