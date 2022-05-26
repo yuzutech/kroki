@@ -108,6 +108,7 @@ public class Plantuml implements DiagramService {
     "awslib",
     "azure",
     "c4",
+    "classy",
     "cloudinsight",
     "cloudogu",
     "domainstory",

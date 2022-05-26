@@ -174,6 +174,7 @@ public class PlantumlServiceTest {
       "!include <awslib/Database/Aurora.puml>\n" +
       "!include <azure/AzureCommon.puml>\n" +
       "!include <c4/C4.puml>\n" +
+      "!include <classy/core>\n" +
       "!include <cloudinsight/kafka>\n" +
       "!include <cloudogu/tools/docker>\n" +
       "!include <DomainStory/domainStory>\n" +
