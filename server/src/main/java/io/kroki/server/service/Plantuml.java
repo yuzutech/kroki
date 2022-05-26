@@ -110,6 +110,7 @@ public class Plantuml implements DiagramService {
     "c4",
     "cloudinsight",
     "cloudogu",
+    "domainstory",
     "elastic",
     "kubernetes",
     "logos",
