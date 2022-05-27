@@ -176,6 +176,7 @@ public class PlantumlServiceTest {
       "!include <c4/C4.puml>\n" +
       "!include <cloudinsight/kafka>\n" +
       "!include <cloudogu/tools/docker>\n" +
+      "!include <DomainStory/domainStory>\n" +
       "!include <kubernetes/k8s-sprites-unlabeled-25pct>\n" +
       "!include <material/folder_move>\n" +
       "!include <office/Servers/database_server>\n" +
