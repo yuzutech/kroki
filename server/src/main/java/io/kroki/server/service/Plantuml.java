@@ -225,7 +225,7 @@ public class Plantuml implements DiagramService {
         try {
           ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
           // REMIND: options are unsupported for now.
-          Ditaa.convert(fileFormat, new ByteArrayInputStream(ditaaContext.getSource().getBytes()), outputStream);
+          Ditaa.convert(fileFormat, options, new ByteArrayInputStream(ditaaContext.getSource().getBytes()), outputStream);
           future.complete(outputStream.toByteArray());
         } catch (IllegalStateException e) {
           future.fail(e);

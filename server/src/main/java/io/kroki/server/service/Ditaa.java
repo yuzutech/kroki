@@ -55,7 +55,7 @@ public class Ditaa implements DiagramService {
     vertx.executeBlocking(future -> {
       try {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        convert(fileFormat, new ByteArrayInputStream(sourceDecoded.getBytes()), outputStream);
+        convert(fileFormat, options, new ByteArrayInputStream(sourceDecoded.getBytes()), outputStream);
         future.complete(outputStream.toByteArray());
       } catch (IllegalStateException e) {
         future.fail(e);
@@ -63,10 +63,34 @@ public class Ditaa implements DiagramService {
     }, res -> handler.handle(res.map(o -> Buffer.buffer((byte[]) o))));
   }
 
-  static void convert(FileFormat fileFormat, InputStream inputStream, OutputStream outputStream) {
+  static void convert(FileFormat fileFormat, JsonObject options, InputStream inputStream, OutputStream outputStream) {
     List<String> args = new ArrayList<>();
     if (fileFormat.equals(FileFormat.SVG)) {
       args.add("--svg");
+    }
+    String noAntialias = options.getString("no-antialias");
+    if (noAntialias != null) {
+      args.add("--no-antialias");
+    }
+    String noSeparation = options.getString("no-separation");
+    if (noSeparation != null) {
+      args.add("--no-separation");
+    }
+    String roundCorners = options.getString("round-corners");
+    if (roundCorners != null) {
+      args.add("--round-corners");
+    }
+    String scale = options.getString("scale");
+    if (scale != null) {
+      args.add("--scale " + scale);
+    }
+    String noShadows = options.getString("no-shadows");
+    if (noShadows != null) {
+      args.add("--no-shadows");
+    }
+    String tabs = options.getString("tabs");
+    if (tabs != null) {
+      args.add("--tabs " + tabs);
     }
     CommandLineConverter.convert(args.toArray(new String[0]), inputStream, outputStream);
   }
