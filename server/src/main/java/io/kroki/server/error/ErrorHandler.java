@@ -10,6 +10,8 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.MIMEHeader;
 import io.vertx.ext.web.RoutingContext;
+import org.owasp.html.HtmlPolicyBuilder;
+import org.owasp.html.PolicyFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,6 +36,8 @@ public class ErrorHandler implements io.vertx.ext.web.handler.ErrorHandler {
    */
   private final String errorTemplate;
 
+  private final PolicyFactory htmlSanitizer;
+
 
   public ErrorHandler(Vertx vertx, boolean displayExceptionDetails) {
     this.displayExceptionDetails = displayExceptionDetails;
@@ -43,6 +47,7 @@ public class ErrorHandler implements io.vertx.ext.web.handler.ErrorHandler {
       .replace("{stylesheet}", stylesheet)
       .replace("{logo}", logo);
     this.logging = new Logging(logger);
+    this.htmlSanitizer = new HtmlPolicyBuilder().toFactory();
   }
 
   @Override
@@ -123,7 +128,7 @@ public class ErrorHandler implements io.vertx.ext.web.handler.ErrorHandler {
       StringBuilder stack = new StringBuilder();
       if (failure != null && displayExceptionDetails) {
         for (StackTraceElement elem : failure.getStackTrace()) {
-          stack.append("<li>").append(elem).append("</li>");
+          stack.append(htmlSanitizer.sanitize("<li>" + elem.toString() + "</li>"));
         }
       }
       response.putHeader(HttpHeaders.CONTENT_TYPE, "text/html");
@@ -131,7 +136,7 @@ public class ErrorHandler implements io.vertx.ext.web.handler.ErrorHandler {
         errorTemplate
           .replace("{title}", title)
           .replace("{errorCode}", Integer.toString(errorCode))
-          .replace("{errorMessage}", errorInfo.getHtmlMessage())
+          .replace("{errorMessage}", htmlSanitizer.sanitize(errorInfo.getHtmlMessage()))
           .replace("{stackTrace}", stack.toString())
       );
       return true;
