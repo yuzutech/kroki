@@ -12,7 +12,7 @@ WORKDIR /usr/local/kroki
 COPY --chown=kroki:kroki requirements.txt .
 
 # build
-RUN apk --update --no-cache add --virtual build-dependencies build-base python3-dev jpeg-dev zlib-dev \
+RUN apk --update --no-cache add --virtual build-dependencies build-base python3-dev jpeg-dev zlib-dev freetype-dev \
   && pip install --no-cache-dir -r requirements.txt \
   && apk del build-dependencies
 
