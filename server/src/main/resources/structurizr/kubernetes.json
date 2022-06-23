@@ -1,0 +1,200 @@
+{
+  "name" : "Kubernetes",
+  "description" : "This theme includes element styles with icons for each of the Kubernetes components/resources, based upon the Kubernetes Icons Set (https://github.com/kubernetes/community/tree/master/icons).",
+  "elements" : [ {
+    "tag" : "Kubernetes - crb",
+    "stroke" : "#3d6fdd",
+    "color" : "#3d6fdd",
+    "icon" : "https://static.structurizr.com/themes/kubernetes-v0.3/crb-256.png"
+  }, {
+    "tag" : "Kubernetes - pod",
+    "stroke" : "#3d6fdd",
+    "color" : "#3d6fdd",
+    "icon" : "https://static.structurizr.com/themes/kubernetes-v0.3/pod-256.png"
+  }, {
+    "tag" : "Kubernetes - vol",
+    "stroke" : "#3d6fdd",
+    "color" : "#3d6fdd",
+    "icon" : "https://static.structurizr.com/themes/kubernetes-v0.3/vol-256.png"
+  }, {
+    "tag" : "Kubernetes - c-role",
+    "stroke" : "#3d6fdd",
+    "color" : "#3d6fdd",
+    "icon" : "https://static.structurizr.com/themes/kubernetes-v0.3/c-role-256.png"
+  }, {
+    "tag" : "Kubernetes - ing",
+    "stroke" : "#3d6fdd",
+    "color" : "#3d6fdd",
+    "icon" : "https://static.structurizr.com/themes/kubernetes-v0.3/ing-256.png"
+  }, {
+    "tag" : "Kubernetes - svc",
+    "stroke" : "#3d6fdd",
+    "color" : "#3d6fdd",
+    "icon" : "https://static.structurizr.com/themes/kubernetes-v0.3/svc-256.png"
+  }, {
+    "tag" : "Kubernetes - secret",
+    "stroke" : "#3d6fdd",
+    "color" : "#3d6fdd",
+    "icon" : "https://static.structurizr.com/themes/kubernetes-v0.3/secret-256.png"
+  }, {
+    "tag" : "Kubernetes - ds",
+    "stroke" : "#3d6fdd",
+    "color" : "#3d6fdd",
+    "icon" : "https://static.structurizr.com/themes/kubernetes-v0.3/ds-256.png"
+  }, {
+    "tag" : "Kubernetes - netpol",
+    "stroke" : "#3d6fdd",
+    "color" : "#3d6fdd",
+    "icon" : "https://static.structurizr.com/themes/kubernetes-v0.3/netpol-256.png"
+  }, {
+    "tag" : "Kubernetes - sa",
+    "stroke" : "#3d6fdd",
+    "color" : "#3d6fdd",
+    "icon" : "https://static.structurizr.com/themes/kubernetes-v0.3/sa-256.png"
+  }, {
+    "tag" : "Kubernetes - etcd",
+    "stroke" : "#3d6fdd",
+    "color" : "#3d6fdd",
+    "icon" : "https://static.structurizr.com/themes/kubernetes-v0.3/etcd-256.png"
+  }, {
+    "tag" : "Kubernetes - kubelet",
+    "stroke" : "#3d6fdd",
+    "color" : "#3d6fdd",
+    "icon" : "https://static.structurizr.com/themes/kubernetes-v0.3/kubelet-256.png"
+  }, {
+    "tag" : "Kubernetes - ns",
+    "stroke" : "#3d6fdd",
+    "color" : "#3d6fdd",
+    "icon" : "https://static.structurizr.com/themes/kubernetes-v0.3/ns-256.png"
+  }, {
+    "tag" : "Kubernetes - cm",
+    "stroke" : "#3d6fdd",
+    "color" : "#3d6fdd",
+    "icon" : "https://static.structurizr.com/themes/kubernetes-v0.3/cm-256.png"
+  }, {
+    "tag" : "Kubernetes - job",
+    "stroke" : "#3d6fdd",
+    "color" : "#3d6fdd",
+    "icon" : "https://static.structurizr.com/themes/kubernetes-v0.3/job-256.png"
+  }, {
+    "tag" : "Kubernetes - sc",
+    "stroke" : "#3d6fdd",
+    "color" : "#3d6fdd",
+    "icon" : "https://static.structurizr.com/themes/kubernetes-v0.3/sc-256.png"
+  }, {
+    "tag" : "Kubernetes - sts",
+    "stroke" : "#3d6fdd",
+    "color" : "#3d6fdd",
+    "icon" : "https://static.structurizr.com/themes/kubernetes-v0.3/sts-256.png"
+  }, {
+    "tag" : "Kubernetes - api",
+    "stroke" : "#3d6fdd",
+    "color" : "#3d6fdd",
+    "icon" : "https://static.structurizr.com/themes/kubernetes-v0.3/api-256.png"
+  }, {
+    "tag" : "Kubernetes - k-proxy",
+    "stroke" : "#3d6fdd",
+    "color" : "#3d6fdd",
+    "icon" : "https://static.structurizr.com/themes/kubernetes-v0.3/k-proxy-256.png"
+  }, {
+    "tag" : "Kubernetes - limits",
+    "stroke" : "#3d6fdd",
+    "color" : "#3d6fdd",
+    "icon" : "https://static.structurizr.com/themes/kubernetes-v0.3/limits-256.png"
+  }, {
+    "tag" : "Kubernetes - node",
+    "stroke" : "#3d6fdd",
+    "color" : "#3d6fdd",
+    "icon" : "https://static.structurizr.com/themes/kubernetes-v0.3/node-256.png"
+  }, {
+    "tag" : "Kubernetes - rb",
+    "stroke" : "#3d6fdd",
+    "color" : "#3d6fdd",
+    "icon" : "https://static.structurizr.com/themes/kubernetes-v0.3/rb-256.png"
+  }, {
+    "tag" : "Kubernetes - deploy",
+    "stroke" : "#3d6fdd",
+    "color" : "#3d6fdd",
+    "icon" : "https://static.structurizr.com/themes/kubernetes-v0.3/deploy-256.png"
+  }, {
+    "tag" : "Kubernetes - ep",
+    "stroke" : "#3d6fdd",
+    "color" : "#3d6fdd",
+    "icon" : "https://static.structurizr.com/themes/kubernetes-v0.3/ep-256.png"
+  }, {
+    "tag" : "Kubernetes - quota",
+    "stroke" : "#3d6fdd",
+    "color" : "#3d6fdd",
+    "icon" : "https://static.structurizr.com/themes/kubernetes-v0.3/quota-256.png"
+  }, {
+    "tag" : "Kubernetes - role",
+    "stroke" : "#3d6fdd",
+    "color" : "#3d6fdd",
+    "icon" : "https://static.structurizr.com/themes/kubernetes-v0.3/role-256.png"
+  }, {
+    "tag" : "Kubernetes - user",
+    "stroke" : "#3d6fdd",
+    "color" : "#3d6fdd",
+    "icon" : "https://static.structurizr.com/themes/kubernetes-v0.3/user-256.png"
+  }, {
+    "tag" : "Kubernetes - c-m",
+    "stroke" : "#3d6fdd",
+    "color" : "#3d6fdd",
+    "icon" : "https://static.structurizr.com/themes/kubernetes-v0.3/c-m-256.png"
+  }, {
+    "tag" : "Kubernetes - cronjob",
+    "stroke" : "#3d6fdd",
+    "color" : "#3d6fdd",
+    "icon" : "https://static.structurizr.com/themes/kubernetes-v0.3/cronjob-256.png"
+  }, {
+    "tag" : "Kubernetes - crd",
+    "stroke" : "#3d6fdd",
+    "color" : "#3d6fdd",
+    "icon" : "https://static.structurizr.com/themes/kubernetes-v0.3/crd-256.png"
+  }, {
+    "tag" : "Kubernetes - psp",
+    "stroke" : "#3d6fdd",
+    "color" : "#3d6fdd",
+    "icon" : "https://static.structurizr.com/themes/kubernetes-v0.3/psp-256.png"
+  }, {
+    "tag" : "Kubernetes - rs",
+    "stroke" : "#3d6fdd",
+    "color" : "#3d6fdd",
+    "icon" : "https://static.structurizr.com/themes/kubernetes-v0.3/rs-256.png"
+  }, {
+    "tag" : "Kubernetes - pvc",
+    "stroke" : "#3d6fdd",
+    "color" : "#3d6fdd",
+    "icon" : "https://static.structurizr.com/themes/kubernetes-v0.3/pvc-256.png"
+  }, {
+    "tag" : "Kubernetes - group",
+    "stroke" : "#3d6fdd",
+    "color" : "#3d6fdd",
+    "icon" : "https://static.structurizr.com/themes/kubernetes-v0.3/group-256.png"
+  }, {
+    "tag" : "Kubernetes - hpa",
+    "stroke" : "#3d6fdd",
+    "color" : "#3d6fdd",
+    "icon" : "https://static.structurizr.com/themes/kubernetes-v0.3/hpa-256.png"
+  }, {
+    "tag" : "Kubernetes - master",
+    "stroke" : "#3d6fdd",
+    "color" : "#3d6fdd",
+    "icon" : "https://static.structurizr.com/themes/kubernetes-v0.3/master-256.png"
+  }, {
+    "tag" : "Kubernetes - pv",
+    "stroke" : "#3d6fdd",
+    "color" : "#3d6fdd",
+    "icon" : "https://static.structurizr.com/themes/kubernetes-v0.3/pv-256.png"
+  }, {
+    "tag" : "Kubernetes - c-c-m",
+    "stroke" : "#3d6fdd",
+    "color" : "#3d6fdd",
+    "icon" : "https://static.structurizr.com/themes/kubernetes-v0.3/c-c-m-256.png"
+  }, {
+    "tag" : "Kubernetes - sched",
+    "stroke" : "#3d6fdd",
+    "color" : "#3d6fdd",
+    "icon" : "https://static.structurizr.com/themes/kubernetes-v0.3/sched-256.png"
+  } ]
+}
