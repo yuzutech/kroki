@@ -9,7 +9,7 @@ public class UnsupportedFormatException extends BadRequestException {
   private final String messageHTML;
 
   public UnsupportedFormatException(String outputFormat, String serviceName, List<FileFormat> supportedFormat) {
-    super(String.format("Unsupported output format: %s. Must be one of %s for %s.", outputFormat, serviceName, FileFormat.stringify(supportedFormat)));
+    super(String.format("Unsupported output format: %s for %s. Must be one of %s.", outputFormat, serviceName, FileFormat.stringify(supportedFormat)));
     this.messageHTML = String.format("Unsupported output format: <code>%s</code> for <i>%s</i>. Must be one of %s.", outputFormat, serviceName, FileFormat.htmlify(supportedFormat));
   }
 
