@@ -1,0 +1,1825 @@
+{
+  "name" : "Amazon Web Services",
+  "description" : "This theme includes element styles with icons for each of the AWS services, based upon the AWS Architecture Icons (https://aws.amazon.com/architecture/icons/).",
+  "elements" : [ {
+    "tag" : "Amazon Web Services - Kinesis Data Analytics",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Kinesis-Data-Analytics_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - RoboMaker Development Environment",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-RoboMaker_Development-Environment_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - FSx",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-FSx_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Simple Storage Service S3 Bucket",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Simple-Storage-Service-S3_Bucket_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Translate",
+    "stroke" : "#1c7b68",
+    "color" : "#1c7b68",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Translate_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EC2 D2 Instance",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EC2_D2-Instance_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Route 53 Hosted Zone",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Route-53_Hosted-Zone_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Elastic Beanstalk container",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Elastic-Beanstalk-container_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Personalize",
+    "stroke" : "#1c7b68",
+    "color" : "#1c7b68",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Personalize_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Lex",
+    "stroke" : "#1c7b68",
+    "color" : "#1c7b68",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Lex_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Identity and Access Management IAM AWS STS",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Identity-and-Access-Management-IAM_AWS-STS_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Transcribe",
+    "stroke" : "#1c7b68",
+    "color" : "#1c7b68",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Transcribe_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Aurora",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Aurora_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - OpsWorks",
+    "stroke" : "#cc2264",
+    "color" : "#cc2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-OpsWorks_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Sumerian",
+    "stroke" : "#cc2264",
+    "color" : "#cc2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Sumerian_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Elastic Container Service Service",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Elastic-Container-Service_Service_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Service Catalog",
+    "stroke" : "#cc2264",
+    "color" : "#cc2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Service-Catalog_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - IoT Analytics Notebook",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-IoT-Analytics_Notebook_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - VPC",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-VPC_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - TensorFlow on AWS",
+    "stroke" : "#1c7b68",
+    "color" : "#1c7b68",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/TensorFlow-on-AWS_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - CloudHSM",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-CloudHSM_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Firewall Manager",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Firewall-Manager_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - WorkMail",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-WorkMail_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Identity and Access Management IAM MFA Token",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Identity-and-Access-Management-IAM_MFA-Token_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Elastic Load Balancing ELB Application load balancer",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Elastic-Load-Balancing-ELB_Application-load-balancer_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - CodePipeline",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-CodePipeline_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Auto Scaling",
+    "stroke" : "#cc2264",
+    "color" : "#cc2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Auto-Scaling_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Lambda Lambda Function",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Lambda_Lambda-Function_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Elastic Beanstalk Deployment",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Elastic-Beanstalk_Deployment_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - VPC VPN Gateway",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-VPC_VPN-Gateway_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Cloud Map",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Cloud-Map_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - API Gateway",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-API-Gateway_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Forecast",
+    "stroke" : "#1c7b68",
+    "color" : "#1c7b68",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Forecast_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Thinkbox XMesh",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Thinkbox_XMesh_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Elastic Container Service",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Elastic-Container-Service_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Data lake Resource icon",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Data-lake_Resource-icon_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Thinkbox Sequoia",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Thinkbox-Sequoia_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Redshift Dense Storage Node",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Redshift_Dense-Storage-Node_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EC2 I3 Instance",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EC2_I3-Instance_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EMR EMR engine MapR M7",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EMR_EMR-engine-MapR-M7_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EC2 Instance",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EC2_Instance_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EC2 Optimized Instance",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EC2_Optimized-Instance_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Cloud Directory",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Cloud-Directory_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EC2 Instance with CloudWatch",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EC2_Instance-with-CloudWatch_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Identity and Access Management IAM Temporary Security Credential",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Identity-and-Access-Management-IAM_Temporary-Security-Credential_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - IoT Device Management",
+    "stroke" : "#60a337",
+    "color" : "#60a337",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-IoT-Device-Management_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Simple Queue Service SQS Message",
+    "stroke" : "#cd2264",
+    "color" : "#cd2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Simple-Queue-Service-SQS_Message_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EC2 M4 Instance",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EC2_M4-Instance_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Elemental MediaConvert",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Elemental-MediaConvert_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Lightsail",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Lightsail_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Well Architected Tool",
+    "stroke" : "#cc2264",
+    "color" : "#cc2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Well-Architected-Tool_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Quantum Ledger Database QLDB",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Quantum-Ledger-Database_QLDB_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Simple Storage Service S3 Object",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Simple-Storage-Service-S3_Object_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Elasticsearch Service",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Elasticsearch-Service_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - MQ",
+    "stroke" : "#cc2264",
+    "color" : "#cc2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-MQ_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - IoT Button",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-IoT-Button_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EC2 P2 Instance",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EC2_P2-Instance_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - GameLift",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-GameLift_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Direct Connect",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Direct-Connect_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Certificate Authority",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Certificate-Authority_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - DeepLens",
+    "stroke" : "#1c7b68",
+    "color" : "#1c7b68",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-DeepLens_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Thinkbox Deadline",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Thinkbox-Deadline_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - AppSync",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-AppSync_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Chime",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Chime_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Lambda",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Lambda_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - X Ray",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-X-Ray_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - ElastiCache For Redis",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-ElastiCache_For-Redis_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - API Gateway Endpoint",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-API-Gateway_Endpoint_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - CloudSearch Search documents",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-CloudSearch_Search-documents_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - CloudWatch",
+    "stroke" : "#cc2264",
+    "color" : "#cc2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-CloudWatch_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Systems Manager State Manager",
+    "stroke" : "#cd2264",
+    "color" : "#cd2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Systems-Manager_State-Manager_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EC2 z1d Instance",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EC2_z1d-Instance_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Identity and Access Management IAM Data Encryption Key",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Identity-and-Access-Management-IAM_Data-Encryption-Key_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Simple Notification Service SNS Email Notification",
+    "stroke" : "#cd2264",
+    "color" : "#cd2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Simple-Notification-Service-SNS_Email-Notification_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Appstream 2",
+    "stroke" : "#1c7b68",
+    "color" : "#1c7b68",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Appstream-2.0_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Elastic Transcoder",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Elastic-Transcoder_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Migration Hub",
+    "stroke" : "#1c7b68",
+    "color" : "#1c7b68",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Migration-Hub_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EC2 H1 Instance",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EC2_H1-Instance_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Application Discovery Service",
+    "stroke" : "#1c7b68",
+    "color" : "#1c7b68",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Application-Discovery-Service_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Device Farm",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Device-Farm_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - RDS PostgreSQL instance",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-RDS_PostgreSQL_instance_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Simple Storage Service S3 Bucket with Objects",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Simple-Storage-Service-S3_Bucket-with-Objects_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Ground Station",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Ground-Station_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Elastic Container Service Container1",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Elastic-Container-Service_Container1_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Elastic Inference",
+    "stroke" : "#1c7b68",
+    "color" : "#1c7b68",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Elastic-Inference_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Neptune",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Neptune_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - CloudFormation Stack",
+    "stroke" : "#cd2264",
+    "color" : "#cd2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-CloudFormation_Stack_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EC2 R5a Instance",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EC2_R5a-Instance_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Backup",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Backup_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Macie",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Macie_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Rekognition Video",
+    "stroke" : "#1c7b68",
+    "color" : "#1c7b68",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Rekognition_Video_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EC2 P3 Instance",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EC2_P3-Instance_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Trusted Advisor Checklist Security",
+    "stroke" : "#cd2264",
+    "color" : "#cd2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Trusted-Advisor_Checklist-Security_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Elemental MediaPackage",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Elemental-MediaPackage_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Identity and Access Management IAM Encrypted Data",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Identity-and-Access-Management-IAM_Encrypted-Data_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - DocumentDB with MongoDB compatibility",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-DocumentDB-with-MongoDB-compatibility_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EC2 M5 Instance",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EC2_M5-Instance_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Kinesis",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Kinesis_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - OpsWorks Deployments",
+    "stroke" : "#cd2264",
+    "color" : "#cd2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-OpsWorks_Deployments_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - DynamoDB Global Secondary Index",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-DynamoDB_Global-Secondary-Index_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - WAF",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-WAF_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Trusted Advisor Checklist Fault Tolerant",
+    "stroke" : "#cd2264",
+    "color" : "#cd2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Trusted-Advisor_Checklist-Fault-Tolerant_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - IoT Analytics Data Store",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-IoT-Analytics_Data-Store_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Athena",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Athena_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Storage Gateway Non Cached Volume",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Storage-Gateway_Non-Cached-Volume_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Deep Learning AMIs",
+    "stroke" : "#1c7b68",
+    "color" : "#1c7b68",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Deep-Learning-AMIs_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Elemental MediaTailor",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Elemental-MediaTailor_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Artifact",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Artifact_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Command Line Interface",
+    "stroke" : "#cc2264",
+    "color" : "#cc2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Command-Line-Interface_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Systems Manager",
+    "stroke" : "#cc2264",
+    "color" : "#cc2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Systems-Manager_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - CloudSearch",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-CloudSearch_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Managed Services",
+    "stroke" : "#cc2264",
+    "color" : "#cc2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Managed-Services_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Elemental MediaStore",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Elemental-MediaStore_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Thinkbox Draft",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Thinkbox-Draft_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Snowball",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Snowball_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Budgets",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Budgets_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Site to Site VPN",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Site-to-Site-VPN_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Identity and Access Management IAM",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Identity-and-Access-Management_IAM_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Elastic File System EFS",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Elastic-File-System_EFS_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Step Function",
+    "stroke" : "#cd2264",
+    "color" : "#cd2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Step-Function_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Connect",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Connect_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Shield Shield Advanced",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Shield_Shield-Advanced_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - IoT Analytics Data Set",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-IoT-Analytics_Data-Set_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Timestream",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Timestream_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EC2 Instances",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EC2_Instances_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Key Management Service",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Key-Management-Service_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Elastic Load Balancing Classic load balancer",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Elastic-Load-Balancing_Classic-load-balancer_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Outposts",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Outposts_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Serverless Application Repository",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Serverless-Application-Repository_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Elastic Block Store EBS Volume",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Elastic-Block-Store-EBS_Volume_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - OpsWorks Instances",
+    "stroke" : "#cd2264",
+    "color" : "#cd2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-OpsWorks_Instances_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - S3 Glacier Archive",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-S3-Glacier_Archive_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Managed Blockchain",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Managed-Blockchain_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Region",
+    "stroke" : "#147eba",
+    "color" : "#147eba",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Region_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - DynamoDB Attributes",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-DynamoDB_Attributes_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Kinesis Video Streams",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Kinesis-Video-Streams_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Systems Manager Inventory",
+    "stroke" : "#cd2264",
+    "color" : "#cd2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Systems-Manager_Inventory_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - VMware Cloud On AWS",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/VMware-Cloud-On-AWS_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - OpsWorks Layers",
+    "stroke" : "#cd2264",
+    "color" : "#cd2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-OpsWorks_Layers_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Cognito",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Cognito_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - IoT 1 Click",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-IoT-1-Click_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Systems Manager Maintenance Windows",
+    "stroke" : "#cd2264",
+    "color" : "#cd2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Systems-Manager_Maintenance-Windows_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Alexa For Business",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Alexa-For-Business_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Comprehend",
+    "stroke" : "#1c7b68",
+    "color" : "#1c7b68",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Comprehend_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - WAF Filtering rule",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-WAF_Filtering-rule_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - CloudWatch Alarm",
+    "stroke" : "#cd2264",
+    "color" : "#cd2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-CloudWatch_Alarm_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - IoT Device Defender",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-IoT-Device-Defender_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Control Tower",
+    "stroke" : "#cc2264",
+    "color" : "#cc2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Control-Tower_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EC2 Auto Scaling",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EC2_Auto-Scaling_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Personal Health Dashboard",
+    "stroke" : "#cc2264",
+    "color" : "#cc2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Personal-Health-Dashboard_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Simple Storage Service S3",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Simple-Storage-Service-S3_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - OpsWorks Permissions",
+    "stroke" : "#cd2264",
+    "color" : "#cd2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-OpsWorks_Permissions_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - RDS Amazon RDS instance",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-RDS_Amazon-RDS_instance_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Simple Email Service SES",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Simple-Email-Service-SES_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - SageMaker Train",
+    "stroke" : "#1c7b68",
+    "color" : "#1c7b68",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-SageMaker_Train_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - OpsWorks Stack2",
+    "stroke" : "#cd2264",
+    "color" : "#cd2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-OpsWorks_Stack2_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Glue Data catalog",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Glue_Data-catalog_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Simple Queue Service SQS",
+    "stroke" : "#cc2264",
+    "color" : "#cc2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Simple-Queue-Service-SQS_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - CloudFront",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-CloudFront_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Simple Email Service SES Email",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Simple-Email-Service-SES_Email_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - DynamoDB Item",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-DynamoDB_Item_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Marketplace",
+    "stroke" : "#232f3e",
+    "color" : "#232f3e",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Marketplace_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EC2 C5 Instance",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EC2_C5-Instance_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - SageMaker Notebook",
+    "stroke" : "#1c7b68",
+    "color" : "#1c7b68",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-SageMaker_Notebook_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - CloudFront Edge Location",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-CloudFront_Edge-Location_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Snow Family Snowball Import Export",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Snow-Family_Snowball-Import-Export_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Data Pipeline",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Data-Pipeline_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Resource Access Manager",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Resource-Access-Manager_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Elemental MediaConnect",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Elemental-MediaConnect_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Server Migration Service",
+    "stroke" : "#1c7b68",
+    "color" : "#1c7b68",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Server-Migration-Service_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Storage Gateway Cached Volume",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Storage-Gateway_Cached-Volume_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EC2",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EC2_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - SageMaker Ground Truth",
+    "stroke" : "#1c7b68",
+    "color" : "#1c7b68",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-SageMaker-Ground-Truth_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Elastic Beanstalk",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Elastic-Beanstalk_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Organizations Organizational unit",
+    "stroke" : "#cd2264",
+    "color" : "#cd2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Organizations_Organizational-unit_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Cloud9",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Cloud9_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - RoboMaker Simulation",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-RoboMaker_Simulation_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Identity and Access Management IAM AWS STS Alternate",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Identity-and-Access-Management-IAM_AWS-STS-Alternate_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - CloudWatch Event Event Based",
+    "stroke" : "#cd2264",
+    "color" : "#cd2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-CloudWatch_Event-Event-Based_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - VPC subnet public",
+    "stroke" : "#248814",
+    "color" : "#248814",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/VPC-subnet-public_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - RDS SQL Server instance",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-RDS_SQL-Server_instance_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EMR EMR engine MapR M3",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EMR_EMR-engine-MapR-M3_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - IoT Analytics Channel",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-IoT-Analytics_Channel_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Cost Management",
+    "stroke" : "#000000",
+    "color" : "#000000",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Cost-Management_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - IoT Greengrass Connector",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-IoT-Greengrass_Connector_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Corporate data center",
+    "stroke" : "#5a6c86",
+    "color" : "#5a6c86",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Corporate-data-center_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - SageMaker",
+    "stroke" : "#1c7b68",
+    "color" : "#1c7b68",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-SageMaker_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Fargate",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Fargate_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Cost and Usage Report",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Cost-and-Usage-Report_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - SageMaker Model",
+    "stroke" : "#1c7b68",
+    "color" : "#1c7b68",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-SageMaker_Model_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EC2 X1e Instance",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EC2_X1e-Instance_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Elastic Container Service Container2",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Elastic-Container-Service_Container2_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Simple Notification Service SNS",
+    "stroke" : "#cc2264",
+    "color" : "#cc2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Simple-Notification-Service-SNS_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Thinkbox Stoke",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Thinkbox-Stoke_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Systems Manager Patch Manager",
+    "stroke" : "#cd2264",
+    "color" : "#cd2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Systems-Manager_Patch-Manager_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - DynamoDB Attribute",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-DynamoDB_Attribute_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Storage Gateway",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Storage-Gateway_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Management Console",
+    "stroke" : "#cc2264",
+    "color" : "#cc2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Management-Console_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EMR HDFS cluster",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EMR_HDFS-cluster_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Database Migration Service",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Database-Migration-Service_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - VPC Router",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-VPC_Router_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - VPC VPN Connection",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-VPC_VPN-Connection_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - VPC subnet private",
+    "stroke" : "#147eba",
+    "color" : "#147eba",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/VPC-subnet-private_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - DataSync Agent",
+    "stroke" : "#1c7b68",
+    "color" : "#1c7b68",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-DataSync_Agent_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - RDS Oracle instance",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-RDS_Oracle_instance_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Glue Crawlers",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Glue_Crawlers_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Glue",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Glue_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Managed Microsoft AD",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Managed-Microsoft-AD_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Elastic File System EFS File system",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Elastic-File-System_EFS_File-system_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - VPC Internet Gateway",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-VPC_Internet-Gateway_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EC2 X1 Instance",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EC2_X1-Instance_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Pinpoint",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Pinpoint_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - RDS MariaDB instance",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-RDS_MariaDB_instance_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Elastic Beanstalk Application",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Elastic-Beanstalk_Application_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EMR Cluster",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EMR_Cluster_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Elastic Load Balancing ELB Network load balancer",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Elastic-Load-Balancing-ELB_Network-load-balancer_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EC2 T2 Instance",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EC2_T2-Instance_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Simple Notification Service SNS Topic",
+    "stroke" : "#cd2264",
+    "color" : "#cd2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Simple-Notification-Service-SNS_Topic_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Transit Gateway",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Transit-Gateway_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - ElastiCache Cache Node",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-ElastiCache_Cache-Node_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - FSx for Lustre",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-FSx-for-Lustre_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Systems Manager Parameter Store",
+    "stroke" : "#cd2264",
+    "color" : "#cd2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Systems-Manager_Parameter-Store_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Thinkbox Frost",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Thinkbox-Frost_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Identity and Access Management IAM Permissions",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Identity-and-Access-Management-IAM_Permissions_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Redshift Dense Compute Node",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Redshift_Dense-Compute-Node_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - App Config",
+    "stroke" : "#cd2264",
+    "color" : "#cd2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-App-Config_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - PrivateLink",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-PrivateLink_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - DataSync",
+    "stroke" : "#1c7b68",
+    "color" : "#1c7b68",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-DataSync_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - ElastiCache For Memcached",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-ElastiCache_For-Memcached_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Tools And SDKs",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Tools-And-SDKs_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - VPC Peering",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-VPC_Peering_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Rekognition",
+    "stroke" : "#1c7b68",
+    "color" : "#1c7b68",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Rekognition_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - WorkDocs",
+    "stroke" : "#1c7b68",
+    "color" : "#1c7b68",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-WorkDocs_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EC2 C5n Instance",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EC2_C5n-Instance_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - OpsWorks Apps",
+    "stroke" : "#cd2264",
+    "color" : "#cd2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-OpsWorks_Apps_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Inspector",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Inspector_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EC2 Container Registry Image",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EC2-Container-Registry_Image_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Identity and Access Management IAM Long term Security Credential",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Identity-and-Access-Management-IAM_Long-term-Security-Credential_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Textract",
+    "stroke" : "#1c7b68",
+    "color" : "#1c7b68",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Textract_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EC2 R4 Instance",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EC2_R4-Instance_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Trusted Advisor Checklist Cost",
+    "stroke" : "#cd2264",
+    "color" : "#cd2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Trusted-Advisor_Checklist-Cost_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - IoT Core",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-IoT-Core_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - RoboMaker",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-RoboMaker_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Route 53 Route Table",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Route-53_Route-Table_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Config",
+    "stroke" : "#cc2264",
+    "color" : "#cc2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Config_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - VPC Flow Logs",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-VPC_Flow-Logs_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - VPC Elastic Network Adapter",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-VPC_Elastic-Network-Adapter_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - RDS on VMware",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-RDS-on-VMware_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - RDS MySQL instance",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-RDS_MySQL_instance_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - FreeRTOS",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-FreeRTOS_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Polly",
+    "stroke" : "#1c7b68",
+    "color" : "#1c7b68",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Polly_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Elastic Block Store EBS",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Elastic-Block-Store-EBS_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - License Manager",
+    "stroke" : "#cc2264",
+    "color" : "#cc2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-License-Manager_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Inspector Agent",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Inspector_Agent_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - IQ",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-IQ_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - VPC Elastic Network Interface",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-VPC_Elastic-Network-Interface_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Redshift",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Redshift_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - RDS",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-RDS_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Snowmobile",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Snowmobile_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Identity and Access Management IAM Add on",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Identity-and-Access-Management-IAM_Add-on_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - IoT Greengrass",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-IoT-Greengrass_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - DeepRacer",
+    "stroke" : "#1c7b68",
+    "color" : "#1c7b68",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-DeepRacer_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - S3 Glacier",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-S3-Glacier_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - VPC NAT Gateway",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-VPC_NAT-Gateway_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Trusted Advisor Checklist Performance",
+    "stroke" : "#cd2264",
+    "color" : "#cd2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Trusted-Advisor_Checklist-Performance_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Lake Formation",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Lake-Formation_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - IoT Analytics",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-IoT-Analytics_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Cloud",
+    "stroke" : "#232f3e",
+    "color" : "#232f3e",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Cloud_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EMR EMR engine",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EMR_EMR-engine_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Managed Streaming for Kafka",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Managed-Streaming-for-Kafka_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EC2 A1 Instance",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EC2_A1-Instance_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Snowball Edge",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Snowball-Edge_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Kinesis Data Firehose",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Kinesis-Data-Firehose_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EC2 T3 Instance",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EC2_T3-Instance_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EC2 DB on Instance",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EC2_DB-on-Instance_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Directory Service",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Directory-Service_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Elastic Kubernetes Service",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Elastic-Kubernetes-Service_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EC2 AMI",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EC2_AMI_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Cloud Development Kit",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Cloud-Development-Kit_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EC2 M5a Instance",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EC2_M5a-Instance_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - ElastiCache",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-ElastiCache_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EC2 G3 Instance",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EC2_G3-Instance_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Single Sign On",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Single-Sign-On_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Simple Notification Service SNS HTTP Notification",
+    "stroke" : "#cd2264",
+    "color" : "#cd2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Simple-Notification-Service-SNS_HTTP-Notification_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - IoT Events",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-IoT-Events_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Shield",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Shield_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - CloudTrail",
+    "stroke" : "#cc2264",
+    "color" : "#cc2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-CloudTrail_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Trusted Advisor Checklist",
+    "stroke" : "#cd2264",
+    "color" : "#cd2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Trusted-Advisor_Checklist_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Certificate Manager",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Certificate-Manager_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EC2 Rescue",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EC2_Rescue_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - CodeCommit",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-CodeCommit_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EMR",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EMR_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EMR EMR engine MapR M5",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EMR_EMR-engine-MapR-M5_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Trusted Advisor",
+    "stroke" : "#cc2264",
+    "color" : "#cc2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Trusted-Advisor_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - CloudFormation",
+    "stroke" : "#cc2264",
+    "color" : "#cc2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-CloudFormation_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Thinkbox Krakatoa",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Thinkbox-Krakatoa_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Workspaces",
+    "stroke" : "#1c7b68",
+    "color" : "#1c7b68",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Workspaces_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EC2 Container Registry Registry",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EC2-Container-Registry_Registry_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EC2 High Memory Instance",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EC2_High-Memory-Instance_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - CloudFront Download Distribution",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-CloudFront_Download-Distribution_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EC2 Container Registry",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EC2-Container-Registry_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Identity and Access Management IAM Role",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Identity-and-Access-Management-IAM_Role_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - VPC Endpoints",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-VPC_Endpoints_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Organizations Account",
+    "stroke" : "#cd2264",
+    "color" : "#cd2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Organizations_Account_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - IoT Things Graph",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-IoT-Things-Graph_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Simple Queue Service SQS Queue",
+    "stroke" : "#cd2264",
+    "color" : "#cd2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Simple-Queue-Service-SQS_Queue_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EC2 T3a Instance",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EC2_T3a-Instance_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - CloudFormation Change Set",
+    "stroke" : "#cd2264",
+    "color" : "#cd2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-CloudFormation_Change-Set_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Amplify",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Amplify_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Security Hub",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Security-Hub_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Server contents",
+    "stroke" : "#5a6c86",
+    "color" : "#5a6c86",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Server-contents_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - RoboMaker Cloud Extension ROS",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-RoboMaker_Cloud-Extension-ROS_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - CloudWatch Event Time Based",
+    "stroke" : "#cd2264",
+    "color" : "#cd2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-CloudWatch_Event-Time-Based_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EC2 R5 Instance",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EC2_R5-Instance_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Route 53",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Route-53_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Systems Manager Documents",
+    "stroke" : "#cd2264",
+    "color" : "#cd2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Systems-Manager_Documents_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Storage Gateway Virtual Tape Library",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Storage-Gateway_Virtual-Tape-Library_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Elemental MediaLive",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Elemental-MediaLive_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Kinesis Data Streams",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Kinesis-Data-Streams_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - RoboMaker Fleet Management",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-RoboMaker_Fleet-Management_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - RDS Amazon Aurora instance",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-RDS_Amazon-Aurora_instance_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - VPC Customer Gateway",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-VPC_Customer-Gateway_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EC2 Spot instance",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EC2_Spot-instance_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Systems Manager Run Command",
+    "stroke" : "#cd2264",
+    "color" : "#cd2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Systems-Manager_Run-Command_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - DynamoDB Items",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-DynamoDB_Items_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - DynamoDB",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-DynamoDB_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Virtual private cloud VPC",
+    "stroke" : "#248814",
+    "color" : "#248814",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Virtual-private-cloud-VPC_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Global Accelerator",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Global-Accelerator_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Quicksight",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Quicksight_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - IoT Analytics Pipeline",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-IoT-Analytics_Pipeline_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Elastic Block Store EBS Snapshot",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Elastic-Block-Store-EBS_Snapshot_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - CloudWatch Rule",
+    "stroke" : "#cd2264",
+    "color" : "#cd2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-CloudWatch_Rule_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - IoT SiteWise",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-IoT-SiteWise_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - CloudFront Streaming Distribution",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-CloudFront_Streaming-Distribution_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EC2 C4 Instance",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EC2_C4-Instance_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Cost Explorer",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Cost-Explorer_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Rekognition Image",
+    "stroke" : "#1c7b68",
+    "color" : "#1c7b68",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Rekognition_Image_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Elastic Load Balancing",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Elastic-Load-Balancing_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Client VPN",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Client-VPN_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Batch",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Batch_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - VPC Network Access Control List",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-VPC_Network-Access-Control-List_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - GuardDuty",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-GuardDuty_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - CodeBuild",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-CodeBuild_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - CodeDeploy",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-CodeDeploy_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - OpsWorks Monitoring",
+    "stroke" : "#cd2264",
+    "color" : "#cd2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-OpsWorks_Monitoring_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EC2 F1 Instance",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EC2_F1-Instance_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - OpsWorks Resources",
+    "stroke" : "#cd2264",
+    "color" : "#cd2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-OpsWorks_Resources_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Systems Manager Automation",
+    "stroke" : "#cd2264",
+    "color" : "#cd2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Systems-Manager_Automation_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Deep Learning Containers",
+    "stroke" : "#1c7b68",
+    "color" : "#1c7b68",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Deep-Learning-Containers_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - App Mesh",
+    "stroke" : "#693cc5",
+    "color" : "#693cc5",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-App-Mesh_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - S3 Glacier Vault",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-S3-Glacier_Vault_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - DynamoDB Table",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-DynamoDB_Table_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Elastic Container Service Container3",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-Elastic-Container-Service_Container3_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - FSx for Windows File Server",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-FSx-for-Windows-File-Server_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Database Migration Service Database Migration Workflow",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Database-Migration-Service_Database-Migration-Workflow_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Organizations",
+    "stroke" : "#cc2264",
+    "color" : "#cc2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Organizations_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Step Functions",
+    "stroke" : "#cc2264",
+    "color" : "#cc2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Step-Functions_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EC2 Elastic IP Address",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EC2_Elastic-IP-Address_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - CloudFormation Template",
+    "stroke" : "#cd2264",
+    "color" : "#cd2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-CloudFormation_Template_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Secrets Manager",
+    "stroke" : "#d6242d",
+    "color" : "#d6242d",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-Secrets-Manager_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - WorkLink",
+    "stroke" : "#1c7b68",
+    "color" : "#1c7b68",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-WorkLink_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - EventBridge",
+    "stroke" : "#cd2264",
+    "color" : "#cd2264",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Amazon-EventBridge_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - CodeStar",
+    "stroke" : "#3b48cc",
+    "color" : "#3b48cc",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/AWS-CodeStar_light-bg@4x.png"
+  }, {
+    "tag" : "Amazon Web Services - Spot fleet",
+    "stroke" : "#d86613",
+    "color" : "#d86613",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2020.04.30/Spot-fleet_light-bg@4x.png"
+  } ]
+}

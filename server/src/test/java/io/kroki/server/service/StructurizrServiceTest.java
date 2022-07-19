@@ -63,6 +63,19 @@ public class StructurizrServiceTest {
   }
 
   @Test
+  public void should_convert_aws_example() throws IOException {
+    if (Files.isExecutable(Paths.get("/usr/bin/dot"))) {
+      String source = read("./aws.structurizr");
+      String expected = read("./aws.expected.svg");
+      JsonObject options = new JsonObject();
+      byte[] result = Structurizr.convert(source, FileFormat.SVG, new StructurizrPlantUMLExporter(), options);
+      assertThat(stripComments(new String(result))).isEqualToIgnoringNewLines(expected);
+    } else {
+      logger.info("/usr/bin/dot not found, skipping test.");
+    }
+  }
+
+  @Test
   public void should_throw_exception_when_view_does_not_exist() throws IOException {
     String source = read("./bigbank.structurizr");
     JsonObject options = new JsonObject();
