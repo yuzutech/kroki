@@ -36,6 +36,9 @@ RUN apk add --quiet --no-cache --update \
 
 COPY --from=builder /app/app.bin /usr/bin/mermaid
 COPY --chown=kroki:kroki assets /usr/local/kroki/assets
+RUN mkdir -p /usr/share/fonts/truetype/google-fonts
+COPY --chown=kroki:kroki fonts /usr/share/fonts/truetype/google-fonts
+RUN fc-cache -f && rm -rf /var/cache/*
 
 ENV KROKI_MERMAID_PAGE_URL=file:///usr/local/kroki/assets/index.html
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/lib/chromium/chrome
