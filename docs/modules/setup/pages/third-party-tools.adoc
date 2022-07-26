@@ -10,6 +10,11 @@
 :url-gitlab-int: https://docs.gitlab.com/ce/administration/integration/kroki.html
 :url-sphinx: https://www.sphinx-doc.org/
 :url-sphinx-int: https://github.com/sphinx-contrib/kroki
+:url-julia: https://julialang.org
+:url-julia-documenter: https://juliadocs.github.io/Documenter.jl/stable
+:url-julia-int: https://bauglir.github.io/Kroki.jl/stable
+:url-julia-pluto: https://github.com/fonsp/Pluto.jl
+:url-julia-vscode: https://www.julia-vscode.org
 
 A list of third party tools, developed by the community, that rely on Kroki.
 
@@ -59,3 +64,8 @@ The following {url-vscode}[Visual Studio Code] plugins support Kroki:
 == Sphinx Documentation
 
 There is an {url-sphinx-int}[Kroki integration] for the {url-sphinx}[Sphinx documentation generator].
+
+== Julia
+
+The {url-julia-int}[Kroki.jl] package provides integrations for the {url-julia}[Julia programming language].
+It enables rendering diagrams in environments such as {url-julia-documenter}[Documenter.jl], {url-julia-pluto}[Pluto notebooks] and Julia's {url-julia-vscode}[Visual Studio Code integration].
