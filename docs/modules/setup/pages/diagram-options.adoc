@@ -21,7 +21,7 @@ Applies to `blockdiag`, `seqdiag`, `actdiag`, `nwdiag`, `packetdiag` and `rackdi
 |Do not make transparent background of diagram (PNG only)
 
 |size
-|_dimension format {width}x{height}_ +
+|_dimension format \{width}x\{height}_ +
 ex. `320x240`
 |Size of diagram
 
@@ -39,17 +39,17 @@ ex. `320x240`
 |Allowable Values
 |Description
 
-|graph-attribute-{name}
+|graph-attribute-+{name}+
 |_any_ +
 *`true`*
 |Set a graph attribute: https://graphviz.org/doc/info/command.html#-G
 
-|node-attribute-{name}
+|node-attribute-+{name}+
 |_any_ +
 *`true`*
 |Set a default node attribute: https://graphviz.org/doc/info/command.html#-N
 
-|edge-attribute-{name}
+|edge-attribute-+{name}+
 |_any_ +
 *`true`*
 |Set a default edge attribute: https://graphviz.org/doc/info/command.html#-E
