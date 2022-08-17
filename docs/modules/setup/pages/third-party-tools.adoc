@@ -15,6 +15,8 @@
 :url-julia-int: https://bauglir.github.io/Kroki.jl/stable
 :url-julia-pluto: https://github.com/fonsp/Pluto.jl
 :url-julia-vscode: https://www.julia-vscode.org
+:url-hugo-shortcode: https://github.com/jmooring/hugo-testing/tree/hugo-forum-topic-36924
+:url-mkdocs-plugin: https://pypi.org/project/mkdocs-kroki-plugin/
 
 A list of third party tools, developed by the community, that rely on Kroki.
 
@@ -69,3 +71,11 @@ There is an {url-sphinx-int}[Kroki integration] for the {url-sphinx}[Sphinx docu
 
 The {url-julia-int}[Kroki.jl] package provides integrations for the {url-julia}[Julia programming language].
 It enables rendering diagrams in environments such as {url-julia-documenter}[Documenter.jl], {url-julia-pluto}[Pluto notebooks] and Julia's {url-julia-vscode}[Visual Studio Code integration].
+
+== Hugo
+
+A {url-hugo-shortcode}[Hugo shortcode] for Kroki is available to integrate diagrams within content files processed by Hugo.
+
+== MkDocs
+
+The {url-mkdocs-plugin}[MkDocs Kroki plugin] allows to embed Kroki diagrams within Markdown files processed by MkDocs.
