@@ -6,6 +6,7 @@
 :url-vscode: https://code.visualstudio.com/
 :url-vscode-asciidoctor: https://marketplace.visualstudio.com/items?itemName=asciidoctor.asciidoctor-vscode
 :url-vscode-asciidoc-slides: https://marketplace.visualstudio.com/items?itemName=flobilosaurus.vscode-asciidoc-slides
+:url-vscode-markdown-kroki: https://marketplace.visualstudio.com/items?itemName=pomdtr.markdown-kroki
 :url-gitlab: https://about.gitlab.com/
 :url-gitlab-int: https://docs.gitlab.com/ce/administration/integration/kroki.html
 :url-sphinx: https://www.sphinx-doc.org/
@@ -16,7 +17,6 @@
 :url-julia-pluto: https://github.com/fonsp/Pluto.jl
 :url-julia-vscode: https://www.julia-vscode.org
 :url-mkdocs-plugin: https://pypi.org/project/mkdocs-kroki-plugin/
-:url-vscode-plugin: https://marketplace.visualstudio.com/items?itemName=pomdtr.markdown-kroki
 
 A list of third party tools, developed by the community, that rely on Kroki.
 
@@ -58,7 +58,7 @@ The following {url-vscode}[Visual Studio Code] plugins support Kroki:
 
  * {url-vscode-asciidoctor}[AsciiDoc]
  * {url-vscode-asciidoc-slides}[AsciiDoc Slides]
- * {url-vscode-plugin}[Markdown Kroki]
+ * {url-vscode-markdown-kroki}[Markdown Kroki]
 
 == Gitlab
 
