@@ -6,6 +6,7 @@
 :url-vscode: https://code.visualstudio.com/
 :url-vscode-asciidoctor: https://marketplace.visualstudio.com/items?itemName=asciidoctor.asciidoctor-vscode
 :url-vscode-asciidoc-slides: https://marketplace.visualstudio.com/items?itemName=flobilosaurus.vscode-asciidoc-slides
+:url-vscode-markdown-kroki: https://marketplace.visualstudio.com/items?itemName=pomdtr.markdown-kroki
 :url-gitlab: https://about.gitlab.com/
 :url-gitlab-int: https://docs.gitlab.com/ce/administration/integration/kroki.html
 :url-sphinx: https://www.sphinx-doc.org/
@@ -57,6 +58,7 @@ The following {url-vscode}[Visual Studio Code] plugins support Kroki:
 
  * {url-vscode-asciidoctor}[AsciiDoc]
  * {url-vscode-asciidoc-slides}[AsciiDoc Slides]
+ * {url-vscode-markdown-kroki}[Markdown Kroki]
 
 == Gitlab
 
