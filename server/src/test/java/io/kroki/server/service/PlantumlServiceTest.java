@@ -384,7 +384,7 @@ public class PlantumlServiceTest {
     config.put("KROKI_PLANTUML_INCLUDE_WHITELIST", Paths.get(PlantumlServiceTest.class.getResource("/whitelist_mixed.txt").toURI()).toString());
     List<Pattern> patterns = Plantuml.parseIncludeWhitelist(new JsonObject(config));
     assertThat(patterns)
-      .extracting("pattern")
+      .extractingResultOf("pattern", String.class)
       .containsExactly("\\/valid\\/regex");
   }
 
@@ -394,7 +394,7 @@ public class PlantumlServiceTest {
     config.put("KROKI_PLANTUML_INCLUDE_WHITELIST", Paths.get(PlantumlServiceTest.class.getResource("/whitelist_empty_lines.txt").toURI()).toString());
     List<Pattern> patterns = Plantuml.parseIncludeWhitelist(new JsonObject(config));
     assertThat(patterns)
-      .extracting("pattern")
+      .extractingResultOf("pattern", String.class)
       .containsExactly("/path/to/includes", "/other/includes");
   }
 
@@ -404,7 +404,7 @@ public class PlantumlServiceTest {
     config.put("KROKI_PLANTUML_INCLUDE_WHITELIST", Paths.get(PlantumlServiceTest.class.getResource("/whitelist_valid.txt").toURI()).toString());
     List<Pattern> patterns = Plantuml.parseIncludeWhitelist(new JsonObject(config));
     assertThat(patterns)
-      .extracting("pattern")
+      .extractingResultOf("pattern", String.class)
       .containsExactly("https:\\/\\/kroki\\.io\\/includes");
   }
 
@@ -422,7 +422,7 @@ public class PlantumlServiceTest {
     config.put("KROKI_PLANTUML_INCLUDE_WHITELIST_0", "/path/to/includes");
     List<Pattern> patterns = Plantuml.parseIncludeWhitelist(new JsonObject(config));
     assertThat(patterns)
-      .extracting("pattern")
+      .extractingResultOf("pattern", String.class)
       .containsExactly("/path/to/includes");
   }
 
@@ -434,7 +434,7 @@ public class PlantumlServiceTest {
     config.put("KROKI_PLANTUML_INCLUDE_WHITELIST_2", "/another/path");
     List<Pattern> patterns = Plantuml.parseIncludeWhitelist(new JsonObject(config));
     assertThat(patterns)
-      .extracting("pattern")
+      .extractingResultOf("pattern", String.class)
       .containsExactly("/path/to/includes");
   }
 
@@ -446,7 +446,7 @@ public class PlantumlServiceTest {
     config.put("KROKI_PLANTUML_INCLUDE_WHITELIST_2", "/path3");
     List<Pattern> patterns = Plantuml.parseIncludeWhitelist(new JsonObject(config));
     assertThat(patterns)
-      .extracting("pattern")
+      .extractingResultOf("pattern", String.class)
       .containsExactly("/path1", "/path2", "/path3");
   }
 
@@ -458,7 +458,7 @@ public class PlantumlServiceTest {
     config.put("KROKI_PLANTUML_INCLUDE_WHITELIST_2", "/path3");
     List<Pattern> patterns = Plantuml.parseIncludeWhitelist(new JsonObject(config));
     assertThat(patterns)
-      .extracting("pattern")
+      .extractingResultOf("pattern", String.class)
       .containsExactly("/path1", "/path3");
   }
 
@@ -470,7 +470,7 @@ public class PlantumlServiceTest {
     config.put("KROKI_PLANTUML_INCLUDE_WHITELIST_2", "\t/path3\n");
     List<Pattern> patterns = Plantuml.parseIncludeWhitelist(new JsonObject(config));
     assertThat(patterns)
-      .extracting("pattern")
+      .extractingResultOf("pattern", String.class)
       .containsExactly("/path1", "/path2", "/path3");
   }
 
@@ -661,7 +661,12 @@ public class PlantumlServiceTest {
     JsonObject options = new JsonObject();
     options.put("theme", "minty");
     byte[] convert = Plantuml.convert(diagram, FileFormat.SVG, options);
-    assertThat(stripComments(new String(convert))).isEqualTo(read("./plantuml_with_minty_theme.svg"));
+    String osName = System.getProperty("os.name").toLowerCase();
+    String expectedFileName = "./plantuml_with_minty_theme.svg";
+    if (osName.contains("mac")) {
+      expectedFileName = "./plantuml_with_minty_theme_macos.svg";
+    }
+    assertThat(stripComments(new String(convert))).isEqualTo(read(expectedFileName));
   }
 
   private String read(String name) throws IOException {
