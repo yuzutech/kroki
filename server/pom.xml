@@ -99,12 +99,12 @@
     <dependency>
       <groupId>com.structurizr</groupId>
       <artifactId>structurizr-dsl</artifactId>
-      <version>1.19.1</version>
+      <version>1.20.0</version>
     </dependency>
     <dependency>
       <groupId>com.structurizr</groupId>
       <artifactId>structurizr-export</artifactId>
-      <version>1.5.0</version>
+      <version>1.6.0</version>
       <exclusions>
         <exclusion>
           <groupId>com.structurizr</groupId>
@@ -115,7 +115,7 @@
     <dependency>
       <groupId>com.structurizr</groupId>
       <artifactId>structurizr-core</artifactId>
-      <version>1.13.0</version>
+      <version>1.14.1</version>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
