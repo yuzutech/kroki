@@ -16,7 +16,7 @@
     "url": "https://github.com/yuzutech/kroki.git"
   },
   "dependencies": {
-    "micro": "9.3.4",
+    "micro": "9.4.1",
     "puppeteer": "10.4.0"
   },
   "devDependencies": {
