@@ -5,6 +5,7 @@ import com.kitfox.svg.SVGElement;
 import com.kitfox.svg.SVGException;
 import com.kitfox.svg.SVGUniverse;
 import com.kitfox.svg.app.beans.SVGIcon;
+import org.apache.commons.text.StringEscapeUtils;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import java.awt.Dimension;
@@ -32,7 +33,13 @@ public class ErrorImage {
     String fontFamily = "BlinkMacSystemFont, -apple-system, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'Helvetica', Arial, sans-serif";
     for (String line : lines) {
       // QUESTION: should we use ellipsis or force break if line length is too long?
-      text.append("<tspan x=\"10\" dy=\"").append(fontSize).append("\">").append(line).append("</tspan>\n");
+      if (line.length() > 160) {
+        line = line.substring(0, 160).concat("…");
+      }
+      text
+        .append("<tspan x=\"10\" dy=\"").append(fontSize).append("\">")
+        .append(StringEscapeUtils.escapeXml10(line))
+        .append("</tspan>\n");
     }
     String svg = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n" +
       "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\">\n" +
