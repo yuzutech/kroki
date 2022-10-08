@@ -1,6 +1,8 @@
 /* global XMLSerializer */
 const path = require('path')
 const puppeteer = require('puppeteer')
+const PUPPETEER_DEFAULT_TIMEOUT = process.env['PUPPETEER_DEFAULT_TIMEOUT'] || '5000' // default 5seconds
+const defaultTimeout = parseInt(PUPPETEER_DEFAULT_TIMEOUT, 10)
 
 class SyntaxError extends Error {
   constructor () {
@@ -20,6 +22,7 @@ class Worker {
       ignoreHTTPSErrors: true
     })
     const page = await browser.newPage()
+    page.setDefaultTimeout(defaultTimeout)
     try {
       page.setViewport({ height: 800, width: 600 })
       await page.goto(this.pageUrl)

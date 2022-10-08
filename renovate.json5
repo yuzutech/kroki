@@ -33,8 +33,7 @@
       "groupName": "Node dependencies"
     },
     {
-      // Alpine 3.15 is using Chromium 93 which is compatible with Puppeteer 10.4.0.
-      // Newer versions of Puppeteer are incompatible with Chromium 93, see: https://github.com/yuzutech/kroki/issues/1037
+      // Alpine 3.16 is using Chromium 102 which is compatible with Puppeteer 14.4.1.
       "matchManagers": ["npm"],
       "matchPackagePatterns": [
         "puppeteer"

@@ -1,4 +1,4 @@
-FROM node:16.15.0-alpine3.15
+FROM node:16.17-alpine3.16
 
 # Workaround: https://github.com/nodejs/docker-node/issues/813#issuecomment-407339011
 # Error: could not get uid/gid

@@ -1,5 +1,5 @@
 # Package the Node.js project into a single binary
-FROM --platform=${TARGETPLATFORM:-linux/amd64} node:16.15.0-alpine3.15 as builder
+FROM --platform=${TARGETPLATFORM:-linux/amd64} node:16.17-alpine3.16 as builder
 
 RUN if [[ "$TARGETARCH" == "amd64" ]]; then apk add --quiet --no-cache --update chromium; fi
 
@@ -26,7 +26,7 @@ RUN npm run lint && if [[ "$TARGETARCH" == "amd64" ]]; then PUPPETEER_EXECUTABLE
 RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-$([ "$TARGETARCH" == "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
 
 # Create the image
-FROM --platform=${TARGETPLATFORM:-linux/amd64} alpine:3.15.4
+FROM --platform=${TARGETPLATFORM:-linux/amd64} alpine:3.16.2
 
 RUN addgroup -g 1000 kroki && adduser -D -G kroki -u 1000 kroki
 
@@ -42,6 +42,7 @@ RUN fc-cache -f && rm -rf /var/cache/*
 
 ENV KROKI_MERMAID_PAGE_URL=file:///usr/local/kroki/assets/index.html
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/lib/chromium/chrome
+ENV PUPPETEER_DEFAULT_TIMEOUT=5000
 
 EXPOSE 8002
 
