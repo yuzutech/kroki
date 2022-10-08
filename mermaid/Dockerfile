@@ -42,6 +42,8 @@ RUN fc-cache -f && rm -rf /var/cache/*
 
 ENV KROKI_MERMAID_PAGE_URL=file:///usr/local/kroki/assets/index.html
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/lib/chromium/chrome
+ENV DEBUG="puppeteer:*"
+ENV LEVEL="debug"
 
 EXPOSE 8002
 

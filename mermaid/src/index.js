@@ -1,12 +1,13 @@
+const micro = require('micro')
+const { logger } = require('./logger')
 const { Worker, SyntaxError } = require('./worker')
 const Task = require('./task')
 const instance = require('./browser-instance')
-const micro = require('micro')
 
 ;(async () => {
   // QUESTION: should we create a pool of Chrome instances ?
   const browser = await instance.create()
-  console.log(`Chrome accepting connections on endpoint ${browser.wsEndpoint()}`)
+  logger.info(`Chrome accepting connections on endpoint ${browser.wsEndpoint()}`)
   const worker = new Worker(browser)
   const server = micro(async (req, res) => {
     // TODO: add a /_status route (return mermaid version)
@@ -24,7 +25,7 @@ const micro = require('micro')
           if (e instanceof SyntaxError) {
             return micro.send(res, 400, e.message)
           } else {
-            console.log('Exception during convert', e)
+            logger.warn('Exception during convert', e)
             return micro.send(res, 500, 'An error occurred while converting the diagram')
           }
         }
@@ -35,6 +36,6 @@ const micro = require('micro')
   })
   server.listen(8002)
 })().catch(error => {
-  console.error('Unable to start the service', error)
+  logger.error('Unable to start the service', error)
   process.exit(1)
 })
