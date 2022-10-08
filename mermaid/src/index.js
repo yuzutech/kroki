@@ -21,11 +21,11 @@ const instance = require('./browser-instance')
           const output = await worker.convert(new Task(diagramSource, isPng))
           res.setHeader('Content-Type', isPng ? 'image/png' : 'image/svg+xml')
           return micro.send(res, 200, output)
-        } catch (e) {
-          if (e instanceof SyntaxError) {
-            return micro.send(res, 400, e.message)
+        } catch (err) {
+          if (err instanceof SyntaxError) {
+            return micro.send(res, 400, err.message)
           } else {
-            logger.warn('Exception during convert', e)
+            logger.warn({ err }, 'Exception during convert')
             return micro.send(res, 500, 'An error occurred while converting the diagram')
           }
         }
@@ -35,7 +35,7 @@ const instance = require('./browser-instance')
     return micro.send(res, 400, 'Available endpoints are /svg and /png.')
   })
   server.listen(8002)
-})().catch(error => {
-  logger.error('Unable to start the service', error)
+})().catch(err => {
+  logger.error({ err }, 'Unable to start the service')
   process.exit(1)
 })

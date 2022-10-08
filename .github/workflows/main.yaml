@@ -71,10 +71,10 @@ jobs:
     - name: Build container images
       run: make buildDockerImages
 
-    - name: 'Setup Node.js 12'
+    - name: 'Setup Node.js 16'
       uses: actions/setup-node@v3
       with:
-        node-version: 12.x
+        node-version: 16.x
 
     - name: Install Node dependencies
       run: npm install

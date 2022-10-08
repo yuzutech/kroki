@@ -55,13 +55,13 @@ class Worker {
     } finally {
       try {
         await page.close()
-      } catch (e) {
-        logger.warn('Unable to close the page', e)
+      } catch (err) {
+        logger.warn({ err }, 'Unable to close the page')
       }
       try {
         await browser.disconnect()
-      } catch (e) {
-        logger.warn('Unable to disconnect from the browser', e)
+      } catch (err) {
+        logger.warn({ err }, 'Unable to disconnect from the browser')
       }
     }
   }

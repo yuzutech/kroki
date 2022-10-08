@@ -1,5 +1,13 @@
 const pinoDebug = require('pino-debug')
-const logger = require('pino')({ level: process.env.LEVEL || 'info' })
+const pino = require('pino')
+const logger = pino({
+  level: process.env.LEVEL || 'info',
+  formatters: {
+    level: (label) => {
+      return { level: label }
+    },
+  },
+})
 pinoDebug(logger, {
   auto: true, // default
   map: {

@@ -9,14 +9,14 @@ chai.use(dirtyChai)
 
 const PNG = require('pngjs').PNG
 
-const {Worker, SyntaxError} = require('../src/worker.js')
+const { Worker, SyntaxError } = require('../src/worker.js')
 const Task = require('../src/task.js')
 
 const svgTests = [
-  {content: 'Hello<br/>World'},
-  {content: 'Hello<br>World'},
-  {content: 'Hello<br >World'},
-  {content: 'Hello<br />World'},
+  { content: 'Hello<br/>World' },
+  { content: 'Hello<br>World' },
+  { content: 'Hello<br >World' },
+  { content: 'Hello<br />World' }
 ]
 
 const pngTests = [
@@ -36,8 +36,8 @@ const pngTests = [
 ]
 
 const invalidSyntaxTests = [
-  {endpoint: 'svg', isPng: false},
-  {endpoint: 'png', isPng: true}
+  { endpoint: 'svg', isPng: false },
+  { endpoint: 'png', isPng: true }
 ]
 
 async function getBrowser () {
@@ -53,7 +53,6 @@ async function getBrowser () {
 }
 
 describe('#convert', function () {
-
   // Puppeteer can take some time to start
   this.timeout(10000)
 
