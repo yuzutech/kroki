@@ -1,0 +1,29 @@
+name: Mermaid CI
+
+on:
+  push:
+    paths:
+      - 'mermaid/**'
+    branches:
+      - main
+  pull_request:
+    paths:
+      - 'mermaid/**'
+    branches:
+      - '*'
+
+jobs:
+  ci:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v3
+      - name: 'Setup Node.js 16'
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+      - name: Install Node dependencies
+        run: npm i
+        working-directory: mermaid
+      - name: Lint & tests
+        run: npm run lint && npm t
+        working-directory: mermaid

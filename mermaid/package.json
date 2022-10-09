@@ -6,7 +6,7 @@
   "bin": "src/index.js",
   "scripts": {
     "prestart": "cp node_modules/mermaid/dist/mermaid.min.js assets/mermaid.min.js",
-    "start": "node src/index.js",
+    "start": "DEBUG=puppeteer:* LEVEL=debug node src/index.js",
     "test": "mocha tests/test.js",
     "lint": "standard src/**.js"
   },
@@ -18,11 +18,13 @@
     "url": "https://github.com/yuzutech/kroki.git"
   },
   "dependencies": {
-    "mermaid": "9.1.6",
     "micro": "9.4.1",
-    "puppeteer": "10.4.0"
+    "pino": "8.6.1",
+    "pino-debug": "2.0.0",
+    "puppeteer": "14.4.1"
   },
   "devDependencies": {
+    "mermaid": "9.1.6",
     "chai": "4.3.6",
     "dirty-chai": "^2.0.1",
     "mocha": "10.0.0",

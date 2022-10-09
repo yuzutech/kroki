@@ -1,6 +1,7 @@
 /* global XMLSerializer */
 const path = require('path')
 const puppeteer = require('puppeteer')
+const { logger } = require('./logger')
 
 class SyntaxError extends Error {
   constructor () {
@@ -54,13 +55,13 @@ class Worker {
     } finally {
       try {
         await page.close()
-      } catch (e) {
-        console.warn('Unable to close the page', e)
+      } catch (err) {
+        logger.warn({ err }, 'Unable to close the page')
       }
       try {
         await browser.disconnect()
-      } catch (e) {
-        console.warn('Unable to disconnect from the browser', e)
+      } catch (err) {
+        logger.warn({ err }, 'Unable to disconnect from the browser')
       }
     }
   }
