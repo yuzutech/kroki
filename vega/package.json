@@ -15,10 +15,10 @@
   "keywords": [],
   "author": "Guillaume Grossetie",
   "dependencies": {
-    "canvas": "2.9.3",
+    "canvas": "2.10.1",
     "vega": "5.22.1",
     "vega-lite": "5.5.0",
-    "yargs": "17.5.1"
+    "yargs": "17.6.0"
   },
   "devDependencies": {
     "chai": "^4.3.6",
