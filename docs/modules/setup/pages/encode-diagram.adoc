@@ -2,6 +2,7 @@
 :uri-gh-pako: https://github.com/nodeca/pako
 :uri-mdn-textencoder: https://developer.mozilla.org/en-US/docs/Web/API/TextEncoder
 :uri-mdn-textencoder-browser-compat: {uri-mdn-textencoder}#Browser_compatibility
+:uri-dia2kroki: https://wiki.tcl-lang.org/page/dia2kroki
 
 When using GET requests, your diagram must be encoded in the URL using a deflate + base64 algorithm.
 On this page you will learn how to encode a diagram using:
@@ -13,6 +14,7 @@ On this page you will learn how to encode a diagram using:
 - xref:kotlin[]
 - xref:go[]
 - xref:php[]
+- xref:Tcl[]
 
 [#nodejs]
 == Node.js
@@ -139,3 +141,14 @@ include::example$encode.go[]
 ----
 include::example$encode.php[]
 ----
+
+[#Tcl]
+== Tcl
+
+[source,Tcl]
+----
+# assuming the diagram code is stored in the variable named `diagramSource`:
+puts [string map {+ - / _} [binary encode base64 [zlib compress $diagramSource]]]
+----
+
+Also see the Tcl package {uri-dia2kroki}[dia2kroki] which has proceudres to both decode and encode the diagram source code and a GUI to create diagrams and see the result directly. 
