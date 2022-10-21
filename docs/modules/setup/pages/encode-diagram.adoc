@@ -145,7 +145,7 @@ include::example$encode.php[]
 [#Tcl]
 == Tcl
 
-[source,Tcl]
+[source,tcl]
 ----
 # assuming the diagram code is stored in the variable named `diagramSource`:
 puts [string map {+ - / _} [binary encode base64 [zlib compress $diagramSource]]]
