@@ -151,4 +151,4 @@ include::example$encode.php[]
 puts [string map {+ - / _} [binary encode base64 [zlib compress $diagramSource]]]
 ----
 
-Also see the Tcl package {uri-dia2kroki}[dia2kroki] which has proceudres to both decode and encode the diagram source code and a GUI to create diagrams and see the result directly. 
+Also, see the Tcl package {uri-dia2kroki}[dia2kroki] which has procedures to both decode and encode the diagram source code and a GUI to create diagrams with a live preview. 
