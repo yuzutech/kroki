@@ -14,7 +14,7 @@ On this page you will learn how to encode a diagram using:
 - xref:kotlin[]
 - xref:go[]
 - xref:php[]
-- xref:Tcl[]
+- xref:tcl[]
 
 [#nodejs]
 == Node.js
@@ -142,7 +142,7 @@ include::example$encode.go[]
 include::example$encode.php[]
 ----
 
-[#Tcl]
+[#tcl]
 == Tcl
 
 [source,tcl]
