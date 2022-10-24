@@ -15,6 +15,7 @@ On this page you will learn how to encode a diagram using:
 - xref:go[]
 - xref:php[]
 - xref:tcl[]
+- xref:elixir[]
 
 [#nodejs]
 == Node.js
@@ -151,4 +152,12 @@ include::example$encode.php[]
 puts [string map {+ - / _} [binary encode base64 [zlib compress $diagramSource]]]
 ----
 
-Also, see the Tcl package {uri-dia2kroki}[dia2kroki] which has procedures to both decode and encode the diagram source code and a GUI to create diagrams with a live preview. 
+Also, see the Tcl package {uri-dia2kroki}[dia2kroki] which has procedures to both decode and encode the diagram source code and a GUI to create diagrams with a live preview.
+
+[#elixir]
+== Elixir
+
+[source,elixir]
+----
+include::example$encode.ex[]
+----
