@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "micro": "9.4.1",
-    "pino": "8.6.1",
+    "pino": "8.7.0",
     "pino-debug": "2.0.0",
     "puppeteer": "14.4.1"
   },
@@ -27,7 +27,7 @@
     "mermaid": "9.1.7",
     "chai": "4.3.6",
     "dirty-chai": "^2.0.1",
-    "mocha": "10.0.0",
+    "mocha": "10.1.0",
     "pngjs": "^6.0.0",
     "standard": "17.0.0"
   }
