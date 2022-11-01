@@ -23,6 +23,8 @@ If the host is unspecified, the server will use `[::]` (i.e., bind to all networ
 
 `KROKI_LISTEN` also accepts IPv6 enclosed within square brackets (`[` and `]`),
 for instance: `KROKI_LISTEN=[2001:db8:1f70::999:de8:7648:6e8]:1234`.
+
+In addition, `KROKI_LISTEN` supports UNIX domain sockets by prefixing `unix://` to a path, for example: `KROKI_LISTEN=unix:///var/run/kroki.sock`.
 ====
 
 
