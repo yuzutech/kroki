@@ -1,5 +1,5 @@
 # build pikchr binary
-FROM alpine:3.15
+FROM alpine:3.16
 
 RUN apk update && apk add ca-certificates wget build-base
 
