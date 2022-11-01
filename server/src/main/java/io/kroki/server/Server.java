@@ -55,6 +55,7 @@ public class Server extends AbstractVerticle {
 
   private static final Logger logger = LoggerFactory.getLogger(Server.class);
   private static final int DEFAULT_PORT = 8000;
+  private static final String UNIX_DOMAIN_SOCK = "unix://";
 
   @Override
   public void start(Promise<Void> startPromise) {
@@ -182,6 +183,9 @@ public class Server extends AbstractVerticle {
     String krokiListen = config.getString("KROKI_LISTEN");
     // higher precedence over KROKI_PORT
     if (krokiListen != null) {
+      if (krokiListen.startsWith(UNIX_DOMAIN_SOCK)) {
+        return SocketAddress.domainSocketAddress(krokiListen.substring(UNIX_DOMAIN_SOCK.length()));
+      }
       if (krokiListen.charAt(0) == '[') {
         return getIPv6ListenAddress(krokiListen);
       }
