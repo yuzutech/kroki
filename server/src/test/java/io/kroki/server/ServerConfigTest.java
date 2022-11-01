@@ -113,4 +113,10 @@ class ServerConfigTest {
     assertThat(listenAddress.host()).isEqualTo("[::]"); // default host to listen on both IPv4 and IPv6
     assertThat(listenAddress.port()).isEqualTo(3456);
   }
+
+  @Test
+  void return_socket_address_when_listen_address_domain_sockets() {
+    SocketAddress listenAddress = Server.getListenAddress(new JsonObject().put("KROKI_LISTEN", "unix:///var/run/kroki.sock"));
+    assertThat(listenAddress.isDomainSocket()).isEqualTo(true);
+  }
 }
