@@ -1,5 +1,5 @@
-const micro = require('micro')
 const { logger } = require('./logger')
+const micro = require('micro')
 const { Worker, SyntaxError } = require('./worker')
 const Task = require('./task')
 const instance = require('./browser-instance')

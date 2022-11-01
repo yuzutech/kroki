@@ -1,7 +1,7 @@
 /* global XMLSerializer */
+const { logger } = require('./logger')
 const path = require('path')
 const puppeteer = require('puppeteer')
-const { logger } = require('./logger')
 
 class SyntaxError extends Error {
   constructor () {

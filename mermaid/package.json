@@ -7,7 +7,7 @@
   "scripts": {
     "prestart": "cp node_modules/mermaid/dist/mermaid.min.js assets/mermaid.min.js",
     "start": "DEBUG=puppeteer:* LEVEL=debug node src/index.js",
-    "test": "mocha tests/test.js",
+    "test": "node test/run.js",
     "lint": "standard src/**.js"
   },
   "keywords": [],

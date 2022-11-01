@@ -1,6 +1,8 @@
 /* global describe, it */
 'use strict'
 
+const { Worker, SyntaxError } = require('../src/worker.js')
+const Task = require('../src/task.js')
 const puppeteer = require('puppeteer')
 const chai = require('chai')
 const expect = chai.expect
@@ -8,9 +10,6 @@ const dirtyChai = require('dirty-chai')
 chai.use(dirtyChai)
 
 const PNG = require('pngjs').PNG
-
-const { Worker, SyntaxError } = require('../src/worker.js')
-const Task = require('../src/task.js')
 
 const svgTests = [
   { content: 'Hello<br/>World' },
@@ -91,10 +90,10 @@ describe('#convert', function () {
     it(`should throw syntax error in endpoint /${testCase.endpoint}`, async function () {
       const browser = await getBrowser()
       try {
-        await new Worker(browser).convert(new Task('not a valid mermaid code', testCase.isPng))
-        chai.assert.fail('No error was thrown')
-      } catch (error) {
-        expect(error).to.be.an.instanceof(SyntaxError)
+        const result = await new Worker(browser).convert(new Task('not a valid mermaid code', testCase.isPng))
+        if (!testCase.isPng) {
+          expect(result).to.contains('class="error-text">Syntax error in graph</text>')
+        }
       } finally {
         await browser.close()
       }
