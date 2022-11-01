@@ -3,7 +3,7 @@ COMPOSE_TIMEOUT=20
 SERVICES_TIMEOUT=15
 
 # Python is used for blockdiag module and to display examples
-PYTHON=python3.8
+PYTHON=python3.11
 
 default:
 
