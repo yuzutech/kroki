@@ -17,8 +17,8 @@ WORKDIR /usr/local/kroki/
 
 ENV KROKI_MERMAID_PAGE_URL=file:///usr/local/kroki/assets/index.html
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/lib/chromium/chrome
-ENV DEBUG="puppeteer:*"
-ENV LEVEL="debug"
+#ENV DEBUG="puppeteer:*"
+ENV LEVEL="info"
 
 COPY --chown=kroki:kroki src ./src
 COPY --chown=kroki:kroki package*.json ./
