@@ -27,27 +27,12 @@ endif
 	mvn versions:set -DnewVersion=$(RELEASE_VERSION)
 
 buildDockerImages:
-	$(MAKE) -C nomnoml package
-	$(MAKE) -C vega package
-	$(MAKE) -C wavedrom package
-	$(MAKE) -C bytefield package
-	$(MAKE) -C server/ops/docker package
-	$(MAKE) -C server package
-	$(MAKE) -C blockdiag package
-	$(MAKE) -C mermaid package
-	$(MAKE) -C bpmn package
-	$(MAKE) -C excalidraw package
-	$(MAKE) -C diagrams.net package
+	docker buildx bake --set "*.cache-from=$(CACHE_FROM)" --set "*.cache-to=$(CACHE_TO)"
 
 publishDockerImages:
 ifndef RELEASE_VERSION
 	$(error RELEASE_VERSION is undefined)
 endif
-	$(MAKE) -C nomnoml package
-	$(MAKE) -C vega package
-	$(MAKE) -C wavedrom package
-	$(MAKE) -C bytefield package
-	$(MAKE) -C server/ops/docker package
 	$(MAKE) -C server publish
 	$(MAKE) -C blockdiag publish
 	$(MAKE) -C mermaid publish
@@ -59,6 +44,7 @@ showExamples:
 	$(PYTHON) blockdiag/examples.py
 
 smokeTests:
+	TAG=smoketests docker buildx bake --load --set "*.cache-from=$(CACHE_FROM)" --set "*.cache-to=$(CACHE_TO)"
 	@docker-compose --file "$(SMOKE_TESTS_DIR)/docker-compose.yaml" up --build --detach \
 	&& echo \
 	&& docker-compose --file "$(SMOKE_TESTS_DIR)/docker-compose.yaml" ps \

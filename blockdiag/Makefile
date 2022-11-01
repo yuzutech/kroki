@@ -1,11 +1,21 @@
+BUILDX_AVAILABLE := $(shell docker buildx inspect | grep -i -e running -e amd64 > /dev/null 2>&1; echo $$?)
+
 .PHONY: package publish smokeTests
 
-default:
+ifdef CI
+CACHE_OPS = --cache-from $(CACHE_FROM) --cache-to $(CACHE_TO)
+endif
+
+default: package
 
 package:
+ifeq ($(BUILDX_AVAILABLE), 0)
+	docker buildx build -o type="image,push=false" --tag yuzutech/kroki-blockdiag:latest $(CACHE_OPS) .
+else
 	docker build -t yuzutech/kroki-blockdiag .
+endif
 
-publish: package
+publish:
 ifndef RELEASE_VERSION
 	$(error RELEASE_VERSION is undefined)
 endif
@@ -14,4 +24,4 @@ endif
 	docker push yuzutech/kroki-blockdiag:$(RELEASE_VERSION)
 
 smokeTests:
-	venv-py38/bin/python -m unittest test/test_diag.py
+	python -m unittest test/test_diag.py

@@ -64,7 +64,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Setup Docker
         # taken from https://github.com/docker/github-actions/blob/0f18e2abad9a4ac2963d2516246787375b5ec917/Dockerfile#L32
-        run: curl -fL https://download.docker.com/linux/static/stable/x86_64/docker-20.10.4.tgz | tar xzO docker/docker > docker && sudo mv -f docker /usr/bin/docker && sudo chmod +x /usr/bin/docker
+        run: curl -fL https://download.docker.com/linux/static/stable/x86_64/docker-20.10.21.tgz | tar xzO docker/docker > docker && sudo mv -f docker /usr/bin/docker && sudo chmod +x /usr/bin/docker
 
       - name: docker-compose up
         run: docker-compose -f docs/modules/setup/examples/kroki-docker-compose.yml up -d
