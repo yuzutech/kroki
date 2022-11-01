@@ -120,7 +120,7 @@
     <dependency>
       <groupId>com.structurizr</groupId>
       <artifactId>structurizr-core</artifactId>
-      <version>1.15.3</version>
+      <version>1.16.1</version>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
