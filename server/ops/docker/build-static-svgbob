@@ -1,7 +1,7 @@
 # build static executable binary
-FROM ekidd/rust-musl-builder:1.56.1
+FROM rust:1.64-slim-bullseye AS builder
+RUN rustup target add x86_64-unknown-linux-musl
 COPY Cargo.toml .
 
 RUN SVGBOB_VERSION=`cat Cargo.toml | grep "svgbob_cli =" | sed -r 's/.*"([^"]+)"/\1/'` \
   && cargo install --quiet --version $SVGBOB_VERSION svgbob_cli
-
