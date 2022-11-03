@@ -24,7 +24,7 @@
     "puppeteer": "14.4.1"
   },
   "devDependencies": {
-    "mermaid": "9.1.7",
+    "mermaid": "9.2.0",
     "chai": "4.3.6",
     "dirty-chai": "^2.0.1",
     "mocha": "10.1.0",
