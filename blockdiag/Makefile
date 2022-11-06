@@ -2,7 +2,7 @@
 
 default: test
 
-install: requirements.text
+install: requirements.txt
 	python -m pip install -r requirements.txt
 
 test:
