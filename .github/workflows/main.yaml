@@ -13,25 +13,8 @@ on:
       - '*'
 
 jobs:
-  test-blockdiag:
-    runs-on: ubuntu-20.04
-
-    steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
-        cache: 'pip' # caching pip dependencies
-
-    - name: Install BlockDiag
-      run: make installBlockDiag
-
-    - name: Test BlockDiag
-      run: make testBlockDiag
-
   test-containers:
     runs-on: ubuntu-20.04
-
     steps:
     - uses: actions/checkout@v3
 
