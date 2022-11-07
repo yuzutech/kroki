@@ -1,5 +1,5 @@
 const tests = [
-  {engine: 'graphviz', file: 'hello.dot', outputFormat: ['svg']},
+  {engine: 'graphviz', file: 'hello.dot', outputFormat: ['svg', 'jpeg']},
   {engine: 'blockdiag', file: 'kroki.diag', outputFormat: ['svg']},
   {engine: 'seqdiag', file: 'sequence.diag', outputFormat: ['svg']},
   {engine: 'actdiag', file: 'actions.diag', outputFormat: ['svg']},
