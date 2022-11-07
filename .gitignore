@@ -1,4 +1,5 @@
 target/
+/.registry/oci/*
 *.iml
 .vertx/
 /node_modules/

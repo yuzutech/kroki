@@ -1,16 +1,158 @@
-# based on alpine 3.16
+# syntax=docker/dockerfile:1.4
+
+## Nomnoml
+FROM node:16.18.0-alpine3.16 as kroki-builder-nomnoml
+
+# Workaround: https://github.com/nodejs/docker-node/issues/813#issuecomment-407339011
+# Error: could not get uid/gid
+# [ 'nobody', 0 ]
+RUN npm config set unsafe-perm true
+
+RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
+
+ENV NODE node16
+ENV PLATFORM alpine
+ENV ARCH x64
+RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM} -a ${ARCH}
+
+COPY --from=nomnoml index.js package.json package-lock.json /app/
+WORKDIR /app
+
+RUN npm i
+RUN npm run lint
+RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-${ARCH} . -o app.bin
+
+## Vega
+FROM node:16.18.0-alpine3.16 as kroki-builder-vega
+
+# Workaround: https://github.com/nodejs/docker-node/issues/813#issuecomment-407339011
+# Error: could not get uid/gid
+# [ 'nobody', 0 ]
+RUN npm config set unsafe-perm true
+
+# system dependencies for "canvas" Node package
+# https://github.com/Automattic/node-canvas/issues/866
+RUN apk add --no-cache \
+        build-base \
+        g++ \
+        cairo-dev \
+        jpeg-dev \
+        pango-dev \
+        giflib-dev
+
+RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
+
+ENV NODE node16
+ENV PLATFORM alpine
+ENV ARCH x64
+RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM} -a ${ARCH}
+
+COPY --from=vega src /app/src
+COPY --from=vega tests /app/tests
+COPY --from=vega package.json package-lock.json /app/
+WORKDIR /app
+
+RUN npm i
+RUN npm run lint && npm t
+RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-${ARCH} . -o app.bin
+RUN cp /app/node_modules/canvas/build/Release/canvas.node  /app/
+
+## Wavedrom
+FROM node:16.18.0-alpine3.16 as kroki-builder-wavedrom
+
+# Workaround: https://github.com/nodejs/docker-node/issues/813#issuecomment-407339011
+# Error: could not get uid/gid
+# [ 'nobody', 0 ]
+RUN npm config set unsafe-perm true
+
+RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
+
+ENV NODE node16
+ENV PLATFORM alpine
+ENV ARCH x64
+RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM} -a ${ARCH}
+
+COPY --from=wavedrom index.js package.json package-lock.json /app/
+WORKDIR /app
+
+RUN npm i
+RUN npm run lint
+RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-${ARCH} . -o app.bin
+
+## Bytefield
+FROM node:16.18.0-alpine3.16 as kroki-builder-bytefield
+
+# Workaround: https://github.com/nodejs/docker-node/issues/813#issuecomment-407339011
+# Error: could not get uid/gid
+# [ 'nobody', 0 ]
+RUN npm config set unsafe-perm true
+
+RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
+
+ENV NODE node16
+ENV PLATFORM alpine
+ENV ARCH x64
+RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM} -a ${ARCH}
+
+COPY --from=bytefield index.js package.json package-lock.json /app/
+WORKDIR /app
+
+RUN npm i
+RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-${ARCH} . -o app.bin
+
+## ERD
+FROM ubuntu:18.04 as kroki-builder-static-erd
+
+RUN apt-get -qq update && apt-get install -qq -y graphviz curl git > /dev/null
+
+RUN curl -sSL https://get.haskellstack.org/ | sh -s - -q > /dev/null
+
+RUN git clone https://github.com/BurntSushi/erd.git
+
+WORKDIR erd
+
+RUN git checkout v0.2.1.0
+
+# build static executable binary
+RUN /usr/local/bin/stack install --silent --ghc-options="-fPIC" \
+  --ghc-options="-static" \
+  --ghc-options="-optl=-static" \
+  --ghc-options="-optc=-static" \
+  --ghc-options="-w"
+
+## Pikchr
+FROM alpine:3.16 as kroki-builder-static-pikchr
+
+RUN apk update && apk add ca-certificates wget build-base
+
+WORKDIR build
+
+RUN wget -q https://pikchr.org/home/raw/7269f78c4a3aa2809bd8c278e522c4eac5568ad0fd6ed0a3f807f4a2f6367ef0 -O pikchr.c
+
+# build pikchr binary
+RUN gcc -O0 -g -static -Wall -Wextra -DPIKCHR_SHELL pikchr.c -o pikchr -lm
+
+## SVGBob
+FROM rust:1.64-slim-bullseye AS kroki-builder-static-svgbob
+RUN rustup target add x86_64-unknown-linux-musl
+COPY ops/docker/Cargo.toml .
+
+RUN SVGBOB_VERSION=`cat Cargo.toml | grep "svgbob_cli =" | sed -r 's/.*"([^"]+)"/\1/'` \
+  && cargo install --quiet --target x86_64-unknown-linux-musl --version $SVGBOB_VERSION svgbob_cli
+
+## yuzutech/kroki
 FROM eclipse-temurin:11.0.16.1_1-jre-alpine
 
 RUN addgroup -g 1000 kroki && adduser -D -G kroki -u 1000 kroki
 
-COPY --from=kroki-builder-static-svgbob:latest /usr/local/cargo/bin/svgbob /usr/bin/svgbob
-COPY --from=kroki-builder-static-erd:latest /root/.local/bin/erd /usr/bin/erd
-COPY --from=kroki-builder-nomnoml:latest /app/app.bin /usr/bin/nomnoml
-COPY --from=kroki-builder-vega:latest /app/app.bin /usr/bin/vega
-COPY --from=kroki-builder-vega:latest /app/canvas.node /usr/bin/canvas.node
-COPY --from=kroki-builder-wavedrom:latest /app/app.bin /usr/bin/wavedrom
-COPY --from=kroki-builder-bytefield:latest /app/app.bin /usr/bin/bytefield
-COPY --from=kroki-builder-static-pikchr:latest /build/pikchr /usr/bin/pikchr
+COPY --from=kroki-builder-static-svgbob /usr/local/cargo/bin/svgbob /usr/bin/svgbob
+COPY --from=kroki-builder-static-erd /root/.local/bin/erd /usr/bin/erd
+COPY --from=kroki-builder-static-pikchr /build/pikchr /usr/bin/pikchr
+COPY --from=kroki-builder-nomnoml /app/app.bin /usr/bin/nomnoml
+COPY --from=kroki-builder-vega /app/app.bin /usr/bin/vega
+COPY --from=kroki-builder-vega /app/canvas.node /usr/bin/canvas.node
+COPY --from=kroki-builder-wavedrom /app/app.bin /usr/bin/wavedrom
+COPY --from=kroki-builder-bytefield /app/app.bin /usr/bin/bytefield
 
 RUN apk add --update --no-cache \
            libjpeg \

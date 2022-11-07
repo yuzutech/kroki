@@ -1,17 +1,12 @@
-.PHONY: package publish smokeTests
+.PHONY: test showExamples
 
-default:
+default: test
 
-package:
-	docker build -t yuzutech/kroki-blockdiag .
+install: requirements.txt
+	python -m pip install -r requirements.txt
 
-publish: package
-ifndef RELEASE_VERSION
-	$(error RELEASE_VERSION is undefined)
-endif
-	docker tag yuzutech/kroki-blockdiag:latest yuzutech/kroki-blockdiag:$(RELEASE_VERSION)
-	docker push yuzutech/kroki-blockdiag:latest
-	docker push yuzutech/kroki-blockdiag:$(RELEASE_VERSION)
+test:
+	python -m unittest test/test_diag.py
 
-smokeTests:
-	venv-py38/bin/python -m unittest test/test_diag.py
+showExamples:
+	$(PYTHON) blockdiag/examples.py

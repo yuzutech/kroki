@@ -2,9 +2,6 @@ SMOKE_TESTS_DIR=tests/smoke
 COMPOSE_TIMEOUT=20
 SERVICES_TIMEOUT=15
 
-# Python is used for blockdiag module and to display examples
-PYTHON=python3.11
-
 default:
 
 installLocalDependencies:
@@ -14,12 +11,6 @@ installLocalDependencies:
 buildServer:
 	mvn --no-transfer-progress clean package
 
-installBlockDiag:
-	cd blockdiag && $(PYTHON) -m pip install -r requirements.txt
-
-testBlockDiag:
-	cd blockdiag && $(PYTHON) -m unittest test/test_diag.py
-
 setServerVersion:
 ifndef RELEASE_VERSION
 	$(error RELEASE_VERSION is undefined)
@@ -27,38 +18,16 @@ endif
 	mvn versions:set -DnewVersion=$(RELEASE_VERSION)
 
 buildDockerImages:
-	$(MAKE) -C nomnoml package
-	$(MAKE) -C vega package
-	$(MAKE) -C wavedrom package
-	$(MAKE) -C bytefield package
-	$(MAKE) -C server/ops/docker package
-	$(MAKE) -C server package
-	$(MAKE) -C blockdiag package
-	$(MAKE) -C mermaid package
-	$(MAKE) -C bpmn package
-	$(MAKE) -C excalidraw package
-	$(MAKE) -C diagrams.net package
+	docker buildx bake --set "*.cache-from=$(CACHE_FROM)" --set "*.cache-to=$(CACHE_TO)" --set "kroki-*.platform=linux/arm64,linux/amd64"
 
 publishDockerImages:
 ifndef RELEASE_VERSION
 	$(error RELEASE_VERSION is undefined)
 endif
-	$(MAKE) -C nomnoml package
-	$(MAKE) -C vega package
-	$(MAKE) -C wavedrom package
-	$(MAKE) -C bytefield package
-	$(MAKE) -C server/ops/docker package
-	$(MAKE) -C server publish
-	$(MAKE) -C blockdiag publish
-	$(MAKE) -C mermaid publish
-	$(MAKE) -C bpmn publish
-	$(MAKE) -C excalidraw publish
-	$(MAKE) -C diagrams.net publish
-
-showExamples:
-	$(PYTHON) blockdiag/examples.py
+	docker buildx bake -f docker-bake.hcl -f docker-bake-release.hcl --push --set "kroki-*.platform=linux/arm64,linux/amd64"
 
 smokeTests:
+	TAG=smoketests docker buildx bake --load --set "*.cache-from=$(CACHE_FROM)" --set "*.cache-to=$(CACHE_TO)"
 	@docker-compose --file "$(SMOKE_TESTS_DIR)/docker-compose.yaml" up --build --detach \
 	&& echo \
 	&& docker-compose --file "$(SMOKE_TESTS_DIR)/docker-compose.yaml" ps \
@@ -82,4 +51,3 @@ installJavaScriptDependencies:
 	npm i --prefix nomnoml
 	npm i --prefix vega
 	npm i --prefix wavedrom
-

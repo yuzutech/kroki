@@ -2,9 +2,7 @@ version: "3"
 
 services:
   kroki:
-    build:
-      context: ../../server/
-      dockerfile: ops/docker/jdk11-alpine/Dockerfile
+    image: yuzutech/kroki:smoketests
     depends_on:
       - blockdiag
       - mermaid
@@ -20,26 +18,26 @@ services:
       - "8000:8000"
 
   blockdiag:
-    build: ../../blockdiag
+    image: yuzutech/kroki-blockdiag:smoketests
     expose:
       - "8001"
 
   mermaid:
-    build: ../../mermaid
+    image: yuzutech/kroki-mermaid:smoketests
     expose:
       - "8002"
 
   bpmn:
-    build: ../../bpmn
+    image: yuzutech/kroki-bpmn:smoketests
     expose:
       - "8003"
 
   excalidraw:
-    build: ../../excalidraw
+    image: yuzutech/kroki-excalidraw:smoketests
     expose:
       - "8004"
 
   diagramsnet:
-    build: ../../diagrams.net
+    image: yuzutech/kroki-diagramsnet:smoketests
     expose:
       - "8005"
