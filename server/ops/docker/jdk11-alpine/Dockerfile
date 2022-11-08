@@ -133,7 +133,7 @@ RUN wget -q https://pikchr.org/home/raw/7269f78c4a3aa2809bd8c278e522c4eac5568ad0
 RUN gcc -O0 -g -static -Wall -Wextra -DPIKCHR_SHELL pikchr.c -o pikchr -lm
 
 ## SVGBob
-FROM rust:1.64-slim-bullseye AS kroki-builder-static-svgbob
+FROM rust:1.65-slim-bullseye AS kroki-builder-static-svgbob
 RUN rustup target add x86_64-unknown-linux-musl
 COPY ops/docker/Cargo.toml .
 
