@@ -41,7 +41,8 @@ const expect = chai.expect
 const mimeType = {
   svg: 'image/svg+xml',
   png: 'image/png',
-  pdf: 'application/pdf'
+  pdf: 'application/pdf',
+  jpeg: 'image/jpeg'
 }
 
 const sendRequest = async (testCase, outputFormat) => {
