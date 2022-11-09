@@ -1,5 +1,5 @@
 # Package the Node.js project into a single binary
-FROM --platform=${TARGETPLATFORM:-linux/amd64} node:16.18.0-alpine3.16 as builder
+FROM --platform=${TARGETPLATFORM:-linux/amd64} node:16.18.1-alpine3.16 as builder
 
 # Workaround: https://github.com/nodejs/docker-node/issues/813#issuecomment-407339011
 # Error: could not get uid/gid
