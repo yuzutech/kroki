@@ -1,3 +1,5 @@
+MULTI_ARCH_AVAILABLE := $(shell docker buildx inspect | grep amd64 | grep arm64 > /dev/null 2>&1; echo $$?)
+
 SMOKE_TESTS_DIR=tests/smoke
 COMPOSE_TIMEOUT=20
 SERVICES_TIMEOUT=15
@@ -18,7 +20,11 @@ endif
 	mvn versions:set -DnewVersion=$(RELEASE_VERSION)
 
 buildDockerImages:
+ifeq ($(MULTI_ARCH_AVAILABLE), 0)
 	docker buildx bake --set "*.cache-from=$(CACHE_FROM)" --set "*.cache-to=$(CACHE_TO)" --set "kroki-*.platform=linux/arm64,linux/amd64"
+else
+	docker buildx bake --set "*.cache-from=$(CACHE_FROM)" --set "*.cache-to=$(CACHE_TO)"
+endif
 
 publishDockerImages:
 ifndef RELEASE_VERSION
