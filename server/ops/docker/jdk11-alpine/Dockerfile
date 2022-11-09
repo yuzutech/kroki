@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1.4
 
 ## Nomnoml
-FROM node:16.18.0-alpine3.16 as kroki-builder-nomnoml
+FROM node:16.18.1-alpine3.16 as kroki-builder-nomnoml
 
 # Workaround: https://github.com/nodejs/docker-node/issues/813#issuecomment-407339011
 # Error: could not get uid/gid
@@ -23,7 +23,7 @@ RUN npm run lint
 RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-${ARCH} . -o app.bin
 
 ## Vega
-FROM node:16.18.0-alpine3.16 as kroki-builder-vega
+FROM node:16.18.1-alpine3.16 as kroki-builder-vega
 
 # Workaround: https://github.com/nodejs/docker-node/issues/813#issuecomment-407339011
 # Error: could not get uid/gid
@@ -58,7 +58,7 @@ RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-${ARCH} . -o app.bin
 RUN cp /app/node_modules/canvas/build/Release/canvas.node  /app/
 
 ## Wavedrom
-FROM node:16.18.0-alpine3.16 as kroki-builder-wavedrom
+FROM node:16.18.1-alpine3.16 as kroki-builder-wavedrom
 
 # Workaround: https://github.com/nodejs/docker-node/issues/813#issuecomment-407339011
 # Error: could not get uid/gid
@@ -80,7 +80,7 @@ RUN npm run lint
 RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-${ARCH} . -o app.bin
 
 ## Bytefield
-FROM node:16.18.0-alpine3.16 as kroki-builder-bytefield
+FROM node:16.18.1-alpine3.16 as kroki-builder-bytefield
 
 # Workaround: https://github.com/nodejs/docker-node/issues/813#issuecomment-407339011
 # Error: could not get uid/gid
