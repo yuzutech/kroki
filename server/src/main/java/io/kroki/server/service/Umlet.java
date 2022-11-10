@@ -44,7 +44,7 @@ public class Umlet implements DiagramService {
 
   @Override
   public String getVersion() {
-    return "14.3.0";
+    return "15.0.0";
   }
 
   @Override
@@ -53,7 +53,7 @@ public class Umlet implements DiagramService {
       try {
         byte[] result = UmletConverter.convert(sourceDecoded, fileFormat.getName());
         future.complete(result);
-      } catch (IOException e) {
+      } catch (Exception e) {
         future.fail(e);
       }
     }, res -> handler.handle(res.map(o -> Buffer.buffer((byte[]) o))));

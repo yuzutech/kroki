@@ -43,7 +43,7 @@ public class HealthHandler {
     serviceVersions.add(new ServiceVersion("seqdiag", "3.0.0"));
     serviceVersions.add(new ServiceVersion("structurizr", "1.19.1"));
     serviceVersions.add(new ServiceVersion("svgbob", "0.5.3"));
-    serviceVersions.add(new ServiceVersion("umlet", "14.3.0"));
+    serviceVersions.add(new ServiceVersion("umlet", "15.0.0"));
     serviceVersions.add(new ServiceVersion("vega", "5.22.0"));
     serviceVersions.add(new ServiceVersion("vegalite", "5.2.0"));
     serviceVersions.add(new ServiceVersion("wavedrom", "2.9.1"));

@@ -28,6 +28,7 @@
         <version>2.22.2</version>
         <configuration>
           <argLine>--add-exports=java.base/sun.security.x509=ALL-UNNAMED</argLine>
+          <forkCount>0</forkCount>
         </configuration>
       </plugin>
       <plugin>

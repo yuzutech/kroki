@@ -20,7 +20,7 @@ public class UmletConverter {
     ConfigHandler.loadConfig();
   }
 
-  public static byte[] convert(String source, String outputFormat) throws IOException {
+  public static byte[] convert(String source, String outputFormat) throws Exception, IOException {
     DiagramHandler handler = DiagramHandler.forExport(source);
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     OutputHandler.createToStream(outputFormat, baos, handler);
