@@ -6,7 +6,7 @@ Kroki provides a unified API with support for BlockDiag (BlockDiag, SeqDiag, Act
 
 ## Getting Started
 
-### Prerequisities
+### Prerequisites
 
 In order to run this container you'll need docker installed.
 
