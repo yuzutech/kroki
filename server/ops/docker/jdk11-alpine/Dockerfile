@@ -1,7 +1,4 @@
 # syntax=docker/dockerfile:1.4
-ARG PIKCHR_VERSION=7269f78c4a3aa2809bd8c278e522c4eac5568ad0fd6ed0a3f807f4a2f6367ef0
-ARG ERD_VERSION=0.2.1.0
-
 ## Nomnoml
 FROM node:16.18.1-alpine3.16 as kroki-builder-nomnoml
 
@@ -105,6 +102,8 @@ RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-${ARCH} . -o app.bin
 ## ERD
 FROM ubuntu:18.04 as kroki-builder-static-erd
 
+ARG ERD_VERSION=0.2.1.0
+
 RUN apt-get -qq update && apt-get install -qq -y graphviz curl git > /dev/null
 
 RUN curl -sSL https://get.haskellstack.org/ | sh -s - -q > /dev/null
@@ -124,6 +123,8 @@ RUN /usr/local/bin/stack install --silent --ghc-options="-fPIC" \
 
 ## Pikchr
 FROM alpine:3.16 as kroki-builder-static-pikchr
+
+ARG PIKCHR_VERSION=7269f78c4a3aa2809bd8c278e522c4eac5568ad0fd6ed0a3f807f4a2f6367ef0
 
 RUN apk update && apk add ca-certificates wget build-base
 
