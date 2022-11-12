@@ -113,7 +113,7 @@ RUN git clone https://github.com/BurntSushi/erd.git
 
 WORKDIR erd
 
-RUN git checkout v$ERD_VERSION
+RUN git checkout "v${ERD_VERSION}"
 
 # build static executable binary
 RUN /usr/local/bin/stack install --silent --ghc-options="-fPIC" \
@@ -129,7 +129,7 @@ RUN apk update && apk add ca-certificates wget build-base
 
 WORKDIR build
 
-RUN wget -q https://pikchr.org/home/raw/$PIKCHR_VERSION -O pikchr.c
+RUN wget -q "https://pikchr.org/home/raw/${PIKCHR_VERSION}" -O pikchr.c
 
 # build pikchr binary
 RUN gcc -O0 -g -static -Wall -Wextra -DPIKCHR_SHELL pikchr.c -o pikchr -lm
