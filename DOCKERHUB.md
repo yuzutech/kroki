@@ -69,7 +69,7 @@ If you don't want to use `docker-compose`, you can configure the host and port f
 | `kroki-bpmn`       | `KROKI_BPMN_HOST`       | `KROKI_BPMN_PORT`       |
 | `kroki-excalidraw` | `KROKI_EXCALIDRAW_HOST` | `KROKI_EXCALIDRAW_PORT` |
 
-For Kubernetes installation follow the description in the [install using Kubernetes](https://docs.kroki.io/kroki/setup/install/#_using_kubernetes).
+For Kubernetes installation follow the description in [install using Kubernetes](https://docs.kroki.io/kroki/setup/install/#_using_kubernetes) section.
 
 ### Environment Variables
 
