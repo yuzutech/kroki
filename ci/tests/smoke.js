@@ -1,3 +1,9 @@
+import chai from 'chai'
+import chaiHttp from 'chai-http'
+import fs from 'node:fs'
+import * as url from 'url'
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
+
 const tests = [
   {engine: 'graphviz', file: 'hello.dot', outputFormat: ['svg', 'jpeg']},
   {engine: 'blockdiag', file: 'kroki.diag', outputFormat: ['svg']},
@@ -29,10 +35,6 @@ const tests = [
   {engine: 'diagramsnet', file: 'diagramsnet-ui.xml', outputFormat: ['svg', 'png']},
   {engine: 'diagramsnet', file: 'diagramsnet-venn.xml', outputFormat: ['svg', 'png']}
 ]
-
-const chai = require('chai')
-const chaiHttp = require('chai-http')
-const fs = require('fs')
 
 chai.use(chaiHttp)
 
