@@ -49,7 +49,7 @@ public class Svgbob implements DiagramService {
 
   @Override
   public String getVersion() {
-    return "0.5.3";
+    return "0.6.0";
   }
 
   @Override

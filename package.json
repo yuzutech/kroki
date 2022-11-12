@@ -1,8 +1,11 @@
 {
-  "name": "kroki-smoke-tests",
+  "name": "kroki-ci",
   "version": "1.0.0",
-  "description": "",
-  "main": "smoke.js",
+  "description": "Utility scripts for continuous integration",
+  "type" : "module",
+  "engines": {
+    "node": ">=18"
+  },
   "private": true,
   "dependencies": {
     "chai": "^4.3.6",
@@ -12,6 +15,7 @@
     "mocha": "^10.0.0"
   },
   "scripts": {
-    "test": "mocha tests/smoke/smoke.js"
+    "test": "mocha ci/tests/smoke.js",
+    "update-versions": "node ci/tasks/update-versions.js"
   }
 }

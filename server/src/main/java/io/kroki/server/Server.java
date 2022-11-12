@@ -130,7 +130,7 @@ public class Server extends AbstractVerticle {
       .handler(new DiagramRest(registry).create());
 
     // health
-    HealthHandler healthHandler = new HealthHandler();
+    HealthHandler healthHandler = new HealthHandler(registry.getVersions());
     Handler<RoutingContext> healthHandlerService = healthHandler.create();
     router.get("/health")
       .handler(healthHandlerService);
@@ -162,7 +162,7 @@ public class Server extends AbstractVerticle {
     if (enableSSL) {
       Optional<String> sslKeyValue = Optional.ofNullable(config.getString("KROKI_SSL_KEY"));
       Optional<String> sslCertValue = Optional.ofNullable(config.getString("KROKI_SSL_CERT"));
-      if (!sslKeyValue.isPresent() || !sslCertValue.isPresent()) {
+      if (sslKeyValue.isEmpty() || sslCertValue.isEmpty()) {
         throw new IllegalArgumentException("KROKI_SSL_KEY and KROKI_SSL_CERT must be configured when SSL is enabled.");
       }
       serverOptions.setPemKeyCertOptions(

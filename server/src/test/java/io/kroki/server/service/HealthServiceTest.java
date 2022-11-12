@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatcher;
 import org.mockito.Mockito;
 
+import java.util.HashMap;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -20,7 +21,9 @@ public class HealthServiceTest {
 
   @Test
   void should_get_version_info() {
-    HealthHandler healthHandler = new HealthHandler();
+    HashMap<String, String> versions = new HashMap<>();
+    versions.put("plantuml", "1.2022.5");
+    HealthHandler healthHandler = new HealthHandler(versions);
     String krokiBuildHash = healthHandler.getKrokiBuildHash();
     String krokiVersionNumber = healthHandler.getKrokiVersionNumber();
     List<ServiceVersion> serviceVersions = healthHandler.getServiceVersions();
@@ -35,7 +38,7 @@ public class HealthServiceTest {
     HttpServerResponse httpServerResponseMock = mock(HttpServerResponse.class);
     when(routingContextMock.response()).thenReturn(httpServerResponseMock);
     when(httpServerResponseMock.putHeader(any(CharSequence.class), any(CharSequence.class))).thenReturn(httpServerResponseMock);
-    Handler<RoutingContext> healthHandler = new HealthHandler().create();
+    Handler<RoutingContext> healthHandler = new HealthHandler(new HashMap<>()).create();
     healthHandler.handle(routingContextMock);
     Mockito.verify(httpServerResponseMock).end(argThat((ArgumentMatcher<String>) argument ->
       {

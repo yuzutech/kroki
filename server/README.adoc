@@ -1,3 +1,36 @@
 = Kroki server
 
 Kroki server acts as a gateway and provides a unified API on-top of diagrams libraries.
+
+== How to update third-party dependencies
+
+=== ditaamini
+
+Since https://github.com/stathissideris/ditaa is unmaintained, we are using an active fork: https://github.com/pepijnve/ditaa/tree/master
+The jar is published as part of AsciidoctorJ Diagram: https://search.maven.org/artifact/org.asciidoctor/asciidoctorj-diagram-ditaamini
+
+To update ditaamini:
+
+. Download the latest version of `org.asciidoctor:asciidoctorj-diagram-ditaamini` from Maven central
+. Unzip `asciidoctorj-diagram-ditaamini` jar
+. Copy `gems/asciidoctor-diagram-ditaamini-$VERSION/lib/asciidoctor-diagram/ditaa/ditaamini-$VERSION.jar` to `server/lib`
+. Update the version in the `installLocalDependencies` task located in the `Makefile` at the root of this repository:
++
+[source,diff]
+----
+installLocalDependencies:
+-	mvn install:install-file -Dfile=./server/lib/ditaamini-1.0.3.jar -DgroupId=ditaa -DartifactId=ditaa-mini -Dversion=1.0.3 -Dpackaging=jar
++	mvn install:install-file -Dfile=./server/lib/ditaamini-1.0.4.jar -DgroupId=ditaa -DartifactId=ditaa-mini -Dversion=1.0.4 -Dpackaging=jar
+----
+. Run the `installLocalDependencies` task to make sure that everything is working as expected:
++
+ $ make installLocalDependencies
+
+. Update the version in `server/pom.xml`:
++
+[source,diff]
+----
+-<ditaa-mini.version>1.0.3</ditaa-mini.version>
++<ditaa-mini.version>1.0.4</ditaa-mini.version>
+----
+. Build the project

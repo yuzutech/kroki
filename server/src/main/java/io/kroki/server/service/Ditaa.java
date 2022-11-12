@@ -47,7 +47,7 @@ public class Ditaa implements DiagramService {
 
   @Override
   public String getVersion() {
-    return "1.3.13";
+    return "1.0.3";
   }
 
   @Override
