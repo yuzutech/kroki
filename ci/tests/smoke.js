@@ -97,7 +97,6 @@ describe('CJK font', function () {
     const response = await sendRequest(testCase, 'svg')
     try {
       const data = response.body.toString('utf8')
-      console.log({data})
       const boxWidthRegex = /(?<=<foreignObject.*?width="([0-9.]+)".*?)<span class="nodeLabel">ううううううう<\/span>/
       expect(data).to.match(boxWidthRegex)
       const match = data.match(boxWidthRegex)
