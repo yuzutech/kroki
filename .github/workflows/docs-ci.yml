@@ -71,7 +71,7 @@ jobs:
 
       - name: Wait until available
         run: |
-          ./tests/smoke/wait-for-it.sh localhost:8000 --timeout=40
+          ./ci/tests/wait-for-it.sh localhost:8000 --timeout=40
           sleep 20
 
       - name: Test SeqDiag

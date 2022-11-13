@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatcher;
 import org.mockito.Mockito;
 
+import java.util.HashMap;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -21,7 +22,7 @@ public class HelloServiceTest {
   @Test
   void should_return_hello_as_html_with_table() {
     Vertx vertx = Vertx.vertx();
-    HealthHandler healthHandler = new HealthHandler();
+    HealthHandler healthHandler = new HealthHandler(new HashMap<>());
     String krokiBuildHash = healthHandler.getKrokiBuildHash();
     String krokiVersionNumber = healthHandler.getKrokiVersionNumber();
     List<ServiceVersion> serviceVersions = healthHandler.getServiceVersions();

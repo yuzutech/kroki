@@ -1,5 +1,12 @@
+import chai from 'chai'
+import chaiHttp from 'chai-http'
+import fs from 'node:fs'
+import * as url from 'url'
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
+
 const tests = [
   {engine: 'graphviz', file: 'hello.dot', outputFormat: ['svg', 'jpeg']},
+  {engine: 'dot', file: 'hello.dot', outputFormat: ['svg', 'jpeg']},
   {engine: 'blockdiag', file: 'kroki.diag', outputFormat: ['svg']},
   {engine: 'seqdiag', file: 'sequence.diag', outputFormat: ['svg']},
   {engine: 'actdiag', file: 'actions.diag', outputFormat: ['svg']},
@@ -29,10 +36,6 @@ const tests = [
   {engine: 'diagramsnet', file: 'diagramsnet-ui.xml', outputFormat: ['svg', 'png']},
   {engine: 'diagramsnet', file: 'diagramsnet-venn.xml', outputFormat: ['svg', 'png']}
 ]
-
-const chai = require('chai')
-const chaiHttp = require('chai-http')
-const fs = require('fs')
 
 chai.use(chaiHttp)
 
@@ -94,7 +97,7 @@ describe('CJK font', function () {
     const response = await sendRequest(testCase, 'svg')
     try {
       const data = response.body.toString('utf8')
-      const boxWidthRegex = /id="flowchart-B-5".*<foreignObject.*width="([0-9.]+)".*ううううううう<\/div><\/foreignObject>/
+      const boxWidthRegex = /(?<=<foreignObject.*?width="([0-9.]+)".*?)<span class="nodeLabel">ううううううう<\/span>/
       expect(data).to.match(boxWidthRegex)
       const match = data.match(boxWidthRegex)
       expect(parseInt(match[1])).to.be.greaterThan(110)

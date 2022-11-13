@@ -6,7 +6,7 @@ Kroki provides a unified API with support for BlockDiag (BlockDiag, SeqDiag, Act
 
 ## Getting Started
 
-### Prerequisities
+### Prerequisites
 
 In order to run this container you'll need docker installed.
 
@@ -62,14 +62,14 @@ services:
 
 If you don't want to use `docker-compose`, you can configure the host and port for each companion container using environment variables:
 
-|Container         | Host                  | Port                  |
-|------------------|-----------------------|-----------------------|
-|`kroki-blockdiag` |`KROKI_BLOCKDIAG_HOST` |`KROKI_BLOCKDIAG_PORT` |
-|`kroki-mermaid`   |`KROKI_MERMAID_HOST`   |`KROKI_MERMAID_PORT`   |
-|`kroki-bpmn`      |`KROKI_BPMN_HOST`      |`KROKI_BPMN_PORT`      |
-|`kroki-excalidraw`|`KROKI_EXCALIDRAW_HOST`|`KROKI_EXCALIDRAW_PORT`|
+| Container          | Host                    | Port                    |
+|--------------------|-------------------------|-------------------------|
+| `kroki-blockdiag`  | `KROKI_BLOCKDIAG_HOST`  | `KROKI_BLOCKDIAG_PORT`  |
+| `kroki-mermaid`    | `KROKI_MERMAID_HOST`    | `KROKI_MERMAID_PORT`    |
+| `kroki-bpmn`       | `KROKI_BPMN_HOST`       | `KROKI_BPMN_PORT`       |
+| `kroki-excalidraw` | `KROKI_EXCALIDRAW_HOST` | `KROKI_EXCALIDRAW_PORT` |
 
-For Kubernetes installation follow the description in the [install using Kubernetes](https://docs.kroki.io/kroki/setup/install/#_using_kubernetes).
+For Kubernetes installation follow the description in [install using Kubernetes](https://docs.kroki.io/kroki/setup/install/#_using_kubernetes) section.
 
 ### Environment Variables
 

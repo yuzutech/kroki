@@ -7,6 +7,7 @@ import io.vertx.ext.web.handler.BodyHandler;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class DiagramRegistry {
 
@@ -43,5 +44,13 @@ public class DiagramRegistry {
 
   public Set<String> names() {
     return registry.keySet();
+  }
+
+  public Map<String, String> getVersions() {
+    return registry.entrySet().stream().map(registryEntry -> {
+      String diagramName = registryEntry.getKey();
+      String diagramVersion = registryEntry.getValue().getService().getVersion();
+      return Map.entry(diagramName, diagramVersion);
+    }).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
   }
 }

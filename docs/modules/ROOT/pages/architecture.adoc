@@ -131,7 +131,7 @@ The `yuzutech/kroki-bpmn` Docker image contains the following diagrams libraries
 |===
 |Diagram Type | Version
 |https://bpmn.io/toolkit/bpmn-js/[bpmn-js]
-|{bpmnjs-version}
+|{bpmn-version}
 |===
 
 === Excalidraw

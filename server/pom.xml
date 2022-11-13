@@ -18,11 +18,14 @@
     <assertj-core.version>3.23.1</assertj-core.version>
     <mockito-core.version>4.8.1</mockito-core.version>
     <plantuml.version>1.2022.12</plantuml.version>
-    <ditaa-mini.version>0.14</ditaa-mini.version>
+    <ditaa-mini.version>1.0.3</ditaa-mini.version>
     <slf4j-api.version>2.0.3</slf4j-api.version>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
     <owasp-html-sanitizer.version>20220608.1</owasp-html-sanitizer.version>
+    <structurizr-dsl.version>1.20.0</structurizr-dsl.version>
+    <structurizr-export.version>1.7.0</structurizr-export.version>
+    <structurizr-core.version>1.16.1</structurizr-core.version>
   </properties>
 
   <dependencies>
@@ -104,12 +107,12 @@
     <dependency>
       <groupId>com.structurizr</groupId>
       <artifactId>structurizr-dsl</artifactId>
-      <version>1.20.0</version>
+      <version>${structurizr-dsl.version}</version>
     </dependency>
     <dependency>
       <groupId>com.structurizr</groupId>
       <artifactId>structurizr-export</artifactId>
-      <version>1.7.0</version>
+      <version>${structurizr-export.version}</version>
       <exclusions>
         <exclusion>
           <groupId>com.structurizr</groupId>
@@ -120,7 +123,7 @@
     <dependency>
       <groupId>com.structurizr</groupId>
       <artifactId>structurizr-core</artifactId>
-      <version>1.16.1</version>
+      <version>${structurizr-core.version}</version>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
@@ -211,8 +214,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.10.1</version>
         <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
+          <source>11</source>
+          <target>11</target>
         </configuration>
       </plugin>
       <plugin>

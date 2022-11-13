@@ -203,4 +203,8 @@ public class DiagramHandler {
       }
     });
   }
+
+  public DiagramService getService() {
+    return service;
+  }
 }
