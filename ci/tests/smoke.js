@@ -98,7 +98,7 @@ describe('CJK font', function () {
     try {
       const data = response.body.toString('utf8')
       console.log({data})
-      const boxWidthRegex = /id="flowchart-B-9".*<foreignObject.*width="([0-9.]+)".*ううううううう<\/div><\/foreignObject>/
+      const boxWidthRegex = /(?<=<foreignObject.*?width="([0-9.]+)".*?)<span class="nodeLabel">ううううううう<\/span>/
       expect(data).to.match(boxWidthRegex)
       const match = data.match(boxWidthRegex)
       expect(parseInt(match[1])).to.be.greaterThan(110)
