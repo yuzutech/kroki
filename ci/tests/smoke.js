@@ -6,6 +6,7 @@ const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
 
 const tests = [
   {engine: 'graphviz', file: 'hello.dot', outputFormat: ['svg', 'jpeg']},
+  {engine: 'dot', file: 'hello.dot', outputFormat: ['svg', 'jpeg']},
   {engine: 'blockdiag', file: 'kroki.diag', outputFormat: ['svg']},
   {engine: 'seqdiag', file: 'sequence.diag', outputFormat: ['svg']},
   {engine: 'actdiag', file: 'actions.diag', outputFormat: ['svg']},
