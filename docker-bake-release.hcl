@@ -2,25 +2,25 @@ variable "RELEASE_VERSION" {
 }
 
 target "kroki" {
-  tags = ["yuzutech/kroki:${RELEASE_VERSION}"]
+  tags = ["yuzutech/kroki:${RELEASE_VERSION}", "yuzutech/kroki:latest"]
 }
 
 target "kroki-blockdiag" {
-  tags = ["yuzutech/kroki-blockdiag:${RELEASE_VERSION}"]
+  tags = ["yuzutech/kroki-blockdiag:${RELEASE_VERSION}", "yuzutech/kroki-blockdiag:latest"]
 }
 
 target "kroki-mermaid" {
-  tags = ["yuzutech/kroki-mermaid:${RELEASE_VERSION}"]
+  tags = ["yuzutech/kroki-mermaid:${RELEASE_VERSION}", "yuzutech/kroki-mermaid:latest"]
 }
 
 target "kroki-bpmn" {
-  tags = ["yuzutech/kroki-bpmn:${RELEASE_VERSION}"]
+  tags = ["yuzutech/kroki-bpmn:${RELEASE_VERSION}", "yuzutech/kroki-bpmn:latest"]
 }
 
 target "kroki-excalidraw" {
-  tags = ["yuzutech/kroki-excalidraw:${RELEASE_VERSION}"]
+  tags = ["yuzutech/kroki-excalidraw:${RELEASE_VERSION}", "yuzutech/kroki-excalidraw:latest"]
 }
 
 target "kroki-diagramsnet" {
-  tags = ["yuzutech/kroki-diagramsnet:${RELEASE_VERSION}"]
+  tags = ["yuzutech/kroki-diagramsnet:${RELEASE_VERSION}", "yuzutech/kroki-diagramsnet:latest"]
 }
