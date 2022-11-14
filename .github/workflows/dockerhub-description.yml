@@ -55,3 +55,12 @@ jobs:
           repository: yuzutech/kroki-blockdiag
           short-description: Companion server for Kroki that provides BlockDiag, SeqDiag, ActDiag, NwDiag, PacketDiag and RackDiag
           readme-filepath: ./DOCKERHUB-COMPANION.md
+
+      - name: Docker Hub Description - diagramsnet
+        uses: peter-evans/dockerhub-description@v3.1.2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: yuzutech/kroki-diagramsnet
+          short-description: Companion server for Kroki that provides diagrams.net (formerly draw.io)
+          readme-filepath: ./DOCKERHUB-COMPANION.md
