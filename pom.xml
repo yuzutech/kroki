@@ -4,7 +4,7 @@
   <artifactId>kroki</artifactId>
   <name>kroki</name>
   <packaging>pom</packaging>
-  <version>0.17.2</version>
+  <version>0.18.0</version>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
