@@ -99,7 +99,7 @@ function addDiagramLibraryPackageVersion (diagramName, dependencyName, directory
 const diagramLibraryNames = [
   'actdiag',
   'blockdiag',
-  'bpmnjs',
+  'bpmn',
   'bytefield',
   'diagramsnet',
   'ditaa',

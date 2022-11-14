@@ -5,7 +5,7 @@ asciidoc:
   attributes:
     actdiag-version: 3.0.0
     blockdiag-version: 3.0.0
-    bpmn-version: undefined
+    bpmn-version: 10.3.0
     bytefield-version: 1.6.1
     c4plantuml-version: 1.2022.5
     diagramsnet-version: 16.2.4
