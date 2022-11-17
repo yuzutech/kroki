@@ -45,6 +45,12 @@ class Worker {
         return await page.$eval('#graph', container => {
           const xmlSerializer = new XMLSerializer()
           const nodes = []
+
+          const svgNode = container.childNodes[0]
+          const w = svgNode.style.minWidth.slice(0, -2)
+          const h = svgNode.style.minHeight.slice(0, -2)
+          svgNode.setAttribute('viewBox', '0 0 ' + w + ' ' + h)
+
           for (let i = 0; i < container.childNodes.length; i++) {
             nodes.push(xmlSerializer.serializeToString(container.childNodes[i]))
           }
