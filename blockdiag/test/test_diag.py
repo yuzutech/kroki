@@ -16,17 +16,17 @@ from server import InvalidUsage
 
 class TestDiag(unittest.TestCase):
 
-    def _generate(self, name, diagram_type=None, options=None):
+    def _generate(self, filename, diagram_type=None, options=None):
         if options is None:
             options = MultiDict()
-        with open('test/fixtures/' + name + '_source.txt', 'r') as file:
+        with open('test/fixtures/' + filename + '_source.txt', 'r') as file:
             source = file.read()
-        with open('test/fixtures/' + name + '_expected.svg', 'r') as file:
+        with open('test/fixtures/' + filename + '_expected.svg', 'r') as file:
             lines = file.readlines()
             expected = '\n'.join([item.strip() for item in lines])
 
         if diagram_type is None:
-            diagram_type = name
+            diagram_type = filename
 
         if diagram_type == 'nwdiag':
             app, name = NwdiagApp(), 'network'
@@ -88,6 +88,10 @@ class TestDiag(unittest.TestCase):
         self.maxDiff = None
         self.assertEqual(actual, expected)
 
+    def test_blockdiag_utf8(self):
+        actual, expected = self._generate('blockdiag_utf8', 'blockdiag')
+        self.maxDiff = None
+        self.assertEqual(actual, expected)
 
 if __name__ == '__main__':
     unittest.main()
