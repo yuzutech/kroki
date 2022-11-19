@@ -67,7 +67,7 @@ def _generate_diagram(app, diagram_type, output_format, source, options):
         if output_format == 'png':
             result = generate_diag(app, diagram_type, output_format, source, options)
             response = send_file(io.BytesIO(result),
-                                 attachment_filename='result.png',
+                                 download_name='result.png',
                                  mimetype='image/png')
             return response
         elif output_format == 'pdf':
