@@ -17,7 +17,7 @@
     <junit.jupiter.version>5.9.1</junit.jupiter.version>
     <assertj-core.version>3.23.1</assertj-core.version>
     <mockito-core.version>4.9.0</mockito-core.version>
-    <plantuml.version>1.2022.13</plantuml.version>
+    <plantuml.version>1.2022.14</plantuml.version>
     <ditaa-mini.version>1.0.3</ditaa-mini.version>
     <slf4j-api.version>2.0.5</slf4j-api.version>
     <maven.compiler.source>11</maven.compiler.source>
