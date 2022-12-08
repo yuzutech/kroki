@@ -1,4 +1,9 @@
 # syntax=docker/dockerfile:1.4
+## D2
+FROM golang:1.19.3-alpine3.16 as kroki-builder-d2
+
+RUN go install oss.terrastruct.com/d2@v0.1.1
+
 ## Nomnoml
 FROM node:16.18.1-alpine3.16 as kroki-builder-nomnoml
 
@@ -156,6 +161,7 @@ COPY --from=kroki-builder-vega /app/app.bin /usr/bin/vega
 COPY --from=kroki-builder-vega /app/canvas.node /usr/bin/canvas.node
 COPY --from=kroki-builder-wavedrom /app/app.bin /usr/bin/wavedrom
 COPY --from=kroki-builder-bytefield /app/app.bin /usr/bin/bytefield
+COPY --from=kroki-builder-d2 /bin/d2 /usr/bin/d2
 
 RUN apk add --update --no-cache \
            libjpeg \
