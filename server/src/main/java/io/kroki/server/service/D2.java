@@ -99,8 +99,9 @@ public class D2 implements DiagramService {
           // ignore, fallback to 0
         }
       }
-      commands.add("--theme " + themeId);
+      commands.add("--theme=" + themeId);
     }
+    commands.add("-"); // read from stdin
     return commander.execute(source, commands.toArray(new String[0]));
   }
 }
