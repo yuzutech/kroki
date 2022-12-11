@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  test-kind:
+  test-kind-multipod:
     runs-on: ubuntu-latest
 
     steps:
@@ -33,8 +33,8 @@ jobs:
       - name: Create cluster
         run: ./kind create cluster
 
-      - name: Install Kroki
-        run: ./kubectl apply -f docs/modules/setup/examples/k8s
+      - name: Install Kroki using Multiple Pods
+        run: ./kubectl apply -f docs/modules/setup/examples/k8s-multi-pod
 
       - name: Kubectl version
         run: ./kubectl version
@@ -52,7 +52,50 @@ jobs:
         run: curl -o /dev/null -s -w "%{http_code}\n" http://localhost:8000/seqdiag/svg/eNorTi1MyUxMV6jmUlBIKsovL04tUtC1UyhPTQKyyoCc6JzEpNQcBVsFJXfXEAX9zLyU1Aq9jJLcHKVYayQ9Nrq6CE3WhA0L8A8GmpaUk5-un5yfm5uaVwIxD6EWqDElsSQxKbE4FUmfp1-wa1CIAg49IFfANOFxXS0A68hQUg== | grep 200
 
       - name: Uninstall Kroki
-        run: ./kubectl delete -f docs/modules/setup/examples/k8s
+        run: ./kubectl delete -f docs/modules/setup/examples/k8s-multi-pod
+
+      - name: Delete cluster
+        run: ./kind delete cluster
+
+  test-kind-singlepod:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Kubernetes Kind
+        run: |
+          curl -Lo ./kind "https://kind.sigs.k8s.io/dl/v0.11.1/kind-linux-amd64"
+          chmod +x ./kind
+          ./kind version
+
+      - name: Install kubectl
+        run: |
+          curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.21.3/bin/linux/amd64/kubectl
+          chmod +x ./kubectl
+
+      - name: Create cluster
+        run: ./kind create cluster
+
+      - name: Install Kroki using a Single Pod
+        run: ./kubectl apply -f docs/modules/setup/examples/k8s-single-pod
+
+      - name: Kubectl version
+        run: ./kubectl version
+
+      - name: Wait until available
+        run: ./kubectl wait --for=condition=available --timeout=120s --all deployments.apps
+
+      - name: Check pod
+        run: ./kubectl get pod
+
+      - name: Forward port 8000 (background)
+        run: ./kubectl port-forward service/kroki 8000:8000 &
+
+      - name: Test SeqDiag
+        run: curl -o /dev/null -s -w "%{http_code}\n" http://localhost:8000/seqdiag/svg/eNorTi1MyUxMV6jmUlBIKsovL04tUtC1UyhPTQKyyoCc6JzEpNQcBVsFJXfXEAX9zLyU1Aq9jJLcHKVYayQ9Nrq6CE3WhA0L8A8GmpaUk5-un5yfm5uaVwIxD6EWqDElsSQxKbE4FUmfp1-wa1CIAg49IFfANOFxXS0A68hQUg== | grep 200
+
+      - name: Uninstall Kroki
+        run: ./kubectl delete -f docs/modules/setup/examples/k8s-single-pod
 
       - name: Delete cluster
         run: ./kind delete cluster
