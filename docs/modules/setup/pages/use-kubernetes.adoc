@@ -27,12 +27,12 @@ Read more about how to publish a service on the {uri-k8s-docs-publish-service}[K
 == Extract the Kubernetes object definition files
 Prepare the Kubernetes definition files by doing the following:
 
-. Download the example bundle link:{attachmentsdir}/kroki-k8s.zip[`kroki-k8s.zip`] that contains all the required `Deployment`, `Service` and `Ingress` definition files to deploy Kroki on Kubernetes.
+. Download the example bundle link:{attachmentsdir}/kroki-k8s-multipod.zip[`kroki-k8s-multipod.zip`] that contains all the required `Deployment`, `Service` and `Ingress` definition files to deploy Kroki on Kubernetes.
 +
 .Example command with `wget` installed
 [source,cli]
 ----
-wget http://docs.kroki.io/kroki/setup/_attachments/kroki-k8s.zip -O kroki-k8s.zip
+wget http://docs.kroki.io/kroki/setup/_attachments/kroki-k8s-multipod.zip -O kroki-k8s-multipod.zip
 ----
 
 . Extract the contents of the above zip file into a folder named `kroki-k8s`.
@@ -40,7 +40,7 @@ wget http://docs.kroki.io/kroki/setup/_attachments/kroki-k8s.zip -O kroki-k8s.zi
 .Example command with `unzip` installed
 [source,cli]
 ----
-unzip kroki-k8s.zip -d kroki-k8s
+unzip kroki-k8s-multipod.zip -d kroki-k8s
 ----
 
 
@@ -149,3 +149,26 @@ To uninstall Kroki use the command `kubectl delete` as follows:
 
 [source,cli,subs=+quotes]
 kubectl delete -f _/path/to/kroki-k8s_
+
+== Using a Single Pod Consisting of Multiple Containers
+As a much simpler (but less-flexible) configuration, it is possible to run all containers inside of a single Kubernetes pod.
+
+. Download the example bundle link:{attachmentsdir}/kroki-k8s-singlepod.zip[`kroki-k8s-singlepod.zip`] that contains all the required `Deployment`, `Service` and `Ingress` definition files to deploy Kroki on Kubernetes.
++
+.Example command with `wget` installed
+[source,cli]
+----
+wget http://docs.kroki.io/kroki/setup/_attachments/kroki-k8s-singlepod.zip -O kroki-k8s-singlepod.zip
+----
+
+. Extract the contents of the above zip file into a folder named `kroki-k8s`.
++
+.Example command with `unzip` installed
+[source,cli]
+----
+unzip kroki-k8s-singlepod.zip -d kroki-k8s
+----
+
+You can then create the Kubernetes objects as a batch or individually, similar to what was shown previously.
+
+Validation and uninstall/removal of Kubernetes objects can be followed using the exact same commands as shown previously too.
