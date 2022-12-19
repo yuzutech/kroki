@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kroki
+  labels:
+    app: kroki
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kroki
+  template:
+    metadata:
+      labels:
+        app: kroki
+    spec:
+      containers:
+      - name: kroki
+        image: docker.io/yuzutech/kroki:latest
+        env:
+        - name: KROKI_BLOCKDIAG_HOST
+          value: localhost
+        - name: KROKI_MERMAID_HOST
+          value: localhost
+        - name: KROKI_BPMN_HOST
+          value: localhost
+        - name: KROKI_EXCALIDRAW_HOST
+          value: localhost
+        ports:
+        - protocol: TCP
+          containerPort: 8000
+      - name: kroki-blockdiag
+        image: docker.io/yuzutech/kroki-blockdiag:latest
+        ports:
+        - protocol: TCP
+          containerPort: 8001
+      - name: kroki-mermaid
+        image: docker.io/yuzutech/kroki-mermaid:latest
+        ports:
+        - protocol: TCP
+          containerPort: 8002
+      - name: kroki-bpmn
+        image: docker.io/yuzutech/kroki-bpmn:latest
+        ports:
+        - protocol: TCP
+          containerPort: 8003
+      - name: kroki-excalidraw
+        image: docker.io/yuzutech/kroki-excalidraw:latest
+        ports:
+        - protocol: TCP
+          containerPort: 8004

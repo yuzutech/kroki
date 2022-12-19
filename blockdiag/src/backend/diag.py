@@ -36,6 +36,7 @@ def set_dimension_attributes(data):
 
 
 def generate_diag(app, diagram_type, output_format, source, options):
+    output_format = output_format.lower()
     cli_options = ['-T' + output_format]
     antialias = options.get('antialias')
     if antialias is not None:
@@ -56,12 +57,10 @@ def generate_diag(app, diagram_type, output_format, source, options):
     cli_options.append('file')
     app.parse_options(cli_options)
 
-    output_format = output_format.lower()
-    if output_format == 'pdf':
-        app.options.font = [
-            '/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf',
-            '/usr/share/fonts/ttf-dejavu/DejaVuSerif.ttf'
-        ]
+    app.options.font = [
+        '/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf',
+        '/usr/share/fonts/ttf-dejavu/DejaVuSerif.ttf'
+    ]
 
     app.fontmap = create_fontmap(app.options)
     app.setup()
