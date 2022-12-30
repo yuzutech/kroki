@@ -15,12 +15,13 @@ class Worker {
     this.pageUrl = process.env.KROKI_MERMAID_PAGE_URL || `file://${path.join(__dirname, '..', 'assets', 'index.html')}`
   }
 
-  async convert (task) {
+  async convert (task, config) {
     const browser = await puppeteer.connect({
       browserWSEndpoint: this.browserWSEndpoint,
       ignoreHTTPSErrors: true
     })
     const page = await browser.newPage()
+    this.updateConfig(task, config)
     try {
       page.setViewport({ height: 800, width: 600 })
       await page.goto(this.pageUrl)
@@ -62,6 +63,15 @@ class Worker {
         await browser.disconnect()
       } catch (err) {
         logger.warn({ err }, 'Unable to disconnect from the browser')
+      }
+    }
+  }
+
+  updateConfig (task, config) {
+    for (const property in task.mermaidConfig) {
+      // for now only properties with string values are handled
+      if(typeof task.mermaidConfig[property] === 'string') {
+        task.mermaidConfig[property] = config.get(property)
       }
     }
   }
