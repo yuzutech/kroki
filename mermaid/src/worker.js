@@ -70,7 +70,7 @@ class Worker {
   updateConfig (task, config) {
     for (const property in task.mermaidConfig) {
       // for now only properties with string values are handled
-      if(typeof task.mermaidConfig[property] === 'string') {
+      if(typeof task.mermaidConfig[property] === 'string' && config.get(property)) {
         task.mermaidConfig[property] = config.get(property)
       }
     }
