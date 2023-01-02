@@ -71,7 +71,7 @@ class Worker {
   updateConfig (task, config) {
     for (const property in Object.fromEntries(config)) {
       const propertyCamelCase = this.convertPropertyToCamelCase(property)
-      let value = this.getTypedValue(config.get(propertyCamelCase))
+      let value = this.getTypedValue(config.get(property))
       _.set(task.mermaidConfig, propertyCamelCase, value)
     }
   }
