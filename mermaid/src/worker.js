@@ -77,21 +77,18 @@ class Worker {
   }
 
   convertPropertyToCamelCase (property) {
-    if (property.startsWith('kroki-diagram-options-')) {
-      const propertySplit = property.substring(22).split('_')
-      for (let i = 0; i < propertySplit.length; i++) {
-        const split = propertySplit[i];
-        const subSplit = split.split('-')
-        if (subSplit.length > 1) {
-          for (let j = 1; j < subSplit.length; j++) {
-            subSplit[j] = subSplit[j].charAt(0).toUpperCase() + subSplit[j].substring(1)
-          }
-          propertySplit[i] = subSplit.join('')
+    const propertySplit = property.split('_')
+    for (let i = 0; i < propertySplit.length; i++) {
+      const split = propertySplit[i];
+      const subSplit = split.split('-')
+      if (subSplit.length > 1) {
+        for (let j = 1; j < subSplit.length; j++) {
+          subSplit[j] = subSplit[j].charAt(0).toUpperCase() + subSplit[j].substring(1)
         }
+        propertySplit[i] = subSplit.join('')
       }
-      return propertySplit.join('.')
     }
-    return property
+    return propertySplit.join('.')
   }
 
   getTypedValue (value) {
