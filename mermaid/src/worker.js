@@ -70,19 +70,38 @@ class Worker {
 
   updateConfig (task, config) {
     for (const property in Object.fromEntries(config)) {
-      let value = this.getTypedValue(config.get(property))
-      _.set(task.mermaidConfig, property, value)
+      const propertyCamelCase = this.convertPropertyToCamelCase(property)
+      let value = this.getTypedValue(config.get(propertyCamelCase))
+      _.set(task.mermaidConfig, propertyCamelCase, value)
     }
   }
 
-  getTypedValue(value){
-    if(value.toLowerCase() === 'true' || value.toLocaleString() === 'false'){
-      return  value === 'true'
+  convertPropertyToCamelCase (property) {
+    if (property.startsWith('kroki-diagram-options-')) {
+      const propertySplit = property.substring(22).split('_')
+      for (let i = 0; i < propertySplit.length; i++) {
+        const split = propertySplit[i];
+        const subSplit = split.split('-')
+        if (subSplit.length > 1) {
+          for (let j = 1; j < subSplit.length; j++) {
+            subSplit[j] = subSplit[j].charAt(0).toUpperCase() + subSplit[j].substring(1)
+          }
+          propertySplit[i] = subSplit.join('')
+        }
+      }
+      return propertySplit.join('.')
     }
-    if(value.startsWith('[') && value.endsWith(']')) {
-      return value.substring(1,value.length - 1).split(',').map(item=>this.getTypedValue(item))
+    return property
+  }
+
+  getTypedValue (value) {
+    if (value.toLowerCase() === 'true' || value.toLocaleString() === 'false') {
+      return value === 'true'
     }
-    if(!isNaN(value)){
+    if (value.startsWith('[') && value.endsWith(']')) {
+      return value.substring(1, value.length - 1).split(',').map(item => this.getTypedValue(item))
+    }
+    if (!isNaN(value)) {
       return Number(value)
     }
     return value
