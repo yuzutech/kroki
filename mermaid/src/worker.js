@@ -2,6 +2,7 @@
 const { logger } = require('./logger')
 const path = require('path')
 const puppeteer = require('puppeteer')
+const _ = require('lodash')
 
 class SyntaxError extends Error {
   constructor () {
@@ -68,12 +69,23 @@ class Worker {
   }
 
   updateConfig (task, config) {
-    for (const property in task.mermaidConfig) {
-      // for now only properties with string values are handled
-      if(typeof task.mermaidConfig[property] === 'string' && config.get(property)) {
-        task.mermaidConfig[property] = config.get(property)
-      }
+    for (const property in Object.fromEntries(config)) {
+      let value = this.getTypedValue(config.get(property))
+      _.set(task.mermaidConfig, property, value)
     }
+  }
+
+  getTypedValue(value){
+    if(value.toLowerCase() === 'true' || value.toLocaleString() === 'false'){
+      return  value === 'true'
+    }
+    if(value.startsWith('[') && value.endsWith(']')) {
+      return value.substring(1,value.length - 1).split(',').map(item=>this.getTypedValue(item))
+    }
+    if(!isNaN(value)){
+      return Number(value)
+    }
+    return value
   }
 }
 
