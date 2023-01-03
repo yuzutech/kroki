@@ -12,7 +12,7 @@ const instance = require('./browser-instance')
   const server = micro(async (req, res) => {
     // TODO: add a /_status route (return mermaid version)
     // TODO: read the diagram source as plain text
-    const url = new URL(req.url, 'http://localhost')  // create a URL object. The base is not important here
+    const url = new URL(req.url, 'http://localhost') // create a URL object. The base is not important here
     const outputType = url.pathname.match(/\/(png|svg)$/)?.[1]
     if (outputType) {
       const diagramSource = await micro.text(req, { limit: '1mb', encoding: 'utf8' })

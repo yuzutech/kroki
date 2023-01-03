@@ -71,7 +71,7 @@ class Worker {
   updateConfig (task, config) {
     for (const property in Object.fromEntries(config)) {
       const propertyCamelCase = this.convertPropertyToCamelCase(property)
-      let value = this.getTypedValue(config.get(property))
+      const value = this.getTypedValue(config.get(property))
       _.set(task.mermaidConfig, propertyCamelCase, value)
     }
   }
@@ -79,7 +79,7 @@ class Worker {
   convertPropertyToCamelCase (property) {
     const propertySplit = property.split('_')
     for (let i = 0; i < propertySplit.length; i++) {
-      const split = propertySplit[i];
+      const split = propertySplit[i]
       const subSplit = split.split('-')
       if (subSplit.length > 1) {
         for (let j = 1; j < subSplit.length; j++) {
