@@ -105,7 +105,7 @@ RUN npm i
 RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-${ARCH} . -o app.bin
 
 ## ERD
-FROM ubuntu:18.04 as kroki-builder-static-erd
+FROM ubuntu:20.04 as kroki-builder-static-erd
 
 ARG ERD_VERSION=0.2.1.0
 
