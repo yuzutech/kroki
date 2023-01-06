@@ -73,7 +73,7 @@ public class Svgbob implements DiagramService {
     addOption("font-size", options, commands);
     addOption("scale", options, commands);
     addOption("stroke-width", options, commands);
-    return commander.execute(source, binPath);
+    return commander.execute(source, commands.toArray(new String[0]));
   }
 
   private void addOption(String optionKey, JsonObject options, List<String> commands) {

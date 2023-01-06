@@ -1,4 +1,9 @@
 # syntax=docker/dockerfile:1.4
+## D2
+FROM golang:1.19.3-alpine3.16 as kroki-builder-d2
+
+RUN go install oss.terrastruct.com/d2@v0.1.1
+
 ## Nomnoml
 FROM node:16.18.1-alpine3.16 as kroki-builder-nomnoml
 
@@ -156,6 +161,7 @@ COPY --from=kroki-builder-vega /app/app.bin /usr/bin/vega
 COPY --from=kroki-builder-vega /app/canvas.node /usr/bin/canvas.node
 COPY --from=kroki-builder-wavedrom /app/app.bin /usr/bin/wavedrom
 COPY --from=kroki-builder-bytefield /app/app.bin /usr/bin/bytefield
+COPY --from=kroki-builder-d2 /go/bin/d2 /usr/bin/d2
 
 RUN apk add --update --no-cache \
            libjpeg \
@@ -176,6 +182,7 @@ ENV KROKI_VEGA_BIN_PATH=/usr/bin/vega
 ENV KROKI_WAVEDROM_BIN_PATH=/usr/bin/wavedrom
 ENV KROKI_BYTEFIELD_BIN_PATH=/usr/bin/bytefield
 ENV KROKI_PIKCHR_BIN_PATH=/usr/bin/pikchr
+ENV KROKI_D2_BIN_PATH=/usr/bin/d2
 ENV JAVA_OPTS="-Dlogback.configurationFile=/etc/kroki/logback.xml -Dvertx.logger-delegate-factory-class-name=io.vertx.core.logging.SLF4JLogDelegateFactory"
 
 COPY --chown=kroki:kroki target/kroki-server.jar /usr/local/kroki/kroki-server.jar

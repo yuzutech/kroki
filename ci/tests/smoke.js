@@ -34,7 +34,8 @@ const tests = [
   {engine: 'diagramsnet', file: 'diagramsnet-mindmap.xml', outputFormat: ['svg', 'png']},
   {engine: 'diagramsnet', file: 'diagramsnet-network.xml', outputFormat: ['svg', 'png']},
   {engine: 'diagramsnet', file: 'diagramsnet-ui.xml', outputFormat: ['svg', 'png']},
-  {engine: 'diagramsnet', file: 'diagramsnet-venn.xml', outputFormat: ['svg', 'png']}
+  {engine: 'diagramsnet', file: 'diagramsnet-venn.xml', outputFormat: ['svg', 'png']},
+  {engine: 'd2', file: 'connections.d2', outputFormat: ['svg']}
 ]
 
 chai.use(chaiHttp)

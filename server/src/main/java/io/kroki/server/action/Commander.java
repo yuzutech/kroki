@@ -13,12 +13,15 @@ public class Commander {
 
   protected TimeValue commandTimeout;
   protected TimeValue readStdoutTimeout;
+  protected TimeValue readStderrTimeout;
 
   public Commander(JsonObject config) {
     String commandTimeoutValue = config.getString("KROKI_COMMAND_TIMEOUT", "5s");
     this.commandTimeout = TimeValue.parseTimeValue(commandTimeoutValue, "KROKI_COMMAND_TIMEOUT");
     String readStdoutTimeoutValue = config.getString("KROKI_COMMAND_READ_STDOUT_TIMEOUT", "2s");
     this.readStdoutTimeout = TimeValue.parseTimeValue(readStdoutTimeoutValue, "KROKI_COMMAND_READ_STDOUT_TIMEOUT");
+    String readStderrTimeoutValue = config.getString("KROKI_COMMAND_READ_STDERR_TIMEOUT", "2s");
+    this.readStderrTimeout = TimeValue.parseTimeValue(readStderrTimeoutValue, "KROKI_COMMAND_READ_STDERR_TIMEOUT");
   }
 
   public byte[] execute(byte[] source, String... cmd) throws IOException, InterruptedException, IllegalStateException {
@@ -29,7 +32,7 @@ public class Commander {
     ByteArrayOutputStream stdoutBuffer = new ByteArrayOutputStream();
     Thread processStdoutReader = readProcessStdout(process, stdoutBuffer);
     ByteArrayOutputStream stderrBuffer = new ByteArrayOutputStream();
-    Thread readProcessStderr = readProcessStderr(process, stdoutBuffer);
+    Thread readProcessStderr = readProcessStderr(process, stderrBuffer);
 
     OutputStream stdin = process.getOutputStream();
     stdin.write(source);
@@ -40,7 +43,7 @@ public class Commander {
     // writing to stdout is asynchronous, wait until there is no more data in the stdout stream
     processStdoutReader.join(readStdoutTimeout.millis());
     // writing to stderr is asynchronous, wait until there is no more data in the stderr stream
-    readProcessStderr.join(readStdoutTimeout.millis());
+    readProcessStderr.join(readStderrTimeout.millis());
     byte[] output = stdoutBuffer.toByteArray();
 
     if (process.isAlive()) {
