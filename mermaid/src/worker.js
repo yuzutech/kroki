@@ -2,7 +2,7 @@
 const { logger } = require('./logger')
 const path = require('path')
 const puppeteer = require('puppeteer')
-const _ = require('lodash')
+const set = require('lodash/set')
 
 class SyntaxError extends Error {
   constructor () {
@@ -72,7 +72,7 @@ class Worker {
     for (const property in Object.fromEntries(config)) {
       const propertyCamelCase = this.convertPropertyToCamelCase(property)
       const value = this.getTypedValue(config.get(property))
-      _.set(task.mermaidConfig, propertyCamelCase, value)
+      set(task.mermaidConfig, propertyCamelCase, value)
     }
   }
 
