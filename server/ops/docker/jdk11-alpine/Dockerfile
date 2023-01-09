@@ -105,26 +105,28 @@ RUN npm i
 RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-${ARCH} . -o app.bin
 
 ## ERD
-FROM ubuntu:18.04 as kroki-builder-static-erd
+# use a pre-built image to reduce build time
+FROM yuzutech/kroki-builder-erd:0.2.1.0 as kroki-builder-static-erd
+#FROM ubuntu:18.04 as kroki-builder-static-erd
 
-ARG ERD_VERSION=0.2.1.0
+#ARG ERD_VERSION=0.2.1.0
 
-RUN apt-get -qq update && apt-get install -qq -y graphviz curl git > /dev/null
+#RUN apt-get -qq update && apt-get install -qq -y graphviz curl git > /dev/null
 
-RUN curl -sSL https://get.haskellstack.org/ | sh -s - -q > /dev/null
+#RUN curl -sSL https://get.haskellstack.org/ | sh -s - -q > /dev/null
 
-RUN git clone https://github.com/BurntSushi/erd.git
+#RUN git clone https://github.com/BurntSushi/erd.git
 
-WORKDIR erd
+#WORKDIR erd
 
-RUN git checkout "v${ERD_VERSION}"
+#RUN git checkout "v${ERD_VERSION}"
 
 # build static executable binary
-RUN /usr/local/bin/stack install --silent --ghc-options="-fPIC" \
-  --ghc-options="-static" \
-  --ghc-options="-optl=-static" \
-  --ghc-options="-optc=-static" \
-  --ghc-options="-w"
+#RUN /usr/local/bin/stack install --silent --ghc-options="-fPIC" \
+#  --ghc-options="-static" \
+#  --ghc-options="-optl=-static" \
+#  --ghc-options="-optc=-static" \
+#  --ghc-options="-w"
 
 ## Pikchr
 FROM alpine:3.16 as kroki-builder-static-pikchr
