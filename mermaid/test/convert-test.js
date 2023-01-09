@@ -1,7 +1,7 @@
 /* global describe, it */
 'use strict'
 
-const { Worker, SyntaxError } = require('../src/worker.js')
+const { Worker } = require('../src/worker.js')
 const Task = require('../src/task.js')
 const puppeteer = require('puppeteer')
 const chai = require('chai')

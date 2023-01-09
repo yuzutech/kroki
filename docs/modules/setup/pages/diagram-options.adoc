@@ -33,7 +33,6 @@ ex. `320x240`
 
 == D2
 
-
 [cols="1m,1a,2a",opts="header"]
 |===
 |Name

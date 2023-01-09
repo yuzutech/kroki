@@ -1,8 +1,8 @@
 /* global XMLSerializer */
 const { logger } = require('./logger')
+const { updateConfig } = require('./config')
 const path = require('path')
 const puppeteer = require('puppeteer')
-const set = require('lodash/set')
 
 class SyntaxError extends Error {
   constructor () {
@@ -22,7 +22,8 @@ class Worker {
       ignoreHTTPSErrors: true
     })
     const page = await browser.newPage()
-    this.updateConfig(task, config)
+    const mermaidConfig = task.mermaidConfig
+    updateConfig(mermaidConfig, config)
     try {
       page.setViewport({ height: 800, width: 600 })
       await page.goto(this.pageUrl)
@@ -31,7 +32,7 @@ class Worker {
         container.textContent = definition
         window.mermaid.initialize(mermaidConfig)
         window.mermaid.init(undefined, container)
-      }, task.source, task.mermaidConfig)
+      }, task.source, mermaidConfig)
 
       // diagrams are directly under #containers, while the SVG generated upon syntax error is wrapped in a div
       const svg = await page.$('#container > svg')
@@ -66,42 +67,6 @@ class Worker {
         logger.warn({ err }, 'Unable to disconnect from the browser')
       }
     }
-  }
-
-  updateConfig (task, config) {
-    for (const property in Object.fromEntries(config)) {
-      const propertyCamelCase = this.convertPropertyToCamelCase(property)
-      const value = this.getTypedValue(config.get(property))
-      set(task.mermaidConfig, propertyCamelCase, value)
-    }
-  }
-
-  convertPropertyToCamelCase (property) {
-    const propertySplit = property.split('_')
-    for (let i = 0; i < propertySplit.length; i++) {
-      const split = propertySplit[i]
-      const subSplit = split.split('-')
-      if (subSplit.length > 1) {
-        for (let j = 1; j < subSplit.length; j++) {
-          subSplit[j] = subSplit[j].charAt(0).toUpperCase() + subSplit[j].substring(1)
-        }
-        propertySplit[i] = subSplit.join('')
-      }
-    }
-    return propertySplit.join('.')
-  }
-
-  getTypedValue (value) {
-    if (value.toLowerCase() === 'true' || value.toLocaleString() === 'false') {
-      return value === 'true'
-    }
-    if (value.startsWith('[') && value.endsWith(']')) {
-      return value.substring(1, value.length - 1).split(',').map(item => this.getTypedValue(item))
-    }
-    if (!isNaN(value)) {
-      return Number(value)
-    }
-    return value
   }
 }
 
