@@ -2,7 +2,7 @@
 ## D2
 FROM golang:1.19.3-alpine3.16 as kroki-builder-d2
 
-RUN go install oss.terrastruct.com/d2@v0.1.1
+RUN go install oss.terrastruct.com/d2@v0.1.5
 
 ## Nomnoml
 FROM node:16.18.1-alpine3.16 as kroki-builder-nomnoml
