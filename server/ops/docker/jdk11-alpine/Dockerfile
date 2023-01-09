@@ -149,7 +149,7 @@ RUN SVGBOB_VERSION=`cat Cargo.toml | grep "svgbob_cli =" | sed -r 's/.*"([^"]+)"
   && cargo install --quiet --target x86_64-unknown-linux-musl --version $SVGBOB_VERSION svgbob_cli
 
 ## yuzutech/kroki
-FROM eclipse-temurin:11.0.16.1_1-jre-alpine
+FROM eclipse-temurin:11.0.17_8-jre-alpine
 
 RUN addgroup -g 1000 kroki && adduser -D -G kroki -u 1000 kroki
 

@@ -6,22 +6,23 @@ asciidoc:
     actdiag-version: 3.0.0
     blockdiag-version: 3.0.0
     bpmn-version: 10.3.0
-    bytefield-version: 1.6.1
+    bytefield-version: 1.7.0
     c4plantuml-version: 1.2022.5
+    d2-version: 0.1.5
     diagramsnet-version: 16.2.4
     ditaa-version: 1.0.3
     erd-version: 0.2.1.0
     excalidraw-version: 0.1.2
     graphviz-version: 3.0.0
-    mermaid-version: 9.2.2
-    nomnoml-version: 1.5.2
+    mermaid-version: 9.3.0
+    nomnoml-version: 1.5.3
     nwdiag-version: 3.0.0
     packetdiag-version: 3.0.0
     pikchr-version: '7269f78c4a'
-    plantuml-version: 1.2022.12
+    plantuml-version: 1.2022.14
     rackdiag-version: 3.0.0
     seqdiag-version: 3.0.0
-    structurizr-version: 1.20.0
+    structurizr-version: 1.22.0
     svgbob-version: 0.6.0
     umlet-version: 14.3.0
     vega-version: 5.22.1
