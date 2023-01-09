@@ -2,7 +2,7 @@
 ## D2
 FROM golang:1.19.3-alpine3.16 as kroki-builder-d2
 
-RUN go install oss.terrastruct.com/d2@v0.1.1
+RUN go install oss.terrastruct.com/d2@v0.1.5
 
 ## Nomnoml
 FROM node:16.18.1-alpine3.16 as kroki-builder-nomnoml
@@ -149,7 +149,7 @@ RUN SVGBOB_VERSION=`cat Cargo.toml | grep "svgbob_cli =" | sed -r 's/.*"([^"]+)"
   && cargo install --quiet --target x86_64-unknown-linux-musl --version $SVGBOB_VERSION svgbob_cli
 
 ## yuzutech/kroki
-FROM eclipse-temurin:11.0.16.1_1-jre-alpine
+FROM eclipse-temurin:11.0.17_8-jre-alpine
 
 RUN addgroup -g 1000 kroki && adduser -D -G kroki -u 1000 kroki
 

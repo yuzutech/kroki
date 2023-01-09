@@ -1,9 +1,11 @@
-* xref:usage.adoc[Usage]
+* Usage
+** xref:usage.adoc[Getting started]
 ** xref:encode-diagram.adoc[Encode Diagrams]
 ** xref:http-clients.adoc[HTTP Clients]
 ** xref:kroki-cli.adoc[Kroki CLI]
 ** xref:diagram-options.adoc[Diagram Options]
-* xref:install.adoc[Install]
+* Install
+** xref:install.adoc[Introduction]
 //** xref:about-docker-podman.adoc[About Docker and Podman]
 ** xref:use-docker-or-podman.adoc[Using Docker or Podman]
 ** xref:use-kubernetes.adoc[Using Kubernetes]

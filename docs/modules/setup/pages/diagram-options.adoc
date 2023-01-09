@@ -31,6 +31,34 @@ ex. `320x240`
 |Do not output doctype definition tags (SVG only)
 |===
 
+== D2
+
+[cols="1m,1a,2a",opts="header"]
+|===
+|Name
+|Allowable Values
+|Description
+
+|theme
+|
+* `default` (`0`)
+* `neutral-grey` (`2`)
+* `flagship-terrastruct` (`3`)
+* `cool-classics` (`4`)
+* `mixed-berry-blue` (`5`)
+* `grape-soda` (`6`)
+* `aubergine` (`7`)
+* `colorblind-clear` (`8`)
+* `vanilla-nitro-cola` (`100`)
+* `orange-creamsicle` (`101`)
+* `shirley-temple` (`102`)
+* `earth-tones` (`103`)
+* `everglade-green` (`104`)
+* `buttered-toast` (`105`)
+
+| See: https://github.com/terrastruct/d2/blob/master/docs/assets/themes_overview.png
+|===
+
 == GraphViz
 
 [cols="1m,1a,2a",opts="header"]
@@ -71,6 +99,85 @@ ex. `320x240`
 If this value is omitted, 72.0 is used.
 This number is used to convert the point coordinate units used in the pos attribute into inches, which is what is expected by neato and fdp: https://graphviz.org/doc/info/command.html#-s
 |===
+
+== Mermaid
+
+Mermaid naming convention for configuration is camelCase, for instance: `htmlLabels`.
+In addition, Mermaid allows to configure each diagram type using a prefix separated by a dot (`.`).
+For instance, if you want to configure the title top margin in an Entity Relation diagram, the option name is: `er.titleTopMargin`.
+
+Since Kroki must be agnostic (and use consistent naming), you should use kebab-case instead of camelCase and replace `.` by `_` (i.e., snake_case).
+
+If we apply these rules to  `er.titleTopMargin` it becomes `er_title-top-margin`.
+Please note that diagram options in Kroki are case-insensitive, so the following is also valid: `ER_TITLE-TOP-MARGIN` or `ER_Title-Top-Margin`.
+
+[NOTE]
+====
+For security reasons, the following options are not available:
+
+- `maxTextSize`
+- `securityLevel`
+- `secure`
+- `startOnLoad`
+====
+
+The complete list of options is available in Mermaid source code at: https://github.com/mermaid-js/mermaid/blob/master/packages/mermaid/src/config.type.ts
+
+== Structurizr
+
+[cols="1m,1a,2a",opts="header"]
+|===
+|Name
+|Allowable Values
+|Description
+
+|view-key
+|_string_
+|Key of the view (if the workspace contains more than one view)
+
+|===
+
+== Svgbob
+
+[cols="1m,1a,2a",opts="header"]
+|===
+|Name
+|Allowable Values
+|Description
+
+|background
+|_any_ +
+*`white`*
+|Backdrop background will be filled with this color
+
+|font-family
+|_any_ +
+*`arial`*
+|Text will be rendered with this font
+
+|font-size
+|_integer_ +
+*`14`*
+|Text will be rendered with this font size
+
+|fill-color
+|_any_ +
+*`black`*
+|Solid shapes will be filled with this color
+
+|scale
+|_any_ +
+*`1`*
+|Scale the entire svg (dimensions, font size, stroke width) by this factor
+
+|stroke-width
+|_any_ +
+*`2`*
+|Stroke width for all lines
+
+|===
+
+
 
 == PlantUML
 

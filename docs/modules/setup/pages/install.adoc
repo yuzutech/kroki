@@ -22,13 +22,11 @@ This section covers installing Kroki locally.
 
 On this page, you'll learn:
 
-//* [x] Why install Kroki locally
 * [x] How to get started
 * [x] The different ways to install Kroki
 * [x] About the Kroki pre-built image containers and the diagrams they provide
 
 == Get started
-To get started, use Docker or Podman to start the mandatory kroki container only.
 
 Use either xref:#docker-podman[Docker or Podman] as the easiest and fastest method to get started running Kroki locally on a system with Internet access using the pre-built Kroki containers published on Docker Hub.
 
@@ -74,6 +72,7 @@ The `yuzutech/kroki` container is the only container that must be running for a 
 The {uri-docker-kroki-image}[yuzutech/kroki] image contains the gateway server, and the following diagram libraries out-of-the-box:
 
 * https://bytefield-svg.deepsymmetry.org/[Bytefield]
+* https://github.com/terrastruct/d2[D2]
 * http://ditaa.sourceforge.net[Ditaa]
 * https://github.com/BurntSushi/erd[Erd]
 * https://www.graphviz.org/[GraphViz]
@@ -93,6 +92,7 @@ In other words, the following endpoints will be available:
 ....
 /bytefield
 /c4plantuml
+/d2
 /ditaa
 /erd
 /graphviz
