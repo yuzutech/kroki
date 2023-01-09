@@ -23,7 +23,9 @@ class Worker {
     })
     const page = await browser.newPage()
     const mermaidConfig = task.mermaidConfig
-    updateConfig(mermaidConfig, config)
+    if (config !== null && config !== undefined && typeof config[Symbol.iterator] === 'function') {
+      updateConfig(mermaidConfig, config)
+    }
     try {
       page.setViewport({ height: 800, width: 600 })
       await page.goto(this.pageUrl)

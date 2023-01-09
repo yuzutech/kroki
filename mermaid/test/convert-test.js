@@ -62,7 +62,7 @@ describe('#convert', function () {
         const worker = new Worker(browser)
         const result = await worker.convert(new Task(`graph TD
   A{{ ${testCase.content} }}`))
-        expect(result).to.contains('<div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Hello<br />World</div>')
+        expect(result).to.contains('<span class="nodeLabel">Hello<br />World</span>')
       } finally {
         await browser.close()
       }
