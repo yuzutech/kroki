@@ -133,7 +133,7 @@ KROKI_COMMAND_TIMEOUT=4000ms # <3>
 
 == Convert Timeout
 
-By default, Kroki will wait at most 20 seconds when calling a Java library to convert a digram.
+By default, Kroki will wait at most 20 seconds when calling a Java library to convert a diagram.
 In most scenarios, 20 seconds is more than enough but, if needed, you can adjust the timeout using the `KROKI_CONVERT_TIMEOUT` environment variable.
 
 The expected format is a duration with a time unit:
