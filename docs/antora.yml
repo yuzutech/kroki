@@ -9,6 +9,7 @@ asciidoc:
     bytefield-version: 1.7.0
     c4plantuml-version: 1.2022.5
     d2-version: 0.1.5
+    dbml-version: 1.0.22
     diagramsnet-version: 16.2.4
     ditaa-version: 1.0.3
     erd-version: 0.2.1.0

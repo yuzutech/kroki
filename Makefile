@@ -49,6 +49,7 @@ installJavaScriptDependencies:
 	npm i --prefix bpmn
 	npm run prestart --prefix bpmn
 	npm i --prefix bytefield
+	npm i --prefix dbml
 	npm i --prefix diagrams.net
 	npm i --prefix excalidraw
 	npm run prestart --prefix excalidraw

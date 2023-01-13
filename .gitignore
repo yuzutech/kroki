@@ -4,3 +4,4 @@ target/
 .vertx/
 /node_modules/
 dependency-reduced-pom.xml
+.idea

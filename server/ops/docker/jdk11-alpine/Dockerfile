@@ -61,6 +61,25 @@ RUN npm run lint && npm t
 RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-${ARCH} . -o app.bin
 RUN cp /app/node_modules/canvas/build/Release/canvas.node  /app/
 
+## DBML
+FROM node:16.18.1-alpine3.16 as kroki-builder-dbml
+
+RUN npm config set unsafe-perm true
+
+RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
+
+ENV NODE node16
+ENV PLATFORM alpine
+ENV ARCH x64
+RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM} -a ${ARCH}
+
+COPY --from=dbml index.js package.json package-lock.json /app/
+WORKDIR /app
+
+RUN npm i
+RUN npm run lint
+RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-${ARCH} . -o app.bin
+
 ## Wavedrom
 FROM node:16.18.1-alpine3.16 as kroki-builder-wavedrom
 
@@ -161,6 +180,7 @@ COPY --from=kroki-builder-static-pikchr /build/pikchr /usr/bin/pikchr
 COPY --from=kroki-builder-nomnoml /app/app.bin /usr/bin/nomnoml
 COPY --from=kroki-builder-vega /app/app.bin /usr/bin/vega
 COPY --from=kroki-builder-vega /app/canvas.node /usr/bin/canvas.node
+COPY --from=kroki-builder-dbml /app/app.bin /usr/bin/dbml
 COPY --from=kroki-builder-wavedrom /app/app.bin /usr/bin/wavedrom
 COPY --from=kroki-builder-bytefield /app/app.bin /usr/bin/bytefield
 COPY --from=kroki-builder-d2 /go/bin/d2 /usr/bin/d2
@@ -181,6 +201,7 @@ ENV KROKI_ERD_BIN_PATH=/usr/bin/erd
 ENV KROKI_DOT_BIN_PATH=/usr/bin/dot
 ENV KROKI_NOMNOML_BIN_PATH=/usr/bin/nomnoml
 ENV KROKI_VEGA_BIN_PATH=/usr/bin/vega
+ENV KROKI_DBML_BIN_PATH=/usr/bin/dmbl
 ENV KROKI_WAVEDROM_BIN_PATH=/usr/bin/wavedrom
 ENV KROKI_BYTEFIELD_BIN_PATH=/usr/bin/bytefield
 ENV KROKI_PIKCHR_BIN_PATH=/usr/bin/pikchr

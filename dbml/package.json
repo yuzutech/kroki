@@ -1,0 +1,24 @@
+{
+  "name": "@kroki/dbml",
+  "version": "1.0.0",
+  "description": "A CLI built on top of the dbml-renderer tool.",
+  "bin": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "standard"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yuzutech/kroki.git"
+  },
+  "keywords": [],
+  "author": "Bruno Obsomer",
+  "dependencies": {
+    "@softwaretechnik/dbml-renderer": "1.0.22"
+  },
+  "devDependencies": {
+    "standard": "17.0.0"
+  }
+}

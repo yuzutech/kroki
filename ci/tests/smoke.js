@@ -12,6 +12,7 @@ const tests = [
   {engine: 'actdiag', file: 'actions.diag', outputFormat: ['svg', 'png']},
   {engine: 'nwdiag', file: 'network.diag', outputFormat: ['svg', 'png']},
   {engine: 'c4plantuml', file: 'banking-system.puml', outputFormat: ['svg']},
+  {engine: 'dbml', file: 'dbml.dbml', outputFormat: ['svg']},
   {engine: 'ditaa', file: 'components.ditaa', outputFormat: ['svg']},
   {engine: 'erd', file: 'schema.erd', outputFormat: ['svg']},
   {engine: 'mermaid', file: 'contribute.mmd', outputFormat: ['svg']},
