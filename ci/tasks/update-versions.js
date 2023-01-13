@@ -101,6 +101,7 @@ const diagramLibraryNames = [
   'blockdiag',
   'bpmn',
   'bytefield',
+  'd2',
   'dbml',
   'diagramsnet',
   'ditaa',
@@ -158,8 +159,8 @@ try {
   }
 
   const dockerfileContent = await fs.readFile(ospath.join(rootDir, 'server', 'ops', 'docker', 'jdk11-alpine', 'Dockerfile'), 'utf8')
-  for (const line of dockerfileContent.split('\n').filter((line) => line.startsWith('ARG '))) {
-    const erdVersionFound = line.match(/^ARG ERD_VERSION=(?<version>.+)$/)
+  for (const line of dockerfileContent.split('\n')) {
+    const erdVersionFound = line.match(/^FROM yuzutech\/kroki-builder-erd:(?<version>\S+) as kroki-builder-static-erd$/)
     if (erdVersionFound) {
       const { version } = erdVersionFound.groups
       diagramLibraryVersions.erd = version
@@ -168,6 +169,11 @@ try {
     if (pikchrVersionFound) {
       const { version } = pikchrVersionFound.groups
       diagramLibraryVersions.pikchr = version.slice(0, 10)
+    }
+    const d2VersionFound = line.match(/^ARG D2_VERSION=(?<version>.+)$/)
+    if (d2VersionFound) {
+      const { version } = d2VersionFound.groups
+      diagramLibraryVersions.d2 = version
     }
   }
 
@@ -231,6 +237,7 @@ try {
   await updateServiceGetVersion('Blockdiag.java', diagramLibraryVersions.blockdiag)
   await updateServiceGetVersion('Bpmn.java', diagramLibraryVersions.bpmn)
   await updateServiceGetVersion('Bytefield.java', diagramLibraryVersions.bytefield)
+  await updateServiceGetVersion('D2.java', diagramLibraryVersions.d2)
   await updateServiceGetVersion('Dbml.java', diagramLibraryVersions.dbml)
   await updateServiceGetVersion('Ditaa.java', diagramLibraryVersions.ditaa)
   await updateServiceGetVersion('Erd.java', diagramLibraryVersions.erd)
