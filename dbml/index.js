@@ -10,7 +10,6 @@ async function convert () {
     return
   }
   try {
-    console.log(render)
     const svg = render.default(source, 'svg')
     console.log(svg)
   } catch (err) {
