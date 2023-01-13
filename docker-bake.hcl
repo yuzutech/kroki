@@ -11,6 +11,7 @@ target "kroki" {
   contexts = {
     nomnoml = "./nomnoml"
     vega = "./vega"
+    dbml = "./dbml"
     wavedrom = "./wavedrom"
     bytefield = "./bytefield"
   }

@@ -8,6 +8,7 @@ import io.kroki.server.service.Blockdiag;
 import io.kroki.server.service.Bpmn;
 import io.kroki.server.service.Bytefield;
 import io.kroki.server.service.D2;
+import io.kroki.server.service.Dbml;
 import io.kroki.server.service.DiagramRegistry;
 import io.kroki.server.service.DiagramRest;
 import io.kroki.server.service.Diagramsnet;
@@ -126,6 +127,7 @@ public class Server extends AbstractVerticle {
     registry.register(new Structurizr(vertx), "structurizr");
     registry.register(new Diagramsnet(vertx, config), "diagramsnet");
     registry.register(new D2(vertx, config, commander), "d2");
+    registry.register(new Dbml(vertx, config, commander), "dbml");
 
     router.post("/")
       .handler(bodyHandler)

@@ -101,6 +101,7 @@ const diagramLibraryNames = [
   'blockdiag',
   'bpmn',
   'bytefield',
+  'dbml',
   'diagramsnet',
   'ditaa',
   'erd',
@@ -142,6 +143,7 @@ try {
 
   addDiagramLibraryPackageVersion('bpmn', 'bpmn-js')
   addDiagramLibraryPackageVersion('bytefield', 'bytefield-svg')
+  addDiagramLibraryPackageVersion('dbml', '@softwaretechnik/dbml-renderer')
   addDiagramLibraryPackageVersion('excalidraw', '@excalidraw/utils')
   addDiagramLibraryPackageVersion('mermaid')
   addDiagramLibraryPackageVersion('nomnoml')
@@ -229,6 +231,7 @@ try {
   await updateServiceGetVersion('Blockdiag.java', diagramLibraryVersions.blockdiag)
   await updateServiceGetVersion('Bpmn.java', diagramLibraryVersions.bpmn)
   await updateServiceGetVersion('Bytefield.java', diagramLibraryVersions.bytefield)
+  await updateServiceGetVersion('Dbml.java', diagramLibraryVersions.dbml)
   await updateServiceGetVersion('Ditaa.java', diagramLibraryVersions.ditaa)
   await updateServiceGetVersion('Erd.java', diagramLibraryVersions.erd)
   await updateServiceGetVersion('Excalidraw.java', diagramLibraryVersions.excalidraw)
