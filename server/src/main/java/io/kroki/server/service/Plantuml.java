@@ -18,7 +18,7 @@ import io.vertx.core.json.JsonObject;
 import net.sourceforge.plantuml.BlockUml;
 import net.sourceforge.plantuml.ErrorUml;
 import net.sourceforge.plantuml.FileFormatOption;
-import net.sourceforge.plantuml.LineLocation;
+import net.sourceforge.plantuml.utils.LineLocation;
 import net.sourceforge.plantuml.OptionFlags;
 import net.sourceforge.plantuml.SourceStringReader;
 import net.sourceforge.plantuml.code.Base64Coder;
@@ -154,8 +154,8 @@ public class Plantuml implements DiagramService {
     if (filename != null) {
       final Path path = Paths.get(filename);
       if (Files.isRegularFile(path)) {
-        try {
-          Files.lines(path).map(String::trim).filter(s -> !s.isEmpty()).flatMap(regex -> {
+        try (Stream<String> lines = Files.lines(path)) {
+          lines.map(String::trim).filter(s -> !s.isEmpty()).flatMap(regex -> {
             try {
               return Stream.of(Pattern.compile(regex));
             } catch (PatternSyntaxException e) {
@@ -407,6 +407,7 @@ public class Plantuml implements DiagramService {
 
   /**
    * Try to find a ditaa context from a PlantUML source.
+   *
    * @param source PlantUML source
    * @return a {@link DitaaContext} or null if not found
    */
