@@ -9,7 +9,7 @@ image:https://github.com/yuzutech/kroki/workflows/CI/badge.svg?branch=master[Git
 image:https://img.shields.io/badge/zulip-join_chat-brightgreen.svg[Zulip chat, link=https://kroki.zulipchat.com/]
 endif::[]
 
-{uri-kroki}[Kroki] provides a unified API with support for BlockDiag (BlockDiag, SeqDiag, ActDiag, NwDiag, PacketDiag, RackDiag), BPMN, Bytefield, C4 (with PlantUML), DBML, Diagrams.net (experimental), Ditaa, Erd, Excalidraw, GraphViz, Mermaid, Nomnoml, Pikchr, PlantUML, SvgBob, UMLet, Vega, Vega-Lite and WaveDrom... and more to come!
+{uri-kroki}[Kroki] provides a unified API with support for BlockDiag (BlockDiag, SeqDiag, ActDiag, NwDiag, PacketDiag, RackDiag), BPMN, Bytefield, C4 (with PlantUML), D2, DBML, Diagrams.net (experimental), Ditaa, Erd, Excalidraw, GraphViz, Mermaid, Nomnoml, Pikchr, PlantUML, SvgBob, UMLet, Vega, Vega-Lite and WaveDrom... and more to come!
 
 == Quickstart
 
