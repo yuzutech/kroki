@@ -1,5 +1,4 @@
 = Third Party Tools
-:url-diagramit: https://diagramit.herokuapp.com/
 :url-intellij-asciidoc-plugin: https://github.com/asciidoctor/asciidoctor-intellij-plugin/
 :url-keenwrite: https://github.com/DaveJarvis/keenwrite/
 :url-niolesk: https://niolesk.top/
@@ -19,18 +18,6 @@
 :url-mkdocs-plugin: https://pypi.org/project/mkdocs-kroki-plugin/
 
 A list of third party tools, developed by the community, that rely on Kroki.
-
-== Diagram it
-
-{url-diagramit}[A public service] that allows you to generate diagrams directly from a public source file.
-
-[TIP]
-====
-You can use this service to generate diagrams from public URL. +
-For instance: https://diagramit.herokuapp.com/v1/vega/generate?source=https://github.com/yuzutech/kroki/blob/main/tests/smoke/diagrams/bar-chart.vega
-
-Here, we generate a Vega diagram from a public GitHub URL: https://github.com/yuzutech/kroki/blob/main/tests/smoke/diagrams/bar-chart.vega
-====
 
 == IntelliJ AsciiDoc Plugin
 
@@ -52,7 +39,7 @@ Add any Kroki URL after `https://niolesk.top/#` and you'll be able to edit your 
 Here's an example: https://niolesk.top/#https://kroki.io/plantuml/svg/eNpTLMlIzU1VyM3MK6nk4nLKT9K1c8zJTE61UvBIzcnJVwQArksKZQ==
 ====
 
-== VS-Code
+== Visual Studio Code
 
 The following {url-vscode}[Visual Studio Code] plugins support Kroki:
 

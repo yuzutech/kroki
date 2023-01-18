@@ -4,7 +4,7 @@
 Assumptions:
 
 * [x] You've Linux experience.
-* [x] You've installed Java 8 on your Linux machine.
+* [x] You've installed Java 11 or greater on your Linux machine.
 
 On this page, you'll learn:
 
