@@ -35,8 +35,9 @@ const pngTests = [
 ]
 
 const invalidSyntaxTests = [
-  { endpoint: 'svg', isPng: false },
-  { endpoint: 'png', isPng: true }
+  { endpoint: 'svg' },
+  { endpoint: 'png' },
+  { endpoint: 'pdf' },
 ]
 
 async function getBrowser () {
@@ -74,7 +75,7 @@ describe('#convert', function () {
       const browser = await getBrowser()
       try {
         const worker = new Worker(browser)
-        const result = await worker.convert(new Task(testCase.content, true))
+        const result = await worker.convert(new Task(testCase.content, 'png'))
 
         const image = PNG.sync.read(result) // this will fail on invalid image
 
@@ -90,8 +91,8 @@ describe('#convert', function () {
     it(`should throw syntax error in endpoint /${testCase.endpoint}`, async function () {
       const browser = await getBrowser()
       try {
-        const result = await new Worker(browser).convert(new Task('not a valid mermaid code', testCase.isPng))
-        if (!testCase.isPng) {
+        const result = await new Worker(browser).convert(new Task('not a valid mermaid code', testCase.endpoint))
+        if (testCase.endpoint === 'svg') {
           expect(result).to.contains('class="error-text">Syntax error in graph</text>')
         }
       } finally {

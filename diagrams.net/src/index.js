@@ -12,13 +12,12 @@ const puppeteer = require('puppeteer')
   const server = micro(async (req, res) => {
     // TODO: add a /_status route (return diagrams.net version)
     // TODO: read the diagram source as plain text
-    const outputType = req.url.match(/\/(png|svg)$/)?.[1]
+    const outputType = req.url.match(/\/(png|svg|pdf)$/)?.[1]
     if (outputType) {
       const diagramSource = await micro.text(req, { limit: '1mb', encoding: 'utf8' })
       if (diagramSource) {
         try {
-          const isPng = outputType === 'png'
-          const output = await worker.convert(new Task(diagramSource, isPng))
+          const output = await worker.convert(new Task(diagramSource, outputType))
           res.setHeader('Content-Type', isPng ? 'image/png' : 'image/svg+xml')
           return micro.send(res, 200, output)
         } catch (e) {
