@@ -173,7 +173,7 @@ RUN SVGBOB_VERSION=`cat Cargo.toml | grep "svgbob_cli =" | sed -r 's/.*"([^"]+)"
   && cargo install --quiet --target x86_64-unknown-linux-musl --version $SVGBOB_VERSION svgbob_cli
 
 ## yuzutech/kroki
-FROM eclipse-temurin:11.0.17_8-jre-alpine
+FROM eclipse-temurin:11.0.17_8-jre-jammy
 
 RUN addgroup -g 1000 kroki && adduser -D -G kroki -u 1000 kroki
 
@@ -188,7 +188,7 @@ COPY --from=kroki-builder-wavedrom /app/app.bin /usr/bin/wavedrom
 COPY --from=kroki-builder-bytefield /app/app.bin /usr/bin/bytefield
 COPY --from=kroki-builder-d2 /go/bin/d2 /usr/bin/d2
 
-RUN apk add --update --no-cache \
+RUN apt update && apt install \
            libjpeg \
            giflib-dev \
            graphviz \
