@@ -23,7 +23,7 @@ A companion web server written in JavaScript (powered by _micro_) that provides 
 
 == Gateway Server
 
-The Docker image contains the following diagrams libraries out-of-the-box:
+The `yuzutech/kroki` Docker image contains the following diagrams libraries out-of-the-box:
 
 [options="header",cols="1,1m"]
 |===
@@ -88,7 +88,7 @@ The Docker image contains the following diagrams libraries out-of-the-box:
 
 === BlockDiag
 
-The `yuzutech/kroki`  Docker image contains the following diagrams libraries out-of-the-box:
+The `yuzutech/kroki-blockdiag` Docker image contains the following diagrams libraries out-of-the-box:
 
 [options="header",cols="1,1m"]
 |===
