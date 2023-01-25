@@ -1,4 +1,30 @@
 # syntax=docker/dockerfile:1.4
+
+## TikZ
+FROM ubuntu:jammy AS kroki-builder-dvisvgm
+
+RUN apt-get update && apt-get install --no-install-recommends --yes \
+    build-essential \
+    pkg-config \
+    libclipper-dev \
+    libfreetype-dev \
+    libkpathsea-dev \
+    ghostscript \
+    libssl-dev \
+    zlib1g-dev \
+    curl \
+    ca-certificates
+
+ARG DVISVGM_VERSION=3.0.2
+
+RUN \
+    curl -LO https://github.com/mgieseki/dvisvgm/releases/download/$DVISVGM_VERSION/dvisvgm-$DVISVGM_VERSION.tar.gz \
+    && tar xf dvisvgm-$DVISVGM_VERSION.tar.gz \
+    && cd dvisvgm-$DVISVGM_VERSION \
+    && ./configure --enable-bundled-libs \
+    && make \
+    && make install
+
 ## D2
 FROM golang:1.19.3-bullseye AS kroki-builder-d2
 COPY ops/docker/go.mod .
@@ -170,6 +196,8 @@ COPY --from=kroki-builder-dbml /app/app.bin /usr/bin/dbml
 COPY --from=kroki-builder-wavedrom /app/app.bin /usr/bin/wavedrom
 COPY --from=kroki-builder-bytefield /app/app.bin /usr/bin/bytefield
 COPY --from=kroki-builder-d2 /go/bin/d2 /usr/bin/d2
+COPY --from=kroki-builder-dvisvgm /usr/local/bin/dvisvgm /usr/bin/dvisvgm
+COPY --from=tikz tikz2svg /usr/bin/tikz2svg
 
 RUN apt-get update && apt-get install --no-install-recommends --yes \
     libjpeg9 \
@@ -181,6 +209,24 @@ RUN apt-get update && apt-get install --no-install-recommends --yes \
 
 RUN wget "https://github.com/yuzutech/umlet/releases/download/${UMLET_VERSION}/umlet" -O /usr/bin/umlet \
   && chmod +x /usr/bin/umlet
+
+# For TikZ
+#
+# * ghostscript - Dynamically linked dependency required by dvisvgm
+# * poppler-utils - Provides pdftocairo for latex to jpeg and png
+# * texlive - Provides latex
+# * texlive-latexextra - Provides the "standalone" package to remove figure
+#   captions
+# * texlive-pictures - Provides various graphics packages like "circuitikz"
+# * texlive-science - Provides various science packages like "siunitx"
+RUN apt-get update && apt-get install --no-install-recommends --yes \
+    ghostscript \
+    poppler-utils \
+    texlive \
+    texlive-latex-extra \
+    texlive-pictures \
+    texlive-pstricks \
+    texlive-science
 
 COPY --chown=kroki:kroki ops/docker/logback.xml /etc/kroki/logback.xml
 
@@ -197,6 +243,7 @@ ENV KROKI_BYTEFIELD_BIN_PATH=/usr/bin/bytefield
 ENV KROKI_PIKCHR_BIN_PATH=/usr/bin/pikchr
 ENV KROKI_D2_BIN_PATH=/usr/bin/d2
 ENV KROKI_UMLET_BIN_PATH=/usr/bin/umlet
+ENV KROKI_TIKZ2SVG_PATH=/usr/bin/tikz2svg
 ENV JAVA_OPTS="-Dlogback.configurationFile=/etc/kroki/logback.xml -Dvertx.logger-delegate-factory-class-name=io.vertx.core.logging.SLF4JLogDelegateFactory"
 
 COPY --chown=kroki:kroki target/kroki-server.jar /usr/local/kroki/kroki-server.jar
