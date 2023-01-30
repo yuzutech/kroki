@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+  labels:
+    app: wireviz
+  name: wireviz
+spec:
+  ports:
+  - name: "8006"
+    port: 8006
+    targetPort: 8006
+  selector:
+    app: wireviz

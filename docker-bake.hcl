@@ -44,3 +44,7 @@ target "kroki-diagramsnet" {
   tags = ["yuzutech/kroki-diagramsnet:${TAG}"]
 }
 
+target "kroki-wireviz" {
+  context = "wireviz"
+  tags = ["yuzutech/kroki-wireviz:${TAG}"]
+}

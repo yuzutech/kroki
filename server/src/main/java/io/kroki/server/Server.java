@@ -28,6 +28,7 @@ import io.kroki.server.service.Svgbob;
 import io.kroki.server.service.Umlet;
 import io.kroki.server.service.Vega;
 import io.kroki.server.service.Wavedrom;
+import io.kroki.server.service.Wireviz;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.AsyncResult;
@@ -128,6 +129,7 @@ public class Server extends AbstractVerticle {
     registry.register(new Diagramsnet(vertx, config), "diagramsnet");
     registry.register(new D2(vertx, config, commander), "d2");
     registry.register(new Dbml(vertx, config, commander), "dbml");
+    registry.register(new Wireviz(vertx, config), "wireviz");
 
     router.post("/")
       .handler(bodyHandler)

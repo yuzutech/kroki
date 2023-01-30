@@ -40,6 +40,7 @@ services:
       - KROKI_MERMAID_HOST=mermaid
       - KROKI_BPMN_HOST=bpmn
       - KROKI_EXCALIDRAW_HOST=excalidraw
+      - KROKI_WIREVIZ_HOST=wireviz
     ports:
       - "8000:8000"
   blockdiag:
@@ -58,6 +59,10 @@ services:
     image: yuzutech/kroki-excalidraw
     ports:
       - "8004:8004"
+  wireviz:
+    image: yuzutech/kroki-wireviz
+    ports:
+      - "8006:8006"
 ```
 
 If you don't want to use `docker-compose`, you can configure the host and port for each companion container using environment variables:
@@ -68,6 +73,7 @@ If you don't want to use `docker-compose`, you can configure the host and port f
 | `kroki-mermaid`    | `KROKI_MERMAID_HOST`    | `KROKI_MERMAID_PORT`    |
 | `kroki-bpmn`       | `KROKI_BPMN_HOST`       | `KROKI_BPMN_PORT`       |
 | `kroki-excalidraw` | `KROKI_EXCALIDRAW_HOST` | `KROKI_EXCALIDRAW_PORT` |
+| `kroki-wireviz`    | `KROKI_WIREVIZ_HOST`    | `KROKI_WIREVIZ_PORT`    |
 
 For Kubernetes installation follow the description in [install using Kubernetes](https://docs.kroki.io/kroki/setup/install/#_using_kubernetes) section.
 

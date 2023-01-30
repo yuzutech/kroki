@@ -27,6 +27,8 @@ spec:
           value: localhost
         - name: KROKI_EXCALIDRAW_HOST
           value: localhost
+        - name: KROKI_WIREVIZ_HOST
+          value: localhost
         ports:
         - protocol: TCP
           containerPort: 8000
@@ -50,3 +52,8 @@ spec:
         ports:
         - protocol: TCP
           containerPort: 8004
+      - name: kroki-wireviz
+        image: docker.io/yuzutech/kroki-wireviz:latest
+        ports:
+        - protocol: TCP
+          containerPort: 8006
