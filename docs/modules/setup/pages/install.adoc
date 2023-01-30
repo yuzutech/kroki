@@ -6,6 +6,7 @@
 :uri-docker-kroki-bpmn-image: https://hub.docker.com/r/yuzutech/kroki-bpmn
 :uri-docker-kroki-excalidraw-image: https://hub.docker.com/r/yuzutech/kroki-excalidraw
 :uri-docker-kroki-diagramsnet-image: https://hub.docker.com/r/yuzutech/kroki-diagramsnet
+:uri-docker-kroki-wireviz-image: https://hub.docker.com/r/yuzutech/kroki-wireviz
 // URIs of diagram generation application sites by diagram name
 :uri-blockdiag: http://blockdiag.com/en/blockdiag/index.html
 :uri-seqdiag: http://blockdiag.com/en/seqdiag/index.html
@@ -17,6 +18,7 @@
 :uri-bpmn: https://bpmn.io/toolkit/bpmn-js/
 :uri-excalidraw: https://excalidraw.com/
 :uri-diagramsnet: https://diagrams.net/
+:uri-wireviz: https://github.com/formatc1702/WireViz
 
 This section covers installing Kroki locally.
 
@@ -117,6 +119,7 @@ These optional companion containers provide additional diagrams and require the 
 // * <<yuzutech-kroki-bpmn,Kroki bpmn>>
 // * <<yuzutech-kroki-excalidraw,Kroki excalidraw>>
 // * <<yuzutech-kroki-mermaid,Kroki mermaid>>
+// * <<yuzutech-kroki-wireviz,Kroki wireviz>>
 
 [#yuzutech-kroki-blockdiag]
 {uri-docker-kroki-blockdiag-image}[yuzutech/kroki-blockdiag^]::
@@ -143,3 +146,7 @@ Provides flowchart, sequence and Gantt diagrams for Kroki using the {uri-mermaid
 [#yuzutech-kroki-diagramsnet]
 {uri-docker-kroki-diagramsnet-image}[yuzutech/kroki-diagramsnet^]  (experimental)::
 Provides diagrams for Kroki using the {uri-diagramsnet}[diagrams.net^] library.
+
+[#yuzutech-kroki-wireviz]
+{uri-docker-kroki-wireviz-image}[yuzutech/kroki-wireviz^]::
+Provides diagrams for Kroki using the {uri-wireviz}[WireViz^] library.

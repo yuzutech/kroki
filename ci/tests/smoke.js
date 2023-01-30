@@ -36,7 +36,8 @@ const tests = [
   {engine: 'diagramsnet', file: 'diagramsnet-network.xml', outputFormat: ['svg', 'png']},
   {engine: 'diagramsnet', file: 'diagramsnet-ui.xml', outputFormat: ['svg', 'png']},
   {engine: 'diagramsnet', file: 'diagramsnet-venn.xml', outputFormat: ['svg', 'png']},
-  {engine: 'd2', file: 'connections.d2', outputFormat: ['svg']}
+  {engine: 'd2', file: 'connections.d2', outputFormat: ['svg']},
+  {engine: 'wireviz', file: 'wireviz.yaml', outputFormat: ['svg', 'png']}
 ]
 
 chai.use(chaiHttp)

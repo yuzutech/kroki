@@ -121,7 +121,8 @@ const diagramLibraryNames = [
   'umlet',
   'vega',
   'vegalite',
-  'wavedrom'
+  'wavedrom',
+  'wireviz'
 ]
 
 try {
@@ -250,6 +251,7 @@ try {
   await updateServiceGetVersion('Svgbob.java', diagramLibraryVersions.svgbob)
   await updateServiceGetVersion('Umlet.java', diagramLibraryVersions.umlet)
   await updateServiceGetVersion('Wavedrom.java', diagramLibraryVersions.wavedrom)
+  await updateServiceGetVersion('WireViz.java', diagramLibraryVersions.wireviz)
   await updateVegaServiceGetVersion(diagramLibraryVersions.vega, diagramLibraryVersions.vegalite)
 
 } catch (err) {
