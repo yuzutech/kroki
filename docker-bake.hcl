@@ -3,7 +3,7 @@ variable "TAG" {
 }
 
 group "default" {
-  targets = ["kroki", "kroki-blockdiag", "kroki-mermaid", "kroki-bpmn", "kroki-excalidraw", "kroki-diagramsnet"]
+  targets = ["kroki", "kroki-blockdiag", "kroki-mermaid", "kroki-bpmn", "kroki-excalidraw", "kroki-diagramsnet", "kroki-wireviz"]
 }
 
 target "kroki" {
