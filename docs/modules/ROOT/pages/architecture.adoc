@@ -21,6 +21,9 @@ A companion web server written in JavaScript (powered by _micro_) that provides 
 Diagrams.net::
 A companion web server written in JavaScript (powered by _micro_) that provides https://www.diagrams.net/[_diagrams.net_] to render diagrams.
 
+WireViz::
+A companion web server written in Python (powered by _Flask_ and _Gunicorn_) that provides WireViz.
+
 == Gateway Server
 
 The `yuzutech/kroki` Docker image contains the following diagrams libraries out-of-the-box:
@@ -154,4 +157,15 @@ The `yuzutech/kroki-diagramsnet` Docker image contains the following diagrams li
 |Diagram Type | Version
 |https://www.diagrams.net/[diagrams.net]
 |{diagramsnet-version}
+|===
+
+=== WireViz
+
+The `yuzutech/kroki-wireviz` Docker image contains the following diagrams libraries out-of-the-box:
+
+[options="header",cols="1,1m"]
+|===
+|Diagram Type | Version
+|https://github.com/formatc1702/WireViz[WireViz]
+|{wireviz-version}
 |===

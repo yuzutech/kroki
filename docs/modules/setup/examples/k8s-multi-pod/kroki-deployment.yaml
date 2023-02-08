@@ -25,6 +25,8 @@ spec:
           value: excalidraw
         - name: KROKI_MERMAID_HOST
           value: mermaid
+        - name: KROKI_WIREVIZ_HOST
+          value: wireviz
         image: yuzutech/kroki
         name: kroki
         ports:

@@ -96,6 +96,13 @@ kubectl apply -f {uri-k8s-kroki-examples}/excalidraw-deployment.yaml
 kubectl apply -f {uri-k8s-kroki-examples}/excalidraw-service.yaml
 ----
 
+.Add WireViz service
+[source,cli,subs=+attributes]
+----
+kubectl apply -f {uri-k8s-kroki-examples}/wireviz-deployment.yaml
+kubectl apply -f {uri-k8s-kroki-examples}/wireviz-service.yaml
+----
+
 .Add Kroki service
 [source,cli,subs=+attributes]
 ----
@@ -127,6 +134,7 @@ bpmn-6cfccf9bc4-6w4px         1/1     Running   0          24s
 excalidraw-5b84995fcb-dh57t   1/1     Running   0          24s
 kroki-6b49bcb7c4-x2ksc        1/1     Running   0          23s
 mermaid-7bff5c9959-hkrxx      1/1     Running   0          22s
+wireviz-8c778ff7a8-7ds7c      1/1     Running   0          24s
 ....
 
 . To make sure that Kroki is working, open a terminal and type:
