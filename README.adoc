@@ -109,6 +109,9 @@ A companion web server written in JavaScript (powered by _micro_) that provides 
 diagrams.net::
 A companion web server written in JavaScript (powered by _micro_) that provides _diagrams.net_.
 
+dbml::
+A Node.js CLI on top of the _dbml-renderer_ tool.
+
 wireviz::
 A companion web server written in Python (powered by _Flask_ and _Gunicorn_) that provides _WireViz_.
 
