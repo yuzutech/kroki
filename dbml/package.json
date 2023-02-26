@@ -15,7 +15,7 @@
   "keywords": [],
   "author": "Bruno Obsomer",
   "dependencies": {
-    "@softwaretechnik/dbml-renderer": "1.0.22"
+    "@softwaretechnik/dbml-renderer": "1.0.26"
   },
   "devDependencies": {
     "standard": "17.0.0"
