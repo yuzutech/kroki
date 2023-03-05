@@ -18,7 +18,7 @@ class Worker {
       await page.goto(this.pageUrl)
       // QUESTION: should we reuse the page for performance reason ?
       return await page.evaluate(async (definition) => {
-        const svgElement = await window.ExcalidrawUtils.exportToSvg(JSON.parse(definition))
+        const svgElement = await window.ExcalidrawLib.exportToSvg(JSON.parse(definition))
         return svgElement.outerHTML
       }, task.source)
     } catch (e) {
