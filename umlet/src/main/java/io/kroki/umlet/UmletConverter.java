@@ -8,7 +8,7 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.io.OutputHandler;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.lang.Exception;
 
 import static com.baselet.control.util.Utils.readBuildInfo;
 
@@ -20,7 +20,7 @@ public class UmletConverter {
     ConfigHandler.loadConfig();
   }
 
-  public static byte[] convert(String source, String outputFormat) throws IOException {
+  public static byte[] convert(String source, String outputFormat) throws Exception {
     DiagramHandler handler = DiagramHandler.forExport(source);
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     OutputHandler.createToStream(outputFormat, baos, handler);
