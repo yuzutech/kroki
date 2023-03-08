@@ -11,7 +11,7 @@ import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
 
-import java.io.IOException;
+import java.lang.Exception;
 import java.util.Arrays;
 import java.util.List;
 
@@ -53,7 +53,7 @@ public class Umlet implements DiagramService {
       try {
         byte[] result = UmletConverter.convert(sourceDecoded, fileFormat.getName());
         future.complete(result);
-      } catch (IOException e) {
+      } catch (Exception e) {
         future.fail(e);
       }
     }, res -> handler.handle(res.map(o -> Buffer.buffer((byte[]) o))));

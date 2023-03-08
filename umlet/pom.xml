@@ -10,7 +10,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <properties>
-    <umlet-mini.version>14.3.0</umlet-mini.version>
+    <umlet-mini.version>15.0.0</umlet-mini.version>
   </properties>
 
   <artifactId>umlet</artifactId>
