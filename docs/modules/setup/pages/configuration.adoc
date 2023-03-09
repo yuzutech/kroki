@@ -32,7 +32,7 @@ In addition, `KROKI_LISTEN` supports UNIX domain sockets by prefixing `unix://` 
 ====
 *`KROKI_PORT` is deprecated and will be removed in the future.*
 
-We are deprecating this option because it conflicts with Kubernetes and Docker built-in environnement variables.
+We are deprecating this option because it conflicts with Kubernetes and Docker built-in environment variables.
 For reference, {url-k8s-environment-variables}[Kubernetes will automatically set the environment variable] `\{SERVICE_NAME}_PORT` to `tcp://1.2.3.4:8000`.
 As you might have guessed, if you use `KROKI` as a service name, there's going to be a problem!
 In fact, Kroki expects the value of `KROKI_PORT` to be an integer value. +
