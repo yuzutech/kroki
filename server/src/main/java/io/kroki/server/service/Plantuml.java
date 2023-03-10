@@ -379,7 +379,7 @@ public class Plantuml implements DiagramService {
             //   one of the folders whitelisted in the include path and thus the include will be resolved as not-found
             //
             // Effectively only imports that are immediate children of the folders listed in "plantuml.include.path"
-            // are eligible for inlcude (unless OptionFlags.ALLOW_INCLUDE has been set to true)
+            // are eligible for include (unless OptionFlags.ALLOW_INCLUDE has been set to true)
             sb.append(line).append("\n");
           } else if (includeWhitelist.stream().anyMatch(p -> p.matcher(include).matches())) {
             sb.append(line).append("\n");
