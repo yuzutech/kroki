@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "bin": "src/index.js",
   "scripts": {
-    "prestart": "cp node_modules/@excalidraw/utils/dist/excalidraw-utils.min.js assets/excalidraw-utils.min.js",
+    "prestart": "cp -r node_modules/@excalidraw/excalidraw/dist/excalidraw.production.min.js node_modules/@excalidraw/excalidraw/dist/excalidraw-assets/* node_modules/react/umd/react.production.min.js node_modules/react-dom/umd/react-dom.production.min.js assets",
     "start": "node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "standard src/**.js"
@@ -18,9 +18,11 @@
     "url": "https://github.com/yuzutech/kroki.git"
   },
   "dependencies": {
-    "@excalidraw/utils": "0.1.2",
+    "@excalidraw/excalidraw": "0.14.2",
     "micro": "9.4.1",
-    "puppeteer": "14.4.1"
+    "puppeteer": "14.4.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "standard": "17.0.0"

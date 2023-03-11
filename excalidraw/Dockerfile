@@ -14,10 +14,12 @@ RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM} -a $([ "$TARGETARCH" == "
 
 COPY package.json package-lock.json /app/
 COPY src /app/src
+COPY assets /app/assets
 WORKDIR /app
 
 RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 npm ci
 RUN npm run lint
+RUN npm run prestart
 
 RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-$([ "$TARGETARCH" == "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
 
@@ -29,7 +31,7 @@ RUN addgroup -g 1000 kroki && adduser -D -G kroki -u 1000 kroki
 RUN apk add --quiet --no-cache --update chromium
 
 COPY --from=builder /app/app.bin /usr/bin/excalidraw
-COPY --chown=kroki:kroki assets /usr/local/kroki/assets
+COPY --from=builder --chown=kroki:kroki /app/assets /usr/local/kroki/assets
 
 ENV KROKI_EXCALIDRAW_PAGE_URL=file:///usr/local/kroki/assets/index.html
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/lib/chromium/chrome
