@@ -123,62 +123,6 @@ For security reasons, the following options are not available:
 
 The complete list of options is available in Mermaid source code at: https://github.com/mermaid-js/mermaid/blob/master/packages/mermaid/src/config.type.ts
 
-== Structurizr
-
-[cols="1m,1a,2a",opts="header"]
-|===
-|Name
-|Allowable Values
-|Description
-
-|view-key
-|_string_
-|Key of the view (if the workspace contains more than one view)
-
-|===
-
-== Svgbob
-
-[cols="1m,1a,2a",opts="header"]
-|===
-|Name
-|Allowable Values
-|Description
-
-|background
-|_any_ +
-*`white`*
-|Backdrop background will be filled with this color
-
-|font-family
-|_any_ +
-*`arial`*
-|Text will be rendered with this font
-
-|font-size
-|_integer_ +
-*`14`*
-|Text will be rendered with this font size
-
-|fill-color
-|_any_ +
-*`black`*
-|Solid shapes will be filled with this color
-
-|scale
-|_any_ +
-*`1`*
-|Scale the entire svg (dimensions, font size, stroke width) by this factor
-
-|stroke-width
-|_any_ +
-*`2`*
-|Stroke width for all lines
-
-|===
-
-
-
 == PlantUML
 
 [cols="1m,1a,2a",opts="header"]
