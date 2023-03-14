@@ -11,14 +11,16 @@ Applies to `blockdiag`, `seqdiag`, `actdiag`, `nwdiag`, `packetdiag` and `rackdi
 |Description
 
 |antialias
-|_boolean_ +
-`true`, *`false`*
-|Pass diagram image to anti-alias filter
+|_flag_ +
+empty string ("")
+|Apply anti-alias filter to diagram image +
+With flag set, option takes effect.
 
 |no-transparency
-|_boolean_ +
-*`true`*, `false`
-|Do not make transparent background of diagram (PNG only)
+|_flag_ +
+empty string ("")
+|Disable transparent background of diagram (PNG only) +
+With flag set, option takes effect.
 
 |size
 |_dimension format \{width}x\{height}_ +
@@ -26,9 +28,10 @@ ex. `320x240`
 |Size of diagram
 
 |no-doctype
-|_boolean_ +
-`true`, *`false`*
-|Do not output doctype definition tags (SVG only)
+|_flag_ +
+empty string ("")
+|Omit doctype definition tag (SVG only) +
+With flag set, option takes effect.
 |===
 
 == D2
@@ -83,7 +86,7 @@ ex. `320x240`
 |Set a default edge attribute: https://graphviz.org/doc/info/command.html#-E
 
 |layout
-|
+|_string_ +
 *`dot`* +
 `neato` +
 `fdp` +
