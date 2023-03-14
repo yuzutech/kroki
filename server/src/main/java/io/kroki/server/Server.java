@@ -90,11 +90,19 @@ public class Server extends AbstractVerticle {
     BodyHandler bodyHandler = BodyHandler.create(false).setBodyLimit(config.getLong("KROKI_BODY_LIMIT", BodyHandler.DEFAULT_BODY_LIMIT));
 
     // CORS
+    // CORS Headers
     Set<String> allowedHeaders = new HashSet<>();
     allowedHeaders.add("Access-Control-Allow-Origin");
     allowedHeaders.add("Origin");
     allowedHeaders.add("Content-Type");
     allowedHeaders.add("Accept");
+    // Set additional Headers provided by environment variable
+    String envHeadersVar = System.getenv("ALLOWED_HEADERS");
+    String[] envHeaders = envHeadersVar.split(",");
+    for (String envHeader : envHeaders) {
+      allowedHeaders.add(envHeader);
+    }
+    // CORS Methods
     Set<HttpMethod> allowedMethods = new HashSet<>();
     allowedMethods.add(HttpMethod.GET);
     allowedMethods.add(HttpMethod.POST);
