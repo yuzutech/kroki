@@ -189,7 +189,7 @@ COPY --from=kroki-builder-bytefield /app/app.bin /usr/bin/bytefield
 COPY --from=kroki-builder-d2 /go/bin/d2 /usr/bin/d2
 
 RUN apt-get update && apt-get install --no-install-recommends --yes \
-    libjpeg-dev \
+    libjpeg9 \
     giflib-tools \
     graphviz \
     fonts-freefont-ttf \
