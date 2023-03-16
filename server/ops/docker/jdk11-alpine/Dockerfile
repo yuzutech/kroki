@@ -175,7 +175,7 @@ RUN SVGBOB_VERSION=`cat Cargo.toml | grep "svgbob_cli =" | sed -r 's/.*"([^"]+)"
 ## yuzutech/kroki
 FROM eclipse-temurin:11.0.17_8-jre-jammy
 
-RUN addgroup -g 1000 kroki && adduser -D -G kroki -u 1000 kroki
+RUN addgroup --gecos 1000 kroki && adduser --disabled-password --ingroup kroki -u 1000 kroki
 
 COPY --from=kroki-builder-static-svgbob /usr/local/cargo/bin/svgbob /usr/bin/svgbob
 COPY --from=kroki-builder-static-erd /root/.local/bin/erd /usr/bin/erd
@@ -188,12 +188,12 @@ COPY --from=kroki-builder-wavedrom /app/app.bin /usr/bin/wavedrom
 COPY --from=kroki-builder-bytefield /app/app.bin /usr/bin/bytefield
 COPY --from=kroki-builder-d2 /go/bin/d2 /usr/bin/d2
 
-RUN apt update && apt install \
-           libjpeg \
-           giflib-dev \
-           graphviz \
-           ttf-freefont \
-           font-noto-cjk
+RUN apt-get update && apt-get install --no-install-recommends --yes \
+    libjpeg-dev \
+    giflib-tools \
+    graphviz \
+    fonts-freefont-ttf \
+    fonts-noto-cjk
 
 COPY --chown=kroki:kroki ops/docker/logback.xml /etc/kroki/logback.xml
 
