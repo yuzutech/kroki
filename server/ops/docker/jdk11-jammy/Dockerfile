@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.4
 ## D2
-FROM golang:1.19.3-bullseye as kroki-builder-d2
+FROM golang:1.19.3-bullseye AS kroki-builder-d2
 COPY ops/docker/go.mod .
 
 RUN D2_VERSION=`cat go.mod | grep "oss.terrastruct.com/d2" | cut -d' ' -f3` \
@@ -8,12 +8,7 @@ RUN D2_VERSION=`cat go.mod | grep "oss.terrastruct.com/d2" | cut -d' ' -f3` \
   && go install "oss.terrastruct.com/d2@${D2_VERSION}"
 
 ## Nomnoml
-FROM node:16.18.1-bullseye-slim as kroki-builder-nomnoml
-
-# Workaround: https://github.com/nodejs/docker-node/issues/813#issuecomment-407339011
-# Error: could not get uid/gid
-# [ 'nobody', 0 ]
-RUN npm config set unsafe-perm true
+FROM node:16.18.1-bullseye-slim AS kroki-builder-nomnoml
 
 RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
 
@@ -30,12 +25,7 @@ RUN npm run lint
 RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-${ARCH} . -o app.bin
 
 ## Vega
-FROM node:16.18.1-bullseye-slim as kroki-builder-vega
-
-# Workaround: https://github.com/nodejs/docker-node/issues/813#issuecomment-407339011
-# Error: could not get uid/gid
-# [ 'nobody', 0 ]
-RUN npm config set unsafe-perm true
+FROM node:16.18.1-bullseye-slim AS kroki-builder-vega
 
 # System dependencies for "canvas" Node package
 # https://github.com/Automattic/node-canvas#compiling
@@ -66,7 +56,7 @@ RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-${ARCH} . -o app.bin
 RUN cp /app/node_modules/canvas/build/Release/canvas.node  /app/
 
 ## DBML
-FROM node:16.18.1-bullseye-slim as kroki-builder-dbml
+FROM node:16.18.1-bullseye-slim AS kroki-builder-dbml
 
 RUN npm config set unsafe-perm true
 
@@ -85,12 +75,7 @@ RUN npm run lint
 RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-${ARCH} . -o app.bin
 
 ## Wavedrom
-FROM node:16.18.1-bullseye-slim as kroki-builder-wavedrom
-
-# Workaround: https://github.com/nodejs/docker-node/issues/813#issuecomment-407339011
-# Error: could not get uid/gid
-# [ 'nobody', 0 ]
-RUN npm config set unsafe-perm true
+FROM node:16.18.1-bullseye-slim AS kroki-builder-wavedrom
 
 RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
 
@@ -107,12 +92,7 @@ RUN npm run lint
 RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-${ARCH} . -o app.bin
 
 ## Bytefield
-FROM node:16.18.1-bullseye-slim as kroki-builder-bytefield
-
-# Workaround: https://github.com/nodejs/docker-node/issues/813#issuecomment-407339011
-# Error: could not get uid/gid
-# [ 'nobody', 0 ]
-RUN npm config set unsafe-perm true
+FROM node:16.18.1-bullseye-slim AS kroki-builder-bytefield
 
 RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
 
@@ -129,8 +109,8 @@ RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-${ARCH} . -o app.bin
 
 ## ERD
 # use a pre-built image to reduce build time
-FROM yuzutech/kroki-builder-erd:0.2.1.0 as kroki-builder-static-erd
-#FROM ubuntu:18.04 as kroki-builder-static-erd
+FROM yuzutech/kroki-builder-erd:0.2.1.0 AS kroki-builder-static-erd
+#FROM ubuntu:18.04 AS kroki-builder-static-erd
 
 #ARG ERD_VERSION=0.2.1.0
 
@@ -152,7 +132,7 @@ FROM yuzutech/kroki-builder-erd:0.2.1.0 as kroki-builder-static-erd
 #  --ghc-options="-w"
 
 ## Pikchr
-FROM ubuntu:jammy as kroki-builder-static-pikchr
+FROM ubuntu:jammy AS kroki-builder-static-pikchr
 
 ARG PIKCHR_VERSION=7269f78c4a3aa2809bd8c278e522c4eac5568ad0fd6ed0a3f807f4a2f6367ef0
 
@@ -162,7 +142,7 @@ RUN apt-get update && apt-get install --no-install-recommends --yes \
     wget && \
     apt-get clean && apt-get autoremove
 
-WORKDIR build
+WORKDIR /build
 
 RUN wget -q "https://pikchr.org/home/raw/${PIKCHR_VERSION}" -O pikchr.c
 
