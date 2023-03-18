@@ -42,7 +42,7 @@ class Worker {
         throw new SyntaxError()
       }
 
-      function serializeSvg () {
+      async function serializeSvg () {
         return page.$eval('#container', container => {
           const xmlSerializer = new XMLSerializer()
           const nodes = []
@@ -55,21 +55,21 @@ class Worker {
 
       const mode = task.mode
       if (mode === 'png') {
-        return svg.screenshot({
+        return await svg.screenshot({
           type: 'png',
           omitBackground: true
         })
       }
       if (mode === 'pdf') {
         const box = await svg.boundingBox()
-        return page.pdf({
+        return await page.pdf({
           width: box.width + box.x * 2,
           height: box.height + box.y * 2,
           pageRanges: '1',
           omitBackground: true
         })
       }
-      return serializeSvg()
+      return await serializeSvg()
     } finally {
       try {
         await page.close()
