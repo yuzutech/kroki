@@ -54,22 +54,22 @@ class Worker {
       }
 
       const mode = task.mode
-      if (mode==='png') {
-        return await svg.screenshot({
+      if (mode === 'png') {
+        return svg.screenshot({
           type: 'png',
           omitBackground: true
         })
-      } else if (mode==='pdf') {
+      }
+      if (mode === 'pdf') {
         const box = await svg.boundingBox()
-        return await page.pdf({
-          width: box.width+box.x*2,
-          height: box.height+box.y*2,
+        return page.pdf({
+          width: box.width + box.x * 2,
+          height: box.height + box.y * 2,
           pageRanges: '1',
           omitBackground: true,
         })
-      } else {
-        return await serializeSvg()
       }
+      return serializeSvg()
     } finally {
       try {
         await page.close()

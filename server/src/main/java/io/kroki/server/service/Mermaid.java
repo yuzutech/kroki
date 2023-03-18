@@ -18,7 +18,7 @@ import java.util.List;
 
 public class Mermaid implements DiagramService {
 
-  private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG);
+  private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG, FileFormat.PDF);
 
   private final WebClient client;
   private final String host;

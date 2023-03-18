@@ -5,7 +5,7 @@ import * as url from 'url'
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
 
 const tests = [
-  {engine: 'graphviz', file: 'hello.dot', outputFormat: ['svg', 'jpeg']},
+  {engine: 'graphviz', file: 'hello.dot', outputFormat: ['svg', 'jpeg', 'pdf']},
   {engine: 'dot', file: 'hello.dot', outputFormat: ['svg', 'jpeg']},
   {engine: 'blockdiag', file: 'kroki.diag', outputFormat: ['svg', 'png']},
   {engine: 'seqdiag', file: 'sequence.diag', outputFormat: ['svg', 'png']},
@@ -14,8 +14,8 @@ const tests = [
   {engine: 'c4plantuml', file: 'banking-system.puml', outputFormat: ['svg']},
   {engine: 'dbml', file: 'dbml.dbml', outputFormat: ['svg']},
   {engine: 'ditaa', file: 'components.ditaa', outputFormat: ['svg']},
-  {engine: 'erd', file: 'schema.erd', outputFormat: ['svg']},
-  {engine: 'mermaid', file: 'contribute.mmd', outputFormat: ['svg']},
+  {engine: 'erd', file: 'schema.erd', outputFormat: ['svg', 'pdf']},
+  {engine: 'mermaid', file: 'contribute.mmd', outputFormat: ['svg', 'pdf']},
   {engine: 'bpmn', file: 'example.bpmn', outputFormat: ['svg']},
   {engine: 'plantuml', file: 'architecture.puml', outputFormat: ['svg']},
   {engine: 'svgbob', file: 'cloud.bob', outputFormat: ['svg']},
