@@ -14,15 +14,14 @@ RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
 
 ENV NODE node16
 ENV PLATFORM linux
-ENV ARCH x64
-RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM} -a ${ARCH}
+RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM}
 
 COPY --from=nomnoml index.js package.json package-lock.json /app/
 WORKDIR /app
 
 RUN npm i
 RUN npm run lint
-RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-${ARCH} . -o app.bin
+RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM} . -o app.bin
 
 ## Vega
 FROM node:16.18.1-bullseye-slim AS kroki-builder-vega
@@ -42,8 +41,7 @@ RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
 
 ENV NODE node16
 ENV PLATFORM linux
-ENV ARCH x64
-RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM} -a ${ARCH}
+RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM}
 
 COPY --from=vega src /app/src
 COPY --from=vega tests /app/tests
@@ -52,8 +50,8 @@ WORKDIR /app
 
 RUN npm i
 RUN npm run lint && npm t
-RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-${ARCH} . -o app.bin
-RUN cp /app/node_modules/canvas/build/Release/canvas.node  /app/
+RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM} . -o app.bin
+RUN cp /app/node_modules/canvas/build/Release/canvas.node /app/
 
 ## DBML
 FROM node:16.18.1-bullseye-slim AS kroki-builder-dbml
@@ -64,15 +62,14 @@ RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
 
 ENV NODE node16
 ENV PLATFORM linux
-ENV ARCH x64
-RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM} -a ${ARCH}
+RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM}
 
 COPY --from=dbml index.js package.json package-lock.json /app/
 WORKDIR /app
 
 RUN npm i
 RUN npm run lint
-RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-${ARCH} . -o app.bin
+RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM} . -o app.bin
 
 ## Wavedrom
 FROM node:16.18.1-bullseye-slim AS kroki-builder-wavedrom
@@ -81,15 +78,14 @@ RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
 
 ENV NODE node16
 ENV PLATFORM linux
-ENV ARCH x64
-RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM} -a ${ARCH}
+RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM}
 
 COPY --from=wavedrom index.js package.json package-lock.json /app/
 WORKDIR /app
 
 RUN npm i
 RUN npm run lint
-RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-${ARCH} . -o app.bin
+RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM} . -o app.bin
 
 ## Bytefield
 FROM node:16.18.1-bullseye-slim AS kroki-builder-bytefield
@@ -98,14 +94,13 @@ RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
 
 ENV NODE node16
 ENV PLATFORM linux
-ENV ARCH x64
-RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM} -a ${ARCH}
+RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM}
 
 COPY --from=bytefield index.js package.json package-lock.json /app/
 WORKDIR /app
 
 RUN npm i
-RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-${ARCH} . -o app.bin
+RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM} . -o app.bin
 
 ## ERD
 # use a pre-built image to reduce build time
