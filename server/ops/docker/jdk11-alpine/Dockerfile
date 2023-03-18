@@ -1,10 +1,11 @@
 # syntax=docker/dockerfile:1.4
 ## D2
 FROM golang:1.19.3-alpine3.16 as kroki-builder-d2
+COPY ops/docker/go.mod .
 
-ARG D2_VERSION=0.1.5
-
-RUN go install "oss.terrastruct.com/d2@v${D2_VERSION}"
+RUN D2_VERSION=`cat go.mod | grep "oss.terrastruct.com/d2" | cut -d' ' -f3` \
+  && rm go.mod \
+  && go install "oss.terrastruct.com/d2@${D2_VERSION}"
 
 ## Nomnoml
 FROM node:16.18.1-alpine3.16 as kroki-builder-nomnoml

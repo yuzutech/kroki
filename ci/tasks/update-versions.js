@@ -143,10 +143,21 @@ try {
     }
   }
 
+  const wirevizRequirementsContent = await fs.readFile(ospath.join(rootDir, 'wireviz', 'requirements.txt'), 'utf8')
+  for (const line of wirevizRequirementsContent.split('\n')) {
+    const found = line.match(/^(?<name>[a-zA-Z]+)==(?<version>.*)$/)
+    if (found) {
+      const { name, version } = found.groups
+      if (diagramLibraryNames.includes(name)) {
+        diagramLibraryVersions[name] = version
+      }
+    }
+  }
+
   addDiagramLibraryPackageVersion('bpmn', 'bpmn-js')
   addDiagramLibraryPackageVersion('bytefield', 'bytefield-svg')
   addDiagramLibraryPackageVersion('dbml', '@softwaretechnik/dbml-renderer')
-  addDiagramLibraryPackageVersion('excalidraw', '@excalidraw/utils')
+  addDiagramLibraryPackageVersion('excalidraw', '@excalidraw/excalidraw')
   addDiagramLibraryPackageVersion('mermaid')
   addDiagramLibraryPackageVersion('nomnoml')
   addDiagramLibraryPackageVersion('vega')
@@ -171,7 +182,11 @@ try {
       const { version } = pikchrVersionFound.groups
       diagramLibraryVersions.pikchr = version.slice(0, 10)
     }
-    const d2VersionFound = line.match(/^ARG D2_VERSION=(?<version>.+)$/)
+  }
+
+  const d2GoModContent = await fs.readFile(ospath.join(rootDir, 'server', 'ops', 'docker', 'go.mod'), 'utf8')
+  for (const line of d2GoModContent.split('\n')) {
+    const d2VersionFound = line.match(/^require oss.terrastruct.com\/d2 v(?<version>.+)$/)
     if (d2VersionFound) {
       const { version } = d2VersionFound.groups
       diagramLibraryVersions.d2 = version
@@ -251,7 +266,7 @@ try {
   await updateServiceGetVersion('Svgbob.java', diagramLibraryVersions.svgbob)
   await updateServiceGetVersion('Umlet.java', diagramLibraryVersions.umlet)
   await updateServiceGetVersion('Wavedrom.java', diagramLibraryVersions.wavedrom)
-  await updateServiceGetVersion('WireViz.java', diagramLibraryVersions.wireviz)
+  await updateServiceGetVersion('Wireviz.java', diagramLibraryVersions.wireviz)
   await updateVegaServiceGetVersion(diagramLibraryVersions.vega, diagramLibraryVersions.vegalite)
 
 } catch (err) {

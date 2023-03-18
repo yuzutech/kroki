@@ -13,7 +13,7 @@ asciidoc:
     diagramsnet-version: 16.2.4
     ditaa-version: 1.0.3
     erd-version: 0.2.1.0
-    excalidraw-version: 0.1.2
+    excalidraw-version: 0.14.2
     graphviz-version: 3.0.0
     mermaid-version: 9.3.0
     nomnoml-version: 1.5.3
@@ -25,7 +25,7 @@ asciidoc:
     seqdiag-version: 3.0.0
     structurizr-version: 1.23.0
     svgbob-version: 0.6.0
-    umlet-version: 14.3.0
+    umlet-version: 15.0.0
     vega-version: 5.22.1
     vegalite-version: 5.6.0
     wavedrom-version: 2.9.1
