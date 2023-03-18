@@ -42,7 +42,7 @@ class Worker {
         throw new SyntaxError()
       }
 
-      function serializeSvg() {
+      function serializeSvg () {
         return page.$eval('#container', container => {
           const xmlSerializer = new XMLSerializer()
           const nodes = []
@@ -66,7 +66,7 @@ class Worker {
           width: box.width + box.x * 2,
           height: box.height + box.y * 2,
           pageRanges: '1',
-          omitBackground: true,
+          omitBackground: true
         })
       }
       return serializeSvg()
