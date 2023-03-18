@@ -17,7 +17,7 @@ import java.util.List;
 
 public class Erd implements DiagramService {
 
-  private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG, FileFormat.JPEG);
+  private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG, FileFormat.JPEG, FileFormat.PDF);
 
   private final Vertx vertx;
   private final String binPath;
