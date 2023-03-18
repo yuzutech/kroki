@@ -6,7 +6,7 @@ funcparserlib==1.0.1
 gunicorn==20.1.0
 itsdangerous==2.1.2
 Jinja2==3.1.2
-MarkupSafe==2.1.1
+MarkupSafe==2.1.2
 nwdiag==3.0.0
 Pillow==9.4.0
 reportlab==3.6.12
