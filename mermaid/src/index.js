@@ -18,9 +18,18 @@ const instance = require('./browser-instance')
       const diagramSource = await micro.text(req, { limit: '1mb', encoding: 'utf8' })
       if (diagramSource) {
         try {
-          const isPng = outputType === 'png'
-          const output = await worker.convert(new Task(diagramSource, isPng), url.searchParams)
-          res.setHeader('Content-Type', isPng ? 'image/png' : 'image/svg+xml')
+          const output = await worker.convert(new Task(diagramSource, outputType), url.searchParams)
+          let contentType = 'image/svg+xml'
+          if (outputType === 'png') {
+            contentType = 'image/png'
+          }
+          if (outputType === 'pdf') {
+            contentType = 'application/pdf'
+          }
+          res.setHeader('Content-Type', contentType)
+          if (outputType === 'pdf') {
+            res.setHeader('Content-Disposition', 'inline; filename=result.pdf')
+          }
           return micro.send(res, 200, output)
         } catch (err) {
           if (err instanceof SyntaxError) {
