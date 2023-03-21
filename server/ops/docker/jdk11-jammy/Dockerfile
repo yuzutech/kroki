@@ -51,7 +51,6 @@ WORKDIR /app
 RUN npm i
 RUN npm run lint && npm t
 RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM} . -o app.bin
-RUN cp /app/node_modules/canvas/build/Release/canvas.node /app/
 
 ## DBML
 FROM node:16.18.1-bullseye-slim AS kroki-builder-dbml
@@ -162,7 +161,6 @@ COPY --from=kroki-builder-static-erd /root/.local/bin/erd /usr/bin/erd
 COPY --from=kroki-builder-static-pikchr /build/pikchr /usr/bin/pikchr
 COPY --from=kroki-builder-nomnoml /app/app.bin /usr/bin/nomnoml
 COPY --from=kroki-builder-vega /app/app.bin /usr/bin/vega
-COPY --from=kroki-builder-vega /app/canvas.node /usr/bin/canvas.node
 COPY --from=kroki-builder-dbml /app/app.bin /usr/bin/dbml
 COPY --from=kroki-builder-wavedrom /app/app.bin /usr/bin/wavedrom
 COPY --from=kroki-builder-bytefield /app/app.bin /usr/bin/bytefield
