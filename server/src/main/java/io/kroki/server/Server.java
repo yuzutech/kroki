@@ -48,6 +48,7 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.CorsHandler;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -98,13 +99,11 @@ public class Server extends AbstractVerticle {
     allowedHeaders.add("Origin");
     allowedHeaders.add("Content-Type");
     allowedHeaders.add("Accept");
-    // Set additional Headers provided by environment variable
-    String envHeadersVar = System.getenv("ALLOWED_HEADERS");
+    // Set additional Headers provided by config/environment variable
+    String envHeadersVar = config.getString("KROKI_CORS_ALLOWED_HEADERS");
     if (envHeadersVar != null) {
       String[] envHeaders = envHeadersVar.split(",");
-      for (String envHeader : envHeaders) {
-        allowedHeaders.add(envHeader);
-      }
+      allowedHeaders.addAll(Arrays.asList(envHeaders));
     }
     // CORS Methods
     Set<HttpMethod> allowedMethods = new HashSet<>();
