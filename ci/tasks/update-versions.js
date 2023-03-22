@@ -182,6 +182,11 @@ try {
       const { version } = pikchrVersionFound.groups
       diagramLibraryVersions.pikchr = version.slice(0, 10)
     }
+    const umletVersionFound = line.match(/^ARG UMLET_VERSION=(?<version>.+)$/)
+    if (umletVersionFound) {
+      const { version } = umletVersionFound.groups
+      diagramLibraryVersions.umlet = version.split('+')[0]
+    }
   }
 
   const d2GoModContent = await fs.readFile(ospath.join(rootDir, 'server', 'ops', 'docker', 'go.mod'), 'utf8')
@@ -210,9 +215,6 @@ try {
 
   const { value: ditaaVersion } = await mvnEvaluateExpression('ditaa-mini.version')
   diagramLibraryVersions.ditaa = ditaaVersion
-
-  const { value: umletVersion } = await mvnEvaluateExpression('umlet-mini.version', ospath.join('umlet', 'pom.xml'))
-  diagramLibraryVersions.umlet = umletVersion
 
   // GraphViz version
   const ubuntuPackagesUrl = `https://packages.ubuntu.com/${KROKI_UBUNTU_VERSION}/graphviz`
