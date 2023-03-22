@@ -28,6 +28,6 @@
     "standard": "17.0.0"
   },
   "pkg": {
-    "assets": "node_modules/canvas/**/*"
+    "assets": "node_modules/canvas/build/Release/*"
   }
 }
