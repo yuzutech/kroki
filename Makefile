@@ -20,7 +20,7 @@ endif
 
 buildDockerImages:
 ifeq ($(MULTI_ARCH_AVAILABLE), 0)
-	docker buildx bake --set "*.cache-from=$(CACHE_FROM)" --set "*.cache-to=$(CACHE_TO)" --set "kroki-*.platform=linux/arm64,linux/amd64"
+	docker buildx bake --set "*.cache-from=$(CACHE_FROM)" --set "*.cache-to=$(CACHE_TO)" --set "*.platform=linux/arm64,linux/amd64"
 else
 	docker buildx bake --set "*.cache-from=$(CACHE_FROM)" --set "*.cache-to=$(CACHE_TO)"
 endif
@@ -29,7 +29,7 @@ publishDockerImages:
 ifndef RELEASE_VERSION
 	$(error RELEASE_VERSION is undefined)
 endif
-	docker buildx bake -f docker-bake.hcl -f docker-bake-release.hcl --push --set "kroki-*.platform=linux/arm64,linux/amd64"
+	docker buildx bake -f docker-bake.hcl -f docker-bake-release.hcl --push --set "*.platform=linux/arm64,linux/amd64"
 
 smokeTests:
 	TAG=smoketests docker buildx bake --load --set "*.cache-from=$(CACHE_FROM)" --set "*.cache-to=$(CACHE_TO)"
