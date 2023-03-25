@@ -1,5 +1,14 @@
 # syntax=docker/dockerfile:1.4
 
+## Kroki server
+FROM maven:3.9.0-eclipse-temurin-11 as kroki-builder-server
+COPY --from=kroki-src . /kroki
+WORKDIR /kroki
+RUN mvn install:install-file -Dfile=./umlet/lib/umlet-mini-15.0.0.jar -DgroupId=com.umlet -DartifactId=umlet-mini -Dversion=15.0.0 -Dpackaging=jar \
+ && mvn install:install-file -Dfile=./umlet/lib/umlet-parent-15.0.0.pom -DgroupId=com.umlet -DartifactId=umlet-parent -Dversion=15.0.0 -Dpackaging=pom \
+ && mvn install:install-file -Dfile=./server/lib/ditaamini-1.0.3.jar -DgroupId=ditaa -DartifactId=ditaa-mini -Dversion=1.0.3 -Dpackaging=jar
+RUN mvn --no-transfer-progress clean package
+
 ## TikZ
 FROM --platform=$BUILDPLATFORM ubuntu:jammy AS kroki-builder-dvisvgm
 
@@ -332,7 +341,7 @@ ENV KROKI_SYMBOLATOR_BIN_PATH=/usr/bin/symbolator
 ENV KROKI_BLOCKDIAG_BIN_PATH=/usr/bin/blockdiag
 ENV JAVA_OPTS="-Dlogback.configurationFile=/etc/kroki/logback.xml -Dvertx.logger-delegate-factory-class-name=io.vertx.core.logging.SLF4JLogDelegateFactory"
 
-COPY --chown=kroki:kroki target/kroki-server.jar /usr/local/kroki/kroki-server.jar
+COPY --from=kroki-builder-server --chown=kroki:kroki /kroki/server/target/kroki-server.jar /usr/local/kroki/kroki-server.jar
 
 EXPOSE 8000
 
