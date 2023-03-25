@@ -6,7 +6,7 @@ import ospath from 'path'
 import { createRequire } from 'node:module'
 import { spawn } from 'node:child_process'
 
-const KROKI_ALPINE_VERSION = '3.16'
+const KROKI_UBUNTU_VERSION = 'jammy'
 const require = createRequire(import.meta.url)
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
 const rootDir = ospath.join(__dirname, '..', '..')
@@ -170,7 +170,7 @@ try {
     diagramLibraryVersions.diagramsnet = [...diagramsnetVersionFound][0].groups.version
   }
 
-  const dockerfileContent = await fs.readFile(ospath.join(rootDir, 'server', 'ops', 'docker', 'jdk11-alpine', 'Dockerfile'), 'utf8')
+  const dockerfileContent = await fs.readFile(ospath.join(rootDir, 'server', 'ops', 'docker', 'jdk11-jammy', 'Dockerfile'), 'utf8')
   for (const line of dockerfileContent.split('\n')) {
     const erdVersionFound = line.match(/^FROM yuzutech\/kroki-builder-erd:(?<version>\S+) as kroki-builder-static-erd$/)
     if (erdVersionFound) {
@@ -215,17 +215,17 @@ try {
   diagramLibraryVersions.umlet = umletVersion
 
   // GraphViz version
-  const alpinePackagesUrl = `https://dl-cdn.alpinelinux.org/alpine/v${KROKI_ALPINE_VERSION}/main/x86_64/`
-  const alpinePackagesResponse = await fetch(alpinePackagesUrl)
-  if (alpinePackagesResponse.status >= 200 && alpinePackagesResponse.status < 400) {
-    const alpinePackagesContent = await alpinePackagesResponse.text()
-    const found = alpinePackagesContent.match(/<a href="graphviz-(?<version>[0-9.]+)-r[0-9]+\.apk.*/)
+  const ubuntuPackagesUrl = `https://packages.ubuntu.com/${KROKI_UBUNTU_VERSION}/graphviz`
+  const ubuntuPackagesResponse = await fetch(ubuntuPackagesUrl)
+  if (ubuntuPackagesResponse.status >= 200 && ubuntuPackagesResponse.status < 400) {
+    const ubuntuPackagesContent = await ubuntuPackagesResponse.text()
+    const found = ubuntuPackagesContent.match(/Package: graphviz \((?<version>[0-9.]+)-[0-9]+\)/)
     if (found) {
       const { version } = found.groups
       diagramLibraryVersions.graphviz = version
     }
   } else {
-    console.error(`Unable to GET ${alpinePackagesUrl} - ${alpinePackagesResponse.status} ${alpinePackagesResponse.statusText} - ${await alpinePackagesResponse.text()}`)
+    console.error(`Unable to GET ${ubuntuPackagesUrl} - ${ubuntuPackagesResponse.status} ${ubuntuPackagesResponse.statusText} - ${await ubuntuPackagesResponse.text()}`)
     process.exit(1)
   }
 

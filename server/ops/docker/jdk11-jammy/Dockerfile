@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.4
 ## D2
-FROM golang:1.19.3-alpine3.16 as kroki-builder-d2
+FROM golang:1.19.3-bullseye AS kroki-builder-d2
 COPY ops/docker/go.mod .
 
 RUN D2_VERSION=`cat go.mod | grep "oss.terrastruct.com/d2" | cut -d' ' -f3` \
@@ -8,51 +8,40 @@ RUN D2_VERSION=`cat go.mod | grep "oss.terrastruct.com/d2" | cut -d' ' -f3` \
   && go install "oss.terrastruct.com/d2@${D2_VERSION}"
 
 ## Nomnoml
-FROM node:16.18.1-alpine3.16 as kroki-builder-nomnoml
-
-# Workaround: https://github.com/nodejs/docker-node/issues/813#issuecomment-407339011
-# Error: could not get uid/gid
-# [ 'nobody', 0 ]
-RUN npm config set unsafe-perm true
+FROM node:16.18.1-bullseye-slim AS kroki-builder-nomnoml
 
 RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
 
 ENV NODE node16
-ENV PLATFORM alpine
-ENV ARCH x64
-RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM} -a ${ARCH}
+ENV PLATFORM linux
+RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM}
 
 COPY --from=nomnoml index.js package.json package-lock.json /app/
 WORKDIR /app
 
 RUN npm i
 RUN npm run lint
-RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-${ARCH} . -o app.bin
+RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM} . -o app.bin
 
 ## Vega
-FROM node:16.18.1-alpine3.16 as kroki-builder-vega
+FROM node:16.18.1-bullseye-slim AS kroki-builder-vega
 
-# Workaround: https://github.com/nodejs/docker-node/issues/813#issuecomment-407339011
-# Error: could not get uid/gid
-# [ 'nobody', 0 ]
-RUN npm config set unsafe-perm true
-
-# system dependencies for "canvas" Node package
-# https://github.com/Automattic/node-canvas/issues/866
-RUN apk add --no-cache \
-        build-base \
-        g++ \
-        cairo-dev \
-        jpeg-dev \
-        pango-dev \
-        giflib-dev
+# System dependencies for "canvas" Node package
+# https://github.com/Automattic/node-canvas#compiling
+RUN apt-get update && apt-get install --no-install-recommends --yes \
+    build-essential \
+    libcairo2-dev \
+    libgif-dev \
+    libjpeg-dev \
+    libpango1.0-dev \
+    librsvg2-dev && \
+    apt-get clean && apt-get autoremove
 
 RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
 
 ENV NODE node16
-ENV PLATFORM alpine
-ENV ARCH x64
-RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM} -a ${ARCH}
+ENV PLATFORM linux
+RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM}
 
 COPY --from=vega src /app/src
 COPY --from=vega tests /app/tests
@@ -61,75 +50,61 @@ WORKDIR /app
 
 RUN npm i
 RUN npm run lint && npm t
-RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-${ARCH} . -o app.bin
-RUN cp /app/node_modules/canvas/build/Release/canvas.node  /app/
+RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM} . -o app.bin
 
 ## DBML
-FROM node:16.18.1-alpine3.16 as kroki-builder-dbml
+FROM node:16.18.1-bullseye-slim AS kroki-builder-dbml
 
 RUN npm config set unsafe-perm true
 
 RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
 
 ENV NODE node16
-ENV PLATFORM alpine
-ENV ARCH x64
-RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM} -a ${ARCH}
+ENV PLATFORM linux
+RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM}
 
 COPY --from=dbml index.js package.json package-lock.json /app/
 WORKDIR /app
 
 RUN npm i
 RUN npm run lint
-RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-${ARCH} . -o app.bin
+RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM} . -o app.bin
 
 ## Wavedrom
-FROM node:16.18.1-alpine3.16 as kroki-builder-wavedrom
-
-# Workaround: https://github.com/nodejs/docker-node/issues/813#issuecomment-407339011
-# Error: could not get uid/gid
-# [ 'nobody', 0 ]
-RUN npm config set unsafe-perm true
+FROM node:16.18.1-bullseye-slim AS kroki-builder-wavedrom
 
 RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
 
 ENV NODE node16
-ENV PLATFORM alpine
-ENV ARCH x64
-RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM} -a ${ARCH}
+ENV PLATFORM linux
+RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM}
 
 COPY --from=wavedrom index.js package.json package-lock.json /app/
 WORKDIR /app
 
 RUN npm i
 RUN npm run lint
-RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-${ARCH} . -o app.bin
+RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM} . -o app.bin
 
 ## Bytefield
-FROM node:16.18.1-alpine3.16 as kroki-builder-bytefield
-
-# Workaround: https://github.com/nodejs/docker-node/issues/813#issuecomment-407339011
-# Error: could not get uid/gid
-# [ 'nobody', 0 ]
-RUN npm config set unsafe-perm true
+FROM node:16.18.1-bullseye-slim AS kroki-builder-bytefield
 
 RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
 
 ENV NODE node16
-ENV PLATFORM alpine
-ENV ARCH x64
-RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM} -a ${ARCH}
+ENV PLATFORM linux
+RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM}
 
 COPY --from=bytefield index.js package.json package-lock.json /app/
 WORKDIR /app
 
 RUN npm i
-RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-${ARCH} . -o app.bin
+RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM} . -o app.bin
 
 ## ERD
 # use a pre-built image to reduce build time
-FROM yuzutech/kroki-builder-erd:0.2.1.0 as kroki-builder-static-erd
-#FROM ubuntu:18.04 as kroki-builder-static-erd
+FROM yuzutech/kroki-builder-erd:0.2.1.0 AS kroki-builder-static-erd
+#FROM ubuntu:18.04 AS kroki-builder-static-erd
 
 #ARG ERD_VERSION=0.2.1.0
 
@@ -151,13 +126,17 @@ FROM yuzutech/kroki-builder-erd:0.2.1.0 as kroki-builder-static-erd
 #  --ghc-options="-w"
 
 ## Pikchr
-FROM alpine:3.16 as kroki-builder-static-pikchr
+FROM ubuntu:jammy AS kroki-builder-static-pikchr
 
 ARG PIKCHR_VERSION=7269f78c4a3aa2809bd8c278e522c4eac5568ad0fd6ed0a3f807f4a2f6367ef0
 
-RUN apk update && apk add ca-certificates wget build-base
+RUN apt-get update && apt-get install --no-install-recommends --yes \
+    build-essential \
+    ca-certificates \
+    wget && \
+    apt-get clean && apt-get autoremove
 
-WORKDIR build
+WORKDIR /build
 
 RUN wget -q "https://pikchr.org/home/raw/${PIKCHR_VERSION}" -O pikchr.c
 
@@ -173,27 +152,27 @@ RUN SVGBOB_VERSION=`cat Cargo.toml | grep "svgbob_cli =" | sed -r 's/.*"([^"]+)"
   && cargo install --quiet --target x86_64-unknown-linux-musl --version $SVGBOB_VERSION svgbob_cli
 
 ## yuzutech/kroki
-FROM eclipse-temurin:11.0.17_8-jre-alpine
+FROM eclipse-temurin:11.0.18_10-jre-jammy
 
-RUN addgroup -g 1000 kroki && adduser -D -G kroki -u 1000 kroki
+RUN addgroup --gecos 1000 kroki && adduser --disabled-password --ingroup kroki -u 1000 kroki
 
 COPY --from=kroki-builder-static-svgbob /usr/local/cargo/bin/svgbob /usr/bin/svgbob
 COPY --from=kroki-builder-static-erd /root/.local/bin/erd /usr/bin/erd
 COPY --from=kroki-builder-static-pikchr /build/pikchr /usr/bin/pikchr
 COPY --from=kroki-builder-nomnoml /app/app.bin /usr/bin/nomnoml
 COPY --from=kroki-builder-vega /app/app.bin /usr/bin/vega
-COPY --from=kroki-builder-vega /app/canvas.node /usr/bin/canvas.node
 COPY --from=kroki-builder-dbml /app/app.bin /usr/bin/dbml
 COPY --from=kroki-builder-wavedrom /app/app.bin /usr/bin/wavedrom
 COPY --from=kroki-builder-bytefield /app/app.bin /usr/bin/bytefield
 COPY --from=kroki-builder-d2 /go/bin/d2 /usr/bin/d2
 
-RUN apk add --update --no-cache \
-           libjpeg \
-           giflib-dev \
-           graphviz \
-           ttf-freefont \
-           font-noto-cjk
+RUN apt-get update && apt-get install --no-install-recommends --yes \
+    libjpeg9 \
+    giflib-tools \
+    graphviz \
+    fonts-freefont-ttf \
+    fonts-noto-cjk && \
+    apt-get clean && apt-get autoremove
 
 COPY --chown=kroki:kroki ops/docker/logback.xml /etc/kroki/logback.xml
 
