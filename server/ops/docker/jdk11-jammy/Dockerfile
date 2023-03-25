@@ -171,11 +171,18 @@ RUN gcc -O0 -g -static -Wall -Wextra -DPIKCHR_SHELL pikchr.c -o pikchr -lm
 
 ## SVGBob
 FROM rust:1.65-slim-bullseye AS kroki-builder-static-svgbob
-RUN rustup target add x86_64-unknown-linux-musl
+
+ARG TARGETARCH
+
 COPY ops/docker/Cargo.toml .
 
-RUN SVGBOB_VERSION=`cat Cargo.toml | grep "svgbob_cli =" | sed -r 's/.*"([^"]+)"/\1/'` \
-  && cargo install --quiet --target x86_64-unknown-linux-musl --version $SVGBOB_VERSION svgbob_cli
+RUN case ${TARGETARCH} in \
+         "amd64")  RUST_TARGETARCH=x86_64 ;; \
+         "arm64")  RUST_TARGETARCH=arm64  ;; \
+    esac && \
+    rustup target add $RUST_TARGETARCH-unknown-linux-musl && \
+    SVGBOB_VERSION=`cat Cargo.toml | grep "svgbob_cli =" | sed -r 's/.*"([^"]+)"/\1/'` && \
+    cargo install --quiet --target $RUST_TARGETARCH-unknown-linux-musl --version $SVGBOB_VERSION svgbob_cli
 
 ## UMlet
 # use a pre-built image to reduce build time
