@@ -178,7 +178,7 @@ COPY ops/docker/Cargo.toml .
 
 RUN case ${TARGETARCH} in \
          "amd64")  RUST_TARGETARCH=x86_64 ;; \
-         "arm64")  RUST_TARGETARCH=arm64  ;; \
+         "arm64")  RUST_TARGETARCH=aarch64 ;; \
     esac && \
     rustup target add $RUST_TARGETARCH-unknown-linux-musl && \
     SVGBOB_VERSION=`cat Cargo.toml | grep "svgbob_cli =" | sed -r 's/.*"([^"]+)"/\1/'` && \
