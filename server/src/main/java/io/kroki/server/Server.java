@@ -48,11 +48,8 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.CorsHandler;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -94,7 +91,7 @@ public class Server extends AbstractVerticle {
 
     // CORS
     // CORS Headers
-    Set<String> allowedHeaders = new HashSet<>();
+    Set<String> allowedHeaders = new LinkedHashSet<>();
     allowedHeaders.add("Access-Control-Allow-Origin");
     allowedHeaders.add("Origin");
     allowedHeaders.add("Content-Type");
@@ -102,18 +99,20 @@ public class Server extends AbstractVerticle {
     // Set additional Headers provided by config/environment variable
     String envHeadersVar = config.getString("KROKI_CORS_ALLOWED_HEADERS");
     if (envHeadersVar != null) {
-      String[] envHeaders = envHeadersVar.split(",");
-      allowedHeaders.addAll(Arrays.asList(envHeaders));
+      allowedHeaders.addAll(
+        Arrays.stream(envHeadersVar.split(","))
+          .map(String::trim)
+          .filter(s -> !s.isEmpty())
+          .collect(Collectors.toList())
+      );
     }
     // CORS Methods
     Set<HttpMethod> allowedMethods = new HashSet<>();
     allowedMethods.add(HttpMethod.GET);
     allowedMethods.add(HttpMethod.POST);
     allowedMethods.add(HttpMethod.OPTIONS);
-    // REMIND: In order to accept requests with `Origin: null` header, we are using the value ".*" instead of "*".
-    // This can be reverted back to "*" once https://github.com/vert-x3/vertx-web/issues/1933 is fixed.
-    // Reference: https://github.com/yuzutech/kroki/pull/711
-    router.route().handler(CorsHandler.create(".*")
+    router.route().handler(CorsHandler.create()
+      .addOrigin("*")
       .allowedHeaders(allowedHeaders)
       .allowedMethods(allowedMethods));
 
