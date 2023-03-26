@@ -41,7 +41,7 @@ public class ServerCorsTest {
             assertThat(response.statusCode()).isEqualTo(204);
             assertThat(response.headers()).extracting("key", "value").contains(tuple(
                 "access-control-allow-headers",
-                "Origin,Accept,Access-Control-Allow-Origin,Content-Type"
+                "Access-Control-Allow-Origin,Origin,Content-Type,Accept"
               )
             );
             testContext.completeNow();
