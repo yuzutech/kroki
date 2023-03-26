@@ -80,7 +80,23 @@ It's also possible to restrict the PlantUML `!include` directive using the follo
 KROKI_PLANTUML_INCLUDE_PATH:: The include path to set for PlantUML.
 KROKI_PLANTUML_INCLUDE_WHITELIST:: The name of a file that consists of a list of Java regular expressions for valid includes.
 KROKI_PLANTUML_INCLUDE_WHITELIST_0, KROKI_PLANTUML_INCLUDE_WHITELIST_1, ... KROKI_PLANTUML_INCLUDE_WHITELIST___N__:: One regex to add to the include whitelist per environment variable. Search will stop at the first empty or undefined integer number.
-KROKI_PLANTUML_ALLOW_INCLUDE:: Either `false` (default) or `true`. Determines if PlantUML will fetch `!include` directives that reference external URLs.For example, PlantUML allows the !import directive to pull fragments from the filesystem or a remote URL or the standard library.
+KROKI_PLANTUML_ALLOW_INCLUDE:: Either `false` (default) or `true`. Determines if PlantUML will fetch `!include` directives that reference external URLs. For example, PlantUML allows the !import directive to pull fragments from the filesystem or a remote URL or the standard library.
+
+== Cross-origin resource sharing (CORS)
+
+By default, the following headers are allowed:
+
+- `Access-Control-Allow-Origin`
+- `Origin`
+- `Content-Type`
+- `Accept`
+
+If you need to pass additional headers, you can use `KROKI_CORS_ALLOWED_HEADERS` to allow additional headers.
+For instance, if you need to allow `x-requested-with` and `x-app-version` headers:
+
+```
+KROKI_CORS_ALLOWED_HEADERS="x-requested-with,x-app-version"
+```
 
 == Diagram Binary Paths
 
