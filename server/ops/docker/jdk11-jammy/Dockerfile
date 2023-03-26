@@ -176,10 +176,9 @@ ARG TARGETARCH
 
 COPY ops/docker/Cargo.toml .
 
-RUN case ${TARGETARCH} in "amd64") RUST_TARGETARCH=x86_64 ;; "arm64") RUST_TARGETARCH=aarch64 ;; esac && \
-    rustup target add ${RUST_TARGETARCH}-unknown-linux-musl && \
-    SVGBOB_VERSION=`cat Cargo.toml | grep "svgbob_cli =" | sed -r 's/.*"([^"]+)"/\1/'` && \
-    cargo install --quiet -Z sparse-registry --target ${RUST_TARGETARCH}-unknown-linux-musl --version $SVGBOB_VERSION svgbob_cli
+ENV CARGO_REGISTRIES_CRATES_IO_PROTOCOL=sparse
+RUN SVGBOB_VERSION=`cat Cargo.toml | grep "svgbob_cli =" | sed -r 's/.*"([^"]+)"/\1/'` && \
+    cargo install --quiet --version $SVGBOB_VERSION svgbob_cli
 
 ## UMlet
 # use a pre-built image to reduce build time
