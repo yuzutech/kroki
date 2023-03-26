@@ -80,11 +80,6 @@
       <version>0.1.5</version>
     </dependency>
     <dependency>
-      <groupId>io.kroki</groupId>
-      <artifactId>umlet</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
       <groupId>ditaa</groupId>
       <artifactId>ditaa-mini</artifactId>
       <version>${ditaa-mini.version}</version>

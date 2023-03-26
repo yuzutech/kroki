@@ -151,8 +151,13 @@ COPY ops/docker/Cargo.toml .
 RUN SVGBOB_VERSION=`cat Cargo.toml | grep "svgbob_cli =" | sed -r 's/.*"([^"]+)"/\1/'` \
   && cargo install --quiet --target x86_64-unknown-linux-musl --version $SVGBOB_VERSION svgbob_cli
 
+## UMlet
+# use a pre-built image to reduce build time
+
 ## yuzutech/kroki
 FROM eclipse-temurin:11.0.18_10-jre-jammy
+
+ARG UMLET_VERSION="v15.0.0+native.2"
 
 RUN addgroup --gecos 1000 kroki && adduser --disabled-password --ingroup kroki -u 1000 kroki
 
@@ -174,6 +179,9 @@ RUN apt-get update && apt-get install --no-install-recommends --yes \
     fonts-noto-cjk && \
     apt-get clean && apt-get autoremove
 
+RUN wget "https://github.com/yuzutech/umlet/releases/download/${UMLET_VERSION}/umlet" -O /usr/bin/umlet \
+  && chmod +x /usr/bin/umlet
+
 COPY --chown=kroki:kroki ops/docker/logback.xml /etc/kroki/logback.xml
 
 ENV KROKI_CONTAINER_SUPPORT=""
@@ -188,6 +196,7 @@ ENV KROKI_WAVEDROM_BIN_PATH=/usr/bin/wavedrom
 ENV KROKI_BYTEFIELD_BIN_PATH=/usr/bin/bytefield
 ENV KROKI_PIKCHR_BIN_PATH=/usr/bin/pikchr
 ENV KROKI_D2_BIN_PATH=/usr/bin/d2
+ENV KROKI_UMLET_BIN_PATH=/usr/bin/umlet
 ENV JAVA_OPTS="-Dlogback.configurationFile=/etc/kroki/logback.xml -Dvertx.logger-delegate-factory-class-name=io.vertx.core.logging.SLF4JLogDelegateFactory"
 
 COPY --chown=kroki:kroki target/kroki-server.jar /usr/local/kroki/kroki-server.jar

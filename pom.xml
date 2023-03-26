@@ -10,7 +10,6 @@
   </properties>
   <modules>
     <module>server</module>
-    <module>umlet</module>
   </modules>
   <build>
     <plugins>
