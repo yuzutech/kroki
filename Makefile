@@ -20,7 +20,7 @@ endif
 
 buildDockerImages:
 ifeq ($(MULTI_ARCH_AVAILABLE), 0)
-	docker buildx bake --set "*.cache-from=$(CACHE_FROM)" --set "*.cache-to=$(CACHE_TO)" --set "*.platform=linux/arm64"
+	docker buildx bake --set "*.cache-from=$(CACHE_FROM)" --set "*.cache-to=$(CACHE_TO)" --set "*.platform=linux/arm64,linux/amd64"
 else
 	docker buildx bake --set "*.cache-from=$(CACHE_FROM)" --set "*.cache-to=$(CACHE_TO)"
 endif
