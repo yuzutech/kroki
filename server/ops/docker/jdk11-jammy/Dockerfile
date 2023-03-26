@@ -45,8 +45,7 @@ RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM}
 COPY --from=nomnoml index.js package.json package-lock.json /app/
 WORKDIR /app
 
-RUN npm i
-RUN npm run lint
+RUN npm install --maxsockets 1 && npm run lint
 RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM} . -o app.bin
 
 ## Vega
@@ -74,8 +73,7 @@ COPY --from=vega tests /app/tests
 COPY --from=vega package.json package-lock.json /app/
 WORKDIR /app
 
-RUN npm i
-RUN npm run lint && npm t
+RUN npm install --maxsockets 1 && npm run lint && npm t
 RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM} . -o app.bin
 
 ## DBML
@@ -92,8 +90,7 @@ RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM}
 COPY --from=dbml index.js package.json package-lock.json /app/
 WORKDIR /app
 
-RUN npm i
-RUN npm run lint
+RUN npm install --maxsockets 1 && npm run lint
 RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM} . -o app.bin
 
 ## Wavedrom
@@ -108,8 +105,7 @@ RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM}
 COPY --from=wavedrom index.js package.json package-lock.json /app/
 WORKDIR /app
 
-RUN npm i
-RUN npm run lint
+RUN npm install --maxsockets 1 && npm run lint
 RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM} . -o app.bin
 
 ## Bytefield
@@ -124,7 +120,7 @@ RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM}
 COPY --from=bytefield index.js package.json package-lock.json /app/
 WORKDIR /app
 
-RUN npm i
+RUN npm install --maxsockets 1
 RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM} . -o app.bin
 
 ## ERD
