@@ -4,9 +4,7 @@
 FROM maven:3.9.0-eclipse-temurin-11 as kroki-builder-server
 COPY --from=kroki-src . /kroki
 WORKDIR /kroki
-RUN mvn install:install-file -Dfile=./umlet/lib/umlet-mini-15.0.0.jar -DgroupId=com.umlet -DartifactId=umlet-mini -Dversion=15.0.0 -Dpackaging=jar \
- && mvn install:install-file -Dfile=./umlet/lib/umlet-parent-15.0.0.pom -DgroupId=com.umlet -DartifactId=umlet-parent -Dversion=15.0.0 -Dpackaging=pom \
- && mvn install:install-file -Dfile=./server/lib/ditaamini-1.0.3.jar -DgroupId=ditaa -DartifactId=ditaa-mini -Dversion=1.0.3 -Dpackaging=jar
+RUN mvn install:install-file -Dfile=./server/lib/ditaamini-1.0.3.jar -DgroupId=ditaa -DartifactId=ditaa-mini -Dversion=1.0.3 -Dpackaging=jar
 RUN mvn --no-transfer-progress clean package
 
 ## TikZ
