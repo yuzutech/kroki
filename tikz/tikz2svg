@@ -1,0 +1,103 @@
+#!/bin/sh
+
+# Usage: tikz2svg <output-format> <input.tex >output
+#
+# Converts PGF/TikZ on stdin to one of the supported output formats (jpeg,
+# pdf, png, svg) on stdout.
+
+set -x
+set -e
+
+# Latex Options:
+#
+# * -no-shell-escape - Prevent the ability to run shell commands restricted or
+#   otherwise since we are potentially processing untrusted input.
+# * -halt-on-error - Halt on first error.
+LATEX_OPTIONS="-no-shell-escape -halt-on-error"
+
+# Dvisvgm Options:
+#
+# * --font-format=woff - Embeds fonts in the SVG using the Web Open Font
+#   Format. This increases the size of the SVG but improves font rendering.
+DVISVGM_OPTIONS="--font-format=woff"
+
+backend_driver() {
+    output_format=$1
+
+    case $output_format in
+        jpeg)
+            echo
+            ;;
+        pdf)
+            echo
+            ;;
+        png)
+            echo
+            ;;
+        svg)
+            echo dvisvgm
+            ;;
+    esac
+}
+
+intermediate_format() {
+    output_format=$1
+
+    case $output_format in
+        jpeg|pdf|png)
+            echo pdf
+            ;;
+        svg)
+            echo dvi
+            ;;
+    esac
+}
+
+documentclass_present() {
+    raw_input=$1
+    grep '^\s*\\documentclass\b' $raw_input >/dev/null 2>&1
+}
+
+infer_documentclass() {
+    output_format=$1
+    echo "\\documentclass[$(backend_driver $output_format)]{standalone}"
+}
+
+maybe_add_documentclass() {
+    output_format=$1
+    raw_input=$2
+    if ! documentclass_present $raw_input; then
+        infer_documentclass $output_format
+    fi
+    cat $raw_input
+}
+
+output_format="$1"
+
+tempdir=$(mktemp --directory)
+
+cleanup() {
+    rm -rf $tempdir
+}
+
+trap cleanup 0
+
+cd $tempdir
+
+# Write stdin to raw_input.tex
+cat >raw_input.tex
+
+maybe_add_documentclass $output_format raw_input.tex > file.tex
+latex $LATEX_OPTIONS -output-format=$(intermediate_format $output_format) file.tex 1>&2
+
+case "$output_format" in
+    jpeg|png)
+        pdftocairo -singlefile -$output_format file.pdf -
+        ;;
+    pdf)
+        cat file.pdf
+        ;;
+    svg)
+        dvisvgm --stdout $DVISVGM_OPTIONS file.dvi
+        ;;
+esac
