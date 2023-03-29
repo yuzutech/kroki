@@ -20,14 +20,14 @@
   "dependencies": {
     "lodash": "^4.17.21",
     "micro": "9.4.1",
-    "pino": "8.8.0",
+    "pino": "8.11.0",
     "pino-debug": "2.0.0",
     "puppeteer": "14.4.1"
   },
   "devDependencies": {
     "chai": "4.3.7",
     "dirty-chai": "^2.0.1",
-    "mermaid": "9.3.0",
+    "mermaid": "9.4.3",
     "mocha": "10.2.0",
     "pngjs": "^6.0.0",
     "standard": "17.0.0"
