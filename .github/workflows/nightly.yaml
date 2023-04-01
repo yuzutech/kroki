@@ -6,6 +6,6 @@ on:
 
 jobs:
   test-containers-multiarch:
-    uses: ./.github/workflows/main
+    uses: ./.github/workflows/main.yaml
     with:
       build_multiarch: true
