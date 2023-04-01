@@ -21,7 +21,8 @@ ifdef BUILD_MULTIARCH
 	docker buildx bake kroki --set "*.cache-from=$(CACHE_FROM)" --set "*.cache-to=$(CACHE_TO)" --set "*.platform=linux/arm64,linux/amd64"
 	docker buildx bake companion-images --set "*.cache-from=$(CACHE_FROM)" --set "*.cache-to=$(CACHE_TO)" --set "*.platform=linux/arm64,linux/amd64"
 else
-	docker buildx bake kroki companion-images --set "*.cache-from=$(CACHE_FROM)" --set "*.cache-to=$(CACHE_TO)"
+	docker buildx bake kroki --set "*.cache-from=$(CACHE_FROM)" --set "*.cache-to=$(CACHE_TO)" --set "*.platform=linux/arm64,linux/amd64"
+	docker buildx bake companion-images --set "*.cache-from=$(CACHE_FROM)" --set "*.cache-to=$(CACHE_TO)" --set "*.platform=linux/arm64,linux/amd64"
 endif
 
 publishDockerImages:
