@@ -17,13 +17,19 @@ endif
 	mvn versions:set -DnewVersion=$(RELEASE_VERSION)
 
 buildDockerImages:
-	docker buildx bake --set "*.cache-from=$(CACHE_FROM)" --set "*.cache-to=$(CACHE_TO)"
+ifdef BUILD_MULTIARCH
+	docker buildx bake kroki --set "*.cache-from=$(CACHE_FROM)" --set "*.cache-to=$(CACHE_TO)" --set "*.platform=linux/arm64,linux/amd64"
+	docker buildx bake companion-images --set "*.cache-from=$(CACHE_FROM)" --set "*.cache-to=$(CACHE_TO)" --set "*.platform=linux/arm64,linux/amd64"
+else
+	docker buildx bake kroki companion-images --set "*.cache-from=$(CACHE_FROM)" --set "*.cache-to=$(CACHE_TO)"
+endif
 
 publishDockerImages:
 ifndef RELEASE_VERSION
 	$(error RELEASE_VERSION is undefined)
 endif
-	docker buildx bake -f docker-bake.hcl -f docker-bake-release.hcl --push --set "*.platform=linux/arm64,linux/amd64"
+	docker buildx bake -f docker-bake.hcl -f docker-bake-release.hcl kroki --push --set "*.platform=linux/arm64,linux/amd64"
+	docker buildx bake -f docker-bake.hcl -f docker-bake-release.hcl companion-images --push --set "*.platform=linux/arm64,linux/amd64"
 
 smokeTests:
 	TAG=smoketests docker buildx bake --load --set "*.cache-from=$(CACHE_FROM)" --set "*.cache-to=$(CACHE_TO)"

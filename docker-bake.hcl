@@ -2,8 +2,8 @@ variable "TAG" {
   default = "latest"
 }
 
-group "default" {
-  targets = ["kroki", "kroki-blockdiag", "kroki-mermaid", "kroki-bpmn", "kroki-excalidraw", "kroki-diagramsnet", "kroki-wireviz"]
+group "companion-images" {
+  targets = ["kroki-blockdiag", "kroki-mermaid", "kroki-bpmn", "kroki-excalidraw", "kroki-diagramsnet", "kroki-wireviz"]
 }
 
 target "kroki" {

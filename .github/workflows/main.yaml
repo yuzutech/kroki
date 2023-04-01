@@ -11,6 +11,11 @@ on:
       - 'docs/**'
     branches:
       - '*'
+  workflow_call:
+    inputs:
+      build_multiarch:
+        required: true
+        type: boolean
 
 jobs:
   test-containers:
@@ -47,6 +52,7 @@ jobs:
     - name: Build container images
       run: make buildDockerImages
       env:
+        BUILD_MULTIARCH: ${{ inputs.build_multiarch }}
         CACHE_FROM: 'type=local,src=/tmp/.buildx-cache'
         CACHE_TO: 'type=local,dest=/tmp/.buildx-cache-new'
 
