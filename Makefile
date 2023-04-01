@@ -32,7 +32,7 @@ endif
 	docker buildx bake -f docker-bake.hcl -f docker-bake-release.hcl companion-images --push --set "*.platform=linux/arm64,linux/amd64"
 
 smokeTests:
-	TAG=smoketests docker buildx bake --load --set "*.cache-from=$(CACHE_FROM)" --set "*.cache-to=$(CACHE_TO)"
+	TAG=smoketests docker buildx bake kroki companion-images --load --set "*.cache-from=$(CACHE_FROM)" --set "*.cache-to=$(CACHE_TO)"
 	@docker-compose --file "$(TESTS_DIR)/docker-compose.yaml" up --build --detach \
 	&& echo \
 	&& docker-compose --file "$(TESTS_DIR)/docker-compose.yaml" ps \
