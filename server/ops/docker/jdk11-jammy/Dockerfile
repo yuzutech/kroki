@@ -36,7 +36,7 @@ RUN D2_VERSION=`cat go.mod | grep "oss.terrastruct.com/d2" | cut -d' ' -f3` \
 ## Nomnoml
 FROM node:16.18.1-bullseye-slim AS kroki-builder-nomnoml
 
-RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
+RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0 --maxsockets 2
 
 ENV NODE node16
 ENV PLATFORM linux
@@ -45,7 +45,7 @@ RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM}
 COPY --from=nomnoml index.js package.json package-lock.json /app/
 WORKDIR /app
 
-RUN npm install && npm run lint
+RUN npm install --maxsockets 2 && npm run lint
 RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM} . -o app.bin
 
 ## Vega
@@ -62,7 +62,7 @@ RUN apt-get update && apt-get install --no-install-recommends --yes \
     librsvg2-dev && \
     apt-get clean && apt-get autoremove
 
-RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
+RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0 --maxsockets 2
 
 ENV NODE node16
 ENV PLATFORM linux
@@ -73,7 +73,7 @@ COPY --from=vega tests /app/tests
 COPY --from=vega package.json package-lock.json /app/
 WORKDIR /app
 
-RUN npm install && npm run lint && npm t
+RUN npm install --maxsockets 2 && npm run lint && npm t
 RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM} . -o app.bin
 
 ## DBML
@@ -90,13 +90,13 @@ RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM}
 COPY --from=dbml index.js package.json package-lock.json /app/
 WORKDIR /app
 
-RUN npm install && npm run lint
+RUN npm install --maxsockets 2 && npm run lint
 RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM} . -o app.bin
 
 ## Wavedrom
 FROM node:16.18.1-bullseye-slim AS kroki-builder-wavedrom
 
-RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
+RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0 --maxsockets 2
 
 ENV NODE node16
 ENV PLATFORM linux
@@ -105,13 +105,13 @@ RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM}
 COPY --from=wavedrom index.js package.json package-lock.json /app/
 WORKDIR /app
 
-RUN npm install && npm run lint
+RUN npm install --maxsockets 2 && npm run lint
 RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM} . -o app.bin
 
 ## Bytefield
 FROM node:16.18.1-bullseye-slim AS kroki-builder-bytefield
 
-RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
+RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0 --maxsockets 2
 
 ENV NODE node16
 ENV PLATFORM linux
@@ -120,7 +120,7 @@ RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM}
 COPY --from=bytefield index.js package.json package-lock.json /app/
 WORKDIR /app
 
-RUN npm install
+RUN npm install --maxsockets 2
 RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM} . -o app.bin
 
 ## ERD
