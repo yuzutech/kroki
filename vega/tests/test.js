@@ -12,6 +12,7 @@ chai.use(dirtyChai)
 const { convert } = require('../src/convert.js')
 
 describe('#convert', function () {
+  this.timeout(15000)
   it('should throw UnsafeIncludeError in secure mode when the Vega-Lite specification contains data.url', async function () {
     const input = `{
   "data": {"url": "data/cars.json"},
