@@ -7,5 +7,5 @@ wireviz==0.3.2
 graphviz==0.20.1
 Jinja2==3.1.2
 MarkupSafe==2.1.2
-Pillow==9.4.0
+Pillow==9.5.0
 PyYAML==6.0
