@@ -18,19 +18,16 @@ endif
 
 buildDockerImages:
 ifdef BUILD_MULTIARCH
-	docker buildx bake kroki --set "*.cache-from=$(CACHE_FROM)" --set "*.cache-to=$(CACHE_TO)" --set "*.platform=linux/arm64,linux/amd64"
-	docker buildx bake companion-images --set "*.cache-from=$(CACHE_FROM)" --set "*.cache-to=$(CACHE_TO)" --set "*.platform=linux/arm64,linux/amd64"
+	docker buildx bake kroki companion-images --set "*.cache-from=$(CACHE_FROM)" --set "*.cache-to=$(CACHE_TO)" --set "*.platform=linux/arm64,linux/amd64"
 else
-	docker buildx bake kroki --set "*.cache-from=$(CACHE_FROM)" --set "*.cache-to=$(CACHE_TO)" --set "*.platform=linux/arm64,linux/amd64"
-	docker buildx bake companion-images --set "*.cache-from=$(CACHE_FROM)" --set "*.cache-to=$(CACHE_TO)" --set "*.platform=linux/arm64,linux/amd64"
+	docker buildx bake kroki companion-images --set "*.cache-from=$(CACHE_FROM)" --set "*.cache-to=$(CACHE_TO)" --set "*.platform=linux/arm64,linux/amd64"
 endif
 
 publishDockerImages:
 ifndef RELEASE_VERSION
 	$(error RELEASE_VERSION is undefined)
 endif
-	docker buildx bake -f docker-bake.hcl -f docker-bake-release.hcl kroki --push --set "*.platform=linux/arm64,linux/amd64"
-	docker buildx bake -f docker-bake.hcl -f docker-bake-release.hcl companion-images --push --set "*.platform=linux/arm64,linux/amd64"
+	docker buildx bake -f docker-bake.hcl -f docker-bake-release.hcl kroki companion-images --push --set "*.platform=linux/arm64,linux/amd64"
 
 smokeTests:
 	TAG=smoketests docker buildx bake kroki companion-images --load --set "*.cache-from=$(CACHE_FROM)" --set "*.cache-to=$(CACHE_TO)"
