@@ -1,5 +1,5 @@
 # Package the Node.js project into a single binary
-FROM node:16.18.1-alpine3.16 as builder
+FROM --platform=$BUILDPLATFORM node:16.18.1-alpine3.16 as builder
 
 # Workaround: https://github.com/nodejs/docker-node/issues/813#issuecomment-407339011
 # Error: could not get uid/gid
@@ -10,7 +10,7 @@ RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
 
 ENV NODE node16
 ENV PLATFORM alpine
-RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM}
+RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM} -a $([ "$TARGETARCH" == "amd64" ] && echo "x64" || echo "$TARGETARCH")
 
 COPY package.json package-lock.json /app/
 COPY src /app/src
@@ -19,7 +19,7 @@ WORKDIR /app
 RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 npm ci
 RUN npm run lint
 
-RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM} . -o app.bin
+RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-$([ "$TARGETARCH" == "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
 
 # Create the image
 FROM alpine:3.16.3

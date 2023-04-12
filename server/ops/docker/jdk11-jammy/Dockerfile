@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1.4
 
 ## TikZ
-FROM ubuntu:jammy AS kroki-builder-dvisvgm
+FROM --platform=$BUILDPLATFORM ubuntu:jammy AS kroki-builder-dvisvgm
 
 RUN apt-get update && apt-get install --no-install-recommends --yes \
     build-essential \
@@ -17,39 +17,50 @@ RUN apt-get update && apt-get install --no-install-recommends --yes \
 
 ARG DVISVGM_VERSION=3.0.4
 
-RUN \
-    curl -LO https://github.com/mgieseki/dvisvgm/releases/download/$DVISVGM_VERSION/dvisvgm-$DVISVGM_VERSION.tar.gz \
-    && tar xf dvisvgm-$DVISVGM_VERSION.tar.gz \
-    && cd dvisvgm-$DVISVGM_VERSION \
-    && ./configure --enable-bundled-libs \
-    && make \
-    && make install
+ARG BUILDARCH
+ARG TARGETARCH
+RUN curl -LO https://github.com/mgieseki/dvisvgm/releases/download/$DVISVGM_VERSION/dvisvgm-$DVISVGM_VERSION.tar.gz && \
+    tar xf dvisvgm-$DVISVGM_VERSION.tar.gz && \
+    cd dvisvgm-$DVISVGM_VERSION && \
+    case $BUILDARCH in \
+        "amd64") MAKE_BUILD_ARCH=x86_64 ;; \
+        "arm64") MAKE_BUILD_ARCH=aarch64 ;; \
+        *) MAKE_BUILD_ARCH=$TARGETARCH ;; \
+    esac && \
+    case $TARGETARCH in \
+        "amd64") MAKE_TARGET_ARCH=x86_64 ;; \
+        "arm64") MAKE_TARGET_ARCH=aarch64 ;; \
+        *) MAKE_TARGET_ARCH=$TARGETARCH ;; \
+    esac && \
+    ./configure --enable-bundled-libs --build $MAKE_BUILD_ARCH-linux-gnu --host $MAKE_TARGET_ARCH-linux-gnu && \
+    make && \
+    make install
 
 ## D2
 FROM golang:1.19.3-bullseye AS kroki-builder-d2
 COPY ops/docker/go.mod .
 
-RUN D2_VERSION=`cat go.mod | grep "oss.terrastruct.com/d2" | cut -d' ' -f3` \
-  && rm go.mod \
-  && go install "oss.terrastruct.com/d2@${D2_VERSION}"
+RUN D2_VERSION=`cat go.mod | grep "oss.terrastruct.com/d2" | cut -d' ' -f3` && \
+    rm go.mod && \
+    go install "oss.terrastruct.com/d2@${D2_VERSION}"
 
 ## Nomnoml
-FROM node:16.18.1-bullseye-slim AS kroki-builder-nomnoml
+FROM --platform=$BUILDPLATFORM node:16.18.1-bullseye-slim AS kroki-builder-nomnoml
 
 RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
 
 ENV NODE node16
 ENV PLATFORM linux
-RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM}
+RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM} -a $([ "$TARGETARCH" == "amd64" ] && echo "x64" || echo "$TARGETARCH")
 
 COPY --from=nomnoml index.js package.json package-lock.json /app/
 WORKDIR /app
 
 RUN npm install && npm run lint
-RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM} . -o app.bin
+RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-$([ "$TARGETARCH" == "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
 
 ## Vega
-FROM node:16.18.1-bullseye-slim AS kroki-builder-vega
+FROM --platform=$BUILDPLATFORM node:16.18.1-bullseye-slim AS kroki-builder-vega
 
 # System dependencies for "canvas" Node package
 # https://github.com/Automattic/node-canvas#compiling
@@ -66,7 +77,7 @@ RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
 
 ENV NODE node16
 ENV PLATFORM linux
-RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM}
+RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM} -a $([ "$TARGETARCH" == "amd64" ] && echo "x64" || echo "$TARGETARCH")
 
 COPY --from=vega src /app/src
 COPY --from=vega tests /app/tests
@@ -74,10 +85,10 @@ COPY --from=vega package.json package-lock.json /app/
 WORKDIR /app
 
 RUN npm install 2 && npm run lint && npm t
-RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM} . -o app.bin
+RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-$([ "$TARGETARCH" == "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
 
 ## DBML
-FROM node:16.18.1-bullseye-slim AS kroki-builder-dbml
+FROM --platform=$BUILDPLATFORM node:16.18.1-bullseye-slim AS kroki-builder-dbml
 
 RUN npm config set unsafe-perm true
 
@@ -85,43 +96,43 @@ RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
 
 ENV NODE node16
 ENV PLATFORM linux
-RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM}
+RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM} -a $([ "$TARGETARCH" == "amd64" ] && echo "x64" || echo "$TARGETARCH")
 
 COPY --from=dbml index.js package.json package-lock.json /app/
 WORKDIR /app
 
 RUN npm install && npm run lint
-RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM} . -o app.bin
+RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-$([ "$TARGETARCH" == "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
 
 ## Wavedrom
-FROM node:16.18.1-bullseye-slim AS kroki-builder-wavedrom
+FROM --platform=$BUILDPLATFORM node:16.18.1-bullseye-slim AS kroki-builder-wavedrom
 
 RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
 
 ENV NODE node16
 ENV PLATFORM linux
-RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM}
+RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM} -a $([ "$TARGETARCH" == "amd64" ] && echo "x64" || echo "$TARGETARCH")
 
 COPY --from=wavedrom index.js package.json package-lock.json /app/
 WORKDIR /app
 
 RUN npm install && npm run lint
-RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM} . -o app.bin
+RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-$([ "$TARGETARCH" == "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
 
 ## Bytefield
-FROM node:16.18.1-bullseye-slim AS kroki-builder-bytefield
+FROM --platform=$BUILDPLATFORM node:16.18.1-bullseye-slim AS kroki-builder-bytefield
 
 RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
 
 ENV NODE node16
 ENV PLATFORM linux
-RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM}
+RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM} -a $([ "$TARGETARCH" == "amd64" ] && echo "x64" || echo "$TARGETARCH")
 
 COPY --from=bytefield index.js package.json package-lock.json /app/
 WORKDIR /app
 
 RUN npm install
-RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM} . -o app.bin
+RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-$([ "$TARGETARCH" == "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
 
 ## ERD
 # use a pre-built image to reduce build time
@@ -166,13 +177,29 @@ RUN wget -q "https://pikchr.org/home/raw/${PIKCHR_VERSION}" -O pikchr.c
 RUN gcc -O0 -g -static -Wall -Wextra -DPIKCHR_SHELL pikchr.c -o pikchr -lm
 
 ## SVGBob
-FROM rust:1.68-slim-bullseye AS kroki-builder-static-svgbob
+FROM --platform=$BUILDPLATFORM rust:1.68-slim-bullseye AS kroki-builder-static-svgbob
+
+# Install cross-compilation tools
+RUN apt-get update && apt-get install --no-install-recommends --yes \
+    gcc-aarch64-linux-gnu \
+    gcc-x86-64-linux-gnu \
+    libc6-dev-amd64-cross \
+    libc6-dev-arm64-cross && \
+    apt-get clean && apt-get autoremove
 
 COPY ops/docker/Cargo.toml .
+COPY ops/docker/.cargo .cargo
 
+ARG TARGETARCH
 ENV CARGO_REGISTRIES_CRATES_IO_PROTOCOL=sparse
 RUN SVGBOB_VERSION=`cat Cargo.toml | grep "svgbob_cli =" | sed -r 's/.*"([^"]+)"/\1/'` && \
-    cargo install --quiet --version $SVGBOB_VERSION svgbob_cli
+    case $TARGETARCH in \
+        "amd64") RUST_TARGET_ARCH=x86_64 ;; \
+        "arm64") RUST_TARGET_ARCH=aarch64 ;; \
+        *) RUST_TARGET_ARCH=$TARGETARCH ;; \
+    esac && \
+    rustup target add $RUST_TARGET_ARCH-unknown-linux-gnu && \
+    cargo install --quiet --target $RUST_TARGET_ARCH-unknown-linux-gnu --version $SVGBOB_VERSION svgbob_cli
 
 ## UMlet
 # use a pre-built image to reduce build time
@@ -223,7 +250,8 @@ RUN apt-get update && apt-get install --no-install-recommends --yes \
     texlive-latex-extra \
     texlive-pictures \
     texlive-pstricks \
-    texlive-science
+    texlive-science && \
+    apt-get clean && apt-get autoremove
 
 COPY --chown=kroki:kroki ops/docker/logback.xml /etc/kroki/logback.xml
 
