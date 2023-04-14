@@ -58,8 +58,11 @@ With flag set, option takes effect.
 * `earth-tones` (`103`)
 * `everglade-green` (`104`)
 * `buttered-toast` (`105`)
+* `dark-mauve` (`200`)
+* `terminal` (`300`)
+* `terminal-grayscale` (`301`)
 
-| See: https://github.com/terrastruct/d2/blob/master/docs/assets/themes_overview.png
+| See: https://d2lang.com/tour/themes/
 |===
 
 == GraphViz
