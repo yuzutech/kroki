@@ -55,7 +55,7 @@ class ServerSSLTest {
   }
 
   @Test
-  void with_ssl_enabled_using_string_and_secure_http_web_client(Vertx vertx, VertxTestContext testContext) {
+  void with_ssl_enabled_by_string_and_secure_http_web_client(Vertx vertx, VertxTestContext testContext) {
     Handler<AsyncResult<String>> handle = deployVerticleResult -> {
       // successful deployment
       testContext.verify(() -> assertThat(deployVerticleResult.failed()).isFalse());
@@ -72,11 +72,11 @@ class ServerSSLTest {
           testContext.completeNow();
         })));
     };
-    vertx.deployVerticle(new Server(), new DeploymentOptions().setConfig(configWithSslEnabledUsingString(vertx)), handle);
+    vertx.deployVerticle(new Server(), new DeploymentOptions().setConfig(configWithSslEnabledByString(vertx)), handle);
   }
 
   @Test
-  void with_ssl_enabled__using_path_and_secure_http_web_client(Vertx vertx, VertxTestContext testContext) {
+  void with_ssl_enabled_by_path_and_secure_http_web_client(Vertx vertx, VertxTestContext testContext) {
     Handler<AsyncResult<String>> handle = deployVerticleResult -> {
       // successful deployment
       testContext.verify(() -> assertThat(deployVerticleResult.failed()).isFalse());
@@ -93,11 +93,11 @@ class ServerSSLTest {
           testContext.completeNow();
         })));
     };
-    vertx.deployVerticle(new Server(), new DeploymentOptions().setConfig(configWithSslEnabledUsingPath(vertx)), handle);
+    vertx.deployVerticle(new Server(), new DeploymentOptions().setConfig(configWithSslEnabledByPath(vertx)), handle);
   }
 
   @Test
-  void with_ssl_enabled_using_string_and_insecure_http_web_client(Vertx vertx, VertxTestContext testContext) {
+  void with_ssl_enabled_by_string_and_insecure_http_web_client(Vertx vertx, VertxTestContext testContext) {
     Handler<AsyncResult<String>> handle = deployVerticleResult -> {
       // successful deployment
       testContext.verify(() -> assertThat(deployVerticleResult.failed()).isFalse());
@@ -108,11 +108,11 @@ class ServerSSLTest {
         .as(BodyCodec.string())
         .send(testContext.failing(response -> testContext.verify(testContext::completeNow)));
     };
-    vertx.deployVerticle(new Server(), new DeploymentOptions().setConfig(configWithSslEnabledUsingString(vertx)), handle);
+    vertx.deployVerticle(new Server(), new DeploymentOptions().setConfig(configWithSslEnabledByString(vertx)), handle);
   }
 
   @Test
-  void with_ssl_enabled_using_path_and_insecure_http_web_client(Vertx vertx, VertxTestContext testContext) {
+  void with_ssl_enabled_by_path_and_insecure_http_web_client(Vertx vertx, VertxTestContext testContext) {
     Handler<AsyncResult<String>> handle = deployVerticleResult -> {
       // successful deployment
       testContext.verify(() -> assertThat(deployVerticleResult.failed()).isFalse());
@@ -123,17 +123,17 @@ class ServerSSLTest {
         .as(BodyCodec.string())
         .send(testContext.failing(response -> testContext.verify(testContext::completeNow)));
     };
-    vertx.deployVerticle(new Server(), new DeploymentOptions().setConfig(configWithSslEnabledUsingPath(vertx)), handle);
+    vertx.deployVerticle(new Server(), new DeploymentOptions().setConfig(configWithSslEnabledByPath(vertx)), handle);
   }
 
   @Test
-  void with_ssl_enabled_using_string_and_missing_ssl_key_config(Vertx vertx, VertxTestContext testContext) {
+  void with_ssl_enabled_by_string_and_missing_ssl_key_config(Vertx vertx, VertxTestContext testContext) {
     Handler<AsyncResult<String>> handle = deployVerticleResult -> {
       // failed deployment
       testContext.verify(() -> {
         assertThat(deployVerticleResult.failed()).isTrue();
         assertThat(deployVerticleResult.cause()).isInstanceOf(IllegalArgumentException.class);
-        assertThat(deployVerticleResult.cause()).hasMessage("KROKI_SSL_KEY and KROKI_SSL_CERT or KROKI_SSL_KEY_PATH and KROKI_SSL_CERT_PATH must be configured when SSL is enabled.");
+        assertThat(deployVerticleResult.cause()).hasMessage("KROKI_SSL_KEY or KROKI_SSL_KEY_PATH must be configured when SSL is enabled.");
       });
       WebClientOptions options = new WebClientOptions();
       options.setSsl(true);
@@ -145,17 +145,17 @@ class ServerSSLTest {
         .as(BodyCodec.string())
         .send(testContext.failing(response -> testContext.verify(testContext::completeNow)));
     };
-    vertx.deployVerticle(new Server(), new DeploymentOptions().setConfig(configWithSslEnabledUsingStringMissingKey(vertx)), handle);
+    vertx.deployVerticle(new Server(), new DeploymentOptions().setConfig(configWithSslEnabledByStringMissingKey(vertx)), handle);
   }
 
   @Test
-  void with_ssl_enabled_using_path_and_missing_ssl_key_config(Vertx vertx, VertxTestContext testContext) {
+  void with_ssl_enabled_by_path_and_missing_ssl_key_config(Vertx vertx, VertxTestContext testContext) {
     Handler<AsyncResult<String>> handle = deployVerticleResult -> {
       // failed deployment
       testContext.verify(() -> {
         assertThat(deployVerticleResult.failed()).isTrue();
         assertThat(deployVerticleResult.cause()).isInstanceOf(IllegalArgumentException.class);
-        assertThat(deployVerticleResult.cause()).hasMessage("KROKI_SSL_KEY and KROKI_SSL_CERT or KROKI_SSL_KEY_PATH and KROKI_SSL_CERT_PATH must be configured when SSL is enabled.");
+        assertThat(deployVerticleResult.cause()).hasMessage("KROKI_SSL_KEY or KROKI_SSL_KEY_PATH must be configured when SSL is enabled.");
       });
       WebClientOptions options = new WebClientOptions();
       options.setSsl(true);
@@ -167,7 +167,7 @@ class ServerSSLTest {
         .as(BodyCodec.string())
         .send(testContext.failing(response -> testContext.verify(testContext::completeNow)));
     };
-    vertx.deployVerticle(new Server(), new DeploymentOptions().setConfig(configWithSslEnabledUsingPathMissingKey(vertx)), handle);
+    vertx.deployVerticle(new Server(), new DeploymentOptions().setConfig(configWithSslEnabledByPathMissingKey(vertx)), handle);
   }
 
   private JsonObject configWithSslDisabled() {
@@ -176,13 +176,13 @@ class ServerSSLTest {
       .put("KROKI_SSL", false);
   }
 
-  private JsonObject configWithSslEnabledUsingStringMissingKey(Vertx vertx) {
-    JsonObject config = configWithSslEnabledUsingString(vertx);
+  private JsonObject configWithSslEnabledByStringMissingKey(Vertx vertx) {
+    JsonObject config = configWithSslEnabledByString(vertx);
     config.remove("KROKI_SSL_KEY");
     return config;
   }
 
-  private JsonObject configWithSslEnabledUsingString(Vertx vertx) {
+  private JsonObject configWithSslEnabledByString(Vertx vertx) {
     return new JsonObject()
       .put("KROKI_PORT", port)
       .put("KROKI_SSL", true)
@@ -190,13 +190,13 @@ class ServerSSLTest {
       .put("KROKI_SSL_CERT", vertx.fileSystem().readFileBlocking(pemKeyCertOptions.getCertPath()).toString());
   }
 
-  private JsonObject configWithSslEnabledUsingPathMissingKey(Vertx vertx) {
-    JsonObject config = configWithSslEnabledUsingPath(vertx);
+  private JsonObject configWithSslEnabledByPathMissingKey(Vertx vertx) {
+    JsonObject config = configWithSslEnabledByPath(vertx);
     config.remove("KROKI_SSL_KEY_PATH");
     return config;
   }
 
-  private JsonObject configWithSslEnabledUsingPath(Vertx vertx) {
+  private JsonObject configWithSslEnabledByPath(Vertx vertx) {
     return new JsonObject()
       .put("KROKI_PORT", port)
       .put("KROKI_SSL", true)
