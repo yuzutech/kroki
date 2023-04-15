@@ -72,7 +72,7 @@ class ServerSSLTest {
           testContext.completeNow();
         })));
     };
-    vertx.deployVerticle(new Server(), new DeploymentOptions().setConfig(configWithSslEnabled(vertx)), handle);
+    vertx.deployVerticle(new Server(), new DeploymentOptions().setConfig(configWithSslEnabledAsString(vertx)), handle);
   }
 
   @Test
@@ -87,7 +87,7 @@ class ServerSSLTest {
         .as(BodyCodec.string())
         .send(testContext.failing(response -> testContext.verify(testContext::completeNow)));
     };
-    vertx.deployVerticle(new Server(), new DeploymentOptions().setConfig(configWithSslEnabled(vertx)), handle);
+    vertx.deployVerticle(new Server(), new DeploymentOptions().setConfig(configWithSslEnabledAsString(vertx)), handle);
   }
 
   @Test
@@ -109,7 +109,7 @@ class ServerSSLTest {
         .as(BodyCodec.string())
         .send(testContext.failing(response -> testContext.verify(testContext::completeNow)));
     };
-    vertx.deployVerticle(new Server(), new DeploymentOptions().setConfig(configWithSslEnabledMissingKey(vertx)), handle);
+    vertx.deployVerticle(new Server(), new DeploymentOptions().setConfig(configWithSslEnabledAsStringMissingKey(vertx)), handle);
   }
 
   private JsonObject configWithSslDisabled() {
@@ -118,17 +118,31 @@ class ServerSSLTest {
       .put("KROKI_SSL", false);
   }
 
-  private JsonObject configWithSslEnabledMissingKey(Vertx vertx) {
-    JsonObject config = configWithSslEnabled(vertx);
+  private JsonObject configWithSslEnabledAsStringMissingKey(Vertx vertx) {
+    JsonObject config = configWithSslEnabledAsString(vertx);
     config.remove("KROKI_SSL_KEY");
     return config;
   }
 
-  private JsonObject configWithSslEnabled(Vertx vertx) {
+  private JsonObject configWithSslEnabledAsString(Vertx vertx) {
     return new JsonObject()
       .put("KROKI_PORT", port)
       .put("KROKI_SSL", true)
       .put("KROKI_SSL_KEY", vertx.fileSystem().readFileBlocking(pemKeyCertOptions.getKeyPath()).toString())
       .put("KROKI_SSL_CERT", vertx.fileSystem().readFileBlocking(pemKeyCertOptions.getCertPath()).toString());
+  }
+
+  private JsonObject configWithSslEnabledAsPathMissingKey(Vertx vertx) {
+    JsonObject config = configWithSslEnabledAsPath(vertx);
+    config.remove("KROKI_SSL_KEY_PATH");
+    return config;
+  }
+
+  private JsonObject configWithSslEnabledAsPath(Vertx vertx) {
+    return new JsonObject()
+      .put("KROKI_PORT", port)
+      .put("KROKI_SSL", true)
+      .put("KROKI_SSL_KEY_PATH", pemKeyCertOptions.getKeyPath())
+      .put("KROKI_SSL_CERT_PATH", pemKeyCertOptions.getCertPath());
   }
 }
