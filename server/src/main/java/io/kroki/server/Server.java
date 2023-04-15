@@ -49,10 +49,6 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.CorsHandler;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -182,48 +178,27 @@ public class Server extends AbstractVerticle {
 
   private static void setPemKeyCertOptions(JsonObject config, HttpServerOptions serverOptions, boolean enableSSL) {
     if (enableSSL) {
-      Optional<String> sslKeyValue;
-      Optional<String> sslCertValue;
-
       if (!config.containsKey("KROKI_SSL_KEY") && !config.containsKey("KROKI_SSL_KEY_PATH")) {
         throw new IllegalArgumentException("KROKI_SSL_KEY or KROKI_SSL_KEY_PATH must be configured when SSL is enabled.");
       }
       else if (!config.getString("KROKI_SSL_KEY").isEmpty()) {
-        // Get the key from KROKI_SSL_KEY as a string
-        sslKeyValue = Optional.ofNullable(config.getString("KROKI_SSL_KEY"));
+        Optional<String> sslKeyValue = Optional.ofNullable(config.getString("KROKI_SSL_KEY"));
+        serverOptions.setPemKeyCertOptions(new PemKeyCertOptions().addKeyValue(Buffer.buffer(sslKeyValue.get())));
       }
       else {
-        // Read the key from the file given by KROKI_SSL_KEY_PATH
-        try {
-          sslKeyValue = Optional.ofNullable(Files.readString(Paths.get(config.getString("KROKI_SSL_KEY_PATH"))));
-        }
-        catch (IOException e) {
-          throw new IllegalArgumentException("An error occurred while reading the key given by KROKI_SSL_KEY_PATH.");
-        }
+        serverOptions.setPemKeyCertOptions(new PemKeyCertOptions().addKeyPath(config.getString("KROKI_SSL_KEY_PATH")));
       }
 
       if (!config.containsKey("KROKI_SSL_CERT") && !config.containsKey("KROKI_SSL_CERT_PATH")) {
         throw new IllegalArgumentException("KROKI_SSL_CERT or KROKI_SSL_CERT_PATH must be configured when SSL is enabled.");
       }
       else if (!config.getString("KROKI_SSL_CERT").isEmpty()) {
-        // Get the key from KROKI_SSL_CERT as a string
-        sslCertValue = Optional.ofNullable(config.getString("KROKI_SSL_CERT"));
+        Optional<String> sslCertValue = Optional.ofNullable(config.getString("KROKI_SSL_CERT"));
+        serverOptions.setPemKeyCertOptions(new PemKeyCertOptions().addCertValue(Buffer.buffer(sslCertValue.get())));
       }
       else {
-        // Read the key from the file given by KROKI_SSL_CERT_PATH
-        try {
-          sslCertValue = Optional.ofNullable(Files.readString(Paths.get(config.getString("KROKI_SSL_CERT_PATH"))));
-        }
-        catch (IOException e) {
-          throw new IllegalArgumentException("An error occurred while reading the key given by KROKI_SSL_CERT_PATH.");
-        }
+        serverOptions.setPemKeyCertOptions(new PemKeyCertOptions().addCertPath(config.getString("KROKI_SSL_CERT_PATH")));
       }
-
-      serverOptions.setPemKeyCertOptions(
-        new PemKeyCertOptions()
-          .addKeyValue(Buffer.buffer(sslKeyValue.get()))
-          .addCertValue(Buffer.buffer(sslCertValue.get()))
-      );
     }
   }
 
