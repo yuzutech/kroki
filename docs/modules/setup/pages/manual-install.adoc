@@ -15,7 +15,7 @@ On this page, you'll learn:
 
 You can download the latest _standalone executable jar_ from the GitHub {uri-gh-releases}[releases page].
 
-Once you've downloaded the _jar_ file, open a terminal an type:
+Once you've downloaded the _jar_ file, open a terminal and type:
 
 [source,java-cli]
 java -jar kroki-server.jar
@@ -25,14 +25,13 @@ You can change the port using an environment variable, or a Java system property
 
 [IMPORTANT]
 ====
-The Kroki server only includes the following JVM-based diagrams libraries:
+The Kroki server does _not_ include diagram libraries! +
+You will either need to install them manually on your system or use xref:install.adoc#docker-podman[Docker or Podman].
 
-* http://ditaa.sourceforge.net[Ditaa]
-* https://github.com/plantuml/plantuml[PlantUML] including https://github.com/RicardoNiepel/C4-PlantUML[C4 model]
-* https://github.com/structurizr/dsl[Structurizr]
-* https://github.com/umlet/umlet[UMlet]
+For instance, you can install GraphViz manually on your system (i.e., `dot` binary) and configure the path using a system property:
 
-If you want to use additional diagram libraries, you will either need to install them manually on your system or use xref:install.adoc#docker-podman[Docker or Podman].
+[source,java-cli]
+java -DKROKI_DOT_BIN_PATH=/path/to/dot -jar kroki-server.jar
 ====
 
 == Learn more

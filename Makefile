@@ -31,16 +31,16 @@ endif
 
 smokeTests:
 	TAG=smoketests docker buildx bake kroki companion-images --load --set "*.cache-from=$(CACHE_FROM)" --set "*.cache-to=$(CACHE_TO)"
-	@docker-compose --file "$(TESTS_DIR)/docker-compose.yaml" up --build --detach \
+	@docker compose --file "$(TESTS_DIR)/docker-compose.yaml" up --build --detach \
 	&& echo \
-	&& docker-compose --file "$(TESTS_DIR)/docker-compose.yaml" ps \
+	&& docker compose --file "$(TESTS_DIR)/docker-compose.yaml" ps \
 	&& echo \
 	&& "$(TESTS_DIR)/wait-for-it.sh" localhost:8000 --timeout="$(COMPOSE_TIMEOUT)" \
 	&& echo \
 	&& echo 'Waiting for the containers'\'' services to be available... ($(SERVICES_TIMEOUT) seconds)' \
 	&& sleep "$(SERVICES_TIMEOUT)" \
 	&& npm test \
-	&& docker-compose -f "$(TESTS_DIR)/docker-compose.yaml" stop
+	&& docker compose -f "$(TESTS_DIR)/docker-compose.yaml" stop
 
 installJavaScriptDependencies:
 	npm i --prefix bpmn

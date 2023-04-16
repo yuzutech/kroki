@@ -1,15 +1,43 @@
 package io.kroki.server.service;
 
+import io.kroki.server.DownloadPlantumlNativeImage;
 import io.kroki.server.format.FileFormat;
 import io.kroki.server.security.SafeMode;
+import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
+import io.vertx.junit5.Checkpoint;
+import io.vertx.junit5.VertxExtension;
+import io.vertx.junit5.VertxTestContext;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.condition.EnabledOnOs;
+import org.junit.jupiter.api.condition.OS;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@ExtendWith(VertxExtension.class)
+@EnabledOnOs(value = OS.LINUX, architectures = "amd64")
 public class C4PlantumlServiceTest {
+
+  private static PlantumlCommand plantumlCommand = null;
+
+  @BeforeAll
+  @Timeout(60)
+  static void prepare(VertxTestContext context, Vertx vertx) throws InterruptedException {
+    Checkpoint checkpoint = context.checkpoint();
+    DownloadPlantumlNativeImage.download(vertx).onComplete(event -> {
+      if (event.failed()) {
+        context.failNow(event.cause());
+        return;
+      }
+      plantumlCommand = event.result();
+      checkpoint.flag();
+    });
+  }
 
   @Test
   void should_include_c4_puml_file_from_classloader() throws IOException {
@@ -41,7 +69,7 @@ public class C4PlantumlServiceTest {
   }
 
   @Test
-  void should_not_use_network() throws IOException {
+  void should_not_use_network() throws IOException, InterruptedException {
     String diagram = "@startuml\n" +
       "!include C4_Context.puml\n" +
       "\n" +
@@ -63,7 +91,7 @@ public class C4PlantumlServiceTest {
     System.setProperty("socksProxyPort", "1234");
     try {
       // should not use the network!
-      byte[] convert = Plantuml.convert(Plantuml.sanitize(diagram, SafeMode.SAFE), FileFormat.SVG, new JsonObject());
+      byte[] convert = plantumlCommand.convert(Plantuml.sanitize(diagram, SafeMode.SAFE), FileFormat.SVG, new JsonObject());
       assertThat(convert).isNotEmpty();
     } finally {
       System.clearProperty("socksProxyHost");
