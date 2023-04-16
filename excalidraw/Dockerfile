@@ -1,5 +1,5 @@
 # Package the Node.js project into a single binary
-FROM --platform=${TARGETPLATFORM:-linux/amd64} node:16.18.1-alpine3.16 as builder
+FROM --platform=$BUILDPLATFORM node:16.18.1-alpine3.16 as builder
 
 # Workaround: https://github.com/nodejs/docker-node/issues/813#issuecomment-407339011
 # Error: could not get uid/gid
@@ -24,7 +24,7 @@ RUN npm run prestart
 RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-$([ "$TARGETARCH" == "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
 
 # Create the image
-FROM --platform=${TARGETPLATFORM:-linux/amd64} alpine:3.16.3
+FROM alpine:3.16.3
 
 RUN addgroup -g 1000 kroki && adduser -D -G kroki -u 1000 kroki
 

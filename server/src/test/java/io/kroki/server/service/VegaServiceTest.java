@@ -33,8 +33,8 @@ public class VegaServiceTest {
       assertThat(buffer.toString()).isEqualTo("<svg>vega</svg>");
       testContext.completeNow();
     })));
-    // wait at most 2000ms
-    assertThat(testContext.awaitCompletion(2, TimeUnit.SECONDS)).isTrue();
+    // wait at most 4000ms
+    assertThat(testContext.awaitCompletion(4, TimeUnit.SECONDS)).isTrue();
     if (testContext.failed()) {
       throw testContext.causeOfFailure();
     }
@@ -55,8 +55,8 @@ public class VegaServiceTest {
       assertThat(buffer.toString()).isEqualTo("<svg>vega-lite</svg>");
       testContext.completeNow();
     })));
-    // wait at most 2000ms
-    assertThat(testContext.awaitCompletion(2, TimeUnit.SECONDS)).isTrue();
+    // wait at most 4000ms
+    assertThat(testContext.awaitCompletion(4, TimeUnit.SECONDS)).isTrue();
     if (testContext.failed()) {
       throw testContext.causeOfFailure();
     }

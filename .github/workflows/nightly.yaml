@@ -1,0 +1,11 @@
+name: CI (nightly)
+
+on:
+  schedule:
+    - cron: '0 2 * * *'
+
+jobs:
+  test-containers-multiarch:
+    uses: ./.github/workflows/main.yaml
+    with:
+      build_multiarch: true
