@@ -1,4 +1,4 @@
 # Specify svgbob_cli via Cargo.toml so that Renovate can help with updates
 
 [dependencies]
-svgbob_cli = "0.6.0"
+svgbob_cli = "0.7.0"
