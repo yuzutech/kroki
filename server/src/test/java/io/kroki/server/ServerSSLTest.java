@@ -170,6 +170,50 @@ class ServerSSLTest {
     vertx.deployVerticle(new Server(), new DeploymentOptions().setConfig(configWithSslEnabledByPathMissingKey(vertx)), handle);
   }
 
+  @Test
+  void with_ssl_enabled_by_string_and_missing_ssl_cert_config(Vertx vertx, VertxTestContext testContext) {
+    Handler<AsyncResult<String>> handle = deployVerticleResult -> {
+      // failed deployment
+      testContext.verify(() -> {
+        assertThat(deployVerticleResult.failed()).isTrue();
+        assertThat(deployVerticleResult.cause()).isInstanceOf(IllegalArgumentException.class);
+        assertThat(deployVerticleResult.cause()).hasMessage("KROKI_SSL_CERT or KROKI_SSL_CERT_PATH must be configured when SSL is enabled.");
+      });
+      WebClientOptions options = new WebClientOptions();
+      options.setSsl(true);
+      options.setTrustAll(true);
+      WebClient client = WebClient.create(vertx, options);
+      // failed request, server has not started
+      client
+        .get(port, "localhost", "/")
+        .as(BodyCodec.string())
+        .send(testContext.failing(response -> testContext.verify(testContext::completeNow)));
+    };
+    vertx.deployVerticle(new Server(), new DeploymentOptions().setConfig(configWithSslEnabledByStringMissingCert(vertx)), handle);
+  }
+
+  @Test
+  void with_ssl_enabled_by_path_and_missing_ssl_cert_config(Vertx vertx, VertxTestContext testContext) {
+    Handler<AsyncResult<String>> handle = deployVerticleResult -> {
+      // failed deployment
+      testContext.verify(() -> {
+        assertThat(deployVerticleResult.failed()).isTrue();
+        assertThat(deployVerticleResult.cause()).isInstanceOf(IllegalArgumentException.class);
+        assertThat(deployVerticleResult.cause()).hasMessage("KROKI_SSL_CERT or KROKI_SSL_CERT_PATH must be configured when SSL is enabled.");
+      });
+      WebClientOptions options = new WebClientOptions();
+      options.setSsl(true);
+      options.setTrustAll(true);
+      WebClient client = WebClient.create(vertx, options);
+      // failed request, server has not started
+      client
+        .get(port, "localhost", "/")
+        .as(BodyCodec.string())
+        .send(testContext.failing(response -> testContext.verify(testContext::completeNow)));
+    };
+    vertx.deployVerticle(new Server(), new DeploymentOptions().setConfig(configWithSslEnabledByPathMissingCert(vertx)), handle);
+  }
+
   private JsonObject configWithSslDisabled() {
     return new JsonObject()
       .put("KROKI_PORT", port)
@@ -179,6 +223,12 @@ class ServerSSLTest {
   private JsonObject configWithSslEnabledByStringMissingKey(Vertx vertx) {
     JsonObject config = configWithSslEnabledByString(vertx);
     config.remove("KROKI_SSL_KEY");
+    return config;
+  }
+
+  private JsonObject configWithSslEnabledByStringMissingCert(Vertx vertx) {
+    JsonObject config = configWithSslEnabledByString(vertx);
+    config.remove("KROKI_SSL_CERT");
     return config;
   }
 
@@ -193,6 +243,12 @@ class ServerSSLTest {
   private JsonObject configWithSslEnabledByPathMissingKey(Vertx vertx) {
     JsonObject config = configWithSslEnabledByPath(vertx);
     config.remove("KROKI_SSL_KEY_PATH");
+    return config;
+  }
+
+  private JsonObject configWithSslEnabledByPathMissingCert(Vertx vertx) {
+    JsonObject config = configWithSslEnabledByPath(vertx);
+    config.remove("KROKI_SSL_CERT_PATH");
     return config;
   }
 
