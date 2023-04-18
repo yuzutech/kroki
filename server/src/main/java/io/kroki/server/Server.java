@@ -183,7 +183,7 @@ public class Server extends AbstractVerticle {
       if (!config.containsKey("KROKI_SSL_KEY") && !config.containsKey("KROKI_SSL_KEY_PATH")) {
         throw new IllegalArgumentException("KROKI_SSL_KEY or KROKI_SSL_KEY_PATH must be configured when SSL is enabled.");
       }
-      else if (!config.getString("KROKI_SSL_KEY").isEmpty()) {
+      else if (config.containsKey("KROKI_SSL_KEY") && !config.getString("KROKI_SSL_KEY").isEmpty()) {
         certOptions.addKeyValue(Buffer.buffer(config.getString("KROKI_SSL_KEY")));
       }
       else {
@@ -193,7 +193,7 @@ public class Server extends AbstractVerticle {
       if (!config.containsKey("KROKI_SSL_CERT") && !config.containsKey("KROKI_SSL_CERT_PATH")) {
         throw new IllegalArgumentException("KROKI_SSL_CERT or KROKI_SSL_CERT_PATH must be configured when SSL is enabled.");
       }
-      else if (!config.getString("KROKI_SSL_CERT").isEmpty()) {
+      else if (config.containsKey("KROKI_SSL_CERT") && !config.getString("KROKI_SSL_CERT").isEmpty()) {
         certOptions.addCertValue(Buffer.buffer(config.getString("KROKI_SSL_CERT")));
       }
       else {
