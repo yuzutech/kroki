@@ -14,7 +14,7 @@ on:
   workflow_call:
     inputs:
       build_multiarch:
-        default: 'false'
+        default: false
         required: true
         type: boolean
 
