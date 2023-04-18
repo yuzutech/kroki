@@ -211,7 +211,7 @@ ARG UMLET_VERSION="v15.0.0+native.2"
 
 RUN addgroup --gecos 1000 kroki && adduser --disabled-password --ingroup kroki -u 1000 kroki
 
-COPY --from=kroki-builder-static-svgbob /usr/local/cargo/bin/svgbob /usr/bin/svgbob
+COPY --from=kroki-builder-static-svgbob /usr/local/cargo/bin/svgbob_cli /usr/bin/svgbob
 COPY --from=kroki-builder-static-erd /root/.local/bin/erd /usr/bin/erd
 COPY --from=kroki-builder-static-pikchr /build/pikchr /usr/bin/pikchr
 COPY --from=kroki-builder-nomnoml /app/app.bin /usr/bin/nomnoml
