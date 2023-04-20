@@ -271,4 +271,4 @@ podman run -p8000:8000 -e KROKI_SSL=true --env-file=.env yuzutech/kroki
 
 ====
 
-If SSL is enabled, both `KROKI_SSL_KEY` / `KROKI_SSL_KEY_PATH` and `KROKI_SSL_CERT` / `KROKI_SSL_CERT_PATH` must be configured.
+If SSL is enabled, both `KROKI_SSL_KEY` (or `KROKI_SSL_KEY_PATH`) and `KROKI_SSL_CERT` (or `KROKI_SSL_CERT_PATH`) must be configured.
