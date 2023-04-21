@@ -215,7 +215,23 @@ We recommend to use a maximum length that's not greater than 8192 and not greate
 
 By default, SSL/TLS is not enabled on the server but you can enable it by setting `KROKI_SSL` environment variable to `true`.
 
-When SSL is enabled, you must provide the certificate and the private key values as PEM format using `KROKI_SSL_KEY` and `KROKI_SSL_CERT` environment variables.
+When SSL is enabled, you must provide the certificate and the private key in one of two ways:
+
+- As strings in PEM format using the `KROKI_SSL_KEY` and `KROKI_SSL_CERT` environment variables, e.g.,:
++
+[source,bash]
+----
+KROKI_SSL_KEY="-----BEGIN RSA PRIVATE KEY-----<PRIVATE_KEY>-----END RSA PRIVATE KEY-----"
+----
+
+- As PEM file paths using the `KROKI_SSL_KEY_PATH` and `KROKI_SSL_CERT_PATH` environment variables.
++
+[source,bash]
+----
+KROKI_SSL_KEY_PATH="/etc/ssl/certs/mydomain/privatekey.pem"
+----
+
+If both methods are used, the values in `KROKI_SSL_KEY` and `KROKI_SSL_CERT` are given priority.
 
 [NOTE]
 ====
@@ -255,5 +271,4 @@ podman run -p8000:8000 -e KROKI_SSL=true --env-file=.env yuzutech/kroki
 
 ====
 
-If SSL is enabled, both `KROKI_SSL_KEY` and `KROKI_SSL_CERT` must be configured.
-
+If SSL is enabled, both `KROKI_SSL_KEY` (or `KROKI_SSL_KEY_PATH`) and `KROKI_SSL_CERT` (or `KROKI_SSL_CERT_PATH`) must be configured.
