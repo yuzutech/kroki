@@ -191,7 +191,7 @@ public class Server extends AbstractVerticle {
         throw new IllegalArgumentException("KROKI_SSL_CERT or KROKI_SSL_CERT_PATH must be configured when SSL is enabled.");
       }
 
-      if (sslKeyValue.isPresent() {
+      if (sslKeyValue.isPresent()) {
         certOptions.addKeyValue(Buffer.buffer(config.getString("KROKI_SSL_KEY")));
       }
       else {
