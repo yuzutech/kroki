@@ -179,21 +179,26 @@ public class Server extends AbstractVerticle {
   private static void setPemKeyCertOptions(JsonObject config, HttpServerOptions serverOptions, boolean enableSSL) {
     if (enableSSL) {
       PemKeyCertOptions certOptions = new PemKeyCertOptions();
+      Optional<String> sslKeyValue = Optional.ofNullable(config.getString("KROKI_SSL_KEY"));
+      Optional<String> sslKeyPath = Optional.ofNullable(config.getString("KROKI_SSL_KEY_PATH"));
+      Optional<String> sslCertValue = Optional.ofNullable(config.getString("KROKI_SSL_CERT"));
+      Optional<String> sslCertPath = Optional.ofNullable(config.getString("KROKI_SSL_CERT_PATH"));
 
-      if (!config.containsKey("KROKI_SSL_KEY") && !config.containsKey("KROKI_SSL_KEY_PATH")) {
+      if (sslKeyValue.isEmpty() && sslKeyPath.isEmpty()) {
         throw new IllegalArgumentException("KROKI_SSL_KEY or KROKI_SSL_KEY_PATH must be configured when SSL is enabled.");
       }
-      else if (config.containsKey("KROKI_SSL_KEY") && !config.getString("KROKI_SSL_KEY").isEmpty()) {
+      if (sslCertValue.isEmpty() && sslCertPath.isEmpty()) {
+        throw new IllegalArgumentException("KROKI_SSL_CERT or KROKI_SSL_CERT_PATH must be configured when SSL is enabled.");
+      }
+
+      if (sslKeyValue.isPresent() {
         certOptions.addKeyValue(Buffer.buffer(config.getString("KROKI_SSL_KEY")));
       }
       else {
         certOptions.addKeyPath(config.getString("KROKI_SSL_KEY_PATH"));
       }
 
-      if (!config.containsKey("KROKI_SSL_CERT") && !config.containsKey("KROKI_SSL_CERT_PATH")) {
-        throw new IllegalArgumentException("KROKI_SSL_CERT or KROKI_SSL_CERT_PATH must be configured when SSL is enabled.");
-      }
-      else if (config.containsKey("KROKI_SSL_CERT") && !config.getString("KROKI_SSL_CERT").isEmpty()) {
+      if (sslCertValue.isPresent()) {
         certOptions.addCertValue(Buffer.buffer(config.getString("KROKI_SSL_CERT")));
       }
       else {
