@@ -62,7 +62,12 @@ With flag set, option takes effect.
 * `terminal` (`300`)
 * `terminal-grayscale` (`301`)
 
-| See: https://d2lang.com/tour/themes/
+|See: https://d2lang.com/tour/themes/
+
+|sketch
+|_boolean_ +
+*`false`*
+|Render diagram with a hand-drawn aesthetic: https://d2lang.com/tour/sketch/
 |===
 
 == GraphViz
