@@ -2,7 +2,7 @@ module yuzutech.fr/d2
 
 go 1.20
 
-require oss.terrastruct.com/d2 v0.4.1
+require oss.terrastruct.com/d2 v0.2.6
 
 require (
 	cdr.dev/slog v1.4.2-0.20221206192828-e4803b10ae17 // indirect
