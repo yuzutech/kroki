@@ -65,8 +65,8 @@ With flag set, option takes effect.
 |See: https://d2lang.com/tour/themes/
 
 |sketch
-|_boolean_ +
-*`false`*
+|_flag_ +
+empty string ("")
 |Render diagram with a hand-drawn aesthetic: https://d2lang.com/tour/sketch/
 |===
 
