@@ -16,6 +16,7 @@ import com.structurizr.view.SystemContextView;
 import com.structurizr.view.SystemLandscapeView;
 import com.structurizr.view.View;
 import com.structurizr.view.ViewSet;
+import io.kroki.server.action.Commander;
 import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.BadRequestException;
@@ -47,6 +48,7 @@ public class Structurizr implements DiagramService {
   private final Vertx vertx;
   private final StructurizrPlantUMLExporter structurizrPlantUMLExporter;
   private final SourceDecoder sourceDecoder;
+  private final PlantumlCommand plantumlCommand;
 
   // same as PlantUML since we convert Structurizr DSL to PlantUML
   private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG, FileFormat.JPEG, FileFormat.BASE64, FileFormat.TXT, FileFormat.UTXT);
@@ -57,7 +59,7 @@ public class Structurizr implements DiagramService {
   private static final String azure = read("structurizr/microsoft-azure.json");
   private static final String oracleCloud = read("structurizr/oracle-cloud-infrastructure.json");
 
-  public Structurizr(Vertx vertx) {
+  public Structurizr(Vertx vertx, JsonObject config) {
     this.vertx = vertx;
     this.structurizrPlantUMLExporter = new StructurizrPlantUMLExporter();
     this.sourceDecoder = new SourceDecoder() {
@@ -66,6 +68,7 @@ public class Structurizr implements DiagramService {
         return DiagramSource.decode(encoded);
       }
     };
+    this.plantumlCommand = new PlantumlCommand(config);
   }
 
   @Override
@@ -80,22 +83,22 @@ public class Structurizr implements DiagramService {
 
   @Override
   public String getVersion() {
-    return "1.23.0";
+    return "1.30.1";
   }
 
   @Override
   public void convert(String sourceDecoded, String serviceName, FileFormat fileFormat, JsonObject options, Handler<AsyncResult<Buffer>> handler) {
     vertx.executeBlocking(future -> {
       try {
-        byte[] data = convert(sourceDecoded, fileFormat, this.structurizrPlantUMLExporter, options);
+        byte[] data = convert(sourceDecoded, fileFormat, options);
         future.complete(data);
-      } catch (IllegalStateException e) {
+      } catch (Exception e) {
         future.fail(e);
       }
     }, res -> handler.handle(res.map(o -> Buffer.buffer((byte[]) o))));
   }
 
-  static byte[] convert(String source, FileFormat fileFormat, StructurizrPlantUMLExporter structurizrPlantUMLExporter, JsonObject options) {
+  static byte[] convert(String source, FileFormat fileFormat, PlantumlCommand plantumlCommand, StructurizrPlantUMLExporter structurizrPlantUMLExporter, JsonObject options) throws IOException, InterruptedException {
     StructurizrDslParser parser = new StructurizrDslParser();
     try {
       parser.parse(source);
@@ -108,7 +111,7 @@ public class Structurizr implements DiagramService {
       String viewKey = options.getString("view-key");
       if (viewKey != null && !viewKey.trim().isEmpty()) {
         Optional<View> viewFound = views.stream().filter(view -> Objects.equals(view.getKey(), viewKey)).findFirst();
-        if (!viewFound.isPresent()) {
+        if (viewFound.isEmpty()) {
           throw new BadRequestException("Unable to find view for key: " + viewKey + ".");
         }
         selectedView = viewFound.get();
@@ -140,7 +143,7 @@ public class Structurizr implements DiagramService {
       } else {
         throw new BadRequestException("View type is not supported: " + selectedView.getClass().getSimpleName() + ", must be a DynamicView, DeploymentView, ComponentView, ContainerView, SystemContextView or SystemLandscapeView.");
       }
-      return Plantuml.convert(diagram.getDefinition(), fileFormat, new JsonObject());
+      return plantumlCommand.convert(diagram.getDefinition(), fileFormat, new JsonObject());
     } catch (StructurizrDslParserException e) {
       String cause = e.getMessage();
       final String message;
@@ -151,6 +154,10 @@ public class Structurizr implements DiagramService {
       }
       throw new BadRequestException(message, e);
     }
+  }
+
+  private byte[] convert(String source, FileFormat fileFormat, JsonObject options) throws IOException, InterruptedException {
+    return convert(source, fileFormat, this.plantumlCommand, this.structurizrPlantUMLExporter, options);
   }
 
   private static void applyTheme(ViewSet viewSet, String themeContent) {

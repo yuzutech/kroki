@@ -204,12 +204,47 @@ RUN SVGBOB_VERSION=`cat Cargo.toml | grep "svgbob_cli =" | sed -r 's/.*"([^"]+)"
 ## UMlet
 # use a pre-built image to reduce build time
 
+## PlantUML
+# use a pre-built image to reduce build time
+
 ## yuzutech/kroki
 FROM eclipse-temurin:11.0.18_10-jre-jammy
 
-ARG UMLET_VERSION="v15.0.0+native.2"
+ARG UMLET_VERSION="2023-03-20_UMLet_v15.1"
+ARG PLANTUML_VERSION="1.2023.6"
+ARG TARGETARCH
 
 RUN addgroup --gecos 1000 kroki && adduser --disabled-password --ingroup kroki -u 1000 kroki
+
+# For TikZ
+#
+# * ghostscript - Dynamically linked dependency required by dvisvgm
+# * poppler-utils - Provides pdftocairo for latex to jpeg and png
+# * texlive - Provides latex
+# * texlive-latexextra - Provides the "standalone" package to remove figure
+#   captions
+# * texlive-pictures - Provides various graphics packages like "circuitikz"
+# * texlive-science - Provides various science packages like "siunitx"
+RUN apt-get update && apt-get install --no-install-recommends --yes \
+    libjpeg9 \
+    giflib-tools \
+    graphviz \
+    fonts-freefont-ttf \
+    fonts-noto-cjk \
+    ghostscript \
+    poppler-utils \
+    texlive \
+    texlive-latex-extra \
+    texlive-pictures \
+    texlive-pstricks \
+    texlive-science && \
+    apt-get clean && apt-get autoremove
+
+RUN wget "https://github.com/yuzutech/umlet/releases/download/${UMLET_VERSION}/umlet-linux-${TARGETARCH}" -O /usr/bin/umlet && \
+    chmod +x /usr/bin/umlet
+
+RUN wget "https://github.com/ggrossetie/plantuml/releases/download/v${PLANTUML_VERSION}/plantuml-linux-${TARGETARCH}-${PLANTUML_VERSION}" -O /usr/bin/plantuml && \
+    chmod +x /usr/bin/plantuml
 
 COPY --from=kroki-builder-static-svgbob /usr/local/cargo/bin/svgbob_cli /usr/bin/svgbob
 COPY --from=kroki-builder-static-erd /root/.local/bin/erd /usr/bin/erd
@@ -222,36 +257,6 @@ COPY --from=kroki-builder-bytefield /app/app.bin /usr/bin/bytefield
 COPY --from=kroki-builder-d2 /go/bin/d2 /usr/bin/d2
 COPY --from=kroki-builder-dvisvgm /usr/local/bin/dvisvgm /usr/bin/dvisvgm
 COPY --from=tikz tikz2svg /usr/bin/tikz2svg
-
-RUN apt-get update && apt-get install --no-install-recommends --yes \
-    libjpeg9 \
-    giflib-tools \
-    graphviz \
-    fonts-freefont-ttf \
-    fonts-noto-cjk && \
-    apt-get clean && apt-get autoremove
-
-RUN wget "https://github.com/yuzutech/umlet/releases/download/${UMLET_VERSION}/umlet" -O /usr/bin/umlet \
-  && chmod +x /usr/bin/umlet
-
-# For TikZ
-#
-# * ghostscript - Dynamically linked dependency required by dvisvgm
-# * poppler-utils - Provides pdftocairo for latex to jpeg and png
-# * texlive - Provides latex
-# * texlive-latexextra - Provides the "standalone" package to remove figure
-#   captions
-# * texlive-pictures - Provides various graphics packages like "circuitikz"
-# * texlive-science - Provides various science packages like "siunitx"
-RUN apt-get update && apt-get install --no-install-recommends --yes \
-    ghostscript \
-    poppler-utils \
-    texlive \
-    texlive-latex-extra \
-    texlive-pictures \
-    texlive-pstricks \
-    texlive-science && \
-    apt-get clean && apt-get autoremove
 
 COPY --chown=kroki:kroki ops/docker/logback.xml /etc/kroki/logback.xml
 
@@ -268,6 +273,7 @@ ENV KROKI_BYTEFIELD_BIN_PATH=/usr/bin/bytefield
 ENV KROKI_PIKCHR_BIN_PATH=/usr/bin/pikchr
 ENV KROKI_D2_BIN_PATH=/usr/bin/d2
 ENV KROKI_UMLET_BIN_PATH=/usr/bin/umlet
+ENV KROKI_PLANTUML_BIN_PATH=/usr/bin/plantuml
 ENV KROKI_TIKZ2SVG_PATH=/usr/bin/tikz2svg
 ENV JAVA_OPTS="-Dlogback.configurationFile=/etc/kroki/logback.xml -Dvertx.logger-delegate-factory-class-name=io.vertx.core.logging.SLF4JLogDelegateFactory"
 

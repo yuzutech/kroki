@@ -50,7 +50,7 @@ public class Umlet implements DiagramService {
 
   @Override
   public String getVersion() {
-    return "15.0.0";
+    return "15.1";
   }
 
   @Override
