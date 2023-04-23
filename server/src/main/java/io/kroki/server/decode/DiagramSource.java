@@ -1,12 +1,13 @@
 package io.kroki.server.decode;
 
+import io.kroki.server.decode.transcoder.Transcoder;
 import io.kroki.server.error.DecodeException;
-import net.sourceforge.plantuml.code.Transcoder;
-import net.sourceforge.plantuml.code.TranscoderUtil;
+import io.kroki.server.decode.transcoder.TranscoderUtil;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 public class DiagramSource {
@@ -42,7 +43,7 @@ public class DiagramSource {
   }
 
   private static String unsafePlantumlDecode(String source) throws UnsupportedEncodingException, DecodeException {
-    String text = URLDecoder.decode(source, "UTF-8");
+    String text = URLDecoder.decode(source, StandardCharsets.UTF_8);
     try {
       Transcoder transcoder = TranscoderUtil.getDefaultTranscoder();
       text = transcoder.decode(text);

@@ -6,7 +6,7 @@ asciidoc:
     actdiag-version: 3.0.0
     blockdiag-version: 3.0.0
     bpmn-version: 10.3.0
-    bytefield-version: 1.7.0
+    bytefield-version: 1.8.0
     c4plantuml-version: 1.2022.5
     d2-version: 0.1.5
     dbml-version: 1.0.26
@@ -14,20 +14,20 @@ asciidoc:
     ditaa-version: 1.0.3
     erd-version: 0.2.1.0
     excalidraw-version: 0.14.2
-    graphviz-version: 3.0.0
-    mermaid-version: 9.3.0
+    graphviz-version: 2.42.2
+    mermaid-version: 9.4.3
     nomnoml-version: 1.5.3
     nwdiag-version: 3.0.0
     packetdiag-version: 3.0.0
     pikchr-version: '7269f78c4a'
-    plantuml-version: 1.2022.14
+    plantuml-version: 1.2023.6
     rackdiag-version: 3.0.0
     seqdiag-version: 3.0.0
-    structurizr-version: 1.23.0
-    svgbob-version: 0.6.0
-    umlet-version: 15.0.0
-    vega-version: 5.22.1
-    vegalite-version: 5.6.0
+    structurizr-version: 1.30.1
+    svgbob-version: 0.7.0
+    umlet-version: 15.1
+    vega-version: 5.24.0
+    vegalite-version: 5.7.0
     wavedrom-version: 2.9.1
     wireviz-version: 0.3.2
     uri-docker-get-started: https://docs.docker.com/get-started/
