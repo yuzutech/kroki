@@ -78,7 +78,7 @@ describe('Diagrams', function () {
   this.timeout(15000)
   tests.forEach((testCase) => {
     testCase.outputFormat.forEach(outputFormat => {
-      it(`${testCase.engine}/${outputFormat} should answer with HTTP 200`, async () => {
+      it(`${testCase.engine}/${outputFormat} with options ${JSON.stringify(testCase.options)} should answer with HTTP 200`, async () => {
         const response = await sendRequest(testCase, outputFormat)
         try {
           expect(response.status).to.equal(200)
