@@ -104,7 +104,8 @@ public class D2 implements DiagramService {
       }
       commands.add("--theme=" + themeId);
     }
-    if (options.getBoolean("sketch") == true) {
+    String sketch = options.getString("sketch");
+    if (sketch != null) {
       commands.add("--sketch");
     }
     commands.add("-"); // read from stdin

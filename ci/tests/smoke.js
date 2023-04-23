@@ -5,40 +5,41 @@ import * as url from 'url'
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
 
 const tests = [
-  {engine: 'graphviz', file: 'hello.dot', outputFormat: ['svg', 'jpeg']},
-  {engine: 'dot', file: 'hello.dot', outputFormat: ['svg', 'jpeg']},
-  {engine: 'blockdiag', file: 'kroki.diag', outputFormat: ['svg', 'png']},
-  {engine: 'seqdiag', file: 'sequence.diag', outputFormat: ['svg', 'png']},
-  {engine: 'actdiag', file: 'actions.diag', outputFormat: ['svg', 'png']},
-  {engine: 'nwdiag', file: 'network.diag', outputFormat: ['svg', 'png']},
-  {engine: 'c4plantuml', file: 'banking-system.puml', outputFormat: ['svg']},
-  {engine: 'dbml', file: 'dbml.dbml', outputFormat: ['svg']},
-  {engine: 'ditaa', file: 'components.ditaa', outputFormat: ['svg']},
-  {engine: 'erd', file: 'schema.erd', outputFormat: ['svg']},
-  {engine: 'mermaid', file: 'contribute.mmd', outputFormat: ['svg']},
-  {engine: 'bpmn', file: 'example.bpmn', outputFormat: ['svg']},
-  {engine: 'plantuml', file: 'architecture.puml', outputFormat: ['svg']},
-  {engine: 'svgbob', file: 'cloud.bob', outputFormat: ['svg']},
-  {engine: 'nomnoml', file: 'pirate.nomnoml', outputFormat: ['svg']},
-  {engine: 'packetdiag', file: 'packet.diag', outputFormat: ['svg', 'png']},
-  {engine: 'rackdiag', file: 'rack.diag', outputFormat: ['svg', 'png']},
-  {engine: 'vega', file: 'bar-chart.vega', outputFormat: ['svg', 'png', 'pdf']},
-  {engine: 'vegalite', file: 'discretizing-scale.vlite', outputFormat: ['svg', 'png', 'pdf']},
-  {engine: 'wavedrom', file: 'wavedrom.json5', outputFormat: ['svg']},
-  {engine: 'wavedrom', file: 'bitfield.json5', outputFormat: ['svg']},
-  {engine: 'bytefield', file: 'bytefield.bf', outputFormat: ['svg']},
-  {engine: 'umlet', file: 'umlet.xml', outputFormat: ['svg']},
-  {engine: 'excalidraw', file: 'venn.excalidraw', outputFormat: ['svg']},
-  {engine: 'pikchr', file: 'sqlite-architecture.pikchr', outputFormat: ['svg']},
-  {engine: 'structurizr', file: 'gettingstarted.structurizr', outputFormat: ['svg']},
-  {engine: 'diagramsnet', file: 'diagramsnet-infography.xml', outputFormat: ['svg', 'png']},
-  {engine: 'diagramsnet', file: 'diagramsnet-mindmap.xml', outputFormat: ['svg', 'png']},
-  {engine: 'diagramsnet', file: 'diagramsnet-network.xml', outputFormat: ['svg', 'png']},
-  {engine: 'diagramsnet', file: 'diagramsnet-ui.xml', outputFormat: ['svg', 'png']},
-  {engine: 'diagramsnet', file: 'diagramsnet-venn.xml', outputFormat: ['svg', 'png']},
-  {engine: 'd2', file: 'connections.d2', outputFormat: ['svg']},
-  {engine: 'wireviz', file: 'wireviz.yaml', outputFormat: ['svg', 'png']},
-  {engine: 'tikz', file: 'periodic-table.tex', outputFormat: ['jpeg', 'pdf', 'png', 'svg']}
+  {engine: 'graphviz', file: 'hello.dot', options: {}, outputFormat: ['svg', 'jpeg']},
+  {engine: 'dot', file: 'hello.dot', options: {}, outputFormat: ['svg', 'jpeg']},
+  {engine: 'blockdiag', file: 'kroki.diag', options: {}, outputFormat: ['svg', 'png']},
+  {engine: 'seqdiag', file: 'sequence.diag', options: {}, outputFormat: ['svg', 'png']},
+  {engine: 'actdiag', file: 'actions.diag', options: {}, outputFormat: ['svg', 'png']},
+  {engine: 'nwdiag', file: 'network.diag', options: {}, outputFormat: ['svg', 'png']},
+  {engine: 'c4plantuml', file: 'banking-system.puml', options: {}, outputFormat: ['svg']},
+  {engine: 'dbml', file: 'dbml.dbml', options: {}, outputFormat: ['svg']},
+  {engine: 'ditaa', file: 'components.ditaa', options: {}, outputFormat: ['svg']},
+  {engine: 'erd', file: 'schema.erd', options: {}, outputFormat: ['svg']},
+  {engine: 'mermaid', file: 'contribute.mmd', options: {}, outputFormat: ['svg']},
+  {engine: 'bpmn', file: 'example.bpmn', options: {}, outputFormat: ['svg']},
+  {engine: 'plantuml', file: 'architecture.puml', options: {}, outputFormat: ['svg']},
+  {engine: 'svgbob', file: 'cloud.bob', options: {}, outputFormat: ['svg']},
+  {engine: 'nomnoml', file: 'pirate.nomnoml', options: {}, outputFormat: ['svg']},
+  {engine: 'packetdiag', file: 'packet.diag', options: {}, outputFormat: ['svg', 'png']},
+  {engine: 'rackdiag', file: 'rack.diag', options: {}, outputFormat: ['svg', 'png']},
+  {engine: 'vega', file: 'bar-chart.vega', options: {}, outputFormat: ['svg', 'png', 'pdf']},
+  {engine: 'vegalite', file: 'discretizing-scale.vlite', options: {}, outputFormat: ['svg', 'png', 'pdf']},
+  {engine: 'wavedrom', file: 'wavedrom.json5', options: {}, outputFormat: ['svg']},
+  {engine: 'wavedrom', file: 'bitfield.json5', options: {}, outputFormat: ['svg']},
+  {engine: 'bytefield', file: 'bytefield.bf', options: {}, outputFormat: ['svg']},
+  {engine: 'umlet', file: 'umlet.xml', options: {}, outputFormat: ['svg']},
+  {engine: 'excalidraw', file: 'venn.excalidraw', options: {}, outputFormat: ['svg']},
+  {engine: 'pikchr', file: 'sqlite-architecture.pikchr', options: {}, outputFormat: ['svg']},
+  {engine: 'structurizr', file: 'gettingstarted.structurizr', options: {}, outputFormat: ['svg']},
+  {engine: 'diagramsnet', file: 'diagramsnet-infography.xml', options: {}, outputFormat: ['svg', 'png']},
+  {engine: 'diagramsnet', file: 'diagramsnet-mindmap.xml', options: {}, outputFormat: ['svg', 'png']},
+  {engine: 'diagramsnet', file: 'diagramsnet-network.xml', options: {}, outputFormat: ['svg', 'png']},
+  {engine: 'diagramsnet', file: 'diagramsnet-ui.xml', options: {}, outputFormat: ['svg', 'png']},
+  {engine: 'diagramsnet', file: 'diagramsnet-venn.xml', options: {}, outputFormat: ['svg', 'png']},
+  {engine: 'd2', file: 'connections.d2', options: {}, outputFormat: ['svg']},
+  {engine: 'd2', file: 'connections.d2', options: {sketch: 'true'}, outputFormat: ['svg']},
+  {engine: 'wireviz', file: 'wireviz.yaml', options: {}, outputFormat: ['svg', 'png']},
+  {engine: 'tikz', file: 'periodic-table.tex', options: {}, outputFormat: ['jpeg', 'pdf', 'png', 'svg']}
 ]
 
 chai.use(chaiHttp)
@@ -54,13 +55,19 @@ const mimeType = {
 
 const sendRequest = async (testCase, outputFormat) => {
   try {
-    return await chai.request('localhost:8000')
+    let request = chai.request('localhost:8000')
       .post(`/${testCase.engine}/${outputFormat}`)
       .type('text/plain')
       .set('Content-Type', 'text/plain')
       .set('Accept', mimeType[outputFormat])
       .timeout(10000)
       .send(fs.readFileSync(`${__dirname}/diagrams/${testCase.file}`))
+
+    for (var key in testCase.options) {
+      request = request.set(`Kroki-Diagram-Options-${key}`, testCase.options[key])
+    }
+
+    return await request
   } catch (err) {
     console.error('error:', err)
     throw err
