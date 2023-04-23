@@ -1,9 +1,9 @@
 package io.kroki.server.response;
 
 import io.kroki.server.Main;
+import io.kroki.server.decode.transcoder.AsciiEncoder;
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.http.HttpServerResponse;
-import net.sourceforge.plantuml.code.AsciiEncoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

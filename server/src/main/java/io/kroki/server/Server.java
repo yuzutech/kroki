@@ -136,7 +136,7 @@ public class Server extends AbstractVerticle {
     registry.register(new Bytefield(vertx, config, commander), "bytefield");
     registry.register(new Excalidraw(vertx, config), "excalidraw");
     registry.register(new Pikchr(vertx, config, commander), "pikchr");
-    registry.register(new Structurizr(vertx), "structurizr");
+    registry.register(new Structurizr(vertx, config), "structurizr");
     registry.register(new Diagramsnet(vertx, config), "diagramsnet");
     registry.register(new D2(vertx, config, commander), "d2");
     registry.register(new TikZ(vertx, config, commander), "tikz");

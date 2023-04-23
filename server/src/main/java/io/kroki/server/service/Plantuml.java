@@ -9,22 +9,11 @@ import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
 import io.kroki.server.log.Logging;
 import io.kroki.server.security.SafeMode;
-import io.kroki.server.unit.TimeValue;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
-import net.sourceforge.plantuml.BlockUml;
-import net.sourceforge.plantuml.ErrorUml;
-import net.sourceforge.plantuml.FileFormatOption;
-import net.sourceforge.plantuml.LineLocation;
-import net.sourceforge.plantuml.OptionFlags;
-import net.sourceforge.plantuml.SourceStringReader;
-import net.sourceforge.plantuml.code.Base64Coder;
-import net.sourceforge.plantuml.core.Diagram;
-import net.sourceforge.plantuml.error.PSystemError;
-import net.sourceforge.plantuml.version.Version;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -87,6 +76,7 @@ public class Plantuml implements DiagramService {
   private static final Pattern STDLIB_PATH_RX = Pattern.compile("<([a-zA-Z0-9]+)/[^>]+>");
 
   private final Vertx vertx;
+  private final PlantumlCommand command;
   private final SafeMode safeMode;
   private final Logging logging;
   private static final String c4 = read("c4.puml");
@@ -129,23 +119,14 @@ public class Plantuml implements DiagramService {
         return DiagramSource.plantumlDecode(encoded);
       }
     };
+    this.command = new PlantumlCommand(config);
     this.includeWhitelist = parseIncludeWhitelist(config);
     this.logging = new Logging(logger);
     // Disable unsafe include for security reasons
-    OptionFlags.ALLOW_INCLUDE = config.getBoolean("KROKI_PLANTUML_ALLOW_INCLUDE", false);
     String plantUmlIncludePath = config.getString("KROKI_PLANTUML_INCLUDE_PATH");
     if (plantUmlIncludePath != null) {
       System.setProperty("plantuml.include.path", plantUmlIncludePath);
     }
-    TimeValue convertTimeout;
-    if (config.containsKey("KROKI_PLANTUML_CONVERT_TIMEOUT")) {
-      String convertPlantumlTimeoutValue = config.getString("KROKI_PLANTUML_CONVERT_TIMEOUT", "20s");
-      convertTimeout = TimeValue.parseTimeValue(convertPlantumlTimeoutValue, "KROKI_PLANTUML_CONVERT_TIMEOUT");
-    } else {
-      String convertTimeoutValue = config.getString("KROKI_CONVERT_TIMEOUT", "20s");
-      convertTimeout = TimeValue.parseTimeValue(convertTimeoutValue, "KROKI_CONVERT_TIMEOUT");
-    }
-    OptionFlags.getInstance().setTimeoutMs(convertTimeout.millis());
   }
 
   static List<Pattern> parseIncludeWhitelist(JsonObject config) {
@@ -155,14 +136,16 @@ public class Plantuml implements DiagramService {
       final Path path = Paths.get(filename);
       if (Files.isRegularFile(path)) {
         try {
-          Files.lines(path).map(String::trim).filter(s -> !s.isEmpty()).flatMap(regex -> {
-            try {
-              return Stream.of(Pattern.compile(regex));
-            } catch (PatternSyntaxException e) {
-              logger.warn("Ignoring invalid regex '{}' in '{}'", regex, filename, e);
-              return Stream.empty();
-            }
-          }).forEach(result::add);
+          try (Stream<String> lines = Files.lines(path)) {
+            lines.map(String::trim).filter(s -> !s.isEmpty()).flatMap(regex -> {
+              try {
+                return Stream.of(Pattern.compile(regex));
+              } catch (PatternSyntaxException e) {
+                logger.warn("Ignoring invalid regex '{}' in '{}'", regex, filename, e);
+                return Stream.empty();
+              }
+            }).forEach(result::add);
+          }
         } catch (IOException e) {
           logger.warn("Unable to read the PlantUML whitelist file '{}'", filename, e);
           return Collections.emptyList();
@@ -198,7 +181,7 @@ public class Plantuml implements DiagramService {
 
   @Override
   public String getVersion() {
-    return Version.versionString();
+    return "1.2023.6";
   }
 
   @Override
@@ -235,54 +218,18 @@ public class Plantuml implements DiagramService {
       // ...otherwise, continue with PlantUML
       vertx.executeBlocking(future -> {
         try {
-          byte[] data = convert(primeSource, fileFormat, options);
+          String sourceWithTheme = primeSource;
+          String theme = options.getString("theme");
+          if (theme != null && !theme.trim().isEmpty()) {
+            // add !theme directive just after the @start directive
+            sourceWithTheme = START_BLOCK_RX.matcher(primeSource).replaceAll("$1!theme " + theme + "\n");
+          }
+          byte[] data = this.command.convert(sourceWithTheme, fileFormat, options);
           future.complete(data);
-        } catch (IllegalStateException e) {
+        } catch (Exception e) {
           future.fail(e);
         }
       }, res -> handler.handle(res.map(o -> Buffer.buffer((byte[]) o))));
-    }
-  }
-
-  static byte[] convert(String source, FileFormat format, JsonObject options) {
-    try {
-      String theme = options.getString("theme");
-      if (theme != null && !theme.trim().isEmpty()) {
-        // add !theme directive just after the @start directive
-        source = START_BLOCK_RX.matcher(source).replaceAll("$1!theme " + theme + "\n");
-      }
-      SourceStringReader reader = new SourceStringReader(source);
-      if (format == FileFormat.BASE64) {
-        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        reader.outputImage(baos, 0, new FileFormatOption(FileFormat.PNG.toPlantumlFileFormat()));
-        baos.close();
-        final String encodedBytes = "data:image/png;base64,"
-          + Base64Coder.encodeLines(baos.toByteArray()).replaceAll("\\s", "");
-        return encodedBytes.getBytes();
-      }
-      if (reader.getBlocks().isEmpty()) {
-        throw new BadRequestException("Empty diagram, missing delimiters?");
-      }
-      final BlockUml blockUml = reader.getBlocks().get(0);
-      final Diagram diagram = blockUml.getDiagram();
-      if (diagram instanceof PSystemError) {
-        Collection<ErrorUml> errors = ((PSystemError) diagram).getErrorsUml();
-        if (!errors.isEmpty()) {
-          ErrorUml errorUml = errors.iterator().next();
-          LineLocation lineLocation = errorUml.getLineLocation();
-          String lineLocationPosition = "";
-          if (lineLocation != null) {
-            lineLocationPosition = " (line: " + lineLocation.getPosition() + ")";
-          }
-          throw new BadRequestException(errorUml.getError() + lineLocationPosition);
-        }
-        throw new BadRequestException("Unable to convert the diagram");
-      }
-      ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-      diagram.exportDiagram(byteArrayOutputStream, 0, new FileFormatOption(format.toPlantumlFileFormat()));
-      return byteArrayOutputStream.toByteArray();
-    } catch (IOException e) {
-      throw new RuntimeException("Bad request", e);
     }
   }
 
@@ -407,6 +354,7 @@ public class Plantuml implements DiagramService {
 
   /**
    * Try to find a ditaa context from a PlantUML source.
+   *
    * @param source PlantUML source
    * @return a {@link DitaaContext} or null if not found
    */

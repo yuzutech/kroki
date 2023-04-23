@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-import { promises as fs } from 'fs'
-import * as url from 'url'
-import ospath from 'path'
+import { promises as fs } from 'node:fs'
+import * as url from 'node:url'
+import ospath from 'node:path'
 import { createRequire } from 'node:module'
 import { spawn } from 'node:child_process'
 
@@ -172,7 +172,7 @@ try {
 
   const dockerfileContent = await fs.readFile(ospath.join(rootDir, 'server', 'ops', 'docker', 'jdk11-jammy', 'Dockerfile'), 'utf8')
   for (const line of dockerfileContent.split('\n')) {
-    const erdVersionFound = line.match(/^FROM yuzutech\/kroki-builder-erd:(?<version>\S+) as kroki-builder-static-erd$/)
+    const erdVersionFound = line.match(/^FROM yuzutech\/kroki-builder-erd:(?<version>\S+) AS kroki-builder-static-erd$/)
     if (erdVersionFound) {
       const { version } = erdVersionFound.groups
       diagramLibraryVersions.erd = version
@@ -182,10 +182,16 @@ try {
       const { version } = pikchrVersionFound.groups
       diagramLibraryVersions.pikchr = version.slice(0, 10)
     }
-    const umletVersionFound = line.match(/^ARG UMLET_VERSION=(?<version>.+)$/)
+    const umletVersionFound = line.match(/^ARG UMLET_VERSION="(?<version>.+)"$/)
     if (umletVersionFound) {
       const { version } = umletVersionFound.groups
-      diagramLibraryVersions.umlet = version.split('+')[0]
+      // format: YYYY-mm-dd_UMLet_v0.0
+      diagramLibraryVersions.umlet = version.split('_')[2].substring(1)
+    }
+    const plantumlVersionFound = line.match(/^ARG PLANTUML_VERSION="(?<version>.+)"$/)
+    if (plantumlVersionFound) {
+      const { version } = plantumlVersionFound.groups
+      diagramLibraryVersions.plantuml = version
     }
   }
 
@@ -206,9 +212,6 @@ try {
       diagramLibraryVersions.svgbob = version
     }
   }
-
-  const { value: plantumlVersion } = await mvnEvaluateExpression('plantuml.version')
-  diagramLibraryVersions.plantuml = plantumlVersion
 
   const { value: structurizrVersion } = await mvnEvaluateExpression('structurizr-dsl.version')
   diagramLibraryVersions.structurizr = structurizrVersion

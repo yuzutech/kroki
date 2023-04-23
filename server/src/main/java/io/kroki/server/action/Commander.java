@@ -2,31 +2,43 @@ package io.kroki.server.action;
 
 import io.kroki.server.unit.TimeValue;
 import io.vertx.core.json.JsonObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InterruptedIOException;
-import java.io.OutputStream;
+import java.io.*;
+import java.util.Arrays;
 
 public class Commander {
 
+  private static final Logger logger = LoggerFactory.getLogger(Commander.class);
   protected TimeValue commandTimeout;
   protected TimeValue readStdoutTimeout;
   protected TimeValue readStderrTimeout;
+  private final CommandStatusHandler commandStatusHandler;
 
   public Commander(JsonObject config) {
+    this(config, new CommandStatusHandler() {
+      public byte[] handle(int exitValue, byte[] stdout, byte[] stderr) {
+        return CommandStatusHandler.super.handle(exitValue, stdout, stderr);
+      }
+    });
+  }
+
+  public Commander(JsonObject config, CommandStatusHandler commandStatusHandler) {
     String commandTimeoutValue = config.getString("KROKI_COMMAND_TIMEOUT", "5s");
     this.commandTimeout = TimeValue.parseTimeValue(commandTimeoutValue, "KROKI_COMMAND_TIMEOUT");
     String readStdoutTimeoutValue = config.getString("KROKI_COMMAND_READ_STDOUT_TIMEOUT", "2s");
     this.readStdoutTimeout = TimeValue.parseTimeValue(readStdoutTimeoutValue, "KROKI_COMMAND_READ_STDOUT_TIMEOUT");
     String readStderrTimeoutValue = config.getString("KROKI_COMMAND_READ_STDERR_TIMEOUT", "2s");
     this.readStderrTimeout = TimeValue.parseTimeValue(readStderrTimeoutValue, "KROKI_COMMAND_READ_STDERR_TIMEOUT");
+    this.commandStatusHandler = commandStatusHandler;
   }
 
   public byte[] execute(byte[] source, String... cmd) throws IOException, InterruptedException, IllegalStateException {
     ProcessBuilder builder = new ProcessBuilder();
     builder.command(cmd);
+    //builder.redirectError(ProcessBuilder.Redirect.PIPE);
+    //builder.redirectInput(ProcessBuilder.Redirect.PIPE);
     Process process = builder.start();
 
     ByteArrayOutputStream stdoutBuffer = new ByteArrayOutputStream();
@@ -36,8 +48,18 @@ public class Commander {
 
     OutputStream stdin = process.getOutputStream();
     stdin.write(source);
-    stdin.flush();
-    stdin.close();
+    try {
+      stdin.flush();
+    } catch (IOException e) {
+      logger.error("Error while flushing stdin on command: " + Arrays.toString(cmd), e);
+      throw e;
+    }
+    try {
+      stdin.close();
+    } catch (IOException e) {
+      logger.error("Error while closing stdin on command: " + Arrays.toString(cmd), e);
+      throw e;
+    }
 
     process.waitFor(this.commandTimeout.duration(), this.commandTimeout.timeUnit());
     // writing to stdout is asynchronous, wait until there is no more data in the stdout stream
@@ -51,12 +73,7 @@ public class Commander {
       throw new InterruptedIOException("Process was forcibly killed (not responding after " + this.commandTimeout + " seconds)");
     }
     int exitValue = process.exitValue();
-    if (exitValue != 0) {
-      String errorMessage = new String(output) + stderrBuffer;
-      throw new IllegalStateException(errorMessage + " (exit code " + exitValue + ")");
-    } else {
-      return output;
-    }
+    return commandStatusHandler.handle(exitValue, output, stderrBuffer.toByteArray());
   }
 
   private static Thread readProcessStdout(final Process process, final ByteArrayOutputStream buffer) {
