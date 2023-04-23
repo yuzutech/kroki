@@ -211,6 +211,7 @@ ARG D2_VERSION="0.4.1"
 ARG PLANTUML_VERSION="1.2023.6"
 ARG UMLET_VERSION="2023-03-20_UMLet_v15.1"
 ARG GRAPHVIZ_VERSION="8.0.4"
+ARG GRAPHVIZ_VERSION="8.0.4"
 ARG TARGETARCH
 
 RUN addgroup --gecos 1000 kroki && adduser --disabled-password --ingroup kroki -u 1000 kroki
