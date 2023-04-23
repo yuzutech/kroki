@@ -198,6 +198,11 @@ try {
       const { version } = plantumlVersionFound.groups
       diagramLibraryVersions.plantuml = version
     }
+    const graphvizVersionFound = line.match(/^ARG GRAPHVIZ_VERSION="(?<version>.+)"$/)
+    if (graphvizVersionFound) {
+      const { version } = graphvizVersionFound.groups
+      diagramLibraryVersions.graphviz = version
+    }
   }
 
   const svgbobCargoContent = await fs.readFile(ospath.join(rootDir, 'server', 'ops', 'docker', 'Cargo.toml'), 'utf8')
@@ -214,21 +219,6 @@ try {
 
   const { value: ditaaVersion } = await mvnEvaluateExpression('ditaa-mini.version')
   diagramLibraryVersions.ditaa = ditaaVersion
-
-  // GraphViz version
-  const ubuntuPackagesUrl = `https://packages.ubuntu.com/${KROKI_UBUNTU_VERSION}/graphviz`
-  const ubuntuPackagesResponse = await fetch(ubuntuPackagesUrl)
-  if (ubuntuPackagesResponse.status >= 200 && ubuntuPackagesResponse.status < 400) {
-    const ubuntuPackagesContent = await ubuntuPackagesResponse.text()
-    const found = ubuntuPackagesContent.match(/Package: graphviz \((?<version>[0-9.]+)-[0-9]+\)/)
-    if (found) {
-      const { version } = found.groups
-      diagramLibraryVersions.graphviz = version
-    }
-  } else {
-    console.error(`Unable to GET ${ubuntuPackagesUrl} - ${ubuntuPackagesResponse.status} ${ubuntuPackagesResponse.statusText} - ${await ubuntuPackagesResponse.text()}`)
-    process.exit(1)
-  }
 
   console.log({
     diagramLibraryVersions: Object.fromEntries(Object.entries(diagramLibraryVersions).sort((a, b) => a[0].localeCompare(b[0]))),
