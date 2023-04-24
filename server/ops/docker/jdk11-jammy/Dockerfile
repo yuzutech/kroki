@@ -52,13 +52,13 @@ RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
 ARG TARGETARCH
 ARG TARGETOS
 ENV NODE node16
-RUN /usr/local/bin/pkg-fetch -n $NODE -p $TARGETOS -a $([ "$TARGETARCH" == "amd64" ] && echo "x64" || echo "$TARGETARCH")
+RUN /usr/local/bin/pkg-fetch -n $NODE -p $TARGETOS -a $([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH")
 
 COPY --from=nomnoml index.js package.json package-lock.json /app/
 WORKDIR /app
 
-RUN npm install --target_arch=$([ "$TARGETARCH" == "amd64" ] && echo "x64" || echo "$TARGETARCH") --target_platform=$TARGETOS && npm run lint
-RUN /usr/local/bin/pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" == "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
+RUN npm install --target_arch=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") --target_platform=$TARGETOS && npm run lint
+RUN /usr/local/bin/pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
 
 ## Vega
 FROM --platform=$BUILDPLATFORM node:16.18.1-bullseye-slim AS kroki-builder-vega
@@ -79,15 +79,15 @@ RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
 ARG TARGETARCH
 ARG TARGETOS
 ENV NODE node16
-RUN /usr/local/bin/pkg-fetch -n $NODE -p $TARGETOS -a $([ "$TARGETARCH" == "amd64" ] && echo "x64" || echo "$TARGETARCH")
+RUN /usr/local/bin/pkg-fetch -n $NODE -p $TARGETOS -a $([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH")
 
 COPY --from=vega src /app/src
 COPY --from=vega tests /app/tests
 COPY --from=vega package.json package-lock.json /app/
 WORKDIR /app
 
-RUN npm install 2 --target_arch=$([ "$TARGETARCH" == "amd64" ] && echo "x64" || echo "$TARGETARCH") --target_platform=$TARGETOS && npm run lint && npm t
-RUN /usr/local/bin/pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" == "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
+RUN npm install 2 --target_arch=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") --target_platform=$TARGETOS && npm run lint && npm t
+RUN /usr/local/bin/pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
 
 ## DBML
 FROM --platform=$BUILDPLATFORM node:16.18.1-bullseye-slim AS kroki-builder-dbml
@@ -99,13 +99,13 @@ RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
 ARG TARGETARCH
 ARG TARGETOS
 ENV NODE node16
-RUN /usr/local/bin/pkg-fetch -n $NODE -p $TARGETOS -a $([ "$TARGETARCH" == "amd64" ] && echo "x64" || echo "$TARGETARCH")
+RUN /usr/local/bin/pkg-fetch -n $NODE -p $TARGETOS -a $([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH")
 
 COPY --from=dbml index.js package.json package-lock.json /app/
 WORKDIR /app
 
-RUN npm install --target_arch=$([ "$TARGETARCH" == "amd64" ] && echo "x64" || echo "$TARGETARCH") --target_platform=$TARGETOS && npm run lint
-RUN /usr/local/bin/pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" == "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
+RUN npm install --target_arch=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") --target_platform=$TARGETOS && npm run lint
+RUN /usr/local/bin/pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
 
 ## Wavedrom
 FROM --platform=$BUILDPLATFORM node:16.18.1-bullseye-slim AS kroki-builder-wavedrom
@@ -115,13 +115,13 @@ RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
 ARG TARGETARCH
 ARG TARGETOS
 ENV NODE node16
-RUN /usr/local/bin/pkg-fetch -n $NODE -p $TARGETOS -a $([ "$TARGETARCH" == "amd64" ] && echo "x64" || echo "$TARGETARCH")
+RUN /usr/local/bin/pkg-fetch -n $NODE -p $TARGETOS -a $([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH")
 
 COPY --from=wavedrom index.js package.json package-lock.json /app/
 WORKDIR /app
 
-RUN npm install --target_arch=$([ "$TARGETARCH" == "amd64" ] && echo "x64" || echo "$TARGETARCH") --target_platform=$TARGETOS && npm run lint
-RUN /usr/local/bin/pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" == "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
+RUN npm install --target_arch=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") --target_platform=$TARGETOS && npm run lint
+RUN /usr/local/bin/pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
 
 ## Bytefield
 FROM --platform=$BUILDPLATFORM node:16.18.1-bullseye-slim AS kroki-builder-bytefield
@@ -131,13 +131,13 @@ RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
 ARG TARGETARCH
 ARG TARGETOS
 ENV NODE node16
-RUN /usr/local/bin/pkg-fetch -n $NODE -p $TARGETOS -a $([ "$TARGETARCH" == "amd64" ] && echo "x64" || echo "$TARGETARCH")
+RUN /usr/local/bin/pkg-fetch -n $NODE -p $TARGETOS -a $([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH")
 
 COPY --from=bytefield index.js package.json package-lock.json /app/
 WORKDIR /app
 
-RUN npm install --target_arch=$([ "$TARGETARCH" == "amd64" ] && echo "x64" || echo "$TARGETARCH") --target_platform=$TARGETOS
-RUN /usr/local/bin/pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" == "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
+RUN npm install --target_arch=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") --target_platform=$TARGETOS
+RUN /usr/local/bin/pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
 
 ## ERD
 # use a pre-built image to reduce build time
