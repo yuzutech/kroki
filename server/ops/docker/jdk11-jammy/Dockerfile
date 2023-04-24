@@ -233,7 +233,8 @@ RUN apt-get update && apt-get install --no-install-recommends --yes \
     texlive-science && \
     apt-get clean && apt-get autoremove
 
-RUN wget "https://github.com/terrastruct/d2/releases/download/v${D2_VERSION}/d2-v${D2_VERSION}-linux-${TARGETARCH}.tar.gz" -O /usr/bin/d2 && \
+RUN wget "https://github.com/terrastruct/d2/releases/download/v${D2_VERSION}/d2-v${D2_VERSION}-linux-${TARGETARCH}.tar.gz" -O - | tar -zxv -C /usr/bin d2-v${D2_VERSION}/bin/d2 && \
+    mv usr/bin/d2-v${D2_VERSION}/bin/d2 /usr/bin/d2 && \
     chmod +x /usr/bin/d2
 
 RUN wget "https://github.com/ggrossetie/plantuml/releases/download/v${PLANTUML_VERSION}/plantuml-linux-${TARGETARCH}-${PLANTUML_VERSION}" -O /usr/bin/plantuml && \
