@@ -36,14 +36,6 @@ RUN curl -LO https://github.com/mgieseki/dvisvgm/releases/download/$DVISVGM_VERS
     make && \
     make install
 
-## D2
-FROM golang:1.19.3-bullseye AS kroki-builder-d2
-COPY ops/docker/go.mod .
-
-RUN D2_VERSION=`cat go.mod | grep "oss.terrastruct.com/d2" | cut -d' ' -f3` && \
-    rm go.mod && \
-    go install "oss.terrastruct.com/d2@${D2_VERSION}"
-
 ## Nomnoml
 FROM --platform=$BUILDPLATFORM node:16.18.1-bullseye-slim AS kroki-builder-nomnoml
 
@@ -210,8 +202,9 @@ RUN SVGBOB_VERSION=`cat Cargo.toml | grep "svgbob_cli =" | sed -r 's/.*"([^"]+)"
 ## yuzutech/kroki
 FROM eclipse-temurin:11.0.18_10-jre-jammy
 
-ARG UMLET_VERSION="2023-03-20_UMLet_v15.1"
+ARG D2_VERSION="0.4.1"
 ARG PLANTUML_VERSION="1.2023.6"
+ARG UMLET_VERSION="2023-03-20_UMLet_v15.1"
 ARG TARGETARCH
 
 RUN addgroup --gecos 1000 kroki && adduser --disabled-password --ingroup kroki -u 1000 kroki
@@ -240,11 +233,14 @@ RUN apt-get update && apt-get install --no-install-recommends --yes \
     texlive-science && \
     apt-get clean && apt-get autoremove
 
-RUN wget "https://github.com/yuzutech/umlet/releases/download/${UMLET_VERSION}/umlet-linux-${TARGETARCH}" -O /usr/bin/umlet && \
-    chmod +x /usr/bin/umlet
+RUN wget "https://github.com/terrastruct/d2/releases/download/v${D2_VERSION}/d2-v${D2_VERSION}-linux-${TARGETARCH}.tar.gz" -O /usr/bin/d2 && \
+    chmod +x /usr/bin/d2
 
 RUN wget "https://github.com/ggrossetie/plantuml/releases/download/v${PLANTUML_VERSION}/plantuml-linux-${TARGETARCH}-${PLANTUML_VERSION}" -O /usr/bin/plantuml && \
     chmod +x /usr/bin/plantuml
+
+RUN wget "https://github.com/yuzutech/umlet/releases/download/${UMLET_VERSION}/umlet-linux-${TARGETARCH}" -O /usr/bin/umlet && \
+    chmod +x /usr/bin/umlet
 
 COPY --from=kroki-builder-static-svgbob /usr/local/cargo/bin/svgbob_cli /usr/bin/svgbob
 COPY --from=kroki-builder-static-erd /root/.local/bin/erd /usr/bin/erd
@@ -254,7 +250,6 @@ COPY --from=kroki-builder-vega /app/app.bin /usr/bin/vega
 COPY --from=kroki-builder-dbml /app/app.bin /usr/bin/dbml
 COPY --from=kroki-builder-wavedrom /app/app.bin /usr/bin/wavedrom
 COPY --from=kroki-builder-bytefield /app/app.bin /usr/bin/bytefield
-COPY --from=kroki-builder-d2 /go/bin/d2 /usr/bin/d2
 COPY --from=kroki-builder-dvisvgm /usr/local/bin/dvisvgm /usr/bin/dvisvgm
 COPY --from=tikz tikz2svg /usr/bin/tikz2svg
 
