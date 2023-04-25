@@ -172,6 +172,11 @@ try {
 
   const dockerfileContent = await fs.readFile(ospath.join(rootDir, 'server', 'ops', 'docker', 'jdk11-jammy', 'Dockerfile'), 'utf8')
   for (const line of dockerfileContent.split('\n')) {
+    const d2VersionFound = line.match(/^ARG D2_VERSION="(?<version>.+)"$/)
+    if (d2VersionFound) {
+      const { version } = d2VersionFound.groups
+      diagramLibraryVersions.d2 = version
+    }
     const erdVersionFound = line.match(/^FROM yuzutech\/kroki-builder-erd:(?<version>\S+) AS kroki-builder-static-erd$/)
     if (erdVersionFound) {
       const { version } = erdVersionFound.groups
@@ -192,15 +197,6 @@ try {
     if (plantumlVersionFound) {
       const { version } = plantumlVersionFound.groups
       diagramLibraryVersions.plantuml = version
-    }
-  }
-
-  const d2GoModContent = await fs.readFile(ospath.join(rootDir, 'server', 'ops', 'docker', 'go.mod'), 'utf8')
-  for (const line of d2GoModContent.split('\n')) {
-    const d2VersionFound = line.match(/^require oss.terrastruct.com\/d2 v(?<version>.+)$/)
-    if (d2VersionFound) {
-      const { version } = d2VersionFound.groups
-      diagramLibraryVersions.d2 = version
     }
   }
 
