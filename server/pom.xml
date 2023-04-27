@@ -14,7 +14,7 @@
   <properties>
     <logback.version>1.4.7</logback.version>
     <vertx.version>4.4.1</vertx.version>
-    <junit.jupiter.version>5.9.2</junit.jupiter.version>
+    <junit.jupiter.version>5.9.3</junit.jupiter.version>
     <assertj-core.version>3.24.2</assertj-core.version>
     <mockito-core.version>4.11.0</mockito-core.version>
     <ditaa-mini.version>1.0.3</ditaa-mini.version>
