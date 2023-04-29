@@ -5,16 +5,16 @@ SERVICES_TIMEOUT=15
 default:
 
 installLocalDependencies:
-	mvn install:install-file -Dfile=./server/lib/ditaamini-1.0.3.jar -DgroupId=ditaa -DartifactId=ditaa-mini -Dversion=1.0.3 -Dpackaging=jar
+	./mvnw install:install-file -Dfile=./server/lib/ditaamini-1.0.3.jar -DgroupId=ditaa -DartifactId=ditaa-mini -Dversion=1.0.3 -Dpackaging=jar
 
 buildServer:
-	mvn --no-transfer-progress clean package
+	./mvnw --no-transfer-progress clean package
 
 setServerVersion:
 ifndef RELEASE_VERSION
 	$(error RELEASE_VERSION is undefined)
 endif
-	mvn versions:set -DnewVersion=$(RELEASE_VERSION)
+	./mvnw versions:set -DnewVersion=$(RELEASE_VERSION)
 
 buildDockerImages:
 ifdef BUILD_MULTIARCH
