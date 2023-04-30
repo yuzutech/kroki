@@ -242,7 +242,7 @@ RUN apt-get update && apt-get install --no-install-recommends --yes \
     texlive-science && \
     apt-get clean && apt-get autoremove
 
-RUN wget "https://github.com/yuzutech/graphviz-builder/releases/download/${GRAPHVIZ_VERSION}/dot-linux-amd64" -O /usr/bin/dot && \
+RUN wget "https://github.com/yuzutech/graphviz-builder/releases/download/${GRAPHVIZ_VERSION}/dot-linux-${TARGETARCH}" -O /usr/bin/dot && \
     chmod +x /usr/bin/dot
 
 RUN wget "https://github.com/terrastruct/d2/releases/download/v${D2_VERSION}/d2-v${D2_VERSION}-linux-${TARGETARCH}.tar.gz" -O - | tar -zxv -C /usr/bin d2-v${D2_VERSION}/bin/d2 && \
