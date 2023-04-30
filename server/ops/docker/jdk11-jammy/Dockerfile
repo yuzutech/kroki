@@ -231,6 +231,8 @@ RUN apt-get update && apt-get install --no-install-recommends --yes \
     giflib-tools \
     fonts-freefont-ttf \
     fonts-noto-cjk \
+    fonts-liberation \
+    gsfonts \
     ghostscript \
     poppler-utils \
     texlive \
