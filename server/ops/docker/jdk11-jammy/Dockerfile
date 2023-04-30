@@ -226,6 +226,7 @@ RUN addgroup --gecos 1000 kroki && adduser --disabled-password --ingroup kroki -
 # * texlive-pictures - Provides various graphics packages like "circuitikz"
 # * texlive-science - Provides various science packages like "siunitx"
 RUN apt-get update && apt-get install --no-install-recommends --yes \
+    libgd3 \
     libjpeg9 \
     giflib-tools \
     fonts-freefont-ttf \
