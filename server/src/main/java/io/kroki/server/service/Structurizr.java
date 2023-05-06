@@ -51,7 +51,7 @@ public class Structurizr implements DiagramService {
   private final PlantumlCommand plantumlCommand;
 
   // same as PlantUML since we convert Structurizr DSL to PlantUML
-  private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG, FileFormat.JPEG, FileFormat.BASE64, FileFormat.TXT, FileFormat.UTXT);
+  private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG, FileFormat.PDF, FileFormat.BASE64, FileFormat.TXT, FileFormat.UTXT);
 
   private static final String aws = read("structurizr/amazon-web-services.json");
   private static final String gcp = read("structurizr/google-cloud-platform.json");

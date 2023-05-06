@@ -72,7 +72,7 @@ public class Plantuml implements DiagramService {
   private static final Pattern START_BLOCK_RX = Pattern.compile("^(@start.*\\n)");
 
   private static final Logger logger = LoggerFactory.getLogger(Plantuml.class);
-  private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG, FileFormat.JPEG, FileFormat.BASE64, FileFormat.TXT, FileFormat.UTXT);
+  private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG, FileFormat.PDF, FileFormat.BASE64, FileFormat.TXT, FileFormat.UTXT);
   private static final Pattern STDLIB_PATH_RX = Pattern.compile("<([a-zA-Z0-9]+)/[^>]+>");
 
   private final Vertx vertx;
