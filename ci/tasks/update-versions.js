@@ -205,6 +205,15 @@ try {
     }
   }
 
+  const d2GoModContent = await fs.readFile(ospath.join(rootDir, 'server', 'ops', 'docker', 'go.mod'), 'utf8')
+  for (const line of d2GoModContent.split('\n')) {
+    const d2VersionFound = line.match(/^require oss.terrastruct.com\/d2 v(?<version>.+)$/)
+    if (d2VersionFound) {
+      const { version } = d2VersionFound.groups
+      diagramLibraryVersions.d2 = version
+    }
+  }
+
   const svgbobCargoContent = await fs.readFile(ospath.join(rootDir, 'server', 'ops', 'docker', 'Cargo.toml'), 'utf8')
   for (const line of svgbobCargoContent.split('\n')) {
     const svgbobVersionFound = line.match(/^svgbob_cli\s*=\s*"(?<version>.+)"$/)

@@ -11,13 +11,13 @@ const tests = [
   {engine: 'seqdiag', file: 'sequence.diag', options: {}, outputFormat: ['svg', 'png']},
   {engine: 'actdiag', file: 'actions.diag', options: {}, outputFormat: ['svg', 'png']},
   {engine: 'nwdiag', file: 'network.diag', options: {}, outputFormat: ['svg', 'png']},
-  {engine: 'c4plantuml', file: 'banking-system.puml', options: {}, outputFormat: ['svg']},
+  {engine: 'c4plantuml', file: 'banking-system.puml', options: {}, outputFormat: ['svg', 'pdf', 'png', 'txt']},
   {engine: 'dbml', file: 'dbml.dbml', options: {}, outputFormat: ['svg']},
   {engine: 'ditaa', file: 'components.ditaa', options: {}, outputFormat: ['svg']},
   {engine: 'erd', file: 'schema.erd', options: {}, outputFormat: ['svg']},
   {engine: 'mermaid', file: 'contribute.mmd', options: {}, outputFormat: ['svg']},
   {engine: 'bpmn', file: 'example.bpmn', options: {}, outputFormat: ['svg']},
-  {engine: 'plantuml', file: 'architecture.puml', options: {}, outputFormat: ['svg']},
+  {engine: 'plantuml', file: 'architecture.puml', options: {}, outputFormat: ['svg', 'pdf', 'png', 'txt']},
   {engine: 'svgbob', file: 'cloud.bob', options: {}, outputFormat: ['svg']},
   {engine: 'nomnoml', file: 'pirate.nomnoml', options: {}, outputFormat: ['svg']},
   {engine: 'packetdiag', file: 'packet.diag', options: {}, outputFormat: ['svg', 'png']},
@@ -50,7 +50,8 @@ const mimeType = {
   svg: 'image/svg+xml',
   png: 'image/png',
   pdf: 'application/pdf',
-  jpeg: 'image/jpeg'
+  jpeg: 'image/jpeg',
+  txt: 'text/plain'
 }
 
 const sendRequest = async (testCase, outputFormat) => {
