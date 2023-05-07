@@ -16,6 +16,7 @@ import org.junit.jupiter.api.condition.OS;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -97,5 +98,28 @@ public class C4PlantumlServiceTest {
       System.clearProperty("socksProxyHost");
       System.clearProperty("socksProxyPort");
     }
+  }
+
+  @Test
+  void should_convert_to_pdf() throws IOException, InterruptedException {
+    String diagram = "@startuml\n" +
+      "!include C4_Context.puml\n" +
+      "\n" +
+      "title System Context diagram for Internet Banking System\n" +
+      "\n" +
+      "Person(customer, \"Banking Customer\", \"A customer of the bank, with personal bank accounts.\")\n" +
+      "System(banking_system, \"Internet Banking System\", \"Allows customers to check their accounts.\")\n" +
+      "\n" +
+      "System_Ext(mail_system, \"E-mail system\", \"The internal Microsoft Exchange e-mail system.\")\n" +
+      "System_Ext(mainframe, \"Mainframe Banking System\", \"Stores all of the core banking information.\")\n" +
+      "\n" +
+      "Rel(customer, banking_system, \"Uses\")\n" +
+      "Rel_Back(customer, mail_system, \"Sends e-mails to\")\n" +
+      "Rel_Neighbor(banking_system, mail_system, \"Sends e-mails\", \"SMTP\")\n" +
+      "Rel(banking_system, mainframe, \"Uses\")\n" +
+      "@enduml";
+    byte[] convert = plantumlCommand.convert(Plantuml.sanitize(diagram, SafeMode.SAFE), FileFormat.PDF, new JsonObject());
+    assertThat(convert).isNotEmpty();
+    assertThat(new String(convert, StandardCharsets.UTF_8)).contains("%PDF-1.4");
   }
 }
