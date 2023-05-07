@@ -18,7 +18,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -76,7 +75,8 @@ public class Plantuml implements DiagramService {
   private static final Pattern STDLIB_PATH_RX = Pattern.compile("<([a-zA-Z0-9]+)/[^>]+>");
 
   private final Vertx vertx;
-  private final PlantumlCommand command;
+  private final PlantumlCommand plantumlCommand;
+  private final DitaaCommand ditaaCommand;
   private final SafeMode safeMode;
   private final Logging logging;
   private static final String c4 = read("c4.puml");
@@ -119,7 +119,8 @@ public class Plantuml implements DiagramService {
         return DiagramSource.plantumlDecode(encoded);
       }
     };
-    this.command = new PlantumlCommand(config);
+    this.plantumlCommand = new PlantumlCommand(config);
+    this.ditaaCommand = new DitaaCommand(config);
     this.includeWhitelist = parseIncludeWhitelist(config);
     this.logging = new Logging(logger);
     // Disable unsafe include for security reasons
@@ -207,10 +208,9 @@ public class Plantuml implements DiagramService {
       vertx.executeBlocking(future -> {
         try {
           ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-          // REMIND: options are unsupported for now.
-          Ditaa.convert(fileFormat, options, new ByteArrayInputStream(ditaaContext.getSource().getBytes()), outputStream);
+          ditaaCommand.convert(ditaaContext.getSource(), fileFormat, options);
           future.complete(outputStream.toByteArray());
-        } catch (IllegalStateException e) {
+        } catch (IllegalStateException | IOException | InterruptedException e) {
           future.fail(e);
         }
       }, res -> handler.handle(res.map(o -> Buffer.buffer((byte[]) o))));
@@ -224,7 +224,7 @@ public class Plantuml implements DiagramService {
             // add !theme directive just after the @start directive
             sourceWithTheme = START_BLOCK_RX.matcher(primeSource).replaceAll("$1!theme " + theme + "\n");
           }
-          byte[] data = this.command.convert(sourceWithTheme, fileFormat, options);
+          byte[] data = this.plantumlCommand.convert(sourceWithTheme, fileFormat, options);
           future.complete(data);
         } catch (Exception e) {
           future.fail(e);

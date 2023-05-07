@@ -7,7 +7,6 @@ import io.kroki.server.format.FileFormat;
 import io.kroki.server.unit.TimeValue;
 import io.vertx.core.json.JsonObject;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;

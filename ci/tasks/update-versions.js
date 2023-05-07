@@ -203,14 +203,10 @@ try {
       const { version } = graphvizVersionFound.groups
       diagramLibraryVersions.graphviz = version
     }
-  }
-
-  const d2GoModContent = await fs.readFile(ospath.join(rootDir, 'server', 'ops', 'docker', 'go.mod'), 'utf8')
-  for (const line of d2GoModContent.split('\n')) {
-    const d2VersionFound = line.match(/^require oss.terrastruct.com\/d2 v(?<version>.+)$/)
-    if (d2VersionFound) {
-      const { version } = d2VersionFound.groups
-      diagramLibraryVersions.d2 = version
+    const ditaaVersionFound = line.match(/^ARG DITAA_VERSION="(?<version>.+)"$/)
+    if (ditaaVersionFound) {
+      const { version } = ditaaVersionFound.groups
+      diagramLibraryVersions.ditaa = version
     }
   }
 
@@ -225,9 +221,6 @@ try {
 
   const { value: structurizrVersion } = await mvnEvaluateExpression('structurizr-dsl.version')
   diagramLibraryVersions.structurizr = structurizrVersion
-
-  const { value: ditaaVersion } = await mvnEvaluateExpression('ditaa-mini.version')
-  diagramLibraryVersions.ditaa = ditaaVersion
 
   console.log({
     diagramLibraryVersions: Object.fromEntries(Object.entries(diagramLibraryVersions).sort((a, b) => a[0].localeCompare(b[0]))),

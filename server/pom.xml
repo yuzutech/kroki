@@ -17,7 +17,6 @@
     <junit.jupiter.version>5.9.3</junit.jupiter.version>
     <assertj-core.version>3.24.2</assertj-core.version>
     <mockito-core.version>4.11.0</mockito-core.version>
-    <ditaa-mini.version>1.0.3</ditaa-mini.version>
     <slf4j-api.version>2.0.7</slf4j-api.version>
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
@@ -77,11 +76,6 @@
       <groupId>ch.qos.logback.contrib</groupId>
       <artifactId>logback-json-classic</artifactId>
       <version>0.1.5</version>
-    </dependency>
-    <dependency>
-      <groupId>ditaa</groupId>
-      <artifactId>ditaa-mini</artifactId>
-      <version>${ditaa-mini.version}</version>
     </dependency>
     <dependency>
       <groupId>guru.nidi.com.kitfox</groupId>

@@ -4,9 +4,6 @@ SERVICES_TIMEOUT=15
 
 default:
 
-installLocalDependencies:
-	./mvnw install:install-file -Dfile=./server/lib/ditaamini-1.0.3.jar -DgroupId=ditaa -DartifactId=ditaa-mini -Dversion=1.0.3 -Dpackaging=jar
-
 buildServer:
 	./mvnw --no-transfer-progress clean package
 

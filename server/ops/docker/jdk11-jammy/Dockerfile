@@ -211,6 +211,7 @@ ARG D2_VERSION="0.4.1"
 ARG PLANTUML_VERSION="1.2023.6"
 ARG UMLET_VERSION="2023-03-20_UMLet_v15.1"
 ARG GRAPHVIZ_VERSION="8.0.4"
+ARG DITAA_VERSION="1.0.3"
 ARG TARGETARCH
 
 RUN addgroup --gecos 1000 kroki && adduser --disabled-password --ingroup kroki -u 1000 kroki
@@ -243,6 +244,9 @@ RUN apt-get update && apt-get install --no-install-recommends --yes \
 
 RUN wget "https://github.com/yuzutech/graphviz-builder/releases/download/${GRAPHVIZ_VERSION}/dot-linux-${TARGETARCH}" -O /usr/bin/dot && \
     chmod +x /usr/bin/dot
+
+RUN wget "https://github.com/yuzutech/ditaa-mini/releases/download/${DITAA_VERSION}/ditaamini-linux-${TARGETARCH}-${DITAA_VERSION}" -O /usr/bin/ditaa && \
+    chmod +x /usr/bin/ditaa
 
 RUN wget "https://github.com/terrastruct/d2/releases/download/v${D2_VERSION}/d2-v${D2_VERSION}-linux-${TARGETARCH}.tar.gz" -O - | tar -zxv -C /usr/bin d2-v${D2_VERSION}/bin/d2 && \
     mv usr/bin/d2-v${D2_VERSION}/bin/d2 /usr/bin/d2 && \
@@ -281,7 +285,8 @@ ENV KROKI_PIKCHR_BIN_PATH=/usr/bin/pikchr
 ENV KROKI_D2_BIN_PATH=/usr/bin/d2
 ENV KROKI_UMLET_BIN_PATH=/usr/bin/umlet
 ENV KROKI_PLANTUML_BIN_PATH=/usr/bin/plantuml
-ENV KROKI_TIKZ2SVG_PATH=/usr/bin/tikz2svg
+ENV KROKI_TIKZ2SVG_BIN_PATH=/usr/bin/tikz2svg
+ENV KROKI_DITAA_BIN_PATH=/usr/bin/ditaa
 ENV JAVA_OPTS="-Dlogback.configurationFile=/etc/kroki/logback.xml -Dvertx.logger-delegate-factory-class-name=io.vertx.core.logging.SLF4JLogDelegateFactory"
 
 COPY --chown=kroki:kroki target/kroki-server.jar /usr/local/kroki/kroki-server.jar
