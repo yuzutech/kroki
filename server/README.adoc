@@ -4,33 +4,34 @@ Kroki server acts as a gateway and provides a unified API on-top of diagrams lib
 
 == How to update third-party dependencies
 
-=== ditaamini
+=== Ditaa (mini)
 
-Since https://github.com/stathissideris/ditaa is unmaintained, we are using an active fork: https://github.com/pepijnve/ditaa/tree/master
-The jar is published as part of AsciidoctorJ Diagram: https://search.maven.org/artifact/org.asciidoctor/asciidoctorj-diagram-ditaamini
+Since https://github.com/stathissideris/ditaa is unmaintained, we are using an active fork: https://github.com/yuzutech/ditaa-mini which is based on an active fork https://github.com/pepijnve/ditaa.
 
-To update ditaamini:
+We are producing native binaries with GraalVM: https://github.com/yuzutech/ditaa-mini/releases.
 
-. Download the latest version of `org.asciidoctor:asciidoctorj-diagram-ditaamini` from Maven central
-. Unzip `asciidoctorj-diagram-ditaamini` jar
-. Copy `gems/asciidoctor-diagram-ditaamini-$VERSION/lib/asciidoctor-diagram/ditaa/ditaamini-$VERSION.jar` to `server/lib`
-. Update the version in the `installLocalDependencies` task located in the `Makefile` at the root of this repository:
-+
-[source,diff]
-----
-installLocalDependencies:
--	mvn install:install-file -Dfile=./server/lib/ditaamini-1.0.3.jar -DgroupId=ditaa -DartifactId=ditaa-mini -Dversion=1.0.3 -Dpackaging=jar
-+	mvn install:install-file -Dfile=./server/lib/ditaamini-1.0.4.jar -DgroupId=ditaa -DartifactId=ditaa-mini -Dversion=1.0.4 -Dpackaging=jar
-----
-. Run the `installLocalDependencies` task to make sure that everything is working as expected:
-+
- $ make installLocalDependencies
+When a new version is available, we need to :
 
-. Update the version in `server/pom.xml`:
-+
-[source,diff]
-----
--<ditaa-mini.version>1.0.3</ditaa-mini.version>
-+<ditaa-mini.version>1.0.4</ditaa-mini.version>
-----
-. Build the project
+. update the fork
+. run the following workflow: https://github.com/yuzutech/ditaa-mini/actions/workflows/native-image-on-demand.yml
+. update the argument variable `ARG DITAA_VERSION="x.y.z"` in `server/ops/docker/jdk11-jammy/Dockerfile`
+
+=== PlantUML
+
+We are producing native binaries with GraalVM: https://github.com/ggrossetie/plantuml/releases
+
+When a new version is available, we need to:
+
+. update the fork
+. run the following workflow: https://github.com/ggrossetie/plantuml/actions/workflows/native-image-on-demand.yml
+. update the argument variable `ARG PLANTUML_VERSION="x.y.z"` in `server/ops/docker/jdk11-jammy/Dockerfile`
+
+=== UMLet
+
+We are producing native binaries with GraalVM: https://github.com/yuzutech/umlet/releases
+
+When a new version is available, we need to:
+
+. update the fork
+. run the following workflow: https://github.com/yuzutech/umlet/actions/workflows/release.yml
+. update the argument variable `ARG UMLET_VERSION="x.y.z"` in `server/ops/docker/jdk11-jammy/Dockerfile`

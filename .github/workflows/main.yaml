@@ -40,9 +40,6 @@ jobs:
         java-version: 11
         distribution: temurin
 
-    - name: Install Java dependencies
-      run: make installLocalDependencies
-
     - name: Build Java server
       run: make buildServer
 

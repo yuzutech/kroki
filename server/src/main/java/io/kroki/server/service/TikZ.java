@@ -29,7 +29,7 @@ public class TikZ implements DiagramService {
 
   public TikZ(Vertx vertx, JsonObject config, Commander commander) {
     this.vertx = vertx;
-    this.binPath = config.getString("KROKI_TIKZ2SVG_PATH", "tikz2svg");
+    this.binPath = config.getString("KROKI_TIKZ2SVG_BIN_PATH", "tikz2svg");
     this.sourceDecoder = new SourceDecoder() {
       @Override
       public String decode(String encoded) throws DecodeException {

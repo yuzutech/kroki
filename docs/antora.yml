@@ -13,7 +13,7 @@ asciidoc:
     diagramsnet-version: 16.2.4
     ditaa-version: 1.0.3
     erd-version: 0.2.1.0
-    excalidraw-version: 0.14.2
+    excalidraw-version: 0.15.2
     graphviz-version: 8.0.4
     mermaid-version: 9.4.3
     nomnoml-version: 1.5.3

@@ -1,19 +1,42 @@
 package io.kroki.server.service;
 
+import io.kroki.server.DownloadDitaaNativeImage;
 import io.kroki.server.format.FileFormat;
+import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
+import io.vertx.junit5.Checkpoint;
+import io.vertx.junit5.VertxExtension;
+import io.vertx.junit5.VertxTestContext;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.condition.EnabledOnOs;
+import org.junit.jupiter.api.condition.OS;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.charset.StandardCharsets;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
+@ExtendWith(VertxExtension.class)
+@EnabledOnOs(value = OS.LINUX, architectures = "amd64")
 public class DitaaServiceTest {
+
+  private static DitaaCommand ditaaCommand = null;
+
+  @BeforeAll
+  @Timeout(60)
+  static void prepare(VertxTestContext context, Vertx vertx) {
+    Checkpoint checkpoint = context.checkpoint();
+    DownloadDitaaNativeImage.download(vertx).onComplete(event -> {
+      if (event.failed()) {
+        context.failNow(event.cause());
+        return;
+      }
+      ditaaCommand = event.result();
+      checkpoint.flag();
+    });
+  }
 
   @Test
   public void should_call_ditaa_with_correct_arguments() throws Exception {
@@ -24,17 +47,15 @@ public class DitaaServiceTest {
       "|    |cPNK|\n" +
       "|    |    |\n" +
       "+----+----+";
-    try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(input.getBytes()); ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
-      Ditaa.convert(FileFormat.SVG, new JsonObject(), byteArrayInputStream, byteArrayOutputStream);
-      // shadows are enabled by default
-      assertThat(byteArrayOutputStream.toString()).contains("filter=\"url(#shadowBlur)\"");
-    }
-    try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(input.getBytes()); ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
-      JsonObject options = new JsonObject();
-      options.put("no-shadows", "");
-      Ditaa.convert(FileFormat.SVG, options, byteArrayInputStream, byteArrayOutputStream);
-      // disable shadows by setting the no-shadows option
-      assertThat(byteArrayOutputStream.toString()).doesNotContain("filter=\"url(#shadowBlur)\"");
-    }
+
+    // shadows are enabled by default
+    byte[] svgWithShadows = ditaaCommand.convert(input, FileFormat.SVG, new JsonObject());
+    assertThat(new String(svgWithShadows, StandardCharsets.UTF_8)).contains("filter=\"url(#shadowBlur)\"");
+
+    // disable shadows by setting the no-shadows option
+    JsonObject options = new JsonObject();
+    options.put("no-shadows", "");
+    byte[] svgWithoutShadows = ditaaCommand.convert(input, FileFormat.SVG, options);
+    assertThat(new String(svgWithoutShadows, StandardCharsets.UTF_8)).doesNotContain("filter=\"url(#shadowBlur)\"");
   }
 }
