@@ -107,7 +107,9 @@ public class StructurizrServiceTest {
     String source = read("./bigbank.structurizr");
     JsonObject options = new JsonObject();
     options.put("view-key", "NonExisting");
-    assertThatThrownBy(() -> { Structurizr.convert(source, FileFormat.SVG, plantumlCommand, new StructurizrPlantUMLExporter(), options); })
+    assertThatThrownBy(() -> {
+      Structurizr.convert(source, FileFormat.SVG, plantumlCommand, new StructurizrPlantUMLExporter(), options);
+    })
       .isInstanceOf(BadRequestException.class)
       .hasMessage("Unable to find view for key: NonExisting.");
   }
@@ -115,7 +117,9 @@ public class StructurizrServiceTest {
   @Test
   public void should_throw_exception_when_diagram_is_empty() throws IOException {
     String source = read("./no-view.structurizr");
-    assertThatThrownBy(() -> { Structurizr.convert(source, FileFormat.SVG, plantumlCommand, new StructurizrPlantUMLExporter(), new JsonObject()); })
+    assertThatThrownBy(() -> {
+      Structurizr.convert(source, FileFormat.SVG, plantumlCommand, new StructurizrPlantUMLExporter(), new JsonObject());
+    })
       .isInstanceOf(BadRequestException.class)
       .hasMessage("Empty diagram, does not have any view.");
   }
@@ -123,7 +127,9 @@ public class StructurizrServiceTest {
   @Test
   public void should_throw_exception_when_script_directive_used() throws IOException {
     String source = read("./script.structurizr");
-    assertThatThrownBy(() -> { Structurizr.convert(source, FileFormat.SVG, plantumlCommand, new StructurizrPlantUMLExporter(), new JsonObject()); })
+    assertThatThrownBy(() -> {
+      Structurizr.convert(source, FileFormat.SVG, plantumlCommand, new StructurizrPlantUMLExporter(), new JsonObject());
+    })
       .isInstanceOf(BadRequestException.class)
       .hasMessage("Unable to parse the Structurizr DSL. Error running inline script, caused by java.lang.RuntimeException: Could not load a scripting engine for extension \"kts\" at line 5: }.");
   }
