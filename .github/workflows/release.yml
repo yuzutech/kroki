@@ -15,8 +15,6 @@ jobs:
         with:
           java-version: 11
           distribution: temurin
-      - name: Install Java dependencies
-        run: make installLocalDependencies
       - name: Build Java server
         run: make buildServer
       - run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
@@ -50,8 +48,6 @@ jobs:
         with:
           java-version: 11
           distribution: temurin
-      - name: Install Java dependencies
-        run: make installLocalDependencies
       - name: Build Java server
         run: make buildServer
       - name: Set up QEMU
