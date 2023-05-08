@@ -21,6 +21,8 @@ import org.slf4j.LoggerFactory;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -50,38 +52,54 @@ public class StructurizrServiceTest {
 
   @Test
   public void should_convert_getting_started_example() throws IOException, InterruptedException {
-    String source = read("./gettingstarted.structurizr");
-    String expected = read("./gettingstarted.expected.svg");
-    byte[] result = Structurizr.convert(source, FileFormat.SVG, plantumlCommand, new StructurizrPlantUMLExporter(), new JsonObject());
-    assertThat(stripComments(new String(result))).isEqualToIgnoringNewLines(expected);
+    if (Files.isExecutable(Paths.get("/usr/bin/dot"))) {
+      String source = read("./gettingstarted.structurizr");
+      String expected = read("./gettingstarted.expected.svg");
+      byte[] result = Structurizr.convert(source, FileFormat.SVG, plantumlCommand, new StructurizrPlantUMLExporter(), new JsonObject());
+      assertThat(stripComments(new String(result))).isEqualToIgnoringNewLines(expected);
+    } else {
+      logger.info("/usr/bin/dot not found, skipping test.");
+    }
   }
 
   @Test
   public void should_convert_bigbank_example_container_view() throws IOException, InterruptedException {
-    String source = read("./bigbank.structurizr");
-    String expected = read("./bigbank.containers.expected.svg");
-    JsonObject options = new JsonObject();
-    options.put("view-key", "Containers");
-    byte[] result = Structurizr.convert(source, FileFormat.SVG, plantumlCommand, new StructurizrPlantUMLExporter(), options);
-    assertThat(stripComments(new String(result))).isEqualToIgnoringNewLines(expected);
+    if (Files.isExecutable(Paths.get("/usr/bin/dot"))) {
+      String source = read("./bigbank.structurizr");
+      String expected = read("./bigbank.containers.expected.svg");
+      JsonObject options = new JsonObject();
+      options.put("view-key", "Containers");
+      byte[] result = Structurizr.convert(source, FileFormat.SVG, plantumlCommand, new StructurizrPlantUMLExporter(), options);
+      assertThat(stripComments(new String(result))).isEqualToIgnoringNewLines(expected);
+    } else {
+      logger.info("/usr/bin/dot not found, skipping test.");
+    }
   }
 
   @Test
   public void should_convert_bigbank_example_systemcontext_view() throws IOException, InterruptedException {
-    String source = read("./bigbank.structurizr");
-    String expected = read("./bigbank.systemcontext.expected.svg");
-    JsonObject options = new JsonObject();
-    options.put("view-key", "SystemContext");
-    byte[] result = Structurizr.convert(source, FileFormat.SVG, plantumlCommand, new StructurizrPlantUMLExporter(), options);
-    assertThat(stripComments(new String(result))).isEqualToIgnoringNewLines(expected);
+    if (Files.isExecutable(Paths.get("/usr/bin/dot"))) {
+      String source = read("./bigbank.structurizr");
+      String expected = read("./bigbank.systemcontext.expected.svg");
+      JsonObject options = new JsonObject();
+      options.put("view-key", "SystemContext");
+      byte[] result = Structurizr.convert(source, FileFormat.SVG, plantumlCommand, new StructurizrPlantUMLExporter(), options);
+      assertThat(stripComments(new String(result))).isEqualToIgnoringNewLines(expected);
+    } else {
+      logger.info("/usr/bin/dot not found, skipping test.");
+    }
   }
 
   @Test
   public void should_convert_aws_example() throws IOException, InterruptedException {
-    String source = read("./aws.structurizr");
-    String expected = read("./aws.expected.svg");
-    byte[] result = Structurizr.convert(source, FileFormat.SVG, plantumlCommand, new StructurizrPlantUMLExporter(), new JsonObject());
-    assertThat(stripComments(new String(result))).isEqualToIgnoringNewLines(expected);
+    if (Files.isExecutable(Paths.get("/usr/bin/dot"))) {
+      String source = read("./aws.structurizr");
+      String expected = read("./aws.expected.svg");
+      byte[] result = Structurizr.convert(source, FileFormat.SVG, plantumlCommand, new StructurizrPlantUMLExporter(), new JsonObject());
+      assertThat(stripComments(new String(result))).isEqualToIgnoringNewLines(expected);
+    } else {
+      logger.info("/usr/bin/dot not found, skipping test.");
+    }
   }
 
   @Test
