@@ -115,11 +115,7 @@ A companion web server written in Python (powered by _Flask_ and _Gunicorn_) tha
 
 === Gateway Server
 
-The first step is to install the local dependencies in your local repository using `make`:
-
- $ make installLocalDependencies
-
-Then you can build the project using Maven:
+The first step is to build the project using Maven:
 
  $ make buildServer
 
