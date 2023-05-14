@@ -1,0 +1,1080 @@
+{
+  "name" : "Oracle Cloud Infrastructure",
+  "description" : "This theme includes element styles with icons for each of the OCI services, based upon the Graphics for Topologies and Diagrams (https://docs.cloud.oracle.com/en-us/iaas/Content/General/Reference/graphicsfordiagrams.htm).",
+  "elements" : [ {
+    "tag" : "Oracle Cloud Infrastructure - Order Management",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Order Management.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Service Gateway",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Service Gateway.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - ATPD",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/ATP-D.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - OpenSearch",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/OpenSearch.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Functions",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Functions.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Full Stack Disaster Recovery",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Full Stack Disaster Recovery.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - IP Pools",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/IP Pools.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Alarms",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Alarms.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Application Dependency Management ",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Application Dependency Management (ADM).png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - WellnessHealthcare",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Wellness-Healthcare.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Service Mesh",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Service Mesh.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Private Cloud",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Private Cloud.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Domain Name System ",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Domain Name System DNS.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Database Management",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Database Management.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - ADWD",
+    "stroke" : "#2c5a67",
+    "color" : "#2c5a67",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/ADW-D.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Buckets",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Buckets.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - GoldenGate OnPremises",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/GoldenGate On-Premises.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - User Group unisex",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/User Group unisex.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Data Safe",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Data Safe.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Migrate Autonomous Database",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Migrate Autonomous Database.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Key Management",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Key Management.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Encryption",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Encryption.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Service Oriented Architecture ",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Service Oriented Architecture SOA.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Backup Restore",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Backup Restore.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Internet Cloud",
+    "stroke" : "#2d5967",
+    "color" : "#2d5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Internet Cloud.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Process Automation",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Process Automation.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Exadata Cloud at Customer",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Exadata Cloud at Customer.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - No SQL Database",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/No SQL Database.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - ADBD Dedicated",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/ADB-D Dedicated.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - NAT Gateway",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/NAT Gateway.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Data Lakehouse",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Data Lakehouse.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - GoldenGate Plugin",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/GoldenGate Plug-in.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - GoldenGate",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/GoldenGate.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Operations Insights",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Operations Insights.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Policies",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Policies.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Cloud Identifier ",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Cloud Identifier OCID.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Virtual Machine GPU",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Virtual Machine GPU.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Backbone",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Backbone.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - File Storage Cloning Process",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/File Storage Cloning Process.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - User Group Male",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/User Group Male.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Virtual Machine ",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Virtual Machine VM.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Tagging",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Tagging.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Virtual Machine Clear",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Virtual Machine Clear.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Active Directory",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Active Directory.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Network Performance Inspector",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Network Performance Inspector.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - CPQ",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/CPQ.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - File Storage Replica",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/File Storage Replica.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Logging Analytics",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Logging Analytics.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Instance Pools",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Instance Pools.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Financials",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Financials.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - BareMetal Compute",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/BareMetal Compute.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - VTAP",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/VTAP.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Block Storage Multiple",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Block Storage Multiple.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Engagement",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Engagement.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - User Female",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/User Female.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Dynamic Routing Gateway ",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Dynamic Routing Gateway DRG.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Streaming",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Streaming.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Artificial Intelligence",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Artificial Intelligence.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Firewall",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Firewall.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Enterprise Performance Management ",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Enterprise Performance Management EPM.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Supply Chain Planning",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Supply Chain Planning.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Email Delivery",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Email Delivery.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Service Connector Hub",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Service Connector Hub.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - RAC",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/RAC.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - OnPremises Data Center",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/On-Premises Data Center.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Autonomous Database",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Autonomous Database.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - EBusiness Suite",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/E-Business Suite.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Essbase",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Essbase.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Project Financial Management",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Project Financial Management.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Database",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Database.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Other Cloud Services",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Other Cloud Services.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Transaction Manager",
+    "stroke" : "#2d5967",
+    "color" : "#2d5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Transaction Manager.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Web Application Firewall ",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Web Application Firewall WAF.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Product Master Data Management",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Product Master Data Management.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - GoldenGate Veridata",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/GoldenGate Veridata.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Cloud Guard",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Cloud Guard.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Services Network",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Services Network.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - API Service",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/API Service.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Health Check",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Health Check.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Block Storage Cloning",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Block Storage Cloning.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Network Path Analyzer",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Network Path Analyzer.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Cloud Operations",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Cloud Operations.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Persistent Volume",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Persistent Volume.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Vault",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Vault.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Internet Gateway",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Internet Gateway.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Local Storage",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Local Storage.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Data Transfer",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Data Transfer.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Data Science",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Data Science.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - User",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/User.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Events",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Events.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Logic Flow",
+    "stroke" : "#61838d",
+    "color" : "#61838d",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Logic Flow.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Private Endpoint IP",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Private Endpoint IP.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Dedicated Region",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Dedicated Region.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Autonomous Database Warehouse",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Autonomous Database Warehouse.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Monitoring",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Monitoring.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Database for Amazon Web Service ",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Database for Amazon Web Service AWS.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Roving Edge Service",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Roving Edge Service.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - MySQL HeatWave",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/MySQL HeatWave.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - GoldenGate Studio",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/GoldenGate Studio.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Storage Gateway",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Storage Gateway.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Object Storage",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Object Storage.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Threat Intelligence",
+    "stroke" : "#2b5a67",
+    "color" : "#2b5a67",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Threat Intelligence.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - SecurityLists",
+    "stroke" : "#2d5967",
+    "color" : "#2d5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Security-Lists.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Container Engine For Kubernetes",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Container Engine For Kubernetes.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Content Management",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Content Management.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - GoldenGate HP Nonstop Guardian",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/GoldenGate HP Nonstop Guardian.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Container Service",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Container Service.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - GoldenGate Monitor",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/GoldenGate Monitor.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Media Flow",
+    "stroke" : "#fbf9f8",
+    "color" : "#fbf9f8",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Media Flow.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Network Switch",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Network Switch.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Search",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Search.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - License Manager",
+    "stroke" : "#2c5a67",
+    "color" : "#2c5a67",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/License Manager.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Customer Premises Equipment ",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Customer Premises Equipment CPE.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Data Catalog ",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Data Catalog DCAT.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Document Understanding",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Document Understanding.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Data Guard Recovery",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Data Guard Recovery.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Certificates",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Certificates.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Vulnerability Scanning",
+    "stroke" : "#2c5a67",
+    "color" : "#2c5a67",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Vulnerability Scanning.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Auditing",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Auditing.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - ADB Exadata Cloud at Customer",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/ADB Exadata Cloud at Customer.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Procurement",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Procurement.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Data Integrator",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Data Integrator.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Load Balancer ",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Load Balancer LB.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Container Registry",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Container Registry.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - VCN Flow Logs",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/VCN Flow Logs.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Containers",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Containers.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - BI Business intelligence Cloud Connector",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/BI Business intelligence Cloud Connector.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - File Storage",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/File Storage.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Analytics Cloud",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Analytics Cloud.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - File Storage Snapshot",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/File Storage Snapshot.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - GoldenGate Director",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/GoldenGate Director.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Inter Region Latency",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Inter Region Latency.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Digital Media",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Digital Media.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Remote Agent",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Remote Agent.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Jet",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Jet.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Notifications",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Notifications.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Database for Azure Portal",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Database for Azure Portal.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Data Flow",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Data Flow.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Compartments",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Compartments.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - IAM",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/IAM.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Inventory Management",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Inventory Management.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Distributed Denial of Service Protection ",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Distributed Denial of Service Protection DDoS.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - BYOIP",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/BYOIP.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Elastic Performance",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Elastic Performance.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Machine Learning",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Machine Learning.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Identity",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Identity.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Media Stream",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Media Stream.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - User Group Female",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/User Group Female.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - File Storage Clone",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/File Storage Clone.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Cloud Migrations",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Cloud Migrations.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Cloud Advisor",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Cloud Advisor.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Marketplace",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Marketplace.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Application Performance Monitoring",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Application Performance Monitoring.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Project Management",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Project Management.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Threat Defense",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Threat Defense.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - User Male",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/User Male.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Database for Google Cloud Platform ",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Database for Google Cloud Platform GCP.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Visual Builder",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Visual Builder.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Database System",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Database System.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - File Storage Mount Target",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/File Storage Mount Target.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Key Vault",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Key Vault.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - OKE Virtual Node",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/OKE Virtual Node.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Route Table",
+    "stroke" : "#bb5127",
+    "color" : "#bb5127",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Route Table.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Integrations",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Integrations.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Network Security Group ",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Network Security Group NSG.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Data Integration",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Data Integration.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Exadata",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Exadata.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Forecasting",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Forecasting.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Roving Edge Device",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Roving Edge Device.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Roving Edge Infrastructure",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Roving Edge Infrastructure.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Queuing",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Queuing.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - DevOps",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/DevOps.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Fusion",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Fusion.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - API Gateway",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/API Gateway.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Enterprise resource Planning Cloud Service ",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Enterprise resource Planning Cloud Service ERP.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Burstable Virtual Machine ",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Burstable Virtual Machine VM.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Virtual Machine Application",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Virtual Machine Application.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Data Guard",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Data Guard.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Remote peering",
+    "stroke" : "#161513",
+    "color" : "#161513",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Remote peering.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Blockchain",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Blockchain.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Human Capital Management ",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Human Capital Management HCM.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Content Delivery Network ",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Content Delivery Network CDN.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Virtual Cloud Network ",
+    "stroke" : "#bb5127",
+    "color" : "#bb5127",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Virtual Cloud Network VCN_red.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Autonomous Transaction Processing ",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Autonomous Transaction Processing ATP.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - File Storage Replication Process",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/File Storage Replication Process.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - VNIC",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/VNIC.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - MySQL Database System",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/MySQL Database System.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Manufacturing",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Manufacturing.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Message Producer",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Message Producer.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - GoldenGate Stream Analytics",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/GoldenGate Stream Analytics.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Resource Manager",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Resource Manager.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Innovation Management",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Innovation Management.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Network Visualizer",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Network Visualizer.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Workflow",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Workflow.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Big Data",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Big Data.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Block Storage",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Block Storage.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Autoscaling",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Autoscaling.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - GoldenGate Application Adapter",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/GoldenGate Application Adapter.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Flex Virtual Machine ",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Flex Virtual Machine VM.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Virtual Machine",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Virtual Machine.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Security Lists",
+    "stroke" : "#bb5127",
+    "color" : "#bb5127",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Security Lists_red.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Maximum Security Zone",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Maximum Security Zone.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Logging",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Logging.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Digital Assistant ODA",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Digital Assistant ODA.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Bastion",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Bastion.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - APEX",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/APEX.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Organization",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Organization.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Message Listener",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Message Listener.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Database Migration",
+    "stroke" : "#005968",
+    "color" : "#005968",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Database Migration.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Data Lake",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Data Lake.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Multiple Containers",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Multiple Containers.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Roving Edge Ultra",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Roving Edge Ultra.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Flexible Load Balancer",
+    "stroke" : "#2c5967",
+    "color" : "#2c5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Flexible Load Balancer.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Route Table and Security List",
+    "stroke" : "#ae562c",
+    "color" : "#ae562c",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Route Table and Security List.png"
+  }, {
+    "tag" : "Oracle Cloud Infrastructure - Local Peering Gateway",
+    "stroke" : "#2d5967",
+    "color" : "#2d5967",
+    "icon" : "https://static.structurizr.com/themes/oracle-cloud-infrastructure-2023.04.01/Local Peering Gateway.png"
+  } ]
+}

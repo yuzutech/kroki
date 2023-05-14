@@ -4,19 +4,7 @@ import com.structurizr.dsl.StructurizrDslParser;
 import com.structurizr.dsl.StructurizrDslParserException;
 import com.structurizr.export.Diagram;
 import com.structurizr.export.plantuml.StructurizrPlantUMLExporter;
-import com.structurizr.view.Border;
-import com.structurizr.view.ComponentView;
-import com.structurizr.view.ContainerView;
-import com.structurizr.view.DeploymentView;
-import com.structurizr.view.DynamicView;
-import com.structurizr.view.ElementStyle;
-import com.structurizr.view.RelationshipStyle;
-import com.structurizr.view.Shape;
-import com.structurizr.view.SystemContextView;
-import com.structurizr.view.SystemLandscapeView;
-import com.structurizr.view.View;
-import com.structurizr.view.ViewSet;
-import io.kroki.server.action.Commander;
+import com.structurizr.view.*;
 import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.BadRequestException;
@@ -34,13 +22,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Structurizr implements DiagramService {
@@ -53,11 +35,16 @@ public class Structurizr implements DiagramService {
   // same as PlantUML since we convert Structurizr DSL to PlantUML
   private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG, FileFormat.PDF, FileFormat.BASE64, FileFormat.TXT, FileFormat.UTXT);
 
-  private static final String aws = read("structurizr/amazon-web-services.json");
-  private static final String gcp = read("structurizr/google-cloud-platform.json");
-  private static final String k8s = read("structurizr/kubernetes.json");
-  private static final String azure = read("structurizr/microsoft-azure.json");
-  private static final String oracleCloud = read("structurizr/oracle-cloud-infrastructure.json");
+  private static final StructurizrTheme defaultTheme = readTheme("structurizr/default.json");
+  private static final StructurizrTheme awsTheme2020 = readTheme("structurizr/amazon-web-services-2020.04.30.json");
+  private static final StructurizrTheme awsTheme2022 = readTheme("structurizr/amazon-web-services-2022.04.30.json");
+  private static final StructurizrTheme awsTheme2023 = readTheme("structurizr/amazon-web-services-2023.01.31.json");
+  private static final StructurizrTheme gcpTheme = readTheme("structurizr/google-cloud-platform.json");
+  private static final StructurizrTheme k8sTheme = readTheme("structurizr/kubernetes.json");
+  private static final StructurizrTheme azureTheme2021 = readTheme("structurizr/microsoft-azure-2021.01.26.json");
+  private static final StructurizrTheme azureTheme2023 = readTheme("structurizr/microsoft-azure-2023.01.24.json");
+  private static final StructurizrTheme oracleCloudTheme2021 = readTheme("structurizr/oracle-cloud-infrastructure-2021.04.30.json");
+  private static final StructurizrTheme oracleCloudTheme2023 = readTheme("structurizr/oracle-cloud-infrastructure-2023.04.01.json");
 
   public Structurizr(Vertx vertx, JsonObject config) {
     this.vertx = vertx;
@@ -121,10 +108,12 @@ public class Structurizr implements DiagramService {
       }
       for (String url : viewSet.getConfiguration().getThemes()) {
         if (url.startsWith("https://static.structurizr.com/themes/")) {
-          String themeContent = getThemeContent(url);
-          if (themeContent != null) {
-            applyTheme(viewSet, themeContent);
+          StructurizrTheme theme = getThemeContent(url);
+          if (theme != null) {
+            applyTheme(viewSet, theme);
           }
+        } else if (url.equalsIgnoreCase("default")) {
+          applyTheme(viewSet, defaultTheme);
         }
       }
       final Diagram diagram;
@@ -160,23 +149,82 @@ public class Structurizr implements DiagramService {
     return convert(source, fileFormat, this.plantumlCommand, this.structurizrPlantUMLExporter, options);
   }
 
-  private static void applyTheme(ViewSet viewSet, String themeContent) {
-    Object value = Json.decodeValue(themeContent);
-    if (value instanceof JsonObject) {
-      List<ElementStyle> elementStyles = getElementStyles((JsonObject) value);
-      for (ElementStyle elementStyle : elementStyles) {
-        viewSet.getConfiguration().getStyles().add(elementStyle);
-      }
-      List<RelationshipStyle> relationshipStyles = getRelationshipStyle((JsonObject) value);
-      for (RelationshipStyle relationshipStyle : relationshipStyles) {
-        viewSet.getConfiguration().getStyles().add(relationshipStyle);
-      }
+  private static void applyTheme(ViewSet viewSet, StructurizrTheme theme) {
+    List<ElementStyle> elementStyles = theme.getElementStyles();
+    for (ElementStyle elementStyle : elementStyles) {
+      viewSet.getConfiguration().getStyles().add(elementStyle);
+    }
+    List<RelationshipStyle> relationshipStyles = theme.getRelationshipStyle();
+    for (RelationshipStyle relationshipStyle : relationshipStyles) {
+      viewSet.getConfiguration().getStyles().add(relationshipStyle);
     }
   }
 
-  private static List<ElementStyle> getElementStyles(JsonObject value) {
-    List<ElementStyle> result = new ArrayList<>();
-    Object elementsObject = value.getValue("elements");
+  private static StructurizrTheme getThemeContent(String url) {
+    if (url.contains("default")) {
+      return defaultTheme;
+    }
+    if (url.contains("amazon-web-services-2020.04.30")) {
+      return awsTheme2020;
+    }
+    if (url.contains("amazon-web-services-2022.04.30")) {
+      return awsTheme2022;
+    }
+    if (url.contains("amazon-web-services")) {
+      // default, latest version 2023.01.30
+      return awsTheme2023;
+    }
+    if (url.contains("google-cloud-platform")) {
+      return gcpTheme;
+    }
+    if (url.contains("kubernetes")) {
+      return k8sTheme;
+    }
+    if (url.contains("microsoft-azure-2021.01.26")) {
+      return azureTheme2021;
+    }
+    if (url.contains("microsoft-azure")) {
+      // default, latest version 2023.01.24
+      return azureTheme2023;
+    }
+    if (url.contains("oracle-cloud-infrastructure-2021.04.30")) {
+      return oracleCloudTheme2021;
+    }
+    if (url.contains("oracle-cloud-infrastructure")) {
+      // default, latest version 2023.04.01
+      return oracleCloudTheme2023;
+    }
+    return null;
+  }
+
+  private static StructurizrTheme readTheme(String resource) {
+    InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream(resource);
+    try {
+      if (input == null) {
+        throw new IOException("Unable to get resource: " + resource);
+      }
+      try (BufferedReader buffer = new BufferedReader(new InputStreamReader(input))) {
+        String content = buffer.lines().collect(Collectors.joining("\n"));
+        try {
+          JsonObject object = (JsonObject) Json.decodeValue(content);
+          return new StructurizrTheme(object);
+        } catch (io.vertx.core.json.DecodeException e) {
+          throw new RuntimeException("Unable to initialize the Structurizr service", e);
+        }
+      }
+    } catch (IOException e) {
+      throw new RuntimeException("Unable to initialize the Structurizr service", e);
+    }
+  }
+}
+
+class StructurizrTheme {
+
+  private final List<ElementStyle> elementStyles;
+
+  public StructurizrTheme(JsonObject object) {
+    this.elementStyles = new ArrayList<>();
+    Object elementsObject = object.getValue("elements");
     if (elementsObject instanceof JsonArray) {
       for (Object elementObject : ((JsonArray) elementsObject).getList()) {
         if (elementObject instanceof Map) {
@@ -190,59 +238,29 @@ public class Structurizr implements DiagramService {
             element.getInteger("fontSize")
           );
           elementStyle.setBorder(getBorder(element));
-          elementStyle.setStroke(element.getString("stroke"));
+          elementStyle.setStroke(element.getString("stroke", "#000000")); // remind: cannot pass a null value
           elementStyle.setShape(getShape(element));
           elementStyle.setIcon(element.getString("icon"));
           elementStyle.setOpacity(element.getInteger("opacity"));
           elementStyle.setMetadata(element.getBoolean("metadata"));
           elementStyle.setDescription(element.getBoolean("description"));
-          result.add(elementStyle);
+          this.elementStyles.add(elementStyle);
         }
       }
     }
-    return result;
   }
 
-  private static String getThemeContent(String url) {
-    if (url.contains("amazon-web-services")) {
-      return aws;
-    }
-    if (url.contains("google-cloud-platform")) {
-      return gcp;
-    }
-    if (url.contains("kubernetes")) {
-      return k8s;
-    }
-    if (url.contains("microsoft-azure")) {
-      return azure;
-    }
-    if (url.contains("oracle-cloud-infrastructure")) {
-      return oracleCloud;
-    }
-    return null;
+  public List<ElementStyle> getElementStyles() {
+    return elementStyles;
   }
 
-  private static List<RelationshipStyle> getRelationshipStyle(JsonObject value) {
+  public List<RelationshipStyle> getRelationshipStyle() {
     List<RelationshipStyle> result = new ArrayList<>();
     // remind: RelationshipStyle does not have a public constructor, as a result, we cannot instantiate it.
     return result;
   }
 
-  private static String read(String resource) {
-    InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream(resource);
-    try {
-      if (input == null) {
-        throw new IOException("Unable to get resource: " + resource);
-      }
-      try (BufferedReader buffer = new BufferedReader(new InputStreamReader(input))) {
-        return buffer.lines().collect(Collectors.joining("\n"));
-      }
-    } catch (IOException e) {
-      throw new RuntimeException("Unable to initialize the Structurizr service", e);
-    }
-  }
-
-  private static Shape getShape(JsonObject element) {
+  private Shape getShape(JsonObject element) {
     String shapeValue = element.getString("shape");
     if (shapeValue == null) {
       return null;
@@ -255,7 +273,7 @@ public class Structurizr implements DiagramService {
     }
   }
 
-  private static Border getBorder(JsonObject element) {
+  private Border getBorder(JsonObject element) {
     String borderValue = element.getString("border");
     if (borderValue == null) {
       return null;
