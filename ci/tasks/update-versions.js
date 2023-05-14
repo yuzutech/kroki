@@ -232,12 +232,12 @@ try {
   const antoraComponentPath = ospath.join(rootDir, 'docs', 'antora.yml')
   const antoraComponentContent = await fs.readFile(antoraComponentPath, 'utf8')
   for (let line of antoraComponentContent.split('\n')) {
-    const found = line.match(/^\s+(?<name>[a-z]+)-version: '?(?<version>[^']+)'?$/)
+    const found = line.match(/^\s+(?<name>[a-z0-9]+)-version: '?(?<version>[^']+)'?$/)
     if (found) {
       const { name, version : versionFound } = found.groups
       const version = diagramLibraryVersions[name]
       if (versionFound !== version) {
-        line = line.replace(/(?<=^\s+(?<name>[a-z]+)-version: '?)(?<version>[^']+)/, version)
+        line = line.replace(/(?<=^\s+(?<name>[a-z0-9]+)-version: '?)(?<version>[^']+)/, version)
       }
     }
     antoraComponentLines.push(line)
