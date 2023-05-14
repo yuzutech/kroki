@@ -1,0 +1,2530 @@
+{
+  "name" : "Microsoft Azure",
+  "description" : "This theme includes element styles with icons for each of the Azure services, based upon the Microsoft Azure icon set (https://docs.microsoft.com/en-us/azure/architecture/icons/).",
+  "elements" : [ {
+    "tag" : "Microsoft Azure - Container Apps Environments",
+    "stroke" : "#9869eb",
+    "color" : "#9869eb",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02989-icon-service-Container-Apps-Environments.png"
+  }, {
+    "tag" : "Microsoft Azure - Controls Horizontal",
+    "stroke" : "#5e9624",
+    "color" : "#5e9624",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10790-icon-service-Controls-Horizontal.png"
+  }, {
+    "tag" : "Microsoft Azure - Tenant Status",
+    "stroke" : "#b31b1b",
+    "color" : "#b31b1b",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10342-icon-service-Tenant-Status.png"
+  }, {
+    "tag" : "Microsoft Azure - Intune App Protection",
+    "stroke" : "#32bedd",
+    "color" : "#32bedd",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10344-icon-service-Intune-App-Protection.png"
+  }, {
+    "tag" : "Microsoft Azure - Learn",
+    "stroke" : "#54aef0",
+    "color" : "#54aef0",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10816-icon-service-Learn.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Fileshares",
+    "stroke" : "#50e5ff",
+    "color" : "#50e5ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10400-icon-service-Azure-Fileshares.png"
+  }, {
+    "tag" : "Microsoft Azure - Web App + Database",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02515-icon-service-Web-App-%2B-Database.png"
+  }, {
+    "tag" : "Microsoft Azure - Image Templates",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02634-icon-service-Image-Templates.png"
+  }, {
+    "tag" : "Microsoft Azure - Data Lake Store Gen1",
+    "stroke" : "#005ba1",
+    "color" : "#005ba1",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10150-icon-service-Data-Lake-Store-Gen1.png"
+  }, {
+    "tag" : "Microsoft Azure - Private Link Services",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02209-icon-service-Private-Link-Services.png"
+  }, {
+    "tag" : "Microsoft Azure - Feature Previews",
+    "stroke" : "#86d633",
+    "color" : "#86d633",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10827-icon-service-Feature-Previews.png"
+  }, {
+    "tag" : "Microsoft Azure - Update Management Center",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02846-icon-service-Update-Management-Center.png"
+  }, {
+    "tag" : "Microsoft Azure - Activity Log",
+    "stroke" : "#54aef0",
+    "color" : "#54aef0",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00007-icon-service-Activity-Log.png"
+  }, {
+    "tag" : "Microsoft Azure - Load Balancer Hub",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02302-icon-service-Load-Balancer-Hub.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure AD Authentication Methods",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/03343-icon-service-Azure-AD-Authentication-Methods.png"
+  }, {
+    "tag" : "Microsoft Azure - Elastic SAN",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/03190-icon-service-Elastic-SAN.png"
+  }, {
+    "tag" : "Microsoft Azure - Automanaged VM",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02112-icon-service-Automanaged-VM.png"
+  }, {
+    "tag" : "Microsoft Azure - Resource Explorer",
+    "stroke" : "#ef7100",
+    "color" : "#ef7100",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10349-icon-service-Resource-Explorer.png"
+  }, {
+    "tag" : "Microsoft Azure - Reserved IP Addresses (Classic)",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10371-icon-service-Reserved-IP-Addresses-(Classic).png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Sentinel",
+    "stroke" : "#c3f1ff",
+    "color" : "#c3f1ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10248-icon-service-Azure-Sentinel.png"
+  }, {
+    "tag" : "Microsoft Azure - Elastic Job Agents",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10128-icon-service-Elastic-Job-Agents.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Chaos Studio",
+    "stroke" : "#a80000",
+    "color" : "#a80000",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02223-icon-service-Azure-Chaos-Studio.png"
+  }, {
+    "tag" : "Microsoft Azure - VM Images (Classic)",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10040-icon-service-VM-Images-(Classic).png"
+  }, {
+    "tag" : "Microsoft Azure - Host Pools",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00328-icon-service-Host-Pools.png"
+  }, {
+    "tag" : "Microsoft Azure - Logic Apps Custom Connector",
+    "stroke" : "#6dae2a",
+    "color" : "#6dae2a",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10363-icon-service-Logic-Apps-Custom-Connector.png"
+  }, {
+    "tag" : "Microsoft Azure - Media",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10854-icon-service-Media.png"
+  }, {
+    "tag" : "Microsoft Azure - Controls",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10789-icon-service-Controls.png"
+  }, {
+    "tag" : "Microsoft Azure - Managed Identities",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10227-icon-service-Managed-Identities.png"
+  }, {
+    "tag" : "Microsoft Azure - Bastions",
+    "stroke" : "#83b9f9",
+    "color" : "#83b9f9",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02422-icon-service-Bastions.png"
+  }, {
+    "tag" : "Microsoft Azure - Relays",
+    "stroke" : "#999999",
+    "color" : "#999999",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10209-icon-service-Relays.png"
+  }, {
+    "tag" : "Microsoft Azure - Edge Management",
+    "stroke" : "#579ded",
+    "color" : "#579ded",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10117-icon-service-Edge-Management.png"
+  }, {
+    "tag" : "Microsoft Azure - Key Vaults",
+    "stroke" : "#ffd70f",
+    "color" : "#ffd70f",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10245-icon-service-Key-Vaults.png"
+  }, {
+    "tag" : "Microsoft Azure - Container Instances",
+    "stroke" : "#a67af4",
+    "color" : "#a67af4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10104-icon-service-Container-Instances.png"
+  }, {
+    "tag" : "Microsoft Azure - Managed Desktop",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10311-icon-service-Managed-Desktop.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Storage Mover",
+    "stroke" : "#b14d95",
+    "color" : "#b14d95",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/03091-icon-service-Azure-Storage-Mover.png"
+  }, {
+    "tag" : "Microsoft Azure - Device Enrollment",
+    "stroke" : "#76bc2d",
+    "color" : "#76bc2d",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10337-icon-service-Device-Enrollment.png"
+  }, {
+    "tag" : "Microsoft Azure - Application Group",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00329-icon-service-Application-Group.png"
+  }, {
+    "tag" : "Microsoft Azure - Storage Tasks",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02909-icon-service-Storage-Tasks.png"
+  }, {
+    "tag" : "Microsoft Azure - ExtendedSecurityUpdates",
+    "stroke" : "#76bc2d",
+    "color" : "#76bc2d",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10572-icon-service-ExtendedSecurityUpdates.png"
+  }, {
+    "tag" : "Microsoft Azure - Local Network Gateways",
+    "stroke" : "#4aa599",
+    "color" : "#4aa599",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10077-icon-service-Local-Network-Gateways.png"
+  }, {
+    "tag" : "Microsoft Azure - Instance Pools",
+    "stroke" : "#777777",
+    "color" : "#777777",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10139-icon-service-Instance-Pools.png"
+  }, {
+    "tag" : "Microsoft Azure - Management Portal",
+    "stroke" : "#198ab3",
+    "color" : "#198ab3",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10820-icon-service-Management-Portal.png"
+  }, {
+    "tag" : "Microsoft Azure - Data Lake Storage Gen1",
+    "stroke" : "#005ba1",
+    "color" : "#005ba1",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10090-icon-service-Data-Lake-Storage-Gen1.png"
+  }, {
+    "tag" : "Microsoft Azure - Administrative Units",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00919-icon-service-Administrative-Units.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Applied AI Services",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02749-icon-service-Azure-Applied-AI-Services.png"
+  }, {
+    "tag" : "Microsoft Azure - Computer Vision",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00792-icon-service-Computer-Vision.png"
+  }, {
+    "tag" : "Microsoft Azure - Service Fabric Clusters",
+    "stroke" : "#e27908",
+    "color" : "#e27908",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10036-icon-service-Service-Fabric-Clusters.png"
+  }, {
+    "tag" : "Microsoft Azure - Event Hub Clusters",
+    "stroke" : "#76bc2d",
+    "color" : "#76bc2d",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10149-icon-service-Event-Hub-Clusters.png"
+  }, {
+    "tag" : "Microsoft Azure - Region Management",
+    "stroke" : "#9cebff",
+    "color" : "#9cebff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10116-icon-service-Region-Management.png"
+  }, {
+    "tag" : "Microsoft Azure - Ceres",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02828-icon-service-Ceres.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure AD Risky Users",
+    "stroke" : "#59b4d9",
+    "color" : "#59b4d9",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/03342-icon-service-Azure-AD-Risky-Users.png"
+  }, {
+    "tag" : "Microsoft Azure - Service Endpoint Policies",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10085-icon-service-Service-Endpoint-Policies.png"
+  }, {
+    "tag" : "Microsoft Azure - Spot VMSS",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02692-icon-service-Spot-VMSS.png"
+  }, {
+    "tag" : "Microsoft Azure - Batch Accounts",
+    "stroke" : "#83b9f9",
+    "color" : "#83b9f9",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10031-icon-service-Batch-Accounts.png"
+  }, {
+    "tag" : "Microsoft Azure - Savings Plans",
+    "stroke" : "#76bc2d",
+    "color" : "#76bc2d",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02880-icon-service-Savings-Plans.png"
+  }, {
+    "tag" : "Microsoft Azure - Diagnostics Settings",
+    "stroke" : "#5e9624",
+    "color" : "#5e9624",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00008-icon-service-Diagnostics-Settings.png"
+  }, {
+    "tag" : "Microsoft Azure - Private Link",
+    "stroke" : "#1490df",
+    "color" : "#1490df",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00427-icon-service-Private-Link.png"
+  }, {
+    "tag" : "Microsoft Azure - On Premises Data Gateways",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10070-icon-service-On-Premises-Data-Gateways.png"
+  }, {
+    "tag" : "Microsoft Azure - Event Grid Domains",
+    "stroke" : "#32bedd",
+    "color" : "#32bedd",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10215-icon-service-Event-Grid-Domains.png"
+  }, {
+    "tag" : "Microsoft Azure - Device Configuration",
+    "stroke" : "#5b9fee",
+    "color" : "#5b9fee",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10338-icon-service-Device-Configuration.png"
+  }, {
+    "tag" : "Microsoft Azure - Windows Notification Services",
+    "stroke" : "#ffb34d",
+    "color" : "#ffb34d",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02733-icon-service-Windows-Notification-Services.png"
+  }, {
+    "tag" : "Microsoft Azure - IoT Edge",
+    "stroke" : "#32d4f5",
+    "color" : "#32d4f5",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10186-icon-service-IoT-Edge.png"
+  }, {
+    "tag" : "Microsoft Azure - Intune For Education",
+    "stroke" : "#32bedd",
+    "color" : "#32bedd",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10343-icon-service-Intune-For-Education.png"
+  }, {
+    "tag" : "Microsoft Azure - Outbound Connection",
+    "stroke" : "#773adc",
+    "color" : "#773adc",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10364-icon-service-Outbound-Connection.png"
+  }, {
+    "tag" : "Microsoft Azure - Host Groups",
+    "stroke" : "#198ab3",
+    "color" : "#198ab3",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10346-icon-service-Host-Groups.png"
+  }, {
+    "tag" : "Microsoft Azure - Automation Accounts",
+    "stroke" : "#599eed",
+    "color" : "#599eed",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00022-icon-service-Automation-Accounts.png"
+  }, {
+    "tag" : "Microsoft Azure - Maintenance Configuration",
+    "stroke" : "#7a7a7a",
+    "color" : "#7a7a7a",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00195-icon-service-Maintenance-Configuration.png"
+  }, {
+    "tag" : "Microsoft Azure - DNS Private Resolver",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02882-icon-service-DNS-Private-Resolver.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure SQL Edge",
+    "stroke" : "#0072c6",
+    "color" : "#0072c6",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02750-icon-service-Azure-SQL-Edge.png"
+  }, {
+    "tag" : "Microsoft Azure - Journey Hub",
+    "stroke" : "#86d633",
+    "color" : "#86d633",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10814-icon-service-Journey-Hub.png"
+  }, {
+    "tag" : "Microsoft Azure - Device Security Apple",
+    "stroke" : "#dc92bf",
+    "color" : "#dc92bf",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00399-icon-service-Device-Security-Apple.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Deployment Environments",
+    "stroke" : "#3cd4c2",
+    "color" : "#3cd4c2",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/03251-icon-service-Azure-Deployment-Environments.png"
+  }, {
+    "tag" : "Microsoft Azure - Cost Analysis",
+    "stroke" : "#32bedd",
+    "color" : "#32bedd",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10792-icon-service-Cost-Analysis.png"
+  }, {
+    "tag" : "Microsoft Azure - Genomics Accounts",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10164-icon-service-Genomics-Accounts.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure AD Domain Services",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10222-icon-service-Azure-AD-Domain-Services.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure NetApp Files",
+    "stroke" : "#198ab3",
+    "color" : "#198ab3",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10096-icon-service-Azure-NetApp-Files.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure AD Identity Protection",
+    "stroke" : "#f78d1e",
+    "color" : "#f78d1e",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10231-icon-service-Azure-AD-Identity-Protection.png"
+  }, {
+    "tag" : "Microsoft Azure - App Services",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10035-icon-service-App-Services.png"
+  }, {
+    "tag" : "Microsoft Azure - Marketplace Management",
+    "stroke" : "#32bedd",
+    "color" : "#32bedd",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10112-icon-service-Marketplace-Management.png"
+  }, {
+    "tag" : "Microsoft Azure - Heart",
+    "stroke" : "#e62323",
+    "color" : "#e62323",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10811-icon-service-Heart.png"
+  }, {
+    "tag" : "Microsoft Azure - Cost Management and Billing",
+    "stroke" : "#ffca00",
+    "color" : "#ffca00",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00004-icon-service-Cost-Management-and-Billing.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Active Directory",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10221-icon-service-Azure-Active-Directory.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Spring Apps",
+    "stroke" : "#5fb832",
+    "color" : "#5fb832",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10370-icon-service-Azure-Spring-Apps.png"
+  }, {
+    "tag" : "Microsoft Azure - Cost Management",
+    "stroke" : "#74b92c",
+    "color" : "#74b92c",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10019-icon-service-Cost-Management.png"
+  }, {
+    "tag" : "Microsoft Azure - User Settings",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10433-icon-service-User-Settings.png"
+  }, {
+    "tag" : "Microsoft Azure - Peering Service",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00970-icon-service-Peering-Service.png"
+  }, {
+    "tag" : "Microsoft Azure - Log Streaming",
+    "stroke" : "#f78d1e",
+    "color" : "#f78d1e",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10819-icon-service-Log-Streaming.png"
+  }, {
+    "tag" : "Microsoft Azure - Powershell",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10825-icon-service-Powershell.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure VMware Solution",
+    "stroke" : "#76bc2d",
+    "color" : "#76bc2d",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/01219-icon-service-Azure-VMware-Solution.png"
+  }, {
+    "tag" : "Microsoft Azure - Help and Support",
+    "stroke" : "#767676",
+    "color" : "#767676",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10013-icon-service-Help-and-Support.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Network Function Manager Functions",
+    "stroke" : "#b796f9",
+    "color" : "#b796f9",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/01001-icon-service-Azure-Network-Function-Manager-Functions.png"
+  }, {
+    "tag" : "Microsoft Azure - Server Farm",
+    "stroke" : "#003067",
+    "color" : "#003067",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10835-icon-service-Server-Farm.png"
+  }, {
+    "tag" : "Microsoft Azure - Identity Governance",
+    "stroke" : "#32bedd",
+    "color" : "#32bedd",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10235-icon-service-Identity-Governance.png"
+  }, {
+    "tag" : "Microsoft Azure - Template Specs",
+    "stroke" : "#32bedd",
+    "color" : "#32bedd",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02340-icon-service-Template-Specs.png"
+  }, {
+    "tag" : "Microsoft Azure - Virtual Networks",
+    "stroke" : "#1490df",
+    "color" : "#1490df",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10061-icon-service-Virtual-Networks.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Database PostgreSQL Server Group",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02827-icon-service-Azure-Database-PostgreSQL-Server-Group.png"
+  }, {
+    "tag" : "Microsoft Azure - Kubernetes Services",
+    "stroke" : "#341a6e",
+    "color" : "#341a6e",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10023-icon-service-Kubernetes-Services.png"
+  }, {
+    "tag" : "Microsoft Azure - Industrial IoT",
+    "stroke" : "#a3a3a3",
+    "color" : "#a3a3a3",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02359-icon-service-Industrial-IoT.png"
+  }, {
+    "tag" : "Microsoft Azure - Subnet",
+    "stroke" : "#1490df",
+    "color" : "#1490df",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02742-icon-service-Subnet.png"
+  }, {
+    "tag" : "Microsoft Azure - Education",
+    "stroke" : "#773adc",
+    "color" : "#773adc",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00026-icon-service-Education.png"
+  }, {
+    "tag" : "Microsoft Azure - Service Catalog MAD",
+    "stroke" : "#773adc",
+    "color" : "#773adc",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00027-icon-service-Service-Catalog-MAD.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Stack Edge",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10095-icon-service-Azure-Stack-Edge.png"
+  }, {
+    "tag" : "Microsoft Azure - Web Application Firewall Policies(WAF)",
+    "stroke" : "#821010",
+    "color" : "#821010",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10362-icon-service-Web-Application-Firewall-Policies(WAF).png"
+  }, {
+    "tag" : "Microsoft Azure - Availability Sets",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10025-icon-service-Availability-Sets.png"
+  }, {
+    "tag" : "Microsoft Azure - Quickstart Center",
+    "stroke" : "#f78d1e",
+    "color" : "#f78d1e",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10010-icon-service-Quickstart-Center.png"
+  }, {
+    "tag" : "Microsoft Azure - Resource Guard",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02819-icon-service-Resource-Guard.png"
+  }, {
+    "tag" : "Microsoft Azure - HD Insight Clusters",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10142-icon-service-HD-Insight-Clusters.png"
+  }, {
+    "tag" : "Microsoft Azure - Network Security Perimeters",
+    "stroke" : "#ffbd02",
+    "color" : "#ffbd02",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02939-icon-service-Network-Security-Perimeters.png"
+  }, {
+    "tag" : "Microsoft Azure - Open Supply Chain Platform",
+    "stroke" : "#773adc",
+    "color" : "#773adc",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02602-icon-service-Open-Supply-Chain-Platform.png"
+  }, {
+    "tag" : "Microsoft Azure - Private Link Service",
+    "stroke" : "#1490df",
+    "color" : "#1490df",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/01105-icon-service-Private-Link-Service.png"
+  }, {
+    "tag" : "Microsoft Azure - Production Ready Database",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10829-icon-service-Production-Ready-Database.png"
+  }, {
+    "tag" : "Microsoft Azure - Solutions",
+    "stroke" : "#31d1f2",
+    "color" : "#31d1f2",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00021-icon-service-Solutions.png"
+  }, {
+    "tag" : "Microsoft Azure - Connected Cache",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02509-icon-service-Connected-Cache.png"
+  }, {
+    "tag" : "Microsoft Azure - FHIR Service",
+    "stroke" : "#a3a3a3",
+    "color" : "#a3a3a3",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02658-icon-service-FHIR-Service.png"
+  }, {
+    "tag" : "Microsoft Azure - Container Services (Deprecated)",
+    "stroke" : "#341a6e",
+    "color" : "#341a6e",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10049-icon-service-Container-Services-(Deprecated).png"
+  }, {
+    "tag" : "Microsoft Azure - Mobile Engagement",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10823-icon-service-Mobile-Engagement.png"
+  }, {
+    "tag" : "Microsoft Azure - Mobile",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10822-icon-service-Mobile.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Experimentation Studio",
+    "stroke" : "#552f99",
+    "color" : "#552f99",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/01239-icon-service-Azure-Experimentation-Studio.png"
+  }, {
+    "tag" : "Microsoft Azure - Storage Accounts",
+    "stroke" : "#37c2b1",
+    "color" : "#37c2b1",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10086-icon-service-Storage-Accounts.png"
+  }, {
+    "tag" : "Microsoft Azure - Front Door and CDN Profiles",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10073-icon-service-Front-Door-and-CDN-Profiles.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Backup Center",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02360-icon-service-Azure-Backup-Center.png"
+  }, {
+    "tag" : "Microsoft Azure - Resource Group List",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10830-icon-service-Resource-Group-List.png"
+  }, {
+    "tag" : "Microsoft Azure - Network Managers",
+    "stroke" : "#1490df",
+    "color" : "#1490df",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02237-icon-service-Network-Managers.png"
+  }, {
+    "tag" : "Microsoft Azure - Connections",
+    "stroke" : "#5e9624",
+    "color" : "#5e9624",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10081-icon-service-Connections.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Edge Hardware Center",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02810-icon-service-Azure-Edge-Hardware-Center.png"
+  }, {
+    "tag" : "Microsoft Azure - OS Images (Classic)",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10027-icon-service-OS-Images-(Classic).png"
+  }, {
+    "tag" : "Microsoft Azure - Web Test",
+    "stroke" : "#3cd4c2",
+    "color" : "#3cd4c2",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10850-icon-service-Web-Test.png"
+  }, {
+    "tag" : "Microsoft Azure - Custom Azure AD Roles",
+    "stroke" : "#f78d1e",
+    "color" : "#f78d1e",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02680-icon-service-Custom-Azure-AD-Roles.png"
+  }, {
+    "tag" : "Microsoft Azure - Endpoint Analytics",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00562-icon-service-Endpoint-Analytics.png"
+  }, {
+    "tag" : "Microsoft Azure - Partner Registration",
+    "stroke" : "#773adc",
+    "color" : "#773adc",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02265-icon-service-Partner-Registration.png"
+  }, {
+    "tag" : "Microsoft Azure - Detonation",
+    "stroke" : "#a3a3a3",
+    "color" : "#a3a3a3",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00378-icon-service-Detonation.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Firewall Policy",
+    "stroke" : "#821010",
+    "color" : "#821010",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00272-icon-service-Azure-Firewall-Policy.png"
+  }, {
+    "tag" : "Microsoft Azure - Capacity Reservation Groups",
+    "stroke" : "#a33a85",
+    "color" : "#a33a85",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02732-icon-service-Capacity-Reservation-Groups.png"
+  }, {
+    "tag" : "Microsoft Azure - Video Analyzers",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00712-icon-service-Video-Analyzers.png"
+  }, {
+    "tag" : "Microsoft Azure - Recent",
+    "stroke" : "#7a7a7a",
+    "color" : "#7a7a7a",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10006-icon-service-Recent.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure API for FHIR",
+    "stroke" : "#ffe452",
+    "color" : "#ffe452",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10212-icon-service-Azure-API-for-FHIR.png"
+  }, {
+    "tag" : "Microsoft Azure - ExpressRoute Circuits",
+    "stroke" : "#a67af4",
+    "color" : "#a67af4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10079-icon-service-ExpressRoute-Circuits.png"
+  }, {
+    "tag" : "Microsoft Azure - Security Center",
+    "stroke" : "#76bc2d",
+    "color" : "#76bc2d",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10241-icon-service-Security-Center.png"
+  }, {
+    "tag" : "Microsoft Azure - Input Output",
+    "stroke" : "#999999",
+    "color" : "#999999",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10813-icon-service-Input-Output.png"
+  }, {
+    "tag" : "Microsoft Azure - DNS Zones",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10064-icon-service-DNS-Zones.png"
+  }, {
+    "tag" : "Microsoft Azure - Express Route Traffic Collector",
+    "stroke" : "#6536c1",
+    "color" : "#6536c1",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/03137-icon-service-Express-Route-Traffic-Collector.png"
+  }, {
+    "tag" : "Microsoft Azure - Network Interfaces",
+    "stroke" : "#365615",
+    "color" : "#365615",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10080-icon-service-Network-Interfaces.png"
+  }, {
+    "tag" : "Microsoft Azure - Time Series Data Sets",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10198-icon-service-Time-Series-Data-Sets.png"
+  }, {
+    "tag" : "Microsoft Azure - Virtual Router",
+    "stroke" : "#9cebff",
+    "color" : "#9cebff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02496-icon-service-Virtual-Router.png"
+  }, {
+    "tag" : "Microsoft Azure - Device Update IoT Hub",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02475-icon-service-Device-Update-IoT-Hub.png"
+  }, {
+    "tag" : "Microsoft Azure - QnA Makers",
+    "stroke" : "#40d1ed",
+    "color" : "#40d1ed",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00799-icon-service-QnA-Makers.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Monitor Dashboard",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02488-icon-service-Azure-Monitor-Dashboard.png"
+  }, {
+    "tag" : "Microsoft Azure - Biz Talk",
+    "stroke" : "#005ba1",
+    "color" : "#005ba1",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10779-icon-service-Biz-Talk.png"
+  }, {
+    "tag" : "Microsoft Azure - Speech Services",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00797-icon-service-Speech-Services.png"
+  }, {
+    "tag" : "Microsoft Azure - Reserved Capacity",
+    "stroke" : "#dc93c0",
+    "color" : "#dc93c0",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02638-icon-service-Reserved-Capacity.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Hybrid Center",
+    "stroke" : "#005ba1",
+    "color" : "#005ba1",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02573-icon-service-Azure-Hybrid-Center.png"
+  }, {
+    "tag" : "Microsoft Azure - Download",
+    "stroke" : "#1490df",
+    "color" : "#1490df",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10797-icon-service-Download.png"
+  }, {
+    "tag" : "Microsoft Azure - Troubleshoot",
+    "stroke" : "#31d1f2",
+    "color" : "#31d1f2",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10341-icon-service-Troubleshoot.png"
+  }, {
+    "tag" : "Microsoft Azure - Form Recognizers",
+    "stroke" : "#83b9f9",
+    "color" : "#83b9f9",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00819-icon-service-Form-Recognizers.png"
+  }, {
+    "tag" : "Microsoft Azure - Extensions",
+    "stroke" : "#773adc",
+    "color" : "#773adc",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10799-icon-service-Extensions.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Databricks",
+    "stroke" : "#ff3621",
+    "color" : "#ff3621",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10787-icon-service-Azure-Databricks.png"
+  }, {
+    "tag" : "Microsoft Azure - Folder Blank",
+    "stroke" : "#ffd100",
+    "color" : "#ffd100",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10802-icon-service-Folder-Blank.png"
+  }, {
+    "tag" : "Microsoft Azure - Azurite",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02842-icon-service-Azurite.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Lighthouse",
+    "stroke" : "#83b9f9",
+    "color" : "#83b9f9",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00471-icon-service-Azure-Lighthouse.png"
+  }, {
+    "tag" : "Microsoft Azure - Connected Vehicle Platform",
+    "stroke" : "#32bedd",
+    "color" : "#32bedd",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02573-icon-service-Connected-Vehicle-Platform.png"
+  }, {
+    "tag" : "Microsoft Azure - ExpressRoute Direct",
+    "stroke" : "#773adc",
+    "color" : "#773adc",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00903-icon-service-ExpressRoute-Direct.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Workbooks",
+    "stroke" : "#188de6",
+    "color" : "#188de6",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02189-icon-service-Azure-Workbooks.png"
+  }, {
+    "tag" : "Microsoft Azure - Location",
+    "stroke" : "#9cebff",
+    "color" : "#9cebff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10818-icon-service-Location.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Media Service",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10309-icon-service-Azure-Media-Service.png"
+  }, {
+    "tag" : "Microsoft Azure - Cubes",
+    "stroke" : "#76bc2d",
+    "color" : "#76bc2d",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10795-icon-service-Cubes.png"
+  }, {
+    "tag" : "Microsoft Azure - Machine Learning Studio Workspaces",
+    "stroke" : "#83b9f9",
+    "color" : "#83b9f9",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10167-icon-service-Machine-Learning-Studio-Workspaces.png"
+  }, {
+    "tag" : "Microsoft Azure - Keys",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00787-icon-service-Keys.png"
+  }, {
+    "tag" : "Microsoft Azure - Storage Explorer",
+    "stroke" : "#005ba1",
+    "color" : "#005ba1",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10091-icon-service-Storage-Explorer.png"
+  }, {
+    "tag" : "Microsoft Azure - Traffic Manager Profiles",
+    "stroke" : "#6f4bb2",
+    "color" : "#6f4bb2",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10065-icon-service-Traffic-Manager-Profiles.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure SQL Server Stretch Databases",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10137-icon-service-Azure-SQL-Server-Stretch-Databases.png"
+  }, {
+    "tag" : "Microsoft Azure - API Proxy",
+    "stroke" : "#3cd4c2",
+    "color" : "#3cd4c2",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02386-icon-service-API-Proxy.png"
+  }, {
+    "tag" : "Microsoft Azure - Users",
+    "stroke" : "#32d4f5",
+    "color" : "#32d4f5",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10230-icon-service-Users.png"
+  }, {
+    "tag" : "Microsoft Azure - Exchange On Premises Access",
+    "stroke" : "#5a9eee",
+    "color" : "#5a9eee",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10334-icon-service-Exchange-On-Premises-Access.png"
+  }, {
+    "tag" : "Microsoft Azure - Software as a Service",
+    "stroke" : "#959595",
+    "color" : "#959595",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10213-icon-service-Software-as-a-Service.png"
+  }, {
+    "tag" : "Microsoft Azure - Blockchain Applications",
+    "stroke" : "#b796f9",
+    "color" : "#b796f9",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10210-icon-service-Blockchain-Applications.png"
+  }, {
+    "tag" : "Microsoft Azure - Machine Learning Studio Web Service Plans",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10168-icon-service-Machine-Learning-Studio-Web-Service-Plans.png"
+  }, {
+    "tag" : "Microsoft Azure - Client Apps",
+    "stroke" : "#5a9eee",
+    "color" : "#5a9eee",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10331-icon-service-Client-Apps.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Migrate",
+    "stroke" : "#31d1f3",
+    "color" : "#31d1f3",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10281-icon-service-Azure-Migrate.png"
+  }, {
+    "tag" : "Microsoft Azure - Public IP Addresses (Classic)",
+    "stroke" : "#32d4f5",
+    "color" : "#32d4f5",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10068-icon-service-Public-IP-Addresses-(Classic).png"
+  }, {
+    "tag" : "Microsoft Azure - Blob Page",
+    "stroke" : "#198ab3",
+    "color" : "#198ab3",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10781-icon-service-Blob-Page.png"
+  }, {
+    "tag" : "Microsoft Azure - Custom IP Prefix",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02654-icon-service-Custom-IP-Prefix.png"
+  }, {
+    "tag" : "Microsoft Azure - Security Baselines",
+    "stroke" : "#9cebff",
+    "color" : "#9cebff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10336-icon-service-Security-Baselines.png"
+  }, {
+    "tag" : "Microsoft Azure - Language",
+    "stroke" : "#faa21d",
+    "color" : "#faa21d",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02876-icon-service-Language.png"
+  }, {
+    "tag" : "Microsoft Azure - Files",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10801-icon-service-Files.png"
+  }, {
+    "tag" : "Microsoft Azure - TFS VC Repository",
+    "stroke" : "#773adc",
+    "color" : "#773adc",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10843-icon-service-TFS-VC-Repository.png"
+  }, {
+    "tag" : "Microsoft Azure - Event Grid Topics",
+    "stroke" : "#a3a3a3",
+    "color" : "#a3a3a3",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10206-icon-service-Event-Grid-Topics.png"
+  }, {
+    "tag" : "Microsoft Azure - Search Grid",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10856-icon-service-Search-Grid.png"
+  }, {
+    "tag" : "Microsoft Azure - Sonic Dash",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02922-icon-service-Sonic-Dash.png"
+  }, {
+    "tag" : "Microsoft Azure - IoT Hub",
+    "stroke" : "#32d4f5",
+    "color" : "#32d4f5",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10182-icon-service-IoT-Hub.png"
+  }, {
+    "tag" : "Microsoft Azure - Virtual WAN Hub",
+    "stroke" : "#86d633",
+    "color" : "#86d633",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00860-icon-service-Virtual-WAN-Hub.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Quotas",
+    "stroke" : "#b4ec36",
+    "color" : "#b4ec36",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02951-icon-service-Azure-Quotas.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Blockchain Service",
+    "stroke" : "#b796f9",
+    "color" : "#b796f9",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10366-icon-service-Azure-Blockchain-Service.png"
+  }, {
+    "tag" : "Microsoft Azure - Virtual Machines (Classic)",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10028-icon-service-Virtual-Machines-(Classic).png"
+  }, {
+    "tag" : "Microsoft Azure - Preview Features",
+    "stroke" : "#86d633",
+    "color" : "#86d633",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00456-icon-service-Preview-Features.png"
+  }, {
+    "tag" : "Microsoft Azure - SignalR",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10052-icon-service-SignalR.png"
+  }, {
+    "tag" : "Microsoft Azure - Private Endpoints",
+    "stroke" : "#1490df",
+    "color" : "#1490df",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02579-icon-service-Private-Endpoints.png"
+  }, {
+    "tag" : "Microsoft Azure - Website Power",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10847-icon-service-Website-Power.png"
+  }, {
+    "tag" : "Microsoft Azure - Storage Sync Services",
+    "stroke" : "#003067",
+    "color" : "#003067",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10093-icon-service-Storage-Sync-Services.png"
+  }, {
+    "tag" : "Microsoft Azure - Auto Scale",
+    "stroke" : "#76bc2d",
+    "color" : "#76bc2d",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10832-icon-service-Auto-Scale.png"
+  }, {
+    "tag" : "Microsoft Azure - Security",
+    "stroke" : "#5a9fee",
+    "color" : "#5a9fee",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00321-icon-service-Security.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Object Understanding",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/01688-icon-service-Azure-Object-Understanding.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Purview Accounts",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02517-icon-service-Azure-Purview-Accounts.png"
+  }, {
+    "tag" : "Microsoft Azure - Globe Success",
+    "stroke" : "#a3a3a3",
+    "color" : "#a3a3a3",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10808-icon-service-Globe-Success.png"
+  }, {
+    "tag" : "Microsoft Azure - Lab Services",
+    "stroke" : "#3c91e5",
+    "color" : "#3c91e5",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10265-icon-service-Lab-Services.png"
+  }, {
+    "tag" : "Microsoft Azure - Scheduler Job Collections",
+    "stroke" : "#a3a3a3",
+    "color" : "#a3a3a3",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00010-icon-service-Scheduler-Job-Collections.png"
+  }, {
+    "tag" : "Microsoft Azure - App Service Domains",
+    "stroke" : "#32d4f5",
+    "color" : "#32d4f5",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00050-icon-service-App-Service-Domains.png"
+  }, {
+    "tag" : "Microsoft Azure - Central Service Instance For SAP",
+    "stroke" : "#0077d2",
+    "color" : "#0077d2",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/03092-icon-service-Central-Service-Instance-For-SAP.png"
+  }, {
+    "tag" : "Microsoft Azure - Consortium",
+    "stroke" : "#5e9624",
+    "color" : "#5e9624",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10375-icon-service-Consortium.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Database MySQL Server",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10122-icon-service-Azure-Database-MySQL-Server.png"
+  }, {
+    "tag" : "Microsoft Azure - Marketplace",
+    "stroke" : "#32bedd",
+    "color" : "#32bedd",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10008-icon-service-Marketplace.png"
+  }, {
+    "tag" : "Microsoft Azure - CloudTest",
+    "stroke" : "#005ba1",
+    "color" : "#005ba1",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02373-icon-service-CloudTest.png"
+  }, {
+    "tag" : "Microsoft Azure - Folder Website",
+    "stroke" : "#dfa500",
+    "color" : "#dfa500",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10803-icon-service-Folder-Website.png"
+  }, {
+    "tag" : "Microsoft Azure - API Connections",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10048-icon-service-API-Connections.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure AD Roles and Administrators",
+    "stroke" : "#9cebff",
+    "color" : "#9cebff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10340-icon-service-Azure-AD-Roles-and-Administrators.png"
+  }, {
+    "tag" : "Microsoft Azure - Image",
+    "stroke" : "#b4ec36",
+    "color" : "#b4ec36",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10812-icon-service-Image.png"
+  }, {
+    "tag" : "Microsoft Azure - IoT Central Applications",
+    "stroke" : "#a3a3a3",
+    "color" : "#a3a3a3",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10184-icon-service-IoT-Central-Applications.png"
+  }, {
+    "tag" : "Microsoft Azure - App Service Plans",
+    "stroke" : "#003067",
+    "color" : "#003067",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00046-icon-service-App-Service-Plans.png"
+  }, {
+    "tag" : "Microsoft Azure - Disks (Classic)",
+    "stroke" : "#76bc2d",
+    "color" : "#76bc2d",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10041-icon-service-Disks-(Classic).png"
+  }, {
+    "tag" : "Microsoft Azure - StorSimple Data Managers",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10092-icon-service-StorSimple-Data-Managers.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure HPC Workbenches",
+    "stroke" : "#1b93eb",
+    "color" : "#1b93eb",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02518-icon-service-Azure-HPC-Workbenches.png"
+  }, {
+    "tag" : "Microsoft Azure - Virtual WANs",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10353-icon-service-Virtual-WANs.png"
+  }, {
+    "tag" : "Microsoft Azure - Mission Landing Zone",
+    "stroke" : "#5e9624",
+    "color" : "#5e9624",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02793-icon-service-Mission-Landing-Zone.png"
+  }, {
+    "tag" : "Microsoft Azure - Managed Service Fabric",
+    "stroke" : "#e27908",
+    "color" : "#e27908",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02370-icon-service-Managed-Service-Fabric.png"
+  }, {
+    "tag" : "Microsoft Azure - Time Series Insights Environments",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10181-icon-service-Time-Series-Insights-Environments.png"
+  }, {
+    "tag" : "Microsoft Azure - Devices",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10332-icon-service-Devices.png"
+  }, {
+    "tag" : "Microsoft Azure - Customer Lockbox for Microsoft Azure",
+    "stroke" : "#32bedd",
+    "color" : "#32bedd",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10314-icon-service-Customer-Lockbox-for-Microsoft-Azure.png"
+  }, {
+    "tag" : "Microsoft Azure - Cost Export",
+    "stroke" : "#86d633",
+    "color" : "#86d633",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00913-icon-service-Cost-Export.png"
+  }, {
+    "tag" : "Microsoft Azure - Exchange Access",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10339-icon-service-Exchange-Access.png"
+  }, {
+    "tag" : "Microsoft Azure - Firewalls",
+    "stroke" : "#821010",
+    "color" : "#821010",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10084-icon-service-Firewalls.png"
+  }, {
+    "tag" : "Microsoft Azure - Device Provisioning Services",
+    "stroke" : "#32bedd",
+    "color" : "#32bedd",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10369-icon-service-Device-Provisioning-Services.png"
+  }, {
+    "tag" : "Microsoft Azure - Image Versions",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10038-icon-service-Image-Versions.png"
+  }, {
+    "tag" : "Microsoft Azure - SSIS Lift And Shift IR",
+    "stroke" : "#003067",
+    "color" : "#003067",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02392-icon-service-SSIS-Lift-And-Shift-IR.png"
+  }, {
+    "tag" : "Microsoft Azure - Dedicated HSM",
+    "stroke" : "#ffd70f",
+    "color" : "#ffd70f",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02322-icon-service-Dedicated-HSM.png"
+  }, {
+    "tag" : "Microsoft Azure - Restore Points Collections",
+    "stroke" : "#005ba1",
+    "color" : "#005ba1",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02818-icon-service-Restore-Points-Collections.png"
+  }, {
+    "tag" : "Microsoft Azure - User Subscriptions",
+    "stroke" : "#32d4f5",
+    "color" : "#32d4f5",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10111-icon-service-User-Subscriptions.png"
+  }, {
+    "tag" : "Microsoft Azure - Intune Trends",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00408-icon-service-Intune-Trends.png"
+  }, {
+    "tag" : "Microsoft Azure - Search",
+    "stroke" : "#198ab3",
+    "color" : "#198ab3",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10834-icon-service-Search.png"
+  }, {
+    "tag" : "Microsoft Azure - Windows10 Core Services",
+    "stroke" : "#86d633",
+    "color" : "#86d633",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10203-icon-service-Windows10-Core-Services.png"
+  }, {
+    "tag" : "Microsoft Azure - Peerings",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/01285-icon-service-Peerings.png"
+  }, {
+    "tag" : "Microsoft Azure - Restore Points",
+    "stroke" : "#86d633",
+    "color" : "#86d633",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02817-icon-service-Restore-Points.png"
+  }, {
+    "tag" : "Microsoft Azure - Event Grid Subscriptions",
+    "stroke" : "#32bedd",
+    "color" : "#32bedd",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10221-icon-service-Event-Grid-Subscriptions.png"
+  }, {
+    "tag" : "Microsoft Azure - SendGrid Accounts",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10220-icon-service-SendGrid-Accounts.png"
+  }, {
+    "tag" : "Microsoft Azure - Machine Learning",
+    "stroke" : "#198ab3",
+    "color" : "#198ab3",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10166-icon-service-Machine-Learning.png"
+  }, {
+    "tag" : "Microsoft Azure - Integration Service Environments",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00555-icon-service-Integration-Service-Environments.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Database Migration Services",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10133-icon-service-Azure-Database-Migration-Services.png"
+  }, {
+    "tag" : "Microsoft Azure - Public IP Addresses",
+    "stroke" : "#32d4f5",
+    "color" : "#32d4f5",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10069-icon-service-Public-IP-Addresses.png"
+  }, {
+    "tag" : "Microsoft Azure - Notification Hubs",
+    "stroke" : "#ffe452",
+    "color" : "#ffe452",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10045-icon-service-Notification-Hubs.png"
+  }, {
+    "tag" : "Microsoft Azure - VM App Versions",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02806-icon-service-VM-App-Versions.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Synapse Analytics",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00606-icon-service-Azure-Synapse-Analytics.png"
+  }, {
+    "tag" : "Microsoft Azure - Application Insights",
+    "stroke" : "#624fd0",
+    "color" : "#624fd0",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00012-icon-service-Application-Insights.png"
+  }, {
+    "tag" : "Microsoft Azure - SSD",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10837-icon-service-SSD.png"
+  }, {
+    "tag" : "Microsoft Azure - Data Share Invitations",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10097-icon-service-Data-Share-Invitations.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Center for SAP",
+    "stroke" : "#32bedd",
+    "color" : "#32bedd",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/03090-icon-service-Azure-Center-for-SAP.png"
+  }, {
+    "tag" : "Microsoft Azure - Media File",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10821-icon-service-Media-File.png"
+  }, {
+    "tag" : "Microsoft Azure - Application Gateways",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10076-icon-service-Application-Gateways.png"
+  }, {
+    "tag" : "Microsoft Azure - Alerts",
+    "stroke" : "#629c25",
+    "color" : "#629c25",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00002-icon-service-Alerts.png"
+  }, {
+    "tag" : "Microsoft Azure - File",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10800-icon-service-File.png"
+  }, {
+    "tag" : "Microsoft Azure - Image Definitions",
+    "stroke" : "#c3f1ff",
+    "color" : "#c3f1ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10037-icon-service-Image-Definitions.png"
+  }, {
+    "tag" : "Microsoft Azure - Counter",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10794-icon-service-Counter.png"
+  }, {
+    "tag" : "Microsoft Azure - Resource Graph Explorer",
+    "stroke" : "#b796f9",
+    "color" : "#b796f9",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10318-icon-service-Resource-Graph-Explorer.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Service Bus",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10836-icon-service-Azure-Service-Bus.png"
+  }, {
+    "tag" : "Microsoft Azure - Time Series Insights Access Policies",
+    "stroke" : "#ffd70f",
+    "color" : "#ffd70f",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10192-icon-service-Time-Series-Insights-Access-Policies.png"
+  }, {
+    "tag" : "Microsoft Azure - Batch AI",
+    "stroke" : "#1b93eb",
+    "color" : "#1b93eb",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00028-icon-service-Batch-AI.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Support Center Blue",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02507-icon-service-Azure-Support-Center-Blue.png"
+  }, {
+    "tag" : "Microsoft Azure - Versions",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10845-icon-service-Versions.png"
+  }, {
+    "tag" : "Microsoft Azure - VM Image Version",
+    "stroke" : "#c3f1ff",
+    "color" : "#c3f1ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02866-icon-service-VM-Image-Version.png"
+  }, {
+    "tag" : "Microsoft Azure - Load Balancers",
+    "stroke" : "#b4ec36",
+    "color" : "#b4ec36",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10062-icon-service-Load-Balancers.png"
+  }, {
+    "tag" : "Microsoft Azure - App Configuration",
+    "stroke" : "#76bc2d",
+    "color" : "#76bc2d",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10219-icon-service-App-Configuration.png"
+  }, {
+    "tag" : "Microsoft Azure - VM Scale Sets",
+    "stroke" : "#005ba1",
+    "color" : "#005ba1",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10034-icon-service-VM-Scale-Sets.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Virtual Desktop",
+    "stroke" : "#005ba1",
+    "color" : "#005ba1",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00327-icon-service-Azure-Virtual-Desktop.png"
+  }, {
+    "tag" : "Microsoft Azure - eBooks",
+    "stroke" : "#005ba1",
+    "color" : "#005ba1",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10330-icon-service-eBooks.png"
+  }, {
+    "tag" : "Microsoft Azure - DevTest Labs",
+    "stroke" : "#552f99",
+    "color" : "#552f99",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10264-icon-service-DevTest-Labs.png"
+  }, {
+    "tag" : "Microsoft Azure - Change Analysis",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00563-icon-service-Change-Analysis.png"
+  }, {
+    "tag" : "Microsoft Azure - Verifiable Credentials",
+    "stroke" : "#b796f9",
+    "color" : "#b796f9",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/01084-icon-service-Verifiable-Credentials.png"
+  }, {
+    "tag" : "Microsoft Azure - Targets Management",
+    "stroke" : "#82bbff",
+    "color" : "#82bbff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02908-icon-service-Targets-Management.png"
+  }, {
+    "tag" : "Microsoft Azure - Device Compliance",
+    "stroke" : "#76bc2d",
+    "color" : "#76bc2d",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10333-icon-service-Device-Compliance.png"
+  }, {
+    "tag" : "Microsoft Azure - ABS Member",
+    "stroke" : "#b796f9",
+    "color" : "#b796f9",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10374-icon-service-ABS-Member.png"
+  }, {
+    "tag" : "Microsoft Azure - Disks",
+    "stroke" : "#76bc2d",
+    "color" : "#76bc2d",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10032-icon-service-Disks.png"
+  }, {
+    "tag" : "Microsoft Azure - Import Export Jobs",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10100-icon-service-Import-Export-Jobs.png"
+  }, {
+    "tag" : "Microsoft Azure - Resource Mover",
+    "stroke" : "#9cebff",
+    "color" : "#9cebff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02200-icon-service-Resource-Mover.png"
+  }, {
+    "tag" : "Microsoft Azure - Virtual Visits Builder",
+    "stroke" : "#773adc",
+    "color" : "#773adc",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02949-icon-service-Virtual-Visits-Builder.png"
+  }, {
+    "tag" : "Microsoft Azure - Load Testing",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02423-icon-service-Load-Testing.png"
+  }, {
+    "tag" : "Microsoft Azure - Commit",
+    "stroke" : "#a67af4",
+    "color" : "#a67af4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10788-icon-service-Commit.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Databox Gateway",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00691-icon-service-Azure-Databox-Gateway.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure DevOps",
+    "stroke" : "#509aeb",
+    "color" : "#509aeb",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10261-icon-service-Azure-DevOps.png"
+  }, {
+    "tag" : "Microsoft Azure - Code",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10787-icon-service-Code.png"
+  }, {
+    "tag" : "Microsoft Azure - Managed Applications Center",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10313-icon-service-Managed-Applications-Center.png"
+  }, {
+    "tag" : "Microsoft Azure - Infrastructure Backup",
+    "stroke" : "#003067",
+    "color" : "#003067",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10108-icon-service-Infrastructure-Backup.png"
+  }, {
+    "tag" : "Microsoft Azure - Templates",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10009-icon-service-Templates.png"
+  }, {
+    "tag" : "Microsoft Azure - Static Apps",
+    "stroke" : "#005ba1",
+    "color" : "#005ba1",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/01007-icon-service-Static-Apps.png"
+  }, {
+    "tag" : "Microsoft Azure - Worker Container App",
+    "stroke" : "#32bedd",
+    "color" : "#32bedd",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02884-icon-service-Worker-Container-App.png"
+  }, {
+    "tag" : "Microsoft Azure - Workbooks",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10851-icon-service-Workbooks.png"
+  }, {
+    "tag" : "Microsoft Azure - SQL Database",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10130-icon-service-SQL-Database.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Managed Grafana",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02905-icon-service-Azure-Managed-Grafana.png"
+  }, {
+    "tag" : "Microsoft Azure - Cloud Services (Classic)",
+    "stroke" : "#1a83dc",
+    "color" : "#1a83dc",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10030-icon-service-Cloud-Services-(Classic).png"
+  }, {
+    "tag" : "Microsoft Azure - Cost Budgets",
+    "stroke" : "#76bc2d",
+    "color" : "#76bc2d",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10793-icon-service-Cost-Budgets.png"
+  }, {
+    "tag" : "Microsoft Azure - Toolbox",
+    "stroke" : "#9cebff",
+    "color" : "#9cebff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10844-icon-service-Toolbox.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Stack",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10114-icon-service-Azure-Stack.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Database PostgreSQL Server",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10131-icon-service-Azure-Database-PostgreSQL-Server.png"
+  }, {
+    "tag" : "Microsoft Azure - SSH Keys",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00412-icon-service-SSH-Keys.png"
+  }, {
+    "tag" : "Microsoft Azure - Tags",
+    "stroke" : "#773adc",
+    "color" : "#773adc",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10842-icon-service-Tags.png"
+  }, {
+    "tag" : "Microsoft Azure - VM App Definitions",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02805-icon-service-VM-App-Definitions.png"
+  }, {
+    "tag" : "Microsoft Azure - Shared Image Galleries",
+    "stroke" : "#32bedd",
+    "color" : "#32bedd",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10039-icon-service-Shared-Image-Galleries.png"
+  }, {
+    "tag" : "Microsoft Azure - SCVMM Management Servers",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02503-icon-service-SCVMM-Management-Servers.png"
+  }, {
+    "tag" : "Microsoft Azure - Network Watcher",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10066-icon-service-Network-Watcher.png"
+  }, {
+    "tag" : "Microsoft Azure - Personalizers",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00796-icon-service-Personalizers.png"
+  }, {
+    "tag" : "Microsoft Azure - Process Explorer",
+    "stroke" : "#1490df",
+    "color" : "#1490df",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10828-icon-service-Process-Explorer.png"
+  }, {
+    "tag" : "Microsoft Azure - Cognitive Search",
+    "stroke" : "#83b9f9",
+    "color" : "#83b9f9",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10044-icon-service-Cognitive-Search.png"
+  }, {
+    "tag" : "Microsoft Azure - Tenant Properties",
+    "stroke" : "#005ba1",
+    "color" : "#005ba1",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02679-icon-service-Tenant-Properties.png"
+  }, {
+    "tag" : "Microsoft Azure - Data Shares",
+    "stroke" : "#32bedd",
+    "color" : "#32bedd",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10098-icon-service-Data-Shares.png"
+  }, {
+    "tag" : "Microsoft Azure - App Service Certificates",
+    "stroke" : "#ffb34d",
+    "color" : "#ffb34d",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00049-icon-service-App-Service-Certificates.png"
+  }, {
+    "tag" : "Microsoft Azure - Operation Log (Classic)",
+    "stroke" : "#54aef0",
+    "color" : "#54aef0",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00024-icon-service-Operation-Log-(Classic).png"
+  }, {
+    "tag" : "Microsoft Azure - Mesh Applications",
+    "stroke" : "#f78d1e",
+    "color" : "#f78d1e",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10024-icon-service-Mesh-Applications.png"
+  }, {
+    "tag" : "Microsoft Azure - Route Tables",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10082-icon-service-Route-Tables.png"
+  }, {
+    "tag" : "Microsoft Azure - SQL Data Warehouses",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00036-icon-service-SQL-Data-Warehouses.png"
+  }, {
+    "tag" : "Microsoft Azure - Log Analytics Query Pack",
+    "stroke" : "#773adc",
+    "color" : "#773adc",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/01085-icon-service-Log-Analytics-Query-Pack.png"
+  }, {
+    "tag" : "Microsoft Azure - CDN Profiles",
+    "stroke" : "#a3a3a3",
+    "color" : "#a3a3a3",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00056-icon-service-CDN-Profiles.png"
+  }, {
+    "tag" : "Microsoft Azure - Blob Block",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10780-icon-service-Blob-Block.png"
+  }, {
+    "tag" : "Microsoft Azure - Policy",
+    "stroke" : "#32bedd",
+    "color" : "#32bedd",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10316-icon-service-Policy.png"
+  }, {
+    "tag" : "Microsoft Azure - Cache Redis",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10137-icon-service-Cache-Redis.png"
+  }, {
+    "tag" : "Microsoft Azure - Virtual Machine",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10021-icon-service-Virtual-Machine.png"
+  }, {
+    "tag" : "Microsoft Azure - Internet Analyzer Profiles",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00469-icon-service-Internet-Analyzer-Profiles.png"
+  }, {
+    "tag" : "Microsoft Azure - App Service Environments",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10047-icon-service-App-Service-Environments.png"
+  }, {
+    "tag" : "Microsoft Azure - Virtual Network Gateways",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10063-icon-service-Virtual-Network-Gateways.png"
+  }, {
+    "tag" : "Microsoft Azure - Partner Topic",
+    "stroke" : "#773adc",
+    "color" : "#773adc",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02072-icon-service-Partner-Topic.png"
+  }, {
+    "tag" : "Microsoft Azure - Compliance Center",
+    "stroke" : "#57a300",
+    "color" : "#57a300",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02931-icon-service-Compliance-Center.png"
+  }, {
+    "tag" : "Microsoft Azure - Cost Alerts",
+    "stroke" : "#629c25",
+    "color" : "#629c25",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10791-icon-service-Cost-Alerts.png"
+  }, {
+    "tag" : "Microsoft Azure - Guide",
+    "stroke" : "#198ab3",
+    "color" : "#198ab3",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10810-icon-service-Guide.png"
+  }, {
+    "tag" : "Microsoft Azure - Information",
+    "stroke" : "#54aef0",
+    "color" : "#54aef0",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10005-icon-service-Information.png"
+  }, {
+    "tag" : "Microsoft Azure - Device Security Windows",
+    "stroke" : "#83b9f9",
+    "color" : "#83b9f9",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00399-icon-service-Device-Security-Windows.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Red Hat OpenShift",
+    "stroke" : "#db212f",
+    "color" : "#db212f",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/03331-icon-service-Azure-Red-Hat-OpenShift.png"
+  }, {
+    "tag" : "Microsoft Azure - Immersive Readers",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00812-icon-service-Immersive-Readers.png"
+  }, {
+    "tag" : "Microsoft Azure - Kubernetes Fleet Manager",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/03134-icon-service-Kubernetes-Fleet-Manager.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure AD Risky Signins",
+    "stroke" : "#0072c6",
+    "color" : "#0072c6",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/03341-icon-service-Azure-AD-Risky-Signins.png"
+  }, {
+    "tag" : "Microsoft Azure - Device Security Google",
+    "stroke" : "#b4ec36",
+    "color" : "#b4ec36",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00399-icon-service-Device-Security-Google.png"
+  }, {
+    "tag" : "Microsoft Azure - Web Slots",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10849-icon-service-Web-Slots.png"
+  }, {
+    "tag" : "Microsoft Azure - Dashboard Hub",
+    "stroke" : "#37c3b2",
+    "color" : "#37c3b2",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/01757-icon-service-Dashboard-Hub.png"
+  }, {
+    "tag" : "Microsoft Azure - RTOS",
+    "stroke" : "#b3b4b4",
+    "color" : "#b3b4b4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10778-icon-service-RTOS.png"
+  }, {
+    "tag" : "Microsoft Azure - API Management Services",
+    "stroke" : "#32d4f5",
+    "color" : "#32d4f5",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10042-icon-service-API-Management-Services.png"
+  }, {
+    "tag" : "Microsoft Azure - Subscriptions",
+    "stroke" : "#ffd70f",
+    "color" : "#ffd70f",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10002-icon-service-Subscriptions.png"
+  }, {
+    "tag" : "Microsoft Azure - Web Jobs",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10846-icon-service-Web-Jobs.png"
+  }, {
+    "tag" : "Microsoft Azure - Translator Text",
+    "stroke" : "#0379d5",
+    "color" : "#0379d5",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00800-icon-service-Translator-Text.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure AD Privleged Identity Management",
+    "stroke" : "#ffd70f",
+    "color" : "#ffd70f",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02251-icon-service-Azure-AD-Privleged-Identity-Management.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Compute Galleries",
+    "stroke" : "#773adc",
+    "color" : "#773adc",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02864-icon-service-Azure-Compute-Galleries.png"
+  }, {
+    "tag" : "Microsoft Azure - Globe Warning",
+    "stroke" : "#a3a3a3",
+    "color" : "#a3a3a3",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10809-icon-service-Globe-Warning.png"
+  }, {
+    "tag" : "Microsoft Azure - Aquila",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02625-icon-service-Aquila.png"
+  }, {
+    "tag" : "Microsoft Azure - Service Providers",
+    "stroke" : "#86d633",
+    "color" : "#86d633",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00025-icon-service-Service-Providers.png"
+  }, {
+    "tag" : "Microsoft Azure - MachinesAzureArc",
+    "stroke" : "#552f99",
+    "color" : "#552f99",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10450-icon-service-MachinesAzureArc.png"
+  }, {
+    "tag" : "Microsoft Azure - Identity Secure Score",
+    "stroke" : "#fcd116",
+    "color" : "#fcd116",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/03340-icon-service-Identity-Secure-Score.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Network Function Manager",
+    "stroke" : "#37c2b1",
+    "color" : "#37c2b1",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02740-icon-service-Azure-Network-Function-Manager.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Sphere",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10190-icon-service-Azure-Sphere.png"
+  }, {
+    "tag" : "Microsoft Azure - User Privacy",
+    "stroke" : "#32d4f5",
+    "color" : "#32d4f5",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10303-icon-service-User-Privacy.png"
+  }, {
+    "tag" : "Microsoft Azure - Software Updates",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10335-icon-service-Software-Updates.png"
+  }, {
+    "tag" : "Microsoft Azure - Plans",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10113-icon-service-Plans.png"
+  }, {
+    "tag" : "Microsoft Azure - Management Groups",
+    "stroke" : "#a3a3a3",
+    "color" : "#a3a3a3",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10011-icon-service-Management-Groups.png"
+  }, {
+    "tag" : "Microsoft Azure - Images",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10033-icon-service-Images.png"
+  }, {
+    "tag" : "Microsoft Azure - Storage Container",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10839-icon-service-Storage-Container.png"
+  }, {
+    "tag" : "Microsoft Azure - Groups",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10223-icon-service-Groups.png"
+  }, {
+    "tag" : "Microsoft Azure - Browser",
+    "stroke" : "#32d4f5",
+    "color" : "#32d4f5",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10783-icon-service-Browser.png"
+  }, {
+    "tag" : "Microsoft Azure - Power Platform",
+    "stroke" : "#007a84",
+    "color" : "#007a84",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/03335-icon-service-Power-Platform.png"
+  }, {
+    "tag" : "Microsoft Azure - Container Registries",
+    "stroke" : "#767676",
+    "color" : "#767676",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10105-icon-service-Container-Registries.png"
+  }, {
+    "tag" : "Microsoft Azure - Launch Portal",
+    "stroke" : "#45a7ef",
+    "color" : "#45a7ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10815-icon-service-Launch-Portal.png"
+  }, {
+    "tag" : "Microsoft Azure - FTP",
+    "stroke" : "#32d4f5",
+    "color" : "#32d4f5",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10804-icon-service-FTP.png"
+  }, {
+    "tag" : "Microsoft Azure - WAC",
+    "stroke" : "#003067",
+    "color" : "#003067",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10355-icon-service-WAC.png"
+  }, {
+    "tag" : "Microsoft Azure - Data Factories",
+    "stroke" : "#005ba1",
+    "color" : "#005ba1",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10126-icon-service-Data-Factories.png"
+  }, {
+    "tag" : "Microsoft Azure - Capacity",
+    "stroke" : "#003067",
+    "color" : "#003067",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10109-icon-service-Capacity.png"
+  }, {
+    "tag" : "Microsoft Azure - Fiji",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02486-icon-service-Fiji.png"
+  }, {
+    "tag" : "Microsoft Azure - Globe Error",
+    "stroke" : "#a3a3a3",
+    "color" : "#a3a3a3",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10807-icon-service-Globe-Error.png"
+  }, {
+    "tag" : "Microsoft Azure - All Resources",
+    "stroke" : "#75bb2d",
+    "color" : "#75bb2d",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10001-icon-service-All-Resources.png"
+  }, {
+    "tag" : "Microsoft Azure - Virtual Networks (Classic)",
+    "stroke" : "#1490df",
+    "color" : "#1490df",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10075-icon-service-Virtual-Networks-(Classic).png"
+  }, {
+    "tag" : "Microsoft Azure - Bare Metal Infrastructure",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02561-icon-service-Bare-Metal-Infrastructure.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure AD Privilege Identity Management",
+    "stroke" : "#a67af4",
+    "color" : "#a67af4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10234-icon-service-Azure-AD-Privilege-Identity-Management.png"
+  }, {
+    "tag" : "Microsoft Azure - Cache",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10786-icon-service-Cache.png"
+  }, {
+    "tag" : "Microsoft Azure - Cognitive Services",
+    "stroke" : "#9cebff",
+    "color" : "#9cebff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10162-icon-service-Cognitive-Services.png"
+  }, {
+    "tag" : "Microsoft Azure - Genomics",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00031-icon-service-Genomics.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Token Service",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10367-icon-service-Azure-Token-Service.png"
+  }, {
+    "tag" : "Microsoft Azure - Virtual Instance for SAP",
+    "stroke" : "#005aa0",
+    "color" : "#005aa0",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/03089-icon-service-Virtual-Instance-for-SAP.png"
+  }, {
+    "tag" : "Microsoft Azure - Disk Pool",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02560-icon-service-Disk-Pool.png"
+  }, {
+    "tag" : "Microsoft Azure - System Topic",
+    "stroke" : "#a3a3a3",
+    "color" : "#a3a3a3",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02073-icon-service-System-Topic.png"
+  }, {
+    "tag" : "Microsoft Azure - My Customers",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00014-icon-service-My-Customers.png"
+  }, {
+    "tag" : "Microsoft Azure - AVS VM",
+    "stroke" : "#86d633",
+    "color" : "#86d633",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/01846-icon-service-AVS-VM.png"
+  }, {
+    "tag" : "Microsoft Azure - Compliance",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00011-icon-service-Compliance.png"
+  }, {
+    "tag" : "Microsoft Azure - Power",
+    "stroke" : "#fea11b",
+    "color" : "#fea11b",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10824-icon-service-Power.png"
+  }, {
+    "tag" : "Microsoft Azure - AzureAttestation",
+    "stroke" : "#72b52c",
+    "color" : "#72b52c",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10422-icon-service-AzureAttestation.png"
+  }, {
+    "tag" : "Microsoft Azure - Builds",
+    "stroke" : "#a67af4",
+    "color" : "#a67af4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10785-icon-service-Builds.png"
+  }, {
+    "tag" : "Microsoft Azure - Managed Database",
+    "stroke" : "#eaeaea",
+    "color" : "#eaeaea",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10135-icon-service-Managed-Database.png"
+  }, {
+    "tag" : "Microsoft Azure - Collaborative Service",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/01038-icon-service-Collaborative-Service.png"
+  }, {
+    "tag" : "Microsoft Azure - Lab Accounts",
+    "stroke" : "#faa21d",
+    "color" : "#faa21d",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02761-icon-service-Lab-Accounts.png"
+  }, {
+    "tag" : "Microsoft Azure - Public IP Prefixes",
+    "stroke" : "#767676",
+    "color" : "#767676",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10372-icon-service-Public-IP-Prefixes.png"
+  }, {
+    "tag" : "Microsoft Azure - Test Base",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02691-icon-service-Test-Base.png"
+  }, {
+    "tag" : "Microsoft Azure - Active Directory Connect Health",
+    "stroke" : "#f04049",
+    "color" : "#f04049",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10224-icon-service-Active-Directory-Connect-Health.png"
+  }, {
+    "tag" : "Microsoft Azure - Scheduler",
+    "stroke" : "#86d633",
+    "color" : "#86d633",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10833-icon-service-Scheduler.png"
+  }, {
+    "tag" : "Microsoft Azure - Workflow",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10852-icon-service-Workflow.png"
+  }, {
+    "tag" : "Microsoft Azure - Reservations",
+    "stroke" : "#6f4bb2",
+    "color" : "#6f4bb2",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10003-icon-service-Reservations.png"
+  }, {
+    "tag" : "Microsoft Azure - SQL Server",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10132-icon-service-SQL-Server.png"
+  }, {
+    "tag" : "Microsoft Azure - Virtual Clusters",
+    "stroke" : "#003067",
+    "color" : "#003067",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10127-icon-service-Virtual-Clusters.png"
+  }, {
+    "tag" : "Microsoft Azure - Spatial Anchor Accounts",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10352-icon-service-Spatial-Anchor-Accounts.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Information Protection",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10229-icon-service-Azure-Information-Protection.png"
+  }, {
+    "tag" : "Microsoft Azure - Intune",
+    "stroke" : "#32bedd",
+    "color" : "#32bedd",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10329-icon-service-Intune.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Firewall Manager",
+    "stroke" : "#821010",
+    "color" : "#821010",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00271-icon-service-Azure-Firewall-Manager.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Arc",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00756-icon-service-Azure-Arc.png"
+  }, {
+    "tag" : "Microsoft Azure - Service Health",
+    "stroke" : "#54aef0",
+    "color" : "#54aef0",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10004-icon-service-Service-Health.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure HCP Cache",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00776-icon-service-Azure-HCP-Cache.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure SQL VM",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10124-icon-service-Azure-SQL-VM.png"
+  }, {
+    "tag" : "Microsoft Azure - Route Filters",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10071-icon-service-Route-Filters.png"
+  }, {
+    "tag" : "Microsoft Azure - Bot Services",
+    "stroke" : "#32bedd",
+    "color" : "#32bedd",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10165-icon-service-Bot-Services.png"
+  }, {
+    "tag" : "Microsoft Azure - Bonsai",
+    "stroke" : "#52a646",
+    "color" : "#52a646",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/03337-icon-service-Bonsai.png"
+  }, {
+    "tag" : "Microsoft Azure - Blueprints",
+    "stroke" : "#32d4f5",
+    "color" : "#32d4f5",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00006-icon-service-Blueprints.png"
+  }, {
+    "tag" : "Microsoft Azure - Hosts",
+    "stroke" : "#b4ec36",
+    "color" : "#b4ec36",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10347-icon-service-Hosts.png"
+  }, {
+    "tag" : "Microsoft Azure - Multi Tenancy",
+    "stroke" : "#773adc",
+    "color" : "#773adc",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00965-icon-service-Multi-Tenancy.png"
+  }, {
+    "tag" : "Microsoft Azure - Load Test",
+    "stroke" : "#32d3f4",
+    "color" : "#32d3f4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10817-icon-service-Load-Test.png"
+  }, {
+    "tag" : "Microsoft Azure - Workspaces",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00330-icon-service-Workspaces.png"
+  }, {
+    "tag" : "Microsoft Azure - Data Lake Analytics",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10143-icon-service-Data-Lake-Analytics.png"
+  }, {
+    "tag" : "Microsoft Azure - External Identities",
+    "stroke" : "#59b4d9",
+    "color" : "#59b4d9",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/03338-icon-service-External-Identities.png"
+  }, {
+    "tag" : "Microsoft Azure - Resource Groups",
+    "stroke" : "#9cebff",
+    "color" : "#9cebff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10007-icon-service-Resource-Groups.png"
+  }, {
+    "tag" : "Microsoft Azure - Disk Encryption Sets",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00398-icon-service-Disk-Encryption-Sets.png"
+  }, {
+    "tag" : "Microsoft Azure - Resource Management Private Link",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02145-icon-service-Resource-Management-Private-Link.png"
+  }, {
+    "tag" : "Microsoft Azure - Integration Accounts",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10218-icon-service-Integration-Accounts.png"
+  }, {
+    "tag" : "Microsoft Azure - Updates",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10115-icon-service-Updates.png"
+  }, {
+    "tag" : "Microsoft Azure - Disks Snapshots",
+    "stroke" : "#76bc2d",
+    "color" : "#76bc2d",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10026-icon-service-Disks-Snapshots.png"
+  }, {
+    "tag" : "Microsoft Azure - Backlog",
+    "stroke" : "#a3a3a3",
+    "color" : "#a3a3a3",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10853-icon-service-Backlog.png"
+  }, {
+    "tag" : "Microsoft Azure - App Registrations",
+    "stroke" : "#9cebff",
+    "color" : "#9cebff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10232-icon-service-App-Registrations.png"
+  }, {
+    "tag" : "Microsoft Azure - SQL Server Registries",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10351-icon-service-SQL-Server-Registries.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure SQL",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02390-icon-service-Azure-SQL.png"
+  }, {
+    "tag" : "Microsoft Azure - Function Apps",
+    "stroke" : "#1490df",
+    "color" : "#1490df",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10029-icon-service-Function-Apps.png"
+  }, {
+    "tag" : "Microsoft Azure - Multifactor Authentication",
+    "stroke" : "#215694",
+    "color" : "#215694",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/03344-icon-service-Multifactor-Authentication.png"
+  }, {
+    "tag" : "Microsoft Azure - Table",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10841-icon-service-Table.png"
+  }, {
+    "tag" : "Microsoft Azure - Managed Instance Apache Cassandra",
+    "stroke" : "#003067",
+    "color" : "#003067",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02663-icon-service-Managed-Instance-Apache-Cassandra.png"
+  }, {
+    "tag" : "Microsoft Azure - Microsoft Defender EASM",
+    "stroke" : "#5191fb",
+    "color" : "#5191fb",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/03336-icon-service-Microsoft-Defender-EASM.png"
+  }, {
+    "tag" : "Microsoft Azure - Cloud Services (extended support)",
+    "stroke" : "#e3e3e3",
+    "color" : "#e3e3e3",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02505-icon-service-Cloud-Services-(extended-support).png"
+  }, {
+    "tag" : "Microsoft Azure - Proximity Placement Groups",
+    "stroke" : "#999999",
+    "color" : "#999999",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10365-icon-service-Proximity-Placement-Groups.png"
+  }, {
+    "tag" : "Microsoft Azure - Free Services",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10016-icon-service-Free-Services.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Cloud Shell",
+    "stroke" : "#005ba1",
+    "color" : "#005ba1",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00559-icon-service-Azure-Cloud-Shell.png"
+  }, {
+    "tag" : "Microsoft Azure - Recovery Services Vaults",
+    "stroke" : "#31d2f3",
+    "color" : "#31d2f3",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00017-icon-service-Recovery-Services-Vaults.png"
+  }, {
+    "tag" : "Microsoft Azure - Modular Data Center",
+    "stroke" : "#32bedd",
+    "color" : "#32bedd",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02323-icon-service-Modular-Data-Center.png"
+  }, {
+    "tag" : "Microsoft Azure - Enterprise Applications",
+    "stroke" : "#32bedd",
+    "color" : "#32bedd",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10225-icon-service-Enterprise-Applications.png"
+  }, {
+    "tag" : "Microsoft Azure - Power BI Embedded",
+    "stroke" : "#dfa210",
+    "color" : "#dfa210",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/03332-icon-service-Power-BI-Embedded.png"
+  }, {
+    "tag" : "Microsoft Azure - Advisor",
+    "stroke" : "#ffca00",
+    "color" : "#ffca00",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00003-icon-service-Advisor.png"
+  }, {
+    "tag" : "Microsoft Azure - Time Series Insights Event Sources",
+    "stroke" : "#c3f1ff",
+    "color" : "#c3f1ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10188-icon-service-Time-Series-Insights-Event-Sources.png"
+  }, {
+    "tag" : "Microsoft Azure - Spot VM",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02695-icon-service-Spot-VM.png"
+  }, {
+    "tag" : "Microsoft Azure - MedTech Service",
+    "stroke" : "#005ba1",
+    "color" : "#005ba1",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02660-icon-service-MedTech-Service.png"
+  }, {
+    "tag" : "Microsoft Azure - Storage Accounts (Classic)",
+    "stroke" : "#198ab3",
+    "color" : "#198ab3",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10087-icon-service-Storage-Accounts-(Classic).png"
+  }, {
+    "tag" : "Microsoft Azure - Network Security Groups",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10067-icon-service-Network-Security-Groups.png"
+  }, {
+    "tag" : "Microsoft Azure - Resource Linked",
+    "stroke" : "#6dad2a",
+    "color" : "#6dad2a",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10831-icon-service-Resource-Linked.png"
+  }, {
+    "tag" : "Microsoft Azure - Bug",
+    "stroke" : "#773adc",
+    "color" : "#773adc",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10784-icon-service-Bug.png"
+  }, {
+    "tag" : "Microsoft Azure - Logic Apps",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02631-icon-service-Logic-Apps.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Data Explorer Clusters",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10145-icon-service-Azure-Data-Explorer-Clusters.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Database MariaDB Server",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10123-icon-service-Azure-Database-MariaDB-Server.png"
+  }, {
+    "tag" : "Microsoft Azure - Universal Print",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00571-icon-service-Universal-Print.png"
+  }, {
+    "tag" : "Microsoft Azure - AAD Licenses",
+    "stroke" : "#32d4f5",
+    "color" : "#32d4f5",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02681-icon-service-AAD-Licenses.png"
+  }, {
+    "tag" : "Microsoft Azure - Microsoft Defender for IoT",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02247-icon-service-Microsoft-Defender-for-IoT.png"
+  }, {
+    "tag" : "Microsoft Azure - Face APIs",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00794-icon-service-Face-APIs.png"
+  }, {
+    "tag" : "Microsoft Azure - Stream Analytics Jobs",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00042-icon-service-Stream-Analytics-Jobs.png"
+  }, {
+    "tag" : "Microsoft Azure - Community Images",
+    "stroke" : "#c3f1ff",
+    "color" : "#c3f1ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02865-icon-service-Community-Images.png"
+  }, {
+    "tag" : "Microsoft Azure - Microsoft Dev Box",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/03250-icon-service-Microsoft-Dev-Box.png"
+  }, {
+    "tag" : "Microsoft Azure - Data Box",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10094-icon-service-Data-Box.png"
+  }, {
+    "tag" : "Microsoft Azure - Tag",
+    "stroke" : "#552f99",
+    "color" : "#552f99",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10014-icon-service-Tag.png"
+  }, {
+    "tag" : "Microsoft Azure - NAT",
+    "stroke" : "#3ed3f2",
+    "color" : "#3ed3f2",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10310-icon-service-NAT.png"
+  }, {
+    "tag" : "Microsoft Azure - Dashboard",
+    "stroke" : "#6bc5b8",
+    "color" : "#6bc5b8",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10015-icon-service-Dashboard.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure AD B2C",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10228-icon-service-Azure-AD-B2C.png"
+  }, {
+    "tag" : "Microsoft Azure - IP Groups",
+    "stroke" : "#83b9f9",
+    "color" : "#83b9f9",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00701-icon-service-IP-Groups.png"
+  }, {
+    "tag" : "Microsoft Azure - Partner Namespace",
+    "stroke" : "#a3a3a3",
+    "color" : "#a3a3a3",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02266-icon-service-Partner-Namespace.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Maps Accounts",
+    "stroke" : "#32d4f5",
+    "color" : "#32d4f5",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10185-icon-service-Azure-Maps-Accounts.png"
+  }, {
+    "tag" : "Microsoft Azure - Custom Vision",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00793-icon-service-Custom-Vision.png"
+  }, {
+    "tag" : "Microsoft Azure - Dev Console",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10796-icon-service-Dev-Console.png"
+  }, {
+    "tag" : "Microsoft Azure - Branch",
+    "stroke" : "#c3f1ff",
+    "color" : "#c3f1ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10782-icon-service-Branch.png"
+  }, {
+    "tag" : "Microsoft Azure - Database Instance For SAP",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/03175-icon-service-Database-Instance-For-SAP.png"
+  }, {
+    "tag" : "Microsoft Azure - Monitor",
+    "stroke" : "#32bedd",
+    "color" : "#32bedd",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00001-icon-service-Monitor.png"
+  }, {
+    "tag" : "Microsoft Azure - SQL Managed Instance",
+    "stroke" : "#003067",
+    "color" : "#003067",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10136-icon-service-SQL-Managed-Instance.png"
+  }, {
+    "tag" : "Microsoft Azure - Remote Rendering",
+    "stroke" : "#9cebff",
+    "color" : "#9cebff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00698-icon-service-Remote-Rendering.png"
+  }, {
+    "tag" : "Microsoft Azure - Anomaly Detector",
+    "stroke" : "#faa21d",
+    "color" : "#faa21d",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00814-icon-service-Anomaly-Detector.png"
+  }, {
+    "tag" : "Microsoft Azure - Language Understanding",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00801-icon-service-Language-Understanding.png"
+  }, {
+    "tag" : "Microsoft Azure - SQL Elastic Pools",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10134-icon-service-SQL-Elastic-Pools.png"
+  }, {
+    "tag" : "Microsoft Azure - Storage Azure Files",
+    "stroke" : "#eff6fd",
+    "color" : "#eff6fd",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10838-icon-service-Storage-Azure-Files.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Communication Services",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00968-icon-service-Azure-Communication-Services.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Monitors for SAP Solutions",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00438-icon-service-Azure-Monitors-for-SAP-Solutions.png"
+  }, {
+    "tag" : "Microsoft Azure - Application Security Groups",
+    "stroke" : "#1b93eb",
+    "color" : "#1b93eb",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10244-icon-service-Application-Security-Groups.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Load Testing",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02944-icon-service-Azure-Load-Testing.png"
+  }, {
+    "tag" : "Microsoft Azure - Metrics",
+    "stroke" : "#005ba1",
+    "color" : "#005ba1",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00020-icon-service-Metrics.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Orbital",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02697-icon-service-Azure-Orbital.png"
+  }, {
+    "tag" : "Microsoft Azure - Storage Queue",
+    "stroke" : "#773adc",
+    "color" : "#773adc",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10840-icon-service-Storage-Queue.png"
+  }, {
+    "tag" : "Microsoft Azure - Analysis Services",
+    "stroke" : "#773adc",
+    "color" : "#773adc",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10148-icon-service-Analysis-Services.png"
+  }, {
+    "tag" : "Microsoft Azure - Mindaro",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10350-icon-service-Mindaro.png"
+  }, {
+    "tag" : "Microsoft Azure - Gear",
+    "stroke" : "#32c8e8",
+    "color" : "#32c8e8",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10805-icon-service-Gear.png"
+  }, {
+    "tag" : "Microsoft Azure - Error",
+    "stroke" : "#32d2f2",
+    "color" : "#32d2f2",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10798-icon-service-Error.png"
+  }, {
+    "tag" : "Microsoft Azure - Mobile Networks",
+    "stroke" : "#86d633",
+    "color" : "#86d633",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02794-icon-service-Mobile-Networks.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Video Indexer",
+    "stroke" : "#9cebff",
+    "color" : "#9cebff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/01800-icon-service-Azure-Video-Indexer.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Data Catalog",
+    "stroke" : "#b1b0b1",
+    "color" : "#b1b0b1",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10216-icon-service-Azure-Data-Catalog.png"
+  }, {
+    "tag" : "Microsoft Azure - Backup Vault",
+    "stroke" : "#33bfde",
+    "color" : "#33bfde",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02361-icon-service-Backup-Vault.png"
+  }, {
+    "tag" : "Microsoft Azure - Offers",
+    "stroke" : "#005ba1",
+    "color" : "#005ba1",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10110-icon-service-Offers.png"
+  }, {
+    "tag" : "Microsoft Azure - Website Staging",
+    "stroke" : "#198ab3",
+    "color" : "#198ab3",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10848-icon-service-Website-Staging.png"
+  }, {
+    "tag" : "Microsoft Azure - Module",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10855-icon-service-Module.png"
+  }, {
+    "tag" : "Microsoft Azure - Log Analytics Workspaces",
+    "stroke" : "#54aef0",
+    "color" : "#54aef0",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00009-icon-service-Log-Analytics-Workspaces.png"
+  }, {
+    "tag" : "Microsoft Azure - Metrics Advisor",
+    "stroke" : "#ffd400",
+    "color" : "#ffd400",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02409-icon-service-Metrics-Advisor.png"
+  }, {
+    "tag" : "Microsoft Azure - Power Up",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10826-icon-service-Power-Up.png"
+  }, {
+    "tag" : "Microsoft Azure - Digital Twins",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/01030-icon-service-Digital-Twins.png"
+  }, {
+    "tag" : "Microsoft Azure - Content Moderators",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00795-icon-service-Content-Moderators.png"
+  }, {
+    "tag" : "Microsoft Azure - DDoS Protection Plans",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10072-icon-service-DDoS-Protection-Plans.png"
+  }, {
+    "tag" : "Microsoft Azure - Confidential Ledgers",
+    "stroke" : "#773adc",
+    "color" : "#773adc",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02668-icon-service-Confidential-Ledgers.png"
+  }, {
+    "tag" : "Microsoft Azure - Azure Cosmos DB",
+    "stroke" : "#50e6ff",
+    "color" : "#50e6ff",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10121-icon-service-Azure-Cosmos-DB.png"
+  }, {
+    "tag" : "Microsoft Azure - DevOps Starter",
+    "stroke" : "#417be9",
+    "color" : "#417be9",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/03339-icon-service-DevOps-Starter.png"
+  }, {
+    "tag" : "Microsoft Azure - Applens",
+    "stroke" : "#f78d1e",
+    "color" : "#f78d1e",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/02354-icon-service-Applens.png"
+  }, {
+    "tag" : "Microsoft Azure - Machine Learning Studio (Classic) Web Services",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/00030-icon-service-Machine-Learning-Studio-(Classic)-Web-Services.png"
+  }, {
+    "tag" : "Microsoft Azure - App Compliance Automation",
+    "stroke" : "#5ea0ef",
+    "color" : "#5ea0ef",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/03071-icon-service-App-Compliance-Automation.png"
+  }, {
+    "tag" : "Microsoft Azure - Conditional Access",
+    "stroke" : "#0078d4",
+    "color" : "#0078d4",
+    "icon" : "https://static.structurizr.com/themes/microsoft-azure-2023.01.24/10233-icon-service-Conditional-Access.png"
+  } ]
+}
