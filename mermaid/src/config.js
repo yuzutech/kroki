@@ -1,6 +1,6 @@
-const set = require('lodash/set')
+import set from 'lodash/set.js'
 
-function updateConfig (initialConfig, config) {
+export function updateConfig (initialConfig, config) {
   for (const property in Object.fromEntries(config)) {
     const propertyCamelCase = convertPropertyToCamelCase(property)
     if (propertyCamelCase === 'maxTextSize' ||
@@ -41,8 +41,4 @@ function getTypedValue (value) {
     return Number(value)
   }
   return value
-}
-
-module.exports = {
-  updateConfig
 }

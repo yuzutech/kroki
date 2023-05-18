@@ -1,4 +1,4 @@
-const path = require('path')
+const path = require('node:path')
 const puppeteer = require('puppeteer')
 
 class Worker {
@@ -14,7 +14,7 @@ class Worker {
     })
     const page = await browser.newPage()
     try {
-      page.setViewport({ height: 800, width: 600 })
+      await page.setViewport({ height: 800, width: 600 })
       await page.goto(this.pageUrl)
       return await page.$eval('#container', (container, bpmnXML, options) => {
         container.innerHTML = bpmnXML

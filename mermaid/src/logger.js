@@ -1,6 +1,7 @@
-const pinoDebug = require('pino-debug')
-const pino = require('pino')
-const logger = pino({
+import pinoDebug from 'pino-debug'
+import pino from 'pino'
+
+export const logger = pino({
   level: process.env.LEVEL || 'info',
   formatters: {
     level: (label) => {
@@ -15,5 +16,3 @@ pinoDebug(logger, {
     '*': 'trace' // everything else - trace
   }
 })
-
-module.exports.logger = logger
