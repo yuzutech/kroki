@@ -214,6 +214,13 @@ ARG GRAPHVIZ_VERSION="8.0.4"
 ARG DITAA_VERSION="1.0.3"
 ARG TARGETARCH
 
+LABEL \
+    org.opencontainers.image.title="Kroki" \
+    org.opencontainers.image.description="Kroki provides a unified API supporting multiple diagramming formats, making it easy to create diagrams from textual descriptions." \
+    org.opencontainers.image.url="https://kroki.io" \
+    org.opencontainers.image.source="https://github.com/yuzutech/kroki" \
+    org.opencontainers.image.licenses="MIT"
+
 RUN addgroup --gecos 1000 kroki && adduser --disabled-password --ingroup kroki -u 1000 kroki
 
 # For TikZ
