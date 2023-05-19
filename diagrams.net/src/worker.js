@@ -1,5 +1,5 @@
 /* global XMLSerializer */
-const path = require('path')
+const path = require('node:path')
 const puppeteer = require('puppeteer')
 
 class Worker {
@@ -16,7 +16,7 @@ class Worker {
     })
     const page = await browser.newPage()
     try {
-      page.setViewport({ height: 800, width: 600 })
+      await page.setViewport({ height: 800, width: 600 })
       await page.goto(this.pageUrl)
       // QUESTION: should we reuse the page for performance reason ?
       await page.evaluate((source) => {

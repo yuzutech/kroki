@@ -1,6 +1,6 @@
-const puppeteer = require('puppeteer')
+import puppeteer from 'puppeteer'
 
-const { logger } = require('./logger')
+import { logger } from './logger.js'
 
 const createBrowser = async () => {
   const browser = await puppeteer.launch({
@@ -23,7 +23,9 @@ const createBrowser = async () => {
       '--no-initial-navigation',
       // Disables the sandbox for all process types that are normally sandboxed.
       // Meant to be used as a browser-level switch for testing purposes only.
-      '--no-sandbox'
+      '--no-sandbox',
+      // import modules from file://
+      '--allow-file-access-from-files'
     ]
   })
 
@@ -60,8 +62,6 @@ const createBrowser = async () => {
   }
 }
 
-module.exports = {
-  create: async () => {
-    return createBrowser()
-  }
+export async function create () {
+  return createBrowser()
 }

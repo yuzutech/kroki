@@ -16,13 +16,13 @@
     "url": "https://github.com/yuzutech/kroki.git"
   },
   "dependencies": {
-    "micro": "9.4.1",
+    "micro": "10.0.1",
     "puppeteer": "14.4.1"
   },
   "devDependencies": {
     "chai": "^4.3.4",
     "dirty-chai": "^2.0.1",
-    "pngjs": "^6.0.0",
+    "pngjs": "^7.0.0",
     "standard": "17.0.0"
   }
 }

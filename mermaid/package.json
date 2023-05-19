@@ -4,9 +4,10 @@
   "description": "A micro server built on top of the Mermaid diagram library.",
   "main": "src/index.js",
   "bin": "src/index.js",
+  "type": "module",
   "scripts": {
-    "prestart": "cp node_modules/mermaid/dist/mermaid.min.js assets/mermaid.min.js",
-    "start": "DEBUG=puppeteer:* LEVEL=debug node src/index.js",
+    "prestart": "rm -rf assets/mermaid/* && cp -r node_modules/mermaid/dist/*.mjs node_modules/mermaid/dist/*.js assets/mermaid/",
+    "start": "node src/index.js",
     "test": "node test/run.js",
     "lint": "standard src/**.js"
   },
@@ -19,7 +20,7 @@
   },
   "dependencies": {
     "lodash": "^4.17.21",
-    "micro": "9.4.1",
+    "micro": "10.0.1",
     "pino": "8.11.0",
     "pino-debug": "2.0.0",
     "puppeteer": "14.4.1"
@@ -27,9 +28,9 @@
   "devDependencies": {
     "chai": "4.3.7",
     "dirty-chai": "^2.0.1",
-    "mermaid": "9.4.3",
+    "mermaid": "10.1.0",
     "mocha": "10.2.0",
-    "pngjs": "^6.0.0",
+    "pngjs": "^7.0.0",
     "standard": "17.0.0"
   }
 }

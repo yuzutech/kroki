@@ -2,6 +2,10 @@
 <html>
 <body>
   <div id="container"></div>
-  <script src="./mermaid.min.js" charset="utf-8"></script>
+  <script type="module">
+    import mermaid from './mermaid/mermaid.esm.min.mjs'
+    // export as global
+    window.mermaid = mermaid
+  </script>
 </body>
 </html>
