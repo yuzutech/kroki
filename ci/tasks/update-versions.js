@@ -255,6 +255,7 @@ try {
   await updateServiceGetVersion('Mermaid.java', diagramLibraryVersions.mermaid)
   await updateServiceGetVersion('Nomnoml.java', diagramLibraryVersions.nomnoml)
   await updateServiceGetVersion('Pikchr.java', diagramLibraryVersions.pikchr)
+  await updateServiceGetVersion('Plantuml.java', diagramLibraryVersions.plantuml)
   await updateServiceGetVersion('Structurizr.java', diagramLibraryVersions.structurizr)
   await updateServiceGetVersion('Svgbob.java', diagramLibraryVersions.svgbob)
   await updateServiceGetVersion('Umlet.java', diagramLibraryVersions.umlet)

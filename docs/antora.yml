@@ -20,7 +20,7 @@ asciidoc:
     nwdiag-version: 3.0.0
     packetdiag-version: 3.0.0
     pikchr-version: '7269f78c4a'
-    plantuml-version: 1.2023.6
+    plantuml-version: 1.2023.7
     rackdiag-version: 3.0.0
     seqdiag-version: 3.0.0
     structurizr-version: 1.30.1

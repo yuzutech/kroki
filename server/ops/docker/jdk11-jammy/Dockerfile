@@ -208,7 +208,7 @@ RUN SVGBOB_VERSION=`cat Cargo.toml | grep "svgbob_cli =" | sed -r 's/.*"([^"]+)"
 FROM eclipse-temurin:11.0.18_10-jre-jammy
 
 ARG D2_VERSION="0.4.1"
-ARG PLANTUML_VERSION="1.2023.6"
+ARG PLANTUML_VERSION="1.2023.7"
 ARG UMLET_VERSION="2023-03-20_UMLet_v15.1"
 ARG GRAPHVIZ_VERSION="8.0.4"
 ARG DITAA_VERSION="1.0.3"

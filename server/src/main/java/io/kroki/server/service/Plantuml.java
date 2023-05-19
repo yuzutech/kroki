@@ -182,7 +182,7 @@ public class Plantuml implements DiagramService {
 
   @Override
   public String getVersion() {
-    return "1.2023.6";
+    return "1.2023.7";
   }
 
   @Override
