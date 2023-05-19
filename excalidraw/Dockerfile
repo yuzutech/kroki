@@ -18,7 +18,7 @@ COPY src /app/src
 COPY assets /app/assets
 WORKDIR /app
 
-RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 npm ci
+RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 npm ci --target_arch=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") --target_platform=$TARGETOS
 RUN npm run lint
 RUN npm run prestart
 
