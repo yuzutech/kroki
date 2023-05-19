@@ -8,18 +8,19 @@ RUN npm config set unsafe-perm true
 
 RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
 
+ARG TARGETARCH
 ENV NODE node16
 ENV PLATFORM alpine
-RUN /usr/local/bin/pkg-fetch -n ${NODE} -p ${PLATFORM} -a $([ "$TARGETARCH" == "amd64" ] && echo "x64" || echo "$TARGETARCH")
+RUN /usr/local/bin/pkg-fetch -n $NODE -p $PLATFORM -a $([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH")
 
 COPY package.json package-lock.json /app/
 COPY src /app/src
 WORKDIR /app
 
-RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 npm ci
+RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 npm ci --target_arch=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") --target_platform=$PLATFORM
 RUN npm run lint
 
-RUN /usr/local/bin/pkg --targets ${NODE}-${PLATFORM}-$([ "$TARGETARCH" == "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
+RUN /usr/local/bin/pkg --targets $NODE-$PLATFORM-$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
 
 # Create the image
 FROM alpine:3.16.3
