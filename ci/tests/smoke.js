@@ -92,6 +92,20 @@ describe('Diagrams', function () {
   })
 })
 
+describe('PlantUML native image', function () {
+  this.timeout(15000)
+  it('plantuml (native image) should convert class diagram (issue#1546)', async () => {
+    const testCase = {engine: 'plantuml', file: 'class.puml'}
+    const response = await sendRequest(testCase, 'svg')
+    try {
+      expect(response.status).to.equal(200)
+    } catch (err) {
+      console.log('response:', response.text)
+      throw err
+    }
+  })
+})
+
 describe('CJK font', function () {
   this.timeout(15000)
   it('plantuml should compute correct text length (issue#574)', async () => {
