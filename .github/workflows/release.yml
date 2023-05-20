@@ -26,8 +26,8 @@ jobs:
         working-directory: server/target
       - name: Create release
         run: |
-          gh release create "v${{ env.RELEASE_VERSION }}"
-          gh release upload "v${{ env.RELEASE_VERSION }}" ./server/target/kroki-standalone-server-* --clobber
+          gh release create "${{ env.RELEASE_VERSION }}"
+          gh release upload "${{ env.RELEASE_VERSION }}" ./server/target/kroki-standalone-server-* --clobber
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   publish_dockerhub:
