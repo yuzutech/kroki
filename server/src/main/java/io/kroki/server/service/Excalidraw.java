@@ -47,7 +47,7 @@ public class Excalidraw implements DiagramService {
 
   @Override
   public String getVersion() {
-    return "undefined";
+    return "0.15.2";
   }
 
   @Override
