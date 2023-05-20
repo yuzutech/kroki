@@ -1,5 +1,6 @@
 package io.kroki.server.action;
 
+import io.kroki.server.error.BadRequestException;
 import io.kroki.server.unit.TimeValue;
 import io.vertx.core.json.JsonObject;
 import org.junit.jupiter.api.Test;
@@ -56,7 +57,7 @@ class CommanderTest {
         byte[] result = new Commander(new JsonObject()).execute(source.getBytes(), "dot");
         assertThat(Files.exists(Paths.get("/tmp/blns.fail"))).isFalse();
         assertThat(new String(result)).isEqualTo("");
-      } catch (IllegalStateException e) {
+      } catch (BadRequestException e) {
         assertThat(e).hasMessageStartingWith("Error: <stdin>: syntax error in line");
         assertThat(e).hasMessageEndingWith(" (exit code 1)");
       }

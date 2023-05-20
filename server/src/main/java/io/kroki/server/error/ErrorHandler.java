@@ -14,6 +14,7 @@ import org.owasp.html.HtmlPolicyBuilder;
 import org.owasp.html.PolicyFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.event.Level;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -53,7 +54,6 @@ public class ErrorHandler implements io.vertx.ext.web.handler.ErrorHandler {
 
   @Override
   public void handle(RoutingContext context) {
-    HttpServerResponse response = context.response();
     Throwable failure = context.failure();
     int errorCode = context.statusCode();
     final String errorMessage;
@@ -95,8 +95,10 @@ public class ErrorHandler implements io.vertx.ext.web.handler.ErrorHandler {
   public void handleError(ErrorContext errorContext) {
     HttpServerResponse response = errorContext.getResponse();
     response.setStatusMessage(errorContext.getStatusMessage());
-    logging.error(errorContext.getRequest(), errorContext.getErrorInfo());
-    response.setStatusCode(errorContext.getErrorCode());
+    int errorCode = errorContext.getErrorCode();
+    Level level = (errorCode >= 400 && errorCode <= 499) ? Level.WARN : Level.ERROR;
+    logging.log(level, errorContext.getRequest(), errorContext.getErrorInfo());
+    response.setStatusCode(errorCode);
     ErrorInfo errorInfo = errorContext.getErrorInfo();
     if (!sendErrorResponseMIME(response, errorInfo) && !sendErrorAcceptMIME(response, errorContext.getAcceptableMimes(), errorInfo)) {
       // fallback plain/text
