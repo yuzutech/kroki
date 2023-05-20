@@ -23,6 +23,7 @@ jobs:
           cp kroki-server.jar kroki-standalone-server-${{ env.RELEASE_VERSION }}.jar
           sha512sum kroki-standalone-server-${{ env.RELEASE_VERSION }}.jar > kroki-standalone-server-${{ env.RELEASE_VERSION }}.sha512sum.txt
           md5sum kroki-standalone-server-${{ env.RELEASE_VERSION }}.jar > kroki-standalone-server-${{ env.RELEASE_VERSION }}.md5sum.txt
+        working-directory: server/target
       - name: Create release
         run: |
           gh release create "v${{ env.RELEASE_VERSION }}"
