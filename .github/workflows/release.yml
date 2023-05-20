@@ -18,27 +18,17 @@ jobs:
       - name: Build Java server
         run: make buildServer
       - run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-      # create the GitHub release
+      - name: Generate checksums
+        run: |
+          cp kroki-server.jar kroki-standalone-server-${{ env.RELEASE_VERSION }}.jar
+          sha512sum kroki-standalone-server-${{ env.RELEASE_VERSION }}.jar > kroki-standalone-server-${{ env.RELEASE_VERSION }}.sha512sum.txt
+          md5sum kroki-standalone-server-${{ env.RELEASE_VERSION }}.jar > kroki-standalone-server-${{ env.RELEASE_VERSION }}.md5sum.txt
       - name: Create release
-        id: create_release
-        uses: actions/create-release@v1.1.4
+        run: |
+          gh release create "v${{ env.RELEASE_VERSION }}"
+          gh release upload "v${{ env.RELEASE_VERSION }}" ./server/target/kroki-standalone-server-* --clobber
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: "${{ github.ref }}"
-          draft: false
-          prerelease: false
-      # upload assets
-      - name: Upload fat-jar
-        uses: actions/upload-release-asset@v1.0.2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: server/target/kroki-server.jar
-          asset_name: kroki-server-${{ env.RELEASE_VERSION }}.jar
-          asset_content_type: application/zip
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   publish_dockerhub:
     runs-on: ubuntu-latest
     steps:
