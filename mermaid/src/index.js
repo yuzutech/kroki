@@ -19,7 +19,6 @@ import { create } from './browser-instance.js'
       if (outputType) {
         const diagramSource = await micro.text(req, { limit: '1mb', encoding: 'utf8' })
         if (diagramSource) {
-          console.log({ diagramSource })
           try {
             const isPng = outputType === 'png'
             const output = await worker.convert(new Task(diagramSource, isPng), url.searchParams)
