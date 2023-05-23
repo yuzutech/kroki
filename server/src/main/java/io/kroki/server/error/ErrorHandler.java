@@ -14,12 +14,14 @@ import org.owasp.html.HtmlPolicyBuilder;
 import org.owasp.html.PolicyFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.event.Level;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 public class ErrorHandler implements io.vertx.ext.web.handler.ErrorHandler {
 
@@ -52,13 +54,15 @@ public class ErrorHandler implements io.vertx.ext.web.handler.ErrorHandler {
 
   @Override
   public void handle(RoutingContext context) {
-    HttpServerResponse response = context.response();
     Throwable failure = context.failure();
     int errorCode = context.statusCode();
-    String errorMessage = response.getStatusMessage();
-    String statusMessage = null;
+    final String errorMessage;
+    final String statusMessage;
     String htmlErrorMessage = null;
-    if (failure instanceof BadRequestException) {
+    if (errorCode == 404) {
+      statusMessage = "Not Found";
+      errorMessage = statusMessage;
+    } else if (failure instanceof BadRequestException) {
       errorCode = 400;
       errorMessage = failure.getMessage();
       statusMessage = "Bad Request";
@@ -70,23 +74,20 @@ public class ErrorHandler implements io.vertx.ext.web.handler.ErrorHandler {
       htmlErrorMessage = ((ServiceUnavailableException) failure).getMessageHTML();
     } else if (failure instanceof IllegalStateException) {
       errorCode = 500;
-      errorMessage = failure.getMessage();
-      if (errorMessage == null) {
-        errorMessage = "Internal Server Error";
-      }
+      errorMessage = Objects.requireNonNullElse(failure.getMessage(), "Internal Server Error");
+      statusMessage = "Internal Server Error";
     } else {
-      if (errorCode < 400 || errorCode > 500) {
+      if (errorCode < 400 || errorCode > 599) {
+        // unexpected error code!
+        logger.warn("Unexpected error code in ErrorHandler. Got: " + errorCode + ". Error code must be within 400 and 599, fallback to 500");
         errorCode = 500;
       }
       if (displayExceptionDetails) {
-        errorMessage = failure.getMessage();
-      }
-      if (errorMessage == null || errorMessage.trim().isEmpty()) {
+        errorMessage = Objects.requireNonNullElse(failure.getMessage(), "Internal Server Error");
+      } else {
         errorMessage = "Internal Server Error";
       }
-    }
-    if (statusMessage == null) {
-      statusMessage = errorMessage;
+      statusMessage = "Internal Server Error";
     }
     handleError(new ErrorContext(context.request(), context.response(), statusMessage, new ErrorInfo(context.failure(), errorCode, errorMessage, htmlErrorMessage)));
   }
@@ -94,8 +95,10 @@ public class ErrorHandler implements io.vertx.ext.web.handler.ErrorHandler {
   public void handleError(ErrorContext errorContext) {
     HttpServerResponse response = errorContext.getResponse();
     response.setStatusMessage(errorContext.getStatusMessage());
-    logging.error(errorContext.getRequest(), errorContext.getErrorInfo());
-    response.setStatusCode(errorContext.getErrorCode());
+    int errorCode = errorContext.getErrorCode();
+    Level level = (errorCode >= 400 && errorCode <= 499) ? Level.WARN : Level.ERROR;
+    logging.log(level, errorContext.getRequest(), errorContext.getErrorInfo());
+    response.setStatusCode(errorCode);
     ErrorInfo errorInfo = errorContext.getErrorInfo();
     if (!sendErrorResponseMIME(response, errorInfo) && !sendErrorAcceptMIME(response, errorContext.getAcceptableMimes(), errorInfo)) {
       // fallback plain/text
@@ -128,7 +131,9 @@ public class ErrorHandler implements io.vertx.ext.web.handler.ErrorHandler {
       StringBuilder stack = new StringBuilder();
       if (failure != null && displayExceptionDetails) {
         for (StackTraceElement elem : failure.getStackTrace()) {
-          stack.append(htmlSanitizer.sanitize("<li>" + elem.toString() + "</li>"));
+          stack.append("<li>");
+          stack.append(htmlSanitizer.sanitize( elem.toString()));
+          stack.append("</li>");
         }
       }
       response.putHeader(HttpHeaders.CONTENT_TYPE, "text/html");

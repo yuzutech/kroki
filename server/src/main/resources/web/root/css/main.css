@@ -75,6 +75,15 @@ ul {
   list-style: none;
 }
 
+#error {
+  vertical-align: middle;
+}
+
+#stacktrace {
+  padding-left: 4em;
+  font-size: 0.95em;
+}
+
 button,
 input,
 select,

@@ -9,6 +9,7 @@ import io.vertx.ext.web.client.HttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
+import org.slf4j.event.Level;
 
 public class Logging {
 
@@ -95,9 +96,10 @@ public class Logging {
     }
   }
 
-  public void error(HttpServerRequest request, ErrorInfo errorInfo) {
+  public void log(Level level, HttpServerRequest request, ErrorInfo errorInfo) {
+    boolean error = level.toInt() >= Level.ERROR.toInt();
     try {
-      MDC.put("action", "error");
+      MDC.put("action", error ? "error" : "warning");
       MDC.put("method", request.method().toString());
       MDC.put("path", request.path());
       MDC.put("error_code", String.valueOf(errorInfo.getCode()));
@@ -113,9 +115,17 @@ public class Logging {
       Throwable failure = errorInfo.getFailure();
       if (failure != null) {
         MDC.put("failure_class_name", failure.getClass().getName());
-        logger.error("An error occurred", failure);
+        if (error) {
+          logger.error("Server error", failure);
+        } else {
+          logger.warn("Bad request");
+        }
       } else {
-        logger.error("An error occurred");
+        if (error) {
+          logger.error("Server error");
+        } else {
+          logger.warn("Bad request");
+        }
       }
     } finally {
       MDC.remove("action");

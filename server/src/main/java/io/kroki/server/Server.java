@@ -167,7 +167,7 @@ public class Server extends AbstractVerticle {
     // Default route
     Route route = router.route("/*");
     route.handler(routingContext -> routingContext.fail(404));
-    ErrorHandler errorHandler = new ErrorHandler(vertx, false);
+    ErrorHandler errorHandler = new ErrorHandler(vertx, config.getBoolean("KROKI_DISPLAY_EXCEPTION_DETAILS", false));
     route.failureHandler(errorHandler);
 
     server
