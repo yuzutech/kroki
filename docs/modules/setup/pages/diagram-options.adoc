@@ -42,6 +42,12 @@ With flag set, option takes effect.
 |Allowable Values
 |Description
 
+|sketch
+|_flag_ +
+empty string ("")
+|Render diagram as hand-drawn sketch +
+With flag set, option takes effect.
+
 |theme
 |
 * `default` (`0`)
