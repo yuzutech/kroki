@@ -29,7 +29,7 @@ public class D2 implements DiagramService {
 
   private final Map<String, Integer> builtinThemes = Map.ofEntries(
     entry("default", 0),
-    entry("neutral-grey", 1),
+    entry("neutral-gray", 1),
     entry("flagship-terrastruct", 3),
     entry("cool-classics", 4),
     entry("mixed-berry-blue", 5),
