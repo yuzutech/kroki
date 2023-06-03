@@ -4,7 +4,7 @@ const puppeteer = require('puppeteer')
 
 class SyntaxError extends Error {
   constructor (err) {
-    console.log({err})
+    console.log({ err })
     super(`Syntax error in graph: ${JSON.stringify(err)}`)
   }
 }
@@ -36,15 +36,15 @@ class Worker {
               format: 'svg'
             }).getSvg()
             const s = new XMLSerializer()
-            console.log({s})
+            console.log({ s })
             return { svg: s.serializeToString(svgRoot), error: null }
           } catch (err) {
-            console.log({err})
+            console.log({ err })
             return { svg: null, error: err }
           }
         }, task.source),
         page.waitForTimeout(this.convertTimeout)
-      ]);
+      ])
 
       if (evalResult && evalResult.error) {
         throw new SyntaxError(evalResult.error)
