@@ -1,5 +1,5 @@
 const http = require('node:http')
-const { Worker } = require('./worker')
+const { Worker, SyntaxError } = require('./worker')
 const Task = require('./task')
 const instance = require('./browser-instance')
 const micro = require('micro')
@@ -23,11 +23,15 @@ const puppeteer = require('puppeteer')
             const output = await worker.convert(new Task(diagramSource, isPng))
             res.setHeader('Content-Type', isPng ? 'image/png' : 'image/svg+xml')
             return micro.send(res, 200, output)
-          } catch (e) {
-            if (!(e instanceof puppeteer.errors.TimeoutError)) {
-              console.log('Exception during convert', e)
+          } catch (err) {
+            if (err instanceof puppeteer.errors.TimeoutError) {
+              return micro.send(res, 408, 'Request timeout')
+            } else if (err instanceof SyntaxError) {
+              return micro.send(res, 400, err.message)
+            } else {
+              console.log('Exception during convert', err)
+              return micro.send(res, 500, 'An error occurred while converting the diagram')
             }
-            return micro.send(res, 500, 'An error occurred while converting the diagram')
           }
         }
         return micro.send(res, 400, 'Body must not be empty.')

@@ -2,6 +2,13 @@
 const path = require('node:path')
 const puppeteer = require('puppeteer')
 
+class SyntaxError extends Error {
+  constructor (err) {
+    console.log({err})
+    super(`Syntax error in graph: ${JSON.stringify(err)}`)
+  }
+}
+
 class Worker {
   constructor (browserInstance) {
     this.browserWSEndpoint = browserInstance.wsEndpoint()
@@ -19,37 +26,44 @@ class Worker {
       await page.setViewport({ height: 800, width: 600 })
       await page.goto(this.pageUrl)
       // QUESTION: should we reuse the page for performance reason ?
-      await page.evaluate((source) => {
-        /* global render */
-        return render({
-          xml: source,
-          format: 'svg'
-        })
-      }, task.source)
 
-      await page.waitForSelector('#LoadingComplete', { timeout: this.convertTimeout })
+      const evalResult = await Promise.race([
+        page.evaluate((source) => {
+          /* global render */
+          try {
+            const svgRoot = render({
+              xml: source,
+              format: 'svg'
+            }).getSvg()
+            const s = new XMLSerializer()
+            console.log({s})
+            return { svg: s.serializeToString(svgRoot), error: null }
+          } catch (err) {
+            console.log({err})
+            return { svg: null, error: err }
+          }
+        }, task.source),
+        page.waitForTimeout(this.convertTimeout)
+      ]);
+
+      if (evalResult && evalResult.error) {
+        throw new SyntaxError(evalResult.error)
+      }
 
       // const bounds = await page.mainFrame().$eval('#LoadingComplete', div => div.getAttribute('bounds'))
       // const pageId = await page.mainFrame().$eval('#LoadingComplete', div => div.getAttribute('page-id'))
       // const scale = await page.mainFrame().$eval('#LoadingComplete', div => div.getAttribute('scale'))
       // const pageCount = parseInt(await page.mainFrame().$eval('#LoadingComplete', div => div.getAttribute('pageCount')))
 
-      // diagrams are directly under #graph, while the SVG generated upon syntax error is wrapped in a div
-      const svg = await page.$('#graph > svg')
       if (task.isPng) {
-        return await svg.screenshot({
+        await page.setContent(evalResult.svg)
+        const container = await page.$('svg')
+        return await container.screenshot({
           type: 'png',
           omitBackground: true
         })
       } else {
-        return await page.$eval('#graph', container => {
-          const xmlSerializer = new XMLSerializer()
-          const nodes = []
-          for (let i = 0; i < container.childNodes.length; i++) {
-            nodes.push(xmlSerializer.serializeToString(container.childNodes[i]))
-          }
-          return nodes.join('')
-        })
+        return evalResult.svg
       }
     } finally {
       try {
@@ -67,5 +81,6 @@ class Worker {
 }
 
 module.exports = {
-  Worker
+  Worker,
+  SyntaxError
 }
