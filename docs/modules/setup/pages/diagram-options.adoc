@@ -45,7 +45,7 @@ With flag set, option takes effect.
 |theme
 |
 * `default` (`0`)
-* `neutral-grey` (`1`)
+* `neutral-gray` (`1`)
 * `flagship-terrastruct` (`3`)
 * `cool-classics` (`4`)
 * `mixed-berry-blue` (`5`)
