@@ -89,8 +89,8 @@ public class D2 implements DiagramService {
   private byte[] d2(byte[] source, JsonObject options) throws IOException, InterruptedException, IllegalStateException {
     List<String> commands = new ArrayList<>();
     commands.add(binPath);
-    String value = options.getString("theme");
-    if (value != null) {
+    String theme = options.getString("theme");
+    if (theme != null) {
       int themeId = 0;
       Integer builtinThemeId = builtinThemes.get(value.toLowerCase().replaceAll("\\s", "-"));
       if (builtinThemeId != null) {
@@ -103,6 +103,11 @@ public class D2 implements DiagramService {
         }
       }
       commands.add("--theme=" + themeId);
+    }
+    String layout = options.getString("layout");
+    // Only pass the layout argument if the ELK layout engine is requested (default is 'dagre')
+    if (layout == "elk") { 
+      commands.add("--layout=" + layout);
     }
     String sketch = options.getString("sketch");
     if (sketch != null) {
