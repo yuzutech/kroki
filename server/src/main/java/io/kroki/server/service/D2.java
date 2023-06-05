@@ -92,12 +92,12 @@ public class D2 implements DiagramService {
     String theme = options.getString("theme");
     if (theme != null) {
       int themeId = 0;
-      Integer builtinThemeId = builtinThemes.get(value.toLowerCase().replaceAll("\\s", "-"));
+      Integer builtinThemeId = builtinThemes.get(theme.toLowerCase().replaceAll("\\s", "-"));
       if (builtinThemeId != null) {
         themeId = builtinThemeId;
       } else {
         try {
-          themeId = Integer.parseInt(value, 10);
+          themeId = Integer.parseInt(theme, 10);
         } catch (NumberFormatException e) {
           // ignore, fallback to 0
         }
