@@ -80,7 +80,7 @@ kroki <command> [options] <arguments>
 |Infer from input file name.
 
 |-t, --type <type>
-|Diagram type: _actdiag_, _blockdiag_, _c4plantuml_, _ditaa_, _dot_, _erd_, _graphviz_, _nomnoml_, _nwdiag_, _plantuml_, _seqdiag_, _svgbob_, _umlet_, _vega_, _vegalite_.
+|Diagram type: _actdiag_, _blockdiag_, _c4plantuml_, _ditaa_, _dot_, _erd_, _graphviz_, _nomnoml_, _nwdiag_, _plantuml_, _seqdiag_, _svgbob_, _symbolator_, _umlet_, _vega_, _vegalite_.
 |String
 |Infer from input file extension.
 

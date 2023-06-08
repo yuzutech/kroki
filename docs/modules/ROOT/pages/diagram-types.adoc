@@ -38,6 +38,7 @@ Diagram::
 * Digital Timing diagram (waveform)
 * BPMN diagram
 * Bytefield diagram
+* HDL Component diagram
 * Excalidraw
 * https://www.diagrams.net/[diagrams.net] (experimental)
 * WireViz

@@ -25,6 +25,7 @@ asciidoc:
     seqdiag-version: 3.0.0
     structurizr-version: 1.30.1
     svgbob-version: 0.7.0
+    symbolator-version: 1.0.2
     umlet-version: 15.1
     vega-version: 5.24.0
     vegalite-version: 5.7.0

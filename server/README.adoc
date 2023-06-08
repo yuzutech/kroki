@@ -35,3 +35,15 @@ When a new version is available, we need to:
 . update the fork
 . run the following workflow: https://github.com/yuzutech/umlet/actions/workflows/release.yml
 . update the argument variable `ARG UMLET_VERSION="x.y.z"` in `server/ops/docker/jdk11-jammy/Dockerfile`
+
+=== Symbolator
+
+Since https://github.com/kevinpt/symbolator is unmaintained, we are using the fork: https://github.com/hdl/symbolator. It is also unmaintained, but has a few fixes that are not in the original repository.
+
+We also replace the https://github.com/kevinpt/hdlparse dependency with a forked version from https://github.com/hdl/pyHDLParser. These two are also unmaintained.
+
+As none of the forks publish their packages to pypi we build them from github. They also do not release versions so we select a version by a commit hash.
+
+Should a new version become avalable, we need to:
+
+. update the argument variable `ARG SYMBOLATOR_SOURCE` and `ARG SYMBOLATOR_SOURCE` in `server/ops/docker/jdk11-jammy/Dockerfile` for new commit hashes
