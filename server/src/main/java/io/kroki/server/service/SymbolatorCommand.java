@@ -43,19 +43,28 @@ public class SymbolatorCommand {
     // We currently cannot output pdf and eps because we cant change the extension.
     commands.add("--format");
     commands.add(format.getName());
+    // Use a transparent background instead of white
     String transparent = options.getString("transparent");
     if (transparent != null) {
       commands.add("--transparent");
     }
+    // If set this title will be inserted into the diagram
     String title = options.getString("title");
     if (title != null) {
       commands.add("--title");
       commands.add(title);
     }
+    // Select the scale of the diagram. The default is 1.0.
     String scale = options.getString("scale");
     if (scale != null) {
       commands.add("--scale");
       commands.add(scale);
+    }
+    // Select which component to render. The default is the last one I think.
+    String component = options.getString("component");
+    if (component != null) {
+      commands.add("--component");
+      commands.add(component);
     }
     String omitTypeInformation = options.getString("no-type");
     if (omitTypeInformation != null) {
