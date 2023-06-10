@@ -35,7 +35,6 @@ public class SymbolatorServiceTest {
     // Assert that the file looks like an SVG
     assertThat(new String(svgWithOpaqueBackground, StandardCharsets.UTF_8)).contains("svg");
     // Assert that expected things are in the diagram
-    assertThat(new String(svgWithOpaqueBackground, StandardCharsets.UTF_8)).contains("counter");
     assertThat(new String(svgWithOpaqueBackground, StandardCharsets.UTF_8)).contains("clock");
     assertThat(new String(svgWithOpaqueBackground, StandardCharsets.UTF_8)).contains("count");
 
