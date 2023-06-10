@@ -1,7 +1,10 @@
-const puppeteer = require('puppeteer')
+import puppeteer from 'puppeteer'
+
+import { logger } from './logger.js'
 
 const createBrowser = async () => {
   const browser = await puppeteer.launch({
+    dumpio: true,
     args: [
       // Disables GPU hardware acceleration.
       // If software renderer is not in place, then the GPU process won't launch.
@@ -19,8 +22,34 @@ const createBrowser = async () => {
       '--no-initial-navigation',
       // Disables the sandbox for all process types that are normally sandboxed.
       // Meant to be used as a browser-level switch for testing purposes only.
-      '--no-sandbox'
+      '--no-sandbox',
+      // import modules from file://
+      '--allow-file-access-from-files'
     ]
+  })
+
+  const browserProcess = browser.process()
+  browserProcess.stdout.unpipe()
+  browserProcess.stderr.unpipe()
+  browserProcess.stdout.on('data', (data) => {
+    logger.debug({ stdout: data.toString() }, 'chrome process stdout')
+  })
+  browserProcess.stderr.on('data', (data) => {
+    logger.error({ stderr: data.toString() }, 'chrome process')
+  })
+  browserProcess.stdout.resume()
+  browserProcess.stderr.resume()
+  browserProcess.on('disconnect', () => {
+    logger.warn('chrome process disconnected')
+  })
+  browserProcess.on('error', (err) => {
+    logger.error({ err }, 'chrome process errored')
+  })
+  browserProcess.on('exit', (code, signal) => {
+    logger.error({ code, signal }, 'chrome process exited')
+  })
+  browserProcess.on('message', (message) => {
+    logger.warn({ message }, 'chrome process message')
   })
   try {
     return browser
@@ -32,8 +61,6 @@ const createBrowser = async () => {
   }
 }
 
-module.exports = {
-  create: async () => {
-    return createBrowser()
-  }
+export async function create () {
+  return createBrowser()
 }
