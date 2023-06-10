@@ -210,7 +210,7 @@ FROM eclipse-temurin:11.0.18_10-jre-jammy
 ARG D2_VERSION="0.4.1"
 ARG PLANTUML_VERSION="1.2023.7"
 ARG UMLET_VERSION="2023-03-20_UMLet_v15.1"
-ARG GRAPHVIZ_VERSION="8.0.4"
+ARG GRAPHVIZ_VERSION="8.0.5"
 ARG DITAA_VERSION="1.0.3"
 ARG TARGETARCH
 
@@ -233,6 +233,7 @@ RUN addgroup --gecos 1000 kroki && adduser --disabled-password --ingroup kroki -
 # * texlive-pictures - Provides various graphics packages like "circuitikz"
 # * texlive-science - Provides various science packages like "siunitx"
 RUN apt-get update && apt-get install --no-install-recommends --yes \
+    libpangocairo-1.0 \
     libgd3 \
     libjpeg9 \
     giflib-tools \
