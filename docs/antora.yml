@@ -14,7 +14,7 @@ asciidoc:
     ditaa-version: 1.0.3
     erd-version: 0.2.1.0
     excalidraw-version: 0.15.2
-    graphviz-version: 8.0.4
+    graphviz-version: 8.0.5
     mermaid-version: 10.1.0
     nomnoml-version: 1.5.3
     nwdiag-version: 3.0.0
