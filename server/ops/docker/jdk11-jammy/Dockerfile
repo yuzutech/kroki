@@ -159,10 +159,7 @@ FROM yuzutech/kroki-builder-erd:0.2.1.0 AS kroki-builder-static-erd
 FROM ubuntu:jammy AS kroki-builder-static-symbolator
 
 # Build from forked source because upstream is broken for the latest python3 versions
-# The forks are also unmaintained, but at least they work
-# Should not be a problem as symbolator is done
-ARG SYMBOLATOR_SOURCE=git+https://github.com/hdl/pyHDLParser@e1153ace8ca1e25f9fb53350c41058ef8eb8dacf
-ARG HDL_PARSER_SOURCE=git+https://github.com/hdl/symbolator.git@3f02d907d6beb0f4d034d396d462892388d4b511
+ARG SYMBOLATOR_SOURCE=git+https://github.com/zebreus/symbolator.git@v1.2.1
 
 RUN apt-get update && apt-get install --no-install-recommends --yes \
     git \
@@ -177,13 +174,14 @@ RUN apt-get update && apt-get install --no-install-recommends --yes \
 
 WORKDIR /build
 
-RUN pip install --upgrade \
-  ${SYMBOLATOR_SOURCE} \
-  ${HDL_PARSER_SOURCE} \
-  nuitka
+# Install latest pip and setuptools
+RUN python3 -m pip install --upgrade pip setuptools
+RUN python3 -m pip install --upgrade nuitka
+# Install symbolator
+RUN python3 -m pip install --upgrade ${SYMBOLATOR_SOURCE}
 
 # Use nuitka to compile a static binary so we dont need python in the final image
-RUN python3 -m nuitka --onefile /usr/local/bin/symbolator --include-module=gi.overrides.Pango --include-module=gi._gi_cairo
+RUN python3 -m nuitka --onefile `which symbolator` --include-module=gi.overrides.Pango --include-module=gi._gi_cairo
 
 ## Pikchr
 FROM ubuntu:jammy AS kroki-builder-static-pikchr
