@@ -1,42 +1,28 @@
-# Package the Node.js project into a single binary
-FROM --platform=$BUILDPLATFORM node:16.18.1-alpine3.16 as builder
+FROM node:18.16-alpine3.18
 
-# Workaround: https://github.com/nodejs/docker-node/issues/813#issuecomment-407339011
-# Error: could not get uid/gid
-# [ 'nobody', 0 ]
-RUN npm config set unsafe-perm true
+RUN addgroup -g 1001 kroki && adduser -D -G kroki -u 1001 kroki
 
-RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
+RUN apk add --quiet --no-cache --update \
+  chromium \
+  font-noto-cjk
 
-ARG TARGETARCH
-ENV NODE node16
-ENV PLATFORM alpine
-RUN /usr/local/bin/pkg-fetch -n $NODE -p $PLATFORM -a $([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH")
+USER kroki
+WORKDIR /usr/local/kroki/
 
-COPY package.json package-lock.json /app/
-COPY src /app/src
-WORKDIR /app
+RUN mkdir -p /usr/local/kroki/node && chown kroki:kroki -R /usr/local/kroki
 
-RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 npm ci --target_arch=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") --target_platform=$PLATFORM
-RUN npm run lint
-
-RUN /usr/local/bin/pkg --targets $NODE-$PLATFORM-$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
-
-# Create the image
-FROM alpine:3.16.3
-
-RUN addgroup -g 1000 kroki && adduser -D -G kroki -u 1000 kroki
-
-RUN apk add --quiet --no-cache --update chromium
-
-COPY --from=builder /app/app.bin /usr/bin/bpmn
-COPY --chown=kroki:kroki assets /usr/local/kroki/assets
-
-ENV KROKI_BPMN_PAGE_URL=file:///usr/local/kroki/assets/index.html
+ENV KROKI_EXCALIDRAW_PAGE_URL=file:///usr/local/kroki/assets/index.html
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/lib/chromium/chrome
+#ENV DEBUG="puppeteer:*"
+ENV LEVEL="info"
+
+COPY --chown=kroki:kroki src ./src
+COPY --chown=kroki:kroki package*.json ./
+COPY --chown=kroki:kroki assets ./assets
+
+RUN npm i --omit=dev
 
 EXPOSE 8003
 
-USER kroki
+ENTRYPOINT ["node", "src/index.js"]
 
-ENTRYPOINT ["/usr/bin/bpmn"]

@@ -59,7 +59,7 @@ def generate_diag(app, diagram_type, output_format, source, options):
 
     app.options.font = [
         '/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf',
-        '/usr/share/fonts/ttf-dejavu/DejaVuSerif.ttf'
+        '/usr/share/fonts/dejavu/DejaVuSerif.ttf',
     ]
 
     app.fontmap = create_fontmap(app.options)

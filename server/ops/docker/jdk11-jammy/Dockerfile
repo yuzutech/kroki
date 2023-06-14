@@ -37,13 +37,13 @@ RUN curl -LO https://github.com/mgieseki/dvisvgm/releases/download/$DVISVGM_VERS
     make install
 
 ## Nomnoml
-FROM --platform=$BUILDPLATFORM node:16.18.1-bullseye-slim AS kroki-builder-nomnoml
+FROM --platform=$BUILDPLATFORM node:18.16-bullseye-slim AS kroki-builder-nomnoml
 
-RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
+RUN npm install -g pkg@5.8.1 pkg-fetch@3.5.2
 
 ARG TARGETARCH
 ARG TARGETOS
-ENV NODE node16
+ENV NODE node18
 RUN /usr/local/bin/pkg-fetch -n $NODE -p $TARGETOS -a $([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH")
 
 COPY --from=nomnoml index.js package.json package-lock.json /app/
@@ -53,7 +53,7 @@ RUN npm install --target_arch=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || ech
 RUN /usr/local/bin/pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
 
 ## Vega
-FROM --platform=$BUILDPLATFORM node:16.18.1-bullseye-slim AS kroki-builder-vega
+FROM --platform=$BUILDPLATFORM node:18.16-bullseye-slim AS kroki-builder-vega
 
 # System dependencies for "canvas" Node package
 # https://github.com/Automattic/node-canvas#compiling
@@ -66,11 +66,11 @@ RUN apt-get update && apt-get install --no-install-recommends --yes \
     librsvg2-dev && \
     apt-get clean && apt-get autoremove
 
-RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
+RUN npm install -g pkg@5.8.1 pkg-fetch@3.5.2
 
 ARG TARGETARCH
 ARG TARGETOS
-ENV NODE node16
+ENV NODE node18
 RUN /usr/local/bin/pkg-fetch -n $NODE -p $TARGETOS -a $([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH")
 
 COPY --from=vega src /app/src
@@ -82,15 +82,13 @@ RUN npm install 2 --target_arch=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || e
 RUN /usr/local/bin/pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
 
 ## DBML
-FROM --platform=$BUILDPLATFORM node:16.18.1-bullseye-slim AS kroki-builder-dbml
+FROM --platform=$BUILDPLATFORM node:18.16-bullseye-slim AS kroki-builder-dbml
 
-RUN npm config set unsafe-perm true
-
-RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
+RUN npm install -g pkg@5.8.1 pkg-fetch@3.5.2
 
 ARG TARGETARCH
 ARG TARGETOS
-ENV NODE node16
+ENV NODE node18
 RUN /usr/local/bin/pkg-fetch -n $NODE -p $TARGETOS -a $([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH")
 
 COPY --from=dbml index.js package.json package-lock.json /app/
@@ -100,13 +98,13 @@ RUN npm install --target_arch=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || ech
 RUN /usr/local/bin/pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
 
 ## Wavedrom
-FROM --platform=$BUILDPLATFORM node:16.18.1-bullseye-slim AS kroki-builder-wavedrom
+FROM --platform=$BUILDPLATFORM node:18.16-bullseye-slim AS kroki-builder-wavedrom
 
-RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
+RUN npm install -g pkg@5.8.1 pkg-fetch@3.5.2
 
 ARG TARGETARCH
 ARG TARGETOS
-ENV NODE node16
+ENV NODE node18
 RUN /usr/local/bin/pkg-fetch -n $NODE -p $TARGETOS -a $([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH")
 
 COPY --from=wavedrom index.js package.json package-lock.json /app/
@@ -116,13 +114,13 @@ RUN npm install --target_arch=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || ech
 RUN /usr/local/bin/pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
 
 ## Bytefield
-FROM --platform=$BUILDPLATFORM node:16.18.1-bullseye-slim AS kroki-builder-bytefield
+FROM --platform=$BUILDPLATFORM node:18.16-bullseye-slim AS kroki-builder-bytefield
 
-RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
+RUN npm install -g pkg@5.8.1 pkg-fetch@3.5.2
 
 ARG TARGETARCH
 ARG TARGETOS
-ENV NODE node16
+ENV NODE node18
 RUN /usr/local/bin/pkg-fetch -n $NODE -p $TARGETOS -a $([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH")
 
 COPY --from=bytefield index.js package.json package-lock.json /app/
@@ -205,7 +203,7 @@ RUN SVGBOB_VERSION=`cat Cargo.toml | grep "svgbob_cli =" | sed -r 's/.*"([^"]+)"
 # use a pre-built image to reduce build time
 
 ## yuzutech/kroki
-FROM eclipse-temurin:11.0.18_10-jre-jammy
+FROM eclipse-temurin:11.0.19_7-jre-jammy
 
 ARG D2_VERSION="0.4.1"
 ARG PLANTUML_VERSION="1.2023.7"
