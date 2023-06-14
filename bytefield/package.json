@@ -17,6 +17,9 @@
     "bytefield-svg": "1.8.0"
   },
   "devDependencies": {
-    "standard": "17.0.0"
+    "standard": "17.1.0"
+  },
+  "volta": {
+    "node": "18.16.0"
   }
 }
