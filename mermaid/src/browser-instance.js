@@ -4,6 +4,7 @@ import { logger } from './logger.js'
 
 const createBrowser = async () => {
   const browser = await puppeteer.launch({
+    headless: 'new',
     dumpio: true,
     // reference: https://peter.sh/experiments/chromium-command-line-switches/
     args: [
@@ -25,7 +26,8 @@ const createBrowser = async () => {
       // Meant to be used as a browser-level switch for testing purposes only.
       '--no-sandbox',
       // import modules from file://
-      '--allow-file-access-from-files'
+      '--allow-file-access-from-files',
+      '--disable-software-rasterizer'
     ]
   })
 
