@@ -4,6 +4,7 @@ import { logger } from './logger.js'
 
 const createBrowser = async () => {
   const browser = await puppeteer.launch({
+    headless: 'new',
     dumpio: true,
     args: [
       // Disables GPU hardware acceleration.

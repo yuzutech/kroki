@@ -2,6 +2,7 @@ const puppeteer = require('puppeteer')
 
 const createBrowser = async () => {
   const browser = await puppeteer.launch({
+    headless: 'new',
     args: [
       // allow to access files from file:// protocol
       '--allow-file-access-from-files',
@@ -23,7 +24,8 @@ const createBrowser = async () => {
       '--no-initial-navigation',
       // Disables the sandbox for all process types that are normally sandboxed.
       // Meant to be used as a browser-level switch for testing purposes only.
-      '--no-sandbox'
+      '--no-sandbox',
+      '--disable-software-rasterizer'
     ]
   })
   try {
