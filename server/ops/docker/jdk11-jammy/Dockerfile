@@ -39,7 +39,7 @@ RUN curl -LO https://github.com/mgieseki/dvisvgm/releases/download/$DVISVGM_VERS
 ## Nomnoml
 FROM --platform=$BUILDPLATFORM node:18.16-bullseye-slim AS kroki-builder-nomnoml
 
-RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
+RUN npm install -g pkg@5.8.1 pkg-fetch@3.5.2
 
 ARG TARGETARCH
 ARG TARGETOS
@@ -66,7 +66,7 @@ RUN apt-get update && apt-get install --no-install-recommends --yes \
     librsvg2-dev && \
     apt-get clean && apt-get autoremove
 
-RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
+RUN npm install -g pkg@5.8.1 pkg-fetch@3.5.2
 
 ARG TARGETARCH
 ARG TARGETOS
@@ -84,7 +84,7 @@ RUN /usr/local/bin/pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" = "amd64" ] &
 ## DBML
 FROM --platform=$BUILDPLATFORM node:18.16-bullseye-slim AS kroki-builder-dbml
 
-RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
+RUN npm install -g pkg@5.8.1 pkg-fetch@3.5.2
 
 ARG TARGETARCH
 ARG TARGETOS
@@ -100,7 +100,7 @@ RUN /usr/local/bin/pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" = "amd64" ] &
 ## Wavedrom
 FROM --platform=$BUILDPLATFORM node:18.16-bullseye-slim AS kroki-builder-wavedrom
 
-RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
+RUN npm install -g pkg@5.8.1 pkg-fetch@3.5.2
 
 ARG TARGETARCH
 ARG TARGETOS
@@ -116,7 +116,7 @@ RUN /usr/local/bin/pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" = "amd64" ] &
 ## Bytefield
 FROM --platform=$BUILDPLATFORM node:18.16-bullseye-slim AS kroki-builder-bytefield
 
-RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
+RUN npm install -g pkg@5.8.1 pkg-fetch@3.5.2
 
 ARG TARGETARCH
 ARG TARGETOS
