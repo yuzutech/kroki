@@ -1,13 +1,14 @@
-const http = require('node:http')
-const Worker = require('./worker')
-const Task = require('./task')
-const instance = require('./browser-instance')
-const micro = require('micro')
+import http from 'node:http'
+import micro from 'micro'
+import { logger } from './logger.js'
+import Worker from './worker.js'
+import Task from './task.js'
+import { create } from './browser-instance.js'
 
 ;(async () => {
   // QUESTION: should we create a pool of Chrome instances ?
-  const browser = await instance.create()
-  console.log(`Chrome accepting connections on endpoint ${browser.wsEndpoint()}`)
+  const browser = await create()
+  logger.info(`Chrome accepting connections on endpoint ${browser.wsEndpoint()}`)
   const worker = new Worker(browser)
   const server = new http.Server(
     micro.serve(async (req, res) => {
@@ -19,8 +20,8 @@ const micro = require('micro')
           const svg = await worker.convert(new Task(diagramSource))
           res.setHeader('Content-Type', 'image/svg+xml')
           return micro.send(res, 200, svg)
-        } catch (e) {
-          console.log('e', e)
+        } catch (err) {
+          logger.warn({ err }, 'Exception during convert')
           return micro.send(res, 400, 'Unable to convert the diagram')
         }
       }
@@ -28,7 +29,7 @@ const micro = require('micro')
     })
   )
   server.listen(8004)
-})().catch(error => {
-  console.error('Unable to start the service', error)
+})().catch(err => {
+  logger.error({ err }, 'Unable to start the service')
   process.exit(1)
 })

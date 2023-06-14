@@ -1,7 +1,11 @@
-const path = require('node:path')
-const puppeteer = require('puppeteer')
+import path from 'node:path'
+import { URL, fileURLToPath } from 'node:url'
+import puppeteer from 'puppeteer'
+import { logger } from './logger.js'
 
-class Worker {
+const __dirname = fileURLToPath(new URL('.', import.meta.url))
+
+export default class Worker {
   constructor (browserInstance) {
     this.browserWSEndpoint = browserInstance.wsEndpoint()
     this.pageUrl = process.env.KROKI_EXCALIDRAW_PAGE_URL || `file://${path.join(__dirname, '..', 'assets', 'index.html')}`
@@ -21,22 +25,17 @@ class Worker {
         const svgElement = await window.ExcalidrawLib.exportToSvg(JSON.parse(definition))
         return svgElement.outerHTML
       }, task.source)
-    } catch (e) {
-      console.error('Unable to convert the diagram', e)
-      throw e
     } finally {
       try {
         await page.close()
-      } catch (e) {
-        console.warn('Unable to close the page', e)
+      } catch (err) {
+        logger.warn({ err }, 'Unable to close the page')
       }
       try {
         await browser.disconnect()
-      } catch (e) {
-        console.warn('Unable to disconnect from the browser', e)
+      } catch (err) {
+        logger.warn({ err }, 'Unable to disconnect from the browser')
       }
     }
   }
 }
-
-module.exports = Worker
