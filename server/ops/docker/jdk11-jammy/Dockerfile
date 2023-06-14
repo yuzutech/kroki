@@ -84,8 +84,6 @@ RUN /usr/local/bin/pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" = "amd64" ] &
 ## DBML
 FROM --platform=$BUILDPLATFORM node:18.16-bullseye-slim AS kroki-builder-dbml
 
-RUN npm config set unsafe-perm true
-
 RUN npm install -g pkg@5.6.0 pkg-fetch@3.3.0
 
 ARG TARGETARCH
