@@ -1,6 +1,9 @@
+// must be declared first
+import { logger } from './logger.js'
+import './apm.js'
+
 import http from 'node:http'
 import micro from 'micro'
-import { logger } from './logger.js'
 import { SyntaxError, Worker } from './worker.js'
 import Task from './task.js'
 import { create } from './browser-instance.js'

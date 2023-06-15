@@ -42,6 +42,7 @@ const invalidSyntaxTests = [
 
 async function getBrowser () {
   return puppeteer.launch({
+    headless: 'new',
     args: [
       '--disable-dev-shm-usage',
       '--no-first-run',
@@ -77,8 +78,6 @@ describe('#convert', function () {
       try {
         const worker = new Worker(browser)
         const result = await worker.convert(new Task(testCase.content, true))
-
-        console.log({result})
 
         const image = PNG.sync.read(result) // this will fail on invalid image
 
