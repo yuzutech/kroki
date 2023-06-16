@@ -12,7 +12,7 @@ import { create } from './browser-instance.js'
   const worker = new Worker(browser)
   const server = new http.Server(
     micro.serve(async (req, res) => {
-      // Add a /health-check route that renders a sample diagram by calling the worker
+      // Add a /health route that renders a sample diagram by calling the worker
       if (req.url === '/health') {
         await worker.convert(new Task('graph TD\nA-->B', false), new URLSearchParams())
 
