@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 'use strict';
 
+// must be declared first
+import '../src/logger.js'
 import ospath from 'node:path'
 import { URL, fileURLToPath } from 'node:url'
 import Mocha from 'mocha'
-import '../src/logger.js'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
