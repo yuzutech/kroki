@@ -159,7 +159,8 @@ FROM yuzutech/kroki-builder-erd:0.2.1.0 AS kroki-builder-static-erd
 FROM ubuntu:jammy AS kroki-builder-static-symbolator
 
 # Build from forked source because upstream is broken for the latest python3 versions
-ARG SYMBOLATOR_SOURCE=git+https://github.com/zebreus/symbolator.git@v1.2.1
+ARG SYMBOLATOR_VERSION=1.2.1
+ARG SYMBOLATOR_SOURCE=git+https://github.com/zebreus/symbolator.git@v$SYMBOLATOR_VERSION
 
 RUN apt-get update && apt-get install --no-install-recommends --yes \
     git \
