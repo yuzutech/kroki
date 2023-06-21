@@ -232,3 +232,46 @@ The complete list of options is available in Mermaid source code at: https://git
 
 |===
 
+
+== Symbolator
+
+[cols="1m,1a,2a",opts="header"]
+|===
+|Name
+|Allowable Values
+|Description
+
+|component
+|_string_ +
+empty string ("")
+|Select the component that will be rendered +
+If not set, the last component will be rendered
+
+|transparent
+|_flag_ +
+empty string ("")
+|Background will be transparent instead of white +
+With flag set, option takes effect.
+
+|title
+|_string_ +
+empty string ("")
+|This title will be inserted into the diagram
+
+|scale
+|_number_ +
+*`1.0`*
+|Diagram will be scaled by this factor
+
+|no-type
+|_flag_ +
+empty string ("")
+|Omit type information for the ports
+
+|library-name
+|_string_ +
+empty string ("")
+|Add name of a library to the diagram. +
+Only works if title is also set
+
+|===

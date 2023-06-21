@@ -70,7 +70,7 @@ public class SymbolatorCommand {
     if (omitTypeInformation != null) {
       commands.add("--no-type");
     }
-    String libname = options.getString("libname");
+    String libname = options.getString("library-name");
     if (libname != null) {
       commands.add("--libname ");
       commands.add(libname);
