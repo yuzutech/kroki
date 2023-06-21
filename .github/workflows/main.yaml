@@ -39,7 +39,7 @@ jobs:
 
     - name: Install Symbolator
       run: |
-        wget https://github.com/zebreus/symbolator/releases/download/v1.2.1/symbolator.AppImage
+        wget https://github.com/zebreus/symbolator/releases/download/v1.2.2/symbolator.AppImage
         chmod +x symbolator.AppImage
         mv symbolator.AppImage /usr/local/bin/symbolator
 
