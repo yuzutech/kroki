@@ -53,9 +53,9 @@ public class Vega implements DiagramService {
   @Override
   public String getVersion() {
     if (specFormat == SpecFormat.DEFAULT) {
-      return "5.24.0";
+      return "5.25.0";
     } else {
-      return "5.7.0"; // Vega Lite
+      return "5.9.3"; // Vega Lite
     }
   }
 
