@@ -16,6 +16,7 @@ On this page you will learn how to encode a diagram using:
 - xref:php[]
 - xref:tcl[]
 - xref:elixir[]
+- xref:csharp[]
 
 [#nodejs]
 == Node.js
@@ -161,3 +162,8 @@ Also, see the Tcl package {uri-dia2kroki}[dia2kroki] which has procedures to bot
 ----
 include::example$encode.ex[]
 ----
+
+[#csharp]
+== C#
+
+See https://github.com/yuzutech/kroki/issues/1584#issuecomment-1604189160.
