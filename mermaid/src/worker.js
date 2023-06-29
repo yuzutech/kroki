@@ -21,8 +21,11 @@ export class Worker {
   async convert (task, config) {
     const browser = await puppeteer.connect({
       browserWSEndpoint: this.browserWSEndpoint,
-      ignoreHTTPSErrors: true
+      ignoreHTTPSErrors: true,
     })
+
+    logger.info('Browser connected')
+
     const page = await browser.newPage()
     const mermaidConfig = task.mermaidConfig
     if (config !== null && config !== undefined && typeof config[Symbol.iterator] === 'function') {

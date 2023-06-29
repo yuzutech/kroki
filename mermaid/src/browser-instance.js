@@ -30,6 +30,9 @@ const createBrowser = async () => {
   })
 
   const browserProcess = browser.process()
+
+  logger.info(`Chrome running with pid ${browserProcess.pid}`)
+
   browserProcess.stdout.unpipe()
   browserProcess.stderr.unpipe()
   browserProcess.stdout.on('data', (data) => {
