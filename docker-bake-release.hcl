@@ -20,7 +20,3 @@ target "kroki-excalidraw" {
 target "kroki-diagramsnet" {
   tags = ["yuzutech/kroki-diagramsnet:${RELEASE_VERSION}", "yuzutech/kroki-diagramsnet:latest"]
 }
-
-target "kroki-wireviz" {
-  tags = ["yuzutech/kroki-wireviz:${RELEASE_VERSION}", "yuzutech/kroki-wireviz:latest"]
-}

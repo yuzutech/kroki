@@ -1,5 +1,6 @@
 package io.kroki.server.service;
 
+import io.kroki.server.action.Commander;
 import io.kroki.server.action.Delegator;
 import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
@@ -13,28 +14,29 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.ext.web.client.WebClient;
 
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class Wireviz implements DiagramService {
 
   private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG);
-
-  private final WebClient client;
+  private final Vertx vertx;
+  private final String binPath;
   private final SourceDecoder sourceDecoder;
-  private final String host;
-  private final int port;
+  private final Commander commander;
 
-  public Wireviz(Vertx vertx, JsonObject config) {
-    this.client = WebClient.create(vertx);
+  public Wireviz(Vertx vertx, JsonObject config, Commander commander) {
+    this.vertx = vertx;
+    this.binPath = config.getString("KROKI_WIREVIZ_BIN_PATH", "wireviz");
     this.sourceDecoder = new SourceDecoder() {
       @Override
       public String decode(String encoded) throws DecodeException {
         return DiagramSource.decode(encoded);
       }
     };
-    this.host = config.getString("KROKI_WIREVIZ_HOST", "127.0.0.1");
-    this.port = config.getInteger("KROKI_WIREVIZ_PORT", 8006);
+    this.commander = commander;
   }
 
   @Override
@@ -49,13 +51,20 @@ public class Wireviz implements DiagramService {
 
   @Override
   public String getVersion() {
-    return "0.3.2";
+    return "0.3.3";
   }
 
   @Override
   public void convert(String sourceDecoded, String serviceName, FileFormat fileFormat, JsonObject options, Handler<AsyncResult<Buffer>> handler) {
-    String requestURI = "/" + serviceName + "/" + fileFormat.getName();
-    Handler<AsyncResult<HttpResponse<Buffer>>> responseHandler = Delegator.createHandler(host, port, requestURI, handler);
-    Delegator.delegate(client, host, port, requestURI, sourceDecoded, options, responseHandler);
+    vertx.executeBlocking(future -> {
+      try {
+        byte[] result = commander.execute(sourceDecoded.getBytes(), binPath,
+          "--format=" + fileFormat.getName(),
+          "-");
+        future.complete(result);
+      } catch (IOException | InterruptedException | IllegalStateException e) {
+        future.fail(e);
+      }
+    }, res -> handler.handle(res.map(o -> Buffer.buffer((byte[]) o))));
   }
 }

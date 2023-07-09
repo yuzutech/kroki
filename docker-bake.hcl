@@ -3,7 +3,7 @@ variable "TAG" {
 }
 
 group "companion-images" {
-  targets = ["kroki-mermaid", "kroki-bpmn", "kroki-excalidraw", "kroki-diagramsnet", "kroki-wireviz"]
+  targets = ["kroki-mermaid", "kroki-bpmn", "kroki-excalidraw", "kroki-diagramsnet"]
 }
 
 target "kroki" {
@@ -38,9 +38,4 @@ target "kroki-excalidraw" {
 target "kroki-diagramsnet" {
   context = "diagrams.net"
   tags = ["yuzutech/kroki-diagramsnet:${TAG}"]
-}
-
-target "kroki-wireviz" {
-  context = "wireviz"
-  tags = ["yuzutech/kroki-wireviz:${TAG}"]
 }

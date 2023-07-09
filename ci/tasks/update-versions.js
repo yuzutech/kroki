@@ -126,17 +126,6 @@ const diagramLibraryNames = [
 ]
 
 try {
-  const wirevizRequirementsContent = await fs.readFile(ospath.join(rootDir, 'wireviz', 'requirements.txt'), 'utf8')
-  for (const line of wirevizRequirementsContent.split('\n')) {
-    const found = line.match(/^(?<name>[a-zA-Z]+)==(?<version>.*)$/)
-    if (found) {
-      const { name, version } = found.groups
-      if (diagramLibraryNames.includes(name)) {
-        diagramLibraryVersions[name] = version
-      }
-    }
-  }
-
   addDiagramLibraryPackageVersion('bpmn', 'bpmn-js')
   addDiagramLibraryPackageVersion('bytefield', 'bytefield-svg')
   addDiagramLibraryPackageVersion('dbml', '@softwaretechnik/dbml-renderer')
@@ -208,6 +197,11 @@ try {
       diagramLibraryVersions.packetdiag = version
       diagramLibraryVersions.nwdiag = version
       diagramLibraryVersions.nwdiag = version
+    }
+    const wirevizVersionFound = line.match(/^ARG WIREVIZ_VERSION="(?<version>.+)"$/)
+    if (wirevizVersionFound) {
+      const { version } = wirevizVersionFound.groups
+      diagramLibraryVersions.wireviz = version
     }
   }
 

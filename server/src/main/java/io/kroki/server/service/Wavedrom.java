@@ -54,15 +54,11 @@ public class Wavedrom implements DiagramService {
   public void convert(String sourceDecoded, String serviceName, FileFormat fileFormat, JsonObject options, Handler<AsyncResult<Buffer>> handler) {
     vertx.executeBlocking(future -> {
       try {
-        byte[] result = vega(sourceDecoded.getBytes());
+        byte[] result = commander.execute(sourceDecoded.getBytes(), binPath);
         future.complete(result);
       } catch (IOException | InterruptedException | IllegalStateException e) {
         future.fail(e);
       }
     }, res -> handler.handle(res.map(o -> Buffer.buffer((byte[]) o))));
-  }
-
-  private byte[] vega(byte[] source) throws IOException, InterruptedException, IllegalStateException {
-    return commander.execute(source, binPath);
   }
 }
