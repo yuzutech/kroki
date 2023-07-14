@@ -1,0 +1,21 @@
+workspace {
+
+    model {
+        softwareSystem "Software System"
+    }
+
+    views {
+        theme default
+
+        systemLandscape "SystemLandscape" {
+            include *
+            autoLayout
+        }
+
+        styles {
+            element "Software System" {
+                background orange
+            }
+        }
+    }
+}
