@@ -11,7 +11,6 @@ const require = createRequire(import.meta.url)
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
 const rootDir = ospath.join(__dirname, '..', '..')
 const krokiServicePath = ospath.join(rootDir, 'server', 'src', 'main', 'java', 'io', 'kroki', 'server', 'service')
-const githubActionsPath = ospath.join(rootDir, '.github', 'workflows')
 
 const diagramLibraryVersions = {}
 
@@ -31,19 +30,6 @@ async function updateServiceGetVersion(javaServiceFileName, version) {
     if (currentVersion !== version) {
       const updatedJavaContent = javaContent.replace(/(?<= +public String getVersion\(\) {\n\s+return ")(?<version>[0-9.]+)(?=";\n\s+})/, version)
       await fs.writeFile(servicePath, updatedJavaContent, 'utf8')
-    }
-  }
-}
-
-async function updateSymbolatorAppImageVersion(githubActionFileName, version) {
-  const actionPath = ospath.join(githubActionsPath, githubActionFileName)
-  const githubActionContent = await fs.readFile(actionPath, 'utf8')
-  const versionFound = githubActionContent.match(/(?<=symbolator\/releases\/download\/v)(?<version>[0-9.]+)(?=\/symbolator\.AppImage)/)
-  if (versionFound) {
-    const currentVersion = versionFound.groups.version
-    if (currentVersion !== version) {
-      const updatedGithubActionContent = githubActionContent.replace(/(?<=symbolator\/releases\/download\/v)(?<version>[0-9.]+)(?=\/symbolator\.AppImage)/, version)
-      await fs.writeFile(actionPath, updatedGithubActionContent, 'utf8')
     }
   }
 }
@@ -284,7 +270,6 @@ try {
   await updateServiceGetVersion('Wavedrom.java', diagramLibraryVersions.wavedrom)
   await updateServiceGetVersion('Wireviz.java', diagramLibraryVersions.wireviz)
   await updateVegaServiceGetVersion(diagramLibraryVersions.vega, diagramLibraryVersions.vegalite)
-  await updateSymbolatorAppImageVersion("main.yaml", diagramLibraryVersions.symbolator)
 
 } catch (err) {
   console.error(err)
