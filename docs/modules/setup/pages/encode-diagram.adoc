@@ -16,6 +16,7 @@ On this page you will learn how to encode a diagram using:
 - xref:php[]
 - xref:tcl[]
 - xref:elixir[]
+- xref:csharp[]
 
 [#nodejs]
 == Node.js
@@ -161,3 +162,14 @@ Also, see the Tcl package {uri-dia2kroki}[dia2kroki] which has procedures to bot
 ----
 include::example$encode.ex[]
 ----
+
+[#csharp]
+== C#
+
+[source,csharp]
+----
+include::example$encode.cs[]
+----
+
+NOTE: Please note that we cannot use we cannot use https://learn.microsoft.com/fr-fr/dotnet/api/system.io.compression.deflatestream?view=net-7.0[`System.IO.Compression.DeflateStream`] because it does not include ZLIB header/trailer.
+To learn more, please read: https://yal.cc/cs-deflatestream-zlib/#code
