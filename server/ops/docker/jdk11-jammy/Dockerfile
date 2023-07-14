@@ -153,6 +153,35 @@ FROM yuzutech/kroki-builder-erd:0.2.1.0 AS kroki-builder-static-erd
 #  --ghc-options="-optc=-static" \
 #  --ghc-options="-w"
 
+## Symbolator
+FROM ubuntu:jammy AS kroki-builder-static-symbolator
+
+# Build from forked source because upstream is broken for the latest python3 versions
+ARG SYMBOLATOR_VERSION=1.2.2
+ARG SYMBOLATOR_SOURCE=git+https://github.com/zebreus/symbolator.git@v$SYMBOLATOR_VERSION
+
+RUN apt-get update && apt-get install --no-install-recommends --yes \
+    git \
+    pip \
+    python3-dev \
+    patchelf \
+    python3-gi-cairo \
+    python3-gi \
+    build-essential \
+    libpango1.0-dev && \
+    apt-get clean && apt-get autoremove
+
+WORKDIR /build
+
+# Install latest pip and setuptools
+RUN python3 -m pip install --upgrade pip setuptools
+RUN python3 -m pip install --upgrade nuitka
+# Install symbolator
+RUN python3 -m pip install --upgrade ${SYMBOLATOR_SOURCE}
+
+# Use nuitka to compile a static binary so we dont need python in the final image
+RUN python3 -m nuitka --onefile `which symbolator` --include-module=gi.overrides.Pango --include-module=gi._gi_cairo
+
 ## Pikchr
 FROM ubuntu:jammy AS kroki-builder-static-pikchr
 
@@ -234,6 +263,7 @@ RUN apt-get update && apt-get install --no-install-recommends --yes \
     libpangocairo-1.0 \
     libgd3 \
     libjpeg9 \
+    libpango1.0-0 \
     giflib-tools \
     fonts-freefont-ttf \
     fonts-noto-cjk \
@@ -271,6 +301,7 @@ COPY --from=kroki-builder-nomnoml /app/app.bin /usr/bin/nomnoml
 COPY --from=kroki-builder-vega /app/app.bin /usr/bin/vega
 COPY --from=kroki-builder-dbml /app/app.bin /usr/bin/dbml
 COPY --from=kroki-builder-wavedrom /app/app.bin /usr/bin/wavedrom
+COPY --from=kroki-builder-static-symbolator /build/symbolator.bin /usr/bin/symbolator
 COPY --from=kroki-builder-bytefield /app/app.bin /usr/bin/bytefield
 COPY --from=kroki-builder-dvisvgm /usr/local/bin/dvisvgm /usr/bin/dvisvgm
 COPY --from=tikz tikz2svg /usr/bin/tikz2svg
@@ -293,6 +324,7 @@ ENV KROKI_UMLET_BIN_PATH=/usr/bin/umlet
 ENV KROKI_PLANTUML_BIN_PATH=/usr/bin/plantuml
 ENV KROKI_TIKZ2SVG_BIN_PATH=/usr/bin/tikz2svg
 ENV KROKI_DITAA_BIN_PATH=/usr/bin/ditaa
+ENV KROKI_SYMBOLATOR_BIN_PATH=/usr/bin/symbolator
 ENV JAVA_OPTS="-Dlogback.configurationFile=/etc/kroki/logback.xml -Dvertx.logger-delegate-factory-class-name=io.vertx.core.logging.SLF4JLogDelegateFactory"
 
 COPY --chown=kroki:kroki target/kroki-server.jar /usr/local/kroki/kroki-server.jar

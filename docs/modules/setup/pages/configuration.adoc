@@ -117,6 +117,7 @@ you can override its location manually using an environment variable or a Java s
 `KROKI_PIKCHR_BIN_PATH`:: Path to `pikchr` binary (defaults: `/usr/bin/pikchr`)
 `KROKI_PLANTUML_BIN_PATH`:: Path to `plantuml` binary (defaults: `/usr/bin/plantuml`)
 `KROKI_SVGBOB_BIN_PATH`:: Path to `svgbob` binary (defaults: `/usr/bin/svgbob`)
+`KROKI_SYMBOLATOR_BIN_PATH`:: Path to `symbolator` binary (defaults: `/usr/bin/symbolator`)
 `KROKI_TIKZ2SVG_BIN_PATH`:: Path to `tikz2svg` binary (defaults: `/usr/bin/tikz2svg`)
 `KROKI_UMLET_BIN_PATH`:: Path to `umlet` binary (defaults: `/usr/bin/umlet`)
 `KROKI_VEGA_BIN_PATH`:: Path to `vega` binary which supports both Vega and Vega-Lite grammar (defaults: `/usr/bin/bytefield`)

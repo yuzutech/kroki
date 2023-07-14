@@ -26,6 +26,7 @@ import io.kroki.server.service.Plantuml;
 import io.kroki.server.service.ServiceVersion;
 import io.kroki.server.service.Structurizr;
 import io.kroki.server.service.Svgbob;
+import io.kroki.server.service.Symbolator;
 import io.kroki.server.service.Umlet;
 import io.kroki.server.service.Vega;
 import io.kroki.server.service.Wavedrom;
@@ -127,6 +128,7 @@ public class Server extends AbstractVerticle {
     registry.register(new Graphviz(vertx, config, commander), "graphviz", "dot");
     registry.register(new Erd(vertx, config, commander), "erd");
     registry.register(new Svgbob(vertx, config, commander), "svgbob");
+    registry.register(new Symbolator(vertx, config), "symbolator");
     registry.register(new Nomnoml(vertx, config, commander), "nomnoml");
     registry.register(new Mermaid(vertx, config), "mermaid");
     registry.register(new Vega(vertx, config, Vega.SpecFormat.DEFAULT, commander), "vega");

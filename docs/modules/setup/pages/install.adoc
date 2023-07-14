@@ -83,6 +83,7 @@ The {uri-docker-kroki-image}[yuzutech/kroki] image contains the gateway server, 
 * https://github.com/plantuml/plantuml[PlantUML] including https://github.com/RicardoNiepel/C4-PlantUML[C4 model]
 * https://github.com/structurizr/dsl[Structurizr]
 * https://github.com/ivanceras/svgbob[Svgbob]
+* https://github.com/hdl/symbolator[Symbolator]
 * https://github.com/umlet/umlet[UMlet]
 * https://github.com/vega/vega[Vega]
 * https://github.com/vega/vega-lite[Vega-Lite]
@@ -104,6 +105,7 @@ In other words, the following endpoints will be available:
 /plantuml
 /structurizr
 /svgbob
+/symbolator
 /umlet
 /vega
 /vegalite

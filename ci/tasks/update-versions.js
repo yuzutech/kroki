@@ -14,14 +14,14 @@ const krokiServicePath = ospath.join(rootDir, 'server', 'src', 'main', 'java', '
 
 const diagramLibraryVersions = {}
 
-function getDependencyVersion (pkg, name) {
+function getDependencyVersion(pkg, name) {
   if (name in pkg.dependencies) {
     return pkg.dependencies[name]
   }
   return pkg.devDependencies[name]
 }
 
-async function updateServiceGetVersion (javaServiceFileName, version) {
+async function updateServiceGetVersion(javaServiceFileName, version) {
   const servicePath = ospath.join(krokiServicePath, javaServiceFileName)
   const javaContent = await fs.readFile(servicePath, 'utf8')
   const versionFound = javaContent.match(/(?<= +public String getVersion\(\) {\n\s+return ")(?<version>[0-9.]+)(?=";\n\s+})/)
@@ -34,7 +34,7 @@ async function updateServiceGetVersion (javaServiceFileName, version) {
   }
 }
 
-async function updateVegaServiceGetVersion (vegaVersion, vegaLiteVersion) {
+async function updateVegaServiceGetVersion(vegaVersion, vegaLiteVersion) {
   // update vega version
   const servicePath = ospath.join(krokiServicePath, 'Vega.java')
   let javaContent = await fs.readFile(servicePath, 'utf8')
@@ -56,7 +56,7 @@ async function updateVegaServiceGetVersion (vegaVersion, vegaLiteVersion) {
   await fs.writeFile(servicePath, javaContent, 'utf8')
 }
 
-async function mvnEvaluateExpression (expression, pomRootRelativePath) {
+async function mvnEvaluateExpression(expression, pomRootRelativePath) {
   if (pomRootRelativePath === undefined) {
     pomRootRelativePath = ospath.join('server', 'pom.xml')
   }
@@ -83,7 +83,7 @@ async function mvnEvaluateExpression (expression, pomRootRelativePath) {
   })
 }
 
-function addDiagramLibraryPackageVersion (diagramName, dependencyName, directoryName) {
+function addDiagramLibraryPackageVersion(diagramName, dependencyName, directoryName) {
   if (directoryName === undefined) {
     directoryName = diagramName
   }
@@ -118,6 +118,7 @@ const diagramLibraryNames = [
   'seqdiag',
   'structurizr',
   'svgbob',
+  'symbolator',
   'umlet',
   'vega',
   'vegalite',
@@ -187,6 +188,12 @@ try {
       const { version } = pikchrVersionFound.groups
       diagramLibraryVersions.pikchr = version.slice(0, 10)
     }
+
+    const symbolatorVersionFound = line.match(/^ARG SYMBOLATOR_VERSION=(?<version>.+)$/)
+    if (symbolatorVersionFound) {
+      const { version } = symbolatorVersionFound.groups
+      diagramLibraryVersions.symbolator = version
+    }
     const umletVersionFound = line.match(/^ARG UMLET_VERSION="(?<version>.+)"$/)
     if (umletVersionFound) {
       const { version } = umletVersionFound.groups
@@ -234,7 +241,7 @@ try {
   for (let line of antoraComponentContent.split('\n')) {
     const found = line.match(/^\s+(?<name>[a-z0-9]+)-version: '?(?<version>[^']+)'?$/)
     if (found) {
-      const { name, version : versionFound } = found.groups
+      const { name, version: versionFound } = found.groups
       const version = diagramLibraryVersions[name]
       if (versionFound !== version) {
         line = line.replace(/(?<=^\s+(?<name>[a-z0-9]+)-version: '?)(?<version>[^']+)/, version)
@@ -258,6 +265,7 @@ try {
   await updateServiceGetVersion('Plantuml.java', diagramLibraryVersions.plantuml)
   await updateServiceGetVersion('Structurizr.java', diagramLibraryVersions.structurizr)
   await updateServiceGetVersion('Svgbob.java', diagramLibraryVersions.svgbob)
+  await updateServiceGetVersion('Symbolator.java', diagramLibraryVersions.symbolator)
   await updateServiceGetVersion('Umlet.java', diagramLibraryVersions.umlet)
   await updateServiceGetVersion('Wavedrom.java', diagramLibraryVersions.wavedrom)
   await updateServiceGetVersion('Wireviz.java', diagramLibraryVersions.wireviz)

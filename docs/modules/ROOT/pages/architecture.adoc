@@ -69,6 +69,10 @@ The `yuzutech/kroki` Docker image contains the following diagrams libraries out-
 |{svgbob-version}
 //|Binary `/rust/bin/svgbob`
 
+|https://hdl.github.io/symbolator/[Symbolator]
+|{symbolator-version}
+//|Binary `/usr/bin/symbolator`
+
 |https://github.com/umlet/umlet[UMlet]
 |{umlet-version}
 //|Java library
