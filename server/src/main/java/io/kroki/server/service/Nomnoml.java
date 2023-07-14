@@ -47,7 +47,7 @@ public class Nomnoml implements DiagramService {
 
   @Override
   public String getVersion() {
-    return "1.5.3";
+    return "1.6.1";
   }
 
   @Override
