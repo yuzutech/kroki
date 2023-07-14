@@ -134,6 +134,13 @@ public class StructurizrServiceTest {
       .hasMessage("Unable to parse the Structurizr DSL. Error running inline script, caused by java.lang.RuntimeException: Could not load a scripting engine for extension \"kts\" at line 5: }.");
   }
 
+  @Test
+  public void should_preserve_styles_defined_in_workspace_while_applying_theme() throws IOException, InterruptedException {
+    String source = read("./workspace-style-with-theme.structurizr");
+    byte[] convert = Structurizr.convert(source, FileFormat.SVG, plantumlCommand, new StructurizrPlantUMLExporter(), new JsonObject());
+    assertThat(new String(convert)).isEqualTo(read("./workspace-style-with-theme.svg"));
+  }
+
   private String stripComments(String xmlContent) {
     return xmlContent.replaceAll("<!--[\\s\\S]*?-->", "");
   }

@@ -152,11 +152,19 @@ public class Structurizr implements DiagramService {
   private static void applyTheme(ViewSet viewSet, StructurizrTheme theme) {
     List<ElementStyle> elementStyles = theme.getElementStyles();
     for (ElementStyle elementStyle : elementStyles) {
-      viewSet.getConfiguration().getStyles().add(elementStyle);
+      String tag = elementStyle.getTag();
+      ElementStyle currentElementStyle = viewSet.getConfiguration().getStyles().getElementStyle(tag);
+      if (currentElementStyle == null) {
+        viewSet.getConfiguration().getStyles().add(elementStyle);
+      }
     }
     List<RelationshipStyle> relationshipStyles = theme.getRelationshipStyle();
     for (RelationshipStyle relationshipStyle : relationshipStyles) {
-      viewSet.getConfiguration().getStyles().add(relationshipStyle);
+      String tag = relationshipStyle.getTag();
+      ElementStyle currentRelationshipStyle = viewSet.getConfiguration().getStyles().getElementStyle(tag);
+      if (currentRelationshipStyle == null) {
+        viewSet.getConfiguration().getStyles().add(relationshipStyle);
+      }
     }
   }
 
