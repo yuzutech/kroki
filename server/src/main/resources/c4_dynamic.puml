@@ -1,139 +1,133 @@
-' Scope: Interactions in an enterprise, software system or container.
-' Primary and supporting elements: Depends on the diagram scope -
-'     enterprise - people and software systems Related to the enterprise in scope
-'     software system - see system context or container diagrams,
-'     container - see component diagram.
-' Intended audience: Technical and non-technical people, inside and outside of the software development team.
-
-' Dynamic diagram introduces (automatically) numbered interactions:
-'     (lowercase) increment($offset=1): increase current index (procedure which has no direct output)
-'     (lowercase) setIndex($new_index): set the new index (procedure which has no direct output)
-'
-'     (Uppercase) LastIndex(): return the last used index (function which can be used as argument)
-'     (Uppercase) Index($offset=1): returns current index and calculates next index (function which can be used as argument)
-'     (Uppercase) SetIndex($new_index): returns new set index and calculates next index (function which can be used as argument)
-
-' Index
+' Colors
 ' ##################################
 
-!$lastIndex = 0
-!$index = 1
+!$NODE_FONT_COLOR ?= "#000000"
+!$NODE_BG_COLOR ?= "#FFFFFF"
+!$NODE_BORDER_COLOR ?= "#A2A2A2"
 
-!procedure increment($offset=1)
-  !$lastIndex = $index
-  !$index = $index + $offset
-!endprocedure
-
-!procedure setIndex($new_index)
-  !$lastIndex = $index
-  !$index = $new_index
-!endprocedure
-
-!function Index($offset=1)
-  !$lastIndex = $index
-  !$index = $lastIndex + $offset
-  !return $lastIndex
-!endfunction
-
-!function LastIndex()
-  !return $lastIndex
-!endfunction
-
-!function SetIndex($new_index, $offset=1)
-  !$lastIndex = $new_index
-  !$index = $new_index + $offset
-  !return $lastIndex
-!endfunction
-
-' Relationship override
+' Styling
 ' ##################################
 
-' Relationship
+' PlantUML supports no automatic line breaks of "PlantUML containers" (C4 Deployment_Node is a "PlantUML container")
+' therefore (Deployment_)Node() implements an automatic line break based on spaces (like in all other objects).
+' If a $type contains \n then these are used (and no automatic space based line breaks are done)
+' $NODE_TYPE_MAX_CHAR_WIDTH defines the automatic line break position
+!$NODE_TYPE_MAX_CHAR_WIDTH ?= 35
+!$NODE_DESCR_MAX_CHAR_WIDTH ?= 32
+
+UpdateElementStyle("node", $bgColor=$NODE_BG_COLOR, $fontColor=$NODE_FONT_COLOR, $borderColor=$NODE_BORDER_COLOR)
+skinparam rectangle<<node>> {
+    FontStyle normal
+}
+
+' shortcuts with default colors
+' node specific: $techn is only used in old scripts, new scripts uses $type ($techn has to remain, it could be called via named argument)
+!unquoted procedure AddNodeTag($tagStereo, $bgColor="", $fontColor="", $borderColor="", $shadowing="", $shape="", $sprite="", $type="", $legendText="", $legendSprite="", $techn="")
+  !$type=$type+$techn
+  $addElementTagInclReuse("node", $tagStereo, $bgColor, $fontColor, $borderColor, $shadowing, $shape, $sprite, $type, $legendText, $legendSprite)
+!endprocedure
+
+' Layout
 ' ##################################
 
-!unquoted procedure Rel_($e_index, $alias1, $alias2, $label, $direction)
-$alias1 $direction $alias2 : **$e_index: $label**
-!endprocedure
-!unquoted procedure Rel_($e_index, $alias1, $alias2, $label, $techn, $direction)
-$alias1 $direction $alias2 : **$e_index: $label**\n//<size:$TECHN_FONT_SIZE>[$techn]</size>//
+' comment if node should not be added to legend. No calculated legend extension required
+SetDefaultLegendEntries("person\nsystem\ncontainer\nexternal_person\nexternal_system\nexternal_container\nnode\nenterprise_boundary\nsystem_boundary\ncontainer_boundary\nboundary")
+
+' Line breaks
+' ##################################
+
+' $breakTechn() in C4 supports //...//; $breakNode() in C4_Deployment supports no //....//
+!unquoted function $breakNode($text, $widthStr)
+  !$usedNewLine = '</size>\n<size:'+$TECHN_FONT_SIZE+'>'
+  !return $breakText($text, $usedNewLine, $widthStr)
+!endfunction
+
+' Elements
+' ##################################
+
+!function $getNode($label, $type, $descr, $sprite)
+  !$nodeText = ""
+  !if ($sprite != "")
+    !$nodeText = $nodeText + $getSprite($sprite) + '\n'
+  !endif
+  !$nodeText = $nodeText + '== ' + $breakText($label, "\n== ")
+  !if ($type != "")
+    !$nodeText = $nodeText + '\n<size:' + $TECHN_FONT_SIZE + '>[' + $breakNode($type, $NODE_TYPE_MAX_CHAR_WIDTH) + ']</size>'
+  !endif
+  !if ($descr != "")
+    !$nodeText = $nodeText + '\n\n' + $breakDescr($descr, $NODE_DESCR_MAX_CHAR_WIDTH)
+  !endif
+  !return $nodeText 
+!endfunction
+
+!function $getNode_L($label, $type, $descr, $sprite)
+  !$nodeText = ""
+  !if ($sprite != "")
+    !$nodeText = $nodeText + $getSprite($sprite) + '\l'
+  !endif
+  !$nodeText = $nodeText + '== ' + $breakText($label, "\l== ")
+  !if ($type != "")
+    !$nodeText = $nodeText + '\l<size:' + $TECHN_FONT_SIZE + '>[' + $breakNode($type, $NODE_TYPE_MAX_CHAR_WIDTH) + ']</size>'
+  !endif
+  !if ($descr != "")
+    !$nodeText = $nodeText + '\l\l' + $breakDescr($descr, $NODE_DESCR_MAX_CHAR_WIDTH)
+  !endif
+  !return $nodeText 
+!endfunction
+
+!function $getNode_R($label, $type, $descr, $sprite)
+  !$nodeText = ""
+  !if ($sprite != "")
+    !$nodeText = $nodeText + $getSprite($sprite) + '\r'
+  !endif
+  !$nodeText = $nodeText + '== ' + $breakText($label, "\r== ")
+  !if ($type != "")
+    !$nodeText = $nodeText + '\r<size:' + $TECHN_FONT_SIZE + '>[' + $breakNode($type, $NODE_TYPE_MAX_CHAR_WIDTH) + ']</size>'
+  !endif
+  !if ($descr != "")
+    !$nodeText = $nodeText + '\r\r' + $breakDescr($descr, $NODE_DESCR_MAX_CHAR_WIDTH)
+  !endif
+  !return $nodeText 
+!endfunction
+
+!unquoted procedure Deployment_Node($alias, $label, $type="", $descr="", $sprite="", $tags="", $link="")
+!$sprite=$toElementArg($sprite, $tags, "ElementTagSprite", "node")
+' nodes $type reuses $techn definition of $tags
+!$type=$toElementArg($type, $tags, "ElementTagTechn", "node")
+rectangle "$getNode($label, $type, $descr, $sprite)$getProps()" $toStereos("node",$tags) as $alias $getLink($link)
 !endprocedure
 
-!unquoted procedure Rel($from, $to, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
-$getRel("-->>", $from, $to, Index() + ": " + $label, $techn, $descr, $sprite, $tags, $link)
-!endprocedure
-!unquoted procedure RelIndex($e_index, $from, $to, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
-$getRel("-->>", $from, $to, $e_index + ": " + $label, $techn, $descr, $sprite, $tags, $link)
-!endprocedure
-
-!unquoted procedure Rel_Back($from, $to, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
-$getRel("<<--", $from, $to, Index() + ": " + $label, $techn, $descr, $sprite, $tags, $link)
-!endprocedure
-!unquoted procedure RelIndex_Back($e_index, $from, $to, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
-$getRel("<<--", $from, $to, $e_index + ": " + $label, $techn, $descr, $sprite, $tags, $link)
+!unquoted procedure Deployment_Node_L($alias, $label, $type="", $descr="", $sprite="", $tags="", $link="")
+!$sprite=$toElementArg($sprite, $tags, "ElementTagSprite", "node")
+' nodes $type reuses $techn definition of $tags
+!$type=$toElementArg($type, $tags, "ElementTagTechn", "node")
+rectangle "$getNode_L($label, $type, $descr, $sprite)$getProps_L()" $toStereos("node",$tags) as $alias $getLink($link)
 !endprocedure
 
-!unquoted procedure Rel_Neighbor($from, $to, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
-$getRel("->>", $from, $to, Index() + ": " + $label, $techn, $descr, $sprite, $tags, $link)
-!endprocedure
-!unquoted procedure RelIndex_Neighbor($e_index, $from, $to, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
-$getRel("->>", $from, $to, $e_index + ": " + $label, $techn, $descr, $sprite, $tags, $link)
-!endprocedure
-
-!unquoted procedure Rel_Back_Neighbor($from, $to, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
-$getRel("<<-", $from, $to, Index() + ": " + $label, $techn, $descr, $sprite, $tags, $link)
-!endprocedure
-!unquoted procedure RelIndex_Back_Neighbor($e_index, $from, $to, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
-$getRel("<<-", $from, $to, $e_index + ": " + $label, $techn, $descr, $sprite, $tags, $link)
+!unquoted procedure Deployment_Node_R($alias, $label, $type="", $descr="", $sprite="", $tags="", $link="")
+!$sprite=$toElementArg($sprite, $tags, "ElementTagSprite", "node")
+' nodes $type reuses $techn definition of $tags
+!$type=$toElementArg($type, $tags, "ElementTagTechn", "node")
+rectangle "$getNode_R($label, $type, $descr, $sprite)$getProps_R()" $toStereos("node",$tags) as $alias $getLink($link)
 !endprocedure
 
-!unquoted procedure Rel_D($from, $to, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
-$getRel($down("-","->>"), $from, $to, Index() + ": " + $label, $techn, $descr, $sprite, $tags, $link)
-!endprocedure
-!unquoted procedure Rel_Down($from, $to, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
-$getRel($down("-","->>"), $from, $to, Index() + ": " + $label, $techn, $descr, $sprite, $tags, $link)
-!endprocedure
-!unquoted procedure RelIndex_D($e_index, $from, $to, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
-$getRel($down("-","->>"), $from, $to, $e_index + ": " + $label, $techn, $descr, $sprite, $tags, $link)
-!endprocedure
-!unquoted procedure RelIndex_Down($e_index, $from, $to, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
-$getRel($down("-","->>"), $from, $to, $e_index + ": " + $label, $techn, $descr, $sprite, $tags, $link)
+!unquoted procedure Node($alias, $label, $type="", $descr="", $sprite="", $tags="", $link="")
+!$sprite=$toElementArg($sprite, $tags, "ElementTagSprite", "node")
+' nodes $type reuses $techn definition of $tags
+!$type=$toElementArg($type, $tags, "ElementTagTechn", "node")
+rectangle "$getNode($label, $type, $descr, $sprite)$getProps()" $toStereos("node",$tags) as $alias $getLink($link)
 !endprocedure
 
-!unquoted procedure Rel_U($from, $to, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
-$getRel($up("-","->>"), $from, $to, Index() + ": " + $label, $techn, $descr, $sprite, $tags, $link)
-!endprocedure
-!unquoted procedure Rel_Up($from, $to, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
-$getRel($up("-","->>"), $from, $to, Index() + ": " + $label, $techn, $descr, $sprite, $tags, $link)
-!endprocedure
-!unquoted procedure RelIndex_U($e_index, $from, $to, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
-$getRel($up("-","->>"), $from, $to, $e_index + ": " + $label, $techn, $descr, $sprite, $tags, $link)
-!endprocedure
-!unquoted procedure RelIndex_Up($e_index, $from, $to, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
-$getRel($up("-","->>"), $from, $to, $e_index + ": " + $label, $techn, $descr, $sprite, $tags, $link)
+!unquoted procedure Node_L($alias, $label, $type="", $descr="", $sprite="", $tags="", $link="")
+!$sprite=$toElementArg($sprite, $tags, "ElementTagSprite", "node")
+' nodes $type reuses $techn definition of $tags
+!$type=$toElementArg($type, $tags, "ElementTagTechn", "node")
+rectangle "$getNode_L($label, $type, $descr, $sprite)$getProps_L()" $toStereos("node",$tags) as $alias $getLink($link)
 !endprocedure
 
-!unquoted procedure Rel_L($from, $to, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
-$getRel($left("-","->>"), $from, $to, Index() + ": " + $label, $techn, $descr, $sprite, $tags, $link)
-!endprocedure
-!unquoted procedure Rel_Left($from, $to, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
-$getRel($left("-","->>"), $from, $to, Index() + ": " + $label, $techn, $descr, $sprite, $tags, $link)
-!endprocedure
-!unquoted procedure RelIndex_L($e_index, $from, $to, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
-$getRel($left("-","->>"), $from, $to, $e_index + ": " + $label, $techn, $descr, $sprite, $tags, $link)
-!endprocedure
-!unquoted procedure RelIndex_Left($e_index, $from, $to, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
-$getRel($left("-","->>"), $from, $to, $e_index + ": " + $label, $techn, $descr, $sprite, $tags, $link)
-!endprocedure
-
-!unquoted procedure Rel_R($from, $to, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
-$getRel($right("-","->>"), $from, $to, Index() + ": " + $label, $techn, $descr, $sprite, $tags, $link)
-!endprocedure
-!unquoted procedure Rel_Right($from, $to, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
-$getRel($right("-","->>"), $from, $to, Index() + ": " + $label, $techn, $descr, $sprite, $tags, $link)
-!endprocedure
-!unquoted procedure RelIndex_R($e_index, $from, $to, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
-$getRel($right("-","->>"), $from, $to, $e_index + ": " + $label, $techn, $descr, $sprite, $tags, $link)
-!endprocedure
-!unquoted procedure RelIndex_Right($e_index, $from, $to, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
-$getRel($right("-","->>"), $from, $to, $e_index + ": " + $label, $techn, $descr, $sprite, $tags, $link)
+!unquoted procedure Node_R($alias, $label, $type="", $descr="", $sprite="", $tags="", $link="")
+!$sprite=$toElementArg($sprite, $tags, "ElementTagSprite", "node")
+' nodes $type reuses $techn definition of $tags
+!$type=$toElementArg($type, $tags, "ElementTagTechn", "node")
+rectangle "$getNode_R($label, $type, $descr, $sprite)$getProps_R()" $toStereos("node",$tags) as $alias $getLink($link)
 !endprocedure

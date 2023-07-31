@@ -6,28 +6,41 @@
 ' Colors
 ' ##################################
 
-!global $CONTAINER_BG_COLOR = "#438DD5"
-!global $CONTAINER_BORDER_COLOR = "#3C7FC0"
-!global $EXTERNAL_CONTAINER_BG_COLOR = "#B3B3B3"
-!global $EXTERNAL_CONTAINER_BORDER_COLOR = "#A6A6A6"
+!$CONTAINER_FONT_COLOR ?= $ELEMENT_FONT_COLOR
+!$CONTAINER_BG_COLOR ?= "#438DD5"
+!$CONTAINER_BORDER_COLOR ?= "#3C7FC0"
+
+!$CONTAINER_BOUNDARY_COLOR ?= $BOUNDARY_COLOR
+!$CONTAINER_BOUNDARY_BG_COLOR ?= $BOUNDARY_BG_COLOR
+!$CONTAINER_BOUNDARY_BORDER_STYLE ?= $BOUNDARY_BORDER_STYLE
+
+!$EXTERNAL_CONTAINER_FONT_COLOR ?= $ELEMENT_FONT_COLOR
+!$EXTERNAL_CONTAINER_BG_COLOR ?= "#B3B3B3"
+!$EXTERNAL_CONTAINER_BORDER_COLOR ?= "#A6A6A6"
 
 ' Styling
 ' ##################################
-UpdateElementStyle("container", $CONTAINER_BG_COLOR, $ELEMENT_FONT_COLOR, $CONTAINER_BORDER_COLOR)
-UpdateElementStyle("external_container", $EXTERNAL_CONTAINER_BG_COLOR, $ELEMENT_FONT_COLOR, $EXTERNAL_CONTAINER_BORDER_COLOR)
+UpdateElementStyle("container", $CONTAINER_BG_COLOR, $CONTAINER_FONT_COLOR, $CONTAINER_BORDER_COLOR)
+UpdateElementStyle("external_container", $EXTERNAL_CONTAINER_BG_COLOR, $EXTERNAL_CONTAINER_FONT_COLOR, $EXTERNAL_CONTAINER_BORDER_COLOR)
+
+UpdateBoundaryStyle("container", $bgColor=$CONTAINER_BOUNDARY_BG_COLOR, $fontColor=$CONTAINER_BOUNDARY_COLOR, $borderColor=$CONTAINER_BOUNDARY_COLOR, $type="Container")
 
 ' shortcuts with default colors
-!unquoted procedure AddContainerTag($tagStereo, $bgColor=$CONTAINER_BG_COLOR, $fontColor=$ELEMENT_FONT_COLOR, $borderColor=$CONTAINER_BORDER_COLOR, $shadowing="", $shape="", $sprite="", $techn="", $legendText="", $legendSprite="")
-  AddElementTag($tagStereo, $bgColor, $fontColor, $borderColor, $shadowing, $shape, $sprite, $techn, $legendText, $legendSprite)
+!unquoted procedure AddContainerTag($tagStereo, $bgColor="", $fontColor="", $borderColor="", $shadowing="", $shape="", $sprite="", $techn="", $legendText="", $legendSprite="")
+  $addElementTagInclReuse("container", $tagStereo, $bgColor, $fontColor, $borderColor, $shadowing, $shape, $sprite, $techn, $legendText, $legendSprite)
 !endprocedure
-!unquoted procedure AddExternalContainerTag($tagStereo, $bgColor=$EXTERNAL_CONTAINER_BG_COLOR, $fontColor=$ELEMENT_FONT_COLOR, $borderColor=$EXTERNAL_CONTAINER_BORDER_COLOR, $shadowing="", $shape="", $sprite="", $techn="", $legendText="", $legendSprite="")
-  AddElementTag($tagStereo, $bgColor, $fontColor, $borderColor, $shadowing, $shape, $sprite, $techn, $legendText, $legendSprite)
+!unquoted procedure AddExternalContainerTag($tagStereo, $bgColor="", $fontColor="", $borderColor="", $shadowing="", $shape="", $sprite="", $techn="", $legendText="", $legendSprite="")
+  $addElementTagInclReuse("external_container", $tagStereo, $bgColor, $fontColor, $borderColor, $shadowing, $shape, $sprite, $techn, $legendText, $legendSprite)
+!endprocedure
+
+!unquoted procedure UpdateContainerBoundaryStyle($bgColor=$CONTAINER_BOUNDARY_BG_COLOR, $fontColor=$CONTAINER_BOUNDARY_COLOR, $borderColor=$CONTAINER_BOUNDARY_COLOR, $shadowing="", $shape="", $type="Container", $legendText="")
+  UpdateBoundaryStyle("container", $bgColor, $fontColor, $borderColor, $shadowing, $shape, $type, $legendText)
 !endprocedure
 
 ' Layout
 ' ##################################
 
-SetDefaultLegendEntries("person\nsystem\ncontainer\nexternal_person\nexternal_system\nexternal_container")
+SetDefaultLegendEntries("person\nsystem\ncontainer\nexternal_person\nexternal_system\nexternal_container\nenterprise_boundary\nsystem_boundary\ncontainer_boundary\nboundary")
 
 !procedure LAYOUT_WITH_LEGEND()
 hide stereotype
@@ -45,60 +58,39 @@ endlegend
 ' Elements
 ' ##################################
 
-!function $getContainer($label, $techn, $descr, $sprite)
-!if ($descr == "") && ($sprite == "")
-!return '=='+$label+'\n//<size:'+$TECHN_FONT_SIZE+'>['+$techn+']</size>//'
-!endif
-!if ($descr == "") && ($sprite != "")
-!return $getSprite($sprite)+'\n=='+$label+'\n//<size:'+$TECHN_FONT_SIZE+'>['+$techn+']</size>//'
-!endif
-!if ($descr != "") && ($sprite == "")
-!return '=='+$label+'\n//<size:'+$TECHN_FONT_SIZE+'>['+$techn+']</size>//\n\n '+$descr
-!endif
-!if ($descr != "") && ($sprite != "")
-!return $getSprite($sprite)+'\n=='+$label+'\n//<size:'+$TECHN_FONT_SIZE+'>['+$techn+']</size>//\n\n '+$descr
-!endif
-!endfunction
-
 !unquoted procedure Container($alias, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
-!$sprite=$toElementArg($sprite, $tags, "ElementTagSprite", "container")
-!$techn=$toElementArg($techn, $tags, "ElementTagTechn", "container")
-rectangle "$getContainer($label, $techn, $descr, $sprite)$getProps()" $toStereos("container", $tags) as $alias $getLink($link)
+  $getElementLine("rectangle", "container", $alias, $label, $techn, $descr, $sprite, $tags, $link)
 !endprocedure
 
 !unquoted procedure ContainerDb($alias, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
-!$sprite=$toElementArg($sprite, $tags, "ElementTagSprite", "container")
-!$techn=$toElementArg($techn, $tags, "ElementTagTechn", "container")
-database "$getContainer($label, $techn, $descr, $sprite)$getProps()" $toStereos("container", $tags) as $alias $getLink($link)
+  $getElementLine("database", "container", $alias, $label, $techn, $descr, $sprite, $tags, $link)
 !endprocedure
 
 !unquoted procedure ContainerQueue($alias, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
-!$sprite=$toElementArg($sprite, $tags, "ElementTagSprite", "container")
-!$techn=$toElementArg($techn, $tags, "ElementTagTechn", "container")
-queue "$getContainer($label, $techn, $descr, $sprite)$getProps()" $toStereos("container", $tags) as $alias $getLink($link)
+  $getElementLine("queue", "container", $alias, $label, $techn, $descr, $sprite, $tags, $link)
 !endprocedure
 
 !unquoted procedure Container_Ext($alias, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
-!$sprite=$toElementArg($sprite, $tags, "ElementTagSprite", "external_container")
-!$techn=$toElementArg($techn, $tags, "ElementTagTechn", "external_container")
-rectangle "$getContainer($label, $techn, $descr, $sprite)$getProps()" $toStereos("external_container", $tags) as $alias $getLink($link)
+  $getElementLine("rectangle", "external_container", $alias, $label, $techn, $descr, $sprite, $tags, $link)
 !endprocedure
 
 !unquoted procedure ContainerDb_Ext($alias, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
-!$sprite=$toElementArg($sprite, $tags, "ElementTagSprite", "external_container")
-!$techn=$toElementArg($techn, $tags, "ElementTagTechn", "external_container")
-database "$getContainer($label, $techn, $descr, $sprite)$getProps()" $toStereos("external_container", $tags) as $alias $getLink($link)
+  $getElementLine("database", "external_container", $alias, $label, $techn, $descr, $sprite, $tags, $link)
 !endprocedure
 
 !unquoted procedure ContainerQueue_Ext($alias, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
-!$sprite=$toElementArg($sprite, $tags, "ElementTagSprite", "external_container")
-!$techn=$toElementArg($techn, $tags, "ElementTagTechn", "external_container")
-queue "$getContainer($label, $techn, $descr, $sprite)$getProps()" $toStereos("external_container", $tags) as $alias $getLink($link)
+  $getElementLine("queue", "external_container", $alias, $label, $techn, $descr, $sprite, $tags, $link)
 !endprocedure
 
 ' Boundaries
 ' ##################################
 
 !unquoted procedure Container_Boundary($alias, $label, $tags="", $link="")
-Boundary($alias, $label, "Container", $tags, $link)
+  !if ($tags != "")
+    !$allTags = $tags + '+container'
+  !else
+    !$allTags = 'container'
+  !endif
+  ' $type defined via $tag style
+  Boundary($alias, $label, "", $allTags, $link)
 !endprocedure
