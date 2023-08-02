@@ -6,31 +6,32 @@
 ' Colors
 ' ##################################
 
-!global $COMPONENT_FONT_COLOR = "#000000"
+!$COMPONENT_FONT_COLOR ?= "#000000"
+!$COMPONENT_BG_COLOR ?= "#85BBF0"
+!$COMPONENT_BORDER_COLOR ?= "#78A8D8"
 
-!global $COMPONENT_BG_COLOR = "#85BBF0"
-!global $COMPONENT_BORDER_COLOR = "#78A8D8"
-!global $EXTERNAL_COMPONENT_BG_COLOR = "#CCCCCC"
-!global $EXTERNAL_COMPONENT_BORDER_COLOR = "#BFBFBF"
+!$EXTERNAL_COMPONENT_FONT_COLOR ?= $COMPONENT_FONT_COLOR
+!$EXTERNAL_COMPONENT_BG_COLOR ?= "#CCCCCC"
+!$EXTERNAL_COMPONENT_BORDER_COLOR ?= "#BFBFBF"
 
 ' Styling
 ' ##################################
 
 UpdateElementStyle("component", $COMPONENT_BG_COLOR, $COMPONENT_FONT_COLOR, $COMPONENT_BORDER_COLOR)
-UpdateElementStyle("external_component", $EXTERNAL_COMPONENT_BG_COLOR, $COMPONENT_FONT_COLOR, $EXTERNAL_COMPONENT_BORDER_COLOR)
+UpdateElementStyle("external_component", $EXTERNAL_COMPONENT_BG_COLOR, $EXTERNAL_COMPONENT_FONT_COLOR, $EXTERNAL_COMPONENT_BORDER_COLOR)
 
 ' shortcuts with default colors
-!unquoted procedure AddComponentTag($tagStereo, $bgColor=$COMPONENT_BG_COLOR, $fontColor=$ELEMENT_FONT_COLOR, $borderColor=$COMPONENT_BORDER_COLOR, $shadowing="", $shape="", $sprite="", $techn="", $legendText="", $legendSprite="")
-  AddElementTag($tagStereo, $bgColor, $fontColor, $borderColor, $shadowing, $shape, $sprite, $techn, $legendText, $legendSprite)
+!unquoted procedure AddComponentTag($tagStereo, $bgColor="", $fontColor="", $borderColor="", $shadowing="", $shape="", $sprite="", $techn="", $legendText="", $legendSprite="")
+  $addElementTagInclReuse("component", $tagStereo, $bgColor, $fontColor, $borderColor, $shadowing, $shape, $sprite, $techn, $legendText, $legendSprite)
 !endprocedure
-!unquoted procedure AddExternalComponentTag($tagStereo, $bgColor=$EXTERNAL_COMPONENT_BG_COLOR, $fontColor=$ELEMENT_FONT_COLOR, $borderColor=$EXTERNAL_COMPONENT_BORDER_COLOR, $shadowing="", $shape="", $sprite="", $techn="", $legendText="", $legendSprite="")
-  AddElementTag($tagStereo, $bgColor, $fontColor, $borderColor, $shadowing, $shape, $sprite, $techn, $legendText, $legendSprite)
+!unquoted procedure AddExternalComponentTag($tagStereo, $bgColor="", $fontColor="", $borderColor="", $shadowing="", $shape="", $sprite="", $techn="", $legendText="", $legendSprite="")
+  $addElementTagInclReuse("external_component", $tagStereo, $bgColor, $fontColor, $borderColor, $shadowing, $shape, $sprite, $techn, $legendText, $legendSprite)
 !endprocedure
 
 ' Layout
 ' ##################################
 
-SetDefaultLegendEntries("person\nsystem\ncontainer\ncomponent\nexternal_person\nexternal_system\nexternal_container\nexternal_component")
+SetDefaultLegendEntries("person\nsystem\ncontainer\ncomponent\nexternal_person\nexternal_system\nexternal_container\nexternal_component\nenterprise_boundary\nsystem_boundary\ncontainer_boundary\nboundary")
 
 !procedure LAYOUT_WITH_LEGEND()
 hide stereotype
@@ -50,53 +51,26 @@ endlegend
 ' Elements
 ' ##################################
 
-!function $getComponent($label, $techn, $descr, $sprite)
-!if ($descr == "") && ($sprite == "")
-!return '=='+$label+'\n//<size:'+$TECHN_FONT_SIZE+'>['+$techn+']</size>//'
-!endif
-!if ($descr == "") && ($sprite != "")
-!return $getSprite($sprite)+'\n=='+$label+'\n//<size:'+$TECHN_FONT_SIZE+'>['+$techn+']</size>//'
-!endif
-!if ($descr != "") && ($sprite == "")
-!return '=='+$label+'\n//<size:'+$TECHN_FONT_SIZE+'>['+$techn+']</size>//\n\n '+$descr
-!endif
-!if ($descr != "") && ($sprite != "")
-!return $getSprite($sprite)+'\n=='+$label+'\n//<size:'+$TECHN_FONT_SIZE+'>['+$techn+']</size>//\n\n '+$descr
-!endif
-!endfunction
-
 !unquoted procedure Component($alias, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
-!$sprite=$toElementArg($sprite, $tags, "ElementTagSprite", "component")
-!$techn=$toElementArg($techn, $tags, "ElementTagTechn", "component")
-rectangle "$getComponent($label, $techn, $descr, $sprite)$getProps()" $toStereos("component",$tags) as $alias $getLink($link)
+  $getElementLine("rectangle", "component", $alias, $label, $techn, $descr, $sprite, $tags, $link)
 !endprocedure
 
 !unquoted procedure ComponentDb($alias, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
-!$sprite=$toElementArg($sprite, $tags, "ElementTagSprite", "component")
-!$techn=$toElementArg($techn, $tags, "ElementTagTechn", "component")
-database "$getComponent($label, $techn, $descr, $sprite)$getProps()" $toStereos("component",$tags) as $alias $getLink($link)
+  $getElementLine("database", "component", $alias, $label, $techn, $descr, $sprite, $tags, $link)
 !endprocedure
 
 !unquoted procedure ComponentQueue($alias, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
-!$sprite=$toElementArg($sprite, $tags, "ElementTagSprite", "component")
-!$techn=$toElementArg($techn, $tags, "ElementTagTechn", "component")
-queue "$getComponent($label, $techn, $descr, $sprite)$getProps()" $toStereos("component",$tags) as $alias $getLink($link)
+  $getElementLine("queue", "component", $alias, $label, $techn, $descr, $sprite, $tags, $link)
 !endprocedure
 
 !unquoted procedure Component_Ext($alias, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
-!$sprite=$toElementArg($sprite, $tags, "ElementTagSprite", "external_component")
-!$techn=$toElementArg($techn, $tags, "ElementTagTechn", "external_component")
-rectangle "$getComponent($label, $techn, $descr, $sprite)$getProps()" $toStereos("external_component",$tags) as $alias $getLink($link)
+  $getElementLine("rectangle", "external_component", $alias, $label, $techn, $descr, $sprite, $tags, $link)
 !endprocedure
 
 !unquoted procedure ComponentDb_Ext($alias, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
-!$sprite=$toElementArg($sprite, $tags, "ElementTagSprite", "external_component")
-!$techn=$toElementArg($techn, $tags, "ElementTagTechn", "external_component")
-database "$getComponent($label, $techn, $descr, $sprite)$getProps()" $toStereos("external_component",$tags) as $alias $getLink($link)
+  $getElementLine("database", "external_component", $alias, $label, $techn, $descr, $sprite, $tags, $link)
 !endprocedure
 
 !unquoted procedure ComponentQueue_Ext($alias, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
-!$sprite=$toElementArg($sprite, $tags, "ElementTagSprite", "external_component")
-!$techn=$toElementArg($techn, $tags, "ElementTagTechn", "external_component")
-queue "$getComponent($label, $techn, $descr, $sprite)$getProps()" $toStereos("external_component",$tags) as $alias $getLink($link)
+  $getElementLine("queue", "external_component", $alias, $label, $techn, $descr, $sprite, $tags, $link)
 !endprocedure

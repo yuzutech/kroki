@@ -90,6 +90,8 @@ public class Plantuml implements DiagramService {
   private static final String c4Deployment = c4Container + read("c4_deployment.puml");
   // dynamic includes component
   private static final String c4Dynamic = c4Component + read("c4_dynamic.puml");
+  // sequence includes component
+  private static final String c4Sequence = c4Component + read("c4_sequence.puml");
   private final SourceDecoder sourceDecoder;
   private final List<Pattern> includeWhitelist;
   private static final List<String> STDLIB = Arrays.asList(
@@ -292,6 +294,8 @@ public class Plantuml implements DiagramService {
           sb.append(c4Deployment).append("\n");
         } else if (include.toLowerCase().contains("c4_dynamic.puml")) {
           sb.append(c4Dynamic).append("\n");
+        } else if (include.toLowerCase().contains("c4_sequence.puml")) {
+          sb.append(c4Sequence).append("\n");
         } else if (safeMode.value < SafeMode.SECURE.value) {
           if (!include.startsWith("<") // includes starting with < must only come from stdlib
             && !include.startsWith("/") && !include.startsWith("\\") // no absolute paths,

@@ -1,12 +1,19 @@
 ' Colors
 ' ##################################
 
-!global $NODE_FONT_COLOR = "#000000"
-!global $NODE_BG_COLOR = "#FFFFFF"
-!global $NODE_BORDER_COLOR = "#A2A2A2"
+!$NODE_FONT_COLOR ?= "#000000"
+!$NODE_BG_COLOR ?= "#FFFFFF"
+!$NODE_BORDER_COLOR ?= "#A2A2A2"
 
 ' Styling
 ' ##################################
+
+' PlantUML supports no automatic line breaks of "PlantUML containers" (C4 Deployment_Node is a "PlantUML container")
+' therefore (Deployment_)Node() implements an automatic line break based on spaces (like in all other objects).
+' If a $type contains \n then these are used (and no automatic space based line breaks are done)
+' $NODE_TYPE_MAX_CHAR_WIDTH defines the automatic line break position
+!$NODE_TYPE_MAX_CHAR_WIDTH ?= 35
+!$NODE_DESCR_MAX_CHAR_WIDTH ?= 32
 
 UpdateElementStyle("node", $bgColor=$NODE_BG_COLOR, $fontColor=$NODE_FONT_COLOR, $borderColor=$NODE_BORDER_COLOR)
 skinparam rectangle<<node>> {
@@ -14,61 +21,25 @@ skinparam rectangle<<node>> {
 }
 
 ' shortcuts with default colors
-' node specific: $type reuses $techn definition of $tags
-!unquoted procedure AddNodeTag($tagStereo, $bgColor=$NODE_BG_COLOR, $fontColor=$NODE_FONT_COLOR, $borderColor=$NODE_BORDER_COLOR, $shadowing="", $shape="", $sprite="", $techn="", $legendText="", $legendSprite="")
-  AddElementTag($tagStereo, $bgColor, $fontColor, $borderColor, $shadowing, $shape, $sprite, $techn, $legendText, $legendSprite)
+' node specific: $techn is only used in old scripts, new scripts uses $type ($techn has to remain, it could be called via named argument)
+!unquoted procedure AddNodeTag($tagStereo, $bgColor="", $fontColor="", $borderColor="", $shadowing="", $shape="", $sprite="", $type="", $legendText="", $legendSprite="", $techn="")
+  !$type=$type+$techn
+  $addElementTagInclReuse("node", $tagStereo, $bgColor, $fontColor, $borderColor, $shadowing, $shape, $sprite, $type, $legendText, $legendSprite)
 !endprocedure
 
 ' Layout
 ' ##################################
 
 ' comment if node should not be added to legend. No calculated legend extension required
-SetDefaultLegendEntries("person\nsystem\ncontainer\nexternal_person\nexternal_system\nexternal_container\nnode")
+SetDefaultLegendEntries("person\nsystem\ncontainer\nexternal_person\nexternal_system\nexternal_container\nnode\nenterprise_boundary\nsystem_boundary\ncontainer_boundary\nboundary")
 
 ' Line breaks
 ' ##################################
 
-' PlantUML supports no automatic line breaks of "PlantUML containers" (C4 Deployment_Node is a "PlantUML container")
-' therefore (Deployment_)Node() implements an automatic line break based on spaces (like in all other objects).
-' If a $type contains \n then these are used (and no automatic space based line breaks are done)
-' $NODE_TYPE_MAX_CHAR_WIDTH defines the automatic line break position
-!global $NODE_TYPE_MAX_CHAR_WIDTH = 35
-!global $NODE_DESCR_MAX_CHAR_WIDTH = 32
-
-!unquoted function $breakNode($type, $widthStr)
-!$width = %intval($widthStr)
-!$multiLine = ""
-!if (%strpos($type, "\n") >= 0)
-  !while (%strpos($type, "\n") >= 0)
-    !$brPos = %strpos($type, "\n")
-    !$multiLine = $multiLine + %substr($type, 0, $brPos) + '</size>\n<size:'+$TECHN_FONT_SIZE+'>'
-    !$type = %substr($type, $brPos+2)
-  !endwhile
-!else
-  !while (%strlen($type) > $width)
-    !$brPos = $width
-    !while ($brPos > 0 && %substr($type, $brPos, 1) != ' ')
-      !$brPos = $brPos - 1
-    !endwhile
-
-    !if ($brPos < 1)
-      !$brPos = %strpos($type, " ")
-    !else
-    !endif
-
-    !if ($brPos > 0)
-      !$multiLine = $multiLine + %substr($type, 0, $brPos) + '</size>\n<size:'+$TECHN_FONT_SIZE+'>'
-      !$type = %substr($type, $brPos + 1)
-    !else
-      !$multiLine = $multiLine+ $type
-      !$type = ""
-    !endif
-  !endwhile
-!endif
-!if (%strlen($type) > 0)
-  !$multiLine = $multiLine + $type
-!endif
-!return $multiLine
+' $breakTechn() in C4 supports //...//; $breakNode() in C4_Deployment supports no //....//
+!unquoted function $breakNode($text, $widthStr)
+  !$usedNewLine = '</size>\n<size:'+$TECHN_FONT_SIZE+'>'
+  !return $breakText($text, $usedNewLine, $widthStr)
 !endfunction
 
 ' Elements
@@ -79,7 +50,7 @@ SetDefaultLegendEntries("person\nsystem\ncontainer\nexternal_person\nexternal_sy
   !if ($sprite != "")
     !$nodeText = $nodeText + $getSprite($sprite) + '\n'
   !endif
-  !$nodeText = $nodeText + '==' + $label
+  !$nodeText = $nodeText + '== ' + $breakText($label, "\n== ")
   !if ($type != "")
     !$nodeText = $nodeText + '\n<size:' + $TECHN_FONT_SIZE + '>[' + $breakNode($type, $NODE_TYPE_MAX_CHAR_WIDTH) + ']</size>'
   !endif
@@ -94,7 +65,7 @@ SetDefaultLegendEntries("person\nsystem\ncontainer\nexternal_person\nexternal_sy
   !if ($sprite != "")
     !$nodeText = $nodeText + $getSprite($sprite) + '\l'
   !endif
-  !$nodeText = $nodeText + '==' + $label
+  !$nodeText = $nodeText + '== ' + $breakText($label, "\l== ")
   !if ($type != "")
     !$nodeText = $nodeText + '\l<size:' + $TECHN_FONT_SIZE + '>[' + $breakNode($type, $NODE_TYPE_MAX_CHAR_WIDTH) + ']</size>'
   !endif
@@ -109,7 +80,7 @@ SetDefaultLegendEntries("person\nsystem\ncontainer\nexternal_person\nexternal_sy
   !if ($sprite != "")
     !$nodeText = $nodeText + $getSprite($sprite) + '\r'
   !endif
-  !$nodeText = $nodeText + '==' + $label
+  !$nodeText = $nodeText + '== ' + $breakText($label, "\r== ")
   !if ($type != "")
     !$nodeText = $nodeText + '\r<size:' + $TECHN_FONT_SIZE + '>[' + $breakNode($type, $NODE_TYPE_MAX_CHAR_WIDTH) + ']</size>'
   !endif
