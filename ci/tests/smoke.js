@@ -37,6 +37,7 @@ const tests = [
   { engine: 'diagramsnet', file: 'diagramsnet-network.xml', options: {}, outputFormat: ['svg', 'png'] },
   { engine: 'diagramsnet', file: 'diagramsnet-ui.xml', options: {}, outputFormat: ['svg', 'png'] },
   { engine: 'diagramsnet', file: 'diagramsnet-venn.xml', options: {}, outputFormat: ['svg', 'png'] },
+  { engine: 'diagramsnet', file: 'diagramsnet-infography.xml', options: { id: 'foo' }, outputFormat: ['svg', 'png'] },
   { engine: 'd2', file: 'connections.d2', options: {}, outputFormat: ['svg'] },
   { engine: 'd2', file: 'connections.d2', options: { sketch: 'true' }, outputFormat: ['svg'] },
   { engine: 'wireviz', file: 'wireviz.yaml', options: {}, outputFormat: ['svg', 'png'] },
