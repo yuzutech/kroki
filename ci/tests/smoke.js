@@ -39,7 +39,7 @@ const tests = [
   { engine: 'diagramsnet', file: 'diagramsnet-venn.xml', options: {}, outputFormat: ['svg', 'png'] },
   { engine: 'diagramsnet', file: 'diagramsnet-infography.xml', options: { id: 'foo' }, outputFormat: ['svg', 'png'] },
   { engine: 'd2', file: 'connections.d2', options: {}, outputFormat: ['svg'] },
-  { engine: 'd2', file: 'connections.d2', options: {layout: 'elk'}, outputFormat: ['svg'] },
+  { engine: 'd2', file: 'connections.d2', options: { layout: 'elk' }, outputFormat: ['svg'] },
   { engine: 'd2', file: 'connections.d2', options: { sketch: 'true' }, outputFormat: ['svg'] },
   { engine: 'wireviz', file: 'wireviz.yaml', options: {}, outputFormat: ['svg', 'png'] },
   { engine: 'tikz', file: 'periodic-table.tex', options: {}, outputFormat: ['jpeg', 'pdf', 'png', 'svg'] }

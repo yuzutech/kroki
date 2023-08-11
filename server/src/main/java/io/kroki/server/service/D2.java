@@ -105,8 +105,8 @@ public class D2 implements DiagramService {
       commands.add("--theme=" + themeId);
     }
     String layout = options.getString("layout");
-    // Only pass the layout argument if the ELK layout engine is requested (default is 'dagre')
-    if (layout == "elk") { 
+    if (layout != null && layout.equals("elk")) {
+      // Only pass the layout argument if the ELK layout engine is requested (default is 'dagre')
       commands.add("--layout=" + layout);
     }
     String sketch = options.getString("sketch");
