@@ -64,6 +64,12 @@ With flag set, option takes effect.
 
 |See: https://d2lang.com/tour/themes/
 
+|layout
+|
+* `dagre` (default)
+* `elk`
+|Use an alternate layout engine: https://d2lang.com/tour/layouts/
+
 |sketch
 |_flag_ +
 empty string ("")
