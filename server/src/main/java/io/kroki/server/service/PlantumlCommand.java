@@ -69,15 +69,19 @@ public class PlantumlCommand {
 
   public byte[] convert(String source, FileFormat format, JsonObject options) throws IOException, InterruptedException {
     List<String> commands = new ArrayList<>();
-    String theme = options.getString("theme");
     commands.add(binPath);
     commands.add("-pipe");
     commands.add("-t" + (format == FileFormat.BASE64 ? FileFormat.PNG.getName() : format.getName()));
     commands.add("-timeout");
     commands.add(String.valueOf(this.convertTimeout.timeUnit().toSeconds(this.convertTimeout.duration())));
+    String theme = options.getString("theme");
     if (theme != null && !theme.isBlank()) {
       commands.add("-theme");
       commands.add(theme);
+    }
+    String no_metadata = options.getString("no-metadata");
+    if (no_metadata != null) {
+      commands.add("-nometadata");
     }
     byte[] result = commander.execute(source.getBytes(), commands.toArray(new String[0]));
     if (format == FileFormat.BASE64) {
