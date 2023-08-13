@@ -182,6 +182,10 @@ The complete list of options is available in Mermaid source code at: https://git
 
 |Use a specific theme (it will prepend the `!theme` directive in your diagram)
 
+|no-metadata
+|_flag_ +
+empty string ("")
+|Do not save the diagram's source code in the generated SVG/PNG metadata
 |===
 
 == Structurizr
@@ -233,7 +237,7 @@ The complete list of options is available in Mermaid source code at: https://git
 
 |stroke-width
 |_any_ +
-*`2`* 
+*`2`*
 |Stroke width for all lines
 
 |===

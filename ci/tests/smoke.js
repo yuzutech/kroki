@@ -19,6 +19,7 @@ const tests = [
   { engine: 'mermaid', file: 'contribute.mmd', options: {}, outputFormat: ['svg'] },
   { engine: 'bpmn', file: 'example.bpmn', options: {}, outputFormat: ['svg'] },
   { engine: 'plantuml', file: 'architecture.puml', options: {}, outputFormat: ['svg', 'pdf', 'png', 'txt'] },
+  { engine: 'plantuml', file: 'architecture.puml', options: { 'no-metadata': 'true' }, outputFormat: ['svg', 'png'] },
   { engine: 'svgbob', file: 'cloud.bob', options: {}, outputFormat: ['svg'] },
   { engine: 'nomnoml', file: 'pirate.nomnoml', options: {}, outputFormat: ['svg'] },
   { engine: 'packetdiag', file: 'packet.diag', options: {}, outputFormat: ['svg', 'png'] },
