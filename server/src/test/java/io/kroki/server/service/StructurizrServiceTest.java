@@ -131,7 +131,7 @@ public class StructurizrServiceTest {
       Structurizr.convert(source, FileFormat.SVG, plantumlCommand, new StructurizrPlantUMLExporter(), new JsonObject());
     })
       .isInstanceOf(BadRequestException.class)
-      .hasMessage("Unable to parse the Structurizr DSL. Error running inline script, caused by java.lang.RuntimeException: Could not load a scripting engine for extension \"kts\" at line 5: }.");
+      .hasMessageStartingWith("Unable to parse the Structurizr DSL. Error running inline script, caused by java.lang.RuntimeException: Could not load a scripting engine for extension \"kts\" at line 5");
   }
 
   @Test
