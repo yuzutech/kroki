@@ -1,6 +1,6 @@
 actdiag==3.0.0
 blockdiag==3.0.0
-Click==8.1.5
+Click==8.1.6
 Flask==2.3.2
 funcparserlib==1.0.1
 gunicorn==20.1.0
