@@ -19,6 +19,8 @@ spec:
       - name: kroki
         image: docker.io/yuzutech/kroki:latest
         env:
+        - name: KROKI_BLOCKDIAG_HOST
+          value: localhost
         - name: KROKI_MERMAID_HOST
           value: localhost
         - name: KROKI_BPMN_HOST
@@ -30,6 +32,11 @@ spec:
         ports:
         - protocol: TCP
           containerPort: 8000
+      - name: kroki-blockdiag
+        image: docker.io/yuzutech/kroki-blockdiag:latest
+        ports:
+        - protocol: TCP
+          containerPort: 8001
       - name: kroki-mermaid
         image: docker.io/yuzutech/kroki-mermaid:latest
         ports:
