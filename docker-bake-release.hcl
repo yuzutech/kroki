@@ -5,10 +5,6 @@ target "kroki" {
   tags = ["yuzutech/kroki:${RELEASE_VERSION}", "yuzutech/kroki:latest"]
 }
 
-target "kroki-blockdiag" {
-  tags = ["yuzutech/kroki-blockdiag:${RELEASE_VERSION}", "yuzutech/kroki-blockdiag:latest"]
-}
-
 target "kroki-mermaid" {
   tags = ["yuzutech/kroki-mermaid:${RELEASE_VERSION}", "yuzutech/kroki-mermaid:latest"]
 }

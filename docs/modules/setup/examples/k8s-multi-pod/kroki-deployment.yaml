@@ -17,8 +17,6 @@ spec:
     spec:
       containers:
       - env:
-        - name: KROKI_BLOCKDIAG_HOST
-          value: blockdiag
         - name: KROKI_BPMN_HOST
           value: bpmn
         - name: KROKI_EXCALIDRAW_HOST

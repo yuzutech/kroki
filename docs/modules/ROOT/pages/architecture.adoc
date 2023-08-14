@@ -6,9 +6,6 @@ Gateway Server::
 This component is the entry point of Kroki.
 The server is using _Vert.x_ and will route the request to different services.
 
-Blockdiag::
-A companion web server written in Python (powered by _Flask_ and _Gunicorn_) that provides _BlockDiag_, _SeqDiag_, _ActDiag_ and _NwDiag_ diagrams libraries.
-
 Mermaid::
 A companion web server written in JavaScript (powered by _micro_) that provides _Mermaid_ diagram library.
 
@@ -31,6 +28,12 @@ The `yuzutech/kroki` Docker image contains the following diagrams libraries out-
 [options="header",cols="1,1m"]
 |===
 |Diagram Type | Version
+|https://github.com/blockdiag/actdiag[ActDiag]
+|{actdiag-version}
+
+|https://github.com/blockdiag/blockdiag[BlockDiag]
+|{blockdiag-version}
+
 |https://github.com/Deep-Symmetry/bytefield-svg[Bytefield]
 |{bytefield-version}
 
@@ -54,12 +57,24 @@ The `yuzutech/kroki` Docker image contains the following diagrams libraries out-
 |{nomnoml-version}
 //|Binary `/node/bin/nomnoml`
 
+|https://github.com/blockdiag/nwdiag[NwDiag]
+|{nwdiag-version}
+
+|https://github.com/blockdiag/nwdiag/tree/master/src/packetdiag[PacketDiag]
+|{packetdiag-version}
+
 |https://github.com/drhsqlite/pikchr[Pikchr]
 |{pikchr-version}
 
 |https://github.com/plantuml/plantuml[PlantUML]
 |{plantuml-version}
 //|Java library (depends on GraphViz)
+
+|https://github.com/blockdiag/nwdiag/tree/master/src/rackdiag[RackDiag]
+|{rackdiag-version}
+
+|https://github.com/blockdiag/seqdiag[SeqDiag]
+|{seqdiag-version}
 
 |https://github.com/structurizr/dsl[Structurizr]
 |{structurizr-version}
@@ -88,35 +103,6 @@ The `yuzutech/kroki` Docker image contains the following diagrams libraries out-
 |https://github.com/wavedrom/wavedrom[WaveDrom]
 |{wavedrom-version}
 //|Binary `/node/bin/wavedrom`
-
-|===
-
-== Companion Servers
-
-=== BlockDiag
-
-The `yuzutech/kroki-blockdiag` Docker image contains the following diagrams libraries out-of-the-box:
-
-[options="header",cols="1,1m"]
-|===
-|Diagram Type | Version
-|https://github.com/blockdiag/actdiag[ActDiag]
-|{actdiag-version}
-
-|https://github.com/blockdiag/blockdiag[BlockDiag]
-|{blockdiag-version}
-
-|https://github.com/blockdiag/nwdiag[NwDiag]
-|{nwdiag-version}
-
-|https://github.com/blockdiag/nwdiag/tree/master/src/packetdiag[PacketDiag]
-|{packetdiag-version}
-
-|https://github.com/blockdiag/nwdiag/tree/master/src/rackdiag[RackDiag]
-|{rackdiag-version}
-
-|https://github.com/blockdiag/seqdiag[SeqDiag]
-|{seqdiag-version}
 |===
 
 === Mermaid

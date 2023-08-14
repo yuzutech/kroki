@@ -6,7 +6,6 @@ import ospath from 'node:path'
 import { createRequire } from 'node:module'
 import { spawn } from 'node:child_process'
 
-const KROKI_UBUNTU_VERSION = 'jammy'
 const require = createRequire(import.meta.url)
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
 const rootDir = ospath.join(__dirname, '..', '..')
@@ -127,23 +126,6 @@ const diagramLibraryNames = [
 ]
 
 try {
-  // GET CURRENT VERSION
-  const blockdiagRequirementsContent = await fs.readFile(ospath.join(rootDir, 'blockdiag', 'requirements.txt'), 'utf8')
-  for (const line of blockdiagRequirementsContent.split('\n')) {
-    const found = line.match(/^(?<name>[a-zA-Z]+)==(?<version>.*)$/)
-    if (found) {
-      const { name, version } = found.groups
-      if (diagramLibraryNames.includes(name)) {
-        if (name === 'nwdiag') {
-          // this package also includes rackdiag and packetdiag
-          diagramLibraryVersions.rackdiag = version
-          diagramLibraryVersions.packetdiag = version
-        }
-        diagramLibraryVersions[name] = version
-      }
-    }
-  }
-
   const wirevizRequirementsContent = await fs.readFile(ospath.join(rootDir, 'wireviz', 'requirements.txt'), 'utf8')
   for (const line of wirevizRequirementsContent.split('\n')) {
     const found = line.match(/^(?<name>[a-zA-Z]+)==(?<version>.*)$/)
@@ -204,6 +186,7 @@ try {
     if (plantumlVersionFound) {
       const { version } = plantumlVersionFound.groups
       diagramLibraryVersions.plantuml = version
+      diagramLibraryVersions.c4plantuml = version
     }
     const graphvizVersionFound = line.match(/^ARG GRAPHVIZ_VERSION="(?<version>.+)"$/)
     if (graphvizVersionFound) {
@@ -214,6 +197,17 @@ try {
     if (ditaaVersionFound) {
       const { version } = ditaaVersionFound.groups
       diagramLibraryVersions.ditaa = version
+    }
+    const blockdiagVersionFound = line.match(/^ARG BLOCKDIAG_VERSION="(?<version>.+)"$/)
+    if (blockdiagVersionFound) {
+      const { version } = blockdiagVersionFound.groups
+      diagramLibraryVersions.blockdiag = version
+      diagramLibraryVersions.actdiag = version
+      diagramLibraryVersions.seqdiag = version
+      diagramLibraryVersions.rackdiag = version
+      diagramLibraryVersions.packetdiag = version
+      diagramLibraryVersions.nwdiag = version
+      diagramLibraryVersions.nwdiag = version
     }
   }
 

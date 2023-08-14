@@ -3,7 +3,7 @@ variable "TAG" {
 }
 
 group "companion-images" {
-  targets = ["kroki-blockdiag", "kroki-mermaid", "kroki-bpmn", "kroki-excalidraw", "kroki-diagramsnet", "kroki-wireviz"]
+  targets = ["kroki-mermaid", "kroki-bpmn", "kroki-excalidraw", "kroki-diagramsnet", "kroki-wireviz"]
 }
 
 target "kroki" {
@@ -18,11 +18,6 @@ target "kroki" {
   }
   dockerfile = "ops/docker/jdk11-jammy/Dockerfile"
   tags = ["yuzutech/kroki:${TAG}"]
-}
-
-target "kroki-blockdiag" {
-  context = "blockdiag"
-  tags = ["yuzutech/kroki-blockdiag:${TAG}"]
 }
 
 target "kroki-mermaid" {

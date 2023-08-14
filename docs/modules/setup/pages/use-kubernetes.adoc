@@ -68,13 +68,6 @@ Alternatively they can be applied individually.
 
 To install them individually from GitHub, open a terminal and type commands indicated for each service:
 
-.Add BlockDiag service
-[source,cli,subs=+attributes]
-----
-kubectl apply -f {uri-k8s-kroki-examples}/blockdiag-deployment.yaml
-kubectl apply -f {uri-k8s-kroki-examples}/blockdiag-service.yaml
-----
-
 .Add Mermaid service
 [source,cli,subs=+attributes]
 ----
@@ -129,7 +122,6 @@ If the installation is successful a list of running pods is shown that includes 
 +
 ....
 NAME                          READY   STATUS    RESTARTS   AGE
-blockdiag-7bd6c989b7-zhvj8    1/1     Running   0          24s
 bpmn-6cfccf9bc4-6w4px         1/1     Running   0          24s
 excalidraw-5b84995fcb-dh57t   1/1     Running   0          24s
 kroki-6b49bcb7c4-x2ksc        1/1     Running   0          23s

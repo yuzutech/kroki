@@ -1,7 +1,6 @@
 = Install Kroki
 // Docker Hub URIs of Kroki container images
 :uri-docker-kroki-image: https://hub.docker.com/r/yuzutech/kroki
-:uri-docker-kroki-blockdiag-image: https://hub.docker.com/r/yuzutech/kroki-blockdiag
 :uri-docker-kroki-mermaid-image: https://hub.docker.com/r/yuzutech/kroki-mermaid
 :uri-docker-kroki-bpmn-image: https://hub.docker.com/r/yuzutech/kroki-bpmn
 :uri-docker-kroki-excalidraw-image: https://hub.docker.com/r/yuzutech/kroki-excalidraw
@@ -93,6 +92,8 @@ In other words, the following endpoints will be available:
 
 [literal]
 ....
+/actdiag
+/blockdiag
 /bytefield
 /c4plantuml
 /d2
@@ -101,8 +102,12 @@ In other words, the following endpoints will be available:
 /graphviz
 /dot
 /nomnoml
+/nwdiag
+/packetdiag
 /pikchr
 /plantuml
+/rackdiag
+/seqdiag
 /structurizr
 /svgbob
 /symbolator
@@ -112,26 +117,15 @@ In other words, the following endpoints will be available:
 /wavedrom
 ....
 
-If you want to use additional diagram libraries (such as _BlockDiag_, _BPMN_, _Excalidraw_ or _Mermaid_), then you will also need to start their companion containers:
+If you want to use additional diagram libraries (such as _BPMN_, _Excalidraw_ or _Mermaid_), then you will also need to start their companion containers:
 
 == Companion containers
 These optional companion containers provide additional diagrams and require the gateway server
 
-// * <<yuzutech-kroki-blockdiag,Kroki blockdiag>>
 // * <<yuzutech-kroki-bpmn,Kroki bpmn>>
 // * <<yuzutech-kroki-excalidraw,Kroki excalidraw>>
 // * <<yuzutech-kroki-mermaid,Kroki mermaid>>
 // * <<yuzutech-kroki-wireviz,Kroki wireviz>>
-
-[#yuzutech-kroki-blockdiag]
-{uri-docker-kroki-blockdiag-image}[yuzutech/kroki-blockdiag^]::
-Provides block, sequence, activity, network, packet & equipment rack diagrams for Kroki using respectively the
-{uri-blockdiag}[BlockDiag^],
-{uri-seqdiag}[SeqDiag^],
-{uri-actdiag}[ActDiag^],
-{uri-nwdiag}[NwDiag^]
-{uri-packetdiag}[PacketDiag^],
-and {uri-rackdiag}[RackDiag^] libraries.
 
 [#yuzutech-kroki-bpmn]
 {uri-docker-kroki-bpmn-image}[yuzutech/kroki-bpmn^]::

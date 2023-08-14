@@ -8,17 +8,12 @@ services:
       - bpmn
       - excalidraw
     environment:
-      - KROKI_BLOCKDIAG_HOST=blockdiag
       - KROKI_MERMAID_HOST=mermaid
       - KROKI_BPMN_HOST=bpmn
       - KROKI_EXCALIDRAW_HOST=excalidraw
       - KROKI_WIREVIZ_HOST=wireviz
     ports:
       - "8000:8000"
-  blockdiag:
-    image: yuzutech/kroki-blockdiag
-    expose:
-      - "8001"
   mermaid:
     image: yuzutech/kroki-mermaid
     expose:

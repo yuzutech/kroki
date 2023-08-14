@@ -1,6 +1,0 @@
-seqdiag {
-  start [label = "Contract"]
-  start [label = "End"]
-  start  -> stage1 [label = "1st"];
-  stage1  -> stage2 [label = "2st"];
-}

@@ -47,10 +47,11 @@ public class DelegatorTest {
     server.listen(port, "localhost", handler -> {
       WebClient webClient = WebClient.create(vertx);
       HashMap<String, Object> options = new HashMap<>();
-      options.put("no-transparency", "");
-      Delegator.delegate(webClient, "localhost", port, "/blockdiag/png", "blockdiag { Kroki -> is -> great; }", new JsonObject(options), testContext.succeeding(bufferHttpResponse -> {
+      options.put("theme", "forest");
+      Delegator.delegate(webClient, "localhost", port, "/mermaid/png", "sequenceDiagram\n" +
+              "    Alice->>John: Hello John, how are you?", new JsonObject(options), testContext.succeeding(bufferHttpResponse -> {
         String response = bufferHttpResponse.bodyAsString();
-        assertThat(response).isEqualTo("uri=/blockdiag/png?no-transparency=\n;body=blockdiag { Kroki -> is -> great; }");
+        assertThat(response).isEqualTo("uri=/mermaid/png?theme=forest\n;body=sequenceDiagram\n    Alice->>John: Hello John, how are you?");
         testContext.completeNow();
       }));
     });

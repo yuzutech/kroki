@@ -7,7 +7,7 @@ asciidoc:
     blockdiag-version: 3.0.0
     bpmn-version: 13.2.0
     bytefield-version: 1.8.0
-    c4plantuml-version: undefined
+    c4plantuml-version: 1.2023.7
     d2-version: 0.5.1
     dbml-version: 1.0.26
     diagramsnet-version: 16.2.4
