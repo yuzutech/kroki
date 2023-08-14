@@ -239,6 +239,7 @@ ARG PLANTUML_VERSION="1.2023.7"
 ARG UMLET_VERSION="2023-03-20_UMLet_v15.1"
 ARG GRAPHVIZ_VERSION="8.0.5"
 ARG DITAA_VERSION="1.0.3"
+ARG BLOCKDIAG_VERSION="3.1.0"
 ARG TARGETARCH
 
 LABEL \
@@ -294,6 +295,9 @@ RUN wget "https://github.com/ggrossetie/plantuml/releases/download/v${PLANTUML_V
 RUN wget "https://github.com/yuzutech/umlet/releases/download/${UMLET_VERSION}/umlet-linux-${TARGETARCH}" -O /usr/bin/umlet && \
     chmod +x /usr/bin/umlet
 
+RUN wget "https://github.com/yuzutech/blockdiag/releases/download/v${BLOCKDIAG_VERSION}/blockdiag-bundle-linux-${TARGETARCH}.bin" -O /usr/bin/blockdiag && \
+    chmod +x /usr/bin/blockdiag
+
 COPY --from=kroki-builder-static-svgbob /usr/local/cargo/bin/svgbob_cli /usr/bin/svgbob
 COPY --from=kroki-builder-static-erd /root/.local/bin/erd /usr/bin/erd
 COPY --from=kroki-builder-static-pikchr /build/pikchr /usr/bin/pikchr
@@ -325,6 +329,7 @@ ENV KROKI_PLANTUML_BIN_PATH=/usr/bin/plantuml
 ENV KROKI_TIKZ2SVG_BIN_PATH=/usr/bin/tikz2svg
 ENV KROKI_DITAA_BIN_PATH=/usr/bin/ditaa
 ENV KROKI_SYMBOLATOR_BIN_PATH=/usr/bin/symbolator
+ENV KROKI_BLOCKDIAG_BIN_PATH=/usr/bin/blockdiag
 ENV JAVA_OPTS="-Dlogback.configurationFile=/etc/kroki/logback.xml -Dvertx.logger-delegate-factory-class-name=io.vertx.core.logging.SLF4JLogDelegateFactory"
 
 COPY --chown=kroki:kroki target/kroki-server.jar /usr/local/kroki/kroki-server.jar

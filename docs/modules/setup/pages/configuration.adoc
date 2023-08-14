@@ -196,8 +196,6 @@ In other words, diagram library timeouts (for instance, `KROKI_PLANTUML_CONVERT_
 
 You can configure the host and port on which every companion container will be listening:
 
-KROKI_BLOCKDIAG_HOST:: Host of the BlockDiag container (default: `127.0.0.1`).
-KROKI_BLOCKDIAG_PORT:: Port of the BlockDiag container (default: `8001`).
 KROKI_MERMAID_HOST:: Host of the Mermaid container (default: `127.0.0.1`).
 KROKI_MERMAID_PORT:: Port of the Mermaid container (default: `8002`).
 KROKI_BPMN_HOST:: Host of the BPMN container (default: `127.0.0.1`).

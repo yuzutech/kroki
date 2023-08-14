@@ -87,9 +87,6 @@ A Node.js CLI on top of the _Nomnoml_ diagram library.
 vega::
 A Node.js CLI on top of the _vega_ diagram library. Also supports Vega-Lite concise grammar.
 
-blockdiag::
-A companion web server written in Python (powered by _Flask_ and _Gunicorn_) that provides _BlockDiag_, _SeqDiag_, _ActDiag_, _NwDiag_, _PacketDiag_ and _RackDiag_ diagrams libraries.
-
 mermaid::
 A companion web server written in JavaScript (powered by _micro_) that provides _Mermaid_ diagram library.
 
@@ -137,9 +134,6 @@ Once the Docker images are built, you can run Kroki using `docker`:
 
 If you want to use one of the following diagram libraries then you will also need to start the corresponding companion container:
 
-yuzutech/kroki-blockdiag::
-BlockDiag, ActDiag, NwDiag, SeqDiag, PacketDiag, RackDiag
-
 yuzutech/kroki-mermaid::
 Mermaid
 
@@ -165,17 +159,12 @@ services:
   core:
     image: yuzutech/kroki
     environment:
-      - KROKI_BLOCKDIAG_HOST=blockdiag
       - KROKI_MERMAID_HOST=mermaid
       - KROKI_BPMN_HOST=bpmn
       - KROKI_EXCALIDRAW_HOST=excalidraw
       - KROKI_WIREVIZ_HOST=wireviz
     ports:
       - "8000:8000"
-  blockdiag:
-    image: yuzutech/kroki-blockdiag
-    expose:
-      - "8001"
   mermaid:
     image: yuzutech/kroki-mermaid
     expose:

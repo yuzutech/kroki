@@ -29,24 +29,19 @@ This image includes `EXPOSE 8000` (the kroki port), so standard container linkin
 #### connect with companion containers
 
 We recommend using docker-composer to connect with companion containers, such as 
-[kroki-bpmn](https://hub.docker.com/r/yuzutech/kroki-bpmn), [kroki-blockdiag](https://hub.docker.com/r/yuzutech/kroki-blockdiag), [kroki-excalidraw](https://hub.docker.com/r/yuzutech/kroki-excalidraw) and [kroki-mermaid](https://hub.docker.com/r/yuzutech/kroki-mermaid)
+[kroki-bpmn](https://hub.docker.com/r/yuzutech/kroki-bpmn), [kroki-excalidraw](https://hub.docker.com/r/yuzutech/kroki-excalidraw) and [kroki-mermaid](https://hub.docker.com/r/yuzutech/kroki-mermaid)
 ```
 version: "3"
 services:
   core:
     image: yuzutech/kroki
     environment:
-      - KROKI_BLOCKDIAG_HOST=blockdiag
       - KROKI_MERMAID_HOST=mermaid
       - KROKI_BPMN_HOST=bpmn
       - KROKI_EXCALIDRAW_HOST=excalidraw
       - KROKI_WIREVIZ_HOST=wireviz
     ports:
       - "8000:8000"
-  blockdiag:
-    image: yuzutech/kroki-blockdiag
-    ports:
-      - "8001:8001"
   mermaid:
     image: yuzutech/kroki-mermaid
     ports:
@@ -69,7 +64,6 @@ If you don't want to use `docker-compose`, you can configure the host and port f
 
 | Container          | Host                    | Port                    |
 |--------------------|-------------------------|-------------------------|
-| `kroki-blockdiag`  | `KROKI_BLOCKDIAG_HOST`  | `KROKI_BLOCKDIAG_PORT`  |
 | `kroki-mermaid`    | `KROKI_MERMAID_HOST`    | `KROKI_MERMAID_PORT`    |
 | `kroki-bpmn`       | `KROKI_BPMN_HOST`       | `KROKI_BPMN_PORT`       |
 | `kroki-excalidraw` | `KROKI_EXCALIDRAW_HOST` | `KROKI_EXCALIDRAW_PORT` |
