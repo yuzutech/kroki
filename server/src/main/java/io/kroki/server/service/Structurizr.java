@@ -70,7 +70,7 @@ public class Structurizr implements DiagramService {
 
   @Override
   public String getVersion() {
-    return "1.30.1";
+    return "1.32.0";
   }
 
   @Override
