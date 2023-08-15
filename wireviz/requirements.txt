@@ -2,7 +2,7 @@ click==8.1.6
 Flask==2.3.2
 gunicorn==20.1.0
 itsdangerous==2.1.2
-Werkzeug==2.3.6
+Werkzeug==2.3.7
 wireviz==0.3.2
 graphviz==0.20.1
 Jinja2==3.1.2
