@@ -24,10 +24,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -687,6 +684,29 @@ public class PlantumlServiceTest {
       expectedFileName = "./plantuml_with_minty_theme_macos.svg";
     }
     assertThat(stripComments(new String(convert))).isEqualTo(read(expectedFileName));
+  }
+
+  @Test
+  void should_include_awslib() throws IOException, InterruptedException {
+    String diagram = "!include <awslib/AWSCommon>\n" +
+            "!include <awslib/Groups/all.puml>\n" +
+            "\n" +
+            "AWSAccountGroup(externalAccount, \"AWS account external\") {\n" +
+            "\n" +
+            "}";
+    byte[] convert = plantumlCommand.convert(diagram, FileFormat.SVG, new JsonObject());
+    assertThat(new String(convert)).contains("xlink:href=\"data:image/png;base64,");
+  }
+
+  @Test
+  void should_include_openiconic() throws IOException, InterruptedException {
+    String diagram = "listopeniconic";
+    byte[] convert = plantumlCommand.convert(diagram, FileFormat.SVG, new JsonObject());
+    System.out.println(new String(convert));
+    Pattern pattern = Pattern.compile("<path d=");
+    String output = new String(convert);
+    int countOccurrences= (output.length() - output.replace("<path d=\"", "").length()) / "<path d=\"".length();
+    assertThat(countOccurrences).isEqualTo(223); // 223 icons
   }
 
   private String read(String name) throws IOException {
