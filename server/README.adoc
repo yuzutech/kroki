@@ -18,12 +18,12 @@ When a new version is available, we need to :
 
 === PlantUML
 
-We are producing native binaries with GraalVM: https://github.com/ggrossetie/plantuml/releases
+We are producing native binaries with GraalVM: https://github.com/yuzutech/plantuml/releases
 
 When a new version is available, we need to:
 
 . update the fork
-. run the following workflow: https://github.com/ggrossetie/plantuml/actions/workflows/native-image-on-demand.yml
+. run the following workflow: https://github.com/yuzutech/plantuml/actions/workflows/native-image-on-demand.yml
 . update the argument variable `ARG PLANTUML_VERSION="x.y.z"` in `server/ops/docker/jdk11-jammy/Dockerfile`
 
 === UMLet
