@@ -5,7 +5,6 @@
 # Converts PGF/TikZ on stdin to one of the supported output formats (jpeg,
 # pdf, png, svg) on stdout.
 
-set -x
 set -e
 
 # Latex Options:
@@ -77,6 +76,10 @@ output_format="$1"
 tempdir=$(mktemp --directory)
 
 cleanup() {
+    if [ -f "$tempdir/file.log" ]; then
+      # retrieve errors
+      cat "$tempdir/file.log" | awk '/^\!/,/^l\.[0-9]+/ { print $0 }'
+    fi
     rm -rf $tempdir
 }
 
@@ -88,7 +91,7 @@ cd $tempdir
 cat >raw_input.tex
 
 maybe_add_documentclass $output_format raw_input.tex > file.tex
-latex $LATEX_OPTIONS -output-format=$(intermediate_format $output_format) file.tex 1>&2
+latex $LATEX_OPTIONS -output-format=$(intermediate_format $output_format) file.tex >/dev/null
 
 case "$output_format" in
     jpeg|png)
