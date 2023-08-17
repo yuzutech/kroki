@@ -19,22 +19,22 @@
     "url": "https://github.com/yuzutech/kroki.git"
   },
   "dependencies": {
-    "elastic-apm-node": "3.47.0",
+    "elastic-apm-node": "3.49.1",
     "lodash": "4.17.21",
     "micro": "10.0.1",
-    "pino": "8.14.1",
+    "pino": "8.15.0",
     "pino-debug": "2.0.0",
     "puppeteer": "20.6.0"
   },
   "devDependencies": {
     "chai": "4.3.7",
     "dirty-chai": "2.0.1",
-    "mermaid": "10.2.3",
+    "mermaid": "10.3.1",
     "mocha": "10.2.0",
     "pngjs": "7.0.0",
     "standard": "17.1.0"
   },
   "volta": {
-    "node": "18.16.0"
+    "node": "18.17.1"
   }
 }

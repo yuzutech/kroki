@@ -15,12 +15,12 @@
   "keywords": [],
   "author": "Guillaume Grossetie",
   "dependencies": {
-    "nomnoml": "1.6.1"
+    "nomnoml": "1.6.2"
   },
   "devDependencies": {
     "standard": "17.1.0"
   },
   "volta": {
-    "node": "18.16.0"
+    "node": "18.17.1"
   }
 }
