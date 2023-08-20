@@ -1,10 +1,13 @@
 # syntax=docker/dockerfile:1.4
 
 ## Kroki server
-FROM maven:3.9.0-eclipse-temurin-11 as kroki-builder-server
+FROM maven:3.9.3-eclipse-temurin-11 as kroki-builder-server
 COPY --from=kroki-src . /kroki
 WORKDIR /kroki
-RUN mvn install:install-file -Dfile=./server/lib/ditaamini-1.0.3.jar -DgroupId=ditaa -DartifactId=ditaa-mini -Dversion=1.0.3 -Dpackaging=jar
+RUN apt-get update \
+ && apt-get install graphviz -y \
+ && apt-get clean \
+ && apt-get autoremove
 RUN mvn --no-transfer-progress clean package
 
 ## TikZ
