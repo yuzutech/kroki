@@ -22,7 +22,7 @@ public class PikchrServiceTest {
   public void should_call_pikchr_with_correct_arguments() throws Throwable {
     Vertx vertx = Vertx.vertx();
     Commander commanderMock = mock(Commander.class);
-    when(commanderMock.execute(any(), any())).thenReturn("<svg>pikchr</svg>".getBytes());
+    when(commanderMock.execute(any(), any(String[].class))).thenReturn("<svg>pikchr</svg>".getBytes());
     HashMap<String, Object> config = new HashMap<>();
     config.put("KROKI_SAFE_MODE", "unsafe");
     config.put("KROKI_PIKCHR_BIN_PATH", "/path/to/pikchr");

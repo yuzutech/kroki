@@ -22,7 +22,7 @@ public class GraphVizServiceTest {
   public void should_call_graphviz_with_correct_arguments() throws Throwable {
     Vertx vertx = Vertx.vertx();
     Commander commanderMock = mock(Commander.class);
-    when(commanderMock.execute(any(), any())).thenReturn("<svg>graphviz</svg>".getBytes());
+    when(commanderMock.execute(any(), any(String[].class))).thenReturn("<svg>graphviz</svg>".getBytes());
     HashMap<String, Object> config = new HashMap<>();
     config.put("KROKI_SAFE_MODE", "unsafe");
     config.put("KROKI_DOT_BIN_PATH", "/path/to/dot");
