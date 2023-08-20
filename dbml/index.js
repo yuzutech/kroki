@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const render = require('@softwaretechnik/dbml-renderer')
+const { run } = require('@softwaretechnik/dbml-renderer')
 
 const encoding = 'utf-8'
 let data
@@ -10,7 +10,7 @@ async function convert () {
     return
   }
   try {
-    const svg = render.default(source, 'svg')
+    const svg = run(source, 'svg')
     console.log(svg)
   } catch (err) {
     console.error(err)
