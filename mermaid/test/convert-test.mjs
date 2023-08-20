@@ -96,7 +96,7 @@ describe('#convert', function () {
         await new Worker(browser).convert(new Task('not a valid mermaid code', testCase.isPng))
         expect.fail('Should throw a SyntaxError exception')
       } catch (err) {
-        expect(err.message).to.equal('Syntax error in graph: {"name":"UnknownDiagramError"}')
+        expect(err.message).to.be.a('string').and.satisfy(msg => msg.startsWith('Syntax error in graph: {"name":"UnknownDiagramError"'), 'Error message should starts with \'Syntax error in graph: {"name":"UnknownDiagramError\'')
       } finally {
         await browser.close()
       }

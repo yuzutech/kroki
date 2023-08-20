@@ -74,7 +74,14 @@ export class Worker {
           const { svg } = await window.mermaid.render('container', definition)
           return { svg, error: null }
         } catch (err) {
-          return { svg: null, error: err }
+          return {
+            svg: null,
+            error: {
+              name: 'name' in err && err.name,
+              message: 'message' in err && err.message,
+              stack: 'stack' in err && err.stack
+            }
+          }
         }
       }, task.source, mermaidConfig)
       successfulSpan(span)
