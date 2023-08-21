@@ -22,7 +22,7 @@ public class VegaServiceTest {
   public void should_call_vega_with_correct_arguments() throws Throwable {
     Vertx vertx = Vertx.vertx();
     Commander commanderMock = mock(Commander.class);
-    when(commanderMock.execute(any(), any())).thenReturn("<svg>vega</svg>".getBytes());
+    when(commanderMock.execute(any(), any(String[].class))).thenReturn("<svg>vega</svg>".getBytes());
     HashMap<String, Object> config = new HashMap<>();
     config.put("KROKI_SAFE_MODE", "unsafe");
     config.put("KROKI_VEGA_BIN_PATH", "/path/to/vega");
@@ -45,7 +45,7 @@ public class VegaServiceTest {
   public void should_call_vega_lite_with_correct_arguments() throws Throwable {
     Vertx vertx = Vertx.vertx();
     Commander commanderMock = mock(Commander.class);
-    when(commanderMock.execute(any(), any())).thenReturn("<svg>vega-lite</svg>".getBytes());
+    when(commanderMock.execute(any(), any(String[].class))).thenReturn("<svg>vega-lite</svg>".getBytes());
     HashMap<String, Object> config = new HashMap<>();
     config.put("KROKI_SAFE_MODE", "unsafe");
     config.put("KROKI_VEGA_BIN_PATH", "/path/to/vega");
