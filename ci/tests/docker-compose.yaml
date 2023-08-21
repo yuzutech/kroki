@@ -12,7 +12,6 @@ services:
       - KROKI_BPMN_HOST=bpmn
       - KROKI_EXCALIDRAW_HOST=excalidraw
       - KROKI_DIAGRAMSNET_HOST=diagramsnet
-      - KROKI_WIREVIZ_HOST=wireviz
     ports:
       - "8000:8000"
 
@@ -35,8 +34,3 @@ services:
     image: yuzutech/kroki-diagramsnet:smoketests
     expose:
       - "8005"
-
-  wireviz:
-    image: yuzutech/kroki-wireviz:smoketests
-    ports:
-      - "8006:8006"
