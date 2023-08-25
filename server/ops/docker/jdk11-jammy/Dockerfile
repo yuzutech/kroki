@@ -37,7 +37,7 @@ RUN curl -LO https://github.com/mgieseki/dvisvgm/releases/download/$DVISVGM_VERS
     make install
 
 ## Nomnoml
-FROM --platform=$BUILDPLATFORM node:18.16-bullseye-slim AS kroki-builder-nomnoml
+FROM --platform=$BUILDPLATFORM node:18.17-bullseye-slim AS kroki-builder-nomnoml
 
 RUN npm install -g pkg@5.8.1 pkg-fetch@3.5.2
 
@@ -53,7 +53,7 @@ RUN npm install --target_arch=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || ech
 RUN /usr/local/bin/pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
 
 ## Vega
-FROM --platform=$BUILDPLATFORM node:18.16-bullseye-slim AS kroki-builder-vega
+FROM --platform=$BUILDPLATFORM node:18.17-bullseye-slim AS kroki-builder-vega
 
 # System dependencies for "canvas" Node package
 # https://github.com/Automattic/node-canvas#compiling
@@ -82,7 +82,7 @@ RUN npm install 2 --target_arch=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || e
 RUN /usr/local/bin/pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
 
 ## DBML
-FROM --platform=$BUILDPLATFORM node:18.16-bullseye-slim AS kroki-builder-dbml
+FROM --platform=$BUILDPLATFORM node:18.17-bullseye-slim AS kroki-builder-dbml
 
 RUN npm install -g pkg@5.8.1 pkg-fetch@3.5.2
 
@@ -98,7 +98,7 @@ RUN npm install --target_arch=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || ech
 RUN /usr/local/bin/pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
 
 ## Wavedrom
-FROM --platform=$BUILDPLATFORM node:18.16-bullseye-slim AS kroki-builder-wavedrom
+FROM --platform=$BUILDPLATFORM node:18.17-bullseye-slim AS kroki-builder-wavedrom
 
 RUN npm install -g pkg@5.8.1 pkg-fetch@3.5.2
 
@@ -114,7 +114,7 @@ RUN npm install --target_arch=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || ech
 RUN /usr/local/bin/pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
 
 ## Bytefield
-FROM --platform=$BUILDPLATFORM node:18.16-bullseye-slim AS kroki-builder-bytefield
+FROM --platform=$BUILDPLATFORM node:18.17-bullseye-slim AS kroki-builder-bytefield
 
 RUN npm install -g pkg@5.8.1 pkg-fetch@3.5.2
 
@@ -201,7 +201,7 @@ RUN wget -q "https://pikchr.org/home/raw/${PIKCHR_VERSION}" -O pikchr.c
 RUN gcc -O0 -g -static -Wall -Wextra -DPIKCHR_SHELL pikchr.c -o pikchr -lm
 
 ## SVGBob
-FROM --platform=$BUILDPLATFORM rust:1.71-slim-bullseye AS kroki-builder-static-svgbob
+FROM --platform=$BUILDPLATFORM rust:1.72-slim-bullseye AS kroki-builder-static-svgbob
 
 # Install cross-compilation tools
 RUN apt-get update && apt-get install --no-install-recommends --yes \
