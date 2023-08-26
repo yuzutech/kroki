@@ -91,6 +91,11 @@ public class D2 implements DiagramService {
   private byte[] d2(byte[] source, JsonObject options) throws IOException, InterruptedException, IllegalStateException {
     List<String> commands = new ArrayList<>();
     commands.add(binPath);
+    String layout = options.getString("layout");
+    if (layout != null && layout.equals("elk")) {
+      // Only pass the layout argument if the ELK layout engine is requested (default is 'dagre')
+      commands.add("--layout=" + layout);
+    }
     String theme = options.getString("theme");
     if (theme != null) {
       int themeId = 0;
@@ -106,14 +111,36 @@ public class D2 implements DiagramService {
       }
       commands.add("--theme=" + themeId);
     }
-    String layout = options.getString("layout");
-    if (layout != null && layout.equals("elk")) {
-      // Only pass the layout argument if the ELK layout engine is requested (default is 'dagre')
-      commands.add("--layout=" + layout);
+    String darkTheme = options.getString("dark-theme");
+    if (darkTheme != null) {
+      int themeId = 0;
+      Integer builtinThemeId = builtinThemes.get(darkTheme.toLowerCase().replaceAll("\\s", "-"));
+      if (builtinThemeId != null) {
+        themeId = builtinThemeId;
+      } else {
+        try {
+          themeId = Integer.parseInt(darkTheme, 10);
+        } catch (NumberFormatException e) {
+          // ignore, fallback to 0
+        }
+      }
+      commands.add("--dark-theme=" + themeId);
+    }
+    String pad = options.getString("pad");
+    if (pad != null) {
+      commands.add("--pad=" + pad);
+    }
+    String animateInterval = options.getString("animate-interval");
+    if (animateInterval != null) {
+      commands.add("--animate-interval=" + animateInterval);
     }
     String sketch = options.getString("sketch");
     if (sketch != null) {
       commands.add("--sketch");
+    }
+    String scale = options.getString("scale");
+    if (scale != null) {
+      commands.add("--scale=" + scale);
     }
     commands.add("-"); // read from stdin
     return commander.execute(source, commands.toArray(new String[0]));
