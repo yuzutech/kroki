@@ -234,7 +234,7 @@ RUN SVGBOB_VERSION=`cat Cargo.toml | grep "svgbob_cli =" | sed -r 's/.*"([^"]+)"
 ## yuzutech/kroki
 FROM eclipse-temurin:11.0.19_7-jre-jammy
 
-ARG D2_VERSION="0.5.1"
+ARG D2_VERSION="0.6.0"
 ARG PLANTUML_VERSION="1.2023.10"
 ARG UMLET_VERSION="2023-03-20_UMLet_v15.1"
 ARG GRAPHVIZ_VERSION="8.0.5"
