@@ -43,8 +43,10 @@ public class D2 implements DiagramService {
     entry("everglade-green", 104),
     entry("buttered-toast", 105),
     entry("dark-mauve", 200),
+    entry("dark-flagship-terrastruct", 201),
     entry("terminal", 300),
-    entry("terminal-grayscale", 301)
+    entry("terminal-grayscale", 301),
+    entry("origami", 302)
   );
 
   public D2(Vertx vertx, JsonObject config, Commander commander) {
