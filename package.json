@@ -17,5 +17,8 @@
   "scripts": {
     "test": "mocha ci/tests/smoke.js",
     "update-versions": "node ci/tasks/update-versions.js"
+  },
+  "volta": {
+    "node": "18.17.1"
   }
 }
