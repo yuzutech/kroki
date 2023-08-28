@@ -1,17 +1,21 @@
 package io.kroki.server.service;
 
+import io.kroki.server.error.MethodNotAllowedException;
+import io.kroki.server.error.UnsupportedFormatException;
 import io.kroki.server.response.Caching;
+import io.vertx.core.http.HttpMethod;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.BodyHandler;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class DiagramRegistry {
 
-  private Map<String, DiagramHandler> registry = new HashMap<>();
+  private final Map<String, DiagramHandler> registry = new HashMap<>();
   private final Router router;
   private final BodyHandler bodyHandler;
 
@@ -27,10 +31,33 @@ public class DiagramRegistry {
       router.get("/" + name + "/:output_format/:source_encoded")
         .handler(diagramHandler.createRequestReceived(name))
         .handler(diagramHandler.createGet(name));
+      router.route("/" + name)
+        .handler(event -> {
+          if (HttpMethod.POST.equals(event.request().method())) {
+            event.next();
+            return;
+          }
+          event.fail(405, new MethodNotAllowedException(List.of("POST")));
+        });
       router.post("/" + name)
         .handler(bodyHandler)
         .handler(diagramHandler.createRequestReceived(name))
         .handler(diagramHandler.createPost(name));
+      router.route("/" + name + "/:output_format")
+        .handler(event -> {
+          if (HttpMethod.POST.equals(event.request().method())) {
+            event.next();
+            return;
+          }
+          String outputFormat = event.pathParam("output_format");
+          try {
+            diagramHandler.validate(name, outputFormat);
+          } catch (UnsupportedFormatException e) {
+            event.fail(e);
+            return;
+          }
+          event.fail(405, new MethodNotAllowedException(List.of("POST")));
+        });
       router.post("/" + name + "/:output_format")
         .handler(bodyHandler)
         .handler(diagramHandler.createRequestReceived(name))
