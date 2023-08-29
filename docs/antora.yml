@@ -5,18 +5,18 @@ asciidoc:
   attributes:
     actdiag-version: 3.1.0
     blockdiag-version: 3.1.0
-    bpmn-version: 13.2.0
+    bpmn-version: 13.2.2
     bytefield-version: 1.8.0
     c4plantuml-version: 1.2023.10
     d2-version: 0.5.1
-    dbml-version: 1.0.26
+    dbml-version: 1.0.27
     diagramsnet-version: 16.2.4
     ditaa-version: 1.0.3
     erd-version: 0.2.1.0
-    excalidraw-version: 0.15.2
+    excalidraw-version: 0.15.3
     graphviz-version: 8.0.5
-    mermaid-version: 10.2.3
-    nomnoml-version: 1.6.1
+    mermaid-version: 10.4.0
+    nomnoml-version: 1.6.2
     nwdiag-version: 3.1.0
     packetdiag-version: 3.1.0
     pikchr-version: '7269f78c4a'
@@ -28,9 +28,9 @@ asciidoc:
     symbolator-version: 1.2.2
     umlet-version: 15.1
     vega-version: 5.25.0
-    vegalite-version: 5.9.3
-    wavedrom-version: 3.2.0
-    wireviz-version: 0.3.2
+    vegalite-version: 5.14.1
+    wavedrom-version: 3.3.0
+    wireviz-version: 0.3.3
     uri-docker-get-started: https://docs.docker.com/get-started/
     uri-podman-get-started: https://podman.io/getting-started/
     uri-docker-compose-install: https://docs.docker.com/compose/install/

@@ -224,10 +224,10 @@ jobs:
         CACHE_FROM: 'type=local,src=/tmp/.buildx-cache'
         CACHE_TO: 'type=local,dest=/tmp/.buildx-cache-new'
 
-    - name: 'Setup Node.js 16'
+    - name: 'Setup Node.js 18'
       uses: actions/setup-node@v3
       with:
-        node-version: 16.x
+        node-version: 18
 
     - name: Install Node dependencies
       run: npm install
