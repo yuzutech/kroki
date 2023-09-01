@@ -6,7 +6,8 @@ import Worker from './worker.js'
 import Task from './task.js'
 import { create } from './browser-instance.js'
 
-;(async () => {
+
+(async () => {
   // QUESTION: should we create a pool of Chrome instances ?
   const browser = await create()
   logger.info(`Chrome accepting connections on endpoint ${browser.wsEndpoint()}`)
@@ -23,10 +24,22 @@ import { create } from './browser-instance.js'
           return micro.send(res, 200, svg)
         } catch (err) {
           logger.warn({ err }, 'Exception during convert')
-          return micro.send(res, 400, 'Unable to convert the diagram')
+          return micro.send(res, 400, {
+            error: {
+              message: `Unable to convert the diagram: ${err.message}`,
+              name: err.name || '',
+              stacktrace: err.stack || '',
+            }
+          })
         }
       }
-      micro.send(res, 400, 'Body must not be empty.')
+      micro.send(res, 400, {
+        error: {
+          message: 'Body must not be empty.',
+          name: '',
+          stacktrace: '',
+        }
+      })
     })
   )
   server.listen(8004)

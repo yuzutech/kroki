@@ -2,6 +2,7 @@
   "name": "@kroki/diagramsnet-server",
   "version": "1.0.0",
   "description": "A micro server built on top of the diagrams.net service.",
+  "type": "module",
   "main": "src/index.js",
   "bin": "src/index.js",
   "scripts": {
@@ -17,6 +18,8 @@
   },
   "dependencies": {
     "micro": "10.0.1",
+    "pino": "^8.15.0",
+    "pino-debug": "^2.0.0",
     "puppeteer": "20.6.0"
   },
   "devDependencies": {

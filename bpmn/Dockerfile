@@ -11,7 +11,9 @@ WORKDIR /usr/local/kroki/
 
 RUN mkdir -p /usr/local/kroki/node && chown kroki:kroki -R /usr/local/kroki
 
-ENV KROKI_EXCALIDRAW_PAGE_URL=file:///usr/local/kroki/assets/index.html
+ENV KROKI_BPMN_PAGE_URL=file:///usr/local/kroki/assets/index.html
+# 15 seconds
+ENV KROKI_BPMN_CONVERT_TIMEOUT=15000
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/lib/chromium/chrome
 #ENV DEBUG="puppeteer:*"
 ENV LEVEL="info"
@@ -25,4 +27,3 @@ RUN npm i --omit=dev
 EXPOSE 8003
 
 ENTRYPOINT ["node", "src/index.js"]
-

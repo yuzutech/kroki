@@ -1,15 +1,26 @@
 /* global XMLSerializer */
-const path = require('node:path')
-const puppeteer = require('puppeteer')
+import path from 'node:path'
+import { URL, fileURLToPath } from 'node:url'
+import puppeteer from 'puppeteer'
 
-class SyntaxError extends Error {
+import { logger } from './logger.js'
+
+const __dirname = fileURLToPath(new URL('.', import.meta.url))
+
+export class TimeoutError extends Error {
+  constructor (timeoutDurationMs, action = 'convert') {
+    super(`Timeout error: ${action} took more than ${timeoutDurationMs}ms`)
+  }
+}
+
+export class SyntaxError extends Error {
   constructor (err) {
-    console.log({ err })
+    logger.error({ err })
     super(`Syntax error in graph: ${JSON.stringify(err)}`)
   }
 }
 
-class Worker {
+export class Worker {
   constructor (browserInstance) {
     this.browserWSEndpoint = browserInstance.wsEndpoint()
     this.pageUrl = process.env.KROKI_DIAGRAMSNET_PAGE_URL || `file://${path.join(__dirname, '..', 'assets', 'index.html')}`
@@ -25,8 +36,6 @@ class Worker {
     try {
       await page.setViewport({ height: 800, width: 600 })
       await page.goto(this.pageUrl)
-      // QUESTION: should we reuse the page for performance reason ?
-
       const evalResult = await Promise.race([
         page.evaluate((source) => {
           /* global render */
@@ -36,14 +45,13 @@ class Worker {
               format: 'svg'
             }).getSvg()
             const s = new XMLSerializer()
-            console.log({ s })
             return { svg: s.serializeToString(svgRoot), error: null }
           } catch (err) {
-            console.log({ err })
+            logger.log({ err })
             return { svg: null, error: err }
           }
         }, task.source),
-        page.waitForTimeout(this.convertTimeout)
+        new Promise((resolve, reject) => setTimeout(() => reject(new TimeoutError(this.convertTimeout)), this.convertTimeout))
       ])
 
       if (evalResult && evalResult.error) {
@@ -68,19 +76,14 @@ class Worker {
     } finally {
       try {
         await page.close()
-      } catch (e) {
-        console.warn('Unable to close the page', e)
+      } catch (err) {
+        logger.warn({ err }, 'Unable to close the page')
       }
       try {
         await browser.disconnect()
-      } catch (e) {
-        console.warn('Unable to disconnect from the browser', e)
+      } catch (err) {
+        logger.warn({ err }, 'Unable to disconnect from the browser')
       }
     }
   }
-}
-
-module.exports = {
-  Worker,
-  SyntaxError
 }

@@ -4,7 +4,7 @@ import './apm.js'
 
 import http from 'node:http'
 import micro from 'micro'
-import { SyntaxError, Worker } from './worker.js'
+import { SyntaxError, TimeoutError, Worker } from './worker.js'
 import Task from './task.js'
 import { create } from './browser-instance.js'
 
@@ -36,17 +36,49 @@ import { create } from './browser-instance.js'
             res.setHeader('Content-Type', isPng ? 'image/png' : 'image/svg+xml')
             return micro.send(res, 200, output)
           } catch (err) {
-            if (err instanceof SyntaxError) {
-              return micro.send(res, 400, err.message)
+            if (err instanceof TimeoutError) {
+              return micro.send(res, 408, {
+                error: {
+                  message: `Request timeout: ${err.message}`,
+                  name: 'TimeoutError',
+                  stacktrace: err.stack
+                }
+              })
+            } else if (err instanceof SyntaxError) {
+              return micro.send(res, 400, {
+                error: {
+                  message: err.message,
+                  name: err.name,
+                  stacktrace: err.stack
+                }
+              })
             } else {
               logger.warn({ err }, 'Exception during convert')
-              return micro.send(res, 500, 'An error occurred while converting the diagram')
+              return micro.send(res, 500, {
+                error: {
+                  message: 'An error occurred while converting the diagram',
+                  name: err.name || 'Error',
+                  stacktrace: err.stack || ''
+                }
+              })
             }
           }
         }
-        return micro.send(res, 400, 'Body must not be empty.')
+        return micro.send(res, 400, {
+          error: {
+            message: 'Body must not be empty.',
+            name: 'Error',
+            stacktrace: ''
+          }
+        })
       }
-      return micro.send(res, 400, 'Available endpoints are /svg and /png.')
+      return micro.send(res, 400, {
+        error: {
+          message: 'Available endpoints are /svg and /png.',
+          name: 'Error',
+          stacktrace: ''
+        }
+      })
     })
   )
   server.listen(8002)
