@@ -49,7 +49,7 @@ public class Graphviz implements DiagramService {
 
   @Override
   public String getVersion() {
-    return "8.0.5";
+    return "9.0.0";
   }
 
   @Override
