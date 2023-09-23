@@ -18,8 +18,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.ConnectException;
-import java.util.Map;
-import java.util.function.Consumer;
 
 public class Delegator {
 
@@ -48,11 +46,23 @@ public class Delegator {
         } else {
           logging.delegate(httpResponse, host, port, requestURI);
           String contentType = httpResponse.getHeader(HttpHeaders.CONTENT_TYPE.toString());
-          if (HttpHeaderValues.APPLICATION_JSON.contentEquals(contentType)) {
+          if (contentType != null && contentType.toLowerCase().startsWith(HttpHeaderValues.APPLICATION_JSON.toString())) {
             try {
               JsonObject json = httpResponse.bodyAsJsonObject();
               if (json != null) {
-                handler.handle(new Failure(new BadRequestException(json.getString("error", "Unexpected error"))));
+                final String errorMessage;
+                Object error = json.getValue("error");
+                if (error instanceof String) {
+                  errorMessage = (String) error;
+                } else if (error instanceof JsonObject) {
+                  String errorName = ((JsonObject) error).getString("name", "Error");
+                  String message = ((JsonObject) error).getString("message", "Unexpected error");
+                  String stackTrace = ((JsonObject) error).getString("stacktrace", "");
+                  errorMessage = errorName + ": " + message + "\n" + stackTrace;
+                } else {
+                  errorMessage = "Unexpected error";
+                }
+                handler.handle(new Failure(new BadRequestException(errorMessage, httpResponse.statusCode())));
               } else {
                 handler.handle(new Failure(new HttpException(httpResponse.statusCode())));
               }

@@ -96,6 +96,12 @@ public class ErrorHandler implements io.vertx.ext.web.handler.ErrorHandler {
       statusMessage = "Not Found";
       errorMessage = statusMessage;
     } else if (failure instanceof BadRequestException || failure instanceof IllegalStateException) {
+      if (failure instanceof BadRequestException) {
+        int statusCode = ((BadRequestException) failure).getStatusCode();
+        if (statusCode != -1) {
+          errorCode = statusCode;
+        }
+      }
       if (errorCode < 400 || errorCode >= 500) {
         errorCode = 400;
         statusMessage = "Bad Request";

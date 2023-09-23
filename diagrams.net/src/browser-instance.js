@@ -1,4 +1,4 @@
-const puppeteer = require('puppeteer')
+import puppeteer from 'puppeteer'
 
 const createBrowser = async () => {
   const browser = await puppeteer.launch({
@@ -38,17 +38,6 @@ const createBrowser = async () => {
   }
 }
 
-const connect = async (browserInstance) => {
-  this.browserWSEndpoint = browserInstance.wsEndpoint()
-  return puppeteer.connect({
-    browserWSEndpoint: this.browserWSEndpoint,
-    ignoreHTTPSErrors: true
-  })
-}
-
-module.exports = {
-  create: async () => {
-    return createBrowser()
-  },
-  connect
+export async function create () {
+  return createBrowser()
 }

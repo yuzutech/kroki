@@ -8,9 +8,17 @@ import { failureSpan, startSpan, successfulSpan } from './apm.js'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
+export class TimeoutError extends Error {
+  constructor (timeoutDurationMs, action = 'convert') {
+    super(`Timeout error: ${action} took more than ${timeoutDurationMs}ms`)
+  }
+}
+
 export class SyntaxError extends Error {
   constructor (err) {
-    super(`Syntax error in graph: ${JSON.stringify(err)}`)
+    super(`Syntax error in graph: ${err.message}`)
+    this.name = err.name
+    this.stack = err.stack
   }
 }
 
@@ -18,6 +26,7 @@ export class Worker {
   constructor (browserInstance) {
     this.browserWSEndpoint = browserInstance.wsEndpoint()
     this.pageUrl = process.env.KROKI_MERMAID_PAGE_URL || `file://${path.join(__dirname, '..', 'assets', 'index.html')}`
+    this.convertTimeout = process.env.KROKI_MERMAID_CONVERT_TIMEOUT || '10000'
   }
 
   async convert (task, config) {
@@ -68,24 +77,27 @@ export class Worker {
       }
     )
     try {
-      const result = await page.evaluate(async (definition, mermaidConfig) => {
-        window.mermaid.initialize(mermaidConfig)
-        try {
-          const { svg } = await window.mermaid.render('container', definition)
-          return { svg, error: null }
-        } catch (err) {
-          return {
-            svg: null,
-            error: {
-              name: 'name' in err && err.name,
-              message: 'message' in err && err.message,
-              stack: 'stack' in err && err.stack
+      const evalResult = await Promise.race([
+        page.evaluate(async (definition, mermaidConfig) => {
+          window.mermaid.initialize(mermaidConfig)
+          try {
+            const { svg } = await window.mermaid.render('container', definition)
+            return { svg, error: null }
+          } catch (err) {
+            return {
+              svg: null,
+              error: {
+                name: 'name' in err && err.name,
+                message: 'message' in err && err.message,
+                stack: 'stack' in err && err.stack
+              }
             }
           }
-        }
-      }, task.source, mermaidConfig)
+        }, task.source, mermaidConfig),
+        new Promise((resolve, reject) => setTimeout(() => reject(new TimeoutError(this.convertTimeout)), this.convertTimeout))
+      ])
       successfulSpan(span)
-      return result
+      return evalResult
     } catch (err) {
       if (span) {
         // add source to troubleshoot

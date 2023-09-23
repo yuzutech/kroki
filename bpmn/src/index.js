@@ -1,13 +1,16 @@
-const http = require('node:http')
-const Worker = require('./worker')
-const Task = require('./task')
-const instance = require('./browser-instance')
-const micro = require('micro')
+// must be declared first
+import { logger } from './logger.js'
+import http from 'node:http'
+import {TimeoutError as PuppeteerTimeoutError} from 'puppeteer'
+import micro from 'micro'
+import Task from './task.js'
+import { create } from './browser-instance.js'
+import { SyntaxError, TimeoutError, Worker } from './worker.js'
 
-;(async () => {
+(async () => {
   // QUESTION: should we create a pool of Chrome instances ?
-  const browser = await instance.create()
-  console.log(`Chrome accepting connections on endpoint ${browser.wsEndpoint()}`)
+  const browser = await create()
+  logger.info(`Chrome accepting connections on endpoint ${browser.wsEndpoint()}`)
   const worker = new Worker(browser)
   const server = new http.Server(
     micro.serve(async (req, res) => {
@@ -19,16 +22,46 @@ const micro = require('micro')
           const svg = await worker.convert(new Task(diagramSource))
           res.setHeader('Content-Type', 'image/svg+xml')
           return micro.send(res, 200, svg)
-        } catch (e) {
-          console.log('e', e)
-          return micro.send(res, 400, 'Unable to convert the diagram')
+        } catch (err) {
+          if (err instanceof PuppeteerTimeoutError || err instanceof TimeoutError) {
+            return micro.send(res, 408, {
+              error: {
+                message: `Request timeout: ${err.message}`,
+                name: 'TimeoutError',
+                stacktrace: err.stack
+              }
+            })
+          } else if (err instanceof SyntaxError) {
+            return micro.send(res, 400, {
+              error: {
+                message: err.message,
+                name: err.name,
+                stacktrace: err.stack
+              }
+            })
+          } else {
+            logger.warn({ err }, 'Exception during convert')
+            return micro.send(res, 500, {
+              error: {
+                message: `An error occurred while converting the diagram: ${err.message}`,
+                name: err.name || '',
+                stacktrace: err.stack || ''
+              }
+            })
+          }
         }
       }
-      micro.send(res, 400, 'Body must not be empty.')
+      return micro.send(res, 400, {
+        error: {
+          message: 'Body must not be empty.',
+          name: '',
+          stacktrace: ''
+        }
+      })
     })
   )
   server.listen(8003)
-})().catch(error => {
-  console.error('Unable to start the service', error)
+})().catch(err => {
+  logger.error({ err }, 'Unable to start the service')
   process.exit(1)
 })
