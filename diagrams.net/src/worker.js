@@ -64,7 +64,16 @@ export class Worker {
       // const pageCount = parseInt(await page.mainFrame().$eval('#LoadingComplete', div => div.getAttribute('pageCount')))
 
       if (task.isPng) {
-        await page.setContent(evalResult.svg)
+        await page.setContent(`<!DOCTYPE html>  
+<html>
+<head>  
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />  
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />  
+</head>  
+<body> 
+${evalResult.svg}
+</body>
+</html>`)
         const container = await page.$('svg')
         return await container.screenshot({
           type: 'png',

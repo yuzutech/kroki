@@ -191,7 +191,16 @@ async function toPNG (page, svg) {
     'puppeteer'
   )
   try {
-    await page.setContent(svg)
+    await page.setContent(`<!DOCTYPE html>  
+<html>
+<head>  
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />  
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />  
+</head>  
+<body> 
+${svg}
+</body>
+</html>`)
     const container = await page.$('#container')
     const result = await container.screenshot({
       type: 'png',
