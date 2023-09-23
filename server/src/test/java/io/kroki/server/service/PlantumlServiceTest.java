@@ -702,8 +702,6 @@ public class PlantumlServiceTest {
   void should_include_openiconic() throws IOException, InterruptedException {
     String diagram = "listopeniconic";
     byte[] convert = plantumlCommand.convert(diagram, FileFormat.SVG, new JsonObject());
-    System.out.println(new String(convert));
-    Pattern pattern = Pattern.compile("<path d=");
     String output = new String(convert);
     int countOccurrences= (output.length() - output.replace("<path d=\"", "").length()) / "<path d=\"".length();
     assertThat(countOccurrences).isEqualTo(223); // 223 icons
