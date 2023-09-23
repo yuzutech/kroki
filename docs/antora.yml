@@ -5,10 +5,10 @@ asciidoc:
   attributes:
     actdiag-version: 3.1.0
     blockdiag-version: 3.1.0
-    bpmn-version: 13.2.2
+    bpmn-version: 14.0.0
     bytefield-version: 1.8.0
     c4plantuml-version: 1.2023.10
-    d2-version: 0.5.1
+    d2-version: 0.6.0
     dbml-version: 1.0.27
     diagramsnet-version: 16.2.4
     ditaa-version: 1.0.3
