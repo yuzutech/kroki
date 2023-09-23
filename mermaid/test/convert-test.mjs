@@ -16,7 +16,8 @@ const svgTests = [
   { content: 'Hello<br/>World' },
   { content: 'Hello<br>World' },
   { content: 'Hello<br >World' },
-  { content: 'Hello<br />World' }
+  { content: 'Hello<br />World' },
+  { content: 'Hello\\nWorld' }
 ]
 
 const pngTests = [
@@ -65,7 +66,7 @@ describe('#convert', function () {
         const worker = new Worker(browser)
         const result = await worker.convert(new Task(`graph TD
   A{{ ${testCase.content} }}`))
-        expect(result).to.contains('<span class="nodeLabel">Hello<br>World</span>')
+        expect(result).to.contains('<span class="nodeLabel">Hello<br/>World</span>')
       } finally {
         await browser.close()
       }

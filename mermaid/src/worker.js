@@ -81,7 +81,13 @@ export class Worker {
         page.evaluate(async (definition, mermaidConfig) => {
           window.mermaid.initialize(mermaidConfig)
           try {
-            const { svg } = await window.mermaid.render('container', definition)
+            let { svg } = await window.mermaid.render('container', definition)
+            // workaround: https://github.com/yuzutech/kroki/issues/1632
+            // upstream issue: https://github.com/mermaid-js/mermaid/issues/1766
+            // taken from: https://github.com/mermaid-js/mermaid-live-editor/blob/83382901cd7e15414b6f18b48b7dd9c4775f3a21/src/lib/components/Actions.svelte#L23-L26
+            svg = svg
+              .replaceAll('<br>', '<br/>')
+              .replaceAll(/<img([^>]*)>/g, (m, g) => `<img ${g} />`)
             return { svg, error: null }
           } catch (err) {
             return {
