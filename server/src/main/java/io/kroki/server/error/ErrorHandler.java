@@ -95,7 +95,9 @@ public class ErrorHandler implements io.vertx.ext.web.handler.ErrorHandler {
     if (errorCode == 404) {
       statusMessage = "Not Found";
       errorMessage = statusMessage;
-    } else if (failure instanceof BadRequestException || failure instanceof IllegalStateException) {
+    } else if (failure instanceof BadRequestException
+            || failure instanceof IllegalStateException
+            || failure instanceof MethodNotAllowedException) {
       if (failure instanceof BadRequestException) {
         int statusCode = ((BadRequestException) failure).getStatusCode();
         if (statusCode != -1) {
@@ -107,6 +109,9 @@ public class ErrorHandler implements io.vertx.ext.web.handler.ErrorHandler {
         statusMessage = "Bad Request";
       } else {
         statusMessage = statusMessageMap.getOrDefault(errorCode, "Bad Request");
+      }
+      if (failure instanceof MethodNotAllowedException) {
+        context.response().putHeader("Allow", ((MethodNotAllowedException) failure).getAllowMethods());
       }
       errorMessage = failure.getMessage();
       if (failure instanceof BadRequestException) {
