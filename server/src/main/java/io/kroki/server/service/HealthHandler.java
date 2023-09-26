@@ -1,7 +1,6 @@
 package io.kroki.server.service;
 
 import io.kroki.server.Main;
-
 import io.vertx.core.Handler;
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.json.Json;
@@ -18,7 +17,13 @@ public class HealthHandler {
   private final String krokiBuildHash;
   private final List<ServiceVersion> serviceVersions;
 
+  private final KrokiBlockedThreadChecker blockedThreadChecker;
+
   public HealthHandler(Map<String, String> versions) {
+    this(versions, null);
+  }
+
+  public HealthHandler(Map<String, String> versions, KrokiBlockedThreadChecker blockedThreadChecker) {
     krokiVersionNumber = Main.getApplicationProperty("app.version", "");
     krokiBuildHash = Main.getApplicationProperty("app.sha1", "");
     serviceVersions = new ArrayList<>();
@@ -26,6 +31,7 @@ public class HealthHandler {
     for (Map.Entry<String, String> entry : versions.entrySet()) {
       serviceVersions.add(new ServiceVersion(entry.getKey(), entry.getValue()));
     }
+    this.blockedThreadChecker = blockedThreadChecker;
   }
 
   public Handler<RoutingContext> create() {
@@ -40,6 +46,10 @@ public class HealthHandler {
       data.put("version", versions);
       for (ServiceVersion serviceVersion : serviceVersions) {
         versions.put(serviceVersion.getService(), serviceVersion.getVersion());
+      }
+      if (blockedThreadChecker != null) {
+        data.put("blockedWorkerPercentage", blockedThreadChecker.blockedWorkerThreadPercentage());
+        data.put("blockedEventLoopPercentage", blockedThreadChecker.blockedEventLoopThreadPercentage());
       }
       routingContext
         .response()

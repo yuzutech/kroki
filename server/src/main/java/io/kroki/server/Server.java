@@ -8,6 +8,7 @@ import io.kroki.server.service.Blockdiag;
 import io.kroki.server.service.Bpmn;
 import io.kroki.server.service.Bytefield;
 import io.kroki.server.service.D2;
+import io.kroki.server.service.KrokiBlockedThreadChecker;
 import io.kroki.server.service.TikZ;
 import io.kroki.server.service.Dbml;
 import io.kroki.server.service.DiagramRegistry;
@@ -37,6 +38,7 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
+import io.vertx.core.VertxOptions;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServer;
@@ -150,7 +152,8 @@ public class Server extends AbstractVerticle {
       .handler(new DiagramRest(registry).create());
 
     // health
-    HealthHandler healthHandler = new HealthHandler(registry.getVersions());
+    final var blockedThreadChecker = new KrokiBlockedThreadChecker(vertx, new VertxOptions());//TODO this should match the option used to init vertx
+    HealthHandler healthHandler = new HealthHandler(registry.getVersions(), blockedThreadChecker);
     Handler<RoutingContext> healthHandlerService = healthHandler.create();
     router.get("/health")
       .handler(healthHandlerService);
