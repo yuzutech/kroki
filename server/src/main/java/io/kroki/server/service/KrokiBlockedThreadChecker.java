@@ -1,5 +1,7 @@
 package io.kroki.server.service;
 
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import com.google.common.annotations.VisibleForTesting;
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxException;
@@ -12,9 +14,7 @@ import org.slf4j.LoggerFactory;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class KrokiBlockedThreadChecker {
 
@@ -24,8 +24,8 @@ public class KrokiBlockedThreadChecker {
   private final int workerPoolSize;
   private final Duration trackStatsFor;
 
-  private final Map<String, Instant> eventLoopStats = new ConcurrentHashMap<>();
-  private final Map<String, Instant> workerStats = new ConcurrentHashMap<>();
+  private final Cache<String, Instant> eventLoopStats;
+  private final Cache<String, Instant> workerStats;
 
   private final Clock clock;
 
@@ -36,7 +36,16 @@ public class KrokiBlockedThreadChecker {
   KrokiBlockedThreadChecker(Vertx vertx, VertxOptions options, Clock clock) {
     this.evenLoopPoolSize = options.getEventLoopPoolSize();
     this.workerPoolSize = options.getWorkerPoolSize();
-    this.trackStatsFor = Duration.of(options.getBlockedThreadCheckInterval() + 20000, options.getBlockedThreadCheckIntervalUnit().toChronoUnit());
+    this.trackStatsFor = Duration.of(options.getBlockedThreadCheckInterval(), options.getBlockedThreadCheckIntervalUnit().toChronoUnit());
+
+    eventLoopStats = Caffeine.newBuilder()
+      .maximumSize(evenLoopPoolSize)
+      .expireAfterWrite(trackStatsFor)
+      .build();
+    workerStats = Caffeine.newBuilder()
+      .maximumSize(workerPoolSize)
+      .expireAfterWrite(trackStatsFor)
+      .build();
 
     if (vertx instanceof VertxInternal) {
       ((VertxInternal) vertx).blockedThreadChecker().setThreadBlockedHandler((bte) -> {
@@ -56,9 +65,9 @@ public class KrokiBlockedThreadChecker {
     return Math.floorDiv(nonExpiredEntryCount(eventLoopStats) * 100, evenLoopPoolSize);
   }
 
-  private long nonExpiredEntryCount(Map<String, Instant> stats) {
+  private long nonExpiredEntryCount(Cache<String, Instant> stats) {
     final var now = this.clock.instant();
-    return stats.entrySet().stream().filter(e -> e.getValue().isAfter(now)).count();
+    return stats.asMap().entrySet().stream().filter(e -> e.getValue().isAfter(now)).count();
   }
 
   @VisibleForTesting
