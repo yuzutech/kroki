@@ -221,7 +221,9 @@ We recommend to use a maximum length that's not greater than 8192 and not greate
 == Excalidraw Asset Path
 
 By default excalidraw loads the assets from a public CDN. (unkpg)
+
 Its possible to change this behaviour over the KROKI_EXCALIDRAW_ASSET_PATH env variable, which is empty by default
+
 More informationen about the asset path can be found here: https://docs.excalidraw.com/docs/@excalidraw/excalidraw/installation
 
 == Enabling SSL on the server
