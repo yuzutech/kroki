@@ -218,6 +218,12 @@ TIP: Keep in mind that browsers also have a URI limit on `<img>` tags.
 Most modern browsers https://stackoverflow.com/questions/417142/what-is-the-maximum-length-of-a-url-in-different-browsers/417184#417184[support a URI length greater than 64000] on `<img>` tags but this value is probably a bit excessive.
 We recommend to use a maximum length that's not greater than 8192 and not greater than 5120 if you are supporting IE 11.
 
+== Excalidraw Asset Path
+
+By default excalidraw loads the assets from a public CDN. (unkpg)
+Its possible to change this behaviour over the KROKI_EXCALIDRAW_ASSET_PATH env variable, which is empty by default
+More informationen about the asset path can be found here: https://docs.excalidraw.com/docs/@excalidraw/excalidraw/installation
+
 == Enabling SSL on the server
 
 By default, SSL/TLS is not enabled on the server but you can enable it by setting `KROKI_SSL` environment variable to `true`.
