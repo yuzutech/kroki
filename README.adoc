@@ -105,9 +105,6 @@ A companion web server written in JavaScript (powered by _micro_) that provides 
 diagrams.net::
 A companion web server written in JavaScript (powered by _micro_) that provides _diagrams.net_.
 
-wireviz::
-A companion web server written in Python (powered by _Flask_ and _Gunicorn_) that provides _WireViz_.
-
 == Build
 
 === Gateway Server
@@ -146,9 +143,6 @@ Excalidraw
 yuzutech/kroki-diagramsnet (experimental)::
 diagrams.net
 
-yuzutech/kroki-wireviz::
-WireViz
-
 You can use `docker-compose` to run multiple containers:
 
 .docker-compose.yml
@@ -162,7 +156,6 @@ services:
       - KROKI_MERMAID_HOST=mermaid
       - KROKI_BPMN_HOST=bpmn
       - KROKI_EXCALIDRAW_HOST=excalidraw
-      - KROKI_WIREVIZ_HOST=wireviz
     ports:
       - "8000:8000"
   mermaid:
@@ -182,10 +175,6 @@ services:
     image: yuzutech/kroki-diagramsnet
     expose:
       - "8005"
-  wireviz:
-    image: yuzutech/kroki-wireviz
-    ports:
-      - "8006:8006"
 ----
 
  $ docker-compose up -d
