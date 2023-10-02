@@ -20,6 +20,9 @@ export default class Worker {
     try {
       await page.setViewport({ height: 800, width: 600 })
       await page.goto(this.pageUrl)
+      await page.addScriptTag({
+        path: `${path.join(__dirname, '..', 'assets', 'excalidraw', 'excalidraw.production.min.js')}`
+      });
       // QUESTION: should we reuse the page for performance reason ?
       return await page.evaluate(async (definition) => {
         const svgElement = await window.ExcalidrawLib.exportToSvg(JSON.parse(definition))
