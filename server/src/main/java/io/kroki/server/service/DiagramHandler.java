@@ -83,7 +83,7 @@ public class DiagramHandler {
         JsonObject jsonBody;
         MIMEHeader contentType = routingContext.parsedHeaders().contentType();
         if (contentType != null && contentType.value() != null && contentType.value().equals("application/json")) {
-          String bodyAsString = routingContext.body().asString();
+          String bodyAsString = routingContext.getBodyAsString();
           if (bodyAsString == null || bodyAsString.trim().isEmpty()) {
             routingContext.fail(new BadRequestException("Request body must not be empty."));
             return;
@@ -98,7 +98,7 @@ public class DiagramHandler {
         } else {
           // assumes that the Content-Type is "plain/text" (default)
           jsonBody = new JsonObject();
-          diagramSource = routingContext.body().asString();
+          diagramSource = routingContext.getBodyAsString();
           if (diagramSource == null || diagramSource.trim().isEmpty()) {
             routingContext.fail(new BadRequestException("Request body must not be empty."));
             return;

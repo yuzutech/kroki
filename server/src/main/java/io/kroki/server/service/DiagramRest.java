@@ -20,7 +20,7 @@ public class DiagramRest {
 
   public Handler<RoutingContext> create() {
     return routingContext -> {
-      String bodyAsString = routingContext.body().asString();
+      String bodyAsString = routingContext.getBodyAsString();
       if (bodyAsString == null || bodyAsString.trim().isEmpty()) {
         routingContext.fail(new BadRequestException("Request body must not be empty."));
         return;
