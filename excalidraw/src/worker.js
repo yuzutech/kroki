@@ -22,11 +22,12 @@ export default class Worker {
       await page.setViewport({ height: 800, width: 600 })
       await page.goto(this.pageUrl)
       await page.addScriptTag({
-        path: `${path.join(__dirname, '..', 'assets', 'excalidraw', 'excalidraw.production.min.js')}`
-      });
-      await page.addScriptTag({
         content: `window.EXCALIDRAW_ASSET_PATH="${this.assetPath}"`
-      });
+      })
+      // excalidraw.production.min.js is using the EXCALIDRAW_ASSET_PATH variable.
+      await page.addScriptTag({
+        path: `${path.join(__dirname, '..', 'assets', 'excalidraw', 'excalidraw.production.min.js')}`
+      })
       // QUESTION: should we reuse the page for performance reason ?
       return await page.evaluate(async (definition) => {
         const svgElement = await window.ExcalidrawLib.exportToSvg(JSON.parse(definition))
