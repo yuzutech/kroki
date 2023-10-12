@@ -4,39 +4,14 @@ import io.kroki.server.action.Commander;
 import io.kroki.server.error.ErrorHandler;
 import io.kroki.server.error.InvalidRequestHandler;
 import io.kroki.server.log.Logging;
-import io.kroki.server.service.Blockdiag;
-import io.kroki.server.service.Bpmn;
-import io.kroki.server.service.Bytefield;
-import io.kroki.server.service.D2;
-import io.kroki.server.service.TikZ;
-import io.kroki.server.service.Dbml;
-import io.kroki.server.service.DiagramRegistry;
-import io.kroki.server.service.DiagramRest;
-import io.kroki.server.service.Diagramsnet;
-import io.kroki.server.service.Ditaa;
-import io.kroki.server.service.Erd;
-import io.kroki.server.service.Excalidraw;
-import io.kroki.server.service.Graphviz;
-import io.kroki.server.service.HealthHandler;
-import io.kroki.server.service.HelloHandler;
-import io.kroki.server.service.Mermaid;
-import io.kroki.server.service.Nomnoml;
-import io.kroki.server.service.Pikchr;
-import io.kroki.server.service.Plantuml;
-import io.kroki.server.service.ServiceVersion;
-import io.kroki.server.service.Structurizr;
-import io.kroki.server.service.Svgbob;
-import io.kroki.server.service.Symbolator;
-import io.kroki.server.service.Umlet;
-import io.kroki.server.service.Vega;
-import io.kroki.server.service.Wavedrom;
-import io.kroki.server.service.Wireviz;
+import io.kroki.server.service.*;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
+import io.vertx.core.VertxOptions;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServer;
@@ -65,11 +40,12 @@ public class Server extends AbstractVerticle {
   @Override
   public void start(Promise<Void> startPromise) {
     ConfigRetriever retriever = ConfigRetriever.create(vertx);
+    VertxOptions vertxOptions = new VertxOptions();
     retriever.getConfig(configResult -> {
       if (configResult.failed()) {
         startPromise.fail(configResult.cause());
       } else {
-        start(vertx, configResult.result(), startResult -> {
+        start(vertx, vertxOptions, configResult.result(), startResult -> {
           if (startResult.succeeded()) {
             startPromise.complete();
           } else {
@@ -80,7 +56,7 @@ public class Server extends AbstractVerticle {
     });
   }
 
-  static void start(Vertx vertx, JsonObject config, Handler<AsyncResult<HttpServer>> listenHandler) {
+  static void start(Vertx vertx, VertxOptions vertxOptions, JsonObject config, Handler<AsyncResult<HttpServer>> listenHandler) {
     HttpServerOptions serverOptions = new HttpServerOptions();
     Optional<Integer> maxUriLength = Optional.ofNullable(config.getInteger("KROKI_MAX_URI_LENGTH"));
     maxUriLength.ifPresent(serverOptions::setMaxInitialLineLength);
@@ -149,8 +125,14 @@ public class Server extends AbstractVerticle {
       .handler(bodyHandler)
       .handler(new DiagramRest(registry).create());
 
+    // metrics
+    final var blockedThreadChecker = new KrokiBlockedThreadChecker(vertx, vertxOptions);
+    MetricHandler metricHandler = new MetricHandler(blockedThreadChecker);
+    Handler<RoutingContext> metricHandlerService = metricHandler.create();
+    router.get("/metrics")
+      .handler(metricHandlerService);
     // health
-    HealthHandler healthHandler = new HealthHandler(registry.getVersions());
+    HealthHandler healthHandler = new HealthHandler(registry.getVersions(), blockedThreadChecker);
     Handler<RoutingContext> healthHandlerService = healthHandler.create();
     router.get("/health")
       .handler(healthHandlerService);

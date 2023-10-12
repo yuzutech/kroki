@@ -1,7 +1,6 @@
 package io.kroki.server.service;
 
 import io.kroki.server.Main;
-
 import io.vertx.core.Handler;
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.json.Json;
@@ -19,6 +18,10 @@ public class HealthHandler {
   private final List<ServiceVersion> serviceVersions;
 
   public HealthHandler(Map<String, String> versions) {
+    this(versions, null);
+  }
+
+  public HealthHandler(Map<String, String> versions, KrokiBlockedThreadChecker blockedThreadChecker) {
     krokiVersionNumber = Main.getApplicationProperty("app.version", "");
     krokiBuildHash = Main.getApplicationProperty("app.sha1", "");
     serviceVersions = new ArrayList<>();
