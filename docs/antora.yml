@@ -1,6 +1,6 @@
 name: kroki
 title: Kroki
-version: master
+version: ~
 asciidoc:
   attributes:
     actdiag-version: 3.1.0
