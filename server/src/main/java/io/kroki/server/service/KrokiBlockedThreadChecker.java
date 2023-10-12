@@ -81,6 +81,8 @@ public class KrokiBlockedThreadChecker {
     }
   }
 
+  // copied from io.vertx.core.impl.btc.BlockedThreadChecker#defaultBlockedThreadHandler
+  // because this method is private :/
   private void defaultHandlerFromVertx(BlockedThreadEvent bte) {
     final String message = "Thread " + bte.thread() + " has been blocked for " + (bte.duration() / 1_000_000) + " ms, time limit is " + (bte.maxExecTime() / 1_000_000) + " ms";
     if (bte.duration() <= bte.warningExceptionTime()) {
