@@ -218,7 +218,7 @@ TIP: Keep in mind that browsers also have a URI limit on `<img>` tags.
 Most modern browsers https://stackoverflow.com/questions/417142/what-is-the-maximum-length-of-a-url-in-different-browsers/417184#417184[support a URI length greater than 64000] on `<img>` tags but this value is probably a bit excessive.
 We recommend to use a maximum length that's not greater than 8192 and not greater than 5120 if you are supporting IE 11.
 
-== Excalidraw Asset Path
+== Excalidraw static assets
 
 By default, Excalidraw loads assets from a public CDN (https://unpkg.com).
 
