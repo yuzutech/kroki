@@ -71,14 +71,20 @@ The `yuzutech/kroki` container is the only container that must be running for a 
 
 The {uri-docker-kroki-image}[yuzutech/kroki] image contains the gateway server, and the following diagram libraries out-of-the-box:
 
+* {uri-actdiag}[ActDiag]
+* {uri-blockdiag}[BlockDiag]
 * https://bytefield-svg.deepsymmetry.org/[Bytefield]
 * https://github.com/terrastruct/d2[D2]
 * http://ditaa.sourceforge.net[Ditaa]
 * https://github.com/BurntSushi/erd[Erd]
 * https://www.graphviz.org/[GraphViz]
 * https://github.com/skanaar/nomnoml[Nomnoml]
+* {uri-nwdiag}[NwDiag]
+* {uri-packetdiag}[PacketDiag]
 * https://github.com/drhsqlite/pikchr[Pikchr]
 * https://github.com/plantuml/plantuml[PlantUML] including https://github.com/RicardoNiepel/C4-PlantUML[C4 model]
+* {uri-rackdiag}[RackDiag]
+* {uri-seqdiag}[SeqDiag]
 * https://github.com/structurizr/dsl[Structurizr]
 * https://github.com/ivanceras/svgbob[Svgbob]
 * https://github.com/hdl/symbolator[Symbolator]
@@ -86,6 +92,7 @@ The {uri-docker-kroki-image}[yuzutech/kroki] image contains the gateway server, 
 * https://github.com/vega/vega[Vega]
 * https://github.com/vega/vega-lite[Vega-Lite]
 * https://wavedrom.com[WaveDrom]
+* {uri-wireviz}[WireViz]
 
 In other words, the following endpoints will be available:
 
