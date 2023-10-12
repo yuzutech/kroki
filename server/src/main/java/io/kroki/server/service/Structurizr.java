@@ -236,6 +236,7 @@ class StructurizrTheme {
     if (elementsObject instanceof JsonArray) {
       for (Object elementObject : ((JsonArray) elementsObject).getList()) {
         if (elementObject instanceof Map) {
+          @SuppressWarnings("unchecked")
           JsonObject element = new JsonObject((Map<String, Object>) elementObject);
           ElementStyle elementStyle = new ElementStyle(
             element.getString("tag"),
@@ -263,9 +264,8 @@ class StructurizrTheme {
   }
 
   public List<RelationshipStyle> getRelationshipStyle() {
-    List<RelationshipStyle> result = new ArrayList<>();
     // remind: RelationshipStyle does not have a public constructor, as a result, we cannot instantiate it.
-    return result;
+    return new ArrayList<>();
   }
 
   private Shape getShape(JsonObject element) {

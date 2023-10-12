@@ -26,6 +26,7 @@
     <structurizr-dsl.version>1.32.0</structurizr-dsl.version>
     <structurizr-export.version>1.16.1</structurizr-export.version>
     <structurizr-core.version>1.26.1</structurizr-core.version>
+    <caffeine.version>3.1.8</caffeine.version>
   </properties>
 
   <dependencies>
@@ -59,7 +60,7 @@
     <dependency>
       <groupId>com.github.ben-manes.caffeine</groupId>
       <artifactId>caffeine</artifactId>
-      <version>3.1.8</version>
+      <version>${caffeine.version}</version>
     </dependency>
     <dependency>
       <groupId>com.googlecode.owasp-java-html-sanitizer</groupId>

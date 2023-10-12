@@ -51,6 +51,22 @@ class ServerTest {
   }
 
   @Test
+  void http_server_check_metrics(Vertx vertx, VertxTestContext testContext) {
+    WebClient client = WebClient.create(vertx);
+    client.get(port, "localhost", "/metrics")
+      .as(BodyCodec.string())
+      .send(testContext.succeeding(response -> testContext.verify(() -> {
+        assertThat(response.body()).contains("# HELP kroki_worker_thread_blocked_percentage");
+        assertThat(response.body()).contains("# TYPE kroki_worker_thread_blocked_percentage gauge");
+        assertThat(response.body()).contains("# HELP kroki_event_loop_thread_blocked_percentage The percentage of event loop thread blocked.");
+        assertThat(response.body()).contains("# TYPE kroki_event_loop_thread_blocked_percentage gauge");
+        assertThat(response.body()).contains("kroki_worker_thread_blocked_percentage 0 ");
+        assertThat(response.body()).contains("kroki_event_loop_thread_blocked_percentage 0 ");
+        testContext.completeNow();
+      })));
+  }
+
+  @Test
   void http_server_check_cors_handling_regular_origin(Vertx vertx, VertxTestContext testContext) {
     WebClient client = WebClient.create(vertx);
     client.get(port, "localhost", "/")
