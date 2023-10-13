@@ -9,6 +9,7 @@ export default class Worker {
   constructor (browserInstance) {
     this.browserWSEndpoint = browserInstance.wsEndpoint()
     this.pageUrl = process.env.KROKI_EXCALIDRAW_PAGE_URL || `file://${path.join(__dirname, '..', 'assets', 'index.html')}`
+    this.assetPath = process.env.KROKI_EXCALIDRAW_ASSET_PATH || ''
   }
 
   async convert (task) {
@@ -20,6 +21,13 @@ export default class Worker {
     try {
       await page.setViewport({ height: 800, width: 600 })
       await page.goto(this.pageUrl)
+      await page.addScriptTag({
+        content: `window.EXCALIDRAW_ASSET_PATH="${this.assetPath}"`
+      })
+      // excalidraw.production.min.js is using the EXCALIDRAW_ASSET_PATH variable.
+      await page.addScriptTag({
+        path: `${path.join(__dirname, '..', 'assets', 'excalidraw', 'excalidraw.production.min.js')}`
+      })
       // QUESTION: should we reuse the page for performance reason ?
       return await page.evaluate(async (definition) => {
         const svgElement = await window.ExcalidrawLib.exportToSvg(JSON.parse(definition))

@@ -12,6 +12,7 @@ WORKDIR /usr/local/kroki/
 RUN mkdir -p /usr/local/kroki/node && chown kroki:kroki -R /usr/local/kroki
 
 ENV KROKI_EXCALIDRAW_PAGE_URL=file:///usr/local/kroki/assets/index.html
+ENV KROKI_EXCALIDRAW_ASSET_PATH=
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/lib/chromium/chrome
 #ENV DEBUG="puppeteer:*"
 ENV LEVEL="info"
