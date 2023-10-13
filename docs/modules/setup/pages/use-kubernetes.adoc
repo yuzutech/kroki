@@ -43,11 +43,10 @@ wget http://docs.kroki.io/kroki/setup/_attachments/kroki-k8s-multipod.zip -O kro
 unzip kroki-k8s-multipod.zip -d kroki-k8s
 ----
 
-
-
 In the next steps you use the `*.yml` files beneath the directory `kroki-k8s` and apply them in batch or individually, to create the Kubernetes objects.
 
 == Create objects as a batch
+
 To install (create) all the Kubernetes objects in a batch do the following:
 
 Use the command `kubectl apply` to create all the required Kubernetes objects,
@@ -87,13 +86,6 @@ kubectl apply -f {uri-k8s-kroki-examples}/bpmn-service.yaml
 ----
 kubectl apply -f {uri-k8s-kroki-examples}/excalidraw-deployment.yaml
 kubectl apply -f {uri-k8s-kroki-examples}/excalidraw-service.yaml
-----
-
-.Add WireViz service
-[source,cli,subs=+attributes]
-----
-kubectl apply -f {uri-k8s-kroki-examples}/wireviz-deployment.yaml
-kubectl apply -f {uri-k8s-kroki-examples}/wireviz-service.yaml
 ----
 
 .Add Kroki service
