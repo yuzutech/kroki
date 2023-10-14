@@ -129,30 +129,6 @@ WORKDIR /app
 RUN npm install --target_arch=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") --target_platform=$TARGETOS
 RUN /usr/local/bin/pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
 
-## ERD
-# use a pre-built image to reduce build time
-FROM yuzutech/kroki-builder-erd:0.2.1.0 AS kroki-builder-static-erd
-#FROM ubuntu:18.04 AS kroki-builder-static-erd
-
-#ARG ERD_VERSION=0.2.1.0
-
-#RUN apt-get -qq update && apt-get install -qq -y graphviz curl git > /dev/null
-
-#RUN curl -sSL https://get.haskellstack.org/ | sh -s - -q > /dev/null
-
-#RUN git clone https://github.com/BurntSushi/erd.git
-
-#WORKDIR erd
-
-#RUN git checkout "v${ERD_VERSION}"
-
-# build static executable binary
-#RUN /usr/local/bin/stack install --silent --ghc-options="-fPIC" \
-#  --ghc-options="-static" \
-#  --ghc-options="-optl=-static" \
-#  --ghc-options="-optc=-static" \
-#  --ghc-options="-w"
-
 ## Symbolator
 FROM ubuntu:jammy AS kroki-builder-static-symbolator
 
@@ -225,11 +201,8 @@ RUN SVGBOB_VERSION=`cat Cargo.toml | grep "svgbob_cli =" | sed -r 's/.*"([^"]+)"
     rustup target add $RUST_TARGET_ARCH-unknown-linux-gnu && \
     cargo install --quiet --target $RUST_TARGET_ARCH-unknown-linux-gnu --version $SVGBOB_VERSION svgbob_cli
 
-## UMlet
-# use a pre-built image to reduce build time
-
-## PlantUML
-# use a pre-built image to reduce build time
+## Erd
+FROM ghcr.io/felixvanoost/erd:build-multiarch-docker-image AS erd
 
 ## yuzutech/kroki
 FROM eclipse-temurin:17.0.10_7-jre-jammy
@@ -296,7 +269,6 @@ RUN wget "https://github.com/yuzutech/WireViz/releases/download/v${WIREVIZ_VERSI
     chmod +x /usr/bin/wireviz
 
 COPY --from=kroki-builder-static-svgbob /usr/local/cargo/bin/svgbob_cli /usr/bin/svgbob
-COPY --from=kroki-builder-static-erd /root/.local/bin/erd /usr/bin/erd
 COPY --from=kroki-builder-static-pikchr /build/pikchr /usr/bin/pikchr
 COPY --from=kroki-builder-nomnoml /app/app.bin /usr/bin/nomnoml
 COPY --from=kroki-builder-vega /app/app.bin /usr/bin/vega
@@ -305,6 +277,7 @@ COPY --from=kroki-builder-wavedrom /app/app.bin /usr/bin/wavedrom
 COPY --from=kroki-builder-static-symbolator /build/symbolator.bin /usr/bin/symbolator
 COPY --from=kroki-builder-bytefield /app/app.bin /usr/bin/bytefield
 COPY --from=kroki-builder-dvisvgm /usr/local/bin/dvisvgm /usr/bin/dvisvgm
+COPY --from=erd /root/.cabal/bin/erd /usr/bin/erd
 COPY --from=tikz tikz2svg /usr/bin/tikz2svg
 
 COPY --chown=kroki:kroki ops/docker/logback.xml /etc/kroki/logback.xml
