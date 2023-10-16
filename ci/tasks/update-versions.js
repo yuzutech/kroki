@@ -149,7 +149,7 @@ try {
       const { version } = d2VersionFound.groups
       diagramLibraryVersions.d2 = version
     }
-    const erdVersionFound = line.match(/^FROM yuzutech\/kroki-builder-erd:(?<version>\S+) AS kroki-builder-static-erd$/)
+    const erdVersionFound = line.match(/^ARG ERD_VERSION="(?<version>.+)"$/)
     if (erdVersionFound) {
       const { version } = erdVersionFound.groups
       diagramLibraryVersions.erd = version
@@ -159,7 +159,6 @@ try {
       const { version } = pikchrVersionFound.groups
       diagramLibraryVersions.pikchr = version.slice(0, 10)
     }
-
     const symbolatorVersionFound = line.match(/^ARG SYMBOLATOR_VERSION=(?<version>.+)$/)
     if (symbolatorVersionFound) {
       const { version } = symbolatorVersionFound.groups
