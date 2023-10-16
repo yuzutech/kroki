@@ -132,7 +132,6 @@ These optional companion containers provide additional diagrams and require the 
 // * <<yuzutech-kroki-bpmn,Kroki bpmn>>
 // * <<yuzutech-kroki-excalidraw,Kroki excalidraw>>
 // * <<yuzutech-kroki-mermaid,Kroki mermaid>>
-// * <<yuzutech-kroki-wireviz,Kroki wireviz>>
 
 [#yuzutech-kroki-bpmn]
 {uri-docker-kroki-bpmn-image}[yuzutech/kroki-bpmn^]::
