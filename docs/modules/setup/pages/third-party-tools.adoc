@@ -1,21 +1,22 @@
 = Third Party Tools
-:url-intellij-asciidoc-plugin: https://github.com/asciidoctor/asciidoctor-intellij-plugin/
-:url-keenwrite: https://github.com/DaveJarvis/keenwrite/
-:url-niolesk: https://niolesk.top/
-:url-vscode: https://code.visualstudio.com/
+:url-intellij-asciidoc-plugin: https://github.com/asciidoctor/asciidoctor-intellij-plugin
+:url-keenwrite: https://github.com/DaveJarvis/keenwrite
+:url-niolesk: https://niolesk.top
+:url-vscode: https://code.visualstudio.com
 :url-vscode-asciidoctor: https://marketplace.visualstudio.com/items?itemName=asciidoctor.asciidoctor-vscode
 :url-vscode-asciidoc-slides: https://marketplace.visualstudio.com/items?itemName=flobilosaurus.vscode-asciidoc-slides
 :url-vscode-markdown-kroki: https://marketplace.visualstudio.com/items?itemName=pomdtr.markdown-kroki
-:url-gitlab: https://about.gitlab.com/
+:url-gitlab: https://about.gitlab.com
 :url-gitlab-int: https://docs.gitlab.com/ce/administration/integration/kroki.html
-:url-sphinx: https://www.sphinx-doc.org/
+:url-sphinx: https://www.sphinx-doc.org
 :url-sphinx-int: https://github.com/sphinx-contrib/kroki
 :url-julia: https://julialang.org
 :url-julia-documenter: https://juliadocs.github.io/Documenter.jl/stable
 :url-julia-int: https://bauglir.github.io/Kroki.jl/stable
 :url-julia-pluto: https://github.com/fonsp/Pluto.jl
 :url-julia-vscode: https://www.julia-vscode.org
-:url-mkdocs-plugin: https://pypi.org/project/mkdocs-kroki-plugin/
+:url-mkdocs-plugin: https://pypi.org/project/mkdocs-kroki-plugin
+:url-jekyll-kroki: https://rubygems.org/gems/jekyll-kroki
 
 A list of third party tools, developed by the community, that rely on Kroki.
 
@@ -62,4 +63,8 @@ It enables rendering diagrams in environments such as {url-julia-documenter}[Doc
 
 == MkDocs
 
-The {url-mkdocs-plugin}[MkDocs Kroki plugin] allows to embed Kroki diagrams within Markdown files processed by MkDocs.
+The {url-mkdocs-plugin}[MkDocs Kroki plugin] embeds Kroki diagrams within Markdown files processed by MkDocs.
+
+== Jekyll
+
+The {url-jekyll-kroki}[Jekyll Kroki plugin] embeds Kroki diagrams within Markdown files processed by Jekyll.
