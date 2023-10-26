@@ -17,6 +17,7 @@
 :url-julia-vscode: https://www.julia-vscode.org
 :url-mkdocs-plugin: https://pypi.org/project/mkdocs-kroki-plugin
 :url-jekyll-kroki: https://rubygems.org/gems/jekyll-kroki
+:url-remark-kroki: https://github.com/nice-move/remark-kroki
 
 A list of third party tools, developed by the community, that rely on Kroki.
 
@@ -68,3 +69,7 @@ The {url-mkdocs-plugin}[MkDocs Kroki plugin] embeds Kroki diagrams within Markdo
 == Jekyll
 
 The {url-jekyll-kroki}[Jekyll Kroki plugin] embeds Kroki diagrams within Markdown files processed by Jekyll.
+
+== Remark
+
+The {url-remark-kroki}[Remark Kroki plugin] embeds Kroki diagrams within Markdown files processed by Remark.
