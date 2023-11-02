@@ -9,7 +9,7 @@ jobs:
   release:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Install GraphViz
         run: sudo apt-get install graphviz -y
       - name: Set up JDK 11
@@ -35,7 +35,7 @@ jobs:
   publish_dockerhub:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Install GraphViz
         run: sudo apt-get install graphviz -y
       - name: Set up JDK 11
@@ -46,9 +46,9 @@ jobs:
       - name: Build Java server
         run: make buildServer
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
       - name: Login to Docker Hub
         run: |
           echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
