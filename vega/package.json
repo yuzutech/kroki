@@ -17,11 +17,11 @@
   "dependencies": {
     "canvas": "2.11.2",
     "vega": "5.25.0",
-    "vega-lite": "5.14.1",
+    "vega-lite": "5.16.1",
     "yargs": "17.7.2"
   },
   "devDependencies": {
-    "chai": "4.3.8",
+    "chai": "4.3.10",
     "dirty-chai": "2.0.1",
     "mocha": "10.2.0",
     "sinon": "15.2.0",
@@ -31,6 +31,6 @@
     "assets": "node_modules/canvas/build/Release/*"
   },
   "volta": {
-    "node": "18.17.1"
+    "node": "18.18.2"
   }
 }

@@ -19,9 +19,9 @@
     "url": "https://github.com/yuzutech/kroki.git"
   },
   "dependencies": {
-    "@excalidraw/excalidraw": "0.15.3",
+    "@excalidraw/excalidraw": "0.16.1",
     "micro": "10.0.1",
-    "pino": "8.15.0",
+    "pino": "8.16.1",
     "pino-debug": "2.0.0",
     "puppeteer": "20.6.0",
     "react": "18.2.0",
@@ -31,6 +31,6 @@
     "standard": "17.1.0"
   },
   "volta": {
-    "node": "18.17.1"
+    "node": "18.18.2"
   }
 }
