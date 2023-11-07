@@ -13,13 +13,13 @@
 
   <properties>
     <!-- https://github.com/vert-x3/vertx-dependencies/blob/6b147024b6aa7732386c6a94a126eacf3b4dda1b/pom.xml#LL50C20-L50C32 -->
-    <netty.version>4.1.97.Final</netty.version>
+    <netty.version>4.1.100.Final</netty.version>
     <logback.version>1.4.11</logback.version>
-    <vertx.version>4.4.5</vertx.version>
+    <vertx.version>4.4.6</vertx.version>
     <junit.jupiter.version>5.9.3</junit.jupiter.version>
     <assertj-core.version>3.24.2</assertj-core.version>
     <mockito-core.version>5.4.0</mockito-core.version>
-    <slf4j-api.version>2.0.7</slf4j-api.version>
+    <slf4j-api.version>2.0.9</slf4j-api.version>
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
     <owasp-html-sanitizer.version>20220608.1</owasp-html-sanitizer.version>
@@ -105,7 +105,7 @@
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-text</artifactId>
-      <version>1.10.0</version>
+      <version>1.11.0</version>
     </dependency>
     <dependency>
       <groupId>com.structurizr</groupId>
