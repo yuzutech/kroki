@@ -1,5 +1,15 @@
 # syntax=docker/dockerfile:1.4
 
+## Kroki server
+FROM maven:3.9.3-eclipse-temurin-11 as kroki-builder-server
+COPY --from=kroki-src . /kroki
+WORKDIR /kroki
+RUN apt-get update \
+ && apt-get install graphviz -y \
+ && apt-get clean \
+ && apt-get autoremove
+RUN mvn --no-transfer-progress clean package
+
 ## TikZ
 FROM --platform=$BUILDPLATFORM ubuntu:jammy AS kroki-builder-dvisvgm
 
@@ -336,7 +346,7 @@ ENV KROKI_SYMBOLATOR_BIN_PATH=/usr/bin/symbolator
 ENV KROKI_WIREVIZ_BIN_PATH=/usr/bin/wireviz
 ENV JAVA_OPTS="-Dlogback.configurationFile=/etc/kroki/logback.xml -Dvertx.logger-delegate-factory-class-name=io.vertx.core.logging.SLF4JLogDelegateFactory"
 
-COPY --chown=kroki:kroki target/kroki-server.jar /usr/local/kroki/kroki-server.jar
+COPY --from=kroki-builder-server --chown=kroki:kroki /kroki/server/target/kroki-server.jar /usr/local/kroki/kroki-server.jar
 
 EXPOSE 8000
 
