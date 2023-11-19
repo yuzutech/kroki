@@ -1,6 +1,6 @@
 = Third Party Tools
 :url-intellij-asciidoc-plugin: https://github.com/asciidoctor/asciidoctor-intellij-plugin
-:url-keenwrite: https://github.com/DaveJarvis/keenwrite
+:url-keenwrite: https://keenwrite.com
 :url-niolesk: https://niolesk.top
 :url-vscode: https://code.visualstudio.com
 :url-vscode-asciidoctor: https://marketplace.visualstudio.com/items?itemName=asciidoctor.asciidoctor-vscode
