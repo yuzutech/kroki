@@ -18,7 +18,7 @@ RUN git apply patch1.diff && \
 
 WORKDIR /service
 
-ENV KROKI_ONLINEWARDLEYMAPS_PAGE_URL=http://localhost:3000
+ENV KROKI_ONLINEWARDLEYMAPS_PAGE_URL="http://localhost:3000"
 # 15 seconds
 ENV KROKI_ONLINEWARDLEYMAPS_CONVERT_TIMEOUT=15000
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/lib/chromium/chrome
@@ -29,7 +29,7 @@ COPY --chown=kroki:kroki package*.json ./
 RUN npm i --omit=dev
 COPY --chown=kroki:kroki src ./
 
-RUN mkdir -p /app
+RUN mkdir -p /app && chown -R kroki:kroki /app
 COPY --chown=kroki:kroki assets/supervisord.conf /app/supervisord.conf
 
 WORKDIR /app

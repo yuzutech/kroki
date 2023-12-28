@@ -18,25 +18,30 @@ export class SyntaxError extends Error {
 export class Worker {
   constructor(browserInstance) {
     this.browserWSEndpoint = browserInstance.wsEndpoint()
-    this.pageUrl = process.env.KROKI_ONLINEWARDLEYMAPS_PAGE_URL || `https://localhost:3000`
+    this.pageUrl = process.env.KROKI_ONLINEWARDLEYMAPS_PAGE_URL || `http://localhost:3000`
     this.convertTimeout = process.env.KROKI_ONLINEWARDLEYMAPS_CONVERT_TIMEOUT || '15000'
   }
 
   async convert(task) {
+    console.debug("Connecting browser")
     const browser = await puppeteer.connect({
       browserWSEndpoint: this.browserWSEndpoint,
       ignoreHTTPSErrors: true
     })
     // https://github.com/damonsk/onlinewardleymaps/pull/75
+    console.debug("Browser connected")
     const page = await browser.newPage()
     try {
+      console.debug("Page loaded")
       let evalResult
       try {
-        await page.setViewport({height: 800, width: 600})
+        await page.setViewport({height: 1024, width: 800})
         await page.goto(this.pageUrl)
+        console.debug("Page loaded")
 
         const editorSelector = '.ace_text-input';
         await page.waitForSelector(editorSelector);
+        console.debug("Editor selector found")
 
         await page.$eval(
           editorSelector,
@@ -45,12 +50,18 @@ export class Worker {
             e.dispatchEvent(new Event('input', {bubbles: true}));
             e.dispatchEvent(new Event('change', {bubbles: true}));
           },
-          mapText
+          task.source
         );
+        console.debug("Editor Map content set")
         const mapFrameSelector = '.contentLoaded';
         await page.waitForSelector(mapFrameSelector);
+        console.debug("image content loaded")
 
-        evalResult = {svg: page.$("#svgMap"), error: null}
+        const svgSelector = '#map';
+        const elem = await page.waitForSelector(svgSelector);
+        const svg = await elem.evaluate((e) => e.innerHTML.replaceAll("&nbsp;", " "));
+        console.debug("svg loaded", svg)
+        evalResult = {svg: svg, error: null}
       } catch (err) {
         logger.error({err}, 'Unable to load the map')
         evalResult = {svg: null, error: err}
@@ -61,6 +72,7 @@ export class Worker {
       }
 
       if (task.isPng) {
+        console.debug("Converting to PNG")
         await page.setContent(`<!DOCTYPE html>  
 <html>
 <head>  
