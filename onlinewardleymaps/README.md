@@ -8,9 +8,10 @@ Update the Version strings in the Dockerfile, Doc and Java files. Nothing more n
 
 ## Architecture
 
-The docker container runs 2 separate processes:
+The docker container runs 3 separate processes:
 - The Kroki companion server, which runs on port 8007 and is exposed
 - The Online Wardley Maps server, which runs on port 3000 and is not exposed
+- The supervisord is the entrypoint and starts the other two processes
 
 ## Testing
 
