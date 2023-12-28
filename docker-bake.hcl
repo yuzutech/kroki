@@ -41,6 +41,6 @@ target "kroki-diagramsnet" {
 }
 
 target "kroki-onlinewardleymaps" {
-  context = "OnlineWardleyMaps"
+  context = "onlinewardleymaps"
   tags = ["yuzutech/kroki-onlinewardleymaps:${TAG}"]
 }
