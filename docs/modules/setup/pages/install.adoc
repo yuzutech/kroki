@@ -5,6 +5,7 @@
 :uri-docker-kroki-bpmn-image: https://hub.docker.com/r/yuzutech/kroki-bpmn
 :uri-docker-kroki-excalidraw-image: https://hub.docker.com/r/yuzutech/kroki-excalidraw
 :uri-docker-kroki-diagramsnet-image: https://hub.docker.com/r/yuzutech/kroki-diagramsnet
+:uri-docker-kroki-onlinewardleymaps-image: https://hub.docker.com/r/yuzutech/kroki-onlinewardleymaps
 // URIs of diagram generation application sites by diagram name
 :uri-blockdiag: http://blockdiag.com/en/blockdiag/index.html
 :uri-seqdiag: http://blockdiag.com/en/seqdiag/index.html
@@ -16,6 +17,7 @@
 :uri-bpmn: https://bpmn.io/toolkit/bpmn-js/
 :uri-excalidraw: https://excalidraw.com/
 :uri-diagramsnet: https://diagrams.net/
+:uri-onlinewardleymaps: https://onlinewardleymaps.com/
 :uri-wireviz: https://github.com/formatc1702/WireViz
 
 This section covers installing Kroki locally.
@@ -148,3 +150,7 @@ Provides flowchart, sequence and Gantt diagrams for Kroki using the {uri-mermaid
 [#yuzutech-kroki-diagramsnet]
 {uri-docker-kroki-diagramsnet-image}[yuzutech/kroki-diagramsnet^]  (experimental)::
 Provides diagrams for Kroki using the {uri-diagramsnet}[diagrams.net^] library.
+
+[#yuzutech-kroki-onlinewardleymaps]
+{uri-docker-kroki-onlinewardleymaps-image}[yuzutech/kroki-onlinewardleymaps^] (experimental)::
+Provides Wardley maps for Kroki using the {uri-onlinewardleymaps}[Online Wardley Maps^] library.

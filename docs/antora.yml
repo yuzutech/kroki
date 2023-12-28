@@ -11,6 +11,7 @@ asciidoc:
     d2-version: 0.6.0
     dbml-version: 1.0.27
     diagramsnet-version: 16.2.4
+    onlinewardleymaps-version: 44ce638d9a1bef6e629301a840280a904cbc20e4
     ditaa-version: 1.0.3
     erd-version: 0.2.1.0
     excalidraw-version: 0.15.3
