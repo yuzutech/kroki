@@ -3,7 +3,7 @@ variable "TAG" {
 }
 
 group "companion-images" {
-  targets = ["kroki-mermaid", "kroki-bpmn", "kroki-excalidraw", "kroki-diagramsnet"]
+  targets = ["kroki-mermaid", "kroki-bpmn", "kroki-excalidraw", "kroki-diagramsnet", "kroki-onlinewardleymaps"]
 }
 
 target "kroki" {
