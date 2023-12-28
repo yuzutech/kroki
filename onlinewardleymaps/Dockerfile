@@ -7,11 +7,12 @@ RUN apk add --quiet --no-cache --update git \
     font-noto-cjk
 
 WORKDIR /server
-
 RUN git clone https://github.com/damonsk/onlinewardleymaps.git ./ && \
-  git checkout 44ce638d9a1bef6e629301a840280a904cbc20e4 &&\
-  yarn install
-COPY assets/patch* assets/aws-config.js ./
+    git checkout 44ce638d9a1bef6e629301a840280a904cbc20e4
+
+WORKDIR /server/frontend
+RUN yarn install
+COPY assets/patch* assets/aws-exports.js ./
 RUN git apply patch1.diff && \
     yarn build
 

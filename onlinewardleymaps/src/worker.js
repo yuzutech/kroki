@@ -1,11 +1,6 @@
 /* global XMLSerializer */
-import path from 'node:path'
-import {URL, fileURLToPath} from 'node:url'
 import puppeteer from 'puppeteer'
-
 import {logger} from './logger.js'
-
-const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
 export class TimeoutError extends Error {
   constructor(timeoutDurationMs, action = 'convert') {
@@ -23,8 +18,8 @@ export class SyntaxError extends Error {
 export class Worker {
   constructor(browserInstance) {
     this.browserWSEndpoint = browserInstance.wsEndpoint()
-    this.pageUrl = process.env.KROKI_DIAGRAMSNET_PAGE_URL || `file://${path.join(__dirname, '..', 'assets', 'index.html')}`
-    this.convertTimeout = process.env.KROKI_DIAGRAMSNET_CONVERT_TIMEOUT || '15000'
+    this.pageUrl = process.env.KROKI_ONLINEWARDLEYMAPS_PAGE_URL || `https://localhost:3000`
+    this.convertTimeout = process.env.KROKI_ONLINEWARDLEYMAPS_CONVERT_TIMEOUT || '15000'
   }
 
   async convert(task) {

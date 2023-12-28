@@ -72,7 +72,7 @@ import { SyntaxError, TimeoutError, Worker } from './worker.js'
       })
     })
   )
-  server.listen(8005)
+  server.listen(8007)
 })().catch(err => {
   logger.error({ err }, 'Unable to start the service')
   process.exit(1)
