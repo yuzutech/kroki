@@ -1,11 +1,11 @@
 // must be declared first
-import { logger } from './logger.js'
+import {logger} from './logger.js'
 import http from 'node:http'
 import {TimeoutError as PuppeteerTimeoutError} from 'puppeteer'
 import micro from 'micro'
 import Task from './task.js'
-import { create } from './browser-instance.js'
-import { SyntaxError, TimeoutError, Worker } from './worker.js'
+import {create} from './browser-instance.js'
+import {SyntaxError, TimeoutError, Worker} from './worker.js'
 
 (async () => {
   // QUESTION: should we create a pool of Chrome instances ?
@@ -19,11 +19,16 @@ import { SyntaxError, TimeoutError, Worker } from './worker.js'
       const url = new URL(req.url, 'http://localhost') // create a URL object. The base is not important here
       const outputType = url.pathname.match(/\/(png|svg)$/)?.[1]
       if (outputType) {
-        const diagramSource = await micro.text(req, { limit: '1mb', encoding: 'utf8' })
+        const diagramSource = await micro.text(req, {limit: '1mb', encoding: 'utf8'})
         if (diagramSource) {
           try {
             const isPng = outputType === 'png'
-            const output = await worker.convert(new Task(diagramSource, isPng))
+            const params = url.searchParams
+            const width = parseInt(params.get('width')) || 800
+            const height = parseInt(params.get('height')) || 600
+            const showTitle = params.has('showtitle')
+
+            const output = await worker.convert(new Task(diagramSource, isPng, width, height, showTitle))
             res.setHeader('Content-Type', isPng ? 'image/png' : 'image/svg+xml')
             return micro.send(res, 200, output)
           } catch (err) {
@@ -44,7 +49,7 @@ import { SyntaxError, TimeoutError, Worker } from './worker.js'
                 }
               })
             } else {
-              logger.warn({ err }, 'Exception during convert')
+              logger.warn({err}, 'Exception during convert')
               return micro.send(res, 500, {
                 error: {
                   message: `An error occurred while converting the diagram: ${err.message}`,
@@ -74,6 +79,6 @@ import { SyntaxError, TimeoutError, Worker } from './worker.js'
   )
   server.listen(8007)
 })().catch(err => {
-  logger.error({ err }, 'Unable to start the service')
+  logger.error({err}, 'Unable to start the service')
   process.exit(1)
 })

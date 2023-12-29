@@ -23,44 +23,94 @@ export class Worker {
   }
 
   async convert(task) {
-    console.debug("Connecting browser")
+    logger.debug("Connecting browser")
     const browser = await puppeteer.connect({
       browserWSEndpoint: this.browserWSEndpoint,
       ignoreHTTPSErrors: true
     })
     // https://github.com/damonsk/onlinewardleymaps/pull/75
-    console.debug("Browser connected")
+    logger.debug("Browser connected")
     const page = await browser.newPage()
+    page.setDefaultTimeout(parseInt(this.convertTimeout))
+
+    const editorSelector = '.ace_text-input';
+    const mapFrameSelector = '.contentLoaded';
+    const fullScreenButtonSelector = 'html body div#__next div#main.MuiGrid-root.MuiGrid-container.MuiGrid-spacing-xs-2.css-16divny div.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-8.map-view.css-1klpxdq div.noText div.plain button.MuiButtonBase-root.MuiIconButton-root.MuiIconButton-colorBlack.MuiIconButton-sizeMedium.css-y7xizo';
+    const footerSelector = "html body div#__next div.MuiGrid-root.MuiGrid-container.css-3iorlj";
+    const inputSelector = 'html body div#__next div#main.MuiGrid-root.MuiGrid-container.MuiGrid-spacing-xs-2.css-16divny div.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-4.css-owsoks div#htmPane div#htmEditor.ace_editor.ace_hidpi.ace_dark.ace-dracula';
+    const mapContentSelector = '#main > div.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-8.map-view.css-1klpxdq > div' // set position absolute, top:0, left:0, max-width:100%, max-height:100%, width:100%, height:100%
+    const bodySelector = 'body' // set background-color:transparent
+    const titleSvgSelector = '#title' // set display:none, if shoTitle is false
+    const helperSelector = "html body div.ace_editor.ace_hidpi.ace_autocomplete.ace_dark.ace-dracula div.ace_scroller div.ace_content"
+
     try {
-      console.debug("Page loaded")
       let evalResult
       try {
-        await page.setViewport({height: 1024, width: 800})
         await page.goto(this.pageUrl)
-        console.debug("Page loaded")
+        await page.setViewport({height: task.height, width: task.width})
+        logger.debug("Page loaded")
 
-        const editorSelector = '.ace_text-input';
+        logger.debug("Prepare page")
+        await (await page.waitForSelector(fullScreenButtonSelector)).evaluate((e) => {
+          e.click();
+          e.style.display = 'none'
+        });
+        logger.debug(("Click and hide full screen button"))
+
+
+        if (!task.showTitle) {
+          await (await page.waitForSelector(titleSvgSelector)).evaluate((e) => e.style.display = 'none');
+          logger.debug("Delete title")
+        }
+
+        logger.debug("Hide input")
+        await (await page.waitForSelector(mapContentSelector)).evaluate((e) => {
+        });
+        logger.debug("Set map content position")
+        logger.debug("Preparation done")
+
         await page.waitForSelector(editorSelector);
-        console.debug("Editor selector found")
+        logger.debug("Editor selector found")
 
         await page.$eval(
           editorSelector,
           (e, val) => {
-            e.value = val;
+            e.value = val + "\n";
             e.dispatchEvent(new Event('input', {bubbles: true}));
             e.dispatchEvent(new Event('change', {bubbles: true}));
           },
           task.source
         );
-        console.debug("Editor Map content set")
-        const mapFrameSelector = '.contentLoaded';
-        await page.waitForSelector(mapFrameSelector);
-        console.debug("image content loaded")
+        logger.debug("Editor Map content set")
+        await (await page.waitForSelector(mapFrameSelector)).evaluate((e) => {
+          e.style.position = 'absolute';
+          e.style.top = '0';
+          e.style.left = '0';
+          e.style.maxWidth = '100%';
+          e.style.width = '101%';
+          e.style.backgroundColor = "white"
+          e.style.zIndex = '1000';
+        })
+        logger.debug("image content loaded")
+
+        await (await page.waitForSelector(inputSelector)).evaluate((e) => {
+          e.style.display = 'none';
+        })
+        await (await page.waitForSelector(bodySelector)).evaluate((e) => {
+          e.style.backgroundColor = "white"
+        })
+        await (await page.waitForSelector(footerSelector)).evaluate((e) => {
+          e.style.display = 'none';
+        })
+        logger.debug("Hide input and footer, set background transparent")
+
+        await page.setViewport({height: task.height + 1, width: task.width})
+        await page.waitForTimeout(1000)
 
         const svgSelector = '#map';
         const elem = await page.waitForSelector(svgSelector);
         const svg = await elem.evaluate((e) => e.innerHTML.replaceAll("&nbsp;", " "));
-        console.debug("svg loaded", svg)
+        logger.debug("svg loaded", svg)
         evalResult = {svg: svg, error: null}
       } catch (err) {
         logger.error({err}, 'Unable to load the map')
@@ -72,22 +122,18 @@ export class Worker {
       }
 
       if (task.isPng) {
-        console.debug("Converting to PNG")
-        await page.setContent(`<!DOCTYPE html>  
-<html>
-<head>  
-<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />  
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />  
-</head>  
-<body> 
-${evalResult.svg}
-</body>
-</html>`)
-
-        const container = await page.$('svg')
+        logger.debug("Converting to PNG")
+        const container = await page.$('body')
         return await container.screenshot({
           type: 'png',
-          omitBackground: true
+          omitBackground: true,
+          clip: {
+            x: 0,
+            y: 0,
+            width: task.width,
+            height: task.height - 10,
+            scale: 1
+          }
         })
       } else {
         return evalResult.svg
