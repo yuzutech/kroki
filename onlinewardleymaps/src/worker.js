@@ -105,7 +105,7 @@ export class Worker {
         logger.debug("Hide input and footer, set background transparent")
 
         await page.setViewport({height: task.height + 1, width: task.width})
-        await page.waitForTimeout(1000)
+        await page.waitForTimeout(2000)
 
         const svgSelector = '#map';
         const elem = await page.waitForSelector(svgSelector);
