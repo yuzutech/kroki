@@ -16,8 +16,8 @@
   "author": "Guillaume Grossetie",
   "dependencies": {
     "canvas": "2.11.2",
-    "vega": "5.25.0",
-    "vega-lite": "5.16.1",
+    "vega": "5.26.1",
+    "vega-lite": "5.16.3",
     "yargs": "17.7.2"
   },
   "devDependencies": {
@@ -31,6 +31,6 @@
     "assets": "node_modules/canvas/build/Release/*"
   },
   "volta": {
-    "node": "18.18.2"
+    "node": "18.19.0"
   }
 }

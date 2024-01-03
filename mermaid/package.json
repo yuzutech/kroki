@@ -22,7 +22,7 @@
     "elastic-apm-node": "3.50.0",
     "lodash": "4.17.21",
     "micro": "10.0.1",
-    "pino": "8.16.1",
+    "pino": "8.17.2",
     "pino-debug": "2.0.0",
     "puppeteer": "20.6.0"
   },
@@ -35,6 +35,6 @@
     "standard": "17.1.0"
   },
   "volta": {
-    "node": "18.18.2"
+    "node": "18.19.0"
   }
 }
