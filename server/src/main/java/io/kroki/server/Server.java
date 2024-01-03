@@ -59,7 +59,9 @@ public class Server extends AbstractVerticle {
   static void start(Vertx vertx, VertxOptions vertxOptions, JsonObject config, Handler<AsyncResult<HttpServer>> listenHandler) {
     HttpServerOptions serverOptions = new HttpServerOptions();
     Optional<Integer> maxUriLength = Optional.ofNullable(config.getInteger("KROKI_MAX_URI_LENGTH"));
+    Optional<Integer> maxHeaderSize = Optional.ofNullable(config.getInteger("KROKI_MAX_HEADER_SIZE"));
     maxUriLength.ifPresent(serverOptions::setMaxInitialLineLength);
+    maxHeaderSize.ifPresent(serverOptions::setMaxHeaderSize);
     boolean enableSSL = config.getBoolean("KROKI_SSL", false);
     serverOptions.setSsl(enableSSL);
     setPemKeyCertOptions(config, serverOptions, enableSSL);
