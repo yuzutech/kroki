@@ -142,7 +142,7 @@ try {
     diagramLibraryVersions.diagramsnet = [...diagramsnetVersionFound][0].groups.version
   }
 
-  const dockerfileContent = await fs.readFile(ospath.join(rootDir, 'server', 'ops', 'docker', 'jdk11-jammy', 'Dockerfile'), 'utf8')
+  const dockerfileContent = await fs.readFile(ospath.join(rootDir, 'server', 'ops', 'docker', 'jdk17-jammy', 'Dockerfile'), 'utf8')
   for (const line of dockerfileContent.split('\n')) {
     const d2VersionFound = line.match(/^ARG D2_VERSION="(?<version>.+)"$/)
     if (d2VersionFound) {
