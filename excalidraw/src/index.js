@@ -6,7 +6,6 @@ import Worker from './worker.js'
 import Task from './task.js'
 import { create } from './browser-instance.js'
 
-
 (async () => {
   // QUESTION: should we create a pool of Chrome instances ?
   const browser = await create()
@@ -28,7 +27,7 @@ import { create } from './browser-instance.js'
             error: {
               message: `Unable to convert the diagram: ${err.message}`,
               name: err.name || '',
-              stacktrace: err.stack || '',
+              stacktrace: err.stack || ''
             }
           })
         }
@@ -37,7 +36,7 @@ import { create } from './browser-instance.js'
         error: {
           message: 'Body must not be empty.',
           name: '',
-          stacktrace: '',
+          stacktrace: ''
         }
       })
     })
