@@ -1,5 +1,5 @@
 import "ts-dedent";
-import { N } from "./mermaid-768dc893.js";
+import { L } from "./mermaid-934d9bea.js";
 import "dayjs";
 import "@braintree/sanitize-url";
 import "d3";
@@ -10,5 +10,5 @@ import "lodash-es/merge.js";
 import "stylis";
 import "lodash-es/isEmpty.js";
 export {
-  N as default
+  L as default
 };
