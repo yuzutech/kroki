@@ -243,13 +243,6 @@ ARG BLOCKDIAG_VERSION="3.1.0"
 ARG WIREVIZ_VERSION="0.3.3"
 ARG TARGETARCH
 
-LABEL \
-    org.opencontainers.image.title="Kroki" \
-    org.opencontainers.image.description="Kroki provides a unified API supporting multiple diagramming formats, making it easy to create diagrams from textual descriptions." \
-    org.opencontainers.image.url="https://kroki.io" \
-    org.opencontainers.image.source="https://github.com/yuzutech/kroki" \
-    org.opencontainers.image.licenses="MIT"
-
 RUN addgroup --gecos 1000 kroki && adduser --disabled-password --ingroup kroki -u 1000 kroki
 
 # For TikZ
