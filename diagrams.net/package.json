@@ -23,7 +23,7 @@
     "puppeteer": "20.6.0"
   },
   "devDependencies": {
-    "chai": "4.3.10",
+    "chai": "4.4.1",
     "dirty-chai": "2.0.1",
     "pngjs": "7.0.0",
     "standard": "17.1.0"

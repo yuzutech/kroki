@@ -17,7 +17,7 @@
   "dependencies": {
     "json5": "2.2.3",
     "onml": "2.1.0",
-    "wavedrom": "3.3.0"
+    "wavedrom": "3.4.0"
   },
   "devDependencies": {
     "standard": "17.1.0"
