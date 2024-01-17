@@ -13,7 +13,7 @@
 
   <properties>
     <!-- https://github.com/vert-x3/vertx-dependencies/blob/6b147024b6aa7732386c6a94a126eacf3b4dda1b/pom.xml#LL50C20-L50C32 -->
-    <netty.version>4.1.104.Final</netty.version>
+    <netty.version>4.1.105.Final</netty.version>
     <logback.version>1.4.14</logback.version>
     <vertx.version>4.5.1</vertx.version>
     <junit.jupiter.version>5.10.1</junit.jupiter.version>
