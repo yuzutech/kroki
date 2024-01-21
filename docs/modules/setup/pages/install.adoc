@@ -153,4 +153,4 @@ Provides diagrams for Kroki using the {uri-diagramsnet}[diagrams.net^] library.
 
 [#yuzutech-kroki-onlinewardleymaps]
 {uri-docker-kroki-onlinewardleymaps-image}[yuzutech/kroki-onlinewardleymaps^] (experimental)::
-Provides Wardley maps for Kroki using the {uri-onlinewardleymaps}[Online Wardley Maps^] library.
+Provides Wardley maps for Kroki using the {uri-onlinewardleymaps}[Online Wardley Maps^] server.
