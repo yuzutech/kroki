@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Notify docs.kroki.io
-        uses: peter-evans/repository-dispatch@v2.1.2
+        uses: peter-evans/repository-dispatch@v3.0.0
         with:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           repository: yuzutech/docs.kroki.io
