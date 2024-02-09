@@ -33,6 +33,7 @@ const tests = [
   { engine: 'excalidraw', file: 'venn.excalidraw', options: {}, outputFormat: ['svg'] },
   { engine: 'pikchr', file: 'sqlite-architecture.pikchr', options: {}, outputFormat: ['svg'] },
   { engine: 'structurizr', file: 'gettingstarted.structurizr', options: {}, outputFormat: ['svg'] },
+  { engine: 'structurizr', file: 'gettingstarted.structurizr', options: { output: 'legend' }, outputFormat: ['svg'] },
   { engine: 'diagramsnet', file: 'diagramsnet-infography.xml', options: {}, outputFormat: ['svg', 'png'] },
   { engine: 'diagramsnet', file: 'diagramsnet-mindmap.xml', options: {}, outputFormat: ['svg', 'png'] },
   { engine: 'diagramsnet', file: 'diagramsnet-network.xml', options: {}, outputFormat: ['svg', 'png'] },
