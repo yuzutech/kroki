@@ -200,6 +200,13 @@ empty string ("")
 |_string_
 |Key of the view (if the workspace contains more than one view)
 
+|output
+|_string_
+
+- `diagram`
+- `legend`
+|Select the output for the specified view.
+
 |===
 
 == Svgbob

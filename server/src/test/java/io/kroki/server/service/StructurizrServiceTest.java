@@ -15,6 +15,8 @@ import org.junit.jupiter.api.Timeout;
 import org.junit.jupiter.api.condition.EnabledOnOs;
 import org.junit.jupiter.api.condition.OS;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,12 +52,19 @@ public class StructurizrServiceTest {
     });
   }
 
-  @Test
-  public void should_convert_getting_started_example() throws IOException, InterruptedException {
+  @ParameterizedTest
+  @ValueSource(strings = {"diagram", ""})
+  public void should_convert_getting_started_example(String output) throws IOException, InterruptedException {
     if (Files.isExecutable(Paths.get("/usr/bin/dot"))) {
       String source = read("./gettingstarted.structurizr");
       String expected = read("./gettingstarted.expected.svg");
-      byte[] result = Structurizr.convert(source, FileFormat.SVG, plantumlCommand, new StructurizrPlantUMLExporter(), new JsonObject());
+
+      JsonObject options = new JsonObject();
+      if (!output.isEmpty()) {
+        options.put("output", output);
+      }
+
+      byte[] result = Structurizr.convert(source, FileFormat.SVG, plantumlCommand, new StructurizrPlantUMLExporter(), options);
       assertThat(stripComments(new String(result))).isEqualToIgnoringNewLines(expected);
     } else {
       logger.info("/usr/bin/dot not found, skipping test.");
@@ -83,6 +92,21 @@ public class StructurizrServiceTest {
       String expected = read("./bigbank.systemcontext.expected.svg");
       JsonObject options = new JsonObject();
       options.put("view-key", "SystemContext");
+      byte[] result = Structurizr.convert(source, FileFormat.SVG, plantumlCommand, new StructurizrPlantUMLExporter(), options);
+      assertThat(stripComments(new String(result))).isEqualToIgnoringNewLines(expected);
+    } else {
+      logger.info("/usr/bin/dot not found, skipping test.");
+    }
+  }
+
+  @Test
+  public void should_convert_bigbank_example_systemcontext_legend() throws IOException, InterruptedException {
+    if (Files.isExecutable(Paths.get("/usr/bin/dot"))) {
+      String source = read("./bigbank.structurizr");
+      String expected = read("./bigbank.systemcontext.legend.expected.svg");
+      JsonObject options = new JsonObject();
+      options.put("view-key", "SystemContext");
+      options.put("output", "legend");
       byte[] result = Structurizr.convert(source, FileFormat.SVG, plantumlCommand, new StructurizrPlantUMLExporter(), options);
       assertThat(stripComments(new String(result))).isEqualToIgnoringNewLines(expected);
     } else {
@@ -132,6 +156,20 @@ public class StructurizrServiceTest {
     })
       .isInstanceOf(BadRequestException.class)
       .hasMessageStartingWith("Unable to parse the Structurizr DSL. Error running inline script, caused by java.lang.RuntimeException: Could not load a scripting engine for extension \"kts\" at line 5");
+  }
+
+  @Test
+  public void should_throw_exception_when_unknown_output_specified() throws IOException {
+    String source = read("./bigbank.structurizr");
+
+    JsonObject options = new JsonObject();
+    options.put("output", "invalid");
+
+    assertThatThrownBy(() -> {
+      Structurizr.convert(source, FileFormat.SVG, plantumlCommand, new StructurizrPlantUMLExporter(), options);
+    })
+      .isInstanceOf(BadRequestException.class)
+      .hasMessageStartingWith("Unknown output option: invalid");
   }
 
   @Test
