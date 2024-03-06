@@ -21,7 +21,7 @@
   "dependencies": {
     "@excalidraw/excalidraw": "0.17.3",
     "micro": "10.0.1",
-    "pino": "8.18.0",
+    "pino": "8.19.0",
     "pino-debug": "2.0.0",
     "puppeteer": "20.6.0",
     "react": "18.2.0",
@@ -31,6 +31,6 @@
     "standard": "17.1.0"
   },
   "volta": {
-    "node": "18.19.0"
+    "node": "18.19.1"
   }
 }
