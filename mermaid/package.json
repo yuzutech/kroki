@@ -22,19 +22,19 @@
     "elastic-apm-node": "3.51.0",
     "lodash": "4.17.21",
     "micro": "10.0.1",
-    "pino": "8.18.0",
+    "pino": "8.19.0",
     "pino-debug": "2.0.0",
     "puppeteer": "20.6.0"
   },
   "devDependencies": {
     "chai": "4.4.1",
     "dirty-chai": "2.0.1",
-    "mermaid": "10.8.0",
+    "mermaid": "10.9.0",
     "mocha": "10.3.0",
     "pngjs": "7.0.0",
     "standard": "17.1.0"
   },
   "volta": {
-    "node": "18.19.0"
+    "node": "18.19.1"
   }
 }

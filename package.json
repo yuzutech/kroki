@@ -19,6 +19,6 @@
     "update-versions": "node ci/tasks/update-versions.js"
   },
   "volta": {
-    "node": "18.19.0"
+    "node": "18.19.1"
   }
 }
