@@ -232,7 +232,7 @@ RUN SVGBOB_VERSION=`cat Cargo.toml | grep "svgbob_cli =" | sed -r 's/.*"([^"]+)"
 # use a pre-built image to reduce build time
 
 ## yuzutech/kroki
-FROM eclipse-temurin:17.0.9_9-jre-jammy
+FROM eclipse-temurin:17.0.10_7-jre-jammy
 
 ARG D2_VERSION="0.6.3"
 ARG PLANTUML_VERSION="1.2024.1"
