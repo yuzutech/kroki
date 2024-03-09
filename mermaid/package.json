@@ -19,7 +19,6 @@
     "url": "https://github.com/yuzutech/kroki.git"
   },
   "dependencies": {
-    "elastic-apm-node": "3.51.0",
     "lodash": "4.17.21",
     "micro": "10.0.1",
     "pino": "8.19.0",
