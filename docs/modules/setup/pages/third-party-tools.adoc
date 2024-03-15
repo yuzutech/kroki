@@ -18,6 +18,7 @@
 :url-mkdocs-plugin: https://pypi.org/project/mkdocs-kroki-plugin
 :url-jekyll-kroki: https://rubygems.org/gems/jekyll-kroki
 :url-remark-kroki: https://github.com/nice-move/remark-kroki
+:url-hugomods-kroki: https://kroki.hugomods.com/
 
 A list of third party tools, developed by the community, that rely on Kroki.
 
@@ -73,3 +74,7 @@ The {url-jekyll-kroki}[Jekyll Kroki plugin] embeds Kroki diagrams within Markdow
 == Remark
 
 The {url-remark-kroki}[Remark Kroki plugin] embeds Kroki diagrams within Markdown files processed by Remark.
+
+== HugoMods
+
+The {url-hugomods-kroki}[Hugo Kroki module] embeds Kroki diagrams within Markdown files processed by Hugo.
