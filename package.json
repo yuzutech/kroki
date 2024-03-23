@@ -8,7 +8,7 @@
   },
   "private": true,
   "dependencies": {
-    "chai": "^4.3.7",
+    "chai": "^5.0.0",
     "chai-http": "^4.3.0"
   },
   "devDependencies": {

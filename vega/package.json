@@ -21,10 +21,10 @@
     "yargs": "17.7.2"
   },
   "devDependencies": {
-    "chai": "4.4.1",
+    "chai": "5.1.0",
     "dirty-chai": "2.0.1",
     "mocha": "10.3.0",
-    "sinon": "15.2.0",
+    "sinon": "17.0.1",
     "standard": "17.1.0"
   },
   "pkg": {
