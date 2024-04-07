@@ -272,7 +272,7 @@ COPY --from=kroki-builder-dbml /app/app.bin /usr/bin/dbml
 COPY --from=kroki-builder-wavedrom /app/app.bin /usr/bin/wavedrom
 COPY --from=kroki-builder-bytefield /app/app.bin /usr/bin/bytefield
 COPY --from=kroki-builder-dvisvgm /usr/local/bin/dvisvgm /usr/bin/dvisvgm
-COPY --from=symbolator /build/symbolator.bin /usr/bin/symbolator
+COPY --from=symbolator /usr/bin/symbolator /usr/bin/symbolator
 COPY --from=tikz tikz2svg /usr/bin/tikz2svg
 
 COPY --chown=kroki:kroki ops/docker/logback.xml /etc/kroki/logback.xml
