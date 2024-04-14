@@ -21,7 +21,7 @@
   "dependencies": {
     "lodash": "4.17.21",
     "micro": "10.0.1",
-    "pino": "8.19.0",
+    "pino": "8.20.0",
     "pino-debug": "2.0.0",
     "puppeteer": "22.4.1"
   },
@@ -34,6 +34,6 @@
     "standard": "17.1.0"
   },
   "volta": {
-    "node": "18.20.0"
+    "node": "18.20.2"
   }
 }
