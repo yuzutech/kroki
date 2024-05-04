@@ -13,6 +13,18 @@ const mocha = new Mocha({})
 mocha.addFile(ospath.join(__dirname, 'convert-test.mjs'))
 mocha.addFile(ospath.join(__dirname, 'config-test.mjs'))
 
-mocha.loadFilesAsync()
-  .then(() => mocha.run(failures => process.exitCode = failures ? 1 : 0))
-  .catch(() => process.exitCode = 1);
+await mocha.loadFilesAsync()
+
+try {
+  const runner = mocha.run()
+  runner.on('fail', () =>  {
+    process.exitCode = 1
+  })
+  runner.on('end', () => {
+    process.exit(process.exitCode)
+  })
+} catch (e) {
+  console.log('Something went wrong', e)
+  process.exit(1)
+}
+
