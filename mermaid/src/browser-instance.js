@@ -2,6 +2,8 @@ import puppeteer from 'puppeteer'
 
 import { logger } from './logger.js'
 
+let INSTANCE
+
 const createBrowser = async () => {
   const browser = await puppeteer.launch({
     headless: 'new',
@@ -30,8 +32,9 @@ const createBrowser = async () => {
       '--disable-software-rasterizer'
     ]
   })
-
   const browserProcess = browser.process()
+  logger.info(`Chrome instance launched with pid ${browserProcess.pid}`)
+
   browserProcess.stdout.unpipe()
   browserProcess.stderr.unpipe()
   browserProcess.stdout.on('data', (data) => {
@@ -50,6 +53,9 @@ const createBrowser = async () => {
   })
   browserProcess.on('exit', (code, signal) => {
     logger.error({ code, signal }, 'chrome process exited')
+    browserProcess.kill()
+    browser.close()
+    INSTANCE = undefined
   })
   browserProcess.on('message', (message) => {
     logger.warn({ message }, 'chrome process message')
@@ -60,10 +66,14 @@ const createBrowser = async () => {
     await browser.close()
     throw err
   } finally {
-    browser.disconnect()
+    await browser.disconnect()
   }
 }
 
-export async function create () {
-  return createBrowser()
+export async function getBrowserWSEndpoint () {
+  if (INSTANCE === undefined) {
+    INSTANCE = await createBrowser()
+    logger.info(`Chrome accepting connections on endpoint ${INSTANCE.wsEndpoint()}`)
+  }
+  return INSTANCE.wsEndpoint()
 }
