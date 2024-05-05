@@ -5,13 +5,10 @@ import http from 'node:http'
 import micro from 'micro'
 import { SyntaxError, TimeoutError, Worker } from './worker.js'
 import Task from './task.js'
-import { create } from './browser-instance.js'
 
 (async () => {
   // QUESTION: should we create a pool of Chrome instances ?
-  const browser = await create()
-  logger.info(`Chrome accepting connections on endpoint ${browser.wsEndpoint()}`)
-  const worker = new Worker(browser)
+  const worker = new Worker()
   const server = new http.Server(
     micro.serve(async (req, res) => {
       // Add a /health route that renders a sample diagram by calling the worker
