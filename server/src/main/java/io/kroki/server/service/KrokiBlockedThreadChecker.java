@@ -2,7 +2,6 @@ package io.kroki.server.service;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import com.google.common.annotations.VisibleForTesting;
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxException;
 import io.vertx.core.VertxOptions;
@@ -70,7 +69,6 @@ public class KrokiBlockedThreadChecker {
     return stats.asMap().entrySet().stream().filter(e -> e.getValue().isAfter(now)).count();
   }
 
-  @VisibleForTesting
   void trackBlockedThread(BlockedThreadEvent bte) {
     if (bte.duration() > bte.warningExceptionTime()) {
       if (bte.thread().getName().startsWith("vert.x-worker-thread")) {
