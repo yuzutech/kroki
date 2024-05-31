@@ -17,7 +17,7 @@
   "dependencies": {
     "canvas": "2.11.2",
     "vega": "5.28.0",
-    "vega-lite": "5.17.0",
+    "vega-lite": "5.18.0",
     "yargs": "17.7.2"
   },
   "devDependencies": {
@@ -31,6 +31,6 @@
     "assets": "node_modules/canvas/build/Release/*"
   },
   "volta": {
-    "node": "18.20.0"
+    "node": "18.20.2"
   }
 }

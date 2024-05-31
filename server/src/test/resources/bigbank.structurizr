@@ -9,7 +9,7 @@ workspace "Big Bank plc" "This is an example workspace to illustrate the key fea
     model {
         customer = person "Personal Banking Customer" "A customer of the bank, with personal bank accounts." "Customer"
 
-        enterprise "Big Bank plc" {
+        group "Big Bank plc" {
             supportStaff = person "Customer Service Staff" "Customer service staff within the bank." "Bank Staff"
             backoffice = person "Back Office Staff" "Administration and support staff within the bank." "Bank Staff"
 

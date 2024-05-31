@@ -31,7 +31,6 @@ This image includes `EXPOSE 8000` (the kroki port), so standard container linkin
 We recommend using docker-composer to connect with companion containers, such as 
 [kroki-bpmn](https://hub.docker.com/r/yuzutech/kroki-bpmn), [kroki-excalidraw](https://hub.docker.com/r/yuzutech/kroki-excalidraw) and [kroki-mermaid](https://hub.docker.com/r/yuzutech/kroki-mermaid)
 ```
-version: "3"
 services:
   core:
     image: yuzutech/kroki
