@@ -202,7 +202,7 @@ RUN SVGBOB_VERSION=`cat Cargo.toml | grep "svgbob_cli =" | sed -r 's/.*"([^"]+)"
     cargo install --quiet --target $RUST_TARGET_ARCH-unknown-linux-gnu --version $SVGBOB_VERSION svgbob_cli
 
 ## Erd
-FROM ghcr.io/felixvanoost/erd:build-multiarch-docker-image AS erd
+FROM ghcr.io/felixvanoost/erd:v0.2.3 AS erd
 
 ## yuzutech/kroki
 FROM eclipse-temurin:17.0.10_7-jre-jammy
