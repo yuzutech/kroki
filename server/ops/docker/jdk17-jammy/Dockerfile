@@ -202,7 +202,8 @@ RUN SVGBOB_VERSION=`cat Cargo.toml | grep "svgbob_cli =" | sed -r 's/.*"([^"]+)"
     cargo install --quiet --target $RUST_TARGET_ARCH-unknown-linux-gnu --version $SVGBOB_VERSION svgbob_cli
 
 ## Erd
-FROM ghcr.io/felixvanoost/erd:v0.2.3 AS erd
+ARG ERD_VERSION="0.2.3"
+FROM ghcr.io/felixvanoost/erd:v$ERD_VERSION AS erd
 
 ## yuzutech/kroki
 FROM eclipse-temurin:17.0.10_7-jre-jammy
@@ -210,7 +211,6 @@ FROM eclipse-temurin:17.0.10_7-jre-jammy
 ARG BLOCKDIAG_VERSION="3.1.0"
 ARG D2_VERSION="0.6.3"
 ARG DITAA_VERSION="1.0.3"
-ARG ERD_VERSION="0.2.1.0"
 ARG GRAPHVIZ_VERSION="9.0.0"
 ARG PLANTUML_VERSION="1.2024.1"
 ARG UMLET_VERSION="2023-03-20_UMLet_v15.1"
