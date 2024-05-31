@@ -149,7 +149,7 @@ try {
       const { version } = d2VersionFound.groups
       diagramLibraryVersions.d2 = version
     }
-    const erdVersionFound = line.match(/^ARG ERD_VERSION="(?<version>.+)"$/)
+    const erdVersionFound = line.match(/^FROM ghcr.io\/felixvanoost\/erd:v(?<version>\S+) AS erd$/)
     if (erdVersionFound) {
       const { version } = erdVersionFound.groups
       diagramLibraryVersions.erd = version
