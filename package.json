@@ -8,8 +8,8 @@
   },
   "private": true,
   "dependencies": {
-    "chai": "^4.3.7",
-    "chai-http": "^4.3.0"
+    "chai": "^5.0.0",
+    "chai-http": "^5.0.0"
   },
   "devDependencies": {
     "mocha": "^10.2.0"
