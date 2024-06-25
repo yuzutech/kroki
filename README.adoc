@@ -154,7 +154,6 @@ You can use `docker-compose` to run multiple containers:
 .docker-compose.yml
 [source,yml]
 ----
-version: "3"
 services:
   core:
     image: yuzutech/kroki

@@ -1,6 +1,5 @@
 // must be declared first
 import { logger } from './logger.js'
-import './apm.js'
 
 import http from 'node:http'
 import micro from 'micro'

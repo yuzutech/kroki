@@ -5,7 +5,7 @@
   <parent>
     <artifactId>kroki</artifactId>
     <groupId>io.kroki</groupId>
-    <version>0.23.0</version>
+    <version>0.25.0</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
@@ -13,19 +13,19 @@
 
   <properties>
     <!-- https://github.com/vert-x3/vertx-dependencies/blob/6b147024b6aa7732386c6a94a126eacf3b4dda1b/pom.xml#LL50C20-L50C32 -->
-    <netty.version>4.1.100.Final</netty.version>
-    <logback.version>1.4.11</logback.version>
-    <vertx.version>4.4.6</vertx.version>
-    <junit.jupiter.version>5.9.3</junit.jupiter.version>
-    <assertj-core.version>3.24.2</assertj-core.version>
-    <mockito-core.version>5.4.0</mockito-core.version>
-    <slf4j-api.version>2.0.9</slf4j-api.version>
+    <netty.version>4.1.107.Final</netty.version>
+    <logback.version>1.5.3</logback.version>
+    <vertx.version>4.5.4</vertx.version>
+    <junit.jupiter.version>5.10.2</junit.jupiter.version>
+    <assertj-core.version>3.25.3</assertj-core.version>
+    <mockito-core.version>5.11.0</mockito-core.version>
+    <slf4j-api.version>2.0.12</slf4j-api.version>
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
     <owasp-html-sanitizer.version>20220608.1</owasp-html-sanitizer.version>
-    <structurizr-dsl.version>1.32.0</structurizr-dsl.version>
-    <structurizr-export.version>1.16.1</structurizr-export.version>
-    <structurizr-core.version>1.26.1</structurizr-core.version>
+    <structurizr-dsl.version>2.1.2</structurizr-dsl.version>
+    <structurizr-export.version>2.1.2</structurizr-export.version>
+    <structurizr-core.version>2.1.2</structurizr-core.version>
     <caffeine.version>3.1.8</caffeine.version>
   </properties>
 
@@ -215,7 +215,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.11.0</version>
+        <version>3.13.0</version>
         <configuration>
           <source>11</source>
           <target>11</target>
@@ -224,7 +224,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.5.1</version>
+        <version>3.5.3</version>
         <executions>
           <execution>
             <phase>package</phase>

@@ -132,7 +132,22 @@ public class Structurizr implements DiagramService {
       } else {
         throw new BadRequestException("View type is not supported: " + selectedView.getClass().getSimpleName() + ", must be a DynamicView, DeploymentView, ComponentView, ContainerView, SystemContextView or SystemLandscapeView.");
       }
-      return plantumlCommand.convert(diagram.getDefinition(), fileFormat, new JsonObject());
+
+      String outputOption = options.getString("output");
+      if (outputOption != null) {
+        outputOption = outputOption.trim();
+      }
+      
+      String diagramPlantUML;
+      if (outputOption == null || outputOption.equals("diagram")) {
+        diagramPlantUML = diagram.getDefinition();
+      } else if (outputOption.equals("legend")) {
+        diagramPlantUML = diagram.getLegend().getDefinition();
+      } else {
+        throw new BadRequestException("Unknown output option: " + outputOption);
+      }
+
+      return plantumlCommand.convert(diagramPlantUML, fileFormat, new JsonObject());
     } catch (StructurizrDslParserException e) {
       String cause = e.getMessage();
       final String message;

@@ -1,5 +1,3 @@
-version: "3"
-
 services:
   kroki:
     image: yuzutech/kroki:smoketests

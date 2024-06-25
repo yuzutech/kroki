@@ -20,15 +20,15 @@
     "micro": "10.0.1",
     "pino": "^8.15.0",
     "pino-debug": "^2.0.0",
-    "puppeteer": "20.6.0"
+    "puppeteer": "22.4.1"
   },
   "devDependencies": {
-    "chai": "4.3.10",
+    "chai": "4.4.1",
     "dirty-chai": "2.0.1",
     "pngjs": "7.0.0",
     "standard": "17.1.0"
   },
   "volta": {
-    "node": "18.18.2"
+    "node": "18.20.2"
   }
 }

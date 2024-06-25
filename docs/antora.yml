@@ -5,32 +5,32 @@ asciidoc:
   attributes:
     actdiag-version: 3.1.0
     blockdiag-version: 3.1.0
-    bpmn-version: 14.0.0
+    bpmn-version: 14.2.0
     bytefield-version: 1.8.0
-    c4plantuml-version: 1.2023.11
-    d2-version: 0.6.0
+    c4plantuml-version: 1.2024.1
+    d2-version: 0.6.3
     dbml-version: 1.0.27
     diagramsnet-version: 16.2.4
     onlinewardleymaps-version: 44ce638d9a1bef6e629301a840280a904cbc20e4
     ditaa-version: 1.0.3
     erd-version: 0.2.1.0
-    excalidraw-version: 0.15.3
+    excalidraw-version: 0.17.3
     graphviz-version: 9.0.0
-    mermaid-version: 10.4.0
+    mermaid-version: 10.9.0
     nomnoml-version: 1.6.2
     nwdiag-version: 3.1.0
     packetdiag-version: 3.1.0
     pikchr-version: '7269f78c4a'
-    plantuml-version: 1.2023.11
+    plantuml-version: 1.2024.1
     rackdiag-version: 3.1.0
     seqdiag-version: 3.1.0
     structurizr-version: 1.32.0
     svgbob-version: 0.7.0
     symbolator-version: 1.2.2
     umlet-version: 15.1
-    vega-version: 5.25.0
-    vegalite-version: 5.14.1
-    wavedrom-version: 3.3.0
+    vega-version: 5.28.0
+    vegalite-version: 5.17.0
+    wavedrom-version: 3.5.0
     wireviz-version: 0.3.3
     uri-docker-get-started: https://docs.docker.com/get-started/
     uri-podman-get-started: https://podman.io/getting-started/

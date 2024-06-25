@@ -17,12 +17,12 @@
   "dependencies": {
     "json5": "2.2.3",
     "onml": "2.1.0",
-    "wavedrom": "3.3.0"
+    "wavedrom": "3.5.0"
   },
   "devDependencies": {
     "standard": "17.1.0"
   },
   "volta": {
-    "node": "18.18.2"
+    "node": "18.20.2"
   }
 }

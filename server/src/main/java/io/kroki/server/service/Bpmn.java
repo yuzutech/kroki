@@ -47,7 +47,7 @@ public class Bpmn implements DiagramService {
 
   @Override
   public String getVersion() {
-    return "14.0.0";
+    return "14.2.0";
   }
 
   @Override
