@@ -15,7 +15,7 @@ import { create } from './browser-instance.js'
     micro.serve(async (req, res) => {
       // TODO: add a /_status route (return excalidraw version)
       // TODO: read the diagram source as plain text
-      const diagramSource = await micro.text(req, { limit: '1mb', encoding: 'utf8' })
+      const diagramSource = await micro.text(req, { limit: (process.env.KROKI_MAX_BODY_SIZE ?? '1mb'), encoding: 'utf8' })
       if (diagramSource) {
         try {
           const svg = await worker.convert(new Task(diagramSource))
