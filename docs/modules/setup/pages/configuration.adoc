@@ -224,6 +224,8 @@ KROKI_MAX_HEADER_SIZE:: The maximum length of all headers. If the sum of the len
 
 KROKI_MAX_BODY_SIZE:: The maximum size of the http body. If the size of the body exceeds this value, 413 (Content Too Large) response status code is sent. Defaults to `1mb`.
 
+NOTE: This variables are only available on the diagrams.net, excalidraw and mermaid containers.
+
 == Excalidraw static assets
 
 By default, Excalidraw loads assets from a public CDN (https://unpkg.com).
