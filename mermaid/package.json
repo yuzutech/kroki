@@ -21,12 +21,12 @@
   "dependencies": {
     "lodash": "4.17.21",
     "micro": "10.0.1",
-    "pino": "8.20.0",
+    "pino": "9.3.2",
     "pino-debug": "2.0.0",
     "puppeteer": "22.4.1"
   },
   "devDependencies": {
-    "chai": "4.4.1",
+    "chai": "5.1.1",
     "dirty-chai": "2.0.1",
     "mermaid": "10.9.0",
     "mocha": "10.4.0",
