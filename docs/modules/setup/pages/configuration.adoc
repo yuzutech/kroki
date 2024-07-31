@@ -220,6 +220,12 @@ We recommend to use a maximum length that's not greater than 8192 and not greate
 
 KROKI_MAX_HEADER_SIZE:: The maximum length of all headers. If the sum of the length of each header exceeds this value, 431 (Request Header Fields Too Large) response status code is sent. Defaults to 8192.
 
+== Max body size
+
+KROKI_MAX_BODY_SIZE:: The maximum size of the http body. If the size of the body exceeds this value, 413 (Content Too Large) response status code is sent. Defaults to `1mb`.
+
+NOTE: These variables are only available on the diagrams.net, excalidraw and mermaid containers.
+
 == Excalidraw static assets
 
 By default, Excalidraw loads assets from a public CDN (https://unpkg.com).
