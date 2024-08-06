@@ -40,7 +40,7 @@ const tests = [
   { engine: 'diagramsnet', file: 'diagramsnet-ui.xml', options: {}, outputFormat: ['svg', 'png'] },
   { engine: 'diagramsnet', file: 'diagramsnet-venn.xml', options: {}, outputFormat: ['svg', 'png'] },
   { engine: 'diagramsnet', file: 'diagramsnet-infography.xml', options: { id: 'foo' }, outputFormat: ['svg', 'png'] },
-  { engine: 'onlinewardleymaps', file: 'teashop.owm', options: {}, outputFormat: ['svg', 'png'] },
+  { engine: 'wardleymap', file: 'teashop.owm', options: {}, outputFormat: ['svg', 'png'] },
   { engine: 'd2', file: 'connections.d2', options: {}, outputFormat: ['svg'] },
   { engine: 'd2', file: 'connections.d2', options: { layout: 'elk' }, outputFormat: ['svg'] },
   { engine: 'd2', file: 'connections.d2', options: { theme: '200' }, outputFormat: ['svg'] },
