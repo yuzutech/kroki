@@ -88,6 +88,7 @@ public class Structurizr implements DiagramService {
   static byte[] convert(String source, FileFormat fileFormat, PlantumlCommand plantumlCommand, StructurizrPlantUMLExporter structurizrPlantUMLExporter, JsonObject options) throws IOException, InterruptedException {
     StructurizrDslParser parser = new StructurizrDslParser();
     try {
+      parser.setRestricted(true);
       parser.parse(source);
       ViewSet viewSet = parser.getWorkspace().getViews();
       Collection<View> views = viewSet.getViews();
