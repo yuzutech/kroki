@@ -1,41 +1,5 @@
 # syntax=docker/dockerfile:1.4
 
-## TikZ
-FROM --platform=$BUILDPLATFORM ubuntu:jammy AS kroki-builder-dvisvgm
-
-RUN apt-get update && apt-get install --no-install-recommends --yes \
-    build-essential \
-    pkg-config \
-    libclipper-dev \
-    libfreetype-dev \
-    libkpathsea-dev \
-    ghostscript \
-    libssl-dev \
-    zlib1g-dev \
-    curl \
-    ca-certificates
-
-ARG DVISVGM_VERSION=3.0.4
-
-ARG BUILDARCH
-ARG TARGETARCH
-RUN curl -LO https://github.com/mgieseki/dvisvgm/releases/download/$DVISVGM_VERSION/dvisvgm-$DVISVGM_VERSION.tar.gz && \
-    tar xf dvisvgm-$DVISVGM_VERSION.tar.gz && \
-    cd dvisvgm-$DVISVGM_VERSION && \
-    case $BUILDARCH in \
-        "amd64") MAKE_BUILD_ARCH=x86_64 ;; \
-        "arm64") MAKE_BUILD_ARCH=aarch64 ;; \
-        *) MAKE_BUILD_ARCH=$TARGETARCH ;; \
-    esac && \
-    case $TARGETARCH in \
-        "amd64") MAKE_TARGET_ARCH=x86_64 ;; \
-        "arm64") MAKE_TARGET_ARCH=aarch64 ;; \
-        *) MAKE_TARGET_ARCH=$TARGETARCH ;; \
-    esac && \
-    ./configure --enable-bundled-libs --build $MAKE_BUILD_ARCH-linux-gnu --host $MAKE_TARGET_ARCH-linux-gnu && \
-    make && \
-    make install
-
 ## Nomnoml
 FROM --platform=$BUILDPLATFORM node:18.20-bullseye-slim AS kroki-builder-nomnoml
 
@@ -205,11 +169,12 @@ RUN SVGBOB_VERSION=`cat Cargo.toml | grep "svgbob_cli =" | sed -r 's/.*"([^"]+)"
 FROM ghcr.io/felixvanoost/erd:v0.2.3 AS erd
 
 ## yuzutech/kroki
-FROM eclipse-temurin:17.0.10_7-jre-jammy
+FROM eclipse-temurin:17.0.12_7-jre-noble
 
 ARG BLOCKDIAG_VERSION="3.1.0"
 ARG D2_VERSION="0.6.3"
 ARG DITAA_VERSION="1.0.3"
+ARG DVISVGM_VERSION="3.0.4"
 ARG GRAPHVIZ_VERSION="9.0.0"
 ARG PLANTUML_VERSION="1.2024.1"
 ARG UMLET_VERSION="2023-03-20_UMLet_v15.1"
@@ -228,22 +193,23 @@ RUN addgroup --gecos 1000 kroki && adduser --disabled-password --ingroup kroki -
 # * texlive-pictures - Provides various graphics packages like "circuitikz"
 # * texlive-science - Provides various science packages like "siunitx"
 RUN apt-get update && apt-get install --no-install-recommends --yes \
-    libpangocairo-1.0 \
+    dvisvgm=$DVISVGM_VERSION \
+    fonts-freefont-ttf \
+    fonts-liberation \
+    fonts-noto-cjk \
+    ghostscript \
+    giflib-tools \
+    gsfonts \
     libgd3 \
     libjpeg9 \
     libpango1.0-0 \
-    giflib-tools \
-    fonts-freefont-ttf \
-    fonts-noto-cjk \
-    fonts-liberation \
-    gsfonts \
-    ghostscript \
+    libpangocairo-1.0 \
     poppler-utils \
     texlive \
     texlive-latex-extra \
     texlive-pictures \
     texlive-pstricks \
-    texlive-science && \
+    texlive-science &&
     apt-get clean && apt-get autoremove
 
 RUN wget "https://github.com/yuzutech/graphviz-builder/releases/download/${GRAPHVIZ_VERSION}/dot-linux-${TARGETARCH}" -O /usr/bin/dot && \
@@ -276,7 +242,6 @@ COPY --from=kroki-builder-dbml /app/app.bin /usr/bin/dbml
 COPY --from=kroki-builder-wavedrom /app/app.bin /usr/bin/wavedrom
 COPY --from=kroki-builder-static-symbolator /build/symbolator.bin /usr/bin/symbolator
 COPY --from=kroki-builder-bytefield /app/app.bin /usr/bin/bytefield
-COPY --from=kroki-builder-dvisvgm /usr/local/bin/dvisvgm /usr/bin/dvisvgm
 COPY --from=erd /root/.cabal/bin/erd /usr/bin/erd
 COPY --from=tikz tikz2svg /usr/bin/tikz2svg
 
