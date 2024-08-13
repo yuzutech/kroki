@@ -1,7 +1,7 @@
 // must be declared first
 import { logger } from './logger.js'
 import http from 'node:http'
-import {TimeoutError as PuppeteerTimeoutError} from 'puppeteer'
+import { TimeoutError as PuppeteerTimeoutError } from 'puppeteer'
 import micro from 'micro'
 import Task from './task.js'
 import { create } from './browser-instance.js'
@@ -23,7 +23,8 @@ import { SyntaxError, TimeoutError, Worker } from './worker.js'
         if (diagramSource) {
           try {
             const isPng = outputType === 'png'
-            const output = await worker.convert(new Task(diagramSource, isPng))
+            const krokiUnsafe = (process.env.KROKI_SAFE_MODE ?? 'secure').toLowerCase() === 'unsafe'
+            const output = await worker.convert(new Task(diagramSource, isPng, krokiUnsafe))
             res.setHeader('Content-Type', isPng ? 'image/png' : 'image/svg+xml')
             return micro.send(res, 200, output)
           } catch (err) {
@@ -72,7 +73,7 @@ import { SyntaxError, TimeoutError, Worker } from './worker.js'
       })
     })
   )
-  server.listen(8005)
+  server.listen(process.env.KROKI_DIAGRAMNET_PORT ?? 8005)
 })().catch(err => {
   logger.error({ err }, 'Unable to start the service')
   process.exit(1)
