@@ -201,7 +201,7 @@ FROM eclipse-temurin:17.0.12_7-jre-noble
 ARG BLOCKDIAG_VERSION="3.1.0"
 ARG D2_VERSION="0.6.3"
 ARG DITAA_VERSION="1.0.3"
-ARG DVISVGM_VERSION="3.0.4"
+ARG DVISVGM_VERSION="3.2.1"
 ARG GRAPHVIZ_VERSION="9.0.0"
 ARG PLANTUML_VERSION="1.2024.1"
 ARG UMLET_VERSION="2023-03-20_UMLet_v15.1"
@@ -231,8 +231,8 @@ RUN apt-get update && apt-get install --no-install-recommends --yes \
     gsfonts \
     libgd3 \
     libjpeg9 \
-    libpango1.0-0 \
-    libpangocairo-1.0 \
+    libpango-1.0-0 \
+    libpangocairo-1.0-0 \
     poppler-utils \
     texlive \
     texlive-latex-extra \
