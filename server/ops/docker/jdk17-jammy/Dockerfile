@@ -208,7 +208,7 @@ ARG UMLET_VERSION="2023-03-20_UMLet_v15.1"
 ARG WIREVIZ_VERSION="0.3.3"
 ARG TARGETARCH
 
-RUN groupadd --gecos 1000 kroki && adduser --disabled-password --ingroup kroki -u 1000 kroki
+RUN groupadd --gecos 1000 kroki && useradd --disabled-password --ingroup kroki -u 1000 kroki
 
 # For TikZ
 #
