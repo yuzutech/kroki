@@ -2,7 +2,9 @@
 import path from 'node:path'
 import { URL, fileURLToPath } from 'node:url'
 import puppeteer from 'puppeteer'
-
+import * as cheerio from 'cheerio'
+import mime from 'mime';
+import { readFile, writeFile } from 'node:fs/promises'
 import { logger } from './logger.js'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
@@ -25,6 +27,32 @@ export class Worker {
     this.browserWSEndpoint = browserInstance.wsEndpoint()
     this.pageUrl = process.env.KROKI_DIAGRAMSNET_PAGE_URL || `file://${path.join(__dirname, '..', 'assets', 'index.html')}`
     this.convertTimeout = process.env.KROKI_DIAGRAMSNET_CONVERT_TIMEOUT || '15000'
+  }
+
+  async resolveImage(svgRoot) {
+    let $ = cheerio.load(svgRoot,  {
+      xmlMode: true,
+      decodeEntities: false,
+      selfClosingTags: false,
+    })
+    for (const value of $("image")) {
+      let nodeElement = $(value)
+      if(nodeElement.attr("xlink:href").startsWith("data:")){
+        continue;
+      }
+      const filePath = fileURLToPath(nodeElement.attr("xlink:href"));
+      const mimeType = mime.getType(filePath);
+      try {
+        let imgContent = await readFile(filePath)
+        nodeElement.attr("xlink:href",`data:${mimeType};base64,${imgContent.toString('base64')}`)
+        nodeElement.removeAttr("pointer-events")
+      } catch(err){
+        continue
+      }
+    }
+    await writeFile("before.svg", svgRoot)
+    await writeFile("after.svg", $("svg").toString())
+    return $("svg").toString()
   }
 
   async convert (task) {
@@ -53,7 +81,7 @@ export class Worker {
         }, task.source),
         new Promise((resolve, reject) => setTimeout(() => reject(new TimeoutError(this.convertTimeout)), this.convertTimeout))
       ])
-
+      evalResult.svg = await this.resolveImage(evalResult.svg);
       if (evalResult && evalResult.error) {
         throw new SyntaxError(evalResult.error)
       }
