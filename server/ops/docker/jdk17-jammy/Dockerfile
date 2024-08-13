@@ -210,7 +210,7 @@ ARG TARGETARCH
 
 RUN apt-get update && apt-get install --no-install-recommends --yes \
     adduser && \
-    addgroup --gecos 1000 kroki && adduser --disabled-password --ingroup kroki -u 1000 kroki
+    addgroup --gecos 1001 kroki && adduser --disabled-password --ingroup kroki -u 1001 kroki
 
 # For TikZ
 #
