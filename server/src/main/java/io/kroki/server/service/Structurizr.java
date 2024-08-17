@@ -10,6 +10,7 @@ import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.BadRequestException;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
+import io.kroki.server.security.SafeMode;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
@@ -29,6 +30,7 @@ public class Structurizr implements DiagramService {
 
   private final Vertx vertx;
   private final StructurizrPlantUMLExporter structurizrPlantUMLExporter;
+  private final SafeMode safeMode;
   private final SourceDecoder sourceDecoder;
   private final PlantumlCommand plantumlCommand;
 
@@ -48,6 +50,7 @@ public class Structurizr implements DiagramService {
 
   public Structurizr(Vertx vertx, JsonObject config) {
     this.vertx = vertx;
+    this.safeMode = SafeMode.get(config.getString("KROKI_STRUCTURIZR_RESTRICTED_PARSER", "secure"), SafeMode.SECURE);
     this.structurizrPlantUMLExporter = new StructurizrPlantUMLExporter();
     this.sourceDecoder = new SourceDecoder() {
       @Override
@@ -88,7 +91,7 @@ public class Structurizr implements DiagramService {
   static byte[] convert(String source, FileFormat fileFormat, PlantumlCommand plantumlCommand, StructurizrPlantUMLExporter structurizrPlantUMLExporter, JsonObject options) throws IOException, InterruptedException {
     StructurizrDslParser parser = new StructurizrDslParser();
     try {
-      parser.setRestricted(true);
+      parser.setRestricted(this.safeMode != SafeMode.UNSAFE);
       parser.parse(source);
       ViewSet viewSet = parser.getWorkspace().getViews();
       Collection<View> views = viewSet.getViews();
