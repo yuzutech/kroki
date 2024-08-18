@@ -118,36 +118,35 @@ FROM yuzutech/kroki-builder-erd:0.2.1.0 AS kroki-builder-static-erd
 #  --ghc-options="-w"
 
 ## Symbolator
-FROM ubuntu:jammy AS kroki-builder-static-symbolator
+FROM ubuntu:noble AS kroki-builder-static-symbolator
 
 # Build from forked source because upstream is broken for the latest python3 versions
 ARG SYMBOLATOR_VERSION=1.2.2
 ARG SYMBOLATOR_SOURCE=git+https://github.com/zebreus/symbolator.git@v$SYMBOLATOR_VERSION
 
 RUN apt-get update && apt-get install --no-install-recommends --yes \
+    build-essential \
     git \
     pip \
     python3-dev \
     patchelf \
     python3-gi-cairo \
     python3-gi \
-    build-essential \
+    python3-pip \
+    python3-setuptools \
     libpango1.0-dev && \
     apt-get clean && apt-get autoremove
 
 WORKDIR /build
 
-# Install latest pip and setuptools
-RUN python3 -m pip install --upgrade pip setuptools
-RUN python3 -m pip install --upgrade nuitka
-# Install symbolator
-RUN python3 -m pip install --upgrade ${SYMBOLATOR_SOURCE}
+RUN python3 -m pip install --break-system-packages --upgrade nuitka
+RUN python3 -m pip install --break-system-packages --upgrade ${SYMBOLATOR_SOURCE}
 
 # Use nuitka to compile a static binary so we dont need python in the final image
 RUN python3 -m nuitka --onefile `which symbolator` --include-module=gi.overrides.Pango --include-module=gi._gi_cairo
 
 ## Pikchr
-FROM ubuntu:jammy AS kroki-builder-static-pikchr
+FROM ubuntu:noble AS kroki-builder-static-pikchr
 
 ARG PIKCHR_VERSION=7269f78c4a3aa2809bd8c278e522c4eac5568ad0fd6ed0a3f807f4a2f6367ef0
 
@@ -263,15 +262,15 @@ RUN wget "https://github.com/yuzutech/blockdiag/releases/download/v${BLOCKDIAG_V
 RUN wget "https://github.com/yuzutech/WireViz/releases/download/v${WIREVIZ_VERSION}/wireviz-linux-${TARGETARCH}.bin" -O /usr/bin/wireviz && \
     chmod +x /usr/bin/wireviz
 
-COPY --from=kroki-builder-static-svgbob /usr/local/cargo/bin/svgbob_cli /usr/bin/svgbob
+COPY --from=kroki-builder-bytefield /app/app.bin /usr/bin/bytefield
+COPY --from=kroki-builder-dbml /app/app.bin /usr/bin/dbml
+COPY --from=kroki-builder-nomnoml /app/app.bin /usr/bin/nomnoml
 COPY --from=kroki-builder-static-erd /root/.local/bin/erd /usr/bin/erd
 COPY --from=kroki-builder-static-pikchr /build/pikchr /usr/bin/pikchr
-COPY --from=kroki-builder-nomnoml /app/app.bin /usr/bin/nomnoml
-COPY --from=kroki-builder-vega /app/app.bin /usr/bin/vega
-COPY --from=kroki-builder-dbml /app/app.bin /usr/bin/dbml
-COPY --from=kroki-builder-wavedrom /app/app.bin /usr/bin/wavedrom
+COPY --from=kroki-builder-static-svgbob /usr/local/cargo/bin/svgbob_cli /usr/bin/svgbob
 COPY --from=kroki-builder-static-symbolator /build/symbolator.bin /usr/bin/symbolator
-COPY --from=kroki-builder-bytefield /app/app.bin /usr/bin/bytefield
+COPY --from=kroki-builder-vega /app/app.bin /usr/bin/vega
+COPY --from=kroki-builder-wavedrom /app/app.bin /usr/bin/wavedrom
 COPY --from=tikz tikz2svg /usr/bin/tikz2svg
 
 COPY --chown=kroki:kroki ops/docker/logback.xml /etc/kroki/logback.xml
