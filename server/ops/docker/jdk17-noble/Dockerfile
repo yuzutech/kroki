@@ -240,7 +240,6 @@ COPY --from=erd /root/.cabal/bin/erd /usr/bin/erd
 COPY --from=kroki-builder-bytefield /app/app.bin /usr/bin/bytefield
 COPY --from=kroki-builder-static-pikchr /build/pikchr /usr/bin/pikchr
 COPY --from=kroki-builder-static-svgbob /usr/local/cargo/bin/svgbob_cli /usr/bin/svgbob
-COPY --from=kroki-builder-static-svgbob /usr/local/cargo/bin/svgbob_cli /usr/bin/svgbob
 COPY --from=kroki-builder-static-symbolator /build/symbolator.bin /usr/bin/symbolator
 COPY --from=tikz tikz2svg /usr/bin/tikz2svg
 
