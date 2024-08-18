@@ -1,41 +1,5 @@
 # syntax=docker/dockerfile:1.4
 
-## TikZ
-FROM --platform=$BUILDPLATFORM ubuntu:jammy AS kroki-builder-dvisvgm
-
-RUN apt-get update && apt-get install --no-install-recommends --yes \
-    build-essential \
-    pkg-config \
-    libclipper-dev \
-    libfreetype-dev \
-    libkpathsea-dev \
-    ghostscript \
-    libssl-dev \
-    zlib1g-dev \
-    curl \
-    ca-certificates
-
-ARG DVISVGM_VERSION=3.0.4
-
-ARG BUILDARCH
-ARG TARGETARCH
-RUN curl -LO https://github.com/mgieseki/dvisvgm/releases/download/$DVISVGM_VERSION/dvisvgm-$DVISVGM_VERSION.tar.gz && \
-    tar xf dvisvgm-$DVISVGM_VERSION.tar.gz && \
-    cd dvisvgm-$DVISVGM_VERSION && \
-    case $BUILDARCH in \
-        "amd64") MAKE_BUILD_ARCH=x86_64 ;; \
-        "arm64") MAKE_BUILD_ARCH=aarch64 ;; \
-        *) MAKE_BUILD_ARCH=$TARGETARCH ;; \
-    esac && \
-    case $TARGETARCH in \
-        "amd64") MAKE_TARGET_ARCH=x86_64 ;; \
-        "arm64") MAKE_TARGET_ARCH=aarch64 ;; \
-        *) MAKE_TARGET_ARCH=$TARGETARCH ;; \
-    esac && \
-    ./configure --enable-bundled-libs --build $MAKE_BUILD_ARCH-linux-gnu --host $MAKE_TARGET_ARCH-linux-gnu && \
-    make && \
-    make install
-
 ## Nomnoml
 FROM --platform=$BUILDPLATFORM node:18.20-bullseye-slim AS kroki-builder-nomnoml
 
@@ -154,36 +118,35 @@ FROM yuzutech/kroki-builder-erd:0.2.1.0 AS kroki-builder-static-erd
 #  --ghc-options="-w"
 
 ## Symbolator
-FROM ubuntu:jammy AS kroki-builder-static-symbolator
+FROM ubuntu:noble AS kroki-builder-static-symbolator
 
 # Build from forked source because upstream is broken for the latest python3 versions
 ARG SYMBOLATOR_VERSION=1.2.2
 ARG SYMBOLATOR_SOURCE=git+https://github.com/zebreus/symbolator.git@v$SYMBOLATOR_VERSION
 
 RUN apt-get update && apt-get install --no-install-recommends --yes \
+    build-essential \
     git \
     pip \
     python3-dev \
     patchelf \
     python3-gi-cairo \
     python3-gi \
-    build-essential \
+    python3-pip \
+    python3-setuptools \
     libpango1.0-dev && \
     apt-get clean && apt-get autoremove
 
 WORKDIR /build
 
-# Install latest pip and setuptools
-RUN python3 -m pip install --upgrade pip setuptools
-RUN python3 -m pip install --upgrade nuitka
-# Install symbolator
-RUN python3 -m pip install --upgrade ${SYMBOLATOR_SOURCE}
+RUN python3 -m pip install --break-system-packages --upgrade nuitka
+RUN python3 -m pip install --break-system-packages --upgrade ${SYMBOLATOR_SOURCE}
 
 # Use nuitka to compile a static binary so we dont need python in the final image
 RUN python3 -m nuitka --onefile `which symbolator` --include-module=gi.overrides.Pango --include-module=gi._gi_cairo
 
 ## Pikchr
-FROM ubuntu:jammy AS kroki-builder-static-pikchr
+FROM ubuntu:noble AS kroki-builder-static-pikchr
 
 ARG PIKCHR_VERSION=7269f78c4a3aa2809bd8c278e522c4eac5568ad0fd6ed0a3f807f4a2f6367ef0
 
@@ -232,18 +195,21 @@ RUN SVGBOB_VERSION=`cat Cargo.toml | grep "svgbob_cli =" | sed -r 's/.*"([^"]+)"
 # use a pre-built image to reduce build time
 
 ## yuzutech/kroki
-FROM eclipse-temurin:17.0.10_7-jre-jammy
+FROM eclipse-temurin:17.0.12_7-jre-noble
 
+ARG BLOCKDIAG_VERSION="3.1.0"
 ARG D2_VERSION="0.6.3"
+ARG DITAA_VERSION="1.0.3"
+ARG DVISVGM_VERSION="3.2.1+ds-1build1"
+ARG GRAPHVIZ_VERSION="9.0.0"
 ARG PLANTUML_VERSION="1.2024.1"
 ARG UMLET_VERSION="2023-03-20_UMLet_v15.1"
-ARG GRAPHVIZ_VERSION="9.0.0"
-ARG DITAA_VERSION="1.0.3"
-ARG BLOCKDIAG_VERSION="3.1.0"
 ARG WIREVIZ_VERSION="0.3.3"
 ARG TARGETARCH
 
-RUN addgroup --gecos 1000 kroki && adduser --disabled-password --ingroup kroki -u 1000 kroki
+RUN apt-get update && apt-get install --no-install-recommends --yes \
+    adduser && \
+    addgroup --gecos 1001 kroki && adduser --disabled-password --ingroup kroki -u 1001 kroki
 
 # For TikZ
 #
@@ -255,16 +221,17 @@ RUN addgroup --gecos 1000 kroki && adduser --disabled-password --ingroup kroki -
 # * texlive-pictures - Provides various graphics packages like "circuitikz"
 # * texlive-science - Provides various science packages like "siunitx"
 RUN apt-get update && apt-get install --no-install-recommends --yes \
-    libpangocairo-1.0 \
+    dvisvgm=$DVISVGM_VERSION \
+    fonts-freefont-ttf \
+    fonts-liberation \
+    fonts-noto-cjk \
+    ghostscript \
+    giflib-tools \
+    gsfonts \
     libgd3 \
     libjpeg9 \
-    libpango1.0-0 \
-    giflib-tools \
-    fonts-freefont-ttf \
-    fonts-noto-cjk \
-    fonts-liberation \
-    gsfonts \
-    ghostscript \
+    libpango-1.0-0 \
+    libpangocairo-1.0-0 \
     poppler-utils \
     texlive \
     texlive-latex-extra \
@@ -295,16 +262,15 @@ RUN wget "https://github.com/yuzutech/blockdiag/releases/download/v${BLOCKDIAG_V
 RUN wget "https://github.com/yuzutech/WireViz/releases/download/v${WIREVIZ_VERSION}/wireviz-linux-${TARGETARCH}.bin" -O /usr/bin/wireviz && \
     chmod +x /usr/bin/wireviz
 
-COPY --from=kroki-builder-static-svgbob /usr/local/cargo/bin/svgbob_cli /usr/bin/svgbob
+COPY --from=kroki-builder-bytefield /app/app.bin /usr/bin/bytefield
+COPY --from=kroki-builder-dbml /app/app.bin /usr/bin/dbml
+COPY --from=kroki-builder-nomnoml /app/app.bin /usr/bin/nomnoml
 COPY --from=kroki-builder-static-erd /root/.local/bin/erd /usr/bin/erd
 COPY --from=kroki-builder-static-pikchr /build/pikchr /usr/bin/pikchr
-COPY --from=kroki-builder-nomnoml /app/app.bin /usr/bin/nomnoml
-COPY --from=kroki-builder-vega /app/app.bin /usr/bin/vega
-COPY --from=kroki-builder-dbml /app/app.bin /usr/bin/dbml
-COPY --from=kroki-builder-wavedrom /app/app.bin /usr/bin/wavedrom
+COPY --from=kroki-builder-static-svgbob /usr/local/cargo/bin/svgbob_cli /usr/bin/svgbob
 COPY --from=kroki-builder-static-symbolator /build/symbolator.bin /usr/bin/symbolator
-COPY --from=kroki-builder-bytefield /app/app.bin /usr/bin/bytefield
-COPY --from=kroki-builder-dvisvgm /usr/local/bin/dvisvgm /usr/bin/dvisvgm
+COPY --from=kroki-builder-vega /app/app.bin /usr/bin/vega
+COPY --from=kroki-builder-wavedrom /app/app.bin /usr/bin/wavedrom
 COPY --from=tikz tikz2svg /usr/bin/tikz2svg
 
 COPY --chown=kroki:kroki ops/docker/logback.xml /etc/kroki/logback.xml
