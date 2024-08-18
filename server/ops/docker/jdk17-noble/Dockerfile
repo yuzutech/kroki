@@ -237,9 +237,13 @@ RUN wget "https://github.com/yuzutech/WireViz/releases/download/v${WIREVIZ_VERSI
 
 COPY --from=erd /root/.cabal/bin/erd /usr/bin/erd
 COPY --from=kroki-builder-bytefield /app/app.bin /usr/bin/bytefield
+COPY --from=kroki-builder-dbml /app/app.bin /usr/bin/dbml
+COPY --from=kroki-builder-nomnoml /app/app.bin /usr/bin/nomnoml
 COPY --from=kroki-builder-static-pikchr /build/pikchr /usr/bin/pikchr
 COPY --from=kroki-builder-static-svgbob /usr/local/cargo/bin/svgbob_cli /usr/bin/svgbob
 COPY --from=kroki-builder-static-symbolator /build/symbolator.bin /usr/bin/symbolator
+COPY --from=kroki-builder-vega /app/app.bin /usr/bin/vega
+COPY --from=kroki-builder-wavedrom /app/app.bin /usr/bin/wavedrom
 COPY --from=tikz tikz2svg /usr/bin/tikz2svg
 
 COPY --chown=kroki:kroki ops/docker/logback.xml /etc/kroki/logback.xml
