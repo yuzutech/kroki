@@ -21,19 +21,19 @@
   "dependencies": {
     "lodash": "4.17.21",
     "micro": "10.0.1",
-    "pino": "8.20.0",
+    "pino": "8.21.0",
     "pino-debug": "2.0.0",
     "puppeteer": "22.4.1"
   },
   "devDependencies": {
-    "chai": "4.4.1",
+    "chai": "4.5.0",
     "dirty-chai": "2.0.1",
-    "mermaid": "10.9.0",
-    "mocha": "10.4.0",
+    "mermaid": "10.9.1",
+    "mocha": "10.7.3",
     "pngjs": "7.0.0",
     "standard": "17.1.0"
   },
   "volta": {
-    "node": "18.20.2"
+    "node": "18.20.4"
   }
 }
