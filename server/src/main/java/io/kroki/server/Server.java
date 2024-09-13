@@ -122,6 +122,7 @@ public class Server extends AbstractVerticle {
     registry.register(new TikZ(vertx, config, commander), "tikz");
     registry.register(new Dbml(vertx, config, commander), "dbml");
     registry.register(new Wireviz(vertx, config, commander), "wireviz");
+    registry.register(new MscGenerator(vertx, config, commander), "mscgen");
 
     router.post("/")
       .handler(bodyHandler)
