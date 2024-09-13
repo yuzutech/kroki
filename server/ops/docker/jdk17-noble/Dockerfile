@@ -235,6 +235,8 @@ RUN wget "https://github.com/yuzutech/blockdiag/releases/download/v${BLOCKDIAG_V
 RUN wget "https://github.com/yuzutech/WireViz/releases/download/v${WIREVIZ_VERSION}/wireviz-linux-${TARGETARCH}.bin" -O /usr/bin/wireviz && \
     chmod +x /usr/bin/wireviz
 
+RUN apt-get install --no-install-recommends --yes msc-generator-nox
+
 COPY --from=erd /root/.cabal/bin/erd /usr/bin/erd
 COPY --from=kroki-builder-bytefield /app/app.bin /usr/bin/bytefield
 COPY --from=kroki-builder-dbml /app/app.bin /usr/bin/dbml
