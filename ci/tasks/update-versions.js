@@ -142,14 +142,14 @@ try {
     diagramLibraryVersions.diagramsnet = [...diagramsnetVersionFound][0].groups.version
   }
 
-  const dockerfileContent = await fs.readFile(ospath.join(rootDir, 'server', 'ops', 'docker', 'jdk17-jammy', 'Dockerfile'), 'utf8')
+  const dockerfileContent = await fs.readFile(ospath.join(rootDir, 'server', 'ops', 'docker', 'jdk17-noble', 'Dockerfile'), 'utf8')
   for (const line of dockerfileContent.split('\n')) {
     const d2VersionFound = line.match(/^ARG D2_VERSION="(?<version>.+)"$/)
     if (d2VersionFound) {
       const { version } = d2VersionFound.groups
       diagramLibraryVersions.d2 = version
     }
-    const erdVersionFound = line.match(/^FROM yuzutech\/kroki-builder-erd:(?<version>\S+) AS kroki-builder-static-erd$/)
+    const erdVersionFound = line.match(/^FROM ghcr.io\/yuzutech\/erd:v(?<version>\S+) AS erd$/)
     if (erdVersionFound) {
       const { version } = erdVersionFound.groups
       diagramLibraryVersions.erd = version
@@ -159,7 +159,6 @@ try {
       const { version } = pikchrVersionFound.groups
       diagramLibraryVersions.pikchr = version.slice(0, 10)
     }
-
     const symbolatorVersionFound = line.match(/^ARG SYMBOLATOR_VERSION=(?<version>.+)$/)
     if (symbolatorVersionFound) {
       const { version } = symbolatorVersionFound.groups
