@@ -18,6 +18,9 @@ A companion web server written in JavaScript (powered by _micro_) that provides 
 Diagrams.net::
 A companion web server written in JavaScript (powered by _micro_) that provides https://www.diagrams.net/[_diagrams.net_] to render diagrams.
 
+Online Wardley Maps::
+A companion web server written in JavaScript (powered by _micro_) that provides https://onlinewardleymaps.com/[Online Wardley Maps] to render diagrams.
+
 == Gateway Server
 
 The `yuzutech/kroki` Docker image contains the following diagrams libraries out-of-the-box:
@@ -148,4 +151,15 @@ The `yuzutech/kroki-diagramsnet` Docker image contains the following diagrams li
 |Diagram Type | Version
 |https://www.diagrams.net/[diagrams.net]
 |{diagramsnet-version}
+|===
+
+=== Online Wardley Maps (experimental)
+
+The `yuzutech/kroki-onlinewardleymaps` Docker image contains the following diagrams libraries out-of-the-box:
+
+[options="header",cols="1,1m"]
+|===
+|Diagram Type | Version
+|https://onlinewardleymaps.com/[Online Wardley Maps]
+|{onlinewardleymaps-version}
 |===
