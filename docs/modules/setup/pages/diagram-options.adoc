@@ -76,6 +76,40 @@ empty string ("")
 |Render diagram with a hand-drawn aesthetic: https://d2lang.com/tour/sketch/
 |===
 
+== Ditaa
+
+[cols="1m,1a,2a",opts="header"]
+|===
+|Name
+|Allowable Values
+|Description
+
+|no-antialias
+|_any_ +
+|Turns anti-aliasing off
+
+|no-separation
+|_any_ +
+|Prevents the separation of common edges of shapes
+
+|round-corners
+|_any_ +
+|Causes all corners to be rendered as round corners
+
+|scale
+|_double_ +
+*`1.0`*
+|A natural number that determines the size of the rendered image. The units are fractions of the default size (2.5 renders 1.5 times biggerthan the default)
+
+|no-shadows
+|_any_ +
+|Turns off the drop-shadow effect
+
+|tabs
+|_any_ +
+|Tabs are normally interpreted as 8 spaces but it is possible to change that using this option
+|===
+
 == GraphViz
 
 [cols="1m,1a,2a",opts="header"]
@@ -290,40 +324,5 @@ empty string ("")
 empty string ("")
 |Add name of a library to the diagram. +
 Only works if title is also set
-
-|===
-
-== Ditaa
-
-[cols="1m,1a,2a",opts="header"]
-|===
-|Name
-|Allowable Values
-|Description
-
-|no-antialias
-|_any_ +
-|Turns anti-aliasing off
-
-|no-separation
-|_any_ +
-|Prevents the separation of common edges of shapes
-
-|round-corners
-|_any_ +
-|Causes all corners to be rendered as round corners
-
-|scale
-|_double_ +
-*`1.0`*
-|A natural number that determines the size of the rendered image. The units are fractions of the default size (2.5 renders 1.5 times biggerthan the default)
-
-|no-shadows
-|_any_ +
-|Turns off the drop-shadow effect
-
-|tabs
-|_any_ +
-|Tabs are normally interpreted as 8 spaces but it is possible to change that using this option
 
 |===
