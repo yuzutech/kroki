@@ -24,7 +24,7 @@ This example uses `Ingress` to expose the service on port 8000.
 Read more about how to publish a service on the {uri-k8s-docs-publish-service}[Kubernetes documentation] website.
 ====
 
-== Deploy use Kubernetes object definition files
+== Deploy using Kubernetes object definition files
 
 === Extract the definition files
 Prepare the definition files by doing the following:
@@ -166,7 +166,7 @@ You can then create the Kubernetes objects as a batch or individually, similar t
 
 Validation and uninstall/removal of Kubernetes objects can be followed using the exact same commands as shown previously too.
 
-== Deploy use Helm Charts
+== Deploy using Helm Charts
 You can alternatively deploy Kroki using Helm Chart provided link:https://github.com/cowboysysop/charts/tree/master/charts/kroki[`here`]. It's much easier to deploy Kroki with charts, since all object definition files are managed by helm, in a style like App. 
 
 [NOTE]
