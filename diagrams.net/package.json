@@ -17,7 +17,9 @@
     "url": "https://github.com/yuzutech/kroki.git"
   },
   "dependencies": {
+    "cheerio": "^1.0.0",
     "micro": "10.0.1",
+    "mime": "^4.0.4",
     "pino": "^8.15.0",
     "pino-debug": "^2.0.0",
     "puppeteer": "22.4.1"
