@@ -2,7 +2,6 @@ import puppeteer from 'puppeteer'
 
 const createBrowser = async () => {
   const browser = await puppeteer.launch({
-    headless: 'new',
     args: [
       // allow to access files from file:// protocol
       '--allow-file-access-from-files',
@@ -34,7 +33,7 @@ const createBrowser = async () => {
     await browser.close()
     throw err
   } finally {
-    browser.disconnect()
+    await browser.disconnect()
   }
 }
 
