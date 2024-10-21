@@ -45,13 +45,17 @@ public class Server extends AbstractVerticle {
       if (configResult.failed()) {
         startPromise.fail(configResult.cause());
       } else {
-        start(vertx, vertxOptions, configResult.result(), startResult -> {
-          if (startResult.succeeded()) {
-            startPromise.complete();
-          } else {
-            startPromise.fail(startResult.cause());
-          }
-        });
+        try {
+          start(vertx, vertxOptions, configResult.result(), startResult -> {
+            if (startResult.succeeded()) {
+              startPromise.complete();
+            } else {
+              startPromise.fail(startResult.cause());
+            }
+          });
+        } catch (Exception e) {
+          startPromise.fail(e);
+        }
       }
     });
   }
