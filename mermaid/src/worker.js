@@ -129,7 +129,7 @@ async function newPage (browser) {
  *
  * @param {Page} page
  * @param {string} svg
- * @returns {Promise<string|Buffer>}
+ * @returns {Promise<Buffer>}
  */
 async function toPNG (page, svg) {
   await page.setContent(`<!DOCTYPE html>  
@@ -143,8 +143,8 @@ ${svg}
 </body>
 </html>`)
   const container = await page.$('#container')
-  return await container.screenshot({
+  return Buffer.from(await container.screenshot({
     type: 'png',
     omitBackground: true
-  })
+  }))
 }

@@ -1,9 +1,10 @@
-/* global describe, it, mocha */
 'use strict'
+// must be declared first
+import { logger } from '../src/logger.js'
 
-import chai from 'chai'
+import { describe, it } from 'node:test'
+import { deepEqual } from 'node:assert'
 import { updateConfig } from '../src/config.js'
-const expect = chai.expect
 
 describe('#updateConfig', function () {
   it('should update config but ignore sensitive option', function () {
@@ -38,7 +39,7 @@ describe('#updateConfig', function () {
     urlSearchParams.set('er_title-top-margin', '10')
     urlSearchParams.set('SECURITY-level', 'loose')
     updateConfig(config, urlSearchParams)
-    expect(config.er.titleTopMargin).to.equal(10)
-    expect(config.securityLevel).to.equal(undefined)
+    deepEqual(config.er.titleTopMargin, 10)
+    deepEqual(config.securityLevel, undefined)
   })
 })

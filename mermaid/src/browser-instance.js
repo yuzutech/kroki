@@ -6,7 +6,6 @@ let INSTANCE
 
 const createBrowser = async () => {
   const browser = await puppeteer.launch({
-    headless: 'new',
     dumpio: true,
     // reference: https://peter.sh/experiments/chromium-command-line-switches/
     args: [
