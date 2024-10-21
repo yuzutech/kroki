@@ -23,10 +23,10 @@
     "puppeteer": "22.4.1"
   },
   "devDependencies": {
-    "chai": "4.4.1",
+    "chai": "4.5.0",
     "dirty-chai": "2.0.1",
     "pngjs": "7.0.0",
-    "standard": "17.1.0"
+    "standard": "17.1.2"
   },
   "volta": {
     "node": "20.18.0"

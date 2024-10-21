@@ -18,7 +18,7 @@
     "nomnoml": "1.6.2"
   },
   "devDependencies": {
-    "standard": "17.1.0"
+    "standard": "17.1.2"
   },
   "volta": {
     "node": "20.18.0"
