@@ -8,7 +8,7 @@
   "scripts": {
     "prestart": "rm -rf assets/mermaid/* && cp -r node_modules/mermaid/dist/*.mjs node_modules/mermaid/dist/*.js assets/mermaid/",
     "start": "node src/index.js",
-    "test": "node test/run.js",
+    "test": "node --test --test-force-exit",
     "lint": "standard src/**.js"
   },
   "keywords": [],
@@ -21,17 +21,14 @@
   "dependencies": {
     "lodash": "4.17.21",
     "micro": "10.0.1",
-    "pino": "8.20.0",
+    "pino": "9.5.0",
     "pino-debug": "2.0.0",
-    "puppeteer": "22.4.1"
+    "puppeteer": "23.6.0"
   },
   "devDependencies": {
-    "chai": "4.4.1",
-    "dirty-chai": "2.0.1",
-    "mermaid": "10.9.0",
-    "mocha": "10.4.0",
+    "mermaid": "10.9.2",
     "pngjs": "7.0.0",
-    "standard": "17.1.0"
+    "standard": "17.1.2"
   },
   "volta": {
     "node": "20.18.0"

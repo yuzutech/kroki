@@ -1,16 +1,17 @@
-/* global describe, it */
 'use strict'
 
+// must be declared first
+import { logger } from '../src/logger.js'
+
+import { describe, it } from 'node:test'
 import puppeteer from 'puppeteer'
-import chai from 'chai'
-import dirtyChai from 'dirty-chai'
 import pngjs from 'pngjs'
 import { Worker } from '../src/worker.js'
 import Task from '../src/task.js'
+import { deepEqual, fail } from 'node:assert'
+import * as fs from 'node:fs/promises'
 
 const PNG = pngjs.PNG
-const expect = chai.expect
-chai.use(dirtyChai)
 
 const svgTests = [
   { content: 'Hello<br/>World' },
@@ -43,7 +44,6 @@ const invalidSyntaxTests = [
 
 async function getBrowser () {
   return puppeteer.launch({
-    headless: 'new',
     args: [
       '--disable-dev-shm-usage',
       '--no-first-run',
@@ -56,9 +56,6 @@ async function getBrowser () {
 }
 
 describe('#convert', function () {
-  // Puppeteer can take some time to start
-  this.timeout(10000)
-
   svgTests.forEach((testCase) => {
     it(`should return an XML compatible SVG with content: ${testCase.content}`, async function () {
       const browser = await getBrowser()
@@ -66,7 +63,7 @@ describe('#convert', function () {
         const worker = new Worker(browser)
         const result = await worker.convert(new Task(`graph TD
   A{{ ${testCase.content} }}`))
-        expect(result).to.contains('<span class="nodeLabel">Hello<br/>World</span>')
+        deepEqual(result.includes('<span class="nodeLabel">Hello<br/>World</span>'), true, 'output must include XML compatible SVG')
       } finally {
         await browser.close()
       }
@@ -79,11 +76,16 @@ describe('#convert', function () {
       try {
         const worker = new Worker(browser)
         const result = await worker.convert(new Task(testCase.content, true))
-
+        await fs.writeFile('./out.png', result)
         const image = PNG.sync.read(result) // this will fail on invalid image
-
-        expect(image.width).to.be.closeTo(testCase.width, 20)
-        expect(image.height).to.be.closeTo(testCase.height, 50) // padding can make it vary more
+        const expectedWidth = testCase.width
+        const widthDelta = 30
+        const actualWidth = image.width
+        deepEqual(expectedWidth - widthDelta < actualWidth && actualWidth < expectedWidth + widthDelta, true, `width must be close to ${expectedWidth} +/- ${widthDelta} but was ${actualWidth}`)
+        const expectedHeight = testCase.height
+        const heightDelta = 50
+        const actualHeight = image.height
+        deepEqual(expectedHeight - heightDelta < actualHeight && actualHeight < expectedHeight + heightDelta, true, `height must be close to ${expectedHeight} +/- ${heightDelta}`)  // padding can make it vary more
       } finally {
         await browser.close()
       }
@@ -95,9 +97,9 @@ describe('#convert', function () {
       const browser = await getBrowser()
       try {
         await new Worker(browser).convert(new Task('not a valid mermaid code', testCase.isPng))
-        expect.fail('Should throw a SyntaxError exception')
+        fail('Should throw a SyntaxError exception')
       } catch (err) {
-        expect(err.message).to.be.a('string').and.satisfy(msg => msg.startsWith('Syntax error in graph:'), 'Error message should starts with \'Syntax error in graph:\'')
+        deepEqual(err.message.startsWith('Syntax error in graph:'), true, 'error message should starts with \'Syntax error in graph:\'')
       } finally {
         await browser.close()
       }
@@ -118,7 +120,7 @@ describe('#convert', function () {
   participant John
   Note over John: Text in <<note>>
 end`))
-      expect(result).to.contains('Text in &lt;&lt;note&gt;&gt;')
+      deepEqual(result.includes('Text in &lt;&lt;note&gt;&gt;'), true, `result must include Text in &lt;&lt;note&gt;&gt; but was ${result}`)
     } finally {
       await browser.close()
     }
