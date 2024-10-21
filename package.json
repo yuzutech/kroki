@@ -4,21 +4,17 @@
   "description": "Utility scripts for continuous integration",
   "type": "module",
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "private": true,
-  "dependencies": {
-    "chai": "^4.3.7",
-    "chai-http": "^4.3.0"
-  },
-  "devDependencies": {
-    "mocha": "^10.2.0"
-  },
   "scripts": {
-    "test": "mocha ci/tests/smoke.js",
+    "test": "node --test-force-exit ci/tests/smoke.js",
     "update-versions": "node ci/tasks/update-versions.js"
   },
   "volta": {
-    "node": "18.20.2"
+    "node": "20.18.0"
+  },
+  "dependencies": {
+    "blocked-at": "^1.2.0"
   }
 }
