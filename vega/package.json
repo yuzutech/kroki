@@ -4,7 +4,7 @@
   "description": "A CLI built on top of the Vega diagram library.",
   "bin": "src/index.js",
   "scripts": {
-    "test": "mocha tests/test.js",
+    "test": "node --test tests/test.js",
     "lint": "standard src tests"
   },
   "license": "MIT",
@@ -15,17 +15,14 @@
   "keywords": [],
   "author": "Guillaume Grossetie",
   "dependencies": {
-    "canvas": "2.11.2",
-    "vega": "5.28.0",
-    "vega-lite": "5.18.0",
+    "canvas": "^3.0.0-rc2",
+    "vega": "5.30.0",
+    "vega-lite": "5.21.0",
     "yargs": "17.7.2"
   },
   "devDependencies": {
-    "chai": "4.4.1",
-    "dirty-chai": "2.0.1",
-    "mocha": "10.4.0",
-    "sinon": "15.2.0",
-    "standard": "17.1.0"
+    "sinon": "19.0.2",
+    "standard": "17.1.2"
   },
   "pkg": {
     "assets": "node_modules/canvas/build/Release/*"

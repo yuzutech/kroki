@@ -1,18 +1,14 @@
-/* global describe, it */
 'use strict'
 
-const ospath = require('path')
-const fs = require('fs').promises
+const { describe, it } = require('node:test')
+const { fail, deepEqual } = require('node:assert')
+const ospath = require('node:path')
+const fs = require('node:fs').promises
 const sinon = require('sinon')
-const chai = require('chai')
-const expect = chai.expect
-const dirtyChai = require('dirty-chai')
-chai.use(dirtyChai)
 
 const { convert } = require('../src/convert.js')
 
 describe('#convert', function () {
-  this.timeout(15000)
   it('should throw UnsafeIncludeError in secure mode when the Vega-Lite specification contains data.url', async function () {
     const input = `{
   "data": {"url": "data/cars.json"},
@@ -28,9 +24,9 @@ describe('#convert', function () {
         safeMode: 'secure',
         format: 'svg'
       })
-      expect.fail('', '', 'It should throw an error in secure mode when the Vega-Lite specification contains data.url')
+      fail('', '', 'It should throw an error in secure mode when the Vega-Lite specification contains data.url')
     } catch (err) {
-      expect(err.name).to.equal('UnsafeIncludeError')
+      deepEqual(err.name, 'UnsafeIncludeError')
     }
   })
   it('should throw IllegalArgumentError when output format is not supported', async function () {
@@ -52,9 +48,9 @@ describe('#convert', function () {
         safeMode: 'safe',
         format: 'txt'
       })
-      expect.fail('', '', 'It should throw an error when output format is not supported')
+      fail('', '', 'It should throw an error when output format is not supported')
     } catch (err) {
-      expect(err.name).to.equal('IllegalArgumentError')
+      deepEqual(err.name, 'IllegalArgumentError')
     }
   })
   it('should not output warning to stdout', async function () {
@@ -73,12 +69,12 @@ describe('#convert', function () {
         safeMode: 'safe',
         format: 'svg'
       })
-      expect(result).to.includes('<svg xmlns="http://www.w3.org/2000/svg"')
-      expect(result).to.includes('</svg>')
+      deepEqual(result.includes('<svg xmlns="http://www.w3.org/2000/svg"'), true, 'generated SVG must include <svg> start tag')
+      deepEqual(result.includes('</svg>'), true, 'generated SVG must include <svg> end tag')
       const stdoutWriteCalls = process.stdout.write.getCalls()
       const stderrWriteCalls = process.stderr.write.getCalls()
-      expect(stdoutWriteCalls).to.be.empty(`It should not output warning messages to stdout but process.stdout.write('${stdoutWriteCalls && stdoutWriteCalls[0] && stdoutWriteCalls[0].args.join(' ')}') was called`)
-      expect(stderrWriteCalls).to.be.empty(`It should not output warning messages to stderr but process.stderr.write('${stderrWriteCalls && stderrWriteCalls[0] && stderrWriteCalls[0].args.join(' ')}') was called`)
+      deepEqual(stdoutWriteCalls.length === 0, true, `It should not output warning messages to stdout but process.stdout.write('${stdoutWriteCalls && stdoutWriteCalls[0] && stdoutWriteCalls[0].args.join(' ')}') was called`)
+      deepEqual(stderrWriteCalls.length === 0, true, `It should not output warning messages to stderr but process.stderr.write('${stderrWriteCalls && stderrWriteCalls[0] && stderrWriteCalls[0].args.join(' ')}') was called`)
     } finally {
       process.stdout.write.restore()
       process.stderr.write.restore()
@@ -91,7 +87,7 @@ describe('#convert', function () {
       safeMode: 'safe',
       format: 'png'
     })
-    expect(Buffer.byteLength(pngBuffer) > 20000)
+    deepEqual(Buffer.byteLength(pngBuffer) > 20000, true, 'generated PNG image must be greater than 20000 bytes')
   })
   it('should convert a Vega-Lite definition to PDF', async function () {
     const input = await fs.readFile(ospath.join(__dirname, 'fixtures', 'diag.vlite'), 'utf8')
@@ -100,7 +96,7 @@ describe('#convert', function () {
       safeMode: 'safe',
       format: 'pdf'
     })
-    expect(Buffer.byteLength(pdfBuffer) > 20000)
+    deepEqual(Buffer.byteLength(pdfBuffer) > 10000, true, 'generated PDF file must be greater than 10000 bytes')
     // REMIND: unable to strictly compare the PDF because it contains metadata! (more specifically the creation date!)
   })
   it('should convert a Vega-Lite definition to SVG', async function () {
@@ -110,6 +106,6 @@ describe('#convert', function () {
       safeMode: 'safe',
       format: 'svg'
     })
-    expect(svg.length > 20000)
+    deepEqual(svg.length > 20000, true, 'generated SVG image must be greater than 20000 bytes')
   })
 })
