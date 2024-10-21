@@ -1,6 +1,7 @@
 = Use Kubernetes
 :uri-k8s-kroki-examples: https://raw.githubusercontent.com/yuzutech/kroki/refs/heads/main/docs/modules/setup/examples/k8s-multi-pod
 :uri-k8s-docs-publish-service: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
+:uri-helm-charts: https://github.com/cowboysysop/charts/tree/master/charts/kroki
 
 This section describes how to install Kroki on Kubernetes using the `default` namespace.
 
@@ -167,7 +168,7 @@ You can then create the Kubernetes objects as a batch or individually, similar t
 Validation and uninstall/removal of Kubernetes objects can be followed using the exact same commands as shown previously too.
 
 == Deploy using Helm Charts
-You can alternatively deploy Kroki using Helm Chart provided link:https://github.com/cowboysysop/charts/tree/master/charts/kroki[`here`]. It's much easier to deploy Kroki with charts, since all object definition files are managed by helm, in a style like App. 
+You can alternatively deploy Kroki using {uri-helm-charts}[Helm Charts]. It's much easier to deploy Kroki with charts, since all object definition files are managed by helm.
 
 NOTE: This is an unofficial chart maintained by `cowboysysop`. 
 
@@ -180,12 +181,12 @@ helm repo add cowboysysop https://cowboysysop.github.io/charts/
 helm install my-kroki cowboysysop/kroki
 ----
 
-Validation of Kubernetes objects can be followed using the exact same commands as shown previously too. Or, you can use the following helm command to verify the installation.
+Validation of Kubernetes objects can be followed using the exact same commands as shown in <<Validate that Kroki is running>>. Or, you can use the following helm command to verify the installation.
 
 .Example command with `helm` installed
 [source,cli]
 ----
-helm status my-kroki
+helm status my-kroki --show-resources --show-desc
 ----
 
 If the installation is successful, the following status is shown:
@@ -196,6 +197,25 @@ LAST DEPLOYED: Mon Oct  7 17:06:09 2024
 NAMESPACE: default
 STATUS: deployed
 REVISION: 1
+DESCRIPTION: Install complete
+RESOURCES:
+==> v1/Pod(related)
+NAME                     READY   STATUS        RESTARTS   AGE
+kroki-6db8878b8f-zn8kz   5/5     Running       0          13d
+
+==> v1/ServiceAccount
+NAME    SECRETS   AGE
+kroki   0         14d
+
+==> v1/Service
+NAME    TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
+kroki   ClusterIP   10.43.100.80   <none>        8000/TCP   14d
+
+==> v1/Deployment
+NAME    READY   UP-TO-DATE   AVAILABLE   AGE
+kroki   1/1     1            1           14d
+
+
 NOTES:
 1. Get the application URL by running these commands:
   export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=kroki,app.kubernetes.io/instance=kroki" -o jsonpath="{.items[0].metadata.name}")
