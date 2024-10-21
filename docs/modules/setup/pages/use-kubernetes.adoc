@@ -1,6 +1,5 @@
 = Use Kubernetes
-//:uri-k8s-kroki-examples: https://raw.githubusercontent.com/yuzutech/kroki/master/docs/modules/setup/examples/k8s
-:uri-k8s-kroki-examples: {examplesdir}/k8s
+:uri-k8s-kroki-examples: https://raw.githubusercontent.com/yuzutech/kroki/refs/heads/main/docs/modules/setup/examples/k8s-multi-pod
 :uri-k8s-docs-publish-service: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
 
 This section describes how to install Kroki on Kubernetes using the `default` namespace.
@@ -8,10 +7,11 @@ This section describes how to install Kroki on Kubernetes using the `default` na
 On this page you will find how to:
 
 * [x] Use `Ingress` to expose the service on port 8000.
-* [x] Download and extract the example Kroki kubernetes definition files
+* [x] Download and extract the example Kroki Kubernetes definition files
 * [x] Install the Kubernetes objects as a batch or one by one.
 * [x] Validate the installation
 * [x] Delete the Kroki installation
+* [x] Use Helm Chart to install/uninstall Kroki
 
 .Providing external access to Kroki
 [IMPORTANT]
@@ -24,8 +24,10 @@ This example uses `Ingress` to expose the service on port 8000.
 Read more about how to publish a service on the {uri-k8s-docs-publish-service}[Kubernetes documentation] website.
 ====
 
-== Extract the Kubernetes object definition files
-Prepare the Kubernetes definition files by doing the following:
+== Deploy use Kubernetes object definition files
+
+=== Extract the definition files
+Prepare the definition files by doing the following:
 
 . Download the example bundle link:{attachmentsdir}/kroki-k8s-multipod.zip[`kroki-k8s-multipod.zip`] that contains all the required `Deployment`, `Service` and `Ingress` definition files to deploy Kroki on Kubernetes.
 +
@@ -43,16 +45,16 @@ wget http://docs.kroki.io/kroki/setup/_attachments/kroki-k8s-multipod.zip -O kro
 unzip kroki-k8s-multipod.zip -d kroki-k8s
 ----
 
-In the next steps you use the `*.yml` files beneath the directory `kroki-k8s` and apply them in batch or individually, to create the Kubernetes objects.
+In the next steps you use the `*.yaml` files beneath the directory `kroki-k8s` and apply them in batch or individually, to create the Kubernetes objects.
 
-== Create objects as a batch
+=== Create objects as a batch
 
-To install (create) all the Kubernetes objects in a batch do the following:
+To install (create) all the Kubernetes objects in a batch, do the following:
 
 Use the command `kubectl apply` to create all the required Kubernetes objects,
 replacing _/path/to/kroki-k8s_ with the path to the folder containing the `*.yaml` definition files.
 
-.Example command
+.Example command with `kubectl` installed
 [source,cli,subs=+quotes]
 ----
 kubectl apply -f _/path/to/kroki-k8s_
@@ -60,9 +62,9 @@ kubectl apply -f _/path/to/kroki-k8s_
 
 Your next step is to <<Validate that Kroki is running>>.
 
-Read more about working with kubernetes objects on the https://kubernetes.io/docs/concepts/overview/working-with-objects/kubernetes-objects/[Kubernetes] website.
+Read more about working with Kubernetes objects on the https://kubernetes.io/docs/concepts/overview/working-with-objects/kubernetes-objects/[Kubernetes] website.
 
-== Create objects individually
+=== Create objects individually
 Alternatively they can be applied individually.
 
 To install them individually from GitHub, open a terminal and type commands indicated for each service:
@@ -101,16 +103,16 @@ kubectl apply -f {uri-k8s-kroki-examples}/kroki-ingress.yaml
 
 Your next step is to <<Validate that Kroki is running>>.
 
-== Validate that Kroki is running
+=== Validate that Kroki is running
 After installing the Kroki Kubernetes objects you verify that Kroki is running.
 
-To verify that the Kroki service is running do the following:
+To verify that the Kroki service is running, do the following:
 
 . Run the `kubectl get pod` command:
 [source,cli]
 kubectl get pod
 +
-If the installation is successful a list of running pods is shown that includes the following:
+If the installation is successful, a list of running pods is shown that includes the following:
 +
 ....
 NAME                          READY   STATUS    RESTARTS   AGE
@@ -133,15 +135,15 @@ curl http://localhost:8000/seqdiag/svg/eNorTi1MyUxMV6jmUlBIKsovL04tUtC1UyhPTQKyy
 +
 If successful, a diagram is shown.
 
-== Uninstall Kroki
+=== Uninstall Kroki
 If you installed Kroki using the downloaded and unpacked `*.yaml` files, Kroki can be deleted using those same files.
 
-To uninstall Kroki use the command `kubectl delete` as follows:
+To uninstall Kroki, use the command `kubectl delete` as follows:
 
 [source,cli,subs=+quotes]
 kubectl delete -f _/path/to/kroki-k8s_
 
-== Using a Single Pod Consisting of Multiple Containers
+=== Use a Single Pod Consisting of Multiple Containers
 As a much simpler (but less-flexible) configuration, it is possible to run all containers inside of a single Kubernetes pod.
 
 . Download the example bundle link:{attachmentsdir}/kroki-k8s-singlepod.zip[`kroki-k8s-singlepod.zip`] that contains all the required `Deployment`, `Service` and `Ingress` definition files to deploy Kroki on Kubernetes.
@@ -163,3 +165,51 @@ unzip kroki-k8s-singlepod.zip -d kroki-k8s
 You can then create the Kubernetes objects as a batch or individually, similar to what was shown previously.
 
 Validation and uninstall/removal of Kubernetes objects can be followed using the exact same commands as shown previously too.
+
+== Deploy use Helm Charts
+You can alternatively deploy Kroki using Helm Chart provided link:https://github.com/cowboysysop/charts/tree/master/charts/kroki[`here`].  It's much easier to deploy Kroki with charts, since all object definition files are managed by helm, in a style like App. 
+
+[NOTE]
+====
+This is an unofficial chart maintained by `cowboysysop`. 
+====
+
+To install Kroki with release name `my-kroki`, use the following command:
+
+.Example command with `helm` installed
+[source,cli]
+----
+helm repo add cowboysysop https://cowboysysop.github.io/charts/
+helm install my-kroki cowboysysop/kroki
+----
+
+Validation of Kubernetes objects can be followed using the exact same commands as shown previously too. Or, you can use the following helm command to verify the installation.
+
+.Example command with `helm` installed
+[source,cli]
+----
+helm status my-kroki
+----
+
+If the installation is successful, the following status is shown:
+
+....
+NAME: my-kroki
+LAST DEPLOYED: Mon Oct  7 17:06:09 2024
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+NOTES:
+1. Get the application URL by running these commands:
+  export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=kroki,app.kubernetes.io/instance=kroki" -o jsonpath="{.items[0].metadata.name}")
+  echo "Visit http://127.0.0.1:8000/ to use your application"
+  kubectl --namespace default port-forward $POD_NAME 8000:8000
+....
+
+To uninstall Kroki, use the command `helm uninstall` as follows:
+
+.Example command with `helm` installed
+[source,cli]
+----
+helm uninstall my-kroki
+----
