@@ -4,6 +4,7 @@ import path from 'node:path'
 import puppeteer, { HTTPResponse, Page } from 'puppeteer'
 import { logger } from './logger.js'
 import { updateConfig } from './config.js'
+import { getBrowserWSEndpoint } from './browser-instance.js'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
@@ -22,8 +23,7 @@ export class SyntaxError extends Error {
 }
 
 export class Worker {
-  constructor (browserInstance) {
-    this.browserWSEndpoint = browserInstance.wsEndpoint()
+  constructor () {
     this.pageUrl = process.env.KROKI_MERMAID_PAGE_URL || `file://${path.join(__dirname, '..', 'assets', 'index.html')}`
     this.convertTimeout = process.env.KROKI_MERMAID_CONVERT_TIMEOUT || '10000'
   }
@@ -109,8 +109,9 @@ export class Worker {
    * @private
    */
   async _connect () {
+    const browserWSEndpoint = await getBrowserWSEndpoint()
     return await puppeteer.connect({
-      browserWSEndpoint: this.browserWSEndpoint,
+      browserWSEndpoint,
       ignoreHTTPSErrors: true
     })
   }
