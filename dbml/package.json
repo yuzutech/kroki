@@ -19,5 +19,8 @@
   },
   "devDependencies": {
     "standard": "17.1.0"
+  },
+  "volta": {
+    "node": "20.18.0"
   }
 }

@@ -31,6 +31,6 @@
     "assets": "node_modules/canvas/build/Release/*"
   },
   "volta": {
-    "node": "18.20.2"
+    "node": "20.18.0"
   }
 }

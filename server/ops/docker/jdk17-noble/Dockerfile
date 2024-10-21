@@ -1,13 +1,13 @@
 # syntax=docker/dockerfile:1.4
 
 ## Nomnoml
-FROM --platform=$BUILDPLATFORM node:18.20-bullseye-slim AS kroki-builder-nomnoml
+FROM --platform=$BUILDPLATFORM node:20.18-bullseye-slim AS kroki-builder-nomnoml
 
-RUN npm install -g pkg@5.8.1 pkg-fetch@3.5.2
+RUN npm install -g @yao-pkg/pkg@5.16.1 @yao-pkg/pkg-fetch@3.5.16
 
 ARG TARGETARCH
 ARG TARGETOS
-ENV NODE node18
+ENV NODE node20
 RUN /usr/local/bin/pkg-fetch -n $NODE -p $TARGETOS -a $([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH")
 
 COPY --from=nomnoml index.js package.json package-lock.json /app/
@@ -17,7 +17,7 @@ RUN npm install --target_arch=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || ech
 RUN /usr/local/bin/pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
 
 ## Vega
-FROM --platform=$BUILDPLATFORM node:18.20-bullseye-slim AS kroki-builder-vega
+FROM --platform=$BUILDPLATFORM node:20.18-bullseye-slim AS kroki-builder-vega
 
 # System dependencies for "canvas" Node package
 # https://github.com/Automattic/node-canvas#compiling
@@ -30,11 +30,11 @@ RUN apt-get update && apt-get install --no-install-recommends --yes \
     librsvg2-dev && \
     apt-get clean && apt-get autoremove
 
-RUN npm install -g pkg@5.8.1 pkg-fetch@3.5.2
+RUN npm install -g @yao-pkg/pkg@5.16.1 @yao-pkg/pkg-fetch@3.5.16
 
 ARG TARGETARCH
 ARG TARGETOS
-ENV NODE node18
+ENV NODE node20
 RUN /usr/local/bin/pkg-fetch -n $NODE -p $TARGETOS -a $([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH")
 
 COPY --from=vega src /app/src
@@ -42,17 +42,17 @@ COPY --from=vega tests /app/tests
 COPY --from=vega package.json package-lock.json /app/
 WORKDIR /app
 
-RUN npm install 2 --target_arch=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") --target_platform=$TARGETOS && npm run lint && npm t
+RUN npm install --target_arch=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") --target_platform=$TARGETOS && npm run lint && npm t
 RUN /usr/local/bin/pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
 
 ## DBML
-FROM --platform=$BUILDPLATFORM node:18.20-bullseye-slim AS kroki-builder-dbml
+FROM --platform=$BUILDPLATFORM node:20.18-bullseye-slim AS kroki-builder-dbml
 
-RUN npm install -g pkg@5.8.1 pkg-fetch@3.5.2
+RUN npm install -g @yao-pkg/pkg@5.16.1 @yao-pkg/pkg-fetch@3.5.16
 
 ARG TARGETARCH
 ARG TARGETOS
-ENV NODE node18
+ENV NODE node20
 RUN /usr/local/bin/pkg-fetch -n $NODE -p $TARGETOS -a $([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH")
 
 COPY --from=dbml index.js package.json package-lock.json /app/
@@ -62,13 +62,13 @@ RUN npm install --target_arch=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || ech
 RUN /usr/local/bin/pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
 
 ## Wavedrom
-FROM --platform=$BUILDPLATFORM node:18.20-bullseye-slim AS kroki-builder-wavedrom
+FROM --platform=$BUILDPLATFORM node:20.18-bullseye-slim AS kroki-builder-wavedrom
 
-RUN npm install -g pkg@5.8.1 pkg-fetch@3.5.2
+RUN npm install -g @yao-pkg/pkg@5.16.1 @yao-pkg/pkg-fetch@3.5.16
 
 ARG TARGETARCH
 ARG TARGETOS
-ENV NODE node18
+ENV NODE node20
 RUN /usr/local/bin/pkg-fetch -n $NODE -p $TARGETOS -a $([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH")
 
 COPY --from=wavedrom index.js package.json package-lock.json /app/
@@ -78,13 +78,13 @@ RUN npm install --target_arch=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || ech
 RUN /usr/local/bin/pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
 
 ## Bytefield
-FROM --platform=$BUILDPLATFORM node:18.20-bullseye-slim AS kroki-builder-bytefield
+FROM --platform=$BUILDPLATFORM node:20.18-bullseye-slim AS kroki-builder-bytefield
 
-RUN npm install -g pkg@5.8.1 pkg-fetch@3.5.2
+RUN npm install -g @yao-pkg/pkg@5.16.1 @yao-pkg/pkg-fetch@3.5.16
 
 ARG TARGETARCH
 ARG TARGETOS
-ENV NODE node18
+ENV NODE node20
 RUN /usr/local/bin/pkg-fetch -n $NODE -p $TARGETOS -a $([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH")
 
 COPY --from=bytefield index.js package.json package-lock.json /app/
