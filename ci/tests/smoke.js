@@ -1,7 +1,8 @@
-import chai from 'chai'
-import chaiHttp from 'chai-http'
-import fs from 'node:fs'
-import * as url from 'url'
+import { describe, it } from 'node:test'
+import { deepEqual } from 'node:assert'
+import fs from 'node:fs/promises'
+import * as url from 'node:url'
+
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
 
 const tests = [
@@ -44,16 +45,12 @@ const tests = [
   { engine: 'd2', file: 'connections.d2', options: { layout: 'elk' }, outputFormat: ['svg'] },
   { engine: 'd2', file: 'connections.d2', options: { theme: '200' }, outputFormat: ['svg'] },
   { engine: 'd2', file: 'connections.d2', options: { pad: '50' }, outputFormat: ['svg'] },
-  { engine: 'd2', file: 'connections.d2', options: { "animate-interval": '50' }, outputFormat: ['svg'] },
+  { engine: 'd2', file: 'connections.d2', options: { 'animate-interval': '50' }, outputFormat: ['svg'] },
   { engine: 'd2', file: 'connections.d2', options: { sketch: 'true' }, outputFormat: ['svg'] },
   { engine: 'd2', file: 'connections.d2', options: { scale: '1' }, outputFormat: ['svg'] },
   { engine: 'wireviz', file: 'wireviz.yaml', options: {}, outputFormat: ['svg', 'png'] },
   { engine: 'tikz', file: 'periodic-table.tex', options: {}, outputFormat: ['jpeg', 'pdf', 'png', 'svg'] }
 ]
-
-chai.use(chaiHttp)
-
-const expect = chai.expect
 
 const mimeType = {
   svg: 'image/svg+xml',
@@ -63,21 +60,21 @@ const mimeType = {
   txt: 'text/plain'
 }
 
-const sendRequest = async (testCase, outputFormat) => {
+async function sendRequest (testCase, outputFormat) {
   try {
-    let request = chai.request('localhost:8000')
-      .post(`/${testCase.engine}/${outputFormat}`)
-      .type('text/plain')
-      .set('Content-Type', 'text/plain')
-      .set('Accept', mimeType[outputFormat])
-      .timeout(10000)
-      .send(fs.readFileSync(`${__dirname}/diagrams/${testCase.file}`))
-
-    for (var key in testCase.options) {
-      request = request.set(`Kroki-Diagram-Options-${key}`, testCase.options[key])
+    const headers = {
+      'Content-Type': 'text/plain',
+      'Accept': mimeType[outputFormat]
     }
-
-    return await request
+    for (const key in testCase.options) {
+      headers[`Kroki-Diagram-Options-${key}`] = testCase.options[key]
+    }
+    const body = await fs.readFile(`${__dirname}/diagrams/${testCase.file}`, 'utf8')
+    return fetch(`http://localhost:8000/${testCase.engine}/${outputFormat}`, {
+      body: body,
+      method: 'POST',
+      headers: headers
+    })
   } catch (err) {
     console.error('error:', err)
     throw err
@@ -85,15 +82,15 @@ const sendRequest = async (testCase, outputFormat) => {
 }
 
 describe('Diagrams', function () {
-  this.timeout(15000)
   tests.forEach((testCase) => {
     testCase.outputFormat.forEach(outputFormat => {
       it(`${testCase.engine}/${outputFormat} with options ${JSON.stringify(testCase.options)} should answer with HTTP 200`, async () => {
         const response = await sendRequest(testCase, outputFormat)
         try {
-          expect(response.status).to.equal(200)
+          deepEqual(response.status, 200, `status code must be 200 but was: ${response.status}`)
         } catch (err) {
-          console.log('response:', response.text)
+          const textResponse = await response.text()
+          console.log('response:', textResponse)
           throw err
         }
       })
@@ -102,67 +99,69 @@ describe('Diagrams', function () {
 })
 
 describe('PlantUML native image', function () {
-  this.timeout(15000)
   it('plantuml (native image) should convert class diagram (issue#1546)', async () => {
     const testCase = { engine: 'plantuml', file: 'class.puml' }
     const response = await sendRequest(testCase, 'svg')
     try {
-      expect(response.status).to.equal(200)
+      deepEqual(response.status, 200, `status code must be 200 but was: ${response.status}`)
     } catch (err) {
-      console.log('response:', response.text)
+      const textResponse = await response.text()
+      console.log('response:', textResponse)
       throw err
     }
   })
 })
 
 describe('CJK font', function () {
-  this.timeout(15000)
   it('plantuml should compute correct text length (issue#574)', async () => {
     const testCase = { engine: 'plantuml', file: 'chinese.puml' }
     const response = await sendRequest(testCase, 'svg')
+    const textResponse = await response.text()
     try {
-      expect(response.body.toString('utf8')).to.include('textLength="56"')
+      deepEqual(textResponse.includes('textLength="56"'), true, `text response must include textLength="56" in: ${textResponse}`)
     } catch (err) {
-      console.log('response:', response.text)
+      console.log('response:', textResponse)
       throw err
     }
   })
   it('mermaid should compute correct text length (issue#1167)', async () => {
     const testCase = { engine: 'mermaid', file: 'japanese.mermaid' }
     const response = await sendRequest(testCase, 'svg')
+    const textResponse = await response.text()
     try {
-      const data = response.body.toString('utf8')
       const boxWidthRegex = /(?<=<foreignObject.*?width="([0-9.]+)".*?)<span class="nodeLabel">ううううううう<\/span>/
-      expect(data).to.match(boxWidthRegex)
-      const match = data.match(boxWidthRegex)
-      expect(parseInt(match[1])).to.be.greaterThan(110)
+      deepEqual(boxWidthRegex.test(textResponse), true, `text response must include <foreignObject> tag with a width attribute but could not find this tag in: ${textResponse}`)
+      const match = textResponse.match(boxWidthRegex)
+      deepEqual(parseInt(match[1]) > 110, true, 'width must be greater than 110')
     } catch (err) {
-      console.log('response:', response.text)
+      console.log('response:', textResponse)
       throw err
     }
   })
 })
 
-
 describe('Health', function () {
-  this.timeout(15000)
-    ;['/health', '/healthz', '/v1/health'].forEach((endpoint) => {
-      it(`should return health status from ${endpoint}`, async () => {
-        const response = await chai.request('localhost:8000')
-          .get(endpoint)
-          .set('Accept', 'application/health+json')
-          .send()
-
-        try {
-          expect(response.status).to.equal(200)
-          expect(response.body.status).to.equal('pass')
-          const engines = Array.from(new Set(tests.map((it) => it.engine)))
-          engines.push('kroki')
-          expect(response.body.version).to.have.keys(engines)
-        } catch (err) {
-          console.log('response:', response.text)
-          throw err
+  ;['/health', '/healthz', '/v1/health'].forEach((endpoint) => {
+    it(`should return health status from ${endpoint}`, async () => {
+      const response = await fetch(`http://localhost:8000/${endpoint}`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/health+json'
         }
       })
+      const jsonResponse = await response.json()
+      try {
+        deepEqual(response.status, 200, `status code must be 200 but was: ${response.status}`)
+        deepEqual(jsonResponse.status, 'pass', `JSON response must have a status attribute with the value pass but was: ${JSON.stringify(jsonResponse)}`)
+        const engines = Array.from(new Set(tests.map((it) => it.engine)))
+        engines.push('kroki')
+        engines.sort()
+        const actual = Object.keys(jsonResponse.version).sort()
+        deepEqual(actual, engines, `JSON response must include all engines`)
+      } catch (err) {
+        console.log('response:', jsonResponse)
+        throw err
+      }
     })
+  })
 })
