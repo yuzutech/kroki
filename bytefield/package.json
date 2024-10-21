@@ -14,10 +14,10 @@
   "keywords": [],
   "author": "Guillaume Grossetie",
   "dependencies": {
-    "bytefield-svg": "1.8.0"
+    "bytefield-svg": "1.10.0"
   },
   "devDependencies": {
-    "standard": "17.1.0"
+    "standard": "17.1.2"
   },
   "volta": {
     "node": "20.18.0"
