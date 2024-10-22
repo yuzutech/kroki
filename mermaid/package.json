@@ -6,7 +6,7 @@
   "bin": "src/index.js",
   "type": "module",
   "scripts": {
-    "prestart": "rm -rf assets/mermaid/* && cp -r node_modules/mermaid/dist/*.mjs node_modules/mermaid/dist/*.js assets/mermaid/",
+    "prestart": "rm -rf assets/mermaid/* && mkdir -p assets/mermaid/chunks/mermaid.esm.min && cp -r node_modules/mermaid/dist/mermaid.esm.min.mjs assets/mermaid/ && cp -r node_modules/mermaid/dist/chunks/mermaid.esm.min/*.mjs assets/mermaid/chunks/mermaid.esm.min/",
     "start": "node src/index.js",
     "test": "node --test --test-force-exit",
     "lint": "standard src/**.js"
@@ -26,7 +26,7 @@
     "puppeteer": "23.6.0"
   },
   "devDependencies": {
-    "mermaid": "10.9.2",
+    "mermaid": "11.3.0",
     "pngjs": "7.0.0",
     "standard": "17.1.2"
   },

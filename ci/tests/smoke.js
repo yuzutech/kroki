@@ -129,7 +129,7 @@ describe('CJK font', function () {
     const response = await sendRequest(testCase, 'svg')
     const textResponse = await response.text()
     try {
-      const boxWidthRegex = /(?<=<foreignObject.*?width="([0-9.]+)".*?)<span class="nodeLabel">ううううううう<\/span>/
+      const boxWidthRegex = /(?<=<foreignObject.*?width="([0-9.]+)".*?)<span class="nodeLabel"><p>ううううううう<\/p><\/span>/
       deepEqual(boxWidthRegex.test(textResponse), true, `text response must include <foreignObject> tag with a width attribute but could not find this tag in: ${textResponse}`)
       const match = textResponse.match(boxWidthRegex)
       deepEqual(parseInt(match[1]) > 110, true, 'width must be greater than 110')
