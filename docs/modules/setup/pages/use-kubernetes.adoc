@@ -168,11 +168,11 @@ You can then create the Kubernetes objects as a batch or individually, similar t
 Validation and uninstall/removal of Kubernetes objects can be followed using the exact same commands as shown previously too.
 
 == Deploy using Helm Charts
-You can alternatively deploy Kroki using {uri-helm-charts}[Helm Charts]. It's much easier to deploy Kroki with charts, since all object definition files are managed by helm.
+You can alternatively deploy Kroki using {uri-helm-charts}[Helm Charts]. It's much easier to deploy Kroki with charts, since all object definition files are managed by Helm.
 
 NOTE: This is an unofficial chart maintained by `cowboysysop`. 
 
-To install Kroki with release name `my-kroki`, use the following command:
+To install Kroki using the name `my-kroki`, use the following command:
 
 .Example command with `helm` installed
 [source,cli]
@@ -222,6 +222,8 @@ NOTES:
   echo "Visit http://127.0.0.1:8000/ to use your application"
   kubectl --namespace default port-forward $POD_NAME 8000:8000
 ....
+
+You can use the exact same commands as shown in <<Validate that Kroki is running>> to make sure that Kroki is running fine.
 
 To uninstall Kroki, use the command `helm uninstall` as follows:
 
