@@ -3,13 +3,12 @@
 // must be declared first
 import { logger } from '../src/logger.js'
 
-import { describe, it } from 'node:test'
+import { describe, it, after } from 'node:test'
 import puppeteer from 'puppeteer'
 import pngjs from 'pngjs'
 import { Worker } from '../src/worker.js'
 import Task from '../src/task.js'
 import { deepEqual, fail } from 'node:assert'
-import * as fs from 'node:fs/promises'
 
 const PNG = pngjs.PNG
 
@@ -18,18 +17,18 @@ const svgTests = [
   { content: 'Hello<br>World' },
   { content: 'Hello<br >World' },
   { content: 'Hello<br />World' },
-  { content: 'Hello\\nWorld' }
+  { content: `Hello\nWorld`}
 ]
 
 const pngTests = [
   {
-    type: 'graph', width: 178, height: 168, content: `graph TD
+    type: 'graph', width: 200, height: 170, content: `graph TD
   A --> B
   C{{test}} --> D[(db)]
   A --> D`
   },
   {
-    type: 'sequence', width: 504, height: 387, content: `sequenceDiagram
+    type: 'sequence', width: 480, height: 355, content: `sequenceDiagram
   Alice->>+John: Hello John, how are you?
   Alice->>+John: John, can you hear me?
   John-->>-Alice: Hi Alice, I can hear you!
@@ -61,9 +60,10 @@ describe('#convert', function () {
       const browser = await getBrowser()
       try {
         const worker = new Worker(browser)
-        const result = await worker.convert(new Task(`graph TD
-  A{{ ${testCase.content} }}`))
-        deepEqual(result.includes('<span class="nodeLabel">Hello<br/>World</span>'), true, 'output must include XML compatible SVG')
+        const source = `graph TD
+  A{{ ${testCase.content} }}`
+        const result = await worker.convert(new Task(source))
+        deepEqual(result.includes('<span class="nodeLabel"><p>Hello<br/>World</p></span>'), true, `output must include XML compatible SVG but was: ${result}`)
       } finally {
         await browser.close()
       }
@@ -76,16 +76,15 @@ describe('#convert', function () {
       try {
         const worker = new Worker(browser)
         const result = await worker.convert(new Task(testCase.content, true))
-        await fs.writeFile('./out.png', result)
         const image = PNG.sync.read(result) // this will fail on invalid image
         const expectedWidth = testCase.width
-        const widthDelta = 30
+        const widthDelta = 20
         const actualWidth = image.width
         deepEqual(expectedWidth - widthDelta < actualWidth && actualWidth < expectedWidth + widthDelta, true, `width must be close to ${expectedWidth} +/- ${widthDelta} but was ${actualWidth}`)
         const expectedHeight = testCase.height
-        const heightDelta = 50
+        const heightDelta = 20
         const actualHeight = image.height
-        deepEqual(expectedHeight - heightDelta < actualHeight && actualHeight < expectedHeight + heightDelta, true, `height must be close to ${expectedHeight} +/- ${heightDelta}`)  // padding can make it vary more
+        deepEqual(expectedHeight - heightDelta < actualHeight && actualHeight < expectedHeight + heightDelta, true, `height must be close to ${expectedHeight} +/- ${heightDelta} but was ${actualHeight}`)  // padding can make it vary more
       } finally {
         await browser.close()
       }
