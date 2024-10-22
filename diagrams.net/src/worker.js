@@ -27,6 +27,11 @@ export class Worker {
     this.convertTimeout = process.env.KROKI_DIAGRAMSNET_CONVERT_TIMEOUT || '15000'
   }
 
+  /**
+   *
+   * @param task
+   * @returns {Promise<string|Buffer>}
+   */
   async convert (task) {
     const browser = await puppeteer.connect({
       browserWSEndpoint: this.browserWSEndpoint,
@@ -75,10 +80,10 @@ ${evalResult.svg}
 </body>
 </html>`)
         const container = await page.$('svg')
-        return await container.screenshot({
+        return Buffer.from(await container.screenshot({
           type: 'png',
           omitBackground: true
-        })
+        }))
       } else {
         return evalResult.svg
       }
