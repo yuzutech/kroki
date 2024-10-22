@@ -181,7 +181,7 @@ helm repo add cowboysysop https://cowboysysop.github.io/charts/
 helm install my-kroki cowboysysop/kroki
 ----
 
-Validation of Kubernetes objects can be followed using the exact same commands as shown in <<Validate that Kroki is running>>. Or, you can use the following helm command to verify the installation.
+Use the following helm command to verify the installation:
 
 .Example command with `helm` installed
 [source,cli]
