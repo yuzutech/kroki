@@ -20,3 +20,7 @@ target "kroki-excalidraw" {
 target "kroki-diagramsnet" {
   tags = ["yuzutech/kroki-diagramsnet:${RELEASE_VERSION}", "yuzutech/kroki-diagramsnet:latest"]
 }
+
+target "kroki-onlinewardleymaps" {
+  tags = ["yuzutech/kroki-onlinewardleymaps:${RELEASE_VERSION}", "yuzutech/kroki-onlinewardleymaps:latest"]
+}
