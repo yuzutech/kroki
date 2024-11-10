@@ -47,7 +47,7 @@ public class Dbml implements DiagramService {
 
   @Override
   public String getVersion() {
-    return "1.0.27";
+    return "1.0.30";
   }
 
   @Override
