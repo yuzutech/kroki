@@ -9,7 +9,7 @@ jobs:
   docker-hub-description:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.2.1
+      - uses: actions/checkout@v4.2.2
 
       - name: Docker Hub Description
         uses: peter-evans/dockerhub-description@v4.0.0
