@@ -38,7 +38,8 @@ public class DitaaCommand {
     }
     String scale = options.getString("scale");
     if (scale != null) {
-      commands.add("--scale " + scale);
+      commands.add("--scale");
+      commands.add(scale);
     }
     String noShadows = options.getString("no-shadows");
     if (noShadows != null) {
@@ -46,7 +47,8 @@ public class DitaaCommand {
     }
     String tabs = options.getString("tabs");
     if (tabs != null) {
-      commands.add("--tabs " + tabs);
+      commands.add("--tabs");
+      commands.add(tabs);
     }
     commands.add("-");
     return commander.execute(source.getBytes(), commands.toArray(new String[0]));

@@ -15,6 +15,7 @@ const tests = [
   { engine: 'c4plantuml', file: 'banking-system.puml', options: {}, outputFormat: ['svg', 'pdf', 'png', 'txt'] },
   { engine: 'dbml', file: 'dbml.dbml', options: {}, outputFormat: ['svg'] },
   { engine: 'ditaa', file: 'components.ditaa', options: {}, outputFormat: ['svg'] },
+  { engine: 'ditaa', file: 'components.ditaa', options: {scale: '0.7'}, outputFormat: ['svg'] },
   { engine: 'symbolator', file: 'component.sv', options: {}, outputFormat: ['svg', 'png'] },
   { engine: 'erd', file: 'schema.erd', options: {}, outputFormat: ['svg'] },
   { engine: 'mermaid', file: 'contribute.mmd', options: {}, outputFormat: ['svg'] },
