@@ -1,4 +1,10 @@
 name: Release
+run-name: >-
+  ${{ github.event_name == 'workflow_dispatch'
+    && format('Release v{0} by {1}',
+              inputs.release_version,
+              github.actor)
+    || format('Release {0}', github.ref_name) }}
 
 on:
   push:
