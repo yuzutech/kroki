@@ -1,0 +1,18 @@
+workspace {
+  model {
+    user = person "User"
+    softwareSystem = softwareSystem "Software System" {
+      !docs src/test/resources/docs
+    }
+    user -> softwareSystem "Uses"
+  }
+
+  views {
+    systemContext softwareSystem {
+      include *
+      autolayout
+    }
+
+    theme default
+  }
+}
