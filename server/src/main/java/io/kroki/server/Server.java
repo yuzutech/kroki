@@ -122,6 +122,7 @@ public class Server extends AbstractVerticle {
     registry.register(new Pikchr(vertx, config, commander), "pikchr");
     registry.register(new Structurizr(vertx, config), "structurizr");
     registry.register(new Diagramsnet(vertx, config), "diagramsnet");
+    registry.register(new OnlineWardleyMaps(vertx, config), "wardleymap");
     registry.register(new D2(vertx, config, commander), "d2");
     registry.register(new TikZ(vertx, config, commander), "tikz");
     registry.register(new Dbml(vertx, config, commander), "dbml");

@@ -3,7 +3,7 @@ variable "TAG" {
 }
 
 group "companion-images" {
-  targets = ["kroki-mermaid", "kroki-bpmn", "kroki-excalidraw", "kroki-diagramsnet"]
+  targets = ["kroki-mermaid", "kroki-bpmn", "kroki-excalidraw", "kroki-diagramsnet", "kroki-onlinewardleymaps"]
 }
 
 target "oci-labels" {
@@ -67,4 +67,9 @@ target "kroki-diagramsnet" {
   labels = {
     "org.opencontainers.image.title" = "Kroki - diagrams.net"
   }
+}
+
+target "kroki-onlinewardleymaps" {
+  context = "onlinewardleymaps"
+  tags = ["yuzutech/kroki-onlinewardleymaps:${TAG}"]
 }
