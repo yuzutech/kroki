@@ -13,9 +13,9 @@
 
   <properties>
     <!-- https://github.com/vert-x3/vertx-dependencies/blob/6b147024b6aa7732386c6a94a126eacf3b4dda1b/pom.xml#LL50C20-L50C32 -->
-    <netty.version>4.1.114.Final</netty.version>
+    <netty.version>4.1.115.Final</netty.version>
     <logback.version>1.5.12</logback.version>
-    <vertx.version>4.5.10</vertx.version>
+    <vertx.version>4.5.11</vertx.version>
     <junit.jupiter.version>5.11.3</junit.jupiter.version>
     <assertj-core.version>3.26.3</assertj-core.version>
     <mockito-core.version>5.14.2</mockito-core.version>
