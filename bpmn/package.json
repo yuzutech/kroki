@@ -19,7 +19,7 @@
     "url": "https://github.com/yuzutech/kroki.git"
   },
   "dependencies": {
-    "bpmn-js": "18.0.0",
+    "bpmn-js": "18.1.1",
     "micro": "10.0.1",
     "pino": "9.5.0",
     "pino-debug": "^2.0.0",
