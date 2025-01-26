@@ -10,6 +10,7 @@ import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.BadRequestException;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
+import io.kroki.server.security.SafeMode;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
@@ -23,12 +24,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
+import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
 public class Structurizr implements DiagramService {
 
   private final Vertx vertx;
   private final StructurizrPlantUMLExporter structurizrPlantUMLExporter;
+  private final SafeMode safeMode;
   private final SourceDecoder sourceDecoder;
   private final PlantumlCommand plantumlCommand;
 
@@ -48,6 +51,7 @@ public class Structurizr implements DiagramService {
 
   public Structurizr(Vertx vertx, JsonObject config) {
     this.vertx = vertx;
+    this.safeMode = SafeMode.get(config.getString("KROKI_STRUCTURIZR_SAFE_MODE", config.getString("KROKI_SAFE_MODE", "secure")), SafeMode.SECURE);
     this.structurizrPlantUMLExporter = new StructurizrPlantUMLExporter();
     this.sourceDecoder = new SourceDecoder() {
       @Override
@@ -75,19 +79,20 @@ public class Structurizr implements DiagramService {
 
   @Override
   public void convert(String sourceDecoded, String serviceName, FileFormat fileFormat, JsonObject options, Handler<AsyncResult<Buffer>> handler) {
-    vertx.executeBlocking(future -> {
-      try {
-        byte[] data = convert(sourceDecoded, fileFormat, options);
-        future.complete(data);
-      } catch (Exception e) {
-        future.fail(e);
-      }
-    }, res -> handler.handle(res.map(o -> Buffer.buffer((byte[]) o))));
+    vertx.executeBlocking(() -> convert(sourceDecoded, fileFormat, options), res -> handler.handle(res.map(Buffer::buffer)));
   }
 
-  static byte[] convert(String source, FileFormat fileFormat, PlantumlCommand plantumlCommand, StructurizrPlantUMLExporter structurizrPlantUMLExporter, JsonObject options) throws IOException, InterruptedException {
+  static byte[] convert(
+    String source,
+    FileFormat fileFormat,
+    PlantumlCommand plantumlCommand,
+    StructurizrPlantUMLExporter structurizrPlantUMLExporter,
+    SafeMode safeMode,
+    JsonObject options
+  ) throws IOException, InterruptedException {
     StructurizrDslParser parser = new StructurizrDslParser();
     try {
+      parser.setRestricted(safeMode != SafeMode.UNSAFE);
       parser.parse(source);
       ViewSet viewSet = parser.getWorkspace().getViews();
       Collection<View> views = viewSet.getViews();
@@ -137,7 +142,7 @@ public class Structurizr implements DiagramService {
       if (outputOption != null) {
         outputOption = outputOption.trim();
       }
-      
+
       String diagramPlantUML;
       if (outputOption == null || outputOption.equals("diagram")) {
         diagramPlantUML = diagram.getDefinition();
@@ -161,7 +166,7 @@ public class Structurizr implements DiagramService {
   }
 
   private byte[] convert(String source, FileFormat fileFormat, JsonObject options) throws IOException, InterruptedException {
-    return convert(source, fileFormat, this.plantumlCommand, this.structurizrPlantUMLExporter, options);
+    return convert(source, fileFormat, this.plantumlCommand, this.structurizrPlantUMLExporter, this.safeMode, options);
   }
 
   private static void applyTheme(ViewSet viewSet, StructurizrTheme theme) {
