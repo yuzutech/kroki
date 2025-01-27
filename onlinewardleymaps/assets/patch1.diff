@@ -1,0 +1,37 @@
+diff --git a/frontend/.eslintrc.json b/frontend/.eslintrc.json
+index 276c243..6af6b99 100644
+--- a/frontend/.eslintrc.json
++++ b/frontend/.eslintrc.json
+@@ -23,7 +23,7 @@
+ 	"plugins": ["react", "jsx"],
+ 	"ignorePatterns": ["models", "src/ui-components"],
+ 	"rules": {
+-		"prettier/prettier": "error",
++		"prettier/prettier": "off",
+ 		"linebreak-style": ["error", "unix"],
+ 		"react/prop-types": 0,
+ 		"@next/next/no-img-element": 0
+diff --git a/frontend/src/components/map/MapView.js b/frontend/src/components/map/MapView.js
+index b502d31..c15a2f7 100644
+--- a/frontend/src/components/map/MapView.js
++++ b/frontend/src/components/map/MapView.js
+@@ -21,8 +21,11 @@ export default function MapView(props) {
+ 		dark: 'white',
+ 	};
+ 
++	const contentLoadedFlag = props.mapText ? 'contentLoaded' : 'noText';
++
+ 	return (
+ 		<>
++		<div className={contentLoadedFlag}>
+ 			{/* Wrapping div required to ensure that images aren't generated with a ton of whitespace */}
+ 			<div
+ 				ref={props.mapRef}
+@@ -63,6 +66,7 @@ export default function MapView(props) {
+ 					)}
+ 				</IconButton>
+ 			</div>
++		</div>
+ 		</>
+ 	);
+ }

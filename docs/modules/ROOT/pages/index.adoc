@@ -5,7 +5,7 @@
 === Convert plain text diagrams to images !
 
 Kroki provides a unified HTTP API with support for BlockDiag (BlockDiag, SeqDiag, ActDiag, NwDiag, PacketDiag, RackDiag),
-BPMN, Bytefield, C4 (with PlantUML), Diagrams.net (experimental), Ditaa, Erd, Excalidraw, GraphViz, Mermaid, Nomnoml, PlantUML, Structurizr, SvgBob,
+BPMN, Bytefield, C4 (with PlantUML), Diagrams.net (experimental), OnlineWardleyMaps (experimental), Ditaa, Erd, Excalidraw, GraphViz, Mermaid, Nomnoml, PlantUML, Structurizr, SvgBob,
 Symbolator, UMLet, Vega, Vega-Lite, WaveDrom and WireViz... and more to come!
 
 Kroki is available as a Self-Managed instance. +
