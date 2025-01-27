@@ -202,6 +202,8 @@ RUN apt-get update && apt-get install --no-install-recommends --yes \
     giflib-tools \
     gsfonts \
     libgd3 \
+    libgirepository-1.0 \
+    libcairo-gobject2 \
     libjpeg9 \
     libpango-1.0-0 \
     libpangocairo-1.0-0 \
