@@ -1,4 +1,4 @@
-# syntax=docker/dockerfile:1.4
+# syntax=docker/dockerfile:1.13
 
 ## Nomnoml
 FROM --platform=$BUILDPLATFORM node:20.18-bullseye-slim AS kroki-builder-nomnoml
@@ -140,7 +140,7 @@ RUN wget -q "https://pikchr.org/home/raw/${PIKCHR_VERSION}" -O pikchr.c
 RUN gcc -O0 -g -static -Wall -Wextra -DPIKCHR_SHELL pikchr.c -o pikchr -lm
 
 ## SVGBob
-FROM --platform=$BUILDPLATFORM rust:1.82-slim-bullseye AS kroki-builder-static-svgbob
+FROM --platform=$BUILDPLATFORM rust:1.84-slim-bullseye AS kroki-builder-static-svgbob
 
 # Install cross-compilation tools
 RUN apt-get update && apt-get install --no-install-recommends --yes \
