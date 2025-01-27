@@ -22,15 +22,15 @@
     "@excalidraw/excalidraw": "0.17.6",
     "micro": "10.0.1",
     "pino": "9.5.0",
-    "pino-debug": "2.0.0",
+    "pino-debug": "3.0.0",
     "puppeteer": "22.4.1",
-    "react": "18.3.1",
-    "react-dom": "18.3.1"
+    "react": "19.0.0",
+    "react-dom": "19.0.0"
   },
   "devDependencies": {
     "standard": "17.1.2"
   },
   "volta": {
-    "node": "20.18.0"
+    "node": "22.13.1"
   }
 }
