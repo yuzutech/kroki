@@ -32,7 +32,7 @@ asciidoc:
     wavedrom-version: 3.5.0
     wireviz-version: 0.3.3
     uri-docker-get-started: https://docs.docker.com/get-started/
-    uri-podman-get-started: https://podman.io/getting-started/
+    uri-podman-get-started: https://podman.io/get-started/
     uri-docker-compose-install: https://docs.docker.com/compose/install/
     uri-podman-compose-install: https://github.com/containers/podman-compose/
 nav:
