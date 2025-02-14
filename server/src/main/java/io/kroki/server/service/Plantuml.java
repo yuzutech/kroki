@@ -125,11 +125,6 @@ public class Plantuml implements DiagramService {
     this.ditaaCommand = new DitaaCommand(config);
     this.includeWhitelist = parseIncludeWhitelist(config);
     this.logging = new Logging(logger);
-    // Disable unsafe include for security reasons
-    String plantUmlIncludePath = config.getString("KROKI_PLANTUML_INCLUDE_PATH");
-    if (plantUmlIncludePath != null) {
-      System.setProperty("plantuml.include.path", plantUmlIncludePath);
-    }
   }
 
   static List<Pattern> parseIncludeWhitelist(JsonObject config) {

@@ -6,6 +6,8 @@ import io.kroki.server.error.BadRequestException;
 import io.kroki.server.format.FileFormat;
 import io.kroki.server.unit.TimeValue;
 import io.vertx.core.json.JsonObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,13 +21,17 @@ import java.util.stream.Stream;
 
 public class PlantumlCommand {
 
+  private static final Logger logger = LoggerFactory.getLogger(PlantumlCommand.class);
+
   private static final Pattern ERROR_MESSAGE_RX = Pattern.compile(".*ERROR\\n(?<lineNumber>[0-9]+)\\n(?<cause>[^\\n]+)\\n.*", Pattern.MULTILINE | Pattern.DOTALL);
   private final String binPath;
+  private final String includePath;
   private final TimeValue convertTimeout;
   private final Commander commander;
 
   public PlantumlCommand(JsonObject config) {
     this.binPath = config.getString("KROKI_PLANTUML_BIN_PATH", "plantuml");
+    this.includePath = config.getString("KROKI_PLANTUML_INCLUDE_PATH");
     this.commander = new Commander(
       config,
       new CommandStatusHandler() {
@@ -70,6 +76,9 @@ public class PlantumlCommand {
   public byte[] convert(String source, FileFormat format, JsonObject options) throws IOException, InterruptedException {
     List<String> commands = new ArrayList<>();
     commands.add(binPath);
+    if (includePath != null) {
+      commands.add("-Dplantuml.include.path=" + includePath);
+    }
     commands.add("-pipe");
     commands.add("-t" + (format == FileFormat.BASE64 ? FileFormat.PNG.getName() : format.getName()));
     commands.add("-timeout");
@@ -83,6 +92,9 @@ public class PlantumlCommand {
     if (no_metadata != null) {
       commands.add("-nometadata");
     }
+
+    logger.debug("Executing PlantUML command: {}", commands);
+
     byte[] result = commander.execute(source.getBytes(), commands.toArray(new String[0]));
     if (format == FileFormat.BASE64) {
       final String encodedBytes = "data:image/png;base64," + Base64.getUrlEncoder().encodeToString(result).replaceAll("\\s", "");
