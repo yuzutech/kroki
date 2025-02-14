@@ -1,13 +1,13 @@
 # syntax=docker/dockerfile:1.13
 
 ## Nomnoml
-FROM --platform=$BUILDPLATFORM node:20.18-bullseye-slim AS kroki-builder-nomnoml
+FROM --platform=$BUILDPLATFORM node:22.14-bookworm-slim AS kroki-builder-nomnoml
 
-RUN npm install -g @yao-pkg/pkg@5.16.1 @yao-pkg/pkg-fetch@3.5.16
+RUN npm install -g @yao-pkg/pkg@5.16.1 @yao-pkg/pkg-fetch@3.5.20
 
 ARG TARGETARCH
 ARG TARGETOS
-ENV NODE node20
+ENV NODE=node22
 RUN /usr/local/bin/pkg-fetch -n $NODE -p $TARGETOS -a $([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH")
 
 COPY --from=nomnoml index.js package.json package-lock.json /app/
@@ -17,11 +17,14 @@ RUN npm install --target_arch=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || ech
 RUN /usr/local/bin/pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
 
 ## Vega
-FROM --platform=$BUILDPLATFORM node:20.18-bullseye-slim AS kroki-builder-vega
+FROM --platform=$BUILDPLATFORM ubuntu:noble AS kroki-builder-vega
 
 # System dependencies for "canvas" Node package
 # https://github.com/Automattic/node-canvas#compiling
 RUN apt-get update && apt-get install --no-install-recommends --yes \
+    curl \
+    ca-certificates \
+    unzip \
     build-essential \
     libcairo2-dev \
     libgif-dev \
@@ -30,12 +33,17 @@ RUN apt-get update && apt-get install --no-install-recommends --yes \
     librsvg2-dev && \
     apt-get clean && apt-get autoremove
 
-RUN npm install -g @yao-pkg/pkg@5.16.1 @yao-pkg/pkg-fetch@3.5.16
+RUN curl -o- https://fnm.vercel.app/install | bash && \
+    /root/.local/share/fnm/fnm install 22.14.0
+
+ENV PATH="$PATH:/root/.local/share/fnm/node-versions/v22.14.0/installation/bin"
+
+RUN npm install -g @yao-pkg/pkg@6.3.0 @yao-pkg/pkg-fetch@3.5.20
 
 ARG TARGETARCH
 ARG TARGETOS
-ENV NODE node20
-RUN /usr/local/bin/pkg-fetch -n $NODE -p $TARGETOS -a $([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH")
+ENV NODE=node22
+RUN pkg-fetch -n $NODE -p $TARGETOS -a $([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH")
 
 COPY --from=vega src /app/src
 COPY --from=vega tests /app/tests
@@ -43,16 +51,16 @@ COPY --from=vega package.json package-lock.json /app/
 WORKDIR /app
 
 RUN npm install --target_arch=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") --target_platform=$TARGETOS && npm run lint && npm t
-RUN /usr/local/bin/pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
+RUN pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
 
 ## DBML
-FROM --platform=$BUILDPLATFORM node:20.18-bullseye-slim AS kroki-builder-dbml
+FROM --platform=$BUILDPLATFORM node:22.14-bookworm-slim AS kroki-builder-dbml
 
-RUN npm install -g @yao-pkg/pkg@5.16.1 @yao-pkg/pkg-fetch@3.5.16
+RUN npm install -g @yao-pkg/pkg@5.16.1 @yao-pkg/pkg-fetch@3.5.20
 
 ARG TARGETARCH
 ARG TARGETOS
-ENV NODE node20
+ENV NODE=node22
 RUN /usr/local/bin/pkg-fetch -n $NODE -p $TARGETOS -a $([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH")
 
 COPY --from=dbml index.js package.json package-lock.json /app/
@@ -62,13 +70,13 @@ RUN npm install --target_arch=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || ech
 RUN /usr/local/bin/pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
 
 ## Wavedrom
-FROM --platform=$BUILDPLATFORM node:20.18-bullseye-slim AS kroki-builder-wavedrom
+FROM --platform=$BUILDPLATFORM node:22.14-bookworm-slim AS kroki-builder-wavedrom
 
-RUN npm install -g @yao-pkg/pkg@5.16.1 @yao-pkg/pkg-fetch@3.5.16
+RUN npm install -g @yao-pkg/pkg@5.16.1 @yao-pkg/pkg-fetch@3.5.20
 
 ARG TARGETARCH
 ARG TARGETOS
-ENV NODE node20
+ENV NODE=node22
 RUN /usr/local/bin/pkg-fetch -n $NODE -p $TARGETOS -a $([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH")
 
 COPY --from=wavedrom index.js package.json package-lock.json /app/
@@ -78,13 +86,13 @@ RUN npm install --target_arch=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || ech
 RUN /usr/local/bin/pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
 
 ## Bytefield
-FROM --platform=$BUILDPLATFORM node:20.18-bullseye-slim AS kroki-builder-bytefield
+FROM --platform=$BUILDPLATFORM node:22.14-bookworm-slim AS kroki-builder-bytefield
 
-RUN npm install -g @yao-pkg/pkg@5.16.1 @yao-pkg/pkg-fetch@3.5.16
+RUN npm install -g @yao-pkg/pkg@5.16.1 @yao-pkg/pkg-fetch@3.5.20
 
 ARG TARGETARCH
 ARG TARGETOS
-ENV NODE node20
+ENV NODE=node22
 RUN /usr/local/bin/pkg-fetch -n $NODE -p $TARGETOS -a $([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH")
 
 COPY --from=bytefield index.js package.json package-lock.json /app/
@@ -168,7 +176,7 @@ RUN SVGBOB_VERSION=`cat Cargo.toml | grep "svgbob_cli =" | sed -r 's/.*"([^"]+)"
 FROM ghcr.io/yuzutech/erd:v0.2.3 AS erd
 
 ## yuzutech/kroki
-FROM eclipse-temurin:17.0.12_7-jre-noble
+FROM eclipse-temurin:17.0.14_7-jre-noble
 
 ARG BLOCKDIAG_VERSION="3.1.0"
 ARG D2_VERSION="0.6.3"
@@ -195,14 +203,20 @@ RUN apt-get update && apt-get install --no-install-recommends --yes \
 # * texlive-science - Provides various science packages like "siunitx"
 RUN apt-get update && apt-get install --no-install-recommends --yes \
     dvisvgm=$DVISVGM_VERSION \
+    libpango1.0-dev \
+    librsvg2-dev \
     fonts-freefont-ttf \
     fonts-liberation \
     fonts-noto-cjk \
     ghostscript \
     giflib-tools \
     gsfonts \
+    libnuma1 \
     libgd3 \
+    libgif-dev \
+    libjpeg-dev \
     libgirepository-1.0 \
+    libcairo2-dev \
     libcairo-gobject2 \
     libjpeg9 \
     libpango-1.0-0 \
@@ -271,6 +285,8 @@ ENV KROKI_WIREVIZ_BIN_PATH=/usr/bin/wireviz
 ENV JAVA_OPTS="-Dlogback.configurationFile=/etc/kroki/logback.xml -Dvertx.logger-delegate-factory-class-name=io.vertx.core.logging.SLF4JLogDelegateFactory"
 
 COPY --chown=kroki:kroki target/kroki-server.jar /usr/local/kroki/kroki-server.jar
+
+RUN mkdir /tmp/vertx-cache && chown kroki:kroki /tmp/vertx-cache
 
 EXPOSE 8000
 

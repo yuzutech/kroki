@@ -19,6 +19,7 @@ const tests = [
   { engine: 'symbolator', file: 'component.sv', options: {}, outputFormat: ['svg', 'png'] },
   { engine: 'erd', file: 'schema.erd', options: {}, outputFormat: ['svg'] },
   { engine: 'mermaid', file: 'contribute.mmd', options: {}, outputFormat: ['svg'] },
+  { engine: 'mermaid', file: 'empty-message.mmd', options: {}, outputFormat: ['svg'] },
   { engine: 'bpmn', file: 'example.bpmn', options: {}, outputFormat: ['svg'] },
   { engine: 'plantuml', file: 'architecture.puml', options: {}, outputFormat: ['svg', 'pdf', 'png', 'txt'] },
   { engine: 'plantuml', file: 'architecture.puml', options: { 'no-metadata': 'true' }, outputFormat: ['svg', 'png'] },
@@ -91,7 +92,10 @@ describe('Diagrams', function () {
           deepEqual(response.status, 200, `status code must be 200 but was: ${response.status}`)
         } catch (err) {
           const textResponse = await response.text()
-          console.log('response:', textResponse)
+          const textResponseOutput = outputFormat !== 'svg'
+            ? textResponse.substring(0, 50) + '[truncated...]'
+            : textResponse
+          console.log('response:', textResponseOutput)
           throw err
         }
       })
