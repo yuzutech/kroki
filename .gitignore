@@ -1,3 +1,4 @@
+.DS_store
 target/
 /.registry/oci/*
 *.iml

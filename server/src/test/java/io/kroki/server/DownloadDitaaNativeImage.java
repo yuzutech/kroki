@@ -11,7 +11,7 @@ public class DownloadDitaaNativeImage {
   public static Future<DitaaCommand> download(Vertx vertx) {
     String ditaaVersion = new Ditaa(vertx, new JsonObject()).getVersion();
     String downloadUrl = "https://github.com/yuzutech/ditaa-mini/releases/download/" + ditaaVersion + "/ditaamini-linux-amd64-" + ditaaVersion;
-    return DownloadNativeImage.download(vertx, downloadUrl, "Ditaa", "ditaamini-linux-amd64-" + ditaaVersion).map(ditaaBinPath -> {
+    return DownloadNativeImage.download(vertx, downloadUrl, "Ditaa", "ditaamini-linux-amd64-" + ditaaVersion, "ditaamini-linux-amd64-" + ditaaVersion).map(ditaaBinPath -> {
       JsonObject options = new JsonObject();
       options.put("KROKI_DITAA_BIN_PATH", ditaaBinPath);
       return new DitaaCommand(options);
