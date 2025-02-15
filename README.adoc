@@ -107,17 +107,19 @@ A companion web server written in JavaScript (powered by _micro_) that provides 
 
 == Build
 
+Install `task` command-line: https://taskfile.dev/installation/
+
 === Gateway Server
 
 The first step is to build the project using Maven:
 
- $ make buildServer
+ $ task mavenBuild
 
 === Docker Images
 
 To build all the Docker images, use the following command:
 
- $ sudo make buildDockerImages
+ $ sudo task dockerBuildImages
 
 NOTE: `sudo` might not be needed depending on your distribution and `docker` configuration.
 
