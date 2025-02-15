@@ -1,0 +1,61 @@
+version: '3'
+
+env:
+  TESTS_DIR: 'ci/tests'
+  COMPOSE_TIMEOUT: 20
+  SERVICES_TIMEOUT: 15
+
+tasks:
+  mavenBuild:
+    cmds:
+      - './mvnw --no-transfer-progress clean package'
+
+  mavenSetVersion:
+    preconditions:
+      - sh: '[ ! -z $RELEASE_VERSION ]'
+        msg: "RELEASE_VERSION must be defined"
+    cmds:
+      - './mvnw versions:set -DnewVersion={{RELEASE_VERSION}}'
+
+  dockerBuildImages:
+    cmds:
+      - 'docker buildx bake --allow=fs.write=/tmp kroki companion-images {{if .BUILD_MULTIARCH}}--set "*.platform=linux/arm64,linux/amd64"{{end}} {{if .CACHE_FROM}}--set "*.cache-from={{.CACHE_FROM}}"{{end}} {{if .CACHE_TO}}--set "*.cache-to={{.CACHE_TO}}"{{end}}'
+
+  dockerPublishImages:
+    preconditions:
+      - sh: '[ ! -z $RELEASE_VERSION ]'
+        msg: "RELEASE_VERSION must be defined"
+    cmds:
+      - 'docker buildx bake --allow=fs.write=/tmp -f docker-bake.hcl -f docker-bake-release.hcl kroki companion-images --push --set "*.platform=linux/arm64,linux/amd64"'
+
+  smokeTests:
+    env:
+      TAG: 'smoketests'
+    cmds:
+      - 'docker buildx bake --allow=fs.write=/tmp kroki companion-images --load {{if .CACHE_FROM}}--set "*.cache-from={{.CACHE_FROM}}"{{end}} {{if .CACHE_TO}}--set "*.cache-to={{.CACHE_TO}}"{{end}}'
+      - 'docker compose --file {{.TESTS_DIR}}/docker-compose.yaml up --build --detach'
+      - defer: 'docker compose --file {{.TESTS_DIR}}/docker-compose.yaml stop'
+      - 'echo'
+      - 'docker compose --file {{.TESTS_DIR}}/docker-compose.yaml ps'
+      - 'echo'
+      - '{{.TESTS_DIR}}/wait-for-it.sh localhost:8000 --timeout={{.COMPOSE_TIMEOUT}}'
+      - 'echo'
+      - 'echo "Waiting for the containers services to be available... {{.SERVICES_TIMEOUT}} seconds"'
+      - 'sleep {{.SERVICES_TIMEOUT}}'
+      - 'npm test'
+
+  npmInstall:
+    cmds:
+      - 'npm i --prefix bpmn'
+      - 'npm run prestart --prefix bpmn'
+      - 'npm i --prefix bytefield'
+      - 'npm i --prefix dbml'
+      - 'npm i --prefix diagrams.net'
+      - 'npm i --prefix excalidraw'
+      - 'npm run prestart --prefix excalidraw'
+      - 'npm i --prefix mermaid'
+      - 'npm run prestart --prefix mermaid'
+      - 'npm i --prefix nomnoml'
+      - 'npm i --prefix vega'
+      - 'npm i --prefix wavedrom'
+

@@ -195,8 +195,14 @@ jobs:
         java-version: 17
         distribution: temurin
 
+    - name: Install Task
+      uses: arduino/setup-task@v2
+      with:
+        version: 3.x
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+
     - name: Build Java server
-      run: make buildServer
+      run: task mavenBuild
 
     - name: Set up QEMU
       if: ${{ inputs.build_multiarch }}
@@ -219,22 +225,22 @@ jobs:
           ${{ runner.os }}-buildx-
 
     - name: Build container images
-      run: make buildDockerImages
+      run: task dockerBuildImages
       env:
         BUILD_MULTIARCH: ${{ inputs.build_multiarch }}
         CACHE_FROM: 'type=local,src=/tmp/.buildx-cache'
         CACHE_TO: 'type=local,dest=/tmp/.buildx-cache-new'
 
-    - name: 'Setup Node.js 20'
+    - name: 'Setup Node.js 22'
       uses: actions/setup-node@v4
       with:
-        node-version: 20
+        node-version: 22
 
     - name: Install Node dependencies
       run: npm install
 
     - name: Run smoke tests
-      run: make smokeTests
+      run: task smokeTests
 
     # This ugly bit is necessary if you don't want your cache to grow forever until it hits GitHub's limit of 5GB.
     # Temp fix
