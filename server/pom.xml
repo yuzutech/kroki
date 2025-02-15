@@ -27,6 +27,7 @@
     <structurizr-export.version>3.0.0</structurizr-export.version>
     <structurizr-core.version>3.0.0</structurizr-core.version>
     <caffeine.version>3.2.0</caffeine.version>
+    <bouncycastle.version>1.80</bouncycastle.version>
   </properties>
 
   <dependencies>
@@ -182,6 +183,19 @@
       <version>${vertx.version}</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>bcprov-jdk18on</artifactId>
+      <version>${bouncycastle.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>bcpkix-jdk18on</artifactId>
+      <version>${bouncycastle.version}</version>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
   <build>
     <resources>

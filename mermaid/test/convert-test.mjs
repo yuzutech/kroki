@@ -70,6 +70,21 @@ describe('#convert', function () {
     })
   })
 
+  it(`should accept sequence diagram with an empty message`, async function () {
+    const browser = await getBrowser()
+    try {
+      const worker = new Worker(browser)
+      const source = `sequenceDiagram
+    Alice->>John: Hello
+    John-->>Alice: 
+`
+      const result = await worker.convert(new Task(source))
+      deepEqual(result.includes('<tspan dy="0" x="75">Alice</tspan>'), true, `output must include Alice but was: ${result}`)
+    } finally {
+      await browser.close()
+    }
+  })
+
   pngTests.forEach((testCase) => {
     it(`should return a PNG for type ${testCase.type} with height=${testCase.height}, width=${testCase.width}`, async function () {
       const browser = await getBrowser()
