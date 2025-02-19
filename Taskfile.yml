@@ -8,7 +8,10 @@ env:
 tasks:
   mavenBuild:
     cmds:
-      - './mvnw --no-transfer-progress clean package'
+      - cmd: "./mvnw --no-transfer-progress clean package"
+        platforms: [linux, darwin]
+      - cmd: "mvnw.cmd --no-transfer-progress clean package"
+        platforms: [windows]
 
   mavenSetVersion:
     preconditions:
