@@ -251,4 +251,6 @@ jobs:
         env:
           RELEASE_VERSION: ${{ inputs.release_version }}
       - if: github.event_name == 'push'
-        run: RELEASE_VERSION=${GITHUB_REF#refs/*/v*} task dockerPublishImages
+        run: |
+          export RELEASE_VERSION=${GITHUB_REF#refs/*/v*}
+          task dockerPublishImages
