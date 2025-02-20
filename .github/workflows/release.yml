@@ -231,6 +231,11 @@ jobs:
         with:
           java-version: 17
           distribution: temurin
+      - name: Install Task
+        uses: arduino/setup-task@v2
+        with:
+          version: 3.x
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Build Java server
         run: task mavenBuild
       - name: Set up QEMU
