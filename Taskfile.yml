@@ -15,10 +15,10 @@ tasks:
 
   mavenSetVersion:
     preconditions:
-      - sh: '[ ! -z $RELEASE_VERSION ]'
+      - sh: "[ '{{.RELEASE_VERSION}}' != '<no value>' ]"
         msg: "RELEASE_VERSION must be defined"
     cmds:
-      - './mvnw versions:set -DnewVersion={{RELEASE_VERSION}}'
+      - './mvnw versions:set -DnewVersion={{.RELEASE_VERSION}}'
 
   dockerBuildImages:
     cmds:
@@ -26,7 +26,7 @@ tasks:
 
   dockerPublishImages:
     preconditions:
-      - sh: '[ ! -z $RELEASE_VERSION ]'
+      - sh: "[ '{{.RELEASE_VERSION}}' != '<no value>' ]"
         msg: "RELEASE_VERSION must be defined"
     cmds:
       - 'docker buildx bake --allow=fs.write=/tmp -f docker-bake.hcl -f docker-bake-release.hcl kroki companion-images --push --set "*.platform=linux/arm64,linux/amd64"'
