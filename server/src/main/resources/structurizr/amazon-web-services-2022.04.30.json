@@ -5,7 +5,7 @@
     "tag" : "Amazon Web Services - Route 53 Application Recovery Controller",
     "stroke" : "#4d27aa",
     "color" : "#4d27aa",
-    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2022.04.30/Res_Amazon-Route-53_Application-Recovery-Controller_48_Light.png"
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2022.04.30/https://static.structurizr.com/themes/amazon-web-services-2022.04.30//Res_Amazon-Route-53_Application-Recovery-Controller_48_Light.png"
   }, {
     "tag" : "Amazon Web Services - DynamoDB Standard Infrequent Access Table Class",
     "stroke" : "#2e27ad",
@@ -142,7 +142,7 @@
     "color" : "#de2d34",
     "icon" : "https://static.structurizr.com/themes/amazon-web-services-2022.04.30/Arch_Amazon-Connect_48.png"
   }, {
-    "tag" : "Amazon Web Services - AWS IoT Sailboat ",
+    "tag" : "Amazon Web Services - AWS IoT Sailboat",
     "stroke" : "#3f8624",
     "color" : "#3f8624",
     "icon" : "https://static.structurizr.com/themes/amazon-web-services-2022.04.30/Res_AWS-IoT_Sailboat _48_Light.png"
@@ -877,7 +877,7 @@
     "color" : "#d45b07",
     "icon" : "https://static.structurizr.com/themes/amazon-web-services-2022.04.30/Res_Amazon-EC2_M5dn-Instance_48_Light.png"
   }, {
-    "tag" : "Amazon Web Services - EC2 R5b Instance ",
+    "tag" : "Amazon Web Services - EC2 R5b Instance",
     "stroke" : "#d45b07",
     "color" : "#d45b07",
     "icon" : "https://static.structurizr.com/themes/amazon-web-services-2022.04.30/Res_Amazon-EC2_R5b-Instance _48_Light.png"
@@ -2122,7 +2122,7 @@
     "color" : "#7545d1",
     "icon" : "https://static.structurizr.com/themes/amazon-web-services-2022.04.30/Arch_AWS-App-Mesh_48.png"
   }, {
-    "tag" : "Amazon Web Services - AWS IoT LoRaWAN Protocol ",
+    "tag" : "Amazon Web Services - AWS IoT LoRaWAN Protocol",
     "stroke" : "#3f8624",
     "color" : "#3f8624",
     "icon" : "https://static.structurizr.com/themes/amazon-web-services-2022.04.30/Res_AWS-IoT_LoRaWAN-Protocol _48_Light.png"
@@ -2337,7 +2337,7 @@
     "color" : "#4d27aa",
     "icon" : "https://static.structurizr.com/themes/amazon-web-services-2022.04.30/Res_Amazon-VPC_Traffic-Mirroring_48_Light.png"
   }, {
-    "tag" : "Amazon Web Services - EC2 AWS Microservice Extractor for ",
+    "tag" : "Amazon Web Services - EC2 AWS Microservice Extractor for",
     "stroke" : "#d45b07",
     "color" : "#d45b07",
     "icon" : "https://static.structurizr.com/themes/amazon-web-services-2022.04.30/Res_Amazon-EC2_AWS-Microservice-Extractor-for-.NET_48_Light.png"
@@ -3142,7 +3142,7 @@
     "color" : "#4d27aa",
     "icon" : "https://static.structurizr.com/themes/amazon-web-services-2022.04.30/Res_Amazon-VPC_VPN-Gateway_48_Light.png"
   }, {
-    "tag" : "Amazon Web Services - Console Mobile Application ",
+    "tag" : "Amazon Web Services - Console Mobile Application",
     "stroke" : "#da2e6e",
     "color" : "#da2e6e",
     "icon" : "https://static.structurizr.com/themes/amazon-web-services-2022.04.30/Arch_AWS-Console-Mobile-Application _48.png"
