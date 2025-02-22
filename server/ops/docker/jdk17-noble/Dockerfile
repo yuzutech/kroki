@@ -183,7 +183,7 @@ ARG D2_VERSION="0.6.3"
 ARG DITAA_VERSION="1.0.3"
 ARG DVISVGM_VERSION="3.2.1+ds-1build1"
 ARG GRAPHVIZ_VERSION="9.0.0"
-ARG PLANTUML_VERSION="1.2024.1"
+ARG PLANTUML_VERSION="1.2025.0"
 ARG UMLET_VERSION="2023-03-20_UMLet_v15.1"
 ARG WIREVIZ_VERSION="0.3.3"
 ARG TARGETARCH
@@ -202,6 +202,7 @@ RUN apt-get update && apt-get install --no-install-recommends --yes \
 # * texlive-pictures - Provides various graphics packages like "circuitikz"
 # * texlive-science - Provides various science packages like "siunitx"
 RUN apt-get update && apt-get install --no-install-recommends --yes \
+    unzip \
     dvisvgm=$DVISVGM_VERSION \
     libpango1.0-dev \
     librsvg2-dev \
@@ -239,7 +240,10 @@ RUN wget "https://github.com/terrastruct/d2/releases/download/v${D2_VERSION}/d2-
     mv usr/bin/d2-v${D2_VERSION}/bin/d2 /usr/bin/d2 && \
     chmod +x /usr/bin/d2
 
-RUN wget "https://github.com/yuzutech/plantuml/releases/download/v${PLANTUML_VERSION}/plantuml-linux-${TARGETARCH}-${PLANTUML_VERSION}" -O /usr/bin/plantuml && \
+RUN wget "https://github.com/yuzutech/plantuml/releases/download/v${PLANTUML_VERSION}/plantuml-linux-${TARGETARCH}-${PLANTUML_VERSION}.zip" -O plantuml-bin.zip && \
+    unzip plantuml-bin.zip -d plantuml && \
+    mv plantuml/* /usr/bin/ && \
+    mv /usr/bin/plantuml-linux-${TARGETARCH}-${PLANTUML_VERSION} /usr/bin/plantuml && \
     chmod +x /usr/bin/plantuml
 
 RUN wget "https://github.com/yuzutech/umlet/releases/download/${UMLET_VERSION}/umlet-linux-${TARGETARCH}" -O /usr/bin/umlet && \

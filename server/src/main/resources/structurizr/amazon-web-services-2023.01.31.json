@@ -122,6 +122,11 @@
     "color" : "#b0084d",
     "icon" : "https://static.structurizr.com/themes/amazon-web-services-2023.01.31/Res_AWS-License-Manager_Application-Discovery_48_Light.png"
   }, {
+    "tag" : "Amazon Web Services - API Gateway",
+    "stroke" : "#d72b6c",
+    "color" : "#d72b6c",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2023.01.31/Arch_Amazon-API-Gateway_48.png"
+  }, {
     "tag" : "Amazon Web Services - AWS IoT Greengrass Component",
     "stroke" : "#3f8624",
     "color" : "#3f8624",
@@ -171,11 +176,6 @@
     "stroke" : "#de2d34",
     "color" : "#de2d34",
     "icon" : "https://static.structurizr.com/themes/amazon-web-services-2023.01.31/Arch_Amazon-Connect_48.png"
-  }, {
-    "tag" : "Amazon Web Services - AWS IoT Sailboat",
-    "stroke" : "#3f8624",
-    "color" : "#3f8624",
-    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2023.01.31/Res_AWS-IoT_Sailboat _48_Light.png"
   }, {
     "tag" : "Amazon Web Services - Firewall Manager",
     "stroke" : "#de2d34",
@@ -466,11 +466,6 @@
     "stroke" : "#3f8624",
     "color" : "#3f8624",
     "icon" : "https://static.structurizr.com/themes/amazon-web-services-2023.01.31/Res_AWS-IoT-Greengrass_Component-Public_48_Light.png"
-  }, {
-    "tag" : "Amazon Web Services - Amazon API Gateway",
-    "stroke" : "#d72b6c",
-    "color" : "#d72b6c",
-    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2023.01.31/Arch_ Amazon-API-Gateway_48.png"
   }, {
     "tag" : "Amazon Web Services - AWS Identity Access Management Data Encryption Key",
     "stroke" : "#bf0816",
@@ -1017,11 +1012,6 @@
     "color" : "#d45b07",
     "icon" : "https://static.structurizr.com/themes/amazon-web-services-2023.01.31/Res_Amazon-EC2_M5dn-Instance_48_Light.png"
   }, {
-    "tag" : "Amazon Web Services - EC2 R5b Instance",
-    "stroke" : "#d45b07",
-    "color" : "#d45b07",
-    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2023.01.31/Res_Amazon-EC2_R5b-Instance _48_Light.png"
-  }, {
     "tag" : "Amazon Web Services - EC2 C6g Instance",
     "stroke" : "#d45b07",
     "color" : "#d45b07",
@@ -1136,6 +1126,11 @@
     "stroke" : "#e5770d",
     "color" : "#e5770d",
     "icon" : "https://static.structurizr.com/themes/amazon-web-services-2023.01.31/Arch_Bottlerocket_48.png"
+  }, {
+    "tag" : "Amazon Web Services - AWS IoT Sailboat",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2023.01.31/Res_AWS-IoT_Sailboat_48_Light.png"
   }, {
     "tag" : "Amazon Web Services - AWS IoT Actuator",
     "stroke" : "#3f8624",
@@ -2097,6 +2092,11 @@
     "color" : "#b0084d",
     "icon" : "https://static.structurizr.com/themes/amazon-web-services-2023.01.31/Res_AWS-CloudFormation_Change-Set_48_Light.png"
   }, {
+    "tag" : "Amazon Web Services - AWS IoT LoRaWAN Protocol",
+    "stroke" : "#3f8624",
+    "color" : "#3f8624",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2023.01.31/Res_AWS-IoT_LoRaWAN-Protocol_48_Light.png"
+  }, {
     "tag" : "Amazon Web Services - Elemental Appliances & Software",
     "stroke" : "#e5770d",
     "color" : "#e5770d",
@@ -2411,11 +2411,6 @@
     "stroke" : "#7545d1",
     "color" : "#7545d1",
     "icon" : "https://static.structurizr.com/themes/amazon-web-services-2023.01.31/Arch_AWS-App-Mesh_48.png"
-  }, {
-    "tag" : "Amazon Web Services - AWS IoT LoRaWAN Protocol",
-    "stroke" : "#3f8624",
-    "color" : "#3f8624",
-    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2023.01.31/Res_AWS-IoT_LoRaWAN-Protocol _48_Light.png"
   }, {
     "tag" : "Amazon Web Services - EC2 Inf2 Instance",
     "stroke" : "#d45b07",
@@ -3577,11 +3572,6 @@
     "color" : "#4d27aa",
     "icon" : "https://static.structurizr.com/themes/amazon-web-services-2023.01.31/Res_Amazon-VPC_VPN-Gateway_48_Light.png"
   }, {
-    "tag" : "Amazon Web Services - Console Mobile Application",
-    "stroke" : "#da2e6e",
-    "color" : "#da2e6e",
-    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2023.01.31/Arch_AWS-Console-Mobile-Application _48.png"
-  }, {
     "tag" : "Amazon Web Services - CloudWatch Event Event Based",
     "stroke" : "#b0084d",
     "color" : "#b0084d",
@@ -3816,6 +3806,16 @@
     "stroke" : "#4053d6",
     "color" : "#4053d6",
     "icon" : "https://static.structurizr.com/themes/amazon-web-services-2023.01.31/Arch_AWS-CodeStar_48.png"
+  }, {
+    "tag" : "Amazon Web Services - EC2 R5b Instance",
+    "stroke" : "#d45b07",
+    "color" : "#d45b07",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2023.01.31/Res_Amazon-EC2_R5b-Instance_48_Light.png"
+  }, {
+    "tag" : "Amazon Web Services - Console Mobile Application",
+    "stroke" : "#da2e6e",
+    "color" : "#da2e6e",
+    "icon" : "https://static.structurizr.com/themes/amazon-web-services-2023.01.31/Arch_AWS-Console-Mobile-Application_48.png"
   }, {
     "tag" : "Amazon Web Services - Tools and SDKs",
     "stroke" : "#4053d6",

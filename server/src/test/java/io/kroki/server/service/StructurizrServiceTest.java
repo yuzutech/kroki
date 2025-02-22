@@ -204,7 +204,7 @@ public class StructurizrServiceTest {
   public void should_preserve_styles_defined_in_workspace_while_applying_theme() throws IOException, InterruptedException {
     String source = read("./workspace-style-with-theme.structurizr");
     byte[] convert = Structurizr.convert(source, FileFormat.SVG, plantumlCommand, new StructurizrPlantUMLExporter(), SafeMode.SAFE, new JsonObject());
-    assertThat(new String(convert)).isEqualTo(read("./workspace-style-with-theme.svg"));
+    assertThat(stripComments(new String(convert))).isEqualTo(read("./workspace-style-with-theme.svg"));
   }
 
   private String stripComments(String xmlContent) {
