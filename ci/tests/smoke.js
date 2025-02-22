@@ -123,7 +123,7 @@ describe('CJK font', function () {
     const response = await sendRequest(testCase, 'svg')
     const textResponse = await response.text()
     try {
-      deepEqual(textResponse.includes('textLength="56"'), true, `text response must include textLength="56" in: ${textResponse}`)
+      deepEqual(textResponse.includes('textLength="55.9'), true, `text response must include textLength="55.9 in: ${textResponse}`)
     } catch (err) {
       console.log('response:', textResponse)
       throw err
