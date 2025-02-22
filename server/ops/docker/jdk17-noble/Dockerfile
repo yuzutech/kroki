@@ -202,6 +202,7 @@ RUN apt-get update && apt-get install --no-install-recommends --yes \
 # * texlive-pictures - Provides various graphics packages like "circuitikz"
 # * texlive-science - Provides various science packages like "siunitx"
 RUN apt-get update && apt-get install --no-install-recommends --yes \
+    unzip \
     dvisvgm=$DVISVGM_VERSION \
     libpango1.0-dev \
     librsvg2-dev \
@@ -239,7 +240,10 @@ RUN wget "https://github.com/terrastruct/d2/releases/download/v${D2_VERSION}/d2-
     mv usr/bin/d2-v${D2_VERSION}/bin/d2 /usr/bin/d2 && \
     chmod +x /usr/bin/d2
 
-RUN wget "https://github.com/yuzutech/plantuml/releases/download/v${PLANTUML_VERSION}/plantuml-linux-${TARGETARCH}-${PLANTUML_VERSION}" -O /usr/bin/plantuml && \
+RUN wget "https://github.com/yuzutech/plantuml/releases/download/v${PLANTUML_VERSION}/plantuml-linux-${TARGETARCH}-${PLANTUML_VERSION}.zip" -O plantuml-bin.zip && \
+    unzip plantuml-bin.zip -d plantuml && \
+    mv plantuml/* /usr/bin/ && \
+    mv /usr/bin/plantuml-linux-${TARGETARCH}-${PLANTUML_VERSION} /usr/bin/plantuml && \
     chmod +x /usr/bin/plantuml
 
 RUN wget "https://github.com/yuzutech/umlet/releases/download/${UMLET_VERSION}/umlet-linux-${TARGETARCH}" -O /usr/bin/umlet && \
