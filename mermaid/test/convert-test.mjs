@@ -113,7 +113,7 @@ describe('#convert', function () {
         await new Worker(browser).convert(new Task('not a valid mermaid code', testCase.isPng))
         fail('Should throw a SyntaxError exception')
       } catch (err) {
-        deepEqual(err.message.startsWith('Syntax error in graph:'), true, 'error message should starts with \'Syntax error in graph:\'')
+        deepEqual(err.name, 'SyntaxError')
       } finally {
         await browser.close()
       }

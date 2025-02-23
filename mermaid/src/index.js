@@ -52,7 +52,7 @@ import Task from './task.js'
               logger.warn({ err }, 'Exception during convert')
               return micro.send(res, 500, {
                 error: {
-                  message: 'An error occurred while converting the diagram',
+                  message: `An error occurred while converting the diagram: ${err.message}`,
                   name: err.name || 'Error',
                   stacktrace: err.stack || ''
                 }

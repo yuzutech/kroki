@@ -16,9 +16,10 @@ export class TimeoutError extends Error {
 
 export class SyntaxError extends Error {
   constructor (err) {
-    super(`Syntax error in graph: ${err.message}`)
-    this.name = err.name
-    this.stack = err.stack
+    super('Syntax error in graph', { cause: err })
+    logger.error(this)
+    this.name = 'SyntaxError'
+    this.message = err.message
   }
 }
 

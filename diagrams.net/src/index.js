@@ -1,22 +1,20 @@
 // must be declared first
 import { logger } from './logger.js'
+
 import http from 'node:http'
 import { TimeoutError as PuppeteerTimeoutError } from 'puppeteer'
 import micro from 'micro'
 import Task from './task.js'
-import { create } from './browser-instance.js'
 import { SyntaxError, TimeoutError, Worker } from './worker.js'
 
 (async () => {
   // QUESTION: should we create a pool of Chrome instances ?
-  const browser = await create()
-  logger.info(`Chrome accepting connections on endpoint ${browser.wsEndpoint()}`)
-  const worker = new Worker(browser)
+  const worker = new Worker()
   const server = new http.Server(
     micro.serve(async (req, res) => {
       // Add a /health route that renders a sample diagram by calling the worker
       if (req.url === '/health') {
-        const sample = `<mxGraphModel><root><mxCell id="0"/><mxCell id="1" parent="0"/></root></mxGraphModel>`
+        const sample = '<mxGraphModel><root><mxCell id="0"/><mxCell id="1" parent="0"/></root></mxGraphModel>'
         await worker.convert(new Task(sample, false), new URLSearchParams())
 
         // We don't actually care about the output, we just want to make sure the worker is up and running
@@ -57,7 +55,7 @@ import { SyntaxError, TimeoutError, Worker } from './worker.js'
               return micro.send(res, 500, {
                 error: {
                   message: `An error occurred while converting the diagram: ${err.message}`,
-                  name: err.name || '',
+                  name: err.name || 'Error',
                   stacktrace: err.stack || ''
                 }
               })
@@ -67,7 +65,7 @@ import { SyntaxError, TimeoutError, Worker } from './worker.js'
         return micro.send(res, 400, {
           error: {
             message: 'Body must not be empty.',
-            name: '',
+            name: 'Error',
             stacktrace: ''
           }
         })
@@ -75,7 +73,7 @@ import { SyntaxError, TimeoutError, Worker } from './worker.js'
       return micro.send(res, 400, {
         error: {
           message: 'Available endpoints are /svg and /png.',
-          name: '',
+          name: 'Error',
           stacktrace: ''
         }
       })
