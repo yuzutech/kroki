@@ -16,7 +16,7 @@ import { SyntaxError, TimeoutError, Worker } from './worker.js'
     micro.serve(async (req, res) => {
       // Add a /health route that renders a sample diagram by calling the worker
       if (req.url === '/health') {
-        let sample = `<mxGraphModel><root><mxCell id="0"/><mxCell id="1" parent="0"/></root></mxGraphModel>`
+        const sample = `<mxGraphModel><root><mxCell id="0"/><mxCell id="1" parent="0"/></root></mxGraphModel>`
         await worker.convert(new Task(sample, false), new URLSearchParams())
 
         // We don't actually care about the output, we just want to make sure the worker is up and running
