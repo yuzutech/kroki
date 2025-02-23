@@ -73,7 +73,7 @@ public class D2 implements DiagramService {
 
   @Override
   public String getVersion() {
-    return "0.6.3";
+    return "0.6.9";
   }
 
   @Override
