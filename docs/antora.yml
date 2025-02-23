@@ -5,18 +5,18 @@ asciidoc:
   attributes:
     actdiag-version: 3.1.0
     blockdiag-version: 3.1.0
-    bpmn-version: 18.0.0
+    bpmn-version: 18.3.1
     bytefield-version: 1.10.0
     c4plantuml-version: 1.2025.0
-    d2-version: 0.6.3
+    d2-version: 0.6.9
     dbml-version: 1.0.30
     diagramsnet-version: 16.2.4
     ditaa-version: 1.0.3
     erd-version: 0.2.3
     excalidraw-version: 0.17.6
     graphviz-version: 9.0.0
-    mermaid-version: 11.4.0
-    nomnoml-version: 1.6.2
+    mermaid-version: 11.4.1
+    nomnoml-version: 1.7.0
     nwdiag-version: 3.1.0
     packetdiag-version: 3.1.0
     pikchr-version: '7269f78c4a'
