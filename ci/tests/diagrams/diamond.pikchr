@@ -1,0 +1,5 @@
+D: diamond "Cardinal" "Points"
+   dot ".n" above at D.n
+   dot " .e" ljust at D.e
+   dot ".s" below at D.s
+   dot ".w " rjust at D.w

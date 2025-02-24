@@ -132,7 +132,7 @@ RUN python3 -m nuitka --onefile `which symbolator` --include-module=gi.overrides
 ## Pikchr
 FROM ubuntu:noble AS kroki-builder-static-pikchr
 
-ARG PIKCHR_VERSION=7269f78c4a3aa2809bd8c278e522c4eac5568ad0fd6ed0a3f807f4a2f6367ef0
+ARG PIKCHR_VERSION=85e65b968651b342c46e6334f4772b45d6cbb4317c5cbaa95d207779a50c6709
 
 RUN apt-get update && apt-get install --no-install-recommends --yes \
     build-essential \
