@@ -35,6 +35,7 @@ const tests = [
   { engine: 'umlet', file: 'umlet.xml', options: {}, outputFormat: ['svg'] },
   { engine: 'excalidraw', file: 'venn.excalidraw', options: {}, outputFormat: ['svg'] },
   { engine: 'pikchr', file: 'sqlite-architecture.pikchr', options: {}, outputFormat: ['svg'] },
+  { engine: 'pikchr', file: 'diamond.pikchr', options: {}, outputFormat: ['svg'] },
   { engine: 'structurizr', file: 'gettingstarted.structurizr', options: {}, outputFormat: ['svg'] },
   { engine: 'structurizr', file: 'gettingstarted.structurizr', options: { output: 'legend' }, outputFormat: ['svg'] },
   { engine: 'diagramsnet', file: 'diagramsnet-infography.xml', options: {}, outputFormat: ['svg', 'png'] },
