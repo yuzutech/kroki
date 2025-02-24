@@ -8,4 +8,4 @@ name = "kroki_svgbob"
 path = ""
 
 [dependencies]
-svgbob_cli = "0.7.0"
+svgbob_cli = "=0.7.0"
