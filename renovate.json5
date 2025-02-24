@@ -12,7 +12,8 @@
     {
       "matchManagers": ["cargo"],
       "groupName": "Rust crate",
-      "versioning": "cargo"
+      "versioning": "cargo",
+      "rangeStrategy": "bump"
     },
     {
       matchManagers: [
