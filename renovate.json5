@@ -10,10 +10,8 @@
   ],
   packageRules: [
     {
-      "commitMessageTopic": "Rust crate {{depName}}",
-      "fileMatch": [
-        "(^|/)Cargo\\.toml$"
-      ],
+      "matchManagers": ["cargo"],
+      "groupName": "Rust crate",
       "versioning": "cargo",
       "rangeStrategy": "pin"
     },
