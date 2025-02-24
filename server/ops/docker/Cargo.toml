@@ -1,4 +1,11 @@
 # Specify svgbob_cli via Cargo.toml so that Renovate can help with updates
+[package]
+name = "kroki_svgbob"
+version = "0.1.0"
+
+[[bin]]
+name = "kroki_svgbob"
+path = ""
 
 [dependencies]
 svgbob_cli = "0.7.0"
