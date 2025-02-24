@@ -62,3 +62,6 @@ tasks:
       - 'npm i --prefix vega'
       - 'npm i --prefix wavedrom'
 
+  updateVersions:
+    cmds:
+      - 'node ci/tasks/update-versions.js'
