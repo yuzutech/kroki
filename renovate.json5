@@ -1,83 +1,106 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "dependencyDashboard": true,
-  "labels": [
-    "\uD83D\uDD17 dependencies"
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+  dependencyDashboard: true,
+  labels: [
+    '🔗 dependencies',
   ],
-  "separateMajorMinor": true,
-  "extends": [
-    ":preserveSemverRanges"
+  separateMajorMinor: true,
+  extends: [
+    ':preserveSemverRanges',
   ],
-  "packageRules": [
+  packageRules: [
     {
-      "matchManagers": ["github-actions"],
-      "groupName": "GitHub Actions"
-    },
-    {
-      "matchManagers": ["dockerfile"],
-      "matchPackagePatterns": ["node"],
-      // disable major updates as we want to stay on Node LTS
-      "matchUpdateTypes": ["major"],
-      "enabled": false
-    },
-    {
-      "matchManagers": ["dockerfile"],
-      "groupName": "Docker images"
-    },
-    {
-      "matchManagers": ["pip_requirements"],
-      "groupName": "Python dependencies"
-    },
-    {
-      "matchManagers": ["npm"],
-      "groupName": "Node dependencies"
-    },
-    {
-      // Alpine 3.16 is using Chromium 102 which is compatible with Puppeteer 14.4.1.
-      // Hopefully, Chromium 102 and Puppeteer 14.4.1 work smoothly: https://github.com/yuzutech/kroki/issues/1037
-      "matchManagers": ["npm"],
-      "matchPackagePatterns": [
-        "puppeteer"
+      matchManagers: [
+        'github-actions',
       ],
-      "enabled": false
+      groupName: 'GitHub Actions',
     },
     {
-      "matchManagers": ["maven"],
-      "groupName": "Java dependencies"
-    },
-    {
-      "matchManagers": ["maven"],
-      "matchPackagePatterns": [
-        "^org.mockito",
-        "^org.junit.jupiter",
-        "^org.assertj"
+      matchManagers: [
+        'dockerfile',
       ],
-      "groupName": "Java testing packages"
+      matchUpdateTypes: [
+        'major',
+      ],
+      enabled: false,
+      matchPackageNames: [
+        '/node/',
+      ],
     },
     {
-      "matchManagers": ["maven"],
-      "matchPackagePatterns": [
-        "^org.apache.maven.plugins"
+      matchManagers: [
+        'dockerfile',
       ],
-      "groupName": "Maven plugins"
+      groupName: 'Docker images',
     },
     {
-      "matchManagers": ["maven"],
-      "matchPackagePatterns": [
-        "^com.structurizr"
+      matchManagers: [
+        'pip_requirements',
       ],
-      "groupName": "Structurizr packages"
+      groupName: 'Python dependencies',
     },
     {
-      "matchManagers": ["maven"],
-      "matchPackagePatterns": [
-        "plantuml"
+      matchManagers: [
+        'npm',
       ],
-      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)?$",
-      "groupName": "PlantUML"
-    }
+      groupName: 'Node dependencies',
+    },
+    {
+      matchManagers: [
+        'npm',
+      ],
+      enabled: false,
+      matchPackageNames: [
+        '/puppeteer/',
+      ],
+    },
+    {
+      matchManagers: [
+        'maven',
+      ],
+      groupName: 'Java dependencies',
+    },
+    {
+      matchManagers: [
+        'maven',
+      ],
+      groupName: 'Java testing packages',
+      matchPackageNames: [
+        '/^org.mockito/',
+        '/^org.junit.jupiter/',
+        '/^org.assertj/',
+      ],
+    },
+    {
+      matchManagers: [
+        'maven',
+      ],
+      groupName: 'Maven plugins',
+      matchPackageNames: [
+        '/^org.apache.maven.plugins/',
+      ],
+    },
+    {
+      matchManagers: [
+        'maven',
+      ],
+      groupName: 'Structurizr packages',
+      matchPackageNames: [
+        '/^com.structurizr/',
+      ],
+    },
+    {
+      matchManagers: [
+        'maven',
+      ],
+      versioning: 'regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)?$',
+      groupName: 'PlantUML',
+      matchPackageNames: [
+        '/plantuml/',
+      ],
+    },
   ],
-  "lockFileMaintenance": {
-    "enabled": true
-  }
+  lockFileMaintenance: {
+    enabled: true,
+  },
 }
