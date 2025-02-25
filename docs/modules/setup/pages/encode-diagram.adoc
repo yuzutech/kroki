@@ -18,6 +18,8 @@ On this page you will learn how to encode a diagram using:
 - xref:elixir[]
 - xref:csharp[]
 
+TIP: To _decode_ a diagram (e.g. from Kroki log message) we recommend using link:kroki-cli.adoc#_commands_and_options[Kroki CLI] or one of the decoders listed on the link:third-party-tools.adoc#_decoders[Third Party Tools] page.
+
 [#nodejs]
 == Node.js
 

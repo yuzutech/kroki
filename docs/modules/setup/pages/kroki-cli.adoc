@@ -40,6 +40,7 @@ kroki <command> [options] <arguments>
 . Positional arguments, such as the name of the diagram file, are specified last.
 . Environment variables are read from the terminal's state.
 
+[#_commands_and_options]
 == Commands and options
 
 .CLI Commands
@@ -47,15 +48,24 @@ kroki <command> [options] <arguments>
 |===
 |Command |Purpose
 
+|completion
+|Generate the autocompletion script for the specified shell.
+
 |convert [options] <diagram>
 |Convert the diagram file specified by the <diagram>.
 <<cli-run-ex,See examples>>.
 
-|version
-|Print the version of Kroki.
+|decode
+|Decode an encoded (deflate + base64) diagram.
+
+|encode
+|Encode text diagram in deflate + base64 format.
 
 |help
 |Help about any command.
+
+|version
+|Print the version of Kroki.
 |===
 
 [#cli-options]

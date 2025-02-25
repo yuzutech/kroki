@@ -1,4 +1,6 @@
 = Third Party Tools
+:url-encoder-decoder: https://kroki.pcbaecker.com/
+:url-encoder-decoder-author: https://www.pcbaecker.com/articles/kroki-encoder-decoder/
 :url-intellij-asciidoc-plugin: https://github.com/asciidoctor/asciidoctor-intellij-plugin
 :url-keenwrite: https://keenwrite.com
 :url-niolesk: https://niolesk.top
@@ -21,6 +23,15 @@
 :url-hugomods-kroki: https://kroki.hugomods.com/
 
 A list of third party tools, developed by the community, that rely on Kroki.
+
+[#_decoders]
+== Decoders
+
+The following tools help with decoding an encoded (deflate + base64) diagram e.g. as found in Kroki log messages.
+
+=== Kroki Encoder / Decoder
+
+{url-encoder-decoder}[JavaScript app for the browser] to decode Kroki URLs back into code {url-encoder-decoder-author}[by Philipp C. Baecker]. No backend required.
 
 == IntelliJ AsciiDoc Plugin
 
