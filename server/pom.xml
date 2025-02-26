@@ -13,13 +13,13 @@
 
   <properties>
     <!-- https://github.com/vert-x3/vertx-dependencies/blob/6b147024b6aa7732386c6a94a126eacf3b4dda1b/pom.xml#LL50C20-L50C32 -->
-    <netty.version>4.1.118.Final</netty.version>
-    <logback.version>1.5.16</logback.version>
+    <netty.version>4.1.119.Final</netty.version>
+    <logback.version>1.5.17</logback.version>
     <vertx.version>4.5.13</vertx.version>
     <junit.jupiter.version>5.12.0</junit.jupiter.version>
     <assertj-core.version>3.27.3</assertj-core.version>
     <mockito-core.version>5.15.2</mockito-core.version>
-    <slf4j-api.version>2.0.16</slf4j-api.version>
+    <slf4j-api.version>2.0.17</slf4j-api.version>
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
     <owasp-html-sanitizer.version>20240325.1</owasp-html-sanitizer.version>
