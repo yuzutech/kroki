@@ -41,6 +41,7 @@ Diagram::
 * HDL Component diagram
 * Excalidraw
 * https://www.diagrams.net/[diagrams.net] (experimental)
+* https://onlinewardleymaps.com[OnlineWardleyMaps.com] (experimental)
 * WireViz
 
 Visualization::
