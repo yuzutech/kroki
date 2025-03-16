@@ -16,9 +16,9 @@
     <netty.version>4.1.119.Final</netty.version>
     <logback.version>1.5.17</logback.version>
     <vertx.version>4.5.13</vertx.version>
-    <junit.jupiter.version>5.12.0</junit.jupiter.version>
+    <junit.jupiter.version>5.12.1</junit.jupiter.version>
     <assertj-core.version>3.27.3</assertj-core.version>
-    <mockito-core.version>5.15.2</mockito-core.version>
+    <mockito-core.version>5.16.1</mockito-core.version>
     <slf4j-api.version>2.0.17</slf4j-api.version>
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
