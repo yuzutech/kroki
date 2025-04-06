@@ -22,7 +22,7 @@
     "bpmn-js": "18.4.0",
     "micro": "10.0.1",
     "pino": "9.6.0",
-    "pino-debug": "^2.0.0",
+    "pino-debug": "^3.0.0",
     "puppeteer": "23.6.0"
   },
   "devDependencies": {
