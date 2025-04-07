@@ -148,7 +148,7 @@ RUN wget -q "https://pikchr.org/home/raw/${PIKCHR_VERSION}" -O pikchr.c
 RUN gcc -O0 -g -static -Wall -Wextra -DPIKCHR_SHELL pikchr.c -o pikchr -lm
 
 ## SVGBob
-FROM --platform=$BUILDPLATFORM rust:1.85-slim-bullseye AS kroki-builder-static-svgbob
+FROM --platform=$BUILDPLATFORM rust:1.86-slim-bullseye AS kroki-builder-static-svgbob
 
 # Install cross-compilation tools
 RUN apt-get update && apt-get install --no-install-recommends --yes \
