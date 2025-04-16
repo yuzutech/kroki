@@ -1,4 +1,4 @@
-# syntax=docker/dockerfile:1.14
+# syntax=docker/dockerfile:1.15
 
 ## Nomnoml
 FROM --platform=$BUILDPLATFORM node:22.14-bookworm-slim AS kroki-builder-nomnoml
