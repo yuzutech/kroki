@@ -11,6 +11,9 @@ services:
       - KROKI_EXCALIDRAW_HOST=excalidraw
     ports:
       - "8000:8000"
+    # If you need at all to explicitly mount /tmp, add exec option.
+    tmpfs:
+      - /tmp:exec
   mermaid:
     image: yuzutech/kroki-mermaid
     expose:
@@ -23,3 +26,4 @@ services:
     image: yuzutech/kroki-excalidraw
     expose:
       - "8004"
+      
