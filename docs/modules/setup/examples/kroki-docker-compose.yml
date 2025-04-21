@@ -11,7 +11,7 @@ services:
       - KROKI_EXCALIDRAW_HOST=excalidraw
     ports:
       - "8000:8000"
-    # If you need at all to explicitly mount /tmp, add exec option.
+    # If you do need to explicitly mount /tmp, make sure to include the exec option
     tmpfs:
       - /tmp:exec
   mermaid:
