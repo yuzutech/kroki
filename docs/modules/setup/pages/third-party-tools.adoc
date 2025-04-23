@@ -21,6 +21,10 @@
 :url-jekyll-kroki: https://rubygems.org/gems/jekyll-kroki
 :url-remark-kroki: https://github.com/nice-move/remark-kroki
 :url-hugomods-kroki: https://kroki.hugomods.com/
+:url-python-markdown: https://python-markdown.github.io/
+:url-python-markdown-kroki: https://hkato.github.io/markdown-kroki/
+:url-python-mkdocs: https://www.mkdocs.org/
+:url-python-pelican: https://getpelican.com/
 
 A list of third party tools, developed by the community, that rely on Kroki.
 
@@ -89,3 +93,7 @@ The {url-remark-kroki}[Remark Kroki plugin] embeds Kroki diagrams within Markdow
 == HugoMods
 
 The {url-hugomods-kroki}[Hugo Kroki module] embeds Kroki diagrams within Markdown files processed by Hugo.
+
+== Python-Markdown
+
+The {url-python-markdown-kroki}[Python-Markdown Kroki extension] embeds Kroki diagrams within Markdown files processed by {url-python-markdown}[Python-Markdown]. It supports Python-Markdown based applications such as {url-python-mkdocs}[MkDocs] and {url-python-pelican}[Pelican].
