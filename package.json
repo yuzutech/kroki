@@ -12,7 +12,7 @@
     "update-versions": "node ci/tasks/update-versions.js"
   },
   "volta": {
-    "node": "22.14.0"
+    "node": "22.15.0"
   },
   "dependencies": {
     "blocked-at": "^1.2.0"
