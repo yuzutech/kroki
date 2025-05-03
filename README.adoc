@@ -1,7 +1,17 @@
-= image:https://kroki.io/assets/logo.svg[Kroki,200,link={uri-kroki}]
 :uri-kroki: https://kroki.io/
 :uri-kroki-docs: https://docs.kroki.io/
 :uri-maven: https://maven.apache.org/
+
+++++
+<a href="https://kroki.io/">
+<picture>
+  <source media="(prefers-color-scheme: dark)" width="200" srcset="https://kroki.io/assets/logo-white.svg">
+  <source media="(prefers-color-scheme: light)" width="200" srcset="https://kroki.io/assets/logo.svg">
+  <img alt="Kroki logo" width="200" src="https://kroki.io/assets/logo.svg">
+</picture>
+</a>
+++++
+---
 
 ifdef::env-github[]
 image:https://github.com/yuzutech/kroki/workflows/CI/badge.svg?branch=master[GitHub Actions build status, link=https://github.com/yuzutech/kroki/actions]
