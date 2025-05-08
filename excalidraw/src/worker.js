@@ -26,9 +26,9 @@ export default class Worker {
       })
       // excalidraw.production.min.js is using the EXCALIDRAW_ASSET_PATH variable.
       await page.addScriptTag({
-        path: `${path.join(__dirname, '..', 'assets', 'excalidraw', 'excalidraw.production.min.js')}`
+        path: `${path.join(__dirname, '..', 'assets', 'index.bundle.js')}`
       })
-      // QUESTION: should we reuse the page for performance reason ?
+      // QUESTION: should we reuse the page for performance reason?
       return await page.evaluate(async (definition) => {
         const svgElement = await window.ExcalidrawLib.exportToSvg(JSON.parse(definition))
         return svgElement.outerHTML

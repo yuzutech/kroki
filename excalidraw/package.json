@@ -6,7 +6,7 @@
   "main": "src/index.js",
   "bin": "src/index.js",
   "scripts": {
-    "prestart": "rm -rf assets/excalidraw/* && cp -r node_modules/@excalidraw/excalidraw/dist/excalidraw.production.min.js node_modules/@excalidraw/excalidraw/dist/excalidraw-assets/* node_modules/react/umd/react.production.min.js node_modules/react-dom/umd/react-dom.production.min.js assets/excalidraw/",
+    "build": "npx esbuild ./assets/index.js --bundle --minify --outfile=./assets/index.bundle.js",
     "start": "node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "standard src/**.js"
@@ -28,6 +28,7 @@
     "react-dom": "18.3.1"
   },
   "devDependencies": {
+    "esbuild": "0.25.4",
     "standard": "17.1.2"
   },
   "volta": {
