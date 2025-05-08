@@ -15,7 +15,7 @@ public class DownloadPlantumlNativeImage {
     String zipName = "plantuml-" + os + "-" + arch + "-" + plantumlVersion + ".zip";
     String binaryExtension = getBinaryExtension(os);
     String binaryName = "plantuml-" + os + "-" + arch + "-" + plantumlVersion + binaryExtension;
-    String downloadUrl = "https://github.com/yuzutech/plantuml/releases/download/v1.2025.0/" + zipName;
+    String downloadUrl = "https://github.com/yuzutech/plantuml/releases/download/v" + plantumlVersion + "/" + zipName;
     return DownloadNativeImage.download(vertx, downloadUrl, "PlantUML", zipName, binaryName).map(plantumlBinPath -> {
       JsonObject options = new JsonObject();
       options.put("KROKI_PLANTUML_BIN_PATH", plantumlBinPath);
