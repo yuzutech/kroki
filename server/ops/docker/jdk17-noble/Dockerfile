@@ -179,7 +179,7 @@ FROM ghcr.io/yuzutech/erd:v0.2.3 AS erd
 FROM eclipse-temurin:17.0.14_7-jre-noble
 
 ARG BLOCKDIAG_VERSION="3.1.0"
-ARG D2_VERSION="0.6.9"
+ARG D2_VERSION="0.7.0"
 ARG DITAA_VERSION="1.0.3"
 ARG DVISVGM_VERSION="3.2.1+ds-1build1"
 ARG GRAPHVIZ_VERSION="9.0.0"

@@ -46,7 +46,8 @@ public class D2 implements DiagramService {
     entry("dark-flagship-terrastruct", 201),
     entry("terminal", 300),
     entry("terminal-grayscale", 301),
-    entry("origami", 302)
+    entry("origami", 302),
+    entry("c4", 303)
   );
 
   public D2(Vertx vertx, JsonObject config, Commander commander) {
@@ -73,7 +74,7 @@ public class D2 implements DiagramService {
 
   @Override
   public String getVersion() {
-    return "0.6.9";
+    return "0.7.0";
   }
 
   @Override
