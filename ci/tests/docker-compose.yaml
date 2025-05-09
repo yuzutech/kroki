@@ -5,11 +5,14 @@ services:
       - mermaid
       - bpmn
       - excalidraw
+      - diagramsnet
+      - onlinewardleymaps
     environment:
       - KROKI_MERMAID_HOST=mermaid
       - KROKI_BPMN_HOST=bpmn
       - KROKI_EXCALIDRAW_HOST=excalidraw
       - KROKI_DIAGRAMSNET_HOST=diagramsnet
+      - KROKI_ONLINEWARDLEYMAPS_HOST=onlinewardleymaps
     ports:
       - "8000:8000"
 
@@ -32,3 +35,8 @@ services:
     image: yuzutech/kroki-diagramsnet:smoketests
     expose:
       - "8005"
+
+  onlinewardleymaps:
+    image: yuzutech/kroki-onlinewardleymaps:smoketests
+    expose:
+      - "8007"
