@@ -1,8 +1,11 @@
 package io.kroki.server;
 
+import io.opentelemetry.api.OpenTelemetry;
+import io.opentelemetry.sdk.autoconfigure.AutoConfiguredOpenTelemetrySdk;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
+import io.vertx.tracing.opentelemetry.OpenTelemetryTracingFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.Properties;
@@ -27,7 +30,10 @@ public class Main {
   }
 
   public static void main(String[] args) {
-    Vertx vertx = Vertx.vertx();
+    OpenTelemetry openTelemetry = AutoConfiguredOpenTelemetrySdk.initialize().getOpenTelemetrySdk();
+    Vertx vertx = Vertx.builder()
+      .withTracer(new OpenTelemetryTracingFactory(openTelemetry))
+      .build();
     VertxOptions vertxOptions = new VertxOptions();
     ConfigRetriever retriever = ConfigRetriever.create(vertx);
     retriever.getConfig(configResult -> {
