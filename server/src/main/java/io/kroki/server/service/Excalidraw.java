@@ -11,20 +11,19 @@ import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.HttpResponse;
-import io.vertx.ext.web.client.WebClient;
 
 import java.util.Collections;
 import java.util.List;
 
 public class Excalidraw implements DiagramService {
 
-  private final WebClient client;
+  private final Delegator delegator;
   private final String host;
   private final int port;
   private final SourceDecoder sourceDecoder;
 
-  public Excalidraw(Vertx vertx, JsonObject config, WebClient delegatorWebClient) {
-    this.client = delegatorWebClient;
+  public Excalidraw(Vertx vertx, JsonObject config, Delegator delegator) {
+    this.delegator = delegator;
     this.sourceDecoder = new SourceDecoder() {
       @Override
       public String decode(String encoded) throws DecodeException {
@@ -54,6 +53,6 @@ public class Excalidraw implements DiagramService {
   public void convert(String sourceDecoded, String serviceName, FileFormat fileFormat, JsonObject options, Handler<AsyncResult<Buffer>> handler) {
     String requestURI = "/" + serviceName + "/" + fileFormat.getName();
     Handler<AsyncResult<HttpResponse<Buffer>>> responseHandler = Delegator.createHandler(host, port, requestURI, handler);
-    Delegator.delegate(client, host, port, requestURI, sourceDecoded, options, responseHandler);
+    this.delegator.delegate(host, port, requestURI, sourceDecoded, options, responseHandler);
   }
 }

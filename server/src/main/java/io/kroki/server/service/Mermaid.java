@@ -11,7 +11,6 @@ import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.HttpResponse;
-import io.vertx.ext.web.client.WebClient;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,13 +19,13 @@ public class Mermaid implements DiagramService {
 
   private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG);
 
-  private final WebClient client;
+  private final Delegator delegator;
   private final String host;
   private final int port;
   private final SourceDecoder sourceDecoder;
 
-  public Mermaid(Vertx vertx, JsonObject config, WebClient delegatorWebClient) {
-    this.client = delegatorWebClient;
+  public Mermaid(Vertx vertx, JsonObject config, Delegator delegator) {
+    this.delegator = delegator;
     this.sourceDecoder = new SourceDecoder() {
       @Override
       public String decode(String encoded) throws DecodeException {
@@ -56,6 +55,6 @@ public class Mermaid implements DiagramService {
   public void convert(String sourceDecoded, String serviceName, FileFormat fileFormat, JsonObject options, Handler<AsyncResult<Buffer>> handler) {
     String requestURI = "/" + serviceName + "/" + fileFormat.getName();
     Handler<AsyncResult<HttpResponse<Buffer>>> responseHandler = Delegator.createHandler(host, port, requestURI, handler);
-    Delegator.delegate(client, host, port, requestURI, sourceDecoded, options, responseHandler);
+    this.delegator.delegate(host, port, requestURI, sourceDecoded, options, responseHandler);
   }
 }

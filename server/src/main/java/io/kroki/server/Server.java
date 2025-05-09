@@ -1,6 +1,7 @@
 package io.kroki.server;
 
 import io.kroki.server.action.Commander;
+import io.kroki.server.action.Delegator;
 import io.kroki.server.error.ErrorHandler;
 import io.kroki.server.error.InvalidRequestHandler;
 import io.kroki.server.log.Logging;
@@ -8,30 +9,23 @@ import io.kroki.server.service.*;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.AsyncResult;
-import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
 import io.vertx.core.buffer.Buffer;
-import io.vertx.core.http.HttpClient;
-import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerOptions;
-import io.vertx.core.http.RequestOptions;
-import io.vertx.core.http.impl.HttpUtils;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.net.PemKeyCertOptions;
 import io.vertx.core.net.SocketAddress;
 import io.vertx.ext.web.Route;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
-import io.vertx.ext.web.client.WebClient;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.CorsHandler;
 
-import java.net.URI;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -79,59 +73,7 @@ public class Server extends AbstractVerticle {
     HttpServer server = vertx.createHttpServer(serverOptions);
     Router router = Router.router(vertx);
     BodyHandler bodyHandler = BodyHandler.create(false).setBodyLimit(config.getLong("KROKI_BODY_LIMIT", BodyHandler.DEFAULT_BODY_LIMIT));
-    HttpClient delegatorHttpClient = vertx.httpClientBuilder().withRedirectHandler(resp -> {
-      try {
-        int statusCode = resp.statusCode();
-        String location = resp.getHeader(HttpHeaders.LOCATION);
-        if (location != null && (statusCode == 301 || statusCode == 302 || statusCode == 303 || statusCode == 307
-                                 || statusCode == 308)) {
-          HttpMethod m = resp.request().getMethod();
-          if (statusCode == 303) {
-            m = HttpMethod.GET;
-          }
-          URI uri = HttpUtils.resolveURIReference(resp.request().absoluteURI(), location);
-          boolean ssl;
-          int port = uri.getPort();
-          String protocol = uri.getScheme();
-          char chend = protocol.charAt(protocol.length() - 1);
-          if (chend == 'p') {
-            ssl = false;
-            if (port == -1) {
-              port = 80;
-            }
-          } else if (chend == 's') {
-            ssl = true;
-            if (port == -1) {
-              port = 443;
-            }
-          } else {
-            return null;
-          }
-          String requestURI = uri.getPath();
-          if (requestURI == null || requestURI.isEmpty()) {
-            requestURI = "/";
-          }
-          String query = uri.getQuery();
-          if (query != null) {
-            requestURI += "?" + query;
-          }
-          RequestOptions options = new RequestOptions();
-          options.setMethod(m);
-          options.setHost(uri.getHost());
-          options.setPort(port);
-          options.setSsl(ssl);
-          options.setURI(requestURI);
-          options.setHeaders(resp.request().headers());
-          options.removeHeader(HttpHeaders.CONTENT_LENGTH);
-          return Future.succeededFuture(options);
-        }
-        return null;
-      } catch (Exception e) {
-        return Future.failedFuture(e);
-      }
-    
-    }).build();
-    WebClient delegatorWebClient = WebClient.wrap(delegatorHttpClient);
+    Delegator delegator = new Delegator(vertx);
     // CORS
     // CORS Headers
     Set<String> allowedHeaders = new LinkedHashSet<>();
@@ -171,16 +113,16 @@ public class Server extends AbstractVerticle {
     registry.register(new Svgbob(vertx, config, commander), "svgbob");
     registry.register(new Symbolator(vertx, config), "symbolator");
     registry.register(new Nomnoml(vertx, config, commander), "nomnoml");
-    registry.register(new Mermaid(vertx, config, delegatorWebClient), "mermaid");
+    registry.register(new Mermaid(vertx, config, delegator), "mermaid");
     registry.register(new Vega(vertx, config, Vega.SpecFormat.DEFAULT, commander), "vega");
     registry.register(new Vega(vertx, config, Vega.SpecFormat.LITE, commander), "vegalite");
     registry.register(new Wavedrom(vertx, config, commander), "wavedrom");
-    registry.register(new Bpmn(vertx, config, delegatorWebClient), "bpmn");
+    registry.register(new Bpmn(vertx, config, delegator), "bpmn");
     registry.register(new Bytefield(vertx, config, commander), "bytefield");
-    registry.register(new Excalidraw(vertx, config, delegatorWebClient), "excalidraw");
+    registry.register(new Excalidraw(vertx, config, delegator), "excalidraw");
     registry.register(new Pikchr(vertx, config, commander), "pikchr");
     registry.register(new Structurizr(vertx, config), "structurizr");
-    registry.register(new Diagramsnet(vertx, config, delegatorWebClient), "diagramsnet");
+    registry.register(new Diagramsnet(vertx, config, delegator), "diagramsnet");
     registry.register(new D2(vertx, config, commander), "d2");
     registry.register(new TikZ(vertx, config, commander), "tikz");
     registry.register(new Dbml(vertx, config, commander), "dbml");
