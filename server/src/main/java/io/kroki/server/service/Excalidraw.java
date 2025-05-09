@@ -23,8 +23,8 @@ public class Excalidraw implements DiagramService {
   private final int port;
   private final SourceDecoder sourceDecoder;
 
-  public Excalidraw(Vertx vertx, JsonObject config) {
-    this.client = WebClient.create(vertx);
+  public Excalidraw(Vertx vertx, JsonObject config, WebClient delegatorWebClient) {
+    this.client = delegatorWebClient;
     this.sourceDecoder = new SourceDecoder() {
       @Override
       public String decode(String encoded) throws DecodeException {
