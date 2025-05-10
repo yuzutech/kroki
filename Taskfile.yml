@@ -55,7 +55,7 @@ tasks:
       - 'npm i --prefix dbml'
       - 'npm i --prefix diagrams.net'
       - 'npm i --prefix excalidraw'
-      - 'npm run prestart --prefix excalidraw'
+      - 'npm run build --prefix excalidraw'
       - 'npm i --prefix mermaid'
       - 'npm run prestart --prefix mermaid'
       - 'npm i --prefix nomnoml'
