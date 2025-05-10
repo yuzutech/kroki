@@ -17,7 +17,7 @@ const tests = [
   { engine: 'ditaa', file: 'components.ditaa', options: {}, outputFormat: ['svg'] },
   { engine: 'ditaa', file: 'components.ditaa', options: {scale: '0.7'}, outputFormat: ['svg'] },
   { engine: 'symbolator', file: 'component.sv', options: {}, outputFormat: ['svg', 'png'] },
-  { engine: 'erd', file: 'schema.erd', options: {}, outputFormat: ['svg'] },
+  { engine: 'erd', file: 'schema.erd', options: {}, outputFormat: ['svg', 'jpeg'] },
   { engine: 'mermaid', file: 'contribute.mmd', options: {}, outputFormat: ['svg'] },
   { engine: 'mermaid', file: 'empty-message.mmd', options: {}, outputFormat: ['svg'] },
   { engine: 'bpmn', file: 'example.bpmn', options: {}, outputFormat: ['svg'] },
