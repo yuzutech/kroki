@@ -1,6 +1,7 @@
 package io.kroki.server;
 
 import io.kroki.server.action.Commander;
+import io.kroki.server.action.Delegator;
 import io.kroki.server.error.ErrorHandler;
 import io.kroki.server.error.InvalidRequestHandler;
 import io.kroki.server.log.Logging;
@@ -72,7 +73,7 @@ public class Server extends AbstractVerticle {
     HttpServer server = vertx.createHttpServer(serverOptions);
     Router router = Router.router(vertx);
     BodyHandler bodyHandler = BodyHandler.create(false).setBodyLimit(config.getLong("KROKI_BODY_LIMIT", BodyHandler.DEFAULT_BODY_LIMIT));
-
+    Delegator delegator = new Delegator(vertx);
     // CORS
     // CORS Headers
     Set<String> allowedHeaders = new LinkedHashSet<>();
@@ -112,16 +113,16 @@ public class Server extends AbstractVerticle {
     registry.register(new Svgbob(vertx, config, commander), "svgbob");
     registry.register(new Symbolator(vertx, config), "symbolator");
     registry.register(new Nomnoml(vertx, config, commander), "nomnoml");
-    registry.register(new Mermaid(vertx, config), "mermaid");
+    registry.register(new Mermaid(vertx, config, delegator), "mermaid");
     registry.register(new Vega(vertx, config, Vega.SpecFormat.DEFAULT, commander), "vega");
     registry.register(new Vega(vertx, config, Vega.SpecFormat.LITE, commander), "vegalite");
     registry.register(new Wavedrom(vertx, config, commander), "wavedrom");
-    registry.register(new Bpmn(vertx, config), "bpmn");
+    registry.register(new Bpmn(vertx, config, delegator), "bpmn");
     registry.register(new Bytefield(vertx, config, commander), "bytefield");
-    registry.register(new Excalidraw(vertx, config), "excalidraw");
+    registry.register(new Excalidraw(vertx, config, delegator), "excalidraw");
     registry.register(new Pikchr(vertx, config, commander), "pikchr");
     registry.register(new Structurizr(vertx, config), "structurizr");
-    registry.register(new Diagramsnet(vertx, config), "diagramsnet");
+    registry.register(new Diagramsnet(vertx, config, delegator), "diagramsnet");
     registry.register(new D2(vertx, config, commander), "d2");
     registry.register(new TikZ(vertx, config, commander), "tikz");
     registry.register(new Dbml(vertx, config, commander), "dbml");

@@ -6,7 +6,9 @@ import io.kroki.server.log.Logging;
 import io.netty.handler.codec.http.HttpHeaderValues;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
+import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
+import io.vertx.core.http.HttpClient;
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.json.DecodeException;
 import io.vertx.core.json.JsonObject;
@@ -23,9 +25,20 @@ public class Delegator {
 
   private static final Logger logger = LoggerFactory.getLogger(Delegator.class);
   private static final Logging logging = new Logging(logger);
-
-  public static void delegate(WebClient client, String host, int port, String requestURI, String body, JsonObject options, Handler<AsyncResult<HttpResponse<Buffer>>> handler) {
-    HttpRequest<Buffer> request = client
+  private final WebClient webClient;
+  public Delegator(Vertx vertx) {
+    HttpClient httpClient = vertx.httpClientBuilder()
+      // https://vertx.io/docs/vertx-web-client/java/#_handling_30x_redirections
+      // > By default the client follows redirections
+      // But..
+      // > For security reason, client won’t follow redirects for request with methods different from GET or HEAD
+      // So we need custom redirect handler.
+      .withRedirectHandler(new AllowAnyMethodRedirectHandler())
+      .build();
+    this.webClient = WebClient.wrap(httpClient);
+  }
+  public void delegate(String host, int port, String requestURI, String body, JsonObject options, Handler<AsyncResult<HttpResponse<Buffer>>> handler) {
+    HttpRequest<Buffer> request = this.webClient
       .post(port, host, requestURI)
       .putHeader(HttpHeaders.ACCEPT.toString(), HttpHeaderValues.APPLICATION_JSON.toString());
     options.stream().iterator().forEachRemaining(entry -> {
