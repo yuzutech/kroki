@@ -33,7 +33,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @ExtendWith(VertxExtension.class)
-@EnabledOnOs(value = OS.LINUX, architectures = "amd64")
+@EnabledOnOs(value = {OS.LINUX, OS.MAC}, architectures = {"amd64", "arm64"})
 public class PlantumlServiceTest {
 
   private static PlantumlCommand plantumlCommand = null;
@@ -689,11 +689,11 @@ public class PlantumlServiceTest {
   @Test
   void should_include_awslib() throws IOException, InterruptedException {
     String diagram = "!include <awslib/AWSCommon>\n" +
-            "!include <awslib/Groups/all.puml>\n" +
-            "\n" +
-            "AWSAccountGroup(externalAccount, \"AWS account external\") {\n" +
-            "\n" +
-            "}";
+      "!include <awslib/Groups/all.puml>\n" +
+      "\n" +
+      "AWSAccountGroup(externalAccount, \"AWS account external\") {\n" +
+      "\n" +
+      "}";
     byte[] convert = plantumlCommand.convert(diagram, FileFormat.SVG, new JsonObject());
     assertThat(new String(convert)).contains("xlink:href=\"data:image/png;base64,");
   }
@@ -703,7 +703,7 @@ public class PlantumlServiceTest {
     String diagram = "listopeniconic";
     byte[] convert = plantumlCommand.convert(diagram, FileFormat.SVG, new JsonObject());
     String output = new String(convert);
-    int countOccurrences= (output.length() - output.replace("<path d=\"", "").length()) / "<path d=\"".length();
+    int countOccurrences = (output.length() - output.replace("<path d=\"", "").length()) / "<path d=\"".length();
     assertThat(countOccurrences).isEqualTo(223); // 223 icons
   }
 
