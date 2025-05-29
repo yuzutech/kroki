@@ -24,6 +24,8 @@ ENV KROKI_EXCALIDRAW_ASSET_PATH=
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/lib/chromium/chrome
 #ENV DEBUG="puppeteer:*"
 ENV LEVEL="info"
+ENV XDG_CONFIG_HOME="/tmp/config"
+ENV XDG_CACHE_HOME="/tmp/cache"
 
 COPY --chown=kroki:kroki src ./src
 COPY --chown=kroki:kroki package*.json ./
