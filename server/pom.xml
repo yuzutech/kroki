@@ -17,9 +17,9 @@
     <logback.version>1.5.18</logback.version>
     <vertx.version>4.5.14</vertx.version>
     <opentelemetry.version>1.49.0</opentelemetry.version>
-    <junit.jupiter.version>5.12.2</junit.jupiter.version>
+    <junit.jupiter.version>5.13.0</junit.jupiter.version>
     <assertj-core.version>3.27.3</assertj-core.version>
-    <mockito-core.version>5.17.0</mockito-core.version>
+    <mockito-core.version>5.18.0</mockito-core.version>
     <slf4j-api.version>2.0.17</slf4j-api.version>
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
