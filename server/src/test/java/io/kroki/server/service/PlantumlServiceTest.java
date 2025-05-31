@@ -200,6 +200,21 @@ public class PlantumlServiceTest {
       "!include <office/Servers/database_server>\n" +
       "!include <osa/ai.puml>\n" +
       "!include <tupadr3/common>\n" +
+      "!include <archimate/Archimate>\n" +
+      "!include <awslib10/AWSCommon>\n" +
+      "!include <awslib14/AWSCommon>\n" +
+      "!include <bootstrap1.12.1/bootstrap>\n" +
+      "!include <bootstrap1.13.1/bootstrap>\n" +
+      "!include <classy-c4/person>\n" +
+      "!include <edgy/edgy>\n" +
+      "!include <eip/EIP-PlantUML>\n" +
+      "!include <elastic/common>\n" +
+      "!include <gcp/GCPCommon>\n" +
+      "!include <k8s/Simplified>\n" +
+      "!include <logos/100tb>\n" +
+      "!include <material2.1.19/account>\n" +
+      "!include <material7.4.47/material>\n" +
+      "!include <osa2/Common>\n" +
       "@enduml";
     String result = Plantuml.sanitize(diagram, SafeMode.SECURE);
     assertThat(result).isEqualTo(diagram + "\n");

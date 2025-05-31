@@ -72,7 +72,7 @@ public class Plantuml implements DiagramService {
 
   private static final Logger logger = LoggerFactory.getLogger(Plantuml.class);
   private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG, FileFormat.PDF, FileFormat.BASE64, FileFormat.TXT, FileFormat.UTXT);
-  private static final Pattern STDLIB_PATH_RX = Pattern.compile("<([a-zA-Z0-9]+)/[^>]+>");
+  private static final Pattern STDLIB_PATH_RX = Pattern.compile("<([-.a-zA-Z0-9]+)/[^>]+>");
 
   private final Vertx vertx;
   private final PlantumlCommand plantumlCommand;
@@ -110,7 +110,22 @@ public class Plantuml implements DiagramService {
     "material",
     "office",
     "osa",
-    "tupadr3");
+    "tupadr3",
+    "awslib",
+    "awslib10",
+    "awslib14",
+    "bootstrap",
+    "bootstrap1.12.1",
+    "bootstrap1.13.1",
+    "classy-c4",
+    "edgy",
+    "eip",
+    "gcp",
+    "k8s",
+    "material2.1.19",
+    "material7.4.47",
+    "osa2"
+    );
 
   public Plantuml(Vertx vertx, JsonObject config) {
     this.vertx = vertx;
