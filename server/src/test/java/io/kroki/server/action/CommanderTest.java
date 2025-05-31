@@ -17,7 +17,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -121,6 +123,17 @@ class CommanderTest {
     config.put("KROKI_COMMAND_TIMEOUT", "1m");
     Commander commander = new Commander(new JsonObject(config));
     assertThat(commander.commandTimeout).isEqualTo(new TimeValue(1, TimeUnit.MINUTES));
+  }
+
+  @Test
+  void should_not_escape_command() {
+    Commander commander = new Commander(new JsonObject());
+    List<String> commands = new ArrayList<>();
+    commands.add("ls");
+    commands.add("--color=auto & cat /etc/passwd");
+    assertThatThrownBy(() -> commander.execute("".getBytes(), commands.toArray(new String[0])))
+      .isInstanceOf(BadRequestException.class)
+      .hasMessageStartingWith("ls: unsupported --color value 'auto & cat /etc/passwd'");
   }
 
   @Test
