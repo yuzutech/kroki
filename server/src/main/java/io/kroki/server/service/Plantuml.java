@@ -1,6 +1,5 @@
 package io.kroki.server.service;
 
-import io.kroki.server.action.Delegator;
 import io.kroki.server.action.DitaaContext;
 import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
@@ -9,29 +8,18 @@ import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
 import io.kroki.server.log.Logging;
 import io.kroki.server.security.SafeMode;
-import io.vertx.core.AsyncResult;
-import io.vertx.core.Handler;
+import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -125,7 +113,7 @@ public class Plantuml implements DiagramService {
     "material2.1.19",
     "material7.4.47",
     "osa2"
-    );
+  );
 
   public Plantuml(Vertx vertx, JsonObject config) {
     this.vertx = vertx;
@@ -198,7 +186,7 @@ public class Plantuml implements DiagramService {
   }
 
   @Override
-  public void convert(String sourceDecoded, String serviceName, FileFormat fileFormat, JsonObject options, Handler<AsyncResult<Buffer>> handler) {
+  public Future<Buffer> convert(String sourceDecoded, String serviceName, FileFormat fileFormat, JsonObject options) {
     String source;
     try {
       source = sanitize(sourceDecoded, this.safeMode, this.includeWhitelist);
@@ -206,42 +194,33 @@ public class Plantuml implements DiagramService {
       source = withDelimiter(source);
     } catch (IOException e) {
       if (e instanceof UnsupportedEncodingException) {
-        handler.handle(new Delegator.Failure(new BadRequestException("Characters must be encoded in UTF-8.", e)));
+        return Future.failedFuture(new BadRequestException("Characters must be encoded in UTF-8.", e));
       } else {
-        handler.handle(new Delegator.Failure(e));
+        return Future.failedFuture(e);
       }
-      return;
     }
     final String primeSource = source;
     DitaaContext ditaaContext = findDitaaContext(source);
     if (ditaaContext != null) {
       logging.reroute("plantuml", "ditaa", ditaaContext.getSource(), fileFormat);
       // found a ditaa context, delegate to the optimized ditaa service
-      vertx.executeBlocking(future -> {
-        try {
-          ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-          ditaaCommand.convert(ditaaContext.getSource(), fileFormat, options);
-          future.complete(outputStream.toByteArray());
-        } catch (IllegalStateException | IOException | InterruptedException e) {
-          future.fail(e);
-        }
-      }, res -> handler.handle(res.map(o -> Buffer.buffer((byte[]) o))));
+      return vertx.executeBlocking(() -> {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        ditaaCommand.convert(ditaaContext.getSource(), fileFormat, options);
+        return Buffer.buffer(outputStream.toByteArray());
+      });
     } else {
       // ...otherwise, continue with PlantUML
-      vertx.executeBlocking(future -> {
-        try {
-          String sourceWithTheme = primeSource;
-          String theme = options.getString("theme");
-          if (theme != null && !theme.trim().isEmpty()) {
-            // add !theme directive just after the @start directive
-            sourceWithTheme = START_BLOCK_RX.matcher(primeSource).replaceAll("$1!theme " + theme + "\n");
-          }
-          byte[] data = this.plantumlCommand.convert(sourceWithTheme, fileFormat, options);
-          future.complete(data);
-        } catch (Exception e) {
-          future.fail(e);
+      return vertx.executeBlocking(() -> {
+        String sourceWithTheme = primeSource;
+        String theme = options.getString("theme");
+        if (theme != null && !theme.trim().isEmpty()) {
+          // add !theme directive just after the @start directive
+          sourceWithTheme = START_BLOCK_RX.matcher(primeSource).replaceAll("$1!theme " + theme + "\n");
         }
-      }, res -> handler.handle(res.map(o -> Buffer.buffer((byte[]) o))));
+        byte[] data = this.plantumlCommand.convert(sourceWithTheme, fileFormat, options);
+        return Buffer.buffer(data);
+      });
     }
   }
 

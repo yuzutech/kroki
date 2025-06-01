@@ -3,10 +3,10 @@ package io.kroki.server.service;
 import io.kroki.server.action.Commander;
 import io.kroki.server.format.FileFormat;
 import io.vertx.core.Vertx;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
-import io.vertx.junit5.VertxTestContext;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -32,16 +32,8 @@ public class WavedromServiceTest {
     HashMap<String, Object> config = new HashMap<>();
     config.put("KROKI_WAVEDROM_BIN_PATH", "/path/to/wavedrom");
     Wavedrom wavedromService = new Wavedrom(vertx, new JsonObject(config), commanderMock);
-    VertxTestContext testContext = new VertxTestContext();
-    wavedromService.convert("{}", "wavedrom", FileFormat.SVG, new JsonObject(), testContext.succeeding(buffer -> testContext.verify(() -> {
-      assertThat(buffer.toString()).isEqualTo("<svg>wavedrom</svg>");
-      testContext.completeNow();
-    })));
-    // wait at most 2000ms
-    assertThat(testContext.awaitCompletion(2, TimeUnit.SECONDS)).isTrue();
-    if (testContext.failed()) {
-      throw testContext.causeOfFailure();
-    }
+    Buffer result = wavedromService.convert("{}", "wavedrom", FileFormat.SVG, new JsonObject()).await(2, TimeUnit.SECONDS);
+    assertThat(result.toString()).isEqualTo("<svg>wavedrom</svg>");
     Mockito.verify(commanderMock).execute("{}".getBytes(), "/path/to/wavedrom");
   }
 }

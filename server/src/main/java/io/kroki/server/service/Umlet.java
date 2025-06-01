@@ -5,14 +5,12 @@ import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
-import io.vertx.core.AsyncResult;
-import io.vertx.core.Handler;
+import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
 
 import java.io.IOException;
-import java.lang.Exception;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -54,15 +52,11 @@ public class Umlet implements DiagramService {
   }
 
   @Override
-  public void convert(String sourceDecoded, String serviceName, FileFormat fileFormat, JsonObject options, Handler<AsyncResult<Buffer>> handler) {
-    vertx.executeBlocking(future -> {
-      try {
-        byte[] result = umlet(sourceDecoded.getBytes(), fileFormat.getName());
-        future.complete(result);
-      } catch (Exception e) {
-        future.fail(e);
-      }
-    }, res -> handler.handle(res.map(o -> Buffer.buffer((byte[]) o))));
+  public Future<Buffer> convert(String sourceDecoded, String serviceName, FileFormat fileFormat, JsonObject options) {
+    return vertx.executeBlocking(() -> {
+      byte[] result = umlet(sourceDecoded.getBytes(), fileFormat.getName());
+      return Buffer.buffer(result);
+    });
   }
 
   private byte[] umlet(byte[] source, String format) throws IOException, InterruptedException, IllegalStateException {
