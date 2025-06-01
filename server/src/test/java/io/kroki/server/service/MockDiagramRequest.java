@@ -1,17 +1,18 @@
 package io.kroki.server.service;
 
+import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerRequest;
-import io.vertx.ext.web.MIMEHeader;
-import io.vertx.ext.web.ParsedHeaderValues;
-import io.vertx.ext.web.Route;
-import io.vertx.ext.web.RoutingContext;
+import io.vertx.core.http.HttpServerResponse;
+import io.vertx.ext.web.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -19,6 +20,8 @@ public class MockDiagramRequest {
 
   private final MIMEHeader mimeHeader;
   private final HttpServerRequest httpServerRequest;
+  private final HttpServerResponse httpServerResponse;
+  private final RequestBody requestBody;
   private final RoutingContext routingContext;
   private final List<MIMEHeader> accepts = new ArrayList<>();
   private MultiMap params = MultiMap.caseInsensitiveMultiMap();
@@ -28,12 +31,19 @@ public class MockDiagramRequest {
     routingContext = mock(RoutingContext.class);
     Route currentRoute = mock(Route.class);
     httpServerRequest = mock(HttpServerRequest.class);
+    httpServerResponse = mock(HttpServerResponse.class);
+    requestBody = mock(RequestBody.class);
     ParsedHeaderValues parsedHeaderValues = mock(ParsedHeaderValues.class);
     mimeHeader = mock(MIMEHeader.class);
     when(parsedHeaderValues.accept()).thenReturn(accepts);
     when(parsedHeaderValues.contentType()).thenReturn(mimeHeader);
     when(routingContext.parsedHeaders()).thenReturn(parsedHeaderValues);
     when(routingContext.request()).thenReturn(httpServerRequest);
+    when(routingContext.response()).thenReturn(httpServerResponse);
+    when(routingContext.body()).thenReturn(requestBody);
+    when(httpServerResponse.closed()).thenReturn(false);
+    when(httpServerResponse.putHeader(any(CharSequence.class), any(CharSequence.class))).thenReturn(httpServerResponse);
+    when(httpServerResponse.putHeader(any(CharSequence.class), any(Iterable.class))).thenReturn(httpServerResponse);
     when(routingContext.currentRoute()).thenReturn(currentRoute);
     when(httpServerRequest.params()).thenReturn(this.params);
     when(httpServerRequest.headers()).thenReturn(this.headers);
@@ -89,7 +99,7 @@ public class MockDiagramRequest {
   }
 
   public void setBodyAsString(String body) {
-    when(routingContext.getBodyAsString()).thenReturn(body);
+    when(requestBody.asString()).thenReturn(body);
   }
 
   public void setMethod(HttpMethod method) {

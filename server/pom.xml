@@ -12,10 +12,10 @@
   <artifactId>kroki-server</artifactId>
 
   <properties>
-    <!-- https://github.com/vert-x3/vertx-dependencies/blob/6b147024b6aa7732386c6a94a126eacf3b4dda1b/pom.xml#LL50C20-L50C32 -->
+    <!-- https://github.com/vert-x3/vertx-dependencies/blob/5.0.6/pom.xml#LL50C20-L50C32 -->
     <netty.version>4.2.9.Final</netty.version>
     <logback.version>1.5.22</logback.version>
-    <vertx.version>4.5.23</vertx.version>
+    <vertx.version>5.0.6</vertx.version>
     <opentelemetry.version>1.57.0</opentelemetry.version>
     <junit.jupiter.version>6.0.1</junit.jupiter.version>
     <assertj-core.version>3.27.6</assertj-core.version>
@@ -92,6 +92,11 @@
     <dependency>
       <groupId>io.vertx</groupId>
       <artifactId>vertx-config</artifactId>
+      <version>${vertx.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-launcher-application</artifactId>
       <version>${vertx.version}</version>
     </dependency>
     <dependency>
@@ -271,7 +276,7 @@
                 <transformer
                   implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                   <manifestEntries>
-                    <Main-Class>io.vertx.core.Launcher</Main-Class>
+                    <Main-Class>io.vertx.launcher.application.VertxApplication</Main-Class>
                     <Main-Verticle>io.kroki.server.Server</Main-Verticle>
                   </manifestEntries>
                 </transformer>

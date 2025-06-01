@@ -11,8 +11,7 @@ import io.kroki.server.error.BadRequestException;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
 import io.kroki.server.security.SafeMode;
-import io.vertx.core.AsyncResult;
-import io.vertx.core.Handler;
+import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.Json;
@@ -24,7 +23,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
-import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
 public class Structurizr implements DiagramService {
@@ -78,8 +76,8 @@ public class Structurizr implements DiagramService {
   }
 
   @Override
-  public void convert(String sourceDecoded, String serviceName, FileFormat fileFormat, JsonObject options, Handler<AsyncResult<Buffer>> handler) {
-    vertx.executeBlocking(() -> convert(sourceDecoded, fileFormat, options), res -> handler.handle(res.map(Buffer::buffer)));
+  public Future<Buffer> convert(String sourceDecoded, String serviceName, FileFormat fileFormat, JsonObject options) {
+    return vertx.executeBlocking(() -> Buffer.buffer(convert(sourceDecoded, fileFormat, options)));
   }
 
   static byte[] convert(

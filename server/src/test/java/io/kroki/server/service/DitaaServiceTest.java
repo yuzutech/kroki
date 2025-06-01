@@ -15,6 +15,8 @@ import org.junit.jupiter.api.condition.OS;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
@@ -57,5 +59,23 @@ public class DitaaServiceTest {
     options.put("no-shadows", "");
     byte[] svgWithoutShadows = ditaaCommand.convert(input, FileFormat.SVG, options);
     assertThat(new String(svgWithoutShadows, StandardCharsets.UTF_8)).doesNotContain("filter=\"url(#shadowBlur)\"");
+  }
+
+  @Test
+  public void should_call_ditaa_with_scale() throws Exception {
+    String input = "+---------+\n" +
+      "| cBLU    |\n" +
+      "|         |\n" +
+      "|    +----+\n" +
+      "|    |cPNK|\n" +
+      "|    |    |\n" +
+      "+----+----+";
+
+    Map<String, Object> config = new HashMap<>();
+    config.put("scale", "0.7");
+    byte[] result = ditaaCommand.convert(input, FileFormat.SVG, new JsonObject(config));
+    System.out.println(new String(result));
+    byte[] result1 = ditaaCommand.convert(input, FileFormat.SVG, new JsonObject());
+    System.out.println(new String(result1));
   }
 }

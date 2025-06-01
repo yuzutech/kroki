@@ -5,9 +5,7 @@ import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
-import io.kroki.server.security.SafeMode;
-import io.vertx.core.AsyncResult;
-import io.vertx.core.Handler;
+import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
@@ -23,6 +21,7 @@ public class Dbml implements DiagramService {
   private final String binPath;
   private final SourceDecoder sourceDecoder;
   private final Commander commander;
+
   public Dbml(Vertx vertx, JsonObject config, Commander commander) {
     this.vertx = vertx;
     this.binPath = config.getString("KROKI_DBML_BIN_PATH", "dbml");
@@ -51,15 +50,11 @@ public class Dbml implements DiagramService {
   }
 
   @Override
-  public void convert(String sourceDecoded, String serviceName, FileFormat fileFormat, JsonObject options, Handler<AsyncResult<Buffer>> handler) {
-    vertx.executeBlocking(future -> {
-      try {
-        byte[] result = dbmlRenderer(sourceDecoded.getBytes(), fileFormat.getName());
-        future.complete(result);
-      } catch (IOException | InterruptedException | IllegalStateException e) {
-        future.fail(e);
-      }
-    }, res -> handler.handle(res.map(o -> Buffer.buffer((byte[]) o))));
+  public Future<Buffer> convert(String sourceDecoded, String serviceName, FileFormat fileFormat, JsonObject options) {
+    return vertx.executeBlocking(() -> {
+      byte[] result = dbmlRenderer(sourceDecoded.getBytes(), fileFormat.getName());
+      return Buffer.buffer(result);
+    });
   }
 
   private byte[] dbmlRenderer(byte[] source, String format) throws IOException, InterruptedException, IllegalStateException {
