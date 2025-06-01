@@ -4,8 +4,7 @@ import io.kroki.server.error.BadRequestException;
 import io.kroki.server.error.ServiceUnavailableException;
 import io.kroki.server.log.Logging;
 import io.netty.handler.codec.http.HttpHeaderValues;
-import io.vertx.core.AsyncResult;
-import io.vertx.core.Handler;
+import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpClient;
@@ -26,6 +25,7 @@ public class Delegator {
   private static final Logger logger = LoggerFactory.getLogger(Delegator.class);
   private static final Logging logging = new Logging(logger);
   private final WebClient webClient;
+
   public Delegator(Vertx vertx) {
     HttpClient httpClient = vertx.httpClientBuilder()
       // https://vertx.io/docs/vertx-web-client/java/#_handling_30x_redirections
@@ -37,7 +37,8 @@ public class Delegator {
       .build();
     this.webClient = WebClient.wrap(httpClient);
   }
-  public void delegate(String host, int port, String requestURI, String body, JsonObject options, Handler<AsyncResult<HttpResponse<Buffer>>> handler) {
+
+  public Future<HttpResponse<Buffer>> delegate(String host, int port, String requestURI, String body, JsonObject options) {
     HttpRequest<Buffer> request = this.webClient
       .post(port, host, requestURI)
       .putHeader(HttpHeaders.ACCEPT.toString(), HttpHeaderValues.APPLICATION_JSON.toString());
@@ -46,111 +47,50 @@ public class Delegator {
       String value = entry.getValue() != null ? entry.getValue().toString() : "";
       request.addQueryParam(key, value);
     });
-    request
-      .sendBuffer(Buffer.buffer(body), handler);
+    return request
+      .sendBuffer(Buffer.buffer(body));
   }
 
-  public static Handler<AsyncResult<HttpResponse<Buffer>>> createHandler(String host, int port, String requestURI, Handler<AsyncResult<Buffer>> handler) {
-    return result -> {
-      if (result.succeeded()) {
-        HttpResponse<Buffer> httpResponse = result.result();
-        if (httpResponse.statusCode() == 200) {
-          handler.handle(new Success(httpResponse.body()));
-        } else {
-          logging.delegate(httpResponse, host, port, requestURI);
-          String contentType = httpResponse.getHeader(HttpHeaders.CONTENT_TYPE.toString());
-          if (contentType != null && contentType.toLowerCase().startsWith(HttpHeaderValues.APPLICATION_JSON.toString())) {
-            try {
-              JsonObject json = httpResponse.bodyAsJsonObject();
-              if (json != null) {
-                final String errorMessage;
-                Object error = json.getValue("error");
-                if (error instanceof String) {
-                  errorMessage = (String) error;
-                } else if (error instanceof JsonObject) {
-                  String errorName = ((JsonObject) error).getString("name", "Error");
-                  String message = ((JsonObject) error).getString("message", "Unexpected error");
-                  String stackTrace = ((JsonObject) error).getString("stacktrace", "");
-                  errorMessage = errorName + ": " + message + "\n" + stackTrace;
-                } else {
-                  errorMessage = "Unexpected error";
-                }
-                handler.handle(new Failure(new BadRequestException(errorMessage, httpResponse.statusCode())));
-              } else {
-                handler.handle(new Failure(new HttpException(httpResponse.statusCode())));
-              }
-            } catch (DecodeException e) {
-              handler.handle(new Failure(new HttpException(httpResponse.statusCode())));
-            }
-          } else {
-            handler.handle(new Failure(new HttpException(httpResponse.statusCode())));
-          }
-        }
+  public static Future<Buffer> handle(String host, int port, String requestURI, Future<HttpResponse<Buffer>> httpResponseFuture) {
+    return httpResponseFuture.compose(httpResponse -> {
+      if (httpResponse.statusCode() == 200) {
+        return Future.succeededFuture(httpResponse.body());
       } else {
-        if (result.cause() instanceof ConnectException) {
-          handler.handle(new Failure(new ServiceUnavailableException(result.cause().getMessage())));
+        logging.delegate(httpResponse, host, port, requestURI);
+        String contentType = httpResponse.getHeader(HttpHeaders.CONTENT_TYPE.toString());
+        if (contentType != null && contentType.toLowerCase().startsWith(HttpHeaderValues.APPLICATION_JSON.toString())) {
+          try {
+            JsonObject json = httpResponse.bodyAsJsonObject();
+            if (json != null) {
+              final String errorMessage;
+              Object error = json.getValue("error");
+              if (error instanceof String) {
+                errorMessage = (String) error;
+              } else if (error instanceof JsonObject) {
+                String errorName = ((JsonObject) error).getString("name", "Error");
+                String message = ((JsonObject) error).getString("message", "Unexpected error");
+                String stackTrace = ((JsonObject) error).getString("stacktrace", "");
+                errorMessage = errorName + ": " + message + "\n" + stackTrace;
+              } else {
+                errorMessage = "Unexpected error";
+              }
+              return Future.failedFuture(new BadRequestException(errorMessage, httpResponse.statusCode()));
+            } else {
+              return Future.failedFuture(new HttpException(httpResponse.statusCode()));
+            }
+          } catch (DecodeException e) {
+            return Future.failedFuture(new HttpException(httpResponse.statusCode()));
+          }
         } else {
-          handler.handle(new Failure(result.cause()));
+          return Future.failedFuture(new HttpException(httpResponse.statusCode()));
         }
       }
-    };
-  }
-
-  public static class Success implements AsyncResult<Buffer> {
-
-    private final Buffer buffer;
-
-    public Success(Buffer buffer) {
-      this.buffer = buffer;
-    }
-
-    @Override
-    public Buffer result() {
-      return buffer;
-    }
-
-    @Override
-    public Throwable cause() {
-      return null;
-    }
-
-    @Override
-    public boolean succeeded() {
-      return true;
-    }
-
-    @Override
-    public boolean failed() {
-      return false;
-    }
-  }
-
-  public static class Failure implements AsyncResult<Buffer> {
-
-    private final Throwable cause;
-
-    public Failure(Throwable cause) {
-      this.cause = cause;
-    }
-
-    @Override
-    public Buffer result() {
-      return null;
-    }
-
-    @Override
-    public Throwable cause() {
-      return cause;
-    }
-
-    @Override
-    public boolean succeeded() {
-      return false;
-    }
-
-    @Override
-    public boolean failed() {
-      return true;
-    }
+    }, failure -> {
+      if (failure instanceof ConnectException) {
+        return Future.failedFuture(new ServiceUnavailableException(failure.getMessage()));
+      } else {
+        return Future.failedFuture(failure);
+      }
+    });
   }
 }

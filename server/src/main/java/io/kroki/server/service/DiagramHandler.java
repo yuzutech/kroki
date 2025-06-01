@@ -1,17 +1,15 @@
 package io.kroki.server.service;
 
-import io.kroki.server.error.BadRequestException;
-import io.kroki.server.error.DecodeException;
-import io.kroki.server.error.UndefinedOutputFormatException;
-import io.kroki.server.error.UnsupportedFormatException;
-import io.kroki.server.error.UnsupportedMimeTypeException;
+import io.kroki.server.error.*;
 import io.kroki.server.format.ContentType;
 import io.kroki.server.format.FileFormat;
 import io.kroki.server.log.Logging;
 import io.kroki.server.response.Caching;
 import io.kroki.server.response.DiagramResponse;
+import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.MultiMap;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonObject;
@@ -83,7 +81,7 @@ public class DiagramHandler {
         JsonObject jsonBody;
         MIMEHeader contentType = routingContext.parsedHeaders().contentType();
         if (contentType != null && contentType.value() != null && contentType.value().equals("application/json")) {
-          String bodyAsString = routingContext.getBodyAsString();
+          String bodyAsString = routingContext.body().asString();
           if (bodyAsString == null || bodyAsString.trim().isEmpty()) {
             routingContext.fail(new BadRequestException("Request body must not be empty."));
             return;
@@ -98,7 +96,7 @@ public class DiagramHandler {
         } else {
           // assumes that the Content-Type is "plain/text" (default)
           jsonBody = new JsonObject();
-          diagramSource = routingContext.getBodyAsString();
+          diagramSource = routingContext.body().asString();
           if (diagramSource == null || diagramSource.trim().isEmpty()) {
             routingContext.fail(new BadRequestException("Request body must not be empty."));
             return;
@@ -191,17 +189,18 @@ public class DiagramHandler {
 
   public void convert(RoutingContext routingContext, String sourceDecoded, String serviceName, FileFormat fileFormat, JsonObject options) {
     long start = System.currentTimeMillis();
-    service.convert(sourceDecoded, serviceName, fileFormat, options, res -> {
+    Future<Buffer> result = service.convert(sourceDecoded, serviceName, fileFormat, options);
+    result.onComplete(buffer -> {
       logging.convert(routingContext, start, serviceName, fileFormat);
-      if (res.failed()) {
-        routingContext.fail(res.cause());
+      if (buffer == null) {
+        routingContext.fail(new BadRequestException("The service did not return a response."));
       } else {
         HttpServerResponse response = routingContext.response();
         if (!response.closed()) {
-          diagramResponse.end(response, sourceDecoded, fileFormat, res.result());
+          diagramResponse.end(response, sourceDecoded, fileFormat, buffer);
         }
       }
-    });
+    }, routingContext::fail);
   }
 
   public DiagramService getService() {

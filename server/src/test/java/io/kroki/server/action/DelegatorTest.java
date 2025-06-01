@@ -7,8 +7,8 @@ import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
+import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.junit5.VertxExtension;
-import io.vertx.junit5.VertxTestContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,6 +16,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -32,7 +34,7 @@ public class DelegatorTest {
   }
 
   @Test
-  void should_propagate_options_when_delegating_work(Vertx vertx, VertxTestContext testContext) {
+  void should_propagate_options_when_delegating_work(Vertx vertx) throws TimeoutException {
     HttpServer server = vertx.createHttpServer();
     server.requestHandler(req -> {
       req.body().onSuccess(bodyBuffer -> {
@@ -45,47 +47,37 @@ public class DelegatorTest {
         req.response().setStatusCode(200).end(responseBuffer);
       });
     });
-    server.listen(port, "localhost", handler -> {
-      Delegator delegator = new Delegator(vertx);
-      HashMap<String, Object> options = new HashMap<>();
-      options.put("theme", "forest");
-      delegator.delegate("localhost", port, "/mermaid/png", "sequenceDiagram\n" +
-              "    Alice->>John: Hello John, how are you?", new JsonObject(options), testContext.succeeding(bufferHttpResponse -> {
-        String response = bufferHttpResponse.bodyAsString();
-        assertThat(response).isEqualTo("uri=/mermaid/png?theme=forest\n;body=sequenceDiagram\n    Alice->>John: Hello John, how are you?");
-        testContext.completeNow();
-      }));
-    });
+    server.listen(port, "localhost").await(5, TimeUnit.SECONDS);
+    Delegator delegator = new Delegator(vertx);
+    HashMap<String, Object> options = new HashMap<>();
+    options.put("theme", "forest");
+    HttpResponse<Buffer> response = delegator.delegate("localhost", port, "/mermaid/png", "sequenceDiagram\n" +
+      "    Alice->>John: Hello John, how are you?", new JsonObject(options)).await(5, TimeUnit.SECONDS);
+    assertThat(response.bodyAsString()).isEqualTo("uri=/mermaid/png?theme=forest\n;body=sequenceDiagram\n    Alice->>John: Hello John, how are you?");
   }
 
   @Test
-  void should_handle_redirect_with_post_method(Vertx vertx, VertxTestContext testContext) {
+  void should_handle_redirect_with_post_method(Vertx vertx) throws TimeoutException {
     HttpServer server = vertx.createHttpServer();
     Router router = Router.router(vertx);
     router.route("/redirect")
-      .handler(context -> {
-        context.response()
-          .setStatusCode(301)
-          .putHeader(HttpHeaders.LOCATION, "/destination")
-          .end();
-      });
+      .handler(context -> context.response()
+        .setStatusCode(301)
+        .putHeader(HttpHeaders.LOCATION, "/destination")
+        .end());
     router.route("/destination")
-    .handler(context -> {
-      context.response()
+      .handler(context -> context.response()
         .setStatusCode(200)
-        .end(context.request().method().name());
-    });
+        .end(context.request().method().name()));
 
     server
       .requestHandler(router)
-      .listen(port, "localhost", handler -> {
-        Delegator delegator = new Delegator(vertx);
-        HashMap<String, Object> options = new HashMap<>();
-        delegator.delegate("localhost", port, "/redirect", "", new JsonObject(options), testContext.succeeding(bufferHttpResponse -> {
-          String response = bufferHttpResponse.bodyAsString();
-          assertThat(response).isEqualTo(HttpMethod.POST.name());
-          testContext.completeNow();
-        }));
-      });
+      .listen(port, "localhost")
+      .await(5, TimeUnit.SECONDS);
+
+    Delegator delegator = new Delegator(vertx);
+    HashMap<String, Object> options = new HashMap<>();
+    HttpResponse<Buffer> response = delegator.delegate("localhost", port, "/redirect", "", new JsonObject(options)).await(5, TimeUnit.SECONDS);
+    assertThat(response.bodyAsString()).isEqualTo(HttpMethod.POST.name());
   }
 }

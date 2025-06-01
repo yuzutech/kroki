@@ -6,7 +6,9 @@ import io.kroki.server.error.DecodeException;
 import io.kroki.server.error.UnsupportedFormatException;
 import io.kroki.server.error.UnsupportedMimeTypeException;
 import io.kroki.server.format.FileFormat;
+import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
@@ -90,7 +92,7 @@ class DiagramHandlerTest {
     mockDiagramRequest.addParam("source_encoded", "SyfFKj2rKt3CoKnELR1Io4ZDoSa70000");
     RoutingContext routingContext = mockDiagramRequest.getRoutingContext();
     diagramHandler.createGet("plantuml").handle(routingContext);
-    verify(mockDiagramService).convert(eq("@startuml\nBob -> Alice : hello\n@enduml"), eq("plantuml"), eq(FileFormat.SVG), any(), any());
+    verify(mockDiagramService).convert(eq("@startuml\nBob -> Alice : hello\n@enduml"), eq("plantuml"), eq(FileFormat.SVG), any());
   }
 
   /**
@@ -115,7 +117,7 @@ class DiagramHandlerTest {
 
     RoutingContext routingContext = mockDiagramRequest.getRoutingContext();
     diagramHandler.createPost("plantuml").handle(routingContext);
-    verify(mockDiagramService).convert(eq("Bob -> Alice : hello"), eq("plantuml"), eq(FileFormat.SVG), any(), any());
+    verify(mockDiagramService).convert(eq("Bob -> Alice : hello"), eq("plantuml"), eq(FileFormat.SVG), any());
   }
 
   /**
@@ -139,7 +141,7 @@ class DiagramHandlerTest {
 
     RoutingContext routingContext = mockDiagramRequest.getRoutingContext();
     diagramHandler.createPost("plantuml").handle(routingContext);
-    verify(mockDiagramService).convert(eq("Bob -> Alice : hello"), eq("plantuml"), eq(FileFormat.SVG), any(), any());
+    verify(mockDiagramService).convert(eq("Bob -> Alice : hello"), eq("plantuml"), eq(FileFormat.SVG), any());
   }
 
   /**
@@ -164,7 +166,7 @@ class DiagramHandlerTest {
 
     RoutingContext routingContext = mockDiagramRequest.getRoutingContext();
     diagramHandler.createPost("plantuml").handle(routingContext);
-    verify(mockDiagramService).convert(eq("Bob -> Alice : hello"), eq("plantuml"), eq(FileFormat.SVG), any(), any());
+    verify(mockDiagramService).convert(eq("Bob -> Alice : hello"), eq("plantuml"), eq(FileFormat.SVG), any());
   }
 
   /**
@@ -187,7 +189,7 @@ class DiagramHandlerTest {
 
     RoutingContext routingContext = mockDiagramRequest.getRoutingContext();
     diagramHandler.createPost("plantuml").handle(routingContext);
-    verify(mockDiagramService).convert(eq("Bob -> Alice : hello"), eq("plantuml"), eq(FileFormat.SVG), any(), any());
+    verify(mockDiagramService).convert(eq("Bob -> Alice : hello"), eq("plantuml"), eq(FileFormat.SVG), any());
   }
 
   /**
@@ -212,7 +214,7 @@ class DiagramHandlerTest {
     // handle
     RoutingContext routingContext = mockDiagramRequest.getRoutingContext();
     diagramHandler.createPost("plantuml").handle(routingContext);
-    verify(mockDiagramService).convert(eq("Bob -> Alice : hello"), eq("plantuml"), eq(FileFormat.SVG), any(), any());
+    verify(mockDiagramService).convert(eq("Bob -> Alice : hello"), eq("plantuml"), eq(FileFormat.SVG), any());
   }
 
   @Test
@@ -249,7 +251,7 @@ class DiagramHandlerTest {
     options.put("edge-attribute-color", "NavajoWhite");
     options.put("node-attribute-shape", "rect");
     options.put("graph-attribute-label", "Hello World");
-    verify(mockDiagramService).convert(eq("digraph { a -> b }"), eq("graphviz"), eq(FileFormat.SVG), eq(options), any());
+    verify(mockDiagramService).convert(eq("digraph { a -> b }"), eq("graphviz"), eq(FileFormat.SVG), eq(options));
   }
 
   @Test
@@ -287,7 +289,7 @@ class DiagramHandlerTest {
     options.put("edge-attribute-color", "NavajoWhite");
     options.put("node-attribute-shape", "rect");
     options.put("graph-attribute-label", "Hello World");
-    verify(mockDiagramService).convert(eq("digraph { a -> b }"), eq("graphviz"), eq(FileFormat.SVG), eq(options), any());
+    verify(mockDiagramService).convert(eq("digraph { a -> b }"), eq("graphviz"), eq(FileFormat.SVG), eq(options));
   }
 
   @Test
@@ -323,6 +325,7 @@ class DiagramHandlerTest {
     DiagramService diagramService = mock(DiagramService.class);
     when(diagramService.getSupportedFormats()).thenReturn(supportedFormats);
     when(diagramService.getSourceDecoder()).thenReturn(sourceDecoder);
+    when(diagramService.convert(any(), any(), any(), any())).thenReturn(Future.succeededFuture(Buffer.buffer("")));
     return diagramService;
   }
 }

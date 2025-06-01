@@ -1,7 +1,7 @@
 package io.kroki.server.service;
 
 import io.vertx.core.VertxOptions;
-import io.vertx.core.impl.btc.BlockedThreadEvent;
+import io.vertx.core.internal.threadchecker.BlockedThreadEvent;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
