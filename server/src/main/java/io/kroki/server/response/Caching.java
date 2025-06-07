@@ -51,7 +51,10 @@ public class Caching {
     response.putHeader(HttpHeaders.DATE, httpDate(today));
     response.putHeader(HttpHeaders.LAST_MODIFIED, httpDate(compileTime));
     response.putHeader(HttpHeaders.CACHE_CONTROL, "public, max-age=" + maxAge);
-    response.putHeader(HttpHeaders.ETAG, version + internalEtag(data));
+    final String etag = internalEtag(data);
+    if (!"NOETAG".equals(etag)) {
+      response.putHeader(HttpHeaders.ETAG, "\"" + version + etag + "\"");
+    }
   }
 
   private String httpDate(long millis) {
