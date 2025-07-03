@@ -34,7 +34,7 @@ backend_driver() {
             echo
             ;;
         svg)
-            echo dvisvgm,tikz
+            echo dvisvgm
             ;;
     esac
 }
@@ -59,7 +59,7 @@ documentclass_present() {
 
 infer_documentclass() {
     output_format=$1
-    echo "\\documentclass[$(backend_driver $output_format)]{standalone}"
+    echo "\\documentclass[tikz,$(backend_driver $output_format)]{standalone}"
 }
 
 add_documentclass() {
