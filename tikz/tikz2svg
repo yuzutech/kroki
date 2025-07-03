@@ -34,7 +34,7 @@ backend_driver() {
             echo
             ;;
         svg)
-            echo dvisvgm
+            echo dvisvgm,tikz
             ;;
     esac
 }
