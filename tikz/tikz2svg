@@ -59,16 +59,33 @@ documentclass_present() {
 
 infer_documentclass() {
     output_format=$1
-    echo "\\documentclass[$(backend_driver $output_format)]{standalone}"
+    echo "\\documentclass[tikz,$(backend_driver $output_format)]{standalone}"
 }
 
-maybe_add_documentclass() {
+add_documentclass() {
+    documentclass=$1
+    raw_input=$2
+
+    echo $documentclass
+    cat $raw_input
+}
+
+replace_documentclass() {
+    documentclass=$1
+    raw_input=$2
+
+    sed "s/\\documentclass.*\\?}/$documentclass/" $raw_input
+}
+
+fixup_documentclass() {
     output_format=$1
     raw_input=$2
-    if ! documentclass_present $raw_input; then
-        infer_documentclass $output_format
+    documentclass=$(infer_documentclass $output_format)
+    if documentclass_present $raw_input; then
+        replace_documentclass $documentclass $raw_input
+    else
+        add_documentclass $documentclass $raw_input
     fi
-    cat $raw_input
 }
 
 output_format="$1"
@@ -90,7 +107,7 @@ cd $tempdir
 # Write stdin to raw_input.tex
 cat >raw_input.tex
 
-maybe_add_documentclass $output_format raw_input.tex > file.tex
+fixup_documentclass $output_format raw_input.tex > file.tex
 latex $LATEX_OPTIONS -output-format=$(intermediate_format $output_format) file.tex >/dev/null
 
 case "$output_format" in
