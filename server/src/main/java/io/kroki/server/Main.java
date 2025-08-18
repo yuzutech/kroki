@@ -5,12 +5,14 @@ import io.opentelemetry.sdk.autoconfigure.AutoConfiguredOpenTelemetrySdk;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
-import io.vertx.tracing.opentelemetry.OpenTelemetryTracingFactory;
+import io.vertx.core.json.JsonObject;
+import io.vertx.tracing.opentelemetry.OpenTelemetryOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.util.Properties;
+
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Properties;
 
 public class Main {
 
@@ -30,21 +32,17 @@ public class Main {
   }
 
   public static void main(String[] args) {
-    OpenTelemetry openTelemetry = AutoConfiguredOpenTelemetrySdk.initialize().getOpenTelemetrySdk();
-    Vertx vertx = Vertx.builder()
-      .withTracer(new OpenTelemetryTracingFactory(openTelemetry))
-      .build();
+    Vertx vertx = Vertx.builder().build();
     VertxOptions vertxOptions = new VertxOptions();
+    OpenTelemetry openTelemetry = AutoConfiguredOpenTelemetrySdk.initialize().getOpenTelemetrySdk();
+    vertxOptions.setTracingOptions(new OpenTelemetryOptions(openTelemetry));
     ConfigRetriever retriever = ConfigRetriever.create(vertx);
-    retriever.getConfig(configResult -> {
-      if (configResult.failed()) {
-        logger.error("Unable to start", configResult.cause());
+    JsonObject config = retriever.getConfig().await();
+    Server.start(vertx, vertxOptions, config).onComplete(server -> {
+      if (server.failed()) {
+        logger.error("Failed to start Kroki server", server.cause());
       } else {
-        Server.start(vertx, vertxOptions, configResult.result(), startResult -> {
-          if (startResult.failed()) {
-            logger.error("Unable to start", startResult.cause());
-          }
-        });
+        logger.info("Kroki server started successfully on port {}", server.result().actualPort());
       }
     });
   }
