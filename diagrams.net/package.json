@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "micro": "10.0.1",
-    "pino": "9.6.0",
+    "pino": "9.14.0",
     "pino-debug": "^2.0.0",
     "puppeteer": "23.6.0"
   },
@@ -26,6 +26,6 @@
     "standard": "17.1.2"
   },
   "volta": {
-    "node": "22.15.1"
+    "node": "22.21.1"
   }
 }
