@@ -1,0 +1,20 @@
+{
+  "tasks": {
+    "dev": "deno run --watch --allow-ffi ./src/main.ts",
+    "test": "deno test --allow-ffi --allow-read"
+  },
+  "nodeModulesDir": "auto",
+  "imports": {
+    "@std/parse-args": "jsr:@std/cli/parse-args",
+    "@std/assert": "jsr:@std/assert@1",
+    "canvas": "npm:canvas@3.2.0",
+    "sinon": "npm:sinon@21.0.0",
+    "vega" : "npm:vega@6.2.0",
+    "vega-canvas": "npm:vega-canvas@2.0.0",
+    "vega-lite": "npm:vega-lite@6.4.1"
+  },
+  "allowScripts": {
+    "allow": ["npm:canvas@3.2.0"],
+    "deny": []
+  }
+}

@@ -19,39 +19,21 @@ RUN /usr/local/bin/pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" = "amd64" ] &
 ## Vega
 FROM --platform=$BUILDPLATFORM ubuntu:noble AS kroki-builder-vega
 
-# System dependencies for "canvas" Node package
-# https://github.com/Automattic/node-canvas#compiling
 RUN apt-get update && apt-get install --no-install-recommends --yes \
     curl \
     ca-certificates \
-    unzip \
-    build-essential \
-    libcairo2-dev \
-    libgif-dev \
-    libjpeg-dev \
-    libpango1.0-dev \
-    librsvg2-dev && \
+    unzip && \
     apt-get clean && apt-get autoremove
 
-RUN curl -o- https://fnm.vercel.app/install | bash && \
-    /root/.local/share/fnm/fnm install 22.14.0
-
-ENV PATH="$PATH:/root/.local/share/fnm/node-versions/v22.14.0/installation/bin"
-
-RUN npm install -g @yao-pkg/pkg@6.3.0 @yao-pkg/pkg-fetch@3.5.20
-
-ARG TARGETARCH
-ARG TARGETOS
-ENV NODE=node22
-RUN pkg-fetch -n $NODE -p $TARGETOS -a $([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH")
+RUN curl -fsSL https://deno.land/install.sh | DENO_INSTALL=/usr/local sh
 
 COPY --from=vega src /app/src
 COPY --from=vega tests /app/tests
-COPY --from=vega package.json package-lock.json /app/
+COPY --from=vega deno.json deno.lock /app/
+
 WORKDIR /app
 
-RUN npm install --target_arch=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") --target_platform=$TARGETOS && npm run lint && npm t
-RUN pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
+RUN deno compile --include=node_modules --node-modules-dir=auto --allow-ffi --output "app.bin" ./src/main.ts
 
 ## DBML
 FROM --platform=$BUILDPLATFORM node:22.21-bookworm-slim AS kroki-builder-dbml
@@ -229,6 +211,9 @@ RUN apt-get update && apt-get install --no-install-recommends --yes \
     texlive-pstricks \
     texlive-science && \
     apt-get clean && apt-get autoremove
+
+COPY --from=vega packages packages
+RUN dpkg -i packages/libjpeg62-turbo_2.0.6-4_amd64.deb
 
 RUN wget "https://github.com/yuzutech/graphviz-builder/releases/download/${GRAPHVIZ_VERSION}/dot-linux-${TARGETARCH}" -O /usr/bin/dot && \
     chmod +x /usr/bin/dot

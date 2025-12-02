@@ -20,6 +20,12 @@ function getDependencyVersion(pkg, name) {
   return pkg.devDependencies[name]
 }
 
+function getImportVersion(pkg, name) {
+  if (name in pkg.imports) {
+    return pkg.imports[name]
+  }
+}
+
 async function updateServiceGetVersion(javaServiceFileName, version) {
   const servicePath = ospath.join(krokiServicePath, javaServiceFileName)
   const javaContent = await fs.readFile(servicePath, 'utf8')
@@ -95,6 +101,20 @@ function addDiagramLibraryPackageVersion(diagramName, dependencyName, directoryN
   return version
 }
 
+function addDiagramLibraryDenoVersion(diagramName, dependencyName, directoryName) {
+  if (directoryName === undefined) {
+    directoryName = diagramName
+  }
+  if (dependencyName === undefined) {
+    dependencyName = diagramName
+  }
+  const pkg = require(ospath.join(rootDir, directoryName, 'deno.json'))
+  const value = getImportVersion(pkg, dependencyName)
+  const version = value.replace(`npm:${dependencyName}@`, '')
+  diagramLibraryVersions[diagramName] = version
+  return version
+}
+
 const diagramLibraryNames = [
   'actdiag',
   'blockdiag',
@@ -132,8 +152,8 @@ try {
   addDiagramLibraryPackageVersion('excalidraw', '@excalidraw/excalidraw')
   addDiagramLibraryPackageVersion('mermaid')
   addDiagramLibraryPackageVersion('nomnoml')
-  addDiagramLibraryPackageVersion('vega')
-  addDiagramLibraryPackageVersion('vegalite', 'vega-lite', 'vega')
+  addDiagramLibraryDenoVersion('vega')
+  addDiagramLibraryDenoVersion('vegalite', 'vega-lite', 'vega')
   addDiagramLibraryPackageVersion('wavedrom')
 
   const diagramsnetAppContent = await fs.readFile(ospath.join(rootDir, 'diagrams.net', 'assets', 'js', 'app.min.js'), 'utf8')
