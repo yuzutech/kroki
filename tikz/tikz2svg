@@ -90,6 +90,8 @@ fixup_documentclass() {
 
 output_format="$1"
 
+safe_mode="$2"
+
 tempdir=$(mktemp --directory)
 
 cleanup() {
@@ -106,6 +108,14 @@ cd $tempdir
 
 # Write stdin to raw_input.tex
 cat >raw_input.tex
+
+if [ "$safe_mode" -ge "10" ]; then
+  # SECURE more or above
+  if grep -q "\\\verbatiminput" raw_input.tex; then
+    printf "Diagrams cannot contain \verbatiminput command while running in secure mode."
+    exit 10
+  fi
+fi
 
 fixup_documentclass $output_format raw_input.tex > file.tex
 latex $LATEX_OPTIONS -output-format=$(intermediate_format $output_format) file.tex >/dev/null
