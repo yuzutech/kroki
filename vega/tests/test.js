@@ -1,12 +1,14 @@
 'use strict'
 
-const { describe, it } = require('node:test')
-const { fail, deepEqual } = require('node:assert')
-const ospath = require('node:path')
-const fs = require('node:fs').promises
-const sinon = require('sinon')
+import { describe, it } from 'node:test'
 
-const { convert } = require('../src/convert.js')
+import { convert } from '../src/convert.js'
+import sinon from 'sinon'
+import { promises as fs } from 'node:fs'
+import ospath from 'node:path'
+import { deepEqual, fail } from 'node:assert'
+
+const __dirname = import.meta.dirname
 
 describe('#convert', function () {
   it('should throw UnsafeIncludeError in secure mode when the Vega-Lite specification contains data.url', async function () {

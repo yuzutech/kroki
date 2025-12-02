@@ -1,5 +1,5 @@
-const vega = require('vega')
-const vegaLite = require('vega-lite')
+import { View, parse } from 'vega'
+import { compile } from 'vega-lite'
 
 class UnsafeIncludeError extends Error {
   constructor (message) {
@@ -30,11 +30,11 @@ const nullLogger = {
  * @param options
  * @returns {Promise<string|Buffer>}
  */
-async function convert (source, options) {
+export async function convert (source, options) {
   const { safeMode, specFormat, format } = options
   let spec = JSON.parse(source)
   if (specFormat === 'lite') {
-    spec = vegaLite.compile(spec, { logger: nullLogger }).spec
+    spec = compile(spec, { logger: nullLogger }).spec
   }
   if (safeMode === 'secure' && spec && spec.data && Array.isArray(spec.data)) {
     const dataWithUrlAttribute = spec.data.filter((item) => item.url)
@@ -43,7 +43,7 @@ async function convert (source, options) {
 Please include your data set as 'values' or run Kroki in unsafe mode using the KROKI_SAFE_MODE environment variable.`)
     }
   }
-  const view = new vega.View(vega.parse(spec), { renderer: 'none' }).finalize()
+  const view = new View(parse(spec), { renderer: 'none' }).finalize()
   if (format === 'svg') {
     return await view.toSVG()
   }
@@ -68,8 +68,4 @@ Please include your data set as 'values' or run Kroki in unsafe mode using the K
     })
   }
   throw new IllegalArgumentError(`Unknown output format: ${format}. Must be one of: svg, png or pdf.`)
-}
-
-module.exports = {
-  convert
 }
