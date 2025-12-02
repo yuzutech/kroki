@@ -36,11 +36,24 @@ async function convert (source, options) {
   if (specFormat === 'lite') {
     spec = vegaLite.compile(spec, { logger: nullLogger }).spec
   }
-  if (safeMode === 'secure' && spec && spec.data && Array.isArray(spec.data)) {
-    const dataWithUrlAttribute = spec.data.filter((item) => item.url)
-    if (dataWithUrlAttribute && dataWithUrlAttribute.length > 0) {
+  if (safeMode === 'secure' && spec) {
+    if (spec.data && Array.isArray(spec.data)) {
+      const dataWithUrlAttribute = spec.data.filter((item) => item.url)
+      if (dataWithUrlAttribute && dataWithUrlAttribute.length > 0) {
+        throw new UnsafeIncludeError(`Unable to load data from an URL while running in secure mode.
+Please include your data set as 'values' or run Kroki in unsafe mode using the KROKI_SAFE_MODE environment variable.`)
+      }
+    }
+    if (spec.data && typeof spec.data === 'object' && spec.data.url) {
       throw new UnsafeIncludeError(`Unable to load data from an URL while running in secure mode.
 Please include your data set as 'values' or run Kroki in unsafe mode using the KROKI_SAFE_MODE environment variable.`)
+    }
+    if (spec.marks && Array.isArray(spec.marks)) {
+      const dataWithUrlAttribute = spec.marks.flatMap(m => m.data).filter((item) => item && item.url)
+      if (dataWithUrlAttribute && dataWithUrlAttribute.length > 0) {
+        throw new UnsafeIncludeError(`Unable to load data from an URL while running in secure mode.
+Please include your data set as 'values' or run Kroki in unsafe mode using the KROKI_SAFE_MODE environment variable.`)
+      }
     }
   }
   const view = new vega.View(vega.parse(spec), { renderer: 'none' }).finalize()

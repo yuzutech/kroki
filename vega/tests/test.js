@@ -9,7 +9,7 @@ const sinon = require('sinon')
 const { convert } = require('../src/convert.js')
 
 describe('#convert', function () {
-  it('should throw UnsafeIncludeError in secure mode when the Vega-Lite specification contains data.url', async function () {
+  it('should throw UnsafeIncludeError in secure mode when the Vega-Lite specification contains data[].url', async function () {
     const input = `{
   "data": {"url": "data/cars.json"},
   "mark": "point",
@@ -21,6 +21,93 @@ describe('#convert', function () {
     try {
       await convert(input, {
         specFormat: 'lite',
+        safeMode: 'secure',
+        format: 'svg'
+      })
+      fail('', '', 'It should throw an error in secure mode when the Vega-Lite specification contains data.url')
+    } catch (err) {
+      deepEqual(err.name, 'UnsafeIncludeError')
+    }
+  })
+  it('should throw UnsafeIncludeError in secure mode when the Vega specification contains data.url', async () => {
+    const input = `{
+  "$schema": "https://vega.github.io/schema/vega/v5.json",
+  "width": 500,
+  "height": 200,
+  "data": {
+    "name": "passwd",
+    "url": "file:///etc/passwd",
+    "format": {
+      "type": "dsv",
+      "delimiter": ":",
+      "header": [
+        "username",
+        "password",
+        "uid",
+        "gid",
+        "comment",
+        "home",
+        "shell"
+      ]
+    }
+  },
+  "marks": [
+    {
+      "type": "text",
+      "from": {
+        "data": "passwd"
+      },
+      "encode": {
+        "enter": {
+          "text": {
+            "signal": "datum.username + ':' + datum.password + ':' + datum.uid + ':' + datum.gid + ':' + datum.comment + ':' + datum.home + ':' + datum.shell"
+          }
+        }
+      }
+    }
+  ],
+  "scales": [
+    {
+      "name": "yscale",
+      "type": "linear",
+      "domain": {
+        "data": "passwd",
+        "field": "index"
+      },
+      "range": [
+        0,
+        1000
+      ]
+    }
+  ]
+}`
+    try {
+      await convert(input, {
+        specFormat: '',
+        safeMode: 'secure',
+        format: 'svg'
+      })
+      fail('', '', 'It should throw an error in secure mode when the Vega-Lite specification contains data.url')
+    } catch (err) {
+      deepEqual(err.name, 'UnsafeIncludeError')
+    }
+  })
+  it('should throw UnsafeIncludeError in secure mode when the Vega specification contains marks[].data[].url', async function () {
+    const input = `{
+  "marks": [
+    {
+      "type": "group",
+      "data": [
+        {
+          "url": "data/cars.json"
+        }
+      ]
+    }
+  ]
+}`
+    try {
+      await convert(input, {
+        specFormat: '',
         safeMode: 'secure',
         format: 'svg'
       })
