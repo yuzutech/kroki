@@ -15,19 +15,19 @@
   "keywords": [],
   "author": "Guillaume Grossetie",
   "dependencies": {
-    "canvas": "2.11.2",
+    "canvas": "3.2.0",
     "vega": "5.33.0",
-    "vega-lite": "5.23.0",
-    "yargs": "17.7.2"
+    "vega-lite": "6.4.1",
+    "yargs": "18.0.0"
   },
   "devDependencies": {
-    "sinon": "19.0.5",
+    "sinon": "21.0.0",
     "standard": "17.1.2"
   },
   "pkg": {
     "assets": "node_modules/canvas/build/Release/*"
   },
   "volta": {
-    "node": "22.21.1"
+    "node": "24.11.1"
   }
 }
