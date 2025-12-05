@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A CLI built on top of the Vega diagram library.",
   "bin": "src/index.js",
+  "type": "module",
   "scripts": {
     "test": "node --test tests/test.js",
     "lint": "standard src tests"
@@ -16,8 +17,8 @@
   "author": "Guillaume Grossetie",
   "dependencies": {
     "canvas": "2.11.2",
-    "vega": "5.33.0",
-    "vega-lite": "5.23.0",
+    "vega": "6.2.0",
+    "vega-lite": "6.4.1",
     "yargs": "17.7.2"
   },
   "devDependencies": {

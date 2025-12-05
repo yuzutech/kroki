@@ -1,9 +1,11 @@
 #!/usr/bin/env node
-const argv = require('yargs')
+import yargs from 'yargs'
+import { convert as convertVega } from './convert.js'
+
+const argv = yargs
   .version(false)
   .argv
 
-const { convert: convertVega } = require('./convert.js')
 const encoding = 'utf-8'
 let data
 let format = 'svg'
