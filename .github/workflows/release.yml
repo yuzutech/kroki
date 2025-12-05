@@ -27,11 +27,11 @@ jobs:
     runs-on: ubuntu-24.04
     if:  ${{ inputs.create_release }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Install GraphViz
         run: sudo apt-get install graphviz -y
       - name: Set up JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: 17
           distribution: temurin
@@ -223,11 +223,11 @@ jobs:
           printSavedSpace $((AVAILABLE_ROOT_END - AVAILABLE_ROOT_INITIAL))
           echo "overall:"
           printSavedSpace $((AVAILABLE_END - AVAILABLE_INITIAL))
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Install GraphViz
         run: sudo apt-get install graphviz -y
       - name: Set up JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: 17
           distribution: temurin
