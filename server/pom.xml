@@ -13,10 +13,10 @@
 
   <properties>
     <!-- https://github.com/vert-x3/vertx-dependencies/blob/6b147024b6aa7732386c6a94a126eacf3b4dda1b/pom.xml#LL50C20-L50C32 -->
-    <netty.version>4.2.7.Final</netty.version>
-    <logback.version>1.5.21</logback.version>
-    <vertx.version>4.5.22</vertx.version>
-    <opentelemetry.version>1.56.0</opentelemetry.version>
+    <netty.version>4.2.9.Final</netty.version>
+    <logback.version>1.5.22</logback.version>
+    <vertx.version>4.5.23</vertx.version>
+    <opentelemetry.version>1.57.0</opentelemetry.version>
     <junit.jupiter.version>6.0.1</junit.jupiter.version>
     <assertj-core.version>3.27.6</assertj-core.version>
     <mockito-core.version>5.20.0</mockito-core.version>
@@ -127,7 +127,7 @@
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-text</artifactId>
-      <version>1.14.0</version>
+      <version>1.15.0</version>
     </dependency>
     <dependency>
       <groupId>com.structurizr</groupId>
