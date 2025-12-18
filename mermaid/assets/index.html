@@ -4,6 +4,13 @@
   <div id="container"></div>
   <script type="module">
     import mermaid from './mermaid/mermaid.esm.min.mjs'
+    mermaid.registerIconPacks([
+      {
+        name: 'logos',
+        loader: () =>
+          fetch('./icons.json').then((res) => res.json()),
+      },
+    ])
     // export as global
     window.mermaid = mermaid
   </script>
