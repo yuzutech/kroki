@@ -14,7 +14,7 @@ When a new version is available, we need to :
 
 . update the fork
 . run the following workflow: https://github.com/yuzutech/ditaa-mini/actions/workflows/native-image-on-demand.yml
-. update the argument variable `ARG DITAA_VERSION="x.y.z"` in `server/ops/docker/jdk17-noble/Dockerfile`
+. update the argument variable `ARG DITAA_VERSION="x.y.z"` in `server/ops/docker/Dockerfile`
 
 === PlantUML
 
@@ -24,7 +24,7 @@ When a new version is available, we need to:
 
 . update the fork
 . run the following workflow: https://github.com/yuzutech/plantuml/actions/workflows/native-image-on-demand.yml
-. update the argument variable `ARG PLANTUML_VERSION="x.y.z"` in `server/ops/docker/jdk17-noble/Dockerfile`
+. update the argument variable `ARG PLANTUML_VERSION="x.y.z"` in `server/ops/docker/Dockerfile`
 
 === UMLet
 
@@ -34,4 +34,4 @@ When a new version is available, we need to:
 
 . update the fork
 . run the following workflow: https://github.com/yuzutech/umlet/actions/workflows/release.yml
-. update the argument variable `ARG UMLET_VERSION="x.y.z"` in `server/ops/docker/jdk17-noble/Dockerfile`
+. update the argument variable `ARG UMLET_VERSION="x.y.z"` in `server/ops/docker/Dockerfile`
