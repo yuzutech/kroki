@@ -22,7 +22,7 @@ const svgTests = [
 
 const pngTests = [
   {
-    type: 'graph', width: 200, height: 170, content: `graph TD
+    type: 'graph', width: 210, height: 170, content: `graph TD
   A --> B
   C{{test}} --> D[(db)]
   A --> D`
@@ -79,7 +79,7 @@ describe('#convert', function () {
     John-->>Alice: 
 `
       const result = await worker.convert(new Task(source))
-      deepEqual(result.includes('<tspan dy="0" x="75">Alice</tspan>'), true, `output must include Alice but was: ${result}`)
+      deepEqual(result.includes('<tspan x="75" dy="0">Alice</tspan>'), true, `output must include Alice but was: ${result}`)
     } finally {
       await browser.close()
     }
