@@ -134,7 +134,7 @@ public class StructurizrServiceTest {
       String source = read("docs.structurizr");
       assertThatThrownBy(() -> Structurizr.convert(source, FileFormat.SVG, plantumlCommand, new StructurizrPlantUMLExporter(), SafeMode.SAFE, new JsonObject()))
         .isInstanceOf(BadRequestException.class)
-        .hasMessageStartingWith("Unable to parse the Structurizr DSL. !docs is not available when the parser is running in restricted mode at line 5: !docs src/test/resources/docs");
+        .hasMessageStartingWith("Unable to parse the Structurizr DSL. !docs is not permitted (feature structurizr.feature.dsl.documentation is not enabled) at line 5: !docs src/test/resources/docs.");
     } else {
       logger.info("/usr/bin/dot not found, skipping test.");
     }
@@ -185,7 +185,7 @@ public class StructurizrServiceTest {
     String source = read("./script.structurizr");
     assertThatThrownBy(() -> Structurizr.convert(source, FileFormat.SVG, plantumlCommand, new StructurizrPlantUMLExporter(), SafeMode.SAFE, new JsonObject()))
       .isInstanceOf(BadRequestException.class)
-      .hasMessageStartingWith("Unable to parse the Structurizr DSL. !script is not available when the parser is running in restricted mode at line 2");
+      .hasMessageStartingWith("Unable to parse the Structurizr DSL. !script is not permitted (feature structurizr.feature.dsl.scripts is not enabled) at line 2:");
   }
 
   @Test
