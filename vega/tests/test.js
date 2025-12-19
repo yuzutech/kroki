@@ -1,15 +1,16 @@
-'use strict'
+"use strict";
 
-const { describe, it } = require('node:test')
-const { fail, deepEqual } = require('node:assert')
-const ospath = require('node:path')
-const fs = require('node:fs').promises
-const sinon = require('sinon')
+import { describe, it } from "node:test";
 
-const { convert } = require('../src/convert.js')
+import { convert } from "../src/convert.js";
+import sinon from "sinon";
+import ospath from "node:path";
+import { deepEqual, fail } from "node:assert";
 
-describe('#convert', function () {
-  it('should throw UnsafeIncludeError in secure mode when the Vega-Lite specification contains data[].url', async function () {
+const __dirname = import.meta.dirname;
+
+describe("#convert", function () {
+  it("should throw UnsafeIncludeError in secure mode when the Vega-Lite specification contains data[].url", async function () {
     const input = `{
   "data": {"url": "data/cars.json"},
   "mark": "point",
@@ -17,19 +18,21 @@ describe('#convert', function () {
     "x": {"field": "Horsepower", "type": "quantitative"},
     "y": {"field": "Miles_per_Gallon", "type": "quantitative"}
   }
-}`
+}`;
     try {
       await convert(input, {
-        specFormat: 'lite',
-        safeMode: 'secure',
-        format: 'svg'
-      })
-      fail('', '', 'It should throw an error in secure mode when the Vega-Lite specification contains data.url')
+        specFormat: "lite",
+        safeMode: "secure",
+        format: "svg",
+      });
+      fail(
+        "It should throw an error in secure mode when the Vega-Lite specification contains data.url",
+      );
     } catch (err) {
-      deepEqual(err.name, 'UnsafeIncludeError')
+      deepEqual(err.name, "UnsafeIncludeError");
     }
-  })
-  it('should throw UnsafeIncludeError in secure mode when the Vega specification contains data.url', async () => {
+  });
+  it("should throw UnsafeIncludeError in secure mode when the Vega specification contains data.url", async () => {
     const input = `{
   "$schema": "https://vega.github.io/schema/vega/v5.json",
   "width": 500,
@@ -80,19 +83,23 @@ describe('#convert', function () {
       ]
     }
   ]
-}`
+}`;
     try {
       await convert(input, {
-        specFormat: '',
-        safeMode: 'secure',
-        format: 'svg'
-      })
-      fail('', '', 'It should throw an error in secure mode when the Vega-Lite specification contains data.url')
+        specFormat: "",
+        safeMode: "secure",
+        format: "svg",
+      });
+      fail(
+        "",
+        "",
+        "It should throw an error in secure mode when the Vega-Lite specification contains data.url",
+      );
     } catch (err) {
-      deepEqual(err.name, 'UnsafeIncludeError')
+      deepEqual(err.name, "UnsafeIncludeError");
     }
-  })
-  it('should throw UnsafeIncludeError in secure mode when the Vega specification contains marks[].data[].url', async function () {
+  });
+  it("should throw UnsafeIncludeError in secure mode when the Vega specification contains marks[].data[].url", async function () {
     const input = `{
   "marks": [
     {
@@ -104,19 +111,23 @@ describe('#convert', function () {
       ]
     }
   ]
-}`
+}`;
     try {
       await convert(input, {
-        specFormat: '',
-        safeMode: 'secure',
-        format: 'svg'
-      })
-      fail('', '', 'It should throw an error in secure mode when the Vega-Lite specification contains data.url')
+        specFormat: "",
+        safeMode: "secure",
+        format: "svg",
+      });
+      fail(
+        "",
+        "",
+        "It should throw an error in secure mode when the Vega-Lite specification contains data.url",
+      );
     } catch (err) {
-      deepEqual(err.name, 'UnsafeIncludeError')
+      deepEqual(err.name, "UnsafeIncludeError");
     }
-  })
-  it('should throw IllegalArgumentError when output format is not supported', async function () {
+  });
+  it("should throw IllegalArgumentError when output format is not supported", async function () {
     const input = `{
   "data": {
     "values": "a\\n1\\n2\\n3\\n4",
@@ -128,21 +139,21 @@ describe('#convert', function () {
   "encoding": {
     "y": {"field": "a", "type": "quantitative"}
   }
-}`
+}`;
     try {
       await convert(input, {
-        specFormat: 'lite',
-        safeMode: 'safe',
-        format: 'txt'
-      })
-      fail('', '', 'It should throw an error when output format is not supported')
+        specFormat: "lite",
+        safeMode: "safe",
+        format: "txt",
+      });
+      fail("It should throw an error when output format is not supported");
     } catch (err) {
-      deepEqual(err.name, 'IllegalArgumentError')
+      deepEqual(err.name, "IllegalArgumentError");
     }
-  })
-  it('should not output warning to stdout', async function () {
-    sinon.stub(process.stdout, 'write')
-    sinon.stub(process.stderr, 'write')
+  });
+  it("should not output warning to stdout", async function () {
+    sinon.stub(process.stdout, "write");
+    sinon.stub(process.stderr, "write");
     try {
       const input = `{
   "mark": "rect",
@@ -150,49 +161,92 @@ describe('#convert', function () {
     "x": {"value": 1},
     "text": {"value":"foo"}
   }
-}`
+}`;
       const result = await convert(input, {
-        specFormat: 'lite',
-        safeMode: 'safe',
-        format: 'svg'
-      })
-      deepEqual(result.includes('<svg xmlns="http://www.w3.org/2000/svg"'), true, 'generated SVG must include <svg> start tag')
-      deepEqual(result.includes('</svg>'), true, 'generated SVG must include <svg> end tag')
-      const stdoutWriteCalls = process.stdout.write.getCalls()
-      const stderrWriteCalls = process.stderr.write.getCalls()
-      deepEqual(stdoutWriteCalls.length === 0, true, `It should not output warning messages to stdout but process.stdout.write('${stdoutWriteCalls && stdoutWriteCalls[0] && stdoutWriteCalls[0].args.join(' ')}') was called`)
-      deepEqual(stderrWriteCalls.length === 0, true, `It should not output warning messages to stderr but process.stderr.write('${stderrWriteCalls && stderrWriteCalls[0] && stderrWriteCalls[0].args.join(' ')}') was called`)
+        specFormat: "lite",
+        safeMode: "safe",
+        format: "svg",
+      });
+      deepEqual(
+        result.includes('<svg xmlns="http://www.w3.org/2000/svg"'),
+        true,
+        "generated SVG must include <svg> start tag",
+      );
+      deepEqual(
+        result.includes("</svg>"),
+        true,
+        "generated SVG must include <svg> end tag",
+      );
+      const stdoutWriteCalls = process.stdout.write.getCalls();
+      const stderrWriteCalls = process.stderr.write.getCalls();
+      deepEqual(
+        stdoutWriteCalls.length === 0,
+        true,
+        `It should not output warning messages to stdout but process.stdout.write('${
+          stdoutWriteCalls && stdoutWriteCalls[0] &&
+          stdoutWriteCalls[0].args.join(" ")
+        }') was called`,
+      );
+      deepEqual(
+        stderrWriteCalls.length === 0,
+        true,
+        `It should not output warning messages to stderr but process.stderr.write('${
+          stderrWriteCalls && stderrWriteCalls[0] &&
+          stderrWriteCalls[0].args.join(" ")
+        }') was called`,
+      );
     } finally {
-      process.stdout.write.restore()
-      process.stderr.write.restore()
+      process.stdout.write.restore();
+      process.stderr.write.restore();
     }
-  })
-  it('should convert a Vega-Lite definition to PNG', async function () {
-    const input = await fs.readFile(ospath.join(__dirname, 'fixtures', 'diag.vlite'), 'utf8')
-    const pngBuffer = await convert(input, {
-      specFormat: 'lite',
-      safeMode: 'safe',
-      format: 'png'
-    })
-    deepEqual(Buffer.byteLength(pngBuffer) > 20000, true, 'generated PNG image must be greater than 20000 bytes')
-  })
-  it('should convert a Vega-Lite definition to PDF', async function () {
-    const input = await fs.readFile(ospath.join(__dirname, 'fixtures', 'diag.vlite'), 'utf8')
-    const pdfBuffer = await convert(input, {
-      specFormat: 'lite',
-      safeMode: 'safe',
-      format: 'pdf'
-    })
-    deepEqual(Buffer.byteLength(pdfBuffer) > 10000, true, 'generated PDF file must be greater than 10000 bytes')
+  });
+  it("should convert a Vega-Lite definition to PNG", async function () {
+    const decoder = new TextDecoder("utf-8");
+    const input = await Deno.readFile(
+      ospath.join(__dirname, "fixtures", "diag.vlite"),
+    );
+    const pngBuffer = await convert(decoder.decode(input), {
+      specFormat: "lite",
+      safeMode: "safe",
+      format: "png",
+    });
+    deepEqual(
+      Buffer.byteLength(pngBuffer) > 10000,
+      true,
+      "generated PNG image must be greater than 20000 bytes",
+    );
+  });
+  it("should convert a Vega-Lite definition to PDF", async function () {
+    const decoder = new TextDecoder("utf-8");
+    const input = await Deno.readFile(
+      ospath.join(__dirname, "fixtures", "diag.vlite"),
+    );
+    const pdfBuffer = await convert(decoder.decode(input), {
+      specFormat: "lite",
+      safeMode: "safe",
+      format: "pdf",
+    });
+    deepEqual(
+      Buffer.byteLength(pdfBuffer) > 10000,
+      true,
+      "generated PDF file must be greater than 10000 bytes",
+    );
     // REMIND: unable to strictly compare the PDF because it contains metadata! (more specifically the creation date!)
-  })
-  it('should convert a Vega-Lite definition to SVG', async function () {
-    const input = await fs.readFile(ospath.join(__dirname, 'fixtures', 'diag.vlite'), 'utf8')
-    const svg = await convert(input, {
-      specFormat: 'lite',
-      safeMode: 'safe',
-      format: 'svg'
-    })
-    deepEqual(svg.length > 20000, true, 'generated SVG image must be greater than 20000 bytes')
-  })
-})
+  });
+  it("should convert a Vega-Lite definition to SVG", async function () {
+    const decoder = new TextDecoder("utf-8");
+    const input = await Deno.readFile(
+      ospath.join(__dirname, "fixtures", "diag.vlite"),
+    );
+    const svg = await convert(decoder.decode(input), {
+      specFormat: "lite",
+      safeMode: "safe",
+      format: "svg",
+    });
+    deepEqual(
+      svg.length > 20000,
+      true,
+      "generated SVG image must be greater than 20000 bytes",
+    );
+  });
+});

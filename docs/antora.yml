@@ -27,8 +27,8 @@ asciidoc:
     svgbob-version: 0.7.6
     symbolator-version: 1.2.2
     umlet-version: 15.1
-    vega-version: 5.33.0
-    vegalite-version: 5.23.0
+    vega-version: 6.2.0
+    vegalite-version: 6.4.1
     wavedrom-version: 3.5.0
     wireviz-version: 0.3.3
     uri-docker-get-started: https://docs.docker.com/get-started/
