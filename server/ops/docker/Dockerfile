@@ -158,7 +158,7 @@ RUN SVGBOB_VERSION=`cat Cargo.toml | grep "svgbob_cli =" | sed -r 's/.*"([^"]+)"
 FROM ghcr.io/yuzutech/erd:v0.2.3 AS erd
 
 ## yuzutech/kroki
-FROM eclipse-temurin:17.0.14_7-jre-noble
+FROM eclipse-temurin:21.0.9_10-jre-noble
 
 ARG BLOCKDIAG_VERSION="3.1.0"
 ARG D2_VERSION="0.7.0"

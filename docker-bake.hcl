@@ -25,7 +25,7 @@ target "kroki" {
     bytefield = "./bytefield"
     tikz = "./tikz"
   }
-  dockerfile = "ops/docker/jdk17-noble/Dockerfile"
+  dockerfile = "ops/docker/Dockerfile"
   tags = ["yuzutech/kroki:${TAG}"]
   inherits = ["oci-labels"]
   labels = {
