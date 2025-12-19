@@ -159,14 +159,14 @@ public class ErrorHandlerTest {
 
   private HttpServerResponse plainResponse() {
     HttpServerResponse httpServerResponse = mock(HttpServerResponse.class);
-    MultiMap headers = new HeadersMultiMap();
+    MultiMap headers = HeadersMultiMap.caseInsensitive();
     when(httpServerResponse.headers()).thenReturn(headers);
     return httpServerResponse;
   }
 
   private HttpServerResponse jsonServerResponse() {
     HttpServerResponse httpServerResponse = mock(HttpServerResponse.class);
-    MultiMap headers = new HeadersMultiMap();
+    MultiMap headers = HeadersMultiMap.caseInsensitive();
     headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
     when(httpServerResponse.headers()).thenReturn(headers);
     return httpServerResponse;
@@ -174,7 +174,7 @@ public class ErrorHandlerTest {
 
   private HttpServerRequest mockHttpServerRequest() {
     HttpServerRequest httpServerRequest = mock(HttpServerRequest.class);
-    MultiMap headers = new HeadersMultiMap();
+    MultiMap headers = HeadersMultiMap.caseInsensitive();
     headers.add(HttpHeaders.ACCEPT, "application/json");
     when(httpServerRequest.headers()).thenReturn(headers);
     return httpServerRequest;

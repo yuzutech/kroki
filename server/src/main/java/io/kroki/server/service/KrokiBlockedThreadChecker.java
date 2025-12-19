@@ -5,8 +5,8 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxException;
 import io.vertx.core.VertxOptions;
-import io.vertx.core.impl.VertxInternal;
-import io.vertx.core.impl.btc.BlockedThreadEvent;
+import io.vertx.core.impl.VertxImpl;
+import io.vertx.core.internal.threadchecker.BlockedThreadEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,8 +46,8 @@ public class KrokiBlockedThreadChecker {
       .expireAfterWrite(trackStatsFor)
       .build();
 
-    if (vertx instanceof VertxInternal) {
-      ((VertxInternal) vertx).blockedThreadChecker().setThreadBlockedHandler((bte) -> {
+    if (vertx instanceof VertxImpl) {
+      ((VertxImpl) vertx).blockedThreadChecker().setThreadBlockedHandler((bte) -> {
         defaultHandlerFromVertx(bte);
         trackBlockedThread(bte);
       });

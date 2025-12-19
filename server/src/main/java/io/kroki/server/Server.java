@@ -7,19 +7,13 @@ import io.kroki.server.error.InvalidRequestHandler;
 import io.kroki.server.log.Logging;
 import io.kroki.server.service.*;
 import io.vertx.config.ConfigRetriever;
-import io.vertx.core.AbstractVerticle;
-import io.vertx.core.AsyncResult;
-import io.vertx.core.Handler;
-import io.vertx.core.Promise;
-import io.vertx.core.Vertx;
-import io.vertx.core.VertxOptions;
+import io.vertx.core.*;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.json.JsonObject;
-import io.vertx.core.net.PemKeyCertOptions;
-import io.vertx.core.net.SocketAddress;
+import io.vertx.core.net.*;
 import io.vertx.ext.web.Route;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
@@ -40,28 +34,24 @@ public class Server extends AbstractVerticle {
 
   @Override
   public void start(Promise<Void> startPromise) {
-    ConfigRetriever retriever = ConfigRetriever.create(vertx);
-    VertxOptions vertxOptions = new VertxOptions();
-    retriever.getConfig(configResult -> {
-      if (configResult.failed()) {
-        startPromise.fail(configResult.cause());
+    ConfigRetriever.create(vertx).getConfig().onComplete(ar -> {
+      if (ar.failed()) {
+        startPromise.fail(ar.cause());
       } else {
-        try {
-          start(vertx, vertxOptions, configResult.result(), startResult -> {
-            if (startResult.succeeded()) {
-              startPromise.complete();
-            } else {
-              startPromise.fail(startResult.cause());
-            }
-          });
-        } catch (Exception e) {
-          startPromise.fail(e);
-        }
+        start(vertx, new VertxOptions(), ar.result()).onComplete(startHandler -> {
+          if (startHandler.failed()) {
+            logger.error("Failed to start Kroki server", startHandler.cause());
+            startPromise.fail(startHandler.cause());
+          } else {
+            logger.info("Kroki server started successfully on port {}", startHandler.result().actualPort());
+            startPromise.complete();
+          }
+        });
       }
     });
   }
 
-  static void start(Vertx vertx, VertxOptions vertxOptions, JsonObject config, Handler<AsyncResult<HttpServer>> listenHandler) {
+  static Future<HttpServer> start(Vertx vertx, VertxOptions vertxOptions, JsonObject config) {
     HttpServerOptions serverOptions = new HttpServerOptions();
     Optional<Integer> maxUriLength = Optional.ofNullable(config.getInteger("KROKI_MAX_URI_LENGTH"));
     Optional<Integer> maxHeaderSize = Optional.ofNullable(config.getInteger("KROKI_MAX_HEADER_SIZE"));
@@ -161,10 +151,10 @@ public class Server extends AbstractVerticle {
     ErrorHandler errorHandler = new ErrorHandler(vertx, config.getBoolean("KROKI_DISPLAY_EXCEPTION_DETAILS", false));
     route.failureHandler(errorHandler);
 
-    server
+    return server
       .invalidRequestHandler(new InvalidRequestHandler(errorHandler, serverOptions.getMaxInitialLineLength()))
       .requestHandler(router)
-      .listen(getListenAddress(config), listenHandler);
+      .listen(getListenAddress(config));
   }
 
   private static void setPemKeyCertOptions(JsonObject config, HttpServerOptions serverOptions, boolean enableSSL) {
@@ -196,7 +186,7 @@ public class Server extends AbstractVerticle {
         certOptions.addCertPath(config.getString("KROKI_SSL_CERT_PATH"));
       }
 
-      serverOptions.setPemKeyCertOptions(certOptions);
+      serverOptions.setKeyCertOptions(certOptions);
     }
   }
 
