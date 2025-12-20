@@ -23,7 +23,7 @@ asciidoc:
     plantuml-version: 1.2025.10
     rackdiag-version: 3.1.0
     seqdiag-version: 3.1.0
-    structurizr-version: 3.0.0
+    structurizr-version: 5.0.3
     svgbob-version: 0.7.6
     symbolator-version: 1.2.2
     umlet-version: 15.1
