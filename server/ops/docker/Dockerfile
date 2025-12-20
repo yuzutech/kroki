@@ -213,7 +213,7 @@ RUN apt-get update && apt-get install --no-install-recommends --yes \
     apt-get clean && apt-get autoremove
 
 COPY --from=vega packages packages
-RUN dpkg -i packages/libjpeg62-turbo_2.0.6-4_amd64.deb
+RUN dpkg -i packages/libjpeg62-turbo_2.1.5-4_${TARGETARCH}.deb
 
 RUN wget "https://github.com/yuzutech/graphviz-builder/releases/download/${GRAPHVIZ_VERSION}/dot-linux-${TARGETARCH}" -O /usr/bin/dot && \
     chmod +x /usr/bin/dot
