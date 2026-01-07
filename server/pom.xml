@@ -23,7 +23,7 @@
     <slf4j-api.version>2.0.17</slf4j-api.version>
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
-    <owasp-html-sanitizer.version>20240325.1</owasp-html-sanitizer.version>
+    <owasp-html-sanitizer.version>20260101.1</owasp-html-sanitizer.version>
     <structurizr-dsl.version>5.0.3</structurizr-dsl.version>
     <structurizr-export.version>5.0.3</structurizr-export.version>
     <structurizr-core.version>5.0.3</structurizr-core.version>
