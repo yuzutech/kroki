@@ -18,7 +18,7 @@
     <vertx.version>5.0.6</vertx.version>
     <opentelemetry.version>1.57.0</opentelemetry.version>
     <junit.jupiter.version>6.0.1</junit.jupiter.version>
-    <assertj-core.version>3.27.6</assertj-core.version>
+    <assertj-core.version>3.27.7</assertj-core.version>
     <mockito-core.version>5.21.0</mockito-core.version>
     <slf4j-api.version>2.0.17</slf4j-api.version>
     <maven.compiler.source>11</maven.compiler.source>
