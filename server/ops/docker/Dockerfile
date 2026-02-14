@@ -1,7 +1,7 @@
-# syntax=docker/dockerfile:1.20
+# syntax=docker/dockerfile:1.21
 
 ## Nomnoml
-FROM --platform=$BUILDPLATFORM node:22.21-bookworm-slim AS kroki-builder-nomnoml
+FROM --platform=$BUILDPLATFORM node:22.22-bookworm-slim AS kroki-builder-nomnoml
 
 RUN npm install -g @yao-pkg/pkg@5.16.1 @yao-pkg/pkg-fetch@3.5.20
 
@@ -36,7 +36,7 @@ WORKDIR /app
 RUN deno compile --include=node_modules --node-modules-dir=auto --allow-ffi --output "app.bin" ./src/main.ts
 
 ## DBML
-FROM --platform=$BUILDPLATFORM node:22.21-bookworm-slim AS kroki-builder-dbml
+FROM --platform=$BUILDPLATFORM node:22.22-bookworm-slim AS kroki-builder-dbml
 
 RUN npm install -g @yao-pkg/pkg@5.16.1 @yao-pkg/pkg-fetch@3.5.20
 
@@ -52,7 +52,7 @@ RUN npm install --target_arch=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || ech
 RUN /usr/local/bin/pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
 
 ## Wavedrom
-FROM --platform=$BUILDPLATFORM node:22.21-bookworm-slim AS kroki-builder-wavedrom
+FROM --platform=$BUILDPLATFORM node:22.22-bookworm-slim AS kroki-builder-wavedrom
 
 RUN npm install -g @yao-pkg/pkg@5.16.1 @yao-pkg/pkg-fetch@3.5.20
 
@@ -68,7 +68,7 @@ RUN npm install --target_arch=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || ech
 RUN /usr/local/bin/pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
 
 ## Bytefield
-FROM --platform=$BUILDPLATFORM node:22.21-bookworm-slim AS kroki-builder-bytefield
+FROM --platform=$BUILDPLATFORM node:22.22-bookworm-slim AS kroki-builder-bytefield
 
 RUN npm install -g @yao-pkg/pkg@5.16.1 @yao-pkg/pkg-fetch@3.5.20
 
@@ -130,7 +130,7 @@ RUN wget -q "https://pikchr.org/home/raw/${PIKCHR_VERSION}" -O pikchr.c
 RUN gcc -O0 -g -static -Wall -Wextra -DPIKCHR_SHELL pikchr.c -o pikchr -lm
 
 ## SVGBob
-FROM --platform=$BUILDPLATFORM rust:1.92-slim-bullseye AS kroki-builder-static-svgbob
+FROM --platform=$BUILDPLATFORM rust:1.93-slim-bullseye AS kroki-builder-static-svgbob
 
 # Install cross-compilation tools
 RUN apt-get update && apt-get install --no-install-recommends --yes \
