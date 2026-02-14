@@ -1,5 +1,6 @@
 package io.kroki.server.service;
 
+import com.structurizr.dsl.Features;
 import com.structurizr.dsl.StructurizrDslParser;
 import com.structurizr.dsl.StructurizrDslParserException;
 import com.structurizr.export.Diagram;
@@ -90,7 +91,11 @@ public class Structurizr implements DiagramService {
   ) throws IOException, InterruptedException {
     StructurizrDslParser parser = new StructurizrDslParser();
     try {
-      parser.setRestricted(safeMode != SafeMode.UNSAFE);
+      boolean restricted =  safeMode != SafeMode.UNSAFE;
+      setRestricted(parser, restricted);
+      if (!restricted) {
+        parser.getHttpClient().allow(".*");
+      }
       parser.parse(source);
       ViewSet viewSet = parser.getWorkspace().getViews();
       Collection<View> views = viewSet.getViews();
@@ -161,6 +166,17 @@ public class Structurizr implements DiagramService {
       }
       throw new BadRequestException(message, e);
     }
+  }
+
+  private static void setRestricted(StructurizrDslParser parser, boolean restricted) {
+    Features features = parser.getFeatures();
+    features.configure(Features.ENVIRONMENT, !restricted);
+    features.configure(Features.FILE_SYSTEM, !restricted);
+    features.configure(Features.PLUGINS, !restricted);
+    features.configure(Features.SCRIPTS, !restricted);
+    features.configure(Features.COMPONENT_FINDER, !restricted);
+    features.configure(Features.DOCUMENTATION, !restricted);
+    features.configure(Features.DECISIONS, !restricted);
   }
 
   private byte[] convert(String source, FileFormat fileFormat, JsonObject options) throws IOException, InterruptedException {
