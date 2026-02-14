@@ -6,7 +6,7 @@ import io.vertx.config.ConfigRetriever;
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
 import io.vertx.core.json.JsonObject;
-import io.vertx.tracing.opentelemetry.OpenTelemetryOptions;
+import io.vertx.tracing.opentelemetry.OpenTelemetryTracingFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,10 +32,12 @@ public class Main {
   }
 
   public static void main(String[] args) {
-    Vertx vertx = Vertx.builder().build();
     VertxOptions vertxOptions = new VertxOptions();
     OpenTelemetry openTelemetry = AutoConfiguredOpenTelemetrySdk.initialize().getOpenTelemetrySdk();
-    vertxOptions.setTracingOptions(new OpenTelemetryOptions(openTelemetry));
+    Vertx vertx = Vertx.builder()
+      .with(vertxOptions)
+      .withTracer(new OpenTelemetryTracingFactory(openTelemetry))
+      .build();
     ConfigRetriever retriever = ConfigRetriever.create(vertx);
     JsonObject config = retriever.getConfig().await();
     Server.start(vertx, vertxOptions, config).onComplete(server -> {
