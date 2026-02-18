@@ -729,6 +729,10 @@ public class PlantumlServiceTest {
   }
 
   private String stripComments(String xmlContent) {
-    return xmlContent.replaceAll("<!--[\\s\\S]*?-->", "");
+    return stripPlantUMLComments(xmlContent).replaceAll("<!--[\\s\\S]*?-->", "");
+  }
+
+  private String stripPlantUMLComments(String xmlContent) {
+    return xmlContent.replaceAll("<\\?plantuml(-src)? [^?]+\\?>", "");
   }
 }
