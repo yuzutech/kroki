@@ -8,8 +8,8 @@ const __dirname = fileURLToPath(new URL('.', import.meta.url))
 export default class Worker {
   constructor (browserInstance) {
     this.browserWSEndpoint = browserInstance.wsEndpoint()
-    this.pageUrl = process.env.KROKI_EXCALIDRAW_PAGE_URL || `file://${path.join(__dirname, '..', 'assets', 'index.html')}`
-    this.assetPath = process.env.KROKI_EXCALIDRAW_ASSET_PATH || ''
+    this.pageUrl = process.env.KROKI_EXCALIDRAW_PAGE_URL || 'http://localhost:8004/public/index.html'
+    this.assetPath = process.env.KROKI_EXCALIDRAW_ASSET_PATH || '/'
   }
 
   async convert (task) {

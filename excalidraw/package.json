@@ -6,6 +6,7 @@
   "main": "src/index.js",
   "bin": "src/index.js",
   "scripts": {
+    "prestart": "cp -r ./node_modules/@excalidraw/excalidraw/dist/prod/fonts ./assets/",
     "build": "npx esbuild ./assets/index.js --bundle --minify --outfile=./assets/index.bundle.js",
     "start": "node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
