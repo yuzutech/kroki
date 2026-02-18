@@ -5,22 +5,22 @@ asciidoc:
   attributes:
     actdiag-version: 3.1.0
     blockdiag-version: 3.1.0
-    bpmn-version: 18.9.1
+    bpmn-version: 18.12.0
     bytefield-version: 1.11.0
-    c4plantuml-version: 1.2025.10
-    d2-version: 0.7.0
+    c4plantuml-version: 1.2026.1
+    d2-version: 0.7.1
     dbml-version: 1.0.31
     diagramsnet-version: 16.2.4
     ditaa-version: 1.0.3
     erd-version: 0.2.3
     excalidraw-version: 0.18.0
     graphviz-version: 9.0.0
-    mermaid-version: 11.12.2
+    mermaid-version: 11.12.3
     nomnoml-version: 1.7.0
     nwdiag-version: 3.1.0
     packetdiag-version: 3.1.0
     pikchr-version: '85e65b9686'
-    plantuml-version: 1.2025.10
+    plantuml-version: 1.2026.1
     rackdiag-version: 3.1.0
     seqdiag-version: 3.1.0
     structurizr-version: 5.0.3

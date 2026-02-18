@@ -26,7 +26,7 @@
     "puppeteer": "24.33.1"
   },
   "devDependencies": {
-    "mermaid": "11.12.2",
+    "mermaid": "11.12.3",
     "pngjs": "7.0.0",
     "standard": "17.1.2"
   },
