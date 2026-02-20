@@ -4,7 +4,7 @@
   "description": "A CLI built on top of the WaveDrom diagram library.",
   "bin": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node --test tests/*.js",
     "lint": "standard"
   },
   "license": "MIT",

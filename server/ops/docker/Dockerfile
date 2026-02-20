@@ -61,7 +61,7 @@ ARG TARGETOS
 ENV NODE=node22
 RUN /usr/local/bin/pkg-fetch -n $NODE -p $TARGETOS -a $([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH")
 
-COPY --from=wavedrom index.js package.json package-lock.json /app/
+COPY --from=wavedrom index.js convert.js package.json package-lock.json /app/
 WORKDIR /app
 
 RUN npm install --target_arch=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") --target_platform=$TARGETOS && npm run lint
