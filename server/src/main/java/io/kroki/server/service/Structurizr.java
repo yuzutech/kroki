@@ -58,7 +58,23 @@ public class Structurizr implements DiagramService {
         return DiagramSource.decode(encoded);
       }
     };
-    this.plantumlCommand = new PlantumlCommand(config);
+    this.plantumlCommand = createPlantumlCommand(this.safeMode, config);
+  }
+
+  protected static PlantumlCommand createPlantumlCommand(SafeMode safeMode, JsonObject config) {
+    String allowListUrl = config.getString("KROKI_PLANTUML_ALLOWLIST_URL");
+    JsonObject plantumlConfig = config.copy();
+    if (allowListUrl != null) {
+      allowListUrl += ";https://static.structurizr.com";
+    } else {
+      allowListUrl = "https://static.structurizr.com";
+    }
+    plantumlConfig.put("KROKI_PLANTUML_ALLOWLIST_URL", allowListUrl);
+    String plantumlSecurityProfile = plantumlConfig.getString("KROKI_PLANTUML_SECURITY_PROFILE");
+    if (plantumlSecurityProfile == null && safeMode.value >= SafeMode.SECURE.value) {
+      plantumlConfig.put("KROKI_PLANTUML_SECURITY_PROFILE", "ALLOWLIST");
+    }
+    return new PlantumlCommand(safeMode, plantumlConfig);
   }
 
   @Override

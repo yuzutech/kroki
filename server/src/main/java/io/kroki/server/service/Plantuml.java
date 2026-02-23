@@ -124,7 +124,7 @@ public class Plantuml implements DiagramService {
         return DiagramSource.plantumlDecode(encoded);
       }
     };
-    this.plantumlCommand = new PlantumlCommand(config);
+    this.plantumlCommand = new PlantumlCommand(this.safeMode, config);
     this.ditaaCommand = new DitaaCommand(config);
     this.includeWhitelist = parseIncludeWhitelist(config);
     this.logging = new Logging(logger);
