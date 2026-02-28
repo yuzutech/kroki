@@ -68,14 +68,16 @@ public class Svgbob implements DiagramService {
     addOption("font-size", options, commands);
     addOption("scale", options, commands);
     addOption("stroke-width", options, commands);
-    return commander.execute(source, commands.toArray(new String[0]));
+    String[] args = commands.toArray(new String[0]);
+    return commander.execute(source, args);
   }
 
   private void addOption(String optionKey, JsonObject options, List<String> commands) {
     String value = options.getString(optionKey);
     if (value != null) {
       String safeValue = value.replaceAll("[-\"$/@*&=;:!\\\\]", "");
-      commands.add("--" + optionKey + "=\"" + safeValue + "\"");
+      // No need to quote safeValue: ProcessBuilder passes arguments directly to the OS without shell interpretation.
+      commands.add("--" + optionKey + "=" + safeValue);
     }
   }
 }
