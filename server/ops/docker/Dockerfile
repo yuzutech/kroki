@@ -33,7 +33,13 @@ COPY --from=vega deno.json deno.lock /app/
 
 WORKDIR /app
 
-RUN deno compile --include=node_modules --node-modules-dir=auto --allow-ffi --output "app.bin" ./src/main.ts
+ARG TARGETARCH
+RUN case "${TARGETARCH}" in \
+    "amd64") ARCH="x86_64" ;; \
+    "arm64") ARCH="aarch64" ;; \
+    *) echo "Unsupported arch: ${TARGETARCH}" && exit 1 ;; \
+    esac && \
+    deno compile --target="${ARCH}-unknown-linux-gnu" --include=node_modules --node-modules-dir=auto --allow-ffi --output "app.bin" ./src/main.ts
 
 ## DBML
 FROM --platform=$BUILDPLATFORM node:22.22-bookworm-slim AS kroki-builder-dbml
