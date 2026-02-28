@@ -8,8 +8,8 @@ const __dirname = fileURLToPath(new URL('.', import.meta.url))
 export default class Worker {
   constructor (browserInstance) {
     this.browserWSEndpoint = browserInstance.wsEndpoint()
-    this.pageUrl = process.env.KROKI_EXCALIDRAW_PAGE_URL || 'http://localhost:8004/public/index.html'
-    this.assetPath = process.env.KROKI_EXCALIDRAW_ASSET_PATH || '/'
+    this.pageUrl = process.env.KROKI_EXCALIDRAW_PAGE_URL || 'http://127.0.0.1:8004/public/index.html'
+    this.assetPath = process.env.KROKI_EXCALIDRAW_ASSET_PATH || '/public'
   }
 
   async convert (task) {
@@ -25,11 +25,11 @@ export default class Worker {
         await page.addScriptTag({
           content: `window.EXCALIDRAW_ASSET_PATH="${this.assetPath}"`
         })
-        // index.bundle.js is using the EXCALIDRAW_ASSET_PATH variable.
-        await page.addScriptTag({
-          path: `${path.join(__dirname, '..', 'assets', 'index.bundle.js')}`
-        })
       }
+      // index.bundle.js is using the EXCALIDRAW_ASSET_PATH variable.
+      await page.addScriptTag({
+        url: 'http://127.0.0.1:8004/public/index.bundle.js'
+      })
       // QUESTION: should we reuse the page for performance reason?
       return await page.evaluate(async (definition) => {
         const svgElement = await window.ExcalidrawLib.exportToSvg(JSON.parse(definition))
