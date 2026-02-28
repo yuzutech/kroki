@@ -24,6 +24,7 @@ const tests = [
   { engine: 'plantuml', file: 'architecture.puml', options: {}, outputFormat: ['svg', 'pdf', 'png', 'txt'] },
   { engine: 'plantuml', file: 'architecture.puml', options: { 'no-metadata': 'true' }, outputFormat: ['svg', 'png'] },
   { engine: 'svgbob', file: 'cloud.bob', options: {}, outputFormat: ['svg'] },
+  { engine: 'svgbob', file: 'cloud.bob', options: {'font-size': '14'}, outputFormat: ['svg'] },
   { engine: 'nomnoml', file: 'pirate.nomnoml', options: {}, outputFormat: ['svg'] },
   { engine: 'packetdiag', file: 'packet.diag', options: {}, outputFormat: ['svg', 'png'] },
   { engine: 'rackdiag', file: 'rack.diag', options: {}, outputFormat: ['svg', 'png'] },
