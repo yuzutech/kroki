@@ -8,7 +8,7 @@ import io.vertx.core.json.JsonObject;
 
 public class DownloadPlantumlNativeImage {
 
-  public static Future<PlantumlCommand> download(Vertx vertx) {
+  public static Future<String> download(Vertx vertx) {
     String plantumlVersion = new Plantuml(vertx, new JsonObject()).getVersion();
     String os = getOperatingSystemName();
     String arch = getArch();
@@ -16,11 +16,7 @@ public class DownloadPlantumlNativeImage {
     String binaryExtension = getBinaryExtension(os);
     String binaryName = "plantuml-" + os + "-" + arch + "-" + plantumlVersion + binaryExtension;
     String downloadUrl = "https://github.com/yuzutech/plantuml/releases/download/v" + plantumlVersion + "/" + zipName;
-    return DownloadNativeImage.download(vertx, downloadUrl, "PlantUML", zipName, binaryName).map(plantumlBinPath -> {
-      JsonObject options = new JsonObject();
-      options.put("KROKI_PLANTUML_BIN_PATH", plantumlBinPath);
-      return new PlantumlCommand(options);
-    });
+    return DownloadNativeImage.download(vertx, downloadUrl, "PlantUML", zipName, binaryName);
   }
 
   private static String getBinaryExtension(String os) {

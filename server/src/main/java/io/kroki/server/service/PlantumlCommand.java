@@ -4,6 +4,7 @@ import io.kroki.server.action.CommandStatusHandler;
 import io.kroki.server.action.Commander;
 import io.kroki.server.error.BadRequestException;
 import io.kroki.server.format.FileFormat;
+import io.kroki.server.security.SafeMode;
 import io.kroki.server.unit.TimeValue;
 import io.vertx.core.json.JsonObject;
 import org.slf4j.Logger;
@@ -26,12 +27,31 @@ public class PlantumlCommand {
   private static final Pattern ERROR_MESSAGE_RX = Pattern.compile(".*ERROR\\n(?<lineNumber>[0-9]+)\\n(?<cause>[^\\n]+)\\n.*", Pattern.MULTILINE | Pattern.DOTALL);
   private final String binPath;
   private final String includePath;
+  private final String allowListUrl;
+  private final String allowListPath;
+  private final String securityProfile;
   private final TimeValue convertTimeout;
   private final Commander commander;
 
-  public PlantumlCommand(JsonObject config) {
+  public PlantumlCommand(SafeMode safeMode, JsonObject config) {
     this.binPath = config.getString("KROKI_PLANTUML_BIN_PATH", "plantuml");
     this.includePath = config.getString("KROKI_PLANTUML_INCLUDE_PATH");
+    this.allowListUrl = config.getString("KROKI_PLANTUML_ALLOWLIST_URL");
+    this.allowListPath = config.getString("KROKI_PLANTUML_ALLOWLIST_PATH");
+    String defaultSecurityProfile;
+    switch (safeMode) {
+      case UNSAFE:
+        defaultSecurityProfile = "UNSECURE";
+        break;
+      case SAFE:
+        defaultSecurityProfile = "ALLOWLIST";
+        break;
+      case SECURE:
+      default:
+        defaultSecurityProfile = "SANDBOX";
+        break;
+    }
+    this.securityProfile = config.getString("KROKI_PLANTUML_SECURITY_PROFILE", defaultSecurityProfile);
     this.commander = new Commander(
       config,
       new CommandStatusHandler() {
@@ -74,8 +94,30 @@ public class PlantumlCommand {
   }
 
   public byte[] convert(String source, FileFormat format, JsonObject options) throws IOException, InterruptedException {
+    List<String> commandArgs = buildCommandArgs(format, options);
+
+    logger.debug("Executing PlantUML command: {}", commandArgs);
+
+    byte[] result = commander.execute(source.getBytes(), commandArgs.toArray(new String[0]));
+    if (format == FileFormat.BASE64) {
+      final String encodedBytes = "data:image/png;base64," + Base64.getUrlEncoder().encodeToString(result).replaceAll("\\s", "");
+      return encodedBytes.getBytes();
+    }
+    return result;
+  }
+
+  protected List<String> buildCommandArgs(FileFormat format, JsonObject options) {
     List<String> commands = new ArrayList<>();
     commands.add(binPath);
+    if (securityProfile != null) {
+      commands.add("-DPLANTUML_SECURITY_PROFILE=" + securityProfile);
+    }
+    if (allowListUrl != null) {
+      commands.add("-Dplantuml.allowlist.url=" + allowListUrl);
+    }
+    if (allowListPath != null) {
+      commands.add("-Dplantuml.allowlist.path=" + allowListPath);
+    }
     if (includePath != null) {
       commands.add("-Dplantuml.include.path=" + includePath);
     }
@@ -92,14 +134,6 @@ public class PlantumlCommand {
     if (no_metadata != null) {
       commands.add("-nometadata");
     }
-
-    logger.debug("Executing PlantUML command: {}", commands);
-
-    byte[] result = commander.execute(source.getBytes(), commands.toArray(new String[0]));
-    if (format == FileFormat.BASE64) {
-      final String encodedBytes = "data:image/png;base64," + Base64.getUrlEncoder().encodeToString(result).replaceAll("\\s", "");
-      return encodedBytes.getBytes();
-    }
-    return result;
+    return commands;
   }
 }

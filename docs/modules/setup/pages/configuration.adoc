@@ -84,6 +84,21 @@ KROKI_PLANTUML_INCLUDE_WHITELIST:: The name of a file that consists of a list of
 KROKI_PLANTUML_INCLUDE_WHITELIST_0, KROKI_PLANTUML_INCLUDE_WHITELIST_1, ... KROKI_PLANTUML_INCLUDE_WHITELIST___N__:: One regex to add to the include whitelist per environment variable. Search will stop at the first empty or undefined integer number.
 KROKI_PLANTUML_ALLOW_INCLUDE:: Either `false` (default) or `true`. Determines if PlantUML will fetch `!include` directives that reference external URLs. For example, PlantUML allows the !import directive to pull fragments from the filesystem or a remote URL or the standard library.
 
+It's also possible to configure the security profile of PlantUML directly using `KROKI_PLANTUML_SECURITY_PROFILE`.
+
+`KROKI_PLANTUML_SECURITY_PROFILE`:: The PlantUML security profile. Accepted values are `UNSECURE`, `ALLOWLIST`, `INTERNET` and `SANDBOX`.
+`KROKI_PLANTUML_ALLOWLIST_URL`:: A URL pattern allowlist for PlantUML includes. Only effective when using the `ALLOWLIST` security profile.
+`KROKI_PLANTUML_ALLOWLIST_PATH`:: A path pattern allowlist for PlantUML includes. Only effective when using the `ALLOWLIST` security profile.
+
+By default, the security profile is inferred from the Kroki safe mode:
+
+[horizontal]
+`UNSAFE`:: `UNSECURE`
+`SAFE`:: `ALLOWLIST`
+`SECURE`:: `SANDBOX`
+
+For more information, see the https://plantuml.com/en/security[PlantUML security documentation].
+
 === Structurizr
 
 Structurizr's restricted mode is activated unless Kroki is running in `UNSAFE` mode:

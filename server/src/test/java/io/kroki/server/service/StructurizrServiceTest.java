@@ -42,14 +42,17 @@ public class StructurizrServiceTest {
 
   @BeforeAll
   @Timeout(60)
-  static void prepare(VertxTestContext context, Vertx vertx) throws InterruptedException {
+  static void prepare(VertxTestContext context, Vertx vertx) {
     Checkpoint checkpoint = context.checkpoint();
     DownloadPlantumlNativeImage.download(vertx).onComplete(event -> {
       if (event.failed()) {
         context.failNow(event.cause());
         return;
       }
-      plantumlCommand = event.result();
+      String plantumlBinPath = event.result();
+      JsonObject options = new JsonObject();
+      options.put("KROKI_PLANTUML_BIN_PATH", plantumlBinPath);
+      plantumlCommand = Structurizr.createPlantumlCommand(SafeMode.SAFE, options);
       checkpoint.flag();
     });
   }
