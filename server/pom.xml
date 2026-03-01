@@ -24,9 +24,9 @@
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
     <owasp-html-sanitizer.version>20260102.1</owasp-html-sanitizer.version>
-    <structurizr-dsl.version>5.0.3</structurizr-dsl.version>
-    <structurizr-export.version>5.0.3</structurizr-export.version>
-    <structurizr-core.version>5.0.3</structurizr-core.version>
+    <structurizr-dsl.version>6.0.0</structurizr-dsl.version>
+    <structurizr-export.version>6.0.0</structurizr-export.version>
+    <structurizr-core.version>6.0.0</structurizr-core.version>
     <caffeine.version>3.2.3</caffeine.version>
     <bouncycastle.version>1.83</bouncycastle.version>
   </properties>
