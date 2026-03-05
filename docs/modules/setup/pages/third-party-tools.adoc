@@ -25,6 +25,7 @@
 :url-python-markdown-kroki: https://hkato.github.io/markdown-kroki/
 :url-python-mkdocs: https://www.mkdocs.org/
 :url-python-pelican: https://getpelican.com/
+:url-mediawiki-kroki-extension: https://www.mediawiki.org/wiki/Extension:Kroki
 
 A list of third party tools, developed by the community, that rely on Kroki.
 
@@ -97,3 +98,8 @@ The {url-hugomods-kroki}[Hugo Kroki module] embeds Kroki diagrams within Markdow
 == Python-Markdown
 
 The {url-python-markdown-kroki}[Python-Markdown Kroki extension] embeds Kroki diagrams within Markdown files processed by {url-python-markdown}[Python-Markdown]. It supports Python-Markdown based applications such as {url-python-mkdocs}[MkDocs] and {url-python-pelican}[Pelican].
+
+== Mediawiki
+
+There is a {url-mediawiki-kroki-extension}[MediaWiki Kroki extension]. This way you can easily integrate diagrams into wiki pages while benefiting from revision control for those diagrams.
+
