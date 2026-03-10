@@ -1,6 +1,6 @@
 # Diagrams.net server
 
-Version: 16.2.4 
+Version: 29.6.1
 
 ## Update
 

@@ -34,6 +34,40 @@
         <fill/>
     </foreground>
 </shape>
+<shape aspect="variable" h="60" name="Bathtub2" strokewidth="inherit" w="180">
+    <connections/>
+    <background>
+        <rect h="60" w="180" x="0" y="0"/>
+    </background>
+    <foreground>
+        <fillstroke/>
+        <path>
+            <move x="10" y="15"/>
+            <arc large-arc-flag="0" rx="10" ry="10" sweep-flag="1" x="20" x-axis-rotation="0" y="5"/>
+            <line x="125" y="5"/>
+            <arc large-arc-flag="0" rx="30" ry="20" sweep-flag="1" x="155" x-axis-rotation="0" y="25"/>
+            <line x="155" y="35"/>
+            <arc large-arc-flag="0" rx="30" ry="20" sweep-flag="1" x="125" x-axis-rotation="0" y="55"/>
+            <line x="20" y="55"/>
+            <arc large-arc-flag="0" rx="10" ry="10" sweep-flag="1" x="10" x-axis-rotation="0" y="45"/>
+            <close/>
+        </path>
+        <stroke/>
+        <path>
+            <move x="0" y="16"/>
+            <line x="2" y="16"/>
+            <arc large-arc-flag="0" rx="3" ry="15" sweep-flag="1" x="5" x-axis-rotation="0" y="30"/>
+            <arc large-arc-flag="0" rx="3" ry="15" sweep-flag="1" x="2" x-axis-rotation="0" y="44"/>
+            <line x="0" y="44"/>
+        </path>
+        <stroke/>
+        <roundrect arcsize="50" h="4" w="18" x="1.5" y="28"/>
+        <fillstroke/>
+        <fillcolor color="stroke"/>
+        <ellipse h="8" w="8" x="21" y="26"/>
+        <fill/>
+    </foreground>
+</shape>
 <shape aspect="variable" h="180" name="Bed Double" strokewidth="inherit" w="200">
     <connections/>
     <background>
@@ -349,6 +383,33 @@
         <rect h="5" w="10" x="20" y="60"/>
         <fillstroke/>
         <rect h="5" w="10" x="70" y="60"/>
+        <fillstroke/>
+    </foreground>
+</shape>
+<shape aspect="variable" h="65" name="Drying Machine" strokewidth="inherit" w="60">
+    <connections/>
+    <background>
+        <roundrect arcsize="0.288" h="59" w="59" x="0.5" y="0.5"/>
+    </background>
+    <foreground>
+        <fillstroke/>
+        <rect h="30" w="30" x="15" y="12.5"/>
+        <stroke/>
+        <path>
+            <move x="20" y="27.5"/>
+            <line x="40" y="27.5"/>
+        </path>
+        <stroke/>
+        <fillcolor color="strokeColor" default="#000000"/>
+        <path>
+            <move x="45" y="60"/>
+            <curve x1="45" x2="44.44" x3="43.53" y1="61.38" y2="62.62" y3="63.53"/>
+            <curve x1="42.62" x2="41.38" x3="40" y1="64.44" y2="65" y3="65"/>
+            <line x="20" y="65"/>
+            <curve x1="17.25" x2="15" x3="15" y1="65" y2="62.75" y3="60"/>
+            <line x="45" y="60"/>
+            <close/>
+        </path>
         <fillstroke/>
     </foreground>
 </shape>
@@ -976,6 +1037,29 @@
         <fill/>
     </foreground>
 </shape>
+<shape aspect="variable" h="100" name="Shower2" strokewidth="inherit" w="100">
+    <connections/>
+    <background>
+        <rect h="100" w="100" x="0" y="0"/>
+    </background>
+    <foreground>
+        <fillstroke/>
+        <roundrect arcsize="9.52" h="84" w="84" x="8" y="8"/>
+        <stroke/>
+        <path>
+            <move x="94" y="9"/>
+            <arc large-arc-flag="0" rx="75" ry="75" sweep-flag="0" x="79" x-axis-rotation="0" y="28"/>
+            <arc large-arc-flag="1" rx="5" ry="5" sweep-flag="1" x="72" x-axis-rotation="0" y="21"/>
+            <arc large-arc-flag="0" rx="75" ry="75" sweep-flag="0" x="91" x-axis-rotation="0" y="6"/>
+            <arc large-arc-flag="0" rx="2" ry="2" sweep-flag="1" x="94" x-axis-rotation="0" y="9"/>
+            <close/>
+        </path>
+        <fillstroke/>
+        <fillcolor color="stroke"/>
+        <ellipse h="10" w="10" x="15" y="75"/>
+        <fill/>
+    </foreground>
+</shape>
 <shape aspect="variable" h="35" name="Sink 1" strokewidth="inherit" w="40">
     <connections/>
     <background>
@@ -1020,6 +1104,28 @@
         <stroke/>
     </foreground>
 </shape>
+<shape aspect="variable" h="35" name="Sink 22" strokewidth="inherit" w="40">
+    <connections/>
+    <background>
+        <save/>
+        <roundrect arcsize="11.43" h="35" w="40" x="0" y="0"/>
+    </background>
+    <foreground>
+        <fillstroke/>
+        <roundrect arcsize="14.29" h="21" w="32" x="4" y="10"/>
+        <stroke/>
+        <fillcolor color="stroke"/>
+        <ellipse h="5" w="5" x="17.5" y="16.5"/>
+        <fill/>
+        <restore/>
+        <rect/>
+        <stroke/>
+        <roundrect arcsize="50" h="16" w="4" x="18" y="3"/>
+        <fillstroke/>
+        <roundrect arcsize="50" h="11" w="4" x="18" y="3"/>
+        <stroke/>
+    </foreground>
+</shape>
 <shape aspect="variable" h="35" name="Sink Double" strokewidth="inherit" w="80">
     <connections/>
     <background>
@@ -1036,6 +1142,28 @@
         <roundrect arcsize="14.29" h="21" w="32" x="44" y="10"/>
         <stroke/>
         <fillcolor color="#000000"/>
+        <ellipse h="5" w="5" x="27.5" y="14.5"/>
+        <fill/>
+        <ellipse h="5" w="5" x="47.5" y="14.5"/>
+        <fill/>
+    </foreground>
+</shape>
+<shape aspect="variable" h="35" name="Sink Double2" strokewidth="inherit" w="80">
+    <connections/>
+    <background>
+        <roundrect arcsize="11.43" h="35" w="80" x="0" y="0"/>
+    </background>
+    <foreground>
+        <fillstroke/>
+        <roundrect arcsize="14.29" h="21" w="32" x="4" y="10"/>
+        <stroke/>
+        <roundrect arcsize="50" h="16" w="4" x="38" y="3"/>
+        <fillstroke/>
+        <roundrect arcsize="50" h="11" w="4" x="38" y="3"/>
+        <stroke/>
+        <roundrect arcsize="14.29" h="21" w="32" x="44" y="10"/>
+        <stroke/>
+        <fillcolor color="stroke"/>
         <ellipse h="5" w="5" x="27.5" y="14.5"/>
         <fill/>
         <ellipse h="5" w="5" x="47.5" y="14.5"/>
@@ -1804,6 +1932,39 @@
         <stroke/>
         <rect h="8" w="44" x="3" y="7"/>
         <stroke/>
+    </foreground>
+</shape>
+<shape aspect="variable" h="65" name="Washing Machine" strokewidth="inherit" w="60">
+    <connections/>
+    <background>
+        <roundrect arcsize="0.288" h="59" w="59" x="0.5" y="0.5"/>
+    </background>
+    <foreground>
+        <fillstroke/>
+        <path>
+            <move x="15" y="15"/>
+            <line x="20" y="40"/>
+            <line x="40" y="40"/>
+            <line x="45" y="15"/>
+        </path>
+        <stroke/>
+        <path>
+            <move x="17.5" y="27.5"/>
+            <curve x1="21.23" x2="24.62" x3="30" y1="24.23" y2="24.29" y3="27.5"/>
+            <curve x1="35.66" x2="38.7" x3="42.5" y1="30.88" y2="30.79" y3="27.5"/>
+        </path>
+        <stroke/>
+        <fillcolor color="strokeColor" default="#000000"/>
+        <path>
+            <move x="45" y="60"/>
+            <curve x1="45" x2="44.44" x3="43.53" y1="61.38" y2="62.62" y3="63.53"/>
+            <curve x1="42.62" x2="41.38" x3="40" y1="64.44" y2="65" y3="65"/>
+            <line x="20" y="65"/>
+            <curve x1="17.25" x2="15" x3="15" y1="65" y2="62.75" y3="60"/>
+            <line x="45" y="60"/>
+            <close/>
+        </path>
+        <fill/>
     </foreground>
 </shape>
 </shapes>

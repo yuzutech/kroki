@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 10 10">
+  <!-- Generator: Adobe Illustrator 29.5.1, SVG Export Plug-In . SVG Version: 2.1.0 Build 141)  -->
+  <defs>
+    <clipPath id="clippath">
+      <rect width="10" height="10" fill="none"/>
+    </clipPath>
+    <linearGradient id="linear-gradient" x1=".99" y1="8.97" x2="7.43" y2="1.99" gradientTransform="translate(0 11.2) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0195ff"/>
+      <stop offset=".99" stop-color="#1147e9"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient1" x1="2.67" y1="10.51" x2="9.1" y2="3.53" gradientTransform="translate(0 11.2) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0195ff"/>
+      <stop offset=".99" stop-color="#1147e9"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient2" x1="3.82" y1="8.68" x2="5.93" y2="3.65" gradientTransform="translate(0 11.2) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1348ff"/>
+      <stop offset="1" stop-color="#06238d"/>
+    </linearGradient>
+  </defs>
+  <g clip-path="url(#clippath)">
+    <g>
+      <path d="M4.32,9.31c.18.19.42.3.67.3s.5-.11.66-.28l2.77-2.74h-2.21c-.1,0-.2-.01-.29-.03l-.02.18c-.05.48-.37.89-.82,1.06-.46.16-.96.05-1.31-.29l-.91-.91h-1.31l2.76,2.73Z" fill="url(#linear-gradient)"/>
+      <path d="M.04,4.17C.01,3.99,0,3.82,0,3.63,0,1.94,1.34.39,3.08.39c.72,0,1.61.48,1.92.95.31-.47,1.19-.95,1.92-.95,1.7,0,3.08,1.45,3.08,3.24,0,.18-.01.36-.04.53-.14-.06-.29-.09-.45-.09h-2.59l-.87-1.37c-.29-.45-.83-.67-1.35-.55-.52.12-.9.56-.95,1.09l-.08.85c-.09-.02-.18-.03-.27-.03H.5c-.16,0-.31.03-.45.09Z" fill="url(#linear-gradient1)"/>
+      <path d="M4.87,2.9c.21-.05.42.04.54.22l1.09,1.72h3.01c.28,0,.5.22.5.5s-.22.5-.5.5h-3.28c-.17,0-.33-.09-.42-.23l-.46-.72-.17,1.78c-.02.19-.15.36-.33.42-.18.07-.39.02-.52-.12l-1.13-1.13H.5C.22,5.83,0,5.61,0,5.33s.22-.5.5-.5h2.9c.13,0,.26.05.35.15l.53.53.21-2.17c.02-.21.17-.39.38-.44Z" fill="url(#linear-gradient2)" fill-rule="evenodd"/>
+    </g>
+  </g>
+</svg>

@@ -47,7 +47,7 @@
 <close/>
 </path>
 <stroke/>
-<fillcolor color="#ffffff"/>
+<fillcolor color="strokeColor2" default="#ffffff"/>
 <path>
 <move x="4" y="31.34"/>
 <line x="4" y="23.34"/>
@@ -61,7 +61,7 @@
 <close/>
 </path>
 <fill/>
-<strokecolor color="#ffffff"/>
+<strokecolor color="strokeColor2" default="#ffffff"/>
 <strokewidth width="1"/>
 <path>
 <move x="9.67" y="35.67"/>
@@ -405,7 +405,7 @@
 <foreground>
 <linejoin join="round"/>
 <fillstroke/>
-<strokecolor color="#ffffff"/>
+<strokecolor color="strokeColor2" default="#ffffff"/>
 <strokewidth width="1"/>
 <linecap cap="square"/>
 <dashed dashed="1"/>
@@ -419,7 +419,7 @@
 <rect/>
 <stroke/>
 <strokewidth width="1"/>
-<fillcolor color="#ffffff"/>
+<fillcolor color="strokeColor2" default="#ffffff"/>
 <path>
 <move x="47" y="15"/>
 <line x="41.33" y="17.66"/>
@@ -429,7 +429,7 @@
 </path>
 <fill/>
 <save/>
-<strokecolor color="#d9d9d9"/>
+<strokecolor color="strokeColor3" default="#d9d9d9"/>
 <strokewidth width="1"/>
 <linejoin join="round"/>
 <linecap cap="square"/>
@@ -442,7 +442,7 @@
 </path>
 <stroke/>
 <restore/>
-<fillcolor color="#d9d9d9"/>
+<fillcolor color="strokeColor3" default="#d9d9d9"/>
 <path>
 <move x="30.66" y="31.66"/>
 <line x="33.33" y="26.33"/>
@@ -451,7 +451,7 @@
 <close/>
 </path>
 <fill/>
-<strokecolor color="#ffffff"/>
+<strokecolor color="strokeColor2" default="#ffffff"/>
 <strokewidth width="0.85"/>
 <path>
 <move x="42.33" y="27.33"/>
@@ -471,7 +471,7 @@
 <close/>
 </path>
 <stroke/>
-<strokecolor color="#000000"/>
+<strokecolor color="strokeColor4" default="#000000"/>
 <strokewidth width="1"/>
 <linecap cap="square"/>
 <dashed dashed="1"/>
@@ -481,7 +481,7 @@
 <line x="0" y="15"/>
 </path>
 <stroke/>
-<strokecolor color="#8c8c8c"/>
+<strokecolor color="strokeColor5" default="#8c8c8c"/>
 <strokewidth width="1"/>
 <dashed dashed="1"/>
 <dashpattern dash="8 8"/>
@@ -543,7 +543,7 @@
 <line x="21.33" y="17.67"/>
 </path>
 <stroke/>
-<fillcolor color="#ffffff"/>
+<fillcolor color="strokeColor2" default="#ffffff"/>
 <path>
 <move x="9" y="30.33"/>
 <line x="9" y="33.33"/>
@@ -681,7 +681,7 @@
 <restore/>
 <rect/>
 <stroke/>
-<fillcolor color="#ffffff"/>
+<fillcolor color="strokeColor2" default="#ffffff"/>
 <path>
 <move x="14" y="30.67"/>
 <curve x1="15" y1="30.67" x2="16" y2="29.34" x3="16" y3="27.67"/>
@@ -756,6 +756,61 @@
 <fillstroke/>
 </foreground>
 </shape>
+<shape name="Network Security 2" h="36.67" w="28" aspect="variable" strokewidth="inherit">
+<connections>
+<constraint x="0.5" y="0" perimeter="0" name="N"/>
+<constraint x="0.5" y="1" perimeter="0" name="S"/>
+<constraint x="0" y="0.5" perimeter="0" name="W"/>
+<constraint x="1" y="0.5" perimeter="0" name="E"/>
+<constraint x="0" y="0" perimeter="0" name="NW"/>
+<constraint x="1" y="0" perimeter="0" name="NE"/>
+</connections>
+<background>
+</background>
+<foreground>
+<rect/>
+<stroke/>
+<save/>
+<linejoin join="round"/>
+<strokecolor color="strokeColor" default="#000000"/>
+<strokewidth width="1.33"/>
+<fillcolor color="fillColor2" default="#ffffff"/>
+<path>
+<move x="14" y="14.34"/>
+<line x="0" y="14.34"/>
+<line x="0" y="0"/>
+<line x="14" y="0"/>
+<close/>
+</path>
+<fillstroke/>
+<restore/>
+<strokecolor color="strokeColor" default="#000000"/>
+<strokewidth width="1.33"/>
+<linejoin join="round"/>
+<path>
+<move x="28" y="14"/>
+<line x="14" y="14"/>
+<line x="14" y="0"/>
+<line x="28" y="0"/>
+<close/>
+<move x="14" y="36.67"/>
+<line x="0" y="28.34"/>
+<line x="0" y="14"/>
+<line x="14" y="14"/>
+<close/>
+</path>
+<fillstroke/>
+<fillcolor color="fillColor2" default="#ffffff"/>
+<path>
+<move x="28" y="28.34"/>
+<line x="14" y="36.67"/>
+<line x="14" y="14"/>
+<line x="28" y="14"/>
+<close/>
+</path>
+<fillstroke/>
+</foreground>
+</shape>
 <shape name="PIX Firewall" h="32.67" w="48" aspect="variable" strokewidth="inherit">
 <connections>
 <constraint x="0.5" y="0" perimeter="0" name="N"/>
@@ -787,7 +842,7 @@
 <foreground>
 <linejoin join="round"/>
 <fillstroke/>
-<fillcolor color="#ffffff"/>
+<fillcolor color="strokeColor2" default="#ffffff"/>
 <path>
 <move x="17" y="14.67"/>
 <line x="17" y="2.33"/>
@@ -848,7 +903,7 @@
 <rect/>
 <stroke/>
 <strokewidth width="1"/>
-<fillcolor color="#ffffff"/>
+<fillcolor color="strokeColor2" default="#ffffff"/>
 <path>
 <move x="19" y="10"/>
 <line x="25.66" y="10.33"/>

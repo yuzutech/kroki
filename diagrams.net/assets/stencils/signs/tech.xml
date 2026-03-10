@@ -502,6 +502,82 @@
 <fillstroke/>
 </foreground>
 </shape>
+<shape aspect="variable" h="72.986" name="Cut" strokewidth="inherit" w="100.54">
+    <connections/>
+    <background>
+        <path>
+            <move x="12.643" y="0.039"/>
+            <curve x1="12.401" x2="12.16" x3="11.919" y1="0.042" y2="0.05" y3="0.063"/>
+            <curve x1="8.075" x2="4.255" x3="2.128" y1="0.27" y2="1.949" y3="5.362"/>
+            <curve x1="0" x2="0.175" x3="1.683" y1="8.776" y2="12.945" y3="16.488"/>
+            <curve x1="3.191" x2="5.991" x3="9.732" y1="20.031" y2="23.207" y3="25.539"/>
+            <curve x1="11.904" x2="14.192" x3="16.481" y1="26.892" y2="27.834" y3="28.347"/>
+            <curve x1="24.896" x2="30.96" x3="37.841" y1="30.562" y2="31" y3="36.493"/>
+            <curve x1="30.96" x2="24.896" x3="16.481" y1="41.987" y2="42.424" y3="44.639"/>
+            <curve x1="14.192" x2="11.904" x3="9.732" y1="45.152" y2="46.094" y3="47.448"/>
+            <curve x1="5.991" x2="3.191" x3="1.683" y1="49.779" y2="52.955" y3="56.498"/>
+            <curve x1="0.175" x2="0" x3="2.128" y1="60.041" y2="64.21" y3="67.624"/>
+            <curve x1="4.255" x2="8.075" x3="11.919" y1="71.038" y2="72.717" y3="72.923"/>
+            <curve x1="12.16" x2="12.401" x3="12.643" y1="72.936" y2="72.945" y3="72.947"/>
+            <curve x1="16.274" x2="20.083" x3="23.59" y1="72.986" y2="71.871" y3="69.685"/>
+            <curve x1="27.331" x2="30.131" x3="31.639" y1="67.353" y2="64.177" y3="60.634"/>
+            <curve x1="33.09" x2="33.306" x3="31.428" y1="57.227" y2="53.242" y3="49.906"/>
+            <line x="46.393" y="41.353"/>
+            <line x="82.836" y="60.766"/>
+            <curve x1="86.365" x2="90.775" x3="93.767" y1="62.821" y2="61.138" y3="58.709"/>
+            <line x="54.896" y="36.493"/>
+            <line x="93.767" y="14.278"/>
+            <curve x1="90.775" x2="86.365" x3="82.836" y1="11.848" y2="10.165" y3="12.22"/>
+            <line x="46.393" y="31.633"/>
+            <line x="31.428" y="23.081"/>
+            <curve x1="33.306" x2="33.09" x3="31.639" y1="19.744" y2="15.759" y3="12.352"/>
+            <curve x1="30.131" x2="27.331" x3="23.59" y1="8.81" y2="5.633" y3="3.301"/>
+            <curve x1="20.083" x2="16.274" x3="12.643" y1="1.116" y2="0" y3="0.039"/>
+            <close/>
+            <move x="12.716" y="7.424"/>
+            <curve x1="14.741" x2="17.29" x3="19.685" y1="7.409" y2="8.075" y3="9.568"/>
+            <curve x1="22.24" x2="24.028" x3="24.845" y1="11.16" y2="13.324" y3="15.243"/>
+            <curve x1="25.661" x2="25.549" x3="24.928" y1="17.162" y2="18.576" y3="19.572"/>
+            <curve x1="24.307" x2="23.088" x3="21.005" y1="20.569" y2="21.29" y3="21.402"/>
+            <curve x1="18.923" x2="16.192" x3="13.637" y1="21.514" y2="20.864" y3="19.272"/>
+            <curve x1="11.082" x2="9.296" x3="8.479" y1="17.68" y2="15.515" y3="13.596"/>
+            <curve x1="7.662" x2="7.773" x3="8.394" y1="11.677" y2="10.265" y3="9.268"/>
+            <curve x1="9.015" x2="10.235" x3="12.318" y1="8.272" y2="7.548" y3="7.436"/>
+            <curve x1="12.448" x2="12.581" x3="12.716" y1="7.429" y2="7.425" y3="7.424"/>
+            <close/>
+            <move x="9.457" y="34.482"/>
+            <line x="9.457" y="38.504"/>
+            <line x="23.331" y="38.504"/>
+            <line x="23.331" y="34.482"/>
+            <close/>
+            <move x="67.75" y="34.482"/>
+            <line x="67.75" y="38.504"/>
+            <line x="81.624" y="38.504"/>
+            <line x="81.624" y="34.482"/>
+            <close/>
+            <move x="86.665" y="34.482"/>
+            <line x="86.665" y="38.504"/>
+            <line x="100.54" y="38.504"/>
+            <line x="100.54" y="34.482"/>
+            <close/>
+            <move x="20.607" y="51.572"/>
+            <curve x1="20.742" x2="20.875" x3="21.005" y1="51.573" y2="51.577" y3="51.584"/>
+            <curve x1="23.088" x2="24.307" x3="24.928" y1="51.696" y2="52.418" y3="53.414"/>
+            <curve x1="25.549" x2="25.661" x3="24.845" y1="54.41" y2="55.825" y3="57.744"/>
+            <curve x1="24.028" x2="22.24" x3="19.685" y1="59.663" y2="61.826" y3="63.418"/>
+            <curve x1="17.29" x2="14.741" x3="12.716" y1="64.911" y2="65.577" y3="65.562"/>
+            <curve x1="12.581" x2="12.448" x3="12.318" y1="65.561" y2="65.557" y3="65.55"/>
+            <curve x1="10.235" x2="9.015" x3="8.394" y1="65.438" y2="64.715" y3="63.718"/>
+            <curve x1="7.773" x2="7.662" x3="8.479" y1="62.722" y2="61.309" y3="59.391"/>
+            <curve x1="9.296" x2="11.082" x3="13.637" y1="57.472" y2="55.307" y3="53.714"/>
+            <curve x1="16.032" x2="18.582" x3="20.607" y1="52.221" y2="51.557" y3="51.572"/>
+            <close/>
+        </path>
+    </background>
+    <foreground>
+        <fillstroke/>
+    </foreground>
+</shape>
 <shape name="Eject" h="77.71" w="98.75" aspect="variable" strokewidth="inherit">
 <connections>
 <constraint x="0.5" y="0" perimeter="0" name="N"/>
@@ -624,6 +700,90 @@
 <fillstroke/>
 </foreground>
 </shape>
+<shape aspect="variable" h="100" name="Fullscreen" strokewidth="inherit" w="100">
+    <connections/>
+    <background>
+        <path>
+            <move x="0" y="0"/>
+            <line x="0" y="30"/>
+            <line x="9.697" y="20.304"/>
+            <line x="31.681" y="42.288"/>
+            <line x="42.287" y="31.681"/>
+            <line x="20.303" y="9.697"/>
+            <line x="30" y="0"/>
+            <close/>
+            <move x="70" y="0"/>
+            <line x="79.696" y="9.697"/>
+            <line x="57.712" y="31.681"/>
+            <line x="68.319" y="42.287"/>
+            <line x="90.303" y="20.303"/>
+            <line x="100" y="30"/>
+            <line x="100" y="0"/>
+            <close/>
+            <move x="31.681" y="57.712"/>
+            <line x="9.697" y="79.697"/>
+            <line x="0" y="70"/>
+            <line x="0" y="100"/>
+            <line x="30" y="100"/>
+            <line x="20.304" y="90.303"/>
+            <line x="42.288" y="68.319"/>
+            <close/>
+            <move x="68.319" y="57.712"/>
+            <line x="57.712" y="68.319"/>
+            <line x="79.697" y="90.303"/>
+            <line x="70" y="100"/>
+            <line x="100" y="100"/>
+            <line x="100" y="70"/>
+            <line x="90.303" y="79.696"/>
+            <close/>
+        </path>
+    </background>
+    <foreground>
+        <fillstroke/>
+    </foreground>
+</shape>
+<shape aspect="variable" h="100" name="Fullscreen Exit" strokewidth="inherit" w="100">
+    <connections/>
+    <background>
+        <path>
+            <move x="10.607" y="0"/>
+            <line x="0" y="10.607"/>
+            <line x="21.984" y="32.591"/>
+            <line x="12.288" y="42.288"/>
+            <line x="42.287" y="42.288"/>
+            <line x="42.287" y="12.288"/>
+            <line x="32.591" y="21.984"/>
+            <close/>
+            <move x="89.393" y="0"/>
+            <line x="67.409" y="21.984"/>
+            <line x="57.712" y="12.288"/>
+            <line x="57.712" y="42.287"/>
+            <line x="87.712" y="42.287"/>
+            <line x="78.015" y="32.591"/>
+            <line x="100" y="10.607"/>
+            <close/>
+            <move x="12.288" y="57.712"/>
+            <line x="21.984" y="67.409"/>
+            <line x="0" y="89.393"/>
+            <line x="10.607" y="100"/>
+            <line x="32.591" y="78.015"/>
+            <line x="42.288" y="87.712"/>
+            <line x="42.288" y="57.712"/>
+            <close/>
+            <move x="57.712" y="57.712"/>
+            <line x="57.712" y="87.712"/>
+            <line x="67.409" y="78.015"/>
+            <line x="89.393" y="100"/>
+            <line x="100" y="89.393"/>
+            <line x="78.015" y="67.409"/>
+            <line x="87.712" y="57.712"/>
+            <close/>
+        </path>
+    </background>
+    <foreground>
+        <fillstroke/>
+    </foreground>
+</shape>
 <shape name="Mail" h="75.42" w="99.13" aspect="variable" strokewidth="inherit">
 <connections>
 <constraint x="0.5" y="0" perimeter="0" name="N"/>
@@ -681,6 +841,33 @@
 <foreground>
 <fillstroke/>
 </foreground>
+</shape>
+<shape aspect="variable" h="80" name="Next" strokewidth="inherit" w="100">
+    <connections/>
+    <background>
+        <path>
+            <move x="100" y="0"/>
+            <line x="100" y="80"/>
+            <line x="90" y="80"/>
+            <line x="90" y="0"/>
+            <line x="100" y="0"/>
+            <close/>
+            <move x="0" y="80"/>
+            <line x="45" y="40"/>
+            <line x="0" y="0"/>
+            <line x="0" y="80"/>
+            <close/>
+            <move x="45" y="40"/>
+            <line x="45" y="80"/>
+            <line x="90" y="40"/>
+            <line x="45" y="0"/>
+            <line x="45" y="40"/>
+            <close/>
+        </path>
+    </background>
+    <foreground>
+        <fillstroke/>
+    </foreground>
 </shape>
 <shape name="Power" h="98.87" w="91.9" aspect="variable" strokewidth="inherit">
 <connections>
@@ -769,6 +956,33 @@
 <foreground>
 <fillstroke/>
 </foreground>
+</shape>
+<shape aspect="variable" h="80" name="Previous" strokewidth="inherit" w="100">
+    <connections/>
+    <background>
+        <path>
+            <move x="0" y="0"/>
+            <line x="0" y="80"/>
+            <line x="10" y="80"/>
+            <line x="10" y="0"/>
+            <line x="0" y="0"/>
+            <close/>
+            <move x="100" y="80"/>
+            <line x="55" y="40"/>
+            <line x="100" y="0"/>
+            <line x="100" y="80"/>
+            <close/>
+            <move x="55" y="40"/>
+            <line x="55" y="80"/>
+            <line x="10" y="40"/>
+            <line x="55" y="0"/>
+            <line x="55" y="40"/>
+            <close/>
+        </path>
+    </background>
+    <foreground>
+        <fillstroke/>
+    </foreground>
 </shape>
 <shape name="Radio" h="56.2" w="99.25" aspect="variable" strokewidth="inherit">
 <connections>

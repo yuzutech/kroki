@@ -751,7 +751,7 @@
 </path>
 <fill/>
 <save/>
-<fillcolor color="#ffffff"/>
+<fillcolor color="strokeColor2" default="#ffffff"/>
 <path>
 <move x="7.67" y="34"/>
 <curve x1="7.67" y1="32.33" x2="7.67" y2="31" x3="7.34" y3="29.33"/>
@@ -869,7 +869,7 @@
 <close/>
 </path>
 <fill/>
-<fillcolor color="#ffffff"/>
+<fillcolor color="strokeColor2" default="#ffffff"/>
 <path>
 <move x="54" y="19.66"/>
 <curve x1="54" y1="19.66" x2="54" y2="19.66" x3="53.67" y3="19.66"/>
@@ -991,7 +991,7 @@
 <close/>
 </path>
 <fill/>
-<fillcolor color="#ffffff"/>
+<fillcolor color="strokeColor2" default="#ffffff"/>
 <path>
 <move x="11.67" y="15"/>
 <curve x1="13.67" y1="21" x2="13.67" y2="21" x3="13.67" y3="21"/>
@@ -1022,7 +1022,7 @@
 </path>
 <fill/>
 <save/>
-<fillcolor color="#ffffff"/>
+<fillcolor color="strokeColor2" default="#ffffff"/>
 <path>
 <move x="48.34" y="20"/>
 <curve x1="49" y1="22" x2="49" y2="22" x3="49" y3="22"/>
@@ -1050,7 +1050,7 @@
 <close/>
 </path>
 <fill/>
-<fillcolor color="#ffffff"/>
+<fillcolor color="strokeColor2" default="#ffffff"/>
 <path>
 <move x="61" y="27"/>
 <curve x1="59.67" y1="25" x2="58.34" y2="26.66" x3="58.34" y3="26.66"/>
@@ -2096,6 +2096,65 @@
 <fillstroke/>
 </foreground>
 </shape>
+<shape name="Standing Man 2" h="39.67" w="14.67" aspect="variable" strokewidth="inherit">
+<connections>
+<constraint x="0.5" y="0" perimeter="0" name="N"/>
+<constraint x="0.5" y="1" perimeter="0" name="S"/>
+<constraint x="0.035" y="0.5" perimeter="0" name="W"/>
+<constraint x="0.98" y="0.5" perimeter="0" name="E"/>
+<constraint x="0" y="1" perimeter="0" name="SW"/>
+<constraint x="0.98" y="1" perimeter="0" name="SE"/>
+</connections>
+<background>
+<path>
+<move x="0" y="22.33"/>
+<curve x1="3.33" y1="22.33" x2="3.33" y2="22.33" x3="3.33" y3="22.33"/>
+<curve x1="0" y1="39.67" x2="0" y2="39.67" x3="0" y3="39.67"/>
+<curve x1="4.67" y1="39.67" x2="4.67" y2="39.67" x3="4.67" y3="39.67"/>
+<curve x1="7.33" y1="27" x2="7.33" y2="27" x3="7.33" y3="27"/>
+<curve x1="7.33" y1="27" x2="9" y2="37" x3="9.67" y3="39.67"/>
+<curve x1="10.33" y1="39.67" x2="13" y2="39.67" x3="14.33" y3="39.67"/>
+<curve x1="14" y1="38.33" x2="11.67" y2="23.67" x3="11.33" y3="22.33"/>
+<curve x1="12" y1="22.33" x2="14" y2="22.33" x3="14.67" y3="22.33"/>
+<curve x1="14.67" y1="21.67" x2="14" y2="17.67" x3="14" y3="16.67"/>
+<curve x1="14" y1="15.67" x2="13.33" y2="11.67" x3="13" y3="10.67"/>
+<curve x1="12.67" y1="9.67" x2="11" y2="8.67" x3="10.33" y3="8.33"/>
+<curve x1="9.33" y1="8" x2="7.67" y2="8" x3="6.67" y3="8"/>
+<curve x1="5.67" y1="8" x2="4.67" y2="8.33" x3="3.67" y3="8.67"/>
+<curve x1="3" y1="8.67" x2="2" y2="10" x3="1.67" y3="10.67"/>
+<curve x1="1.67" y1="11.33" x2="1.33" y2="13.67" x3="1" y3="15"/>
+<curve x1="0.67" y1="16" x2="0.67" y2="20.33" x3="0.33" y3="21"/>
+<curve x1="0" y1="21.67" x2="0" y2="22.33" x3="0" y3="22.33"/>
+<close/>
+</path>
+</background>
+<foreground>
+<fill/>
+<fillcolor color="strokeColor" default="#ffffff"/>
+<path>
+<move x="9.33" y="8"/>
+<curve x1="9" y1="8" x2="8.33" y2="8" x3="7.67" y3="8"/>
+<curve x1="7.33" y1="8" x2="6.33" y2="8" x3="6" y3="8"/>
+<curve x1="5.67" y1="8" x2="4.67" y2="8.33" x3="4.67" y3="8.33"/>
+<curve x1="4.67" y1="8.33" x2="4.33" y2="8.33" x3="4.33" y3="8.33"/>
+<curve x1="6.67" y1="16.33" x2="6.67" y2="16.33" x3="6.67" y3="16.33"/>
+<curve x1="10" y1="8.33" x2="10" y2="8.33" x3="10" y3="8.33"/>
+<curve x1="10" y1="8" x2="9.67" y2="8.33" x3="9.67" y3="8"/>
+</path>
+<fill/>
+<strokecolor color="fillColor" default="#126d99"/>
+<strokewidth width="0.67"/>
+<path>
+<move x="7.33" y="8"/>
+<curve x1="9.33" y1="8" x2="11.33" y2="6" x3="11.33" y3="4"/>
+<curve x1="11.33" y1="1.67" x2="9.33" y2="0" x3="7.33" y3="0"/>
+<curve x1="5" y1="0" x2="3.33" y2="1.67" x3="3.33" y3="4"/>
+<curve x1="3.33" y1="6" x2="5" y2="8" x3="7.33" y3="8"/>
+<close/>
+</path>
+<fillstroke/>
+</foreground>
+</shape>
 <shape name="Standing Woman" h="39.67" w="14.67" aspect="variable" strokewidth="inherit">
 <connections>
 <constraint x="0.5" y="0" perimeter="0" name="N"/>
@@ -2162,6 +2221,99 @@
 <fillstroke/>
 <restore/>
 <strokecolor color="#036a99"/>
+<linejoin join="round"/>
+<linecap cap="round"/>
+<strokewidth width="0.67"/>
+<path>
+<move x="3.33" y="3.33"/>
+<curve x1="3.33" y1="3.33" x2="2.33" y2="6.33" x3="1" y3="6"/>
+<curve x1="1" y1="6" x2="2.67" y2="7.33" x3="4.33" y3="6.67"/>
+</path>
+<fillstroke/>
+<path>
+<move x="11" y="3.33"/>
+<curve x1="11" y1="3.33" x2="12" y2="6.33" x3="13.67" y3="6"/>
+<curve x1="13.67" y1="6" x2="11.67" y2="7.33" x3="10" y3="6.67"/>
+<close/>
+</path>
+<fillstroke/>
+<path>
+<move x="10" y="1.33"/>
+<curve x1="9.33" y1="0.67" x2="8.33" y2="0" x3="7.33" y3="0"/>
+<curve x1="6" y1="0" x2="5" y2="0.67" x3="4.33" y3="1.33"/>
+<curve x1="5" y1="2" x2="6" y2="2.33" x3="7" y3="2.33"/>
+<curve x1="8.33" y1="2.33" x2="9.33" y2="2" x3="10" y3="1.33"/>
+<close/>
+</path>
+<fillstroke/>
+</foreground>
+</shape>
+<shape name="Standing Woman 2" h="39.67" w="14.67" aspect="variable" strokewidth="inherit">
+<connections>
+<constraint x="0.5" y="0" perimeter="0" name="N"/>
+<constraint x="0.5" y="1" perimeter="0" name="S"/>
+<constraint x="0.015" y="0.5" perimeter="0" name="W"/>
+<constraint x="0.99" y="0.5" perimeter="0" name="E"/>
+<constraint x="0.07" y="0.15" perimeter="0" name="NW"/>
+<constraint x="0.23" y="1" perimeter="0" name="SW"/>
+<constraint x="0.93" y="0.15" perimeter="0" name="NE"/>
+<constraint x="0.79" y="1" perimeter="0" name="SE"/>
+</connections>
+<background>
+<path>
+<move x="0" y="21.33"/>
+<curve x1="3.33" y1="21.33" x2="3.33" y2="21.33" x3="3.33" y3="21.33"/>
+<curve x1="1" y1="30.33" x2="1" y2="30.33" x3="1" y3="30.33"/>
+<curve x1="3.67" y1="30.33" x2="3.67" y2="30.33" x3="3.67" y3="30.33"/>
+<curve x1="3.33" y1="39.67" x2="3.33" y2="39.67" x3="3.33" y3="39.67"/>
+<curve x1="4.67" y1="39.67" x2="4.67" y2="39.67" x3="4.67" y3="39.67"/>
+<curve x1="6.67" y1="30.33" x2="6.67" y2="30.33" x3="6.67" y3="30.33"/>
+<curve x1="8" y1="30.33" x2="8" y2="30.33" x3="8" y3="30.33"/>
+<curve x1="10.33" y1="39.67" x2="10.33" y2="39.67" x3="10.33" y3="39.67"/>
+<curve x1="11.67" y1="39.67" x2="11.67" y2="39.67" x3="11.67" y3="39.67"/>
+<curve x1="11.33" y1="30.33" x2="11.33" y2="30.33" x3="11.33" y3="30.33"/>
+<curve x1="13.67" y1="30.33" x2="13.67" y2="30.33" x3="13.67" y3="30.33"/>
+<curve x1="11.33" y1="21.33" x2="11.33" y2="21.33" x3="11.33" y3="21.33"/>
+<curve x1="12" y1="21.33" x2="14" y2="21.33" x3="14.67" y3="21.33"/>
+<curve x1="14" y1="16.67" x2="14" y2="16.67" x3="14" y3="16.67"/>
+<curve x1="14" y1="15.67" x2="13.33" y2="11.67" x3="13" y3="10.67"/>
+<curve x1="12.67" y1="10" x2="11" y2="8.67" x3="10" y3="8.33"/>
+<curve x1="9.33" y1="8" x2="7.67" y2="8" x3="6.67" y3="8"/>
+<curve x1="5.67" y1="8" x2="4.67" y2="8.33" x3="3.67" y3="8.67"/>
+<curve x1="3" y1="8.67" x2="2" y2="10" x3="1.67" y3="10.67"/>
+<curve x1="1.67" y1="11.67" x2="1" y2="14" x3="1" y3="15"/>
+<close/>
+</path>
+</background>
+<foreground>
+<fill/>
+<save/>
+<strokewidth width="0.85"/>
+<fillcolor color="strokeColor" default="#ffffff"/>
+<path>
+<move x="9.33" y="8"/>
+<curve x1="8.67" y1="8" x2="8.33" y2="8" x3="7.67" y3="8"/>
+<curve x1="7.33" y1="8" x2="6.33" y2="8" x3="6" y3="8"/>
+<curve x1="5.67" y1="8.33" x2="4.67" y2="8.33" x3="4.67" y3="8.33"/>
+<curve x1="4.67" y1="8.33" x2="4.33" y2="8.33" x3="4.33" y3="8.33"/>
+<curve x1="7.33" y1="13.33" x2="7.33" y2="13.33" x3="7.33" y3="13.33"/>
+<curve x1="10" y1="8.33" x2="10" y2="8.33" x3="10" y3="8.33"/>
+<curve x1="10" y1="8" x2="9.67" y2="8.33" x3="9.67" y3="8"/>
+</path>
+<fill/>
+<strokecolor color="fillColor" default="#036a99"/>
+<strokewidth width="0.67"/>
+<path>
+<move x="7.33" y="8"/>
+<curve x1="9.33" y1="8" x2="11" y2="6" x3="11" y3="4"/>
+<curve x1="11" y1="1.67" x2="9.33" y2="0" x3="7.33" y3="0"/>
+<curve x1="5" y1="0" x2="3.33" y2="1.67" x3="3.33" y3="4"/>
+<curve x1="3.33" y1="6" x2="5" y2="8" x3="7.33" y3="8"/>
+<close/>
+</path>
+<fillstroke/>
+<restore/>
+<strokecolor color="fillColor" default="#036a99"/>
 <linejoin join="round"/>
 <linecap cap="round"/>
 <strokewidth width="0.67"/>

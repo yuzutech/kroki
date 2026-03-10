@@ -395,7 +395,7 @@
         </path>
         <fillstroke/>
         <strokecolor color="none"/>
-        <fillcolor color="#0079d6"/>
+        <fillcolor color="fillColor2" default="#0079d6"/>
         <path>
             <move x="36.9" y="61.5"/>
             <arc large-arc-flag="0" rx="20" ry="6" sweep-flag="0" x="74.8" x-axis-rotation="0" y="61.5"/>
