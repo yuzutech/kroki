@@ -1,6 +1,5 @@
 /**
- * $Id: mxMockupMisc.js,v 1.5 2013/02/28 13:50:11 mate Exp $
- * Copyright (c) 2006-2010, JGraph Ltd
+ * Copyright (c) 2006-2010, JGraph Holdings Ltd
  */
 
 //**********************************************************************************************************************************************************
@@ -32,10 +31,10 @@ mxShapeMockupPlaybackControls.prototype.cst = {
 };
 
 mxShapeMockupPlaybackControls.prototype.customProperties = [
-	{name: 'fillColor2', dispName: 'Outline Color', type: 'color'},
-	{name: 'fillColor3', dispName: 'Symbol Color', type: 'color'},
-	{name: 'strokeColor2', dispName: 'Outline Stroke Color', type: 'color'},
-	{name: 'strokeColor3', dispName: 'Symbol Stroke Color', type: 'color'}
+	{name: 'fillColor2', dispName: 'Outline Color', type: 'color', primary:true},
+	{name: 'fillColor3', dispName: 'Symbol Color', type: 'color', primary:true},
+	{name: 'strokeColor2', dispName: 'Outline Stroke Color', type: 'color', primary:true},
+	{name: 'strokeColor3', dispName: 'Symbol Stroke Color', type: 'color', primary:true}
 ];
 
 /**
@@ -194,8 +193,8 @@ mxShapeMockupProgressBar.prototype.cst = {
 };
 
 mxShapeMockupProgressBar.prototype.customProperties = [
-	{name: 'fillColor2', dispName: 'Outline Color', type: 'color'},
-	{name: 'barPos', dispName: 'Handle Position', type: 'float', min:0, defVal:80}
+	{name: 'fillColor2', dispName: 'Outline Color', type: 'color', primary: true},
+	{name: 'barPos', dispName: 'Handle Position', type: 'float', min:0, defVal:80, primary: true}
 ];
 
 /**
@@ -363,7 +362,7 @@ mxShapeMockupRating.prototype.customProperties = [
 	},
 	{name: 'ratingScale', dispName: 'Max. Rating', type: 'int'},
 	{name: 'grade', dispName: 'Current Rating', type: 'int'},
-	{name: 'emptyFillColor', dispName: 'Fill2 Color', type: 'color'}
+	{name: 'emptyFillColor', dispName: 'Fill2 Color', type: 'color', primary: true}
 ];
 
 /**
@@ -529,7 +528,7 @@ mxShapeMockupVolumeSlider.prototype.cst = {
 };
 
 mxShapeMockupVolumeSlider.prototype.customProperties = [
-	{name: 'fillColor2', dispName: 'Fill2 Color', type: 'color'},
+	{name: 'fillColor2', dispName: 'Fill2 Color', type: 'color', primary:true},
 	{name: 'barPos', dispName: 'Handle Position', type: 'float'}
 ];
 
@@ -1479,6 +1478,12 @@ mxShapeMockupStatusBar.prototype.cst = {
 		TEXT_COLOR : 'textColor',
 		TEXT_SIZE : 'textSize'
 };
+
+mxShapeMockupStatusBar.prototype.customProperties = [
+	{name: 'fillColor2', dispName: 'Fill Color2', type: 'color', primary:true},
+	{name: 'strokeColor2', dispName: 'Stroke Color2', type: 'color', primary:true},
+	{name: 'textColor', dispName: 'Text Color', type: 'color', primary:true}
+];
 
 /**
 * Function: paintVertexShape

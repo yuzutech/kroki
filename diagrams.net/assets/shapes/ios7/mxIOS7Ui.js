@@ -1,6 +1,5 @@
 /**
- * $Id: mxIOS7Ui.js,v 1.6 2013/12/04 16:48:54 mate Exp $
- * Copyright (c) 2006-2013, JGraph Ltd
+ * Copyright (c) 2006-2013, JGraph Holdings Ltd
  */
 
 var mxIOS7C =
@@ -61,7 +60,7 @@ function mxShapeIOS7AppBar(bounds, fill, stroke, strokewidth)
 mxUtils.extend(mxShapeIOS7AppBar, mxShape);
 
 mxShapeIOS7AppBar.prototype.customProperties = [
-	{name: 'fillColor2', dispName: 'Fill Color 2', type: 'color'}
+	{name: 'fillColor2', dispName: 'Fill Color 2', type: 'color', primary: true}
 ];
 
 /**
@@ -170,8 +169,8 @@ mxShapeIOS7OnOffButton.prototype.customProperties = [
 		enumList: [{val: 'on', dispName: 'On'},
 				   {val: 'off', dispName: 'Off'}]
 	},
-	{name: 'strokeColor2', dispName: 'Stroke Color 2', type: 'color'},
-	{name: 'fillColor2', dispName: 'Fill Color 2', type: 'color'},
+	{name: 'strokeColor2', dispName: 'Stroke Color 2', type: 'color', primary:true},
+	{name: 'fillColor2', dispName: 'Fill Color 2', type: 'color', primary:true},
 ];
 
 /**
@@ -699,7 +698,7 @@ function mxShapeIOS7iconGrid(bounds, fill, stroke, strokewidth)
 mxUtils.extend(mxShapeIOS7iconGrid, mxShape);
 
 mxShapeIOS7iconGrid.prototype.customProperties = [
-	{name: 'gridSize', dispName: 'Grid Size', type: 'String'},
+	{name: 'gridSize', dispName: 'Grid Size', type: 'string'},
 ];
 
 /**
@@ -710,7 +709,7 @@ mxShapeIOS7iconGrid.prototype.customProperties = [
 mxShapeIOS7iconGrid.prototype.paintVertexShape = function(c, x, y, w, h)
 {
 	c.translate(x, y);
-	var gridSize = mxUtils.getValue(this.style, mxIOS7C.GRID_SIZE, '4,7').toString().split(',');
+	var gridSize = decodeURIComponent(mxUtils.getValue(this.style, mxIOS7C.GRID_SIZE, '4,7').toString()).split(',');
 
 	var boxSizeX = w / (parseInt(gridSize[0],10) + (gridSize[0]-1) * 0.1);
 	var boxSizeY = h / (parseInt(gridSize[1],10) + (gridSize[1]-1) * 0.1);

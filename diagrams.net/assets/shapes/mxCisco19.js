@@ -1,6 +1,5 @@
 /**
- * $Id: mxCisco19.js,v 1.0 2019/12/10 13:05:39 mate Exp $
- * Copyright (c) 2006-2020, JGraph Ltd
+ * Copyright (c) 2006-2020, JGraph Holdings Ltd
  */
 
 //**********************************************************************************************************************************************************
@@ -40,7 +39,7 @@ mxShapeCisco19Rect.prototype.paintVertexShape = function(c, x, y, w, h)
 	var strokeColor = mxUtils.getValue(this.state.style, 'strokeColor', '#000000');
 
 	var bgIcon = 'mxgraph.cisco19.bg1';
-	var circleBg = ['router', 'csr_1000v', 'wireless_router', 'l3_modular3', 'ucs_express', 'router_with_voice', 'router_with_firewall', 'netflow_router', 'secure_router', 'ip_telephone_router', 'asr_9000', 'clock', 'vbond', 'vmanage', 'vsmart'];
+	var circleBg = ['router', 'csr_1000v', 'wireless_router', 'l3_modular3', 'ucs_express', 'router_with_voice', 'router_with_firewall', 'netflow_router', 'secure_router', 'ip_telephone_router', 'asr_9000', 'clock', 'vbond', 'vmanage', 'vsmart', 'vts2'];
 	
 	c.translate(x, y);
 
@@ -91,7 +90,7 @@ mxShapeCisco19Rect.prototype.paintVertexShape = function(c, x, y, w, h)
 	{
 		bgIcon = 'mxgraph.cisco19.bg9';
 	}
-	else if (['aci'].includes(prIcon)) // background specific for ACI
+	else if (['aci'].includes(prIcon) || ['aci2'].includes(prIcon)) // background specific for ACI
 	{
 		var frame = mxStencilRegistry.getStencil('mxgraph.cisco19.acibg');
 		frame.drawShape(c, this, w * 0.195, h * 0.195, w * 0.61, h * 0.61);
@@ -102,10 +101,14 @@ mxShapeCisco19Rect.prototype.paintVertexShape = function(c, x, y, w, h)
 	}
 
 
-	if (!circleBg.includes(prIcon) && prIcon != 'aci')
+	if (!circleBg.includes(prIcon) && prIcon != 'aci' && prIcon != 'aci2')
 	{
 		var frame = mxStencilRegistry.getStencil(bgIcon);
-		frame.drawShape(c, this, 0, 0, w, h);
+
+		if (frame != null)
+		{
+			frame.drawShape(c, this, 0, 0, w, h);
+		}
 	}
 
 	c.setShadow(false);

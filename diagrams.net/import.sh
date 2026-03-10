@@ -20,3 +20,4 @@ rsync -avz --delete ${DRAWIODIR}/src/main/webapp/img/                    ${ASSET
 #rsync -avz --delete ${DRAWIODIR}/src/main/webapp/math4/                  ${ASSETSDIR}/math4
 rsync -avz --delete ${DRAWIODIR}/src/main/webapp/mxgraph/                ${ASSETSDIR}/mxgraph
 rsync -avz --delete ${DRAWIODIR}/src/main/webapp/stencils/               ${ASSETSDIR}/stencils
+rsync -avz --delete ${DRAWIODIR}/src/main/webapp/shapes/                 ${ASSETSDIR}/shapes

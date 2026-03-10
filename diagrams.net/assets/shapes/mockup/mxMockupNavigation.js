@@ -1,6 +1,5 @@
 /**
- * $Id: mxMockupNavigation.js,v 1.5 2014/01/21 13:11:15 gaudenz Exp $
- * Copyright (c) 2006-2010, JGraph Ltd
+ * Copyright (c) 2006-2010, JGraph Holdings Ltd
  */
 
 //**********************************************************************************************************************************************************
@@ -38,7 +37,7 @@ mxShapeMockupBreadcrumb.prototype.cst = {
  */
 mxShapeMockupBreadcrumb.prototype.paintVertexShape = function(c, x, y, w, h)
 {
-	var textStrings = mxUtils.getValue(this.style, mxShapeMockupBreadcrumb.prototype.cst.MAIN_TEXT, 'Layer 1, Layer 2, Layer 3').toString().split(',');
+	var textStrings = decodeURIComponent(mxUtils.getValue(this.style, mxShapeMockupBreadcrumb.prototype.cst.MAIN_TEXT, 'Layer 1, Layer 2, Layer 3').toString()).split(',');
 	var fontColor = mxUtils.getValue(this.style, mxShapeMockupBreadcrumb.prototype.cst.TEXT_COLOR, '#666666');
 	var selectedFontColor = mxUtils.getValue(this.style, mxShapeMockupBreadcrumb.prototype.cst.TEXT_COLOR2, '#008cff');
 	var fontSize = mxUtils.getValue(this.style, mxShapeMockupBreadcrumb.prototype.cst.TEXT_SIZE, '17').toString();
@@ -146,8 +145,8 @@ mxShapeMockupStepBar.prototype.cst = {
 mxShapeMockupStepBar.prototype.customProperties = [
 	{name: 'mainText', dispName: 'Text', type: 'string'},
 	{name: 'textSize', dispName: 'Text Size', type: 'float'},
-	{name: 'textColor', dispName: 'Text Color', type: 'color'},
-	{name: 'textColor2', dispName: 'Text2 Color', type: 'color'}
+	{name: 'textColor', dispName: 'Text Color', type: 'color', primary:true},
+	{name: 'textColor2', dispName: 'Text2 Color', type: 'color', primary:true}
 ];
 
 /**
@@ -157,7 +156,7 @@ mxShapeMockupStepBar.prototype.customProperties = [
  */
 mxShapeMockupStepBar.prototype.paintVertexShape = function(c, x, y, w, h)
 {
-	var textStrings = mxUtils.getValue(this.style, mxShapeMockupStepBar.prototype.cst.MAIN_TEXT, 'Step 1, Step 2, Step 3').toString().split(',');
+	var textStrings = decodeURIComponent(mxUtils.getValue(this.style, mxShapeMockupStepBar.prototype.cst.MAIN_TEXT, 'Step 1, Step 2, Step 3').toString()).split(',');
 	var fontColor = mxUtils.getValue(this.style, mxShapeMockupStepBar.prototype.cst.TEXT_COLOR, '#666666');
 	var currColor = mxUtils.getValue(this.style, mxShapeMockupStepBar.prototype.cst.TEXT_COLOR2, '#008cff');
 	var fontSize = mxUtils.getValue(this.style, mxShapeMockupStepBar.prototype.cst.TEXT_SIZE, '17').toString();
@@ -470,8 +469,8 @@ mxShapeMockupScrollBar.prototype.cst = {
 
 mxShapeMockupScrollBar.prototype.customProperties = [
 	{name: 'barPos', dispName: 'Handle Position', type: 'float'},
-	{name: 'fillColor2', dispName: 'Fill2 Color', type: 'color'},
-	{name: 'strokeColor2', dispName: 'Stroke2 Color', type: 'color'}
+	{name: 'fillColor2', dispName: 'Fill2 Color', type: 'color', primary: true},
+	{name: 'strokeColor2', dispName: 'Stroke2 Color', type: 'color', primary: true}
 ];
 
 /**
@@ -593,7 +592,7 @@ mxShapeMockupPagination.prototype.cst = {
 */
 mxShapeMockupPagination.prototype.paintVertexShape = function(c, x, y, w, h)
 {
-	var mainText = mxUtils.getValue(this.style, mxShapeMockupPagination.prototype.cst.MAIN_TEXT, '0-9 A B C D E F G H I J K L M N O P Q R S T U V X Y Z');
+	var mainText = decodeURIComponent(mxUtils.getValue(this.style, mxShapeMockupPagination.prototype.cst.MAIN_TEXT, '0-9 A B C D E F G H I J K L M N O P Q R S T U V X Y Z'));
 	var textSize = mxUtils.getValue(this.style, mxShapeMockupPagination.prototype.cst.TEXT_SIZE, '17');
 	var textColor = mxUtils.getValue(this.style, mxShapeMockupPagination.prototype.cst.TEXT_COLOR, '#0000ff');
 
@@ -691,9 +690,9 @@ mxShapeMockupMapNavigator.prototype.cst = {
 };
 
 mxShapeMockupMapNavigator.prototype.customProperties = [
-	{name: 'fillColor2', dispName: 'Fill2 Color', type: 'color'},
-	{name: 'strokeColor2', dispName: 'Stroke2 Color', type: 'color'},
-	{name: 'strokeColor3', dispName: 'Stroke3 Color', type: 'color'}
+	{name: 'fillColor2', dispName: 'Fill2 Color', type: 'color', primary: true},
+	{name: 'strokeColor2', dispName: 'Stroke2 Color', type: 'color', primary: true},
+	{name: 'strokeColor3', dispName: 'Stroke3 Color', type: 'color', primary: true}
 ];
 
 /**

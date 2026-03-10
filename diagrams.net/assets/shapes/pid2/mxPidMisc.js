@@ -1,6 +1,5 @@
 /**
- * $Id: mxPidMisc.js,v 1.4 2013/11/22 10:46:56 mate Exp $
- * Copyright (c) 2006-2013, JGraph Ltd
+ * Copyright (c) 2006-2013, JGraph Holdings Ltd
  */
 
 //**********************************************************************************************************************************************************
@@ -496,4 +495,3 @@ mxShapePidConveyor.prototype.background = function(c, x, y, w, h)
 };
 
 mxCellRenderer.registerShape(mxShapePidConveyor.prototype.cst.SHAPE_CONVEYOR, mxShapePidConveyor);
-

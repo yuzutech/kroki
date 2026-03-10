@@ -1,6 +1,5 @@
 /**
- * $Id: mxAws3d.js,v 1.0 2015/10/11 07:05:39 mate Exp $
- * Copyright (c) 2006-2015, JGraph Ltd
+ * Copyright (c) 2006-2015, JGraph Holdings Ltd
  */
 
 //**********************************************************************************************************************************************************
@@ -315,6 +314,68 @@ mxShapeAws3dDashedEdgeDouble.prototype.paintVertexShape = function(c, x, y, w, h
 mxCellRenderer.registerShape(mxShapeAws3dDashedEdgeDouble.prototype.cst.DASHED_EDGE_DOUBLE, mxShapeAws3dDashedEdgeDouble);
 
 //**********************************************************************************************************************************************************
+//Dashed edge with double arrow v2
+//**********************************************************************************************************************************************************
+/**
+* Extends mxShape.
+*/
+function mxShapeAws3dDashedEdgeDouble2(bounds, fill, stroke, strokewidth)
+{
+	mxShape.call(this);
+	this.bounds = bounds;
+	this.fill = fill;
+	this.stroke = stroke;
+	this.strokewidth = (strokewidth != null) ? strokewidth : 1;
+};
+
+/**
+* Extends mxShape.
+*/
+mxUtils.extend(mxShapeAws3dDashedEdgeDouble2, mxShape);
+
+mxShapeAws3dDashedEdgeDouble2.prototype.cst = {
+		DASHED_EDGE_DOUBLE2 : 'mxgraph.aws3d.dashedEdgeDouble2'
+};
+
+/**
+* Function: paintVertexShape
+* 
+* Paints the vertex shape.
+*/
+mxShapeAws3dDashedEdgeDouble2.prototype.paintVertexShape = function(c, x, y, w, h)
+{
+	c.translate(x, y);
+	var strokeColor = mxUtils.getValue(this.style, 'strokeColor', '#000000');
+	
+	c.save();
+	c.setStrokeColor('none');
+	c.setFillColor(strokeColor);
+	c.begin();
+	c.moveTo(21, 5.5);
+	c.lineTo(0, 0);
+	c.lineTo(9.7, 12.2);
+	c.fillAndStroke();
+	
+	c.begin();
+	c.moveTo(w - 21, h - 5.5);
+	c.lineTo(w, h);
+	c.lineTo(w - 9.7, h - 12.2);
+	c.fillAndStroke();
+	
+	c.restore();
+	c.setStrokeWidth('4');
+	c.setDashed('true');
+	c.setLineCap('round');
+	
+	c.begin();
+	c.moveTo(7.675, 4.425);
+	c.lineTo(w - 7.675, h - 4.425);
+	c.stroke();
+};
+
+mxCellRenderer.registerShape(mxShapeAws3dDashedEdgeDouble2.prototype.cst.DASHED_EDGE_DOUBLE2, mxShapeAws3dDashedEdgeDouble2);
+
+//**********************************************************************************************************************************************************
 //Dashed arrowless edge
 //**********************************************************************************************************************************************************
 /**
@@ -359,6 +420,51 @@ mxShapeAws3dDashedArrowlessEdge.prototype.paintVertexShape = function(c, x, y, w
 };
 
 mxCellRenderer.registerShape(mxShapeAws3dDashedArrowlessEdge.prototype.cst.DASHED_ARROWLESS_EDGE, mxShapeAws3dDashedArrowlessEdge);
+
+//**********************************************************************************************************************************************************
+//Dashed arrowless edge
+//**********************************************************************************************************************************************************
+/**
+* Extends mxShape.
+*/
+function mxShapeAws3dDashedArrowlessEdge2(bounds, fill, stroke, strokewidth)
+{
+	mxShape.call(this);
+	this.bounds = bounds;
+	this.fill = fill;
+	this.stroke = stroke;
+	this.strokewidth = (strokewidth != null) ? strokewidth : 1;
+};
+
+/**
+* Extends mxShape.
+*/
+mxUtils.extend(mxShapeAws3dDashedArrowlessEdge2, mxShape);
+
+mxShapeAws3dDashedArrowlessEdge2.prototype.cst = {
+		DASHED_ARROWLESS_EDGE2 : 'mxgraph.aws3d.dashedArrowlessEdge2'
+};
+
+/**
+* Function: paintVertexShape
+* 
+* Paints the vertex shape.
+*/
+mxShapeAws3dDashedArrowlessEdge2.prototype.paintVertexShape = function(c, x, y, w, h)
+{
+	c.translate(x, y);
+	
+	c.setStrokeWidth('4');
+	c.setDashed('true');
+	c.setLineCap('round');
+	
+	c.begin();
+	c.moveTo(0, 0);
+	c.lineTo(w, h);
+	c.stroke();
+};
+
+mxCellRenderer.registerShape(mxShapeAws3dDashedArrowlessEdge2.prototype.cst.DASHED_ARROWLESS_EDGE2, mxShapeAws3dDashedArrowlessEdge2);
 
 //**********************************************************************************************************************************************************
 //Dashed edge
@@ -417,6 +523,62 @@ mxShapeAws3dDashedEdge.prototype.paintVertexShape = function(c, x, y, w, h)
 mxCellRenderer.registerShape(mxShapeAws3dDashedEdge.prototype.cst.DASHED_EDGE, mxShapeAws3dDashedEdge);
 
 //**********************************************************************************************************************************************************
+//Dashed edge v2
+//**********************************************************************************************************************************************************
+/**
+* Extends mxShape.
+*/
+function mxShapeAws3dDashedEdge2(bounds, fill, stroke, strokewidth)
+{
+	mxShape.call(this);
+	this.bounds = bounds;
+	this.fill = fill;
+	this.stroke = stroke;
+	this.strokewidth = (strokewidth != null) ? strokewidth : 1;
+};
+
+/**
+* Extends mxShape.
+*/
+mxUtils.extend(mxShapeAws3dDashedEdge2, mxShape);
+
+mxShapeAws3dDashedEdge2.prototype.cst = {
+		DASHED_EDGE2 : 'mxgraph.aws3d.dashedEdge2'
+};
+
+/**
+* Function: paintVertexShape
+* 
+* Paints the vertex shape.
+*/
+mxShapeAws3dDashedEdge2.prototype.paintVertexShape = function(c, x, y, w, h)
+{
+	c.translate(x, y);
+	var strokeColor = mxUtils.getValue(this.style, 'strokeColor', '#000000');
+	
+	c.save();
+	c.setStrokeColor('none');
+	c.setFillColor(strokeColor);
+	c.begin();
+	c.moveTo(w - 21, 5.5);
+	c.lineTo(w, 0);
+	c.lineTo(w - 9.7, 12.2);
+	c.fillAndStroke();
+	
+	c.restore();
+	c.setStrokeWidth('4');
+	c.setDashed('true');
+	c.setLineCap('round');
+	
+	c.begin();
+	c.moveTo(w - 7.675, 4.425);
+	c.lineTo(0, h);
+	c.stroke();
+};
+
+mxCellRenderer.registerShape(mxShapeAws3dDashedEdge2.prototype.cst.DASHED_EDGE2, mxShapeAws3dDashedEdge2);
+
+//**********************************************************************************************************************************************************
 //Flat edge
 //**********************************************************************************************************************************************************
 /**
@@ -463,6 +625,53 @@ mxShapeAws3dFlatEdge.prototype.paintVertexShape = function(c, x, y, w, h)
 };
 
 mxCellRenderer.registerShape(mxShapeAws3dFlatEdge.prototype.cst.FLAT_EDGE, mxShapeAws3dFlatEdge);
+
+//**********************************************************************************************************************************************************
+//Flat edge v2
+//**********************************************************************************************************************************************************
+/**
+* Extends mxShape.
+*/
+function mxShapeAws3dFlatEdge2(bounds, fill, stroke, strokewidth)
+{
+	mxShape.call(this);
+	this.bounds = bounds;
+	this.fill = fill;
+	this.stroke = stroke;
+	this.strokewidth = (strokewidth != null) ? strokewidth : 1;
+};
+
+/**
+* Extends mxShape.
+*/
+mxUtils.extend(mxShapeAws3dFlatEdge2, mxShape);
+
+mxShapeAws3dFlatEdge2.prototype.cst = {
+		FLAT_EDGE2 : 'mxgraph.aws3d.flatEdge2'
+};
+
+/**
+* Function: paintVertexShape
+* 
+* Paints the vertex shape.
+*/
+mxShapeAws3dFlatEdge2.prototype.paintVertexShape = function(c, x, y, w, h)
+{
+	c.translate(x, y);
+	
+	c.begin();
+	c.moveTo(w - 46, 8.8);
+	c.lineTo(w - 61.2, 0);
+	c.lineTo(w, 0);
+	c.lineTo(w, 35.5);
+	c.lineTo(w - 15.4, 26.5);
+	c.lineTo(30.7, h);
+	c.lineTo(0, h - 17.7);
+	c.close();
+	c.fillAndStroke();
+};
+
+mxCellRenderer.registerShape(mxShapeAws3dFlatEdge2.prototype.cst.FLAT_EDGE2, mxShapeAws3dFlatEdge2);
 
 //**********************************************************************************************************************************************************
 //Flat double edge
@@ -526,6 +735,65 @@ mxShapeAws3dFlatDoubleEdge.prototype.paintVertexShape = function(c, x, y, w, h)
 mxCellRenderer.registerShape(mxShapeAws3dFlatDoubleEdge.prototype.cst.FLAT_DOUBLE_EDGE, mxShapeAws3dFlatDoubleEdge);
 
 //**********************************************************************************************************************************************************
+//Flat double edge v2
+//**********************************************************************************************************************************************************
+/**
+* Extends mxShape.
+*/
+function mxShapeAws3dFlatDoubleEdge2(bounds, fill, stroke, strokewidth)
+{
+	mxShape.call(this);
+	this.bounds = bounds;
+	this.fill = fill;
+	this.stroke = stroke;
+	this.strokewidth = (strokewidth != null) ? strokewidth : 1;
+};
+
+/**
+* Extends mxShape.
+*/
+mxUtils.extend(mxShapeAws3dFlatDoubleEdge2, mxShape);
+
+mxShapeAws3dFlatDoubleEdge2.prototype.cst = {
+		FLAT_DOUBLE_EDGE2 : 'mxgraph.aws3d.flatDoubleEdge2'
+};
+
+/**
+* Function: paintVertexShape
+* 
+* Paints the vertex shape.
+*/
+mxShapeAws3dFlatDoubleEdge2.prototype.paintVertexShape = function(c, x, y, w, h)
+{
+	c.translate(x, y);
+	
+	c.begin();
+	c.moveTo(15.3, 61.9);
+	c.lineTo(30.8, 53.2);
+	c.lineTo(15.4, 44.2);
+	c.lineTo(0, 53.2);
+	c.lineTo(15.4, 8.8);
+	c.lineTo(92.1, 0);
+	c.lineTo(76.5, 8.8);
+	c.lineTo(92.1, 17.7);
+	c.lineTo(107.4, 8.8);
+	
+	c.lineTo(w - 15.3, h - 61.9);
+	c.lineTo(w - 30.8, h - 53.2);
+	c.lineTo(w - 15.4, h - 44.2);
+	c.lineTo(w, h - 53.2);
+	c.lineTo(w - 15.4, h - 8.8);
+	c.lineTo(w - 92.1, h);
+	c.lineTo(w - 76.5, h - 8.8);
+	c.lineTo(w - 92.1, h - 17.7);
+	c.lineTo(w - 107.4, h - 8.8);
+	c.close();
+	c.fillAndStroke();
+};
+
+mxCellRenderer.registerShape(mxShapeAws3dFlatDoubleEdge2.prototype.cst.FLAT_DOUBLE_EDGE2, mxShapeAws3dFlatDoubleEdge2);
+
+//**********************************************************************************************************************************************************
 //AMI
 //**********************************************************************************************************************************************************
 /**
@@ -550,6 +818,10 @@ mxShapeAws3dAMI.prototype.cst = {
 		SHADING_COLORS : 'shadingCols' 
 };
 
+mxShapeAws3dAMI.prototype.customProperties = [
+	{name: 'strokeColor2', dispName: 'Stroke Color 2', type: 'color', defVal:"#292929", primary: true}
+];
+
 /**
 * Function: paintVertexShape
 * 
@@ -563,6 +835,7 @@ mxShapeAws3dAMI.prototype.paintVertexShape = function(c, x, y, w, h)
 	var isShadow = parseFloat(mxUtils.getValue(this.state.style, 'shadow', '0'));
 	var strokeWidth1 = strokeWidth * w / 92;
 	var strokeWidth2 = strokeWidth * h / 60;
+	var strokeColor2 = mxUtils.getValue(this.style, 'strokeColor2', '#292929');
 	
 	strokeWidth = Math.min(strokeWidth1, strokeWidth2);
 	
@@ -571,7 +844,7 @@ mxShapeAws3dAMI.prototype.paintVertexShape = function(c, x, y, w, h)
 	c.save();
 	c.save();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	if (isShadow == 1)
@@ -692,7 +965,7 @@ mxShapeAws3dAMI.prototype.paintVertexShape = function(c, x, y, w, h)
 	c.fill();
 
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -734,6 +1007,10 @@ mxShapeAws3dSnapshot.prototype.cst = {
 		SHADING_COLORS : 'shadingCols'
 };
 
+mxShapeAws3dSnapshot.prototype.customProperties = [
+	{name: 'strokeColor2', dispName: 'Stroke Color 2', type: 'color', defVal:"#292929", primary: true}
+];
+
 /**
 * Function: paintVertexShape
 * 
@@ -747,6 +1024,7 @@ mxShapeAws3dSnapshot.prototype.paintVertexShape = function(c, x, y, w, h)
 	var strokeWidth1 = strokeWidth * w / 92;
 	var strokeWidth2 = strokeWidth * h / 60;
 	var isShadow = parseFloat(mxUtils.getValue(this.state.style, 'shadow', '0'));
+	var strokeColor2 = mxUtils.getValue(this.style, 'strokeColor2', '#292929');
 	
 	strokeWidth = Math.min(strokeWidth1, strokeWidth2);
 	
@@ -755,7 +1033,7 @@ mxShapeAws3dSnapshot.prototype.paintVertexShape = function(c, x, y, w, h)
 	c.save();
 	c.save();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	if(isShadow == 1)
@@ -831,7 +1109,7 @@ mxShapeAws3dSnapshot.prototype.paintVertexShape = function(c, x, y, w, h)
 	c.stroke();
 	
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -873,6 +1151,10 @@ mxShapeAws3dApplication.prototype.cst = {
 		SHADING_COLORS : 'shadingCols'
 };
 
+mxShapeAws3dApplication.prototype.customProperties = [
+	{name: 'strokeColor2', dispName: 'Stroke Color 2', type: 'color', defVal:"#292929", primary: true}
+];
+
 /**
 * Function: paintVertexShape
 * 
@@ -886,6 +1168,7 @@ mxShapeAws3dApplication.prototype.paintVertexShape = function(c, x, y, w, h)
 	var strokeWidth1 = strokeWidth * w / 62;
 	var strokeWidth2 = strokeWidth * h / 68.8;
 	var isShadow = parseFloat(mxUtils.getValue(this.state.style, 'shadow', '0'));
+	var strokeColor2 = mxUtils.getValue(this.style, 'strokeColor2', '#292929');
 	
 	strokeWidth = Math.min(strokeWidth1, strokeWidth2);
 
@@ -894,7 +1177,7 @@ mxShapeAws3dApplication.prototype.paintVertexShape = function(c, x, y, w, h)
 	c.save();
 	c.save();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	if (isShadow == 1)
@@ -975,7 +1258,7 @@ mxShapeAws3dApplication.prototype.paintVertexShape = function(c, x, y, w, h)
 	c.fill();
 
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -1016,6 +1299,10 @@ mxShapeAws3dApplicationServer.prototype.cst = {
 		SHADING_COLORS : 'shadingCols'
 };
 
+mxShapeAws3dApplicationServer.prototype.customProperties = [
+	{name: 'strokeColor2', dispName: 'Stroke Color 2', type: 'color', defVal:"#292929", primary: true}
+];
+
 /**
 * Function: paintVertexShape
 * 
@@ -1028,21 +1315,22 @@ mxShapeAws3dApplicationServer.prototype.paintVertexShape = function(c, x, y, w, 
 	var strokeWidth = parseFloat(mxUtils.getValue(this.state.style, 'strokeWidth', '1'));
 	var strokeWidth1 = strokeWidth * w / 123;
 	var strokeWidth2 = strokeWidth * h / 124;
+	var strokeColor2 = mxUtils.getValue(this.style, 'strokeColor2', '#292929');
 	
 	strokeWidth = Math.min(strokeWidth1, strokeWidth2);
 
-	this.background(c, 0, 0, w, h, strokeWidth);
+	this.background(c, 0, 0, w, h, strokeWidth, strokeColor2);
 	c.setShadow(false);
-	this.foreground(c, 0, 0, w, h, strokeWidth);
+	this.foreground(c, 0, 0, w, h, strokeWidth, strokeColor2);
 };
 
-mxShapeAws3dApplicationServer.prototype.background = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dApplicationServer.prototype.background = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.setStrokeWidth(strokeWidth);
 	c.save();
 	c.save();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -1056,7 +1344,7 @@ mxShapeAws3dApplicationServer.prototype.background = function(c, x, y, w, h, str
 	c.fillAndStroke();
 };
 
-mxShapeAws3dApplicationServer.prototype.foreground = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dApplicationServer.prototype.foreground = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.restore();
 	c.setShadow(false);
@@ -1118,7 +1406,7 @@ mxShapeAws3dApplicationServer.prototype.foreground = function(c, x, y, w, h, str
 	c.fill();
 
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -1159,6 +1447,10 @@ mxShapeAws3dCloudFront.prototype.cst = {
 		SHADING_COLORS : 'shadingCols'
 };
 
+mxShapeAws3dCloudFront.prototype.customProperties = [
+	{name: 'strokeColor2', dispName: 'Stroke Color 2', type: 'color', defVal:"#292929", primary: true}
+];
+
 /**
 * Function: paintVertexShape
 * 
@@ -1172,6 +1464,7 @@ mxShapeAws3dCloudFront.prototype.paintVertexShape = function(c, x, y, w, h)
 	var strokeWidth1 = strokeWidth * w / 103.8;
 	var strokeWidth2 = strokeWidth * h / 169.8;
 	var isShadow = parseFloat(mxUtils.getValue(this.state.style, 'shadow', '0'));
+	var strokeColor2 = mxUtils.getValue(this.style, 'strokeColor2', '#292929');
 	
 	strokeWidth = Math.min(strokeWidth1, strokeWidth2);
 
@@ -1180,7 +1473,7 @@ mxShapeAws3dCloudFront.prototype.paintVertexShape = function(c, x, y, w, h)
 	c.save();
 	c.save();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	if (isShadow == 1)
@@ -1372,7 +1665,7 @@ mxShapeAws3dCloudFront.prototype.paintVertexShape = function(c, x, y, w, h)
 	c.fill();
 
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -1418,6 +1711,10 @@ mxShapeAws3dDataCenter.prototype.cst = {
 		SHADING_COLORS : 'shadingCols'
 };
 
+mxShapeAws3dDataCenter.prototype.customProperties = [
+	{name: 'strokeColor2', dispName: 'Stroke Color 2', type: 'color', defVal:"#292929", primary: true}
+];
+
 /**
 * Function: paintVertexShape
 * 
@@ -1431,6 +1728,7 @@ mxShapeAws3dDataCenter.prototype.paintVertexShape = function(c, x, y, w, h)
 	var strokeWidth1 = strokeWidth * w / 123;
 	var strokeWidth2 = strokeWidth * h / 142;
 	var isShadow = parseFloat(mxUtils.getValue(this.state.style, 'shadow', '0'));
+	var strokeColor2 = mxUtils.getValue(this.style, 'strokeColor2', '#292929');
 	
 	strokeWidth = Math.min(strokeWidth1, strokeWidth2);
 
@@ -1439,7 +1737,7 @@ mxShapeAws3dDataCenter.prototype.paintVertexShape = function(c, x, y, w, h)
 	c.save();
 	c.save();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	if (isShadow == 1)
@@ -1517,7 +1815,7 @@ mxShapeAws3dDataCenter.prototype.paintVertexShape = function(c, x, y, w, h)
 	c.stroke();
 
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -1558,6 +1856,10 @@ mxShapeAws3dDataServer.prototype.cst = {
 		SHADING_COLORS : 'shadingCols'
 };
 
+mxShapeAws3dDataServer.prototype.customProperties = [
+	{name: 'strokeColor2', dispName: 'Stroke Color 2', type: 'color', defVal:"#292929", primary: true}
+];
+
 /**
 * Function: paintVertexShape
 * 
@@ -1571,6 +1873,7 @@ mxShapeAws3dDataServer.prototype.paintVertexShape = function(c, x, y, w, h)
 	var strokeWidth1 = strokeWidth * w / 123;
 	var strokeWidth2 = strokeWidth * h / 106;
 	var isShadow = parseFloat(mxUtils.getValue(this.state.style, 'shadow', '0'));
+	var strokeColor2 = mxUtils.getValue(this.style, 'strokeColor2', '#292929');
 	
 	strokeWidth = Math.min(strokeWidth1, strokeWidth2);
 
@@ -1579,7 +1882,7 @@ mxShapeAws3dDataServer.prototype.paintVertexShape = function(c, x, y, w, h)
 	c.save();
 	c.save();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	if (isShadow == 1)
@@ -1649,7 +1952,7 @@ mxShapeAws3dDataServer.prototype.paintVertexShape = function(c, x, y, w, h)
 	c.stroke();
 
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -1690,6 +1993,10 @@ mxShapeAws3dElasticLoadBalancing.prototype.cst = {
 		SHADING_COLORS : 'shadingCols'
 };
 
+mxShapeAws3dElasticLoadBalancing.prototype.customProperties = [
+	{name: 'strokeColor2', dispName: 'Stroke Color 2', type: 'color', defVal:"#292929", primary: true}
+];
+
 /**
 * Function: paintVertexShape
 * 
@@ -1704,6 +2011,7 @@ mxShapeAws3dElasticLoadBalancing.prototype.paintVertexShape = function(c, x, y, 
 	var strokeWidth2 = strokeWidth * h / 88.17;
 	var strokeColor = mxUtils.getValue(this.state.style, 'strokeColor', '#000000');
 	var isShadow = parseFloat(mxUtils.getValue(this.state.style, 'shadow', '0'));
+	var strokeColor2 = mxUtils.getValue(this.style, 'strokeColor2', '#292929');
 	
 	strokeWidth = Math.min(strokeWidth1, strokeWidth2);
 
@@ -1714,7 +2022,7 @@ mxShapeAws3dElasticLoadBalancing.prototype.paintVertexShape = function(c, x, y, 
 	c.save();
 	c.save();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	if (isShadow == 1)
@@ -1841,7 +2149,7 @@ mxShapeAws3dElasticLoadBalancing.prototype.paintVertexShape = function(c, x, y, 
 	c.fill();
 	
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -1884,6 +2192,10 @@ mxShapeAws3dInstance.prototype.cst = {
 		SHADING_COLORS : 'shadingCols'
 };
 
+mxShapeAws3dInstance.prototype.customProperties = [
+	{name: 'strokeColor2', dispName: 'Stroke Color 2', type: 'color', defVal:"#292929", primary: true}
+];
+
 /**
 * Function: paintVertexShape
 * 
@@ -1896,21 +2208,22 @@ mxShapeAws3dInstance.prototype.paintVertexShape = function(c, x, y, w, h)
 	var strokeWidth = parseFloat(mxUtils.getValue(this.state.style, 'strokeWidth', '1'));
 	var strokeWidth1 = strokeWidth * w / 123;
 	var strokeWidth2 = strokeWidth * h / 97;
+	var strokeColor2 = mxUtils.getValue(this.style, 'strokeColor2', '#292929');
 	
 	strokeWidth = Math.min(strokeWidth1, strokeWidth2);
 
-	this.background(c, 0, 0, w, h, strokeWidth);
+	this.background(c, 0, 0, w, h, strokeWidth, strokeColor2);
 	c.setShadow(false);
-	this.foreground(c, 0, 0, w, h, strokeWidth);
+	this.foreground(c, 0, 0, w, h, strokeWidth, strokeColor2);
 };
 
-mxShapeAws3dInstance.prototype.background = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dInstance.prototype.background = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.setStrokeWidth(strokeWidth);
 	c.save();
 	c.save();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -1925,7 +2238,7 @@ mxShapeAws3dInstance.prototype.background = function(c, x, y, w, h, strokeWidth)
 	c.fillAndStroke();
 };
 
-mxShapeAws3dInstance.prototype.foreground = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dInstance.prototype.foreground = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.restore();
 	c.setShadow(false);
@@ -1986,7 +2299,7 @@ mxShapeAws3dInstance.prototype.foreground = function(c, x, y, w, h, strokeWidth)
 	c.fill();
 
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -2028,6 +2341,10 @@ mxShapeAws3dInternetGateway.prototype.cst = {
 		SHADING_COLORS : 'shadingCols'
 };
 
+mxShapeAws3dInternetGateway.prototype.customProperties = [
+	{name: 'strokeColor2', dispName: 'Stroke Color 2', type: 'color', defVal:"#292929", primary: true}
+];
+
 /**
 * Function: paintVertexShape
 * 
@@ -2040,15 +2357,16 @@ mxShapeAws3dInternetGateway.prototype.paintVertexShape = function(c, x, y, w, h)
 	var strokeWidth = parseFloat(mxUtils.getValue(this.state.style, 'strokeWidth', '1'));
 	var strokeWidth1 = strokeWidth * w / 116.7;
 	var strokeWidth2 = strokeWidth * h / 102.8;
+	var strokeColor2 = mxUtils.getValue(this.style, 'strokeColor2', '#292929');
 	
 	strokeWidth = Math.min(strokeWidth1, strokeWidth2);
 
-	this.background(c, 0, 0, w, h, strokeWidth);
+	this.background(c, 0, 0, w, h, strokeWidth, strokeColor2);
 	c.setShadow(false);
-	this.foreground(c, 0, 0, w, h, strokeWidth);
+	this.foreground(c, 0, 0, w, h, strokeWidth, strokeColor2);
 };
 
-mxShapeAws3dInternetGateway.prototype.background = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dInternetGateway.prototype.background = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.setStrokeWidth(strokeWidth);
 	c.save();
@@ -2057,7 +2375,7 @@ mxShapeAws3dInternetGateway.prototype.background = function(c, x, y, w, h, strok
 	c.save();
 	c.save();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -2117,7 +2435,7 @@ mxShapeAws3dInternetGateway.prototype.background = function(c, x, y, w, h, strok
 	c.stroke();
 
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	
 	c.begin();
 	c.moveTo(w * 0.4199, h * 0.5447);
@@ -2131,7 +2449,7 @@ mxShapeAws3dInternetGateway.prototype.background = function(c, x, y, w, h, strok
 
 	c.restore();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -2145,7 +2463,7 @@ mxShapeAws3dInternetGateway.prototype.background = function(c, x, y, w, h, strok
 	c.fillAndStroke();
 };
 
-mxShapeAws3dInternetGateway.prototype.foreground = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dInternetGateway.prototype.foreground = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.restore();
 	var strokeColor = mxUtils.getValue(this.state.style, 'strokeColor', '#000000');
@@ -2194,7 +2512,7 @@ mxShapeAws3dInternetGateway.prototype.foreground = function(c, x, y, w, h, strok
 	c.stroke();
 	
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -2250,6 +2568,12 @@ mxShapeAws3dOracleDataCenter.prototype.cst = {
 		ORACLE_DATA_CENTER : 'mxgraph.aws3d.oracleDataCenter'
 };
 
+mxShapeAws3dOracleDataCenter.prototype.customProperties = [
+	{name: 'fillColor2', dispName: 'Fill Color 2', type: 'color', defVal:"#ff0000", primary: true},
+	{name: 'fillColor3', dispName: 'Fill Color 3', type: 'color', defVal:"#ffffff", primary: true},
+	{name: 'strokeColor2', dispName: 'Stroke Color 2', type: 'color', defVal:"#292929", primary: true}
+];
+
 /**
 * Function: paintVertexShape
 * 
@@ -2262,22 +2586,23 @@ mxShapeAws3dOracleDataCenter.prototype.paintVertexShape = function(c, x, y, w, h
 	var strokeWidth = parseFloat(mxUtils.getValue(this.state.style, 'strokeWidth', '1'));
 	var strokeWidth1 = strokeWidth * w / 123;
 	var strokeWidth2 = strokeWidth * h /142;
+	var strokeColor2 = mxUtils.getValue(this.style, 'strokeColor2', '#292929');
 	
 	strokeWidth = Math.min(strokeWidth1, strokeWidth2);
 	c.setStrokeWidth(strokeWidth);
 	
-	this.background(c, 0, 0, w, h, strokeWidth);
+	this.background(c, 0, 0, w, h, strokeWidth, strokeColor2);
 	c.setShadow(false);
-	this.foreground(c, 0, 0, w, h, strokeWidth);
+	this.foreground(c, 0, 0, w, h, strokeWidth, strokeColor2);
 };
 
-mxShapeAws3dOracleDataCenter.prototype.background = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dOracleDataCenter.prototype.background = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.save();
 	c.save();
 	c.save();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -2291,8 +2616,11 @@ mxShapeAws3dOracleDataCenter.prototype.background = function(c, x, y, w, h, stro
 	c.fillAndStroke();
 };
 
-mxShapeAws3dOracleDataCenter.prototype.foreground = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dOracleDataCenter.prototype.foreground = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
+	var fillColor2 = mxUtils.getValue(this.style, 'fillColor2', '#ff0000');
+	var fillColor3 = mxUtils.getValue(this.style, 'fillColor3', '#ffffff');
+
 	c.restore();
 	c.setShadow(false);
 	c.setFillColor('#000000');
@@ -2319,7 +2647,7 @@ mxShapeAws3dOracleDataCenter.prototype.foreground = function(c, x, y, w, h, stro
 	c.setShadow(false);
 	c.setLineJoin('round');
 	
-	c.setFillColor('#ff0000');
+	c.setFillColor(fillColor2);
 
 	c.begin();
 	c.moveTo(0, h * 0.5866);
@@ -2331,8 +2659,8 @@ mxShapeAws3dOracleDataCenter.prototype.foreground = function(c, x, y, w, h, stro
 	c.fill();
 
 	c.setStrokeWidth(0.5 * strokeWidth);
-	c.setStrokeColor('#ffffff');
-	c.setFillColor('#ffffff');
+	c.setStrokeColor(fillColor3);
+	c.setFillColor(fillColor3);
 	
 	c.begin();
 	c.moveTo(0, h * 0.5866);
@@ -2536,7 +2864,7 @@ mxShapeAws3dOracleDataCenter.prototype.foreground = function(c, x, y, w, h, stro
 	c.stroke();
 	
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -2595,6 +2923,12 @@ mxShapeAws3dOracleDatabaseServer.prototype.cst = {
 		ORACLE_DB_SERVER : 'mxgraph.aws3d.oracleDbServer'
 };
 
+mxShapeAws3dOracleDatabaseServer.prototype.customProperties = [
+	{name: 'fillColor2', dispName: 'Fill Color 2', type: 'color', defVal:"#ff0000", primary: true},
+	{name: 'fillColor3', dispName: 'Fill Color 3', type: 'color', defVal:"#ffffff", primary: true},
+	{name: 'strokeColor2', dispName: 'Stroke Color 2', type: 'color', defVal:"#292929", primary: true}
+];
+
 /**
 * Function: paintVertexShape
 * 
@@ -2607,22 +2941,23 @@ mxShapeAws3dOracleDatabaseServer.prototype.paintVertexShape = function(c, x, y, 
 	var strokeWidth = parseFloat(mxUtils.getValue(this.state.style, 'strokeWidth', '1'));
 	var strokeWidth1 = strokeWidth * w / 123;
 	var strokeWidth2 = strokeWidth * h /142;
+	var strokeColor2 = mxUtils.getValue(this.style, 'strokeColor2', '#292929');
 	
 	strokeWidth = Math.min(strokeWidth1, strokeWidth2);
 	c.setStrokeWidth(strokeWidth);
 	
-	this.background(c, 0, 0, w, h, strokeWidth);
+	this.background(c, 0, 0, w, h, strokeWidth, strokeColor2);
 	c.setShadow(false);
-	this.foreground(c, 0, 0, w, h, strokeWidth);
+	this.foreground(c, 0, 0, w, h, strokeWidth, strokeColor2);
 };
 
-mxShapeAws3dOracleDatabaseServer.prototype.background = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dOracleDatabaseServer.prototype.background = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.save();
 	c.save();
 	c.save();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -2639,8 +2974,11 @@ mxShapeAws3dOracleDatabaseServer.prototype.background = function(c, x, y, w, h, 
 	c.fillAndStroke();
 };
 
-mxShapeAws3dOracleDatabaseServer.prototype.foreground = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dOracleDatabaseServer.prototype.foreground = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
+	var fillColor2 = mxUtils.getValue(this.style, 'fillColor2', '#ff0000');
+	var fillColor3 = mxUtils.getValue(this.style, 'fillColor3', '#ffffff');
+
 	c.restore();
 	c.setShadow(false);
 	c.setFillColor('#000000');
@@ -2675,7 +3013,7 @@ mxShapeAws3dOracleDatabaseServer.prototype.foreground = function(c, x, y, w, h, 
 	c.setShadow(false);
 	c.setLineJoin('round');
 	
-	c.setFillColor('#ff0000');
+	c.setFillColor(fillColor2);
 
 	c.begin();
 	c.moveTo(0, h * 0.5586);
@@ -2687,8 +3025,8 @@ mxShapeAws3dOracleDatabaseServer.prototype.foreground = function(c, x, y, w, h, 
 	c.fill();
 
 	c.setStrokeWidth(0.5 * strokeWidth);
-	c.setStrokeColor('#ffffff');
-	c.setFillColor('#ffffff');
+	c.setStrokeColor(fillColor3);
+	c.setFillColor(fillColor3);
 	
 	c.begin();
 	c.moveTo(0, h * 0.5586);
@@ -2893,7 +3231,7 @@ mxShapeAws3dOracleDatabaseServer.prototype.foreground = function(c, x, y, w, h, 
 	c.stroke();
 
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 
 	c.begin();
 	c.moveTo(0, h * 0.7331);
@@ -2936,6 +3274,10 @@ mxShapeAws3dRdsMaster.prototype.cst = {
 		SHADING_COLORS : 'shadingCols'
 };
 
+mxShapeAws3dRdsMaster.prototype.customProperties = [
+	{name: 'strokeColor2', dispName: 'Stroke Color 2', type: 'color', defVal:"#292929", primary: true}
+];
+
 /**
 * Function: paintVertexShape
 * 
@@ -2948,21 +3290,22 @@ mxShapeAws3dRdsMaster.prototype.paintVertexShape = function(c, x, y, w, h)
 	var strokeWidth = parseFloat(mxUtils.getValue(this.state.style, 'strokeWidth', '1'));
 	var strokeWidth1 = strokeWidth * w / 123;
 	var strokeWidth2 = strokeWidth * h /133;
+	var strokeColor2 = mxUtils.getValue(this.style, 'strokeColor2', '#292929');
 	
 	strokeWidth = Math.min(strokeWidth1, strokeWidth2);
 	c.setStrokeWidth(strokeWidth);
 	
-	this.background(c, 0, 0, w, h, strokeWidth);
+	this.background(c, 0, 0, w, h, strokeWidth, strokeColor2);
 	c.setShadow(false);
-	this.foreground(c, 0, 0, w, h, strokeWidth);
+	this.foreground(c, 0, 0, w, h, strokeWidth, strokeColor2);
 };
 
-mxShapeAws3dRdsMaster.prototype.background = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dRdsMaster.prototype.background = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.save();
 	c.save();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -2979,7 +3322,7 @@ mxShapeAws3dRdsMaster.prototype.background = function(c, x, y, w, h, strokeWidth
 	c.fillAndStroke();
 };
 
-mxShapeAws3dRdsMaster.prototype.foreground = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dRdsMaster.prototype.foreground = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.restore();
 	c.setShadow(false);
@@ -3057,7 +3400,7 @@ mxShapeAws3dRdsMaster.prototype.foreground = function(c, x, y, w, h, strokeWidth
 	c.stroke();
 
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 
 	c.begin();
 	c.moveTo(0, h * 0.7331);
@@ -3100,6 +3443,11 @@ mxShapeAws3dRds.prototype.cst = {
 		SHADING_COLORS : 'shadingCols'
 };
 
+mxShapeAws3dRds.prototype.customProperties = [
+	{name: 'strokeColor2', dispName: 'Stroke Color 2', type: 'color', defVal:"#292929", primary: true},
+	{name: 'strokeColor3', dispName: 'Stroke Color 3', type: 'color', defVal:"#ffffff", primary: true}
+];
+
 /**
 * Function: paintVertexShape
 * 
@@ -3112,21 +3460,22 @@ mxShapeAws3dRds.prototype.paintVertexShape = function(c, x, y, w, h)
 	var strokeWidth = parseFloat(mxUtils.getValue(this.state.style, 'strokeWidth', '1'));
 	var strokeWidth1 = strokeWidth * w / 123;
 	var strokeWidth2 = strokeWidth * h /133;
+	var strokeColor2 = mxUtils.getValue(this.style, 'strokeColor2', '#292929');
 	
 	strokeWidth = Math.min(strokeWidth1, strokeWidth2);
 	c.setStrokeWidth(strokeWidth);
 	
-	this.background(c, 0, 0, w, h, strokeWidth);
+	this.background(c, 0, 0, w, h, strokeWidth, strokeColor2);
 	c.setShadow(false);
-	this.foreground(c, 0, 0, w, h, strokeWidth);
+	this.foreground(c, 0, 0, w, h, strokeWidth, strokeColor2);
 };
 
-mxShapeAws3dRds.prototype.background = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dRds.prototype.background = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.save();
 	c.save();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -3143,8 +3492,10 @@ mxShapeAws3dRds.prototype.background = function(c, x, y, w, h, strokeWidth)
 	c.fillAndStroke();
 };
 
-mxShapeAws3dRds.prototype.foreground = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dRds.prototype.foreground = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
+	var strokeColor3 = mxUtils.getValue(this.style, 'strokeColor3', '#ffffff');
+
 	c.restore();
 	c.setShadow(false);
 	c.setFillColor('#000000');
@@ -3179,7 +3530,7 @@ mxShapeAws3dRds.prototype.foreground = function(c, x, y, w, h, strokeWidth)
 	
 	c.restore();
 
-	c.setFillColor('#ffffff');
+	c.setFillColor(strokeColor3);
 	c.setShadow(false);
 	c.begin();
 	c.moveTo(0, h * 0.6053);
@@ -3212,7 +3563,7 @@ mxShapeAws3dRds.prototype.foreground = function(c, x, y, w, h, strokeWidth)
 	c.stroke();
 
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 
 	c.begin();
 	c.moveTo(0, h * 0.7331);
@@ -3255,6 +3606,10 @@ mxShapeAws3dRoute53.prototype.cst = {
 		SHADING_COLORS : 'shadingCols'
 };
 
+mxShapeAws3dRoute53.prototype.customProperties = [
+	{name: 'strokeColor2', dispName: 'Stroke Color 2', type: 'color', defVal:"#292929", primary: true}
+];
+
 /**
 * Function: paintVertexShape
 * 
@@ -3267,21 +3622,22 @@ mxShapeAws3dRoute53.prototype.paintVertexShape = function(c, x, y, w, h)
 	var strokeWidth = parseFloat(mxUtils.getValue(this.state.style, 'strokeWidth', '1'));
 	var strokeWidth1 = strokeWidth * w / 117;
 	var strokeWidth2 = strokeWidth * h /134.4;
+	var strokeColor2 = mxUtils.getValue(this.style, 'strokeColor2', '#292929');
 	
 	strokeWidth = Math.min(strokeWidth1, strokeWidth2);
 	c.setStrokeWidth(strokeWidth);
 	
-	this.background(c, 0, 0, w, h, strokeWidth);
+	this.background(c, 0, 0, w, h, strokeWidth, strokeColor2);
 	c.setShadow(false);
-	this.foreground(c, 0, 0, w, h, strokeWidth);
+	this.foreground(c, 0, 0, w, h, strokeWidth, strokeColor2);
 };
 
-mxShapeAws3dRoute53.prototype.background = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dRoute53.prototype.background = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.save();
 	c.save();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -3297,7 +3653,7 @@ mxShapeAws3dRoute53.prototype.background = function(c, x, y, w, h, strokeWidth)
 	c.fillAndStroke();
 };
 
-mxShapeAws3dRoute53.prototype.foreground = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dRoute53.prototype.foreground = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.restore();
 	c.setShadow(false);
@@ -3365,7 +3721,7 @@ mxShapeAws3dRoute53.prototype.foreground = function(c, x, y, w, h, strokeWidth)
 	c.stroke();
 
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 
 	c.begin();
 	c.moveTo(0, h * 0.6994);
@@ -3407,6 +3763,10 @@ mxShapeAws3dS3Bucket.prototype.cst = {
 		SHADING_COLORS : 'shadingCols'
 };
 
+mxShapeAws3dS3Bucket.prototype.customProperties = [
+	{name: 'strokeColor2', dispName: 'Stroke Color 2', type: 'color', defVal:"#292929", primary: true}
+];
+
 /**
 * Function: paintVertexShape
 * 
@@ -3420,6 +3780,7 @@ mxShapeAws3dS3Bucket.prototype.paintVertexShape = function(c, x, y, w, h)
 	var strokeWidth1 = strokeWidth * w / 61.5;
 	var strokeWidth2 = strokeWidth * h / 63.8;
 	var isShadow = parseFloat(mxUtils.getValue(this.state.style, 'shadow', '0'));
+	var strokeColor2 = mxUtils.getValue(this.style, 'strokeColor2', '#292929');
 	
 	strokeWidth = Math.min(strokeWidth1, strokeWidth2);
 
@@ -3428,7 +3789,7 @@ mxShapeAws3dS3Bucket.prototype.paintVertexShape = function(c, x, y, w, h)
 	c.save();
 	c.save();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	if (isShadow == 1)
@@ -3484,7 +3845,7 @@ mxShapeAws3dS3Bucket.prototype.paintVertexShape = function(c, x, y, w, h)
 	c.stroke();
 
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -3525,6 +3886,10 @@ mxShapeAws3dS3.prototype.cst = {
 		SHADING_COLORS : 'shadingCols'
 };
 
+mxShapeAws3dS3.prototype.customProperties = [
+	{name: 'strokeColor2', dispName: 'Stroke Color 2', type: 'color', defVal:"#292929", primary: true}
+];
+
 /**
 * Function: paintVertexShape
 * 
@@ -3537,21 +3902,22 @@ mxShapeAws3dS3.prototype.paintVertexShape = function(c, x, y, w, h)
 	var strokeWidth = parseFloat(mxUtils.getValue(this.state.style, 'strokeWidth', '1'));
 	var strokeWidth1 = strokeWidth * w / 231.5;
 	var strokeWidth2 = strokeWidth * h / 239;
+	var strokeColor2 = mxUtils.getValue(this.style, 'strokeColor2', '#292929');
 	
 	strokeWidth = Math.min(strokeWidth1, strokeWidth2);
 
-	this.background(c, 0, 0, w, h, strokeWidth);
+	this.background(c, 0, 0, w, h, strokeWidth, strokeColor2);
 	c.setShadow(false);
-	this.foreground(c, 0, 0, w, h, strokeWidth);
+	this.foreground(c, 0, 0, w, h, strokeWidth, strokeColor2);
 };
 
-mxShapeAws3dS3.prototype.background = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dS3.prototype.background = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.setStrokeWidth(strokeWidth);
 	c.save();
 	c.save();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -3565,7 +3931,7 @@ mxShapeAws3dS3.prototype.background = function(c, x, y, w, h, strokeWidth)
 	c.fillAndStroke();
 };
 
-mxShapeAws3dS3.prototype.foreground = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dS3.prototype.foreground = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.restore();
 	c.setShadow(false);
@@ -3640,7 +4006,7 @@ mxShapeAws3dS3.prototype.foreground = function(c, x, y, w, h, strokeWidth)
 	c.fill();
 
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -3681,6 +4047,10 @@ mxShapeAws3dSimpleDB.prototype.cst = {
 		SHADING_COLORS : 'shadingCols'
 };
 
+mxShapeAws3dSimpleDB.prototype.customProperties = [
+	{name: 'strokeColor2', dispName: 'Stroke Color 2', type: 'color', defVal:"#292929", primary: true}
+];
+
 /**
 * Function: paintVertexShape
 * 
@@ -3693,22 +4063,23 @@ mxShapeAws3dSimpleDB.prototype.paintVertexShape = function(c, x, y, w, h)
 	var strokeWidth = parseFloat(mxUtils.getValue(this.state.style, 'strokeWidth', '1'));
 	var strokeWidth1 = strokeWidth * w / 123;
 	var strokeWidth2 = strokeWidth * h /133;
+	var strokeColor2 = mxUtils.getValue(this.style, 'strokeColor2', '#292929');
 	
 	strokeWidth = Math.min(strokeWidth1, strokeWidth2);
 	c.setStrokeWidth(strokeWidth);
 	
-	this.background(c, 0, 0, w, h, strokeWidth);
+	this.background(c, 0, 0, w, h, strokeWidth, strokeColor2);
 	c.setShadow(false);
-	this.foreground(c, 0, 0, w, h, strokeWidth);
+	this.foreground(c, 0, 0, w, h, strokeWidth, strokeColor2);
 };
 
-mxShapeAws3dSimpleDB.prototype.background = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dSimpleDB.prototype.background = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.save();
 	c.save();
 	c.save();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -3725,7 +4096,7 @@ mxShapeAws3dSimpleDB.prototype.background = function(c, x, y, w, h, strokeWidth)
 	c.fillAndStroke();
 };
 
-mxShapeAws3dSimpleDB.prototype.foreground = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dSimpleDB.prototype.foreground = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.restore();
 	c.setShadow(false);
@@ -3813,7 +4184,7 @@ mxShapeAws3dSimpleDB.prototype.foreground = function(c, x, y, w, h, strokeWidth)
 	c.stroke();
 	
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 
 	c.begin();
 	c.moveTo(0, h * 0.7331);
@@ -3856,6 +4227,10 @@ mxShapeAws3dSqs.prototype.cst = {
 		SHADING_COLORS : 'shadingCols'
 };
 
+mxShapeAws3dSqs.prototype.customProperties = [
+	{name: 'strokeColor2', dispName: 'Stroke Color 2', type: 'color', defVal:"#292929", primary: true}
+];
+
 /**
 * Function: paintVertexShape
 * 
@@ -3868,21 +4243,22 @@ mxShapeAws3dSqs.prototype.paintVertexShape = function(c, x, y, w, h)
 	var strokeWidth = parseFloat(mxUtils.getValue(this.state.style, 'strokeWidth', '1'));
 	var strokeWidth1 = strokeWidth * w / 184;
 	var strokeWidth2 = strokeWidth * h / 212.75;
+	var strokeColor2 = mxUtils.getValue(this.style, 'strokeColor2', '#292929');
 	
 	strokeWidth = Math.min(strokeWidth1, strokeWidth2);
 
-	this.background(c, 0, 0, w, h, strokeWidth);
+	this.background(c, 0, 0, w, h, strokeWidth, strokeColor2);
 	c.setShadow(false);
-	this.foreground(c, 0, 0, w, h, strokeWidth);
+	this.foreground(c, 0, 0, w, h, strokeWidth, strokeColor2);
 };
 
-mxShapeAws3dSqs.prototype.background = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dSqs.prototype.background = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.setStrokeWidth(strokeWidth);
 	c.save();
 	c.save();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -3898,7 +4274,7 @@ mxShapeAws3dSqs.prototype.background = function(c, x, y, w, h, strokeWidth)
 	c.fillAndStroke();
 };
 
-mxShapeAws3dSqs.prototype.foreground = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dSqs.prototype.foreground = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.restore();
 	c.setShadow(false);
@@ -3982,7 +4358,7 @@ mxShapeAws3dSqs.prototype.foreground = function(c, x, y, w, h, strokeWidth)
 	c.fill();
 
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -4025,6 +4401,10 @@ mxShapeAws3dVpcGateway.prototype.cst = {
 		SHADING_COLORS : 'shadingCols'
 };
 
+mxShapeAws3dVpcGateway.prototype.customProperties = [
+	{name: 'strokeColor2', dispName: 'Stroke Color 2', type: 'color', defVal:"#292929", primary: true}
+];
+
 /**
 * Function: paintVertexShape
 * 
@@ -4037,15 +4417,16 @@ mxShapeAws3dVpcGateway.prototype.paintVertexShape = function(c, x, y, w, h)
 	var strokeWidth = parseFloat(mxUtils.getValue(this.state.style, 'strokeWidth', '1'));
 	var strokeWidth1 = strokeWidth * w / 116.7;
 	var strokeWidth2 = strokeWidth * h / 102.8;
+	var strokeColor2 = mxUtils.getValue(this.style, 'strokeColor2', '#292929');
 	
 	strokeWidth = Math.min(strokeWidth1, strokeWidth2);
 
-	this.background(c, 0, 0, w, h, strokeWidth);
+	this.background(c, 0, 0, w, h, strokeWidth, strokeColor2);
 	c.setShadow(false);
-	this.foreground(c, 0, 0, w, h, strokeWidth);
+	this.foreground(c, 0, 0, w, h, strokeWidth, strokeColor2);
 };
 
-mxShapeAws3dVpcGateway.prototype.background = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dVpcGateway.prototype.background = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.setStrokeWidth(strokeWidth);
 	c.save();
@@ -4054,7 +4435,7 @@ mxShapeAws3dVpcGateway.prototype.background = function(c, x, y, w, h, strokeWidt
 	c.save();
 	c.save();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -4114,7 +4495,7 @@ mxShapeAws3dVpcGateway.prototype.background = function(c, x, y, w, h, strokeWidt
 	c.stroke();
 
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	
 	c.begin();
 	c.moveTo(w * 0.5801, h * 0.5447);
@@ -4128,7 +4509,7 @@ mxShapeAws3dVpcGateway.prototype.background = function(c, x, y, w, h, strokeWidt
 
 	c.restore();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -4142,7 +4523,7 @@ mxShapeAws3dVpcGateway.prototype.background = function(c, x, y, w, h, strokeWidt
 	c.fillAndStroke();
 };
 
-mxShapeAws3dVpcGateway.prototype.foreground = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dVpcGateway.prototype.foreground = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.restore();
 	var strokeColor = mxUtils.getValue(this.state.style, 'strokeColor', '#000000');
@@ -4191,7 +4572,7 @@ mxShapeAws3dVpcGateway.prototype.foreground = function(c, x, y, w, h, strokeWidt
 	c.stroke();
 	
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -4397,6 +4778,10 @@ mxShapeAws3dDynamoDB.prototype.cst = {
 		SHADING_COLORS : 'shadingCols'
 };
 
+mxShapeAws3dDynamoDB.prototype.customProperties = [
+	{name: 'strokeColor2', dispName: 'Stroke Color 2', type: 'color', defVal:"#292929", primary: true}
+];
+
 /**
 * Function: paintVertexShape
 * 
@@ -4409,21 +4794,22 @@ mxShapeAws3dDynamoDB.prototype.paintVertexShape = function(c, x, y, w, h)
 	var strokeWidth = parseFloat(mxUtils.getValue(this.state.style, 'strokeWidth', '1'));
 	var strokeWidth1 = strokeWidth * w / 181.5;
 	var strokeWidth2 = strokeWidth * h / 210;
+	var strokeColor2 = mxUtils.getValue(this.style, 'strokeColor2', '#292929');
 	
 	strokeWidth = Math.min(strokeWidth1, strokeWidth2);
 
-	this.background(c, 0, 0, w, h, strokeWidth);
+	this.background(c, 0, 0, w, h, strokeWidth, strokeColor2);
 	c.setShadow(false);
-	this.foreground(c, 0, 0, w, h, strokeWidth);
+	this.foreground(c, 0, 0, w, h, strokeWidth, strokeColor2);
 };
 
-mxShapeAws3dDynamoDB.prototype.background = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dDynamoDB.prototype.background = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.setStrokeWidth(strokeWidth);
 	c.save();
 	c.save();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -4441,7 +4827,7 @@ mxShapeAws3dDynamoDB.prototype.background = function(c, x, y, w, h, strokeWidth)
 	c.fillAndStroke();
 };
 
-mxShapeAws3dDynamoDB.prototype.foreground = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dDynamoDB.prototype.foreground = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.restore();
 	c.setShadow(false);
@@ -4594,7 +4980,7 @@ mxShapeAws3dDynamoDB.prototype.foreground = function(c, x, y, w, h, strokeWidth)
 	c.fill();
 
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -4639,6 +5025,10 @@ mxShapeAws3dElasticMapReduce.prototype.cst = {
 		SHADING_COLORS : 'shadingCols'
 };
 
+mxShapeAws3dElasticMapReduce.prototype.customProperties = [
+	{name: 'strokeColor2', dispName: 'Stroke Color 2', type: 'color', defVal:"#292929", primary: true}
+];
+
 /**
 * Function: paintVertexShape
 * 
@@ -4651,21 +5041,22 @@ mxShapeAws3dElasticMapReduce.prototype.paintVertexShape = function(c, x, y, w, h
 	var strokeWidth = parseFloat(mxUtils.getValue(this.state.style, 'strokeWidth', '1'));
 	var strokeWidth1 = strokeWidth * w / 123;
 	var strokeWidth2 = strokeWidth * h /133;
+	var strokeColor2 = mxUtils.getValue(this.style, 'strokeColor2', '#292929');
 	
 	strokeWidth = Math.min(strokeWidth1, strokeWidth2);
 	c.setStrokeWidth(strokeWidth);
 	
-	this.background(c, 0, 0, w, h, strokeWidth);
+	this.background(c, 0, 0, w, h, strokeWidth, strokeColor2);
 	c.setShadow(false);
-	this.foreground(c, 0, 0, w, h, strokeWidth);
+	this.foreground(c, 0, 0, w, h, strokeWidth, strokeColor2);
 };
 
-mxShapeAws3dElasticMapReduce.prototype.background = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dElasticMapReduce.prototype.background = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.save();
 	c.save();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -4682,7 +5073,7 @@ mxShapeAws3dElasticMapReduce.prototype.background = function(c, x, y, w, h, stro
 	c.fillAndStroke();
 };
 
-mxShapeAws3dElasticMapReduce.prototype.foreground = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dElasticMapReduce.prototype.foreground = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.restore();
 	c.setShadow(false);
@@ -4804,7 +5195,7 @@ mxShapeAws3dElasticMapReduce.prototype.foreground = function(c, x, y, w, h, stro
 	c.stroke();
 
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 
 	c.begin();
 	c.moveTo(0, h * 0.7331);
@@ -4846,6 +5237,10 @@ mxShapeAws3dRdsSlave.prototype.cst = {
 		RDS_SLAVE : 'mxgraph.aws3d.rdsSlave'
 };
 
+mxShapeAws3dRdsSlave.prototype.customProperties = [
+	{name: 'strokeColor2', dispName: 'Stroke Color 2', type: 'color', defVal:"#292929", primary: true}
+];
+
 /**
 * Function: paintVertexShape
 * 
@@ -4858,21 +5253,22 @@ mxShapeAws3dRdsSlave.prototype.paintVertexShape = function(c, x, y, w, h)
 	var strokeWidth = parseFloat(mxUtils.getValue(this.state.style, 'strokeWidth', '1'));
 	var strokeWidth1 = strokeWidth * w / 123;
 	var strokeWidth2 = strokeWidth * h /133;
+	var strokeColor2 = mxUtils.getValue(this.style, 'strokeColor2', '#292929');
 	
 	strokeWidth = Math.min(strokeWidth1, strokeWidth2);
 	c.setStrokeWidth(strokeWidth);
 	
-	this.background(c, 0, 0, w, h, strokeWidth);
+	this.background(c, 0, 0, w, h, strokeWidth, strokeColor2);
 	c.setShadow(false);
-	this.foreground(c, 0, 0, w, h, strokeWidth);
+	this.foreground(c, 0, 0, w, h, strokeWidth, strokeColor2);
 };
 
-mxShapeAws3dRdsSlave.prototype.background = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dRdsSlave.prototype.background = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.save();
 	c.save();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -4889,7 +5285,7 @@ mxShapeAws3dRdsSlave.prototype.background = function(c, x, y, w, h, strokeWidth)
 	c.fillAndStroke();
 };
 
-mxShapeAws3dRdsSlave.prototype.foreground = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dRdsSlave.prototype.foreground = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.restore();
 	c.setShadow(false);
@@ -4976,7 +5372,7 @@ mxShapeAws3dRdsSlave.prototype.foreground = function(c, x, y, w, h, strokeWidth)
 	c.stroke();
 
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 
 	c.begin();
 	c.moveTo(0, h * 0.7331);
@@ -5019,6 +5415,10 @@ mxShapeAws3dAMI2.prototype.cst = {
 		SHADING_COLORS : 'shadingCols'
 };
 
+mxShapeAws3dAMI2.prototype.customProperties = [
+	{name: 'strokeColor2', dispName: 'Stroke Color 2', type: 'color', defVal:"#292929", primary: true}
+];
+
 /**
 * Function: paintVertexShape
 * 
@@ -5032,6 +5432,7 @@ mxShapeAws3dAMI2.prototype.paintVertexShape = function(c, x, y, w, h)
 	var isShadow = parseFloat(mxUtils.getValue(this.state.style, 'shadow', '0'));
 	var strokeWidth1 = strokeWidth * w / 92;
 	var strokeWidth2 = strokeWidth * h / 60;
+	var strokeColor2 = mxUtils.getValue(this.style, 'strokeColor2', '#292929');
 	
 	strokeWidth = Math.min(strokeWidth1, strokeWidth2);
 	
@@ -5040,7 +5441,7 @@ mxShapeAws3dAMI2.prototype.paintVertexShape = function(c, x, y, w, h)
 	c.save();
 	c.save();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	if (isShadow == 1)
@@ -5131,7 +5532,7 @@ mxShapeAws3dAMI2.prototype.paintVertexShape = function(c, x, y, w, h)
 	c.lineTo(w * 0.5838, h * 0.518);
 	c.stroke();
 
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 
 	c.begin();
 	c.moveTo(0, h * 0.572);
@@ -5172,6 +5573,10 @@ mxShapeAws3dEbs.prototype.cst = {
 		SHADING_COLORS : 'shadingCols'
 };
 
+mxShapeAws3dEbs.prototype.customProperties = [
+	{name: 'strokeColor2', dispName: 'Stroke Color 2', type: 'color', defVal:"#292929", primary: true}
+];
+
 /**
 * Function: paintVertexShape
 * 
@@ -5185,6 +5590,7 @@ mxShapeAws3dEbs.prototype.paintVertexShape = function(c, x, y, w, h)
 	var strokeWidth1 = strokeWidth * w / 92;
 	var strokeWidth2 = strokeWidth * h / 60;
 	var isShadow = parseFloat(mxUtils.getValue(this.state.style, 'shadow', '0'));
+	var strokeColor2 = mxUtils.getValue(this.style, 'strokeColor2', '#292929');
 	
 	strokeWidth = Math.min(strokeWidth1, strokeWidth2);
 	
@@ -5193,7 +5599,7 @@ mxShapeAws3dEbs.prototype.paintVertexShape = function(c, x, y, w, h)
 	c.save();
 	c.save();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	if(isShadow == 1)
@@ -5263,7 +5669,7 @@ mxShapeAws3dEbs.prototype.paintVertexShape = function(c, x, y, w, h)
 	c.stroke();
 
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -5306,6 +5712,12 @@ mxShapeAws3dOracleServer.prototype.cst = {
 		ORACLE_SERVER : 'mxgraph.aws3d.oracleServer'
 };
 
+mxShapeAws3dOracleServer.prototype.customProperties = [
+	{name: 'fillColor2', dispName: 'Fill Color 2', type: 'color', defVal:"#ff0000", primary: true},
+	{name: 'fillColor3', dispName: 'Fill Color 3', type: 'color', defVal:"#ffffff", primary: true},
+	{name: 'strokeColor2', dispName: 'Stroke Color 2', type: 'color', defVal:"#292929", primary: true}
+];
+
 /**
 * Function: paintVertexShape
 * 
@@ -5318,22 +5730,23 @@ mxShapeAws3dOracleServer.prototype.paintVertexShape = function(c, x, y, w, h)
 	var strokeWidth = parseFloat(mxUtils.getValue(this.state.style, 'strokeWidth', '1'));
 	var strokeWidth1 = strokeWidth * w / 123;
 	var strokeWidth2 = strokeWidth * h /133;
+	var strokeColor2 = mxUtils.getValue(this.style, 'strokeColor2', '#292929');
 	
 	strokeWidth = Math.min(strokeWidth1, strokeWidth2);
 	c.setStrokeWidth(strokeWidth);
 	
-	this.background(c, 0, 0, w, h, strokeWidth);
+	this.background(c, 0, 0, w, h, strokeWidth, strokeColor2);
 	c.setShadow(false);
-	this.foreground(c, 0, 0, w, h, strokeWidth);
+	this.foreground(c, 0, 0, w, h, strokeWidth, strokeColor2);
 };
 
-mxShapeAws3dOracleServer.prototype.background = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dOracleServer.prototype.background = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.save();
 	c.save();
 	c.save();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -5347,8 +5760,11 @@ mxShapeAws3dOracleServer.prototype.background = function(c, x, y, w, h, strokeWi
 	c.fillAndStroke();
 };
 
-mxShapeAws3dOracleServer.prototype.foreground = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dOracleServer.prototype.foreground = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
+	var fillColor2 = mxUtils.getValue(this.style, 'fillColor2', '#ff0000');
+	var fillColor3 = mxUtils.getValue(this.style, 'fillColor3', '#ffffff');
+
 	c.restore();
 	c.setShadow(false);
 	c.setFillColor('#000000');
@@ -5375,7 +5791,7 @@ mxShapeAws3dOracleServer.prototype.foreground = function(c, x, y, w, h, strokeWi
 	c.setShadow(false);
 	c.setLineJoin('round');
 	
-	c.setFillColor('#ff0000');
+	c.setFillColor(fillColor2);
 
 	c.begin();
 	c.moveTo(0, h * 0.5866);
@@ -5387,8 +5803,8 @@ mxShapeAws3dOracleServer.prototype.foreground = function(c, x, y, w, h, strokeWi
 	c.fill();
 
 	c.setStrokeWidth(0.5 * strokeWidth);
-	c.setStrokeColor('#ffffff');
-	c.setFillColor('#ffffff');
+	c.setStrokeColor(fillColor3);
+	c.setFillColor(fillColor3);
 	
 	c.begin();
 	c.moveTo(0, h * 0.5866);
@@ -5604,7 +6020,7 @@ mxShapeAws3dOracleServer.prototype.foreground = function(c, x, y, w, h, strokeWi
 	c.fill();
 
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -5738,6 +6154,10 @@ mxShapeAws3dEmailService.prototype.cst = {
 		SHADING_COLORS : 'shadingCols'
 };
 
+mxShapeAws3dEmailService.prototype.customProperties = [
+	{name: 'strokeColor2', dispName: 'Stroke Color 2', type: 'color', defVal:"#292929", primary: true}
+];
+
 /**
 * Function: paintVertexShape
 * 
@@ -5750,21 +6170,22 @@ mxShapeAws3dEmailService.prototype.paintVertexShape = function(c, x, y, w, h)
 	var strokeWidth = parseFloat(mxUtils.getValue(this.state.style, 'strokeWidth', '1'));
 	var strokeWidth1 = strokeWidth * w / 151;
 	var strokeWidth2 = strokeWidth * h / 192;
+	var strokeColor2 = mxUtils.getValue(this.style, 'strokeColor2', '#292929');
 	
 	strokeWidth = Math.min(strokeWidth1, strokeWidth2);
 
-	this.background(c, 0, 0, w, h, strokeWidth);
+	this.background(c, 0, 0, w, h, strokeWidth, strokeColor2);
 	c.setShadow(false);
-	this.foreground(c, 0, 0, w, h, strokeWidth);
+	this.foreground(c, 0, 0, w, h, strokeWidth, strokeColor2);
 };
 
-mxShapeAws3dEmailService.prototype.background = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dEmailService.prototype.background = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.setStrokeWidth(strokeWidth);
 	c.save();
 	c.save();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -5780,7 +6201,7 @@ mxShapeAws3dEmailService.prototype.background = function(c, x, y, w, h, strokeWi
 	c.fillAndStroke();
 };
 
-mxShapeAws3dEmailService.prototype.foreground = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dEmailService.prototype.foreground = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.restore();
 	c.setShadow(false);
@@ -5906,7 +6327,7 @@ mxShapeAws3dEmailService.prototype.foreground = function(c, x, y, w, h, strokeWi
 	c.fill();
 
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -5949,6 +6370,10 @@ mxShapeAws3dWorker.prototype.cst = {
 		SHADING_COLORS : 'shadingCols'
 };
 
+mxShapeAws3dWorker.prototype.customProperties = [
+	{name: 'strokeColor2', dispName: 'Stroke Color 2', type: 'color', defVal:"#292929", primary: true}
+];
+
 /**
 * Function: paintVertexShape
 * 
@@ -5962,6 +6387,7 @@ mxShapeAws3dWorker.prototype.paintVertexShape = function(c, x, y, w, h)
 	var isShadow = parseFloat(mxUtils.getValue(this.state.style, 'shadow', '0'));
 	var strokeWidth1 = strokeWidth * w / 74;
 	var strokeWidth2 = strokeWidth * h / 50;
+	var strokeColor2 = mxUtils.getValue(this.style, 'strokeColor2', '#292929');
 	
 	strokeWidth = Math.min(strokeWidth1, strokeWidth2);
 	
@@ -5970,7 +6396,7 @@ mxShapeAws3dWorker.prototype.paintVertexShape = function(c, x, y, w, h)
 	c.save();
 	c.save();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	if (isShadow == 1)
@@ -6102,7 +6528,7 @@ mxShapeAws3dWorker.prototype.paintVertexShape = function(c, x, y, w, h)
 	c.fill();
 
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 
 	c.begin();
 	c.moveTo(0, h * 0.572);
@@ -6143,6 +6569,10 @@ mxShapeAws3dApplication2.prototype.cst = {
 		SHADING_COLORS : 'shadingCols'
 };
 
+mxShapeAws3dApplication2.prototype.customProperties = [
+	{name: 'strokeColor2', dispName: 'Stroke Color 2', type: 'color', defVal:"#292929", primary: true}
+];
+
 /**
 * Function: paintVertexShape
 * 
@@ -6156,6 +6586,7 @@ mxShapeAws3dApplication2.prototype.paintVertexShape = function(c, x, y, w, h)
 	var strokeWidth1 = strokeWidth * w / 62;
 	var strokeWidth2 = strokeWidth * h / 53.5;
 	var isShadow = parseFloat(mxUtils.getValue(this.state.style, 'shadow', '0'));
+	var strokeColor2 = mxUtils.getValue(this.style, 'strokeColor2', '#292929');
 	
 	strokeWidth = Math.min(strokeWidth1, strokeWidth2);
 
@@ -6164,7 +6595,7 @@ mxShapeAws3dApplication2.prototype.paintVertexShape = function(c, x, y, w, h)
 	c.save();
 	c.save();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	if (isShadow == 1)
@@ -6245,7 +6676,7 @@ mxShapeAws3dApplication2.prototype.paintVertexShape = function(c, x, y, w, h)
 	c.fill();
 
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -6286,6 +6717,10 @@ mxShapeAws3dElasticBeanstalk.prototype.cst = {
 		SHADING_COLORS : 'shadingCols'
 };
 
+mxShapeAws3dElasticBeanstalk.prototype.customProperties = [
+	{name: 'strokeColor2', dispName: 'Stroke Color 2', type: 'color', defVal:"#292929", primary: true}
+];
+
 /**
 * Function: paintVertexShape
 * 
@@ -6299,6 +6734,7 @@ mxShapeAws3dElasticBeanstalk.prototype.paintVertexShape = function(c, x, y, w, h
 	var strokeWidth1 = strokeWidth * w / 181.5;
 	var strokeWidth2 = strokeWidth * h / 140;
 	var isShadow = parseFloat(mxUtils.getValue(this.state.style, 'shadow', '0'));
+	var strokeColor2 = mxUtils.getValue(this.style, 'strokeColor2', '#292929');
 	
 	strokeWidth = Math.min(strokeWidth1, strokeWidth2);
 
@@ -6308,7 +6744,7 @@ mxShapeAws3dElasticBeanstalk.prototype.paintVertexShape = function(c, x, y, w, h
 	c.save();
 	c.save();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	if (isShadow == 1)
@@ -6466,7 +6902,7 @@ mxShapeAws3dElasticBeanstalk.prototype.paintVertexShape = function(c, x, y, w, h
 	c.fillAndStroke();
 	
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -6507,6 +6943,10 @@ mxShapeAws3dSimpleDB2.prototype.cst = {
 		SHADING_COLORS : 'shadingCols'
 };
 
+mxShapeAws3dSimpleDB2.prototype.customProperties = [
+	{name: 'strokeColor2', dispName: 'Stroke Color 2', type: 'color', defVal:"#292929", primary: true}
+];
+
 /**
 * Function: paintVertexShape
 * 
@@ -6519,22 +6959,23 @@ mxShapeAws3dSimpleDB2.prototype.paintVertexShape = function(c, x, y, w, h)
 	var strokeWidth = parseFloat(mxUtils.getValue(this.state.style, 'strokeWidth', '1'));
 	var strokeWidth1 = strokeWidth * w / 181.5;
 	var strokeWidth2 = strokeWidth * h / 210;
+	var strokeColor2 = mxUtils.getValue(this.style, 'strokeColor2', '#292929');
 	
 	strokeWidth = Math.min(strokeWidth1, strokeWidth2);
 
-	this.background(c, 0, 0, w, h, strokeWidth);
+	this.background(c, 0, 0, w, h, strokeWidth, strokeColor2);
 	c.setShadow(false);
-	this.foreground(c, 0, 0, w, h, strokeWidth);
+	this.foreground(c, 0, 0, w, h, strokeWidth, strokeColor2);
 };
 
-mxShapeAws3dSimpleDB2.prototype.background = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dSimpleDB2.prototype.background = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.setStrokeWidth(strokeWidth);
 	c.save();
 	c.save();
 	c.save();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -6551,7 +6992,7 @@ mxShapeAws3dSimpleDB2.prototype.background = function(c, x, y, w, h, strokeWidth
 	c.fillAndStroke();
 };
 
-mxShapeAws3dSimpleDB2.prototype.foreground = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dSimpleDB2.prototype.foreground = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.restore();
 	c.setShadow(false);
@@ -6657,7 +7098,7 @@ mxShapeAws3dSimpleDB2.prototype.foreground = function(c, x, y, w, h, strokeWidth
 	c.stroke();
 
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -6701,6 +7142,10 @@ mxShapeAws3dWorkflowService.prototype.cst = {
 		SHADING_COLORS : 'shadingCols'
 };
 
+mxShapeAws3dWorkflowService.prototype.customProperties = [
+	{name: 'strokeColor2', dispName: 'Stroke Color 2', type: 'color', defVal:"#292929", primary: true}
+];
+
 /**
 * Function: paintVertexShape
 * 
@@ -6713,22 +7158,23 @@ mxShapeAws3dWorkflowService.prototype.paintVertexShape = function(c, x, y, w, h)
 	var strokeWidth = parseFloat(mxUtils.getValue(this.state.style, 'strokeWidth', '1'));
 	var strokeWidth1 = strokeWidth * w / 181.5;
 	var strokeWidth2 = strokeWidth * h / 210;
+	var strokeColor2 = mxUtils.getValue(this.style, 'strokeColor2', '#292929');
 	
 	strokeWidth = Math.min(strokeWidth1, strokeWidth2);
 
-	this.background(c, 0, 0, w, h, strokeWidth);
+	this.background(c, 0, 0, w, h, strokeWidth, strokeColor2);
 	c.setShadow(false);
-	this.foreground(c, 0, 0, w, h, strokeWidth);
+	this.foreground(c, 0, 0, w, h, strokeWidth, strokeColor2);
 };
 
-mxShapeAws3dWorkflowService.prototype.background = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dWorkflowService.prototype.background = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.setStrokeWidth(strokeWidth);
 	c.save();
 	c.save();
 	c.save();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -6741,7 +7187,7 @@ mxShapeAws3dWorkflowService.prototype.background = function(c, x, y, w, h, strok
 	c.fillAndStroke();
 };
 
-mxShapeAws3dWorkflowService.prototype.foreground = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dWorkflowService.prototype.foreground = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.restore();
 	c.setShadow(false);
@@ -6838,7 +7284,7 @@ mxShapeAws3dWorkflowService.prototype.foreground = function(c, x, y, w, h, strok
 	c.stroke();
 
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -6879,6 +7325,10 @@ mxShapeAws3dDecider.prototype.cst = {
 		SHADING_COLORS : 'shadingCols'
 };
 
+mxShapeAws3dDecider.prototype.customProperties = [
+	{name: 'strokeColor2', dispName: 'Stroke Color 2', type: 'color', defVal:"#292929", primary: true}
+];
+
 /**
 * Function: paintVertexShape
 * 
@@ -6892,6 +7342,7 @@ mxShapeAws3dDecider.prototype.paintVertexShape = function(c, x, y, w, h)
 	var isShadow = parseFloat(mxUtils.getValue(this.state.style, 'shadow', '0'));
 	var strokeWidth1 = strokeWidth * w / 74;
 	var strokeWidth2 = strokeWidth * h / 50;
+	var strokeColor2 = mxUtils.getValue(this.style, 'strokeColor2', '#292929');
 	
 	strokeWidth = Math.min(strokeWidth1, strokeWidth2);
 	
@@ -6900,7 +7351,7 @@ mxShapeAws3dDecider.prototype.paintVertexShape = function(c, x, y, w, h)
 	c.save();
 	c.save();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	if (isShadow == 1)
@@ -7000,7 +7451,7 @@ mxShapeAws3dDecider.prototype.paintVertexShape = function(c, x, y, w, h)
 	c.lineTo(w * 0.5068, h * 0.501);
 	c.stroke();
 
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 
 	c.begin();
 	c.moveTo(0, h * 0.572);
@@ -7041,6 +7492,10 @@ mxShapeAws3dSearchEngine.prototype.cst = {
 		SHADING_COLORS : 'shadingCols'
 };
 
+mxShapeAws3dSearchEngine.prototype.customProperties = [
+	{name: 'strokeColor2', dispName: 'Stroke Color 2', type: 'color', defVal:"#292929", primary: true}
+];
+
 /**
 * Function: paintVertexShape
 * 
@@ -7053,22 +7508,23 @@ mxShapeAws3dSearchEngine.prototype.paintVertexShape = function(c, x, y, w, h)
 	var strokeWidth = parseFloat(mxUtils.getValue(this.state.style, 'strokeWidth', '1'));
 	var strokeWidth1 = strokeWidth * w / 180;
 	var strokeWidth2 = strokeWidth * h / 192;
+	var strokeColor2 = mxUtils.getValue(this.style, 'strokeColor2', '#292929');
 	
 	strokeWidth = Math.min(strokeWidth1, strokeWidth2);
 
-	this.background(c, 0, 0, w, h, strokeWidth);
+	this.background(c, 0, 0, w, h, strokeWidth, strokeColor2);
 	c.setShadow(false);
-	this.foreground(c, 0, 0, w, h, strokeWidth);
+	this.foreground(c, 0, 0, w, h, strokeWidth, strokeColor2);
 };
 
-mxShapeAws3dSearchEngine.prototype.background = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dSearchEngine.prototype.background = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.setStrokeWidth(strokeWidth);
 	c.save();
 	c.save();
 	c.save();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -7088,7 +7544,7 @@ mxShapeAws3dSearchEngine.prototype.background = function(c, x, y, w, h, strokeWi
 	c.fillAndStroke();
 };
 
-mxShapeAws3dSearchEngine.prototype.foreground = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dSearchEngine.prototype.foreground = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.restore();
 	c.setShadow(false);
@@ -7202,7 +7658,7 @@ mxShapeAws3dSearchEngine.prototype.foreground = function(c, x, y, w, h, strokeWi
 	c.fill();
 
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -7249,6 +7705,10 @@ mxShapeAws3dSecurityTokenService.prototype.cst = {
 		SHADING_COLORS : 'shadingCols'
 };
 
+mxShapeAws3dSecurityTokenService.prototype.customProperties = [
+	{name: 'strokeColor2', dispName: 'Stroke Color 2', type: 'color', defVal:"#292929", primary: true}
+];
+
 /**
 * Function: paintVertexShape
 * 
@@ -7261,22 +7721,23 @@ mxShapeAws3dSecurityTokenService.prototype.paintVertexShape = function(c, x, y, 
 	var strokeWidth = parseFloat(mxUtils.getValue(this.state.style, 'strokeWidth', '1'));
 	var strokeWidth1 = strokeWidth * w / 180;
 	var strokeWidth2 = strokeWidth * h / 192;
+	var strokeColor2 = mxUtils.getValue(this.style, 'strokeColor2', '#292929');
 	
 	strokeWidth = Math.min(strokeWidth1, strokeWidth2);
 
-	this.background(c, 0, 0, w, h, strokeWidth);
+	this.background(c, 0, 0, w, h, strokeWidth, strokeColor2);
 	c.setShadow(false);
-	this.foreground(c, 0, 0, w, h, strokeWidth);
+	this.foreground(c, 0, 0, w, h, strokeWidth, strokeColor2);
 };
 
-mxShapeAws3dSecurityTokenService.prototype.background = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dSecurityTokenService.prototype.background = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.setStrokeWidth(strokeWidth);
 	c.save();
 	c.save();
 	c.save();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -7296,7 +7757,7 @@ mxShapeAws3dSecurityTokenService.prototype.background = function(c, x, y, w, h, 
 	c.fillAndStroke();
 };
 
-mxShapeAws3dSecurityTokenService.prototype.foreground = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dSecurityTokenService.prototype.foreground = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.restore();
 	c.setShadow(false);
@@ -7441,7 +7902,7 @@ mxShapeAws3dSecurityTokenService.prototype.foreground = function(c, x, y, w, h, 
 	c.stroke();
 
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 
 	c.begin();
 	c.moveTo(0, h * 0.7281);
@@ -7487,6 +7948,10 @@ mxShapeAws3dGlacier.prototype.cst = {
 		SHADING_COLORS : 'shadingCols'
 };
 
+mxShapeAws3dGlacier.prototype.customProperties = [
+	{name: 'strokeColor2', dispName: 'Stroke Color 2', type: 'color', defVal:"#292929", primary: true}
+];
+
 /**
 * Function: paintVertexShape
 * 
@@ -7499,21 +7964,22 @@ mxShapeAws3dGlacier.prototype.paintVertexShape = function(c, x, y, w, h)
 	var strokeWidth = parseFloat(mxUtils.getValue(this.state.style, 'strokeWidth', '1'));
 	var strokeWidth1 = strokeWidth * w / 180;
 	var strokeWidth2 = strokeWidth * h / 192;
+	var strokeColor2 = mxUtils.getValue(this.style, 'strokeColor2', '#292929');
 	
 	strokeWidth = Math.min(strokeWidth1, strokeWidth2);
 
-	this.background(c, 0, 0, w, h, strokeWidth);
+	this.background(c, 0, 0, w, h, strokeWidth, strokeColor2);
 	c.setShadow(false);
-	this.foreground(c, 0, 0, w, h, strokeWidth);
+	this.foreground(c, 0, 0, w, h, strokeWidth, strokeColor2);
 };
 
-mxShapeAws3dGlacier.prototype.background = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dGlacier.prototype.background = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.setStrokeWidth(strokeWidth);
 	c.save();
 	c.save();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -7530,7 +7996,7 @@ mxShapeAws3dGlacier.prototype.background = function(c, x, y, w, h, strokeWidth)
 	c.fillAndStroke();
 };
 
-mxShapeAws3dGlacier.prototype.foreground = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dGlacier.prototype.foreground = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.restore();
 	c.setShadow(false);
@@ -7593,7 +8059,7 @@ mxShapeAws3dGlacier.prototype.foreground = function(c, x, y, w, h, strokeWidth)
 	c.stroke();
 
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 
 	c.begin();
 	c.moveTo(0, h * 0.8177);
@@ -7636,6 +8102,10 @@ mxShapeAws3dCustomerGateway.prototype.cst = {
 		SHADING_COLORS : 'shadingCols'
 };
 
+mxShapeAws3dCustomerGateway.prototype.customProperties = [
+	{name: 'strokeColor2', dispName: 'Stroke Color 2', type: 'color', defVal:"#292929", primary: true}
+];
+
 /**
 * Function: paintVertexShape
 * 
@@ -7648,15 +8118,16 @@ mxShapeAws3dCustomerGateway.prototype.paintVertexShape = function(c, x, y, w, h)
 	var strokeWidth = parseFloat(mxUtils.getValue(this.state.style, 'strokeWidth', '1'));
 	var strokeWidth1 = strokeWidth * w / 116.7;
 	var strokeWidth2 = strokeWidth * h / 102.8;
+	var strokeColor2 = mxUtils.getValue(this.style, 'strokeColor2', '#292929');
 	
 	strokeWidth = Math.min(strokeWidth1, strokeWidth2);
 
-	this.background(c, 0, 0, w, h, strokeWidth);
+	this.background(c, 0, 0, w, h, strokeWidth, strokeColor2);
 	c.setShadow(false);
-	this.foreground(c, 0, 0, w, h, strokeWidth);
+	this.foreground(c, 0, 0, w, h, strokeWidth, strokeColor2);
 };
 
-mxShapeAws3dCustomerGateway.prototype.background = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dCustomerGateway.prototype.background = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.setStrokeWidth(strokeWidth);
 	c.save();
@@ -7665,7 +8136,7 @@ mxShapeAws3dCustomerGateway.prototype.background = function(c, x, y, w, h, strok
 	c.save();
 	c.save();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -7725,7 +8196,7 @@ mxShapeAws3dCustomerGateway.prototype.background = function(c, x, y, w, h, strok
 	c.stroke();
 
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	
 	c.begin();
 	c.moveTo(w * 0.4199, h * 0.5447);
@@ -7739,7 +8210,7 @@ mxShapeAws3dCustomerGateway.prototype.background = function(c, x, y, w, h, strok
 
 	c.restore();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -7753,7 +8224,7 @@ mxShapeAws3dCustomerGateway.prototype.background = function(c, x, y, w, h, strok
 	c.fillAndStroke();
 };
 
-mxShapeAws3dCustomerGateway.prototype.foreground = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dCustomerGateway.prototype.foreground = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.restore();
 	var strokeColor = mxUtils.getValue(this.state.style, 'strokeColor', '#000000');
@@ -7802,7 +8273,7 @@ mxShapeAws3dCustomerGateway.prototype.foreground = function(c, x, y, w, h, strok
 	c.stroke();
 	
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -7887,6 +8358,10 @@ mxShapeAws3dRedshift.prototype.cst = {
 		SHADING_COLORS : 'shadingCols'
 };
 
+mxShapeAws3dRedshift.prototype.customProperties = [
+	{name: 'strokeColor2', dispName: 'Stroke Color 2', type: 'color', defVal:"#292929", primary: true}
+];
+
 /**
 * Function: paintVertexShape
 * 
@@ -7899,22 +8374,23 @@ mxShapeAws3dRedshift.prototype.paintVertexShape = function(c, x, y, w, h)
 	var strokeWidth = parseFloat(mxUtils.getValue(this.state.style, 'strokeWidth', '1'));
 	var strokeWidth1 = strokeWidth * w / 149.5;
 	var strokeWidth2 = strokeWidth * h / 187.5;
+	var strokeColor2 = mxUtils.getValue(this.style, 'strokeColor2', '#292929');
 	
 	strokeWidth = Math.min(strokeWidth1, strokeWidth2);
 
-	this.background(c, 0, 0, w, h, strokeWidth);
+	this.background(c, 0, 0, w, h, strokeWidth, strokeColor2);
 	c.setShadow(false);
-	this.foreground(c, 0, 0, w, h, strokeWidth);
+	this.foreground(c, 0, 0, w, h, strokeWidth, strokeColor2);
 };
 
-mxShapeAws3dRedshift.prototype.background = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dRedshift.prototype.background = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.setStrokeWidth(strokeWidth);
 	c.save();
 	c.save();
 	c.save();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -7944,7 +8420,7 @@ mxShapeAws3dRedshift.prototype.background = function(c, x, y, w, h, strokeWidth)
 	c.fillAndStroke();
 };
 
-mxShapeAws3dRedshift.prototype.foreground = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dRedshift.prototype.foreground = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.restore();
 	c.setShadow(false);
@@ -8110,7 +8586,7 @@ mxShapeAws3dRedshift.prototype.foreground = function(c, x, y, w, h, strokeWidth)
 	c.lineTo(w * 0.4334, h * 0.2955);
 	c.stroke();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 
 	c.begin();
 	c.moveTo(0, h * 0.6517);
@@ -8166,6 +8642,11 @@ mxShapeAws3dLambda.prototype.cst = {
 		SHADING_COLORS : 'shadingCols'
 };
 
+mxShapeAws3dLambda.prototype.customProperties = [
+	{name: 'strokeColor2', dispName: 'Stroke Color 2', type: 'color', defVal:"#292929", primary: true},
+	{name: 'strokeColor3', dispName: 'Stroke Color 3', type: 'color', defVal:"#ffffff", primary: true}
+];
+
 /**
 * Function: paintVertexShape
 * 
@@ -8178,21 +8659,22 @@ mxShapeAws3dLambda.prototype.paintVertexShape = function(c, x, y, w, h)
 	var strokeWidth = parseFloat(mxUtils.getValue(this.state.style, 'strokeWidth', '1'));
 	var strokeWidth1 = strokeWidth * w / 92;
 	var strokeWidth2 = strokeWidth * h / 109.5;
+	var strokeColor2 = mxUtils.getValue(this.style, 'strokeColor2', '#292929');
 	
 	strokeWidth = Math.min(strokeWidth1, strokeWidth2);
 
-	this.background(c, 0, 0, w, h, strokeWidth);
+	this.background(c, 0, 0, w, h, strokeWidth, strokeColor2);
 	c.setShadow(false);
-	this.foreground(c, 0, 0, w, h, strokeWidth);
+	this.foreground(c, 0, 0, w, h, strokeWidth, strokeColor2);
 };
 
-mxShapeAws3dLambda.prototype.background = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dLambda.prototype.background = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.setStrokeWidth(strokeWidth);
 	c.save();
 	c.save();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();
@@ -8208,11 +8690,13 @@ mxShapeAws3dLambda.prototype.background = function(c, x, y, w, h, strokeWidth)
 	c.fillAndStroke();
 };
 
-mxShapeAws3dLambda.prototype.foreground = function(c, x, y, w, h, strokeWidth)
+mxShapeAws3dLambda.prototype.foreground = function(c, x, y, w, h, strokeWidth, strokeColor2)
 {
 	c.restore();
 	c.setShadow(false);
 	c.setFillColor('#000000');
+	var strokeColor = mxUtils.getValue(this.style, 'strokeColor', '#5E5E5E');
+	var strokeColor3 = mxUtils.getValue(this.style, 'strokeColor3', '#ffffff');
 	var shading = mxUtils.getValue(this.state.style, mxShapeAws3dLambda.prototype.cst.SHADING_COLORS, '0.1,0.3').toString().split(',');
 	var flipH = mxUtils.getValue(this.state.style, 'flipH', '0');
 	(flipH == '0') ? c.setAlpha(shading[0]) : c.setAlpha(shading[1]); 
@@ -8265,7 +8749,7 @@ mxShapeAws3dLambda.prototype.foreground = function(c, x, y, w, h, strokeWidth)
 	c.lineTo(w * 0.663, h);
 	c.stroke();
 
-	c.setFillColor("#5E5E5E");
+	c.setFillColor(strokeColor);
 	
 	c.begin();
 	c.moveTo(w * 0.3804, h * 0.1169);
@@ -8281,7 +8765,7 @@ mxShapeAws3dLambda.prototype.foreground = function(c, x, y, w, h, strokeWidth)
 	c.arcTo(w * 0.3804, h * 0.3196, 0, 0, 1, w * 0.3804, h * 0.1169);
 	c.fill();
 
-	c.setFillColor("#ffffff");
+	c.setFillColor(strokeColor3);
 
 	c.begin();
 	c.moveTo(w * 0.5565, h * 0.2174);
@@ -8304,7 +8788,7 @@ mxShapeAws3dLambda.prototype.foreground = function(c, x, y, w, h, strokeWidth)
 	c.fill();
 
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 
 	c.begin();
 	c.moveTo(0, h * 0.1671);
@@ -8346,6 +8830,10 @@ mxShapeAws3dEbs2.prototype.cst = {
 		SHADING_COLORS : 'shadingCols'
 };
 
+mxShapeAws3dEbs2.prototype.customProperties = [
+	{name: 'strokeColor2', dispName: 'Stroke Color 2', type: 'color', defVal:"#292929", primary: true}
+];
+
 /**
 * Function: paintVertexShape
 * 
@@ -8359,6 +8847,7 @@ mxShapeAws3dEbs2.prototype.paintVertexShape = function(c, x, y, w, h)
 	var strokeWidth1 = strokeWidth * w / 92;
 	var strokeWidth2 = strokeWidth * h / 60;
 	var isShadow = parseFloat(mxUtils.getValue(this.state.style, 'shadow', '0'));
+	var strokeColor2 = mxUtils.getValue(this.style, 'strokeColor2', '#292929');
 	
 	strokeWidth = Math.min(strokeWidth1, strokeWidth2);
 	
@@ -8367,7 +8856,7 @@ mxShapeAws3dEbs2.prototype.paintVertexShape = function(c, x, y, w, h)
 	c.save();
 	c.save();
 	c.setStrokeWidth(2 * strokeWidth);
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	if(isShadow == 1)
@@ -8468,7 +8957,7 @@ mxShapeAws3dEbs2.prototype.paintVertexShape = function(c, x, y, w, h)
 	c.lineTo(w * 0.3607, h * 0.4657);
 	c.stroke();
 	
-	c.setStrokeColor('#292929');
+	c.setStrokeColor(strokeColor2);
 	c.setLineJoin('round');
 
 	c.begin();

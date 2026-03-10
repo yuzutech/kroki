@@ -1,6 +1,5 @@
 /**
- * $Id: mxMockupContainers.js,v 1.10 2013/07/09 11:19:51 mate Exp $
- * Copyright (c) 2006-2010, JGraph Ltd
+ * Copyright (c) 2006-2010, JGraph Holdings Ltd
  */
 
 //**********************************************************************************************************************************************************
@@ -36,10 +35,10 @@ mxShapeMockupVideoPlayer.prototype.cst = {
 };
 
 mxShapeMockupVideoPlayer.prototype.customProperties = [
-	{name: 'fillColor2', dispName: 'Fill2 Color', type: 'color'},
-	{name: 'textColor', dispName: 'Text Color', type: 'color'},
-	{name: 'strokeColor2', dispName: 'Stroke2 Color', type: 'color'},
-	{name: 'strokeColor3', dispName: 'Stroke3 Color', type: 'color'},
+	{name: 'fillColor2', dispName: 'Fill2 Color', type: 'color', primary:true},
+	{name: 'textColor', dispName: 'Text Color', type: 'color', primary:true},
+	{name: 'strokeColor2', dispName: 'Stroke2 Color', type: 'color', primary:true},
+	{name: 'strokeColor3', dispName: 'Stroke3 Color', type: 'color', primary:true},
 	{name: 'barPos', dispName: 'Handle Position', type: 'float', min:0, max:100, defVal:20},
 	{name: 'barHeight', dispName: 'Video Bar Height', type: 'float', min:0, defVal:30} 
 ];
@@ -432,8 +431,8 @@ mxShapeMockupBrowserWindow.prototype.cst = {
 };
 
 mxShapeMockupBrowserWindow.prototype.customProperties = [
-	{name: 'strokeColor2', dispName: 'Stroke2 Color', type: 'color'},
-	{name: 'strokeColor3', dispName: 'Stroke3 Color', type: 'color'}
+	{name: 'strokeColor2', dispName: 'Stroke2 Color', type: 'color', primary:true},
+	{name: 'strokeColor3', dispName: 'Stroke3 Color', type: 'color', primary:true}
 ];
 
 /**
@@ -632,7 +631,7 @@ mxShapeMockupUserMale.prototype.cst = {
 };
 
 mxShapeMockupUserMale.prototype.customProperties = [
-	{name: 'strokeColor2', dispName: 'Stroke2 Color', type: 'color'}
+	{name: 'strokeColor2', dispName: 'Stroke2 Color', type: 'color', primary:true}
 ];
 
 /**
@@ -831,7 +830,7 @@ mxShapeMockupUserFemale.prototype.cst = {
 };
 
 mxShapeMockupUserFemale.prototype.customProperties = [
-	{name: 'strokeColor2', dispName: 'Stroke2 Color', type: 'color'}
+	{name: 'strokeColor2', dispName: 'Stroke2 Color', type: 'color', primary:true}
 ];
 
 /**
@@ -1111,8 +1110,8 @@ mxShapeMockupWindow.prototype.cst = {
 };
 
 mxShapeMockupWindow.prototype.customProperties = [
-	{name: 'strokeColor2', dispName: 'Stroke2 Color', type: 'color'},
-	{name: 'strokeColor3', dispName: 'Stroke3 Color', type: 'color'}
+	{name: 'strokeColor2', dispName: 'Stroke2 Color', type: 'color', primary:true},
+	{name: 'strokeColor3', dispName: 'Stroke3 Color', type: 'color', primary:true}
 ];
 
 /**
