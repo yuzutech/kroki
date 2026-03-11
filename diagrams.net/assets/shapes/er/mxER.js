@@ -1,6 +1,5 @@
 /**
- * $Id: mxER.js,v 1.6 2013/05/17 13:46:41 mate Exp $
- * Copyright (c) 2006-2010, JGraph Ltd
+ * Copyright (c) 2006-2010, JGraph Holdings Ltd
  */
 
 //TODO markers.html probably isn't needed, because it was used for testing during development before the new canvas was introduced

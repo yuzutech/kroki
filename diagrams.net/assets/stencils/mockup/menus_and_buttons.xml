@@ -574,9 +574,8 @@
     </shape>
     <shape name="Font Style Selector 1" h="31" w="136" aspect="1">
         <foreground>
-            <strokecolor color="#000000"/>
-            <strokecolor color="#a4a4a4"/>
-            <fillcolor color="#e3e3e4"/>
+            <strokecolor color="strokeColor2" default="#a4a4a4"/>
+            <fillcolor color="fillColor2" default="#e3e3e4"/>
             <roundrect x="0" y="0" w="97" h="24" arcsize="7.8"/>
             <fillstroke/>
             <path>
@@ -584,13 +583,14 @@
                 <line x="72" y="24"/>
             </path>
             <stroke/>
-            <fillcolor color="#cee3ff"/>
+            <fillcolor color="fillColor3" default="#cee3ff"/>
             <rect x="24" y="0" w="24" h="24"/>
             <fillstroke/>
-            <strokecolor color="#fece7a"/>
-            <fillcolor color="#fcff68"/>
+            <strokecolor color="strokeColor3" default="#fece7a"/>
+            <fillcolor color="fillColor4" default="#fcff68"/>
             <rect x="40" y="18" w="96" h="13"/>
             <fillstroke/>
+            <fontcolor color="fontColor3" default="#000000"/>
             <fontsize size="14"/>
             <fontstyle style="1"/>
             <text str="B" x="12" y="11.5" align="center" valign="middle"/>
@@ -600,21 +600,21 @@
             <text str="U" x="59.5" y="11.5" align="center" valign="middle"/>
             <fontsize size="12"/>
             <text str="abc" x="84.5" y="11.5" align="center" valign="middle"/>
-            <strokecolor color="#000000"/>
+            <strokecolor color="strokeColor4" default="#000000"/>
             <path>
                 <move x="74" y="13"/>
                 <line x="95" y="13"/>
             </path>
             <stroke/>
+            <fontcolor color="fontColor2" default="#000000"/>
             <fontsize size="8"/>
             <text str="Italic Text CTRL + I" x="88" y="24" align="center" valign="middle"/>
         </foreground>
     </shape>
     <shape name="Font Style Selector 2" h="31" w="235" aspect="1">
         <foreground>
-            <strokecolor color="#000000"/>
-            <strokecolor color="#a4a4a4"/>
-            <fillcolor color="#e3e3e4"/>
+            <strokecolor color="strokeColor2" default="#a4a4a4"/>
+            <fillcolor color="fillColor2" default="#e3e3e4"/>
             <roundrect x="0" y="0" w="235" h="24" arcsize="6.9"/>
             <fillstroke/>
             <path>
@@ -622,13 +622,14 @@
                 <line x="171" y="24"/>
             </path>
             <stroke/>
-            <fillcolor color="#cee3ff"/>
+            <fillcolor color="fillColor3" default="#cee3ff"/>
             <rect x="48" y="0" w="48" h="24"/>
             <fillstroke/>
-            <strokecolor color="#fece7a"/>
-            <fillcolor color="#fcff68"/>
+            <strokecolor color="strokeColor3" default="#fece7a"/>
+            <fillcolor color="fillColor4" default="#fcff68"/>
             <rect x="68" y="18" w="97" h="13"/>
             <fillstroke/>
+			<fontcolor color="fontColor2" default="#000000"/>
             <fontsize size="14"/>
             <fontstyle style="1"/>
             <text str="B" x="10" y="11.5" align="center" valign="middle"/>
@@ -644,21 +645,21 @@
             <text str="Italic" x="72" y="13" align="center" valign="middle"/>
             <text str="Underline" x="135" y="13" align="center" valign="middle"/>
             <text str="Striken" x="215" y="13" align="center" valign="middle"/>
-            <strokecolor color="#000000"/>
+            <strokecolor color="strokeColor4" default="#000000"/>
             <path>
                 <move x="174" y="13"/>
                 <line x="196" y="13"/>
             </path>
             <stroke/>
+			<fontcolor color="fontColor3" default="#000000"/>
             <fontsize size="8"/>
             <text str="Italic Text CTRL + I" x="110" y="24" align="center" valign="middle"/>
         </foreground>
     </shape>
     <shape name="Font Style Selector 3" h="38" w="176" aspect="1">
         <foreground>
-            <strokecolor color="#000000"/>
-            <strokecolor color="#a4a4a4"/>
-            <fillcolor color="#e3e3e4"/>
+            <strokecolor color="strokeColor2" default="#a4a4a4"/>
+            <fillcolor color="fillColor2" default="#e3e3e4"/>
             <roundrect x="0" y="0" w="176" h="24" arcsize="7.1"/>
             <fillstroke/>
             <path>
@@ -666,17 +667,18 @@
                 <line x="131" y="24"/>
             </path>
             <stroke/>
+			<fontcolor color="fontColor2" default="#000000"/>
             <fontsize size="10"/>
             <fontstyle style="0"/>
             <text str="Bold" x="22" y="30" align="center" valign="middle"/>
             <text str="Italic" x="65" y="30" align="center" valign="middle"/>
             <text str="Underline" x="108" y="30" align="center" valign="middle"/>
             <text str="Striken" x="153" y="30" align="center" valign="middle"/>
-            <fillcolor color="#cee3ff"/>
+            <fillcolor color="fillColor3" default="#cee3ff"/>
             <rect x="44" y="0" w="43" h="24"/>
             <fillstroke/>
-            <strokecolor color="#fece7a"/>
-            <fillcolor color="#fcff68"/>
+            <strokecolor color="strokeColor3" default="#fece7a"/>
+            <fillcolor color="fillColor4" default="#fcff68"/>
             <rect x="72" y="18" w="97" h="13"/>
             <fillstroke/>
             <fontsize size="14"/>
@@ -688,12 +690,13 @@
             <text str="U" x="108" y="11.5" align="center" valign="middle"/>
             <fontsize size="12"/>
             <text str="abc" x="153" y="12.5" align="center" valign="middle"/>
-            <strokecolor color="#000000"/>
+            <strokecolor color="strokeColor4" default="#000000"/>
             <path>
                 <move x="142" y="13"/>
                 <line x="164" y="13"/>
             </path>
             <stroke/>
+			<fontcolor color="fontColor3" default="#000000"/>
             <fontsize size="8"/>
             <text str="Italic Text CTRL + I" x="110" y="24" align="center" valign="middle"/>
         </foreground>

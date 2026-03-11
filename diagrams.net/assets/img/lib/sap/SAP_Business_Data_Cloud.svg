@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 9 9">
+  <!-- Generator: Adobe Illustrator 29.5.1, SVG Export Plug-In . SVG Version: 2.1.0 Build 141)  -->
+  <defs>
+    <clipPath id="clippath">
+      <rect width="9" height="9" fill="none"/>
+    </clipPath>
+    <linearGradient id="linear-gradient" x1="5.34" y1="9.78" x2="8.07" y2="7.26" gradientTransform="translate(0 11) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0bf"/>
+      <stop offset="1" stop-color="#008bff"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient1" x1="6.8" y1="11.37" x2="9.53" y2="8.85" gradientTransform="translate(0 11) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0bf"/>
+      <stop offset="1" stop-color="#008bff"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient2" x1="1.97" y1="9.64" x2="6.04" y2="3.74" gradientTransform="translate(0 11) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0195ff"/>
+      <stop offset=".99" stop-color="#1147e9"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient3" x1="1.85" y1="5.63" x2="4.97" y2="2.89" gradientTransform="translate(0 11) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1348ff"/>
+      <stop offset="1" stop-color="#06238d"/>
+    </linearGradient>
+  </defs>
+  <g clip-path="url(#clippath)">
+    <g>
+      <path d="M6.94,3.78c.2-.6.47-.86,1.06-1.06.17-.06.17-.31,0-.37-.59-.2-.86-.47-1.06-1.06-.06-.17-.3-.17-.36,0-.2.6-.47.86-1.06,1.06-.17.06-.17.31,0,.37.6.2.86.47,1.06,1.06.06.17.3.17.36,0Z" fill="url(#linear-gradient)"/>
+      <path d="M8.25,1.65c.13-.38.29-.54.67-.67.11-.04.11-.19,0-.23-.38-.13-.54-.29-.67-.67-.04-.11-.19-.11-.23,0-.13.38-.29.54-.67.67-.11.04-.11.19,0,.23.38.13.54.29.67.67.04.11.19.11.23,0Z" fill="url(#linear-gradient1)"/>
+      <path d="M4.44.87c.5,0,.94.13,1.31.37-.05.09-.08.14-.12.18-.05.05-.14.12-.38.2h0c-.86.3-.9,1.55,0,1.86.23.08.32.15.37.19.05.05.12.14.19.37.3.89,1.56.89,1.85,0,.08-.23.15-.32.19-.37.05-.05.14-.12.38-.2h0c.08-.03.14-.06.21-.1.33.39.53.91.53,1.51,0,1.43-1.12,2.29-2.34,2.22h-.6v-1.38c0-.31-.17-.59-.45-.75h0s-1.75-1.02-1.75-1.02h0c-.27-.15-.61-.16-.89,0h0s-.85.49-.85.49h0s-.89.51-.89.51c-.28.16-.44.45-.45.76v1.12c-.51-.3-.77-.85-.77-1.52,0-1.09.8-1.95,2.03-1.74-.1-1.29.94-2.69,2.42-2.69Z" fill="url(#linear-gradient2)"/>
+      <path d="M3.42,6l.68.4v.71l-.68.39-.68-.39v-.71l.68-.4ZM3.42,5.48l.87-.51-.75-.44c-.07-.04-.16-.04-.23,0l-.75.44.87.51h0ZM3.86,5.74l.57.34c.07.04.11.12.11.19v.57l.84-.49v-.62c0-.08-.04-.15-.11-.19l-.55-.32-.87.52h0ZM4.09,7.63l-.56.33h0s-.07.03-.11.03-.07,0-.11-.03h0l-.56-.33v1.01l.56.33s.07.03.11.03.08-.01.11-.03l.56-.33v-1.01h0ZM4.54,7.37v1.01l.73-.42c.07-.04.11-.12.11-.19v-.88l-.84.49ZM2.29,6.85v-.57c0-.08.04-.15.11-.19l.57-.34-.87-.52-.55.32c-.07.04-.11.12-.11.19v.62l.84.49h0ZM2.29,7.37l-.84-.49v.88c0,.08.04.15.11.19l.73.42v-1.01Z" fill="url(#linear-gradient3)"/>
+    </g>
+  </g>
+</svg>

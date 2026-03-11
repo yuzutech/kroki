@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 5.97 6.94">
+  <!-- Generator: Adobe Illustrator 29.5.1, SVG Export Plug-In . SVG Version: 2.1.0 Build 141)  -->
+  <defs>
+    <mask id="mask" x="-7.06" y="-3.46" width="18.57" height="14.18" maskUnits="userSpaceOnUse">
+      <g id="mask0_7100_11378">
+        <path d="M4.22,2.09c1.01.32,1.74,1.26,1.74,2.36,0,1.37-1.12,2.47-2.51,2.47h-.95C1.13,6.93.02,5.82.02,4.45V1.48C.02.66.69,0,1.5,0s1.48.66,1.48,1.48v2.81c0,.19.28.23.32.04l.44-1.91c.06-.26.22-.39.46-.32h.01Z" fill="#fff"/>
+      </g>
+    </mask>
+    <radialGradient id="radial-gradient" cx="-909.26" cy="604.69" fx="-909.26" fy="604.69" r="1" gradientTransform="translate(-5643.21 14921.77) rotate(79.1) scale(14.94 -13.84)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#103cd8"/>
+      <stop offset="1" stop-color="#0f3cd8"/>
+    </radialGradient>
+    <radialGradient id="radial-gradient1" cx="-956.39" cy="578.02" fx="-956.39" fy="578.02" r="1" gradientTransform="translate(-25216.63 6564.87) rotate(119.36) scale(18.92 -32.46)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0874f6"/>
+      <stop offset="1" stop-color="#0776f6"/>
+    </radialGradient>
+  </defs>
+  <g mask="url(#mask)">
+    <g>
+      <path d="M11.22.08c-1.24,1.16-3.08,1.61-3.31,6.88C7.69,12.23,1.34,10.6,0,10.01-2.39,8.95-5.85,1.98-1.86-.21,2.12-2.39,4.57-4.21,6.96-3.16,9.34-2.1,12.47-1.08,11.22.09h0Z" fill="url(#radial-gradient)"/>
+      <path d="M9.79,4.98c-1.48.12-6.05-1.29-8.44,2.03-3.01,3.48-5.72-.51-6.31-1.65C-6.01,3.34-.8-3.31,3.11-2.64,7.02-1.97,7.14.12,8.2,2.14c1.06,2.02,3.08,2.72,1.59,2.84Z" fill="url(#radial-gradient1)"/>
+      <path d="M-6.12,5.63c-1.27-1.3-1.25-3.36.04-4.6C-4.78-.21.17-1.54,1.44-.24,2.5,1.28,2.05,3.88.14,5.16c-1.29,1.24-4.61,2.14-6.26.46Z" fill="#01abff"/>
+    </g>
+  </g>
+</svg>

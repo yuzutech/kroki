@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 10 10">
+  <!-- Generator: Adobe Illustrator 29.5.1, SVG Export Plug-In . SVG Version: 2.1.0 Build 141)  -->
+  <defs>
+    <clipPath id="clippath">
+      <rect width="10" height="10" fill="none"/>
+    </clipPath>
+    <linearGradient id="linear-gradient" x1="2.06" y1="10.27" x2="9.06" y2="3.26" gradientTransform="translate(0 11.2) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0195ff"/>
+      <stop offset=".99" stop-color="#1147e9"/>
+    </linearGradient>
+  </defs>
+  <g clip-path="url(#clippath)">
+    <path d="M2.76,0C2.6,0,2.45.07,2.36.19L.11,2.99c-.15.18-.15.45-.01.64l4.49,6.16c.1.13.25.21.41.21s.32-.08.41-.21l4.49-6.16c.14-.19.13-.45-.01-.64L7.64.19C7.54.07,7.4,0,7.24,0H2.76ZM7.84,3.28c-1.06-.18-1.4-1.02-1.51-1.55-.01-.05-.08-.05-.09,0-.18,1.07-1.01,1.42-1.53,1.53-.05.01-.05.08,0,.09,1.06.18,1.4,1.02,1.51,1.55.01.05.08.05.09,0,.18-1.07,1.01-1.42,1.53-1.53.05-.01.05-.08,0-.09Z" fill="url(#linear-gradient)" fill-rule="evenodd"/>
+  </g>
+</svg>

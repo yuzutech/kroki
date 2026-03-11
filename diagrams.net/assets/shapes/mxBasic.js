@@ -1,6 +1,5 @@
 /**
- * $Id: mxBasic.js,v 1.5 2016/04/1 12:32:06 mate Exp $
- * Copyright (c) 2006-2018, JGraph Ltd
+ * Copyright (c) 2006-2018, JGraph Holdings Ltd
  */
 //**********************************************************************************************************************************************************
 // Cross
@@ -2560,7 +2559,23 @@ mxUtils.extend(mxShapeBasicArc, mxActor);
 
 mxShapeBasicArc.prototype.customProperties = [
 	{name: 'startAngle', dispName: 'Start Angle', type: 'float', min:0, max:1, defVal: 0.3},
-	{name: 'endAngle', dispName: 'End Angle', type: 'float', min:0, max:1, defVal:0.1}
+	{name: 'endAngle', dispName: 'End Angle', type: 'float', min:0, max:1, defVal:0.1},
+	{name: 'startArrow', dispName: 'Start Arrow', type: 'enum', defVal: 'none',
+		enumList: [{val: 'none', dispName: 'None'}, {val: 'classic', dispName: 'Classic'},
+			{val: 'classicThin', dispName: 'Classic Thin'}, {val: 'open', dispName: 'Open'},
+			{val: 'openThin', dispName: 'Open Thin'}, {val: 'block', dispName: 'Block'},
+			{val: 'blockThin', dispName: 'Block Thin'}, {val: 'oval', dispName: 'Oval'},
+			{val: 'diamond', dispName: 'Diamond'}, {val: 'diamondThin', dispName: 'Diamond Thin'}]},
+	{name: 'endArrow', dispName: 'End Arrow', type: 'enum', defVal: 'none',
+		enumList: [{val: 'none', dispName: 'None'}, {val: 'classic', dispName: 'Classic'},
+			{val: 'classicThin', dispName: 'Classic Thin'}, {val: 'open', dispName: 'Open'},
+			{val: 'openThin', dispName: 'Open Thin'}, {val: 'block', dispName: 'Block'},
+			{val: 'blockThin', dispName: 'Block Thin'}, {val: 'oval', dispName: 'Oval'},
+			{val: 'diamond', dispName: 'Diamond'}, {val: 'diamondThin', dispName: 'Diamond Thin'}]},
+	{name: 'startFill', dispName: 'Start Fill', type: 'bool', defVal: true},
+	{name: 'endFill', dispName: 'End Fill', type: 'bool', defVal: true},
+	{name: 'startSize', dispName: 'Start Size', type: 'float', min: 1, defVal: 6},
+	{name: 'endSize', dispName: 'End Size', type: 'float', min: 1, defVal: 6}
 ];
 
 mxShapeBasicArc.prototype.cst = {ARC : 'mxgraph.basic.arc'};
@@ -2578,44 +2593,115 @@ mxShapeBasicArc.prototype.paintVertexShape = function(c, x, y, w, h)
 	var endAngleSource = Math.max(0, Math.min(1, parseFloat(mxUtils.getValue(this.style, 'endAngle', this.endAngle))));
 	var startAngle = 2 * Math.PI * startAngleSource;
 	var endAngle = 2 * Math.PI * endAngleSource;
-	var rx = w * 0.5;
-	var ry = h * 0.5;
-	
-	var startX = rx + Math.sin(startAngle) * rx;
-	var startY = ry - Math.cos(startAngle) * ry;
-	var endX = rx + Math.sin(endAngle) * rx;
-	var endY = ry - Math.cos(endAngle) * ry;
-	
+
+	// Arrow markers
+	var startArrow = mxUtils.getValue(this.style, mxConstants.STYLE_STARTARROW, mxConstants.NONE);
+	var endArrow = mxUtils.getValue(this.style, mxConstants.STYLE_ENDARROW, mxConstants.NONE);
+	var startSize = mxUtils.getNumber(this.style, mxConstants.STYLE_STARTSIZE, mxConstants.DEFAULT_MARKERSIZE);
+	var endSize = mxUtils.getNumber(this.style, mxConstants.STYLE_ENDSIZE, mxConstants.DEFAULT_MARKERSIZE);
+
+	// Inset ellipse to keep markers within shape bounds
+	var markerPadding = 0;
+
+	if (startArrow != null && startArrow != mxConstants.NONE)
+	{
+		markerPadding = Math.max(markerPadding, startSize);
+	}
+
+	if (endArrow != null && endArrow != mxConstants.NONE)
+	{
+		markerPadding = Math.max(markerPadding, endSize);
+	}
+
+	if (markerPadding > 0)
+	{
+		markerPadding = (markerPadding + this.strokewidth) / 2;
+	}
+
+	var cx = w * 0.5;
+	var cy = h * 0.5;
+	var rx = Math.max(0, w * 0.5 - markerPadding);
+	var ry = Math.max(0, h * 0.5 - markerPadding);
+
+	var startX = cx + Math.sin(startAngle) * rx;
+	var startY = cy - Math.cos(startAngle) * ry;
+	var endX = cx + Math.sin(endAngle) * rx;
+	var endY = cy - Math.cos(endAngle) * ry;
+
+	var startMarker = null;
+	var endMarker = null;
+
+	if (startArrow != null && startArrow != mxConstants.NONE)
+	{
+		var startFilled = this.style[mxConstants.STYLE_STARTFILL] != 0;
+
+		// Direction pointing into the start (opposite of clockwise tangent)
+		var dx = -rx * Math.cos(startAngle);
+		var dy = -ry * Math.sin(startAngle);
+		var dist = Math.sqrt(dx * dx + dy * dy);
+
+		if (dist > 0)
+		{
+			var pe = new mxPoint(startX, startY);
+			startMarker = mxMarker.createMarker(c, this, startArrow, pe,
+				dx / dist, dy / dist, startSize, true, this.strokewidth, startFilled);
+			startX = pe.x;
+			startY = pe.y;
+		}
+	}
+
+	if (endArrow != null && endArrow != mxConstants.NONE)
+	{
+		var endFilled = this.style[mxConstants.STYLE_ENDFILL] != 0;
+
+		// Direction along the clockwise tangent at end
+		var dx = rx * Math.cos(endAngle);
+		var dy = ry * Math.sin(endAngle);
+		var dist = Math.sqrt(dx * dx + dy * dy);
+
+		if (dist > 0)
+		{
+			var pe = new mxPoint(endX, endY);
+			endMarker = mxMarker.createMarker(c, this, endArrow, pe,
+				dx / dist, dy / dist, endSize, false, this.strokewidth, endFilled);
+			endX = pe.x;
+			endY = pe.y;
+		}
+	}
+
+	// Draw arc
 	var angDiff = endAngle - startAngle;
-	
+
 	if (angDiff < 0)
 	{
 		angDiff = angDiff + Math.PI * 2;
 	}
-		
+
 	var bigArc = 0;
-	
+
 	if (angDiff > Math.PI)
 	{
 		bigArc = 1;
 	}
-		
+
 	c.begin();
-	
+
 	var startAngleDiff = startAngleSource % 1;
 	var endAngleDiff = endAngleSource % 1;
-	
-	if (startAngleDiff == 0 && endAngleDiff == 0.5)
+
+	if (startMarker == null && endMarker == null &&
+		startAngleDiff == 0 && endAngleDiff == 0.5)
 	{
 		c.moveTo(startX, startY);
-		c.arcTo(rx, ry, 0, 0, 1, w, h * 0.5);
-		c.arcTo(rx, ry, 0, 0, 1, w * 0.5, h);
+		c.arcTo(rx, ry, 0, 0, 1, cx + rx, cy);
+		c.arcTo(rx, ry, 0, 0, 1, cx, cy + ry);
 	}
-	else if (startAngleDiff == 0.5 && endAngleDiff == 0)
+	else if (startMarker == null && endMarker == null &&
+		startAngleDiff == 0.5 && endAngleDiff == 0)
 	{
 		c.moveTo(startX, startY);
-		c.arcTo(rx, ry, 0, 0, 1, 0, h * 0.5);
-		c.arcTo(rx, ry, 0, 0, 1, w * 0.5, 0);
+		c.arcTo(rx, ry, 0, 0, 1, cx - rx, cy);
+		c.arcTo(rx, ry, 0, 0, 1, cx, cy - ry);
 	}
 	else
 	{
@@ -2624,6 +2710,24 @@ mxShapeBasicArc.prototype.paintVertexShape = function(c, x, y, w, h)
 	}
 
 	c.stroke();
+
+	// Paint markers
+	c.setShadow(false);
+	c.setDashed(false);
+
+	if (startMarker != null)
+	{
+		c.setFillColor(mxUtils.getValue(this.style,
+			mxConstants.STYLE_STARTFILLCOLOR, this.stroke));
+		startMarker();
+	}
+
+	if (endMarker != null)
+	{
+		c.setFillColor(mxUtils.getValue(this.style,
+			mxConstants.STYLE_ENDFILLCOLOR, this.stroke));
+		endMarker();
+	}
 };
 
 mxCellRenderer.registerShape(mxShapeBasicArc.prototype.cst.ARC, mxShapeBasicArc);
@@ -3151,6 +3255,7 @@ mxUtils.extend(mxShapeBasicPolygon, mxActor);
 
 mxShapeBasicPolygon.prototype.customProperties = [
 	{name: 'polyline', dispName: 'Polyline', type: 'bool', defVal:false},
+	{name: 'polyCurves', dispName: 'Curves', type: 'string', defVal: '[]'}
 ];
 
 mxShapeBasicPolygon.prototype.cst = {POLYGON : 'mxgraph.basic.polygon'};
@@ -3166,23 +3271,40 @@ mxShapeBasicPolygon.prototype.paintVertexShape = function(c, x, y, w, h)
     {
         c.translate(x, y);
         var coords = JSON.parse(mxUtils.getValue(this.state.style, 'polyCoords', '[]'));
-    	var polyline = mxUtils.getValue(this.style, 'polyline', false);
-     
+        var curves = JSON.parse(mxUtils.getValue(this.state.style, 'polyCurves', '[]'));
+        var polyline = mxUtils.getValue(this.style, 'polyline', false);
+
         if (coords.length > 0)
         {
             c.begin();
             c.moveTo(coords[0][0] * w, coords[0][1] * h);
-           
+
             for (var i = 1; i < coords.length; i++)
             {
-                c.lineTo(coords[i][0] * w, coords[i][1] * h);
+                var ci = (curves.length > i - 1) ? curves[i - 1] : null;
+
+                if (ci != null && ci.length >= 3 && ci[0] === 'Q')
+                {
+                    c.quadTo(ci[1] * w, ci[2] * h, coords[i][0] * w, coords[i][1] * h);
+                }
+                else
+                {
+                    c.lineTo(coords[i][0] * w, coords[i][1] * h);
+                }
             }
-       
+
             if (polyline == false)
             {
+                var closeCurve = (curves.length >= coords.length) ? curves[coords.length - 1] : null;
+
+                if (closeCurve != null && closeCurve.length >= 3 && closeCurve[0] === 'Q')
+                {
+                    c.quadTo(closeCurve[1] * w, closeCurve[2] * h, coords[0][0] * w, coords[0][1] * h);
+                }
+
                 c.close();
             }
-            
+
             c.end();
             c.fillAndStroke();
         }
@@ -3196,41 +3318,154 @@ mxShapeBasicPolygon.prototype.paintVertexShape = function(c, x, y, w, h)
 mxCellRenderer.registerShape(mxShapeBasicPolygon.prototype.cst.POLYGON, mxShapeBasicPolygon);
 
 mxShapeBasicPolygon.prototype.constraints = null;
- 
-Graph.handleFactory[mxShapeBasicPolygon.prototype.cst.POLYGON] = function(state)
+
+(function()
 {
-    var handles = [];
- 
-    try
+    function createPolygonHandles(state)
     {
-        var c = JSON.parse(mxUtils.getValue(state.style, 'polyCoords', '[]'));
-               
-        for (var i = 0; i < c.length; i++)
+        var handles = [];
+
+        try
         {
-            (function(index)
+            var coords = JSON.parse(mxUtils.getValue(state.style, 'polyCoords', '[]'));
+            var curves = JSON.parse(mxUtils.getValue(state.style, 'polyCurves', '[]'));
+            var polyline = mxUtils.getValue(state.style, 'polyline', 0);
+            var isPolyline = polyline == 1 || polyline === true || polyline === 'true' || polyline === '1';
+            var minPoints = isPolyline ? 2 : 3;
+
+            // Ensure curves array matches coords length
+            while (curves.length < coords.length)
             {
-                handles.push(Graph.createHandle(state, ['polyCoords'], function(bounds)
+                curves.push([]);
+            }
+
+            // Helper to refresh handler after structural changes
+            function refreshHandler()
+            {
+                var handler = state.view.graph.selectionCellsHandler.getHandler(state.cell);
+
+                if (handler != null)
                 {
-                    return new mxPoint(bounds.x + c[index][0] * bounds.width, bounds.y + c[index][1] * bounds.height);
-                }, function(bounds, pt)
+                    handler.refresh(state);
+                }
+            }
+
+            // Vertex handles (move existing points)
+            for (var i = 0; i < coords.length; i++)
+            {
+                (function(index)
                 {
-                    var x = Math.round(100 * Math.max(0, Math.min(1, (pt.x - bounds.x) / bounds.width))) / 100;
-                    var y = Math.round(100 * Math.max(0, Math.min(1, (pt.y - bounds.y) / bounds.height))) / 100;
-                   
-                    c[index] = [x, y];
-                    state.style['polyCoords'] = JSON.stringify(c);
-                   
-                }, false));
-            })(i);
+                    var handle = Graph.createHandle(state, ['polyCoords', 'polyCurves'], function(bounds)
+                    {
+                        return new mxPoint(bounds.x + coords[index][0] * bounds.width,
+                            bounds.y + coords[index][1] * bounds.height);
+                    }, function(bounds, pt)
+                    {
+                        var x = Math.round(100 * Math.max(0, Math.min(1, (pt.x - bounds.x) / bounds.width))) / 100;
+                        var y = Math.round(100 * Math.max(0, Math.min(1, (pt.y - bounds.y) / bounds.height))) / 100;
+
+                        coords[index] = [x, y];
+                        state.style['polyCoords'] = JSON.stringify(coords);
+                        state.style['polyCurves'] = JSON.stringify(curves);
+                    }, false);
+
+                    // Collinear removal on mouse up only (not during drag)
+                    var vertexOrigExecute = handle.execute;
+
+                    handle.execute = function(me)
+                    {
+                        if (coords.length > minPoints)
+                        {
+                            var n = coords.length;
+                            var prevIdx = (index - 1 + n) % n;
+                            var nextIdx = (index + 1) % n;
+                            var canRemove = !isPolyline || (index > 0 && index < n - 1);
+
+                            if (canRemove)
+                            {
+                                var bounds = this.state.getPaintBounds();
+                                var px = coords[prevIdx][0] * bounds.width;
+                                var py = coords[prevIdx][1] * bounds.height;
+                                var nx = coords[nextIdx][0] * bounds.width;
+                                var ny = coords[nextIdx][1] * bounds.height;
+                                var cx = coords[index][0] * bounds.width;
+                                var cy = coords[index][1] * bounds.height;
+
+                                if (mxUtils.ptSegDistSq(px, py, nx, ny, cx, cy) < 4)
+                                {
+                                    coords.splice(index, 1);
+                                    curves.splice(index, 1);
+                                    state.style['polyCoords'] = JSON.stringify(coords);
+                                    state.style['polyCurves'] = JSON.stringify(curves);
+                                    vertexOrigExecute.apply(this, arguments);
+                                    refreshHandler();
+
+                                    return;
+                                }
+                            }
+                        }
+
+                        vertexOrigExecute.apply(this, arguments);
+                    };
+
+                    handles.push(handle);
+                })(i);
+            }
+
+            // Control point handles (adjust bezier control points)
+            for (var i = 0; i < curves.length && i < coords.length; i++)
+            {
+                (function(segIndex)
+                {
+                    if (curves[segIndex] != null && curves[segIndex].length >= 3 && curves[segIndex][0] === 'Q')
+                    {
+                        var cpHandle = Graph.createHandle(state, ['polyCurves'], function(bounds)
+                        {
+                            return new mxPoint(bounds.x + curves[segIndex][1] * bounds.width,
+                                bounds.y + curves[segIndex][2] * bounds.height);
+                        }, function(bounds, pt)
+                        {
+                            var x = Math.round(100 * Math.max(0, Math.min(1, (pt.x - bounds.x) / bounds.width))) / 100;
+                            var y = Math.round(100 * Math.max(0, Math.min(1, (pt.y - bounds.y) / bounds.height))) / 100;
+
+                            curves[segIndex] = ['Q', x, y];
+                            state.style['polyCurves'] = JSON.stringify(curves);
+                        }, false);
+
+                        // Visually distinct: override shape color
+                        var cpOrigRedraw = cpHandle.redraw;
+
+                        cpHandle.redraw = function()
+                        {
+                            cpOrigRedraw.apply(this, arguments);
+
+                            if (this.shape != null && this.shape.node != null)
+                            {
+                                this.shape.node.setAttribute('fill', '#fca000');
+
+                                if (this.shape.node.firstChild != null)
+                                {
+                                    this.shape.node.firstChild.setAttribute('fill', '#fca000');
+                                }
+                            }
+                        };
+
+                        handles.push(cpHandle);
+                    }
+                })(i);
+            }
+
         }
+        catch (e)
+        {
+            // ignore
+        }
+
+        return handles;
     }
-    catch (e)
-    {
-        // ignore
-    }
-   
-    return handles;
-};
+
+    Graph.handleFactory[mxShapeBasicPolygon.prototype.cst.POLYGON] = createPolygonHandles;
+})();
 
 //**********************************************************************************************************************************************************
 //Rectangle with pattern fill

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 10 10">
+  <!-- Generator: Adobe Illustrator 29.5.1, SVG Export Plug-In . SVG Version: 2.1.0 Build 141)  -->
+  <defs>
+    <clipPath id="clippath">
+      <rect width="10" height="10" fill="none"/>
+    </clipPath>
+    <linearGradient id="linear-gradient" x1="7.34" y1="4.34" x2="9.33" y2="1.77" gradientTransform="translate(0 11.4) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1348ff"/>
+      <stop offset="1" stop-color="#06238d"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient1" x1="1.36" y1="10.01" x2="7.8" y2="3.59" gradientTransform="translate(0 11.4) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0195ff"/>
+      <stop offset=".99" stop-color="#1147e9"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient2" x1="4.12" y1="9.77" x2="5.02" y2="7.39" gradientTransform="translate(0 11.4) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0bf"/>
+      <stop offset="1" stop-color="#008bff"/>
+    </linearGradient>
+  </defs>
+  <g clip-path="url(#clippath)">
+    <g>
+      <path d="M9.19,7.22c.1-.1.21-.16.34-.16s.24.05.34.16c.09.09.13.2.13.33s-.04.25-.13.35l-1.89,1.96c-.09.09-.2.14-.34.14s-.25-.05-.34-.14l-.94-.97c-.1-.1-.15-.22-.15-.35s.05-.25.15-.35c.1-.1.21-.16.34-.16s.23.05.32.16l.62.64,1.56-1.61Z" fill="url(#linear-gradient)"/>
+      <path d="M7.82,0c.79,0,1.35.82,1.35,1.55v4.18c0,1.39-1.33,1.72-2.4,1.72-.31,0-.57.14-.76.34-.44.45-1,1.41-1.63,1.41H1.52c-.43,0-.79-.15-1.08-.44-.29-.29-.44-.65-.44-1.08V1.56C0,.79.58.02,1.4.02h6.42ZM7.82,1.04c.35,0,.35.37.35.52v3.05h-2.07c-.15,0-.28.05-.38.15-.09.09-.13.22-.13.4,0,.27-.1.5-.3.7-.19.19-.42.28-.7.28s-.54-.09-.74-.28c-.19-.2-.28-.44-.28-.7,0-.18-.05-.31-.15-.4-.09-.1-.21-.15-.36-.15H1V1.56c0-.15,0-.52.4-.52h6.42Z" fill="url(#linear-gradient1)" fill-rule="evenodd"/>
+      <path d="M6.84,2.48H2.3c-.17,0-.31-.14-.31-.31s.14-.31.31-.31h4.54c.17,0,.31.14.31.31s-.14.31-.31.31ZM6.84,3.79H2.3c-.17,0-.31-.14-.31-.31s.14-.31.31-.31h4.54c.17,0,.31.14.31.31s-.14.31-.31.31Z" fill="url(#linear-gradient2)" fill-rule="evenodd"/>
+    </g>
+  </g>
+</svg>

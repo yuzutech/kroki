@@ -1,6 +1,5 @@
 /**
- * $Id: mxBpmnShape2.js,v 1.6 2013/12/20 09:54:28 mate Exp $
- * Copyright (c) 2006-2010, JGraph Ltd
+ * Copyright (c) 2006-2010, JGraph Holdings Ltd
  */
 /**
  * Class: mxBpmnShape (DEPRECATED)
@@ -1512,7 +1511,7 @@ mxShapeBpmnGateway.prototype.paintVertexShape = function(c, x, y, w, h)
 mxCellRenderer.registerShape('mxgraph.bpmn.gateway2', mxShapeBpmnGateway);
 
 //**********************************************************************************************************************************************************
-//Task
+//Task (LEGACY)
 //**********************************************************************************************************************************************************
 /**
 * Extends mxShape.
@@ -1737,6 +1736,9 @@ mxShapeBpmn2Task.prototype.paintVertexShape = function(c, x, y, w, h)
 		case 'abstract':
 			break;
 		case 'service':
+		
+			c.setFillColor(mxUtils.getValue(this.style, 'fillColor', '#ffffff'));
+			
 			var stencil = mxStencilRegistry.getStencil('mxgraph.bpmn.service_task');
 			
 			if (stencil != null)
@@ -1811,7 +1813,349 @@ mxShapeBpmn2Task.prototype.paintVertexShape = function(c, x, y, w, h)
 mxCellRenderer.registerShape(mxShapeBpmn2Task.prototype.cst.TASK, mxShapeBpmn2Task);
 
 //**********************************************************************************************************************************************************
-//Data
+//Task v2
+//**********************************************************************************************************************************************************
+/**
+* Extends mxShape.
+*/
+function mxShapeBpmn2Task2(bounds, fill, stroke, strokewidth)
+{
+	mxCellRenderer.prototype.getShape('mxgraph.basic.rect').call(this);
+	this.bounds = bounds;
+	this.fill = fill;
+	this.stroke = stroke;
+	this.strokewidth = (strokewidth != null) ? strokewidth : 1;
+	this.dy = 0.5;
+	this.dx = 0.5;
+	this.notch = 0;
+};
+
+/**
+* Extends mxShape.
+*/
+mxUtils.extend(mxShapeBpmn2Task2, mxCellRenderer.prototype.getShape('mxgraph.basic.rect'));
+
+mxShapeBpmn2Task2.prototype.customProperties = [
+	{name: 'bpmnShapeType', dispName: 'Type', defVal: 'task', type: 'enum', 
+		enumList: [{val: 'task', dispName: 'Task'}, 
+				   {val: 'transaction', dispName: 'Transaction'}, 
+				   {val: 'call', dispName: 'Call'}, 
+				   {val: 'subprocess', dispName: 'Sub-Process'}]}, 
+	{name: 'taskMarker', dispName: 'Task Marker', defVal: 'abstract', type: 'enum', 
+		enumList: [{val: 'abstract', dispName: 'Abstract'}, 
+				   {val: 'service', dispName: 'Service'}, 
+				   {val: 'send', dispName: 'Send'}, 
+				   {val: 'receive', dispName: 'Receive'}, 
+				   {val: 'user', dispName: 'User'},
+				   
+				   {val: 'nime', dispName: 'Non-Interrupting Message Event'}, 
+				   
+				   {val: 'manual', dispName: 'Manual'}, 
+				   {val: 'businessRule', dispName: 'Business Rule'}, 
+				   {val: 'script', dispName: 'Script'}]}, 
+	{name: 'isLoopSub', dispName: 'Subprocess', type: 'bool'}, 
+	{name: 'isLoopStandard', dispName: 'Standard Loop', type: 'bool'}, 
+	{name: 'isLoopMultiParallel', dispName: 'Multi-Instance Parallel Loop', type: 'bool'}, 
+	{name: 'isLoopMultiSeq', dispName: 'Multi-Instance Sequential Loop', type: 'bool'}, 
+	{name: 'isLoopComp', dispName: 'Compensation Loop', type: 'bool'},
+	{name: 'isAdHoc', dispName: 'Ad Hoc', type: 'bool'}
+];
+
+mxShapeBpmn2Task2.prototype.customProperties = mxShapeBpmn2Task2.prototype.customProperties.concat(mxShapeBpmnEvent.prototype.customProperties);
+mxShapeBpmn2Task2.prototype.customProperties = mxShapeBpmn2Task2.prototype.customProperties.concat(mxCellRenderer.prototype.getShape('mxgraph.basic.rect').prototype.customProperties);
+
+mxShapeBpmn2Task2.prototype.eventTypeEnum = mxShapeBpmnEvent.prototype.eventTypeEnum; 
+mxShapeBpmn2Task2.prototype.eventEnum = mxShapeBpmnEvent.prototype.eventEnum; 
+mxShapeBpmn2Task2.prototype.miscEnum = mxShapeBpmnEvent.prototype.miscEnum;
+
+mxShapeBpmn2Task2.prototype.cst = {
+		TASK : 'mxgraph.bpmn.task2'
+};
+
+/**
+* Function: paintVertexShape
+* 
+* Paints the vertex shape.
+*/
+mxShapeBpmn2Task2.prototype.paintVertexShape = function(c, x, y, w, h)
+{
+	var bpmnShapeType = mxUtils.getValue(this.style, 'bpmnShapeType', 'task');
+	var taskMarker = mxUtils.getValue(this.style, 'taskMarker', 'abstract');
+	var strokeWidth = mxUtils.getValue(this.style, 'strokeWidth', 1);
+	var dashed = mxUtils.getValue(this.style, 'dashed', false);
+	var inset = mxUtils.getValue(this.style, 'indent', 3);
+	var offsetY = 14 + strokeWidth * 0.5;
+
+	if (bpmnShapeType == 'call')
+	{
+		offsetY = 14 + strokeWidth * 2;
+	}
+
+	var rectOutline = mxUtils.getValue(this.style, 'rectOutline', 'single');
+	
+	c.translate(x, y);
+
+	var superShape = mxCellRenderer.prototype.getShape('mxgraph.basic.rect');
+	
+	var overrideStyles = {};
+	
+	if (bpmnShapeType == 'transaction')
+	{
+		offsetY += inset;
+		overrideStyles.rectOutline = 'double';
+		overrideStyles.indent = 3;
+	}
+	else if (bpmnShapeType == 'subprocess')
+	{
+		overrideStyles.dashed = true;
+	}
+	else if (bpmnShapeType == 'call')
+	{
+		overrideStyles.strokeWidth = strokeWidth * 4;
+	}
+	
+	superShape.prototype.strictDrawShape.call(this, c, 0, 0, w, h, overrideStyles);
+
+	c.setStrokeWidth(strokeWidth);
+	c.setDashed(dashed);
+	
+	if (bpmnShapeType == 'call')
+	{
+		c.setStrokeWidth(strokeWidth);
+	}
+
+	c.setDashed(false);
+	c.setShadow(false);
+
+	var isLoopSub = mxUtils.getValue(this.style, 'isLoopSub', false);
+	var isLoopStandard = mxUtils.getValue(this.style, 'isLoopStandard', false);
+	var isLoopMultiParallel = mxUtils.getValue(this.style, 'isLoopMultiParallel', false);
+	var isLoopMultiSeq = mxUtils.getValue(this.style, 'isLoopMultiSeq', false);
+	var isLoopComp = mxUtils.getValue(this.style, 'isLoopComp', false);
+	var isAdHoc = mxUtils.getValue(this.style, 'isAdHoc', false);
+
+	var loopnum = 0;
+
+	if (isLoopStandard) loopnum++;
+	if (isLoopMultiParallel) loopnum++;
+	if (isLoopMultiSeq) loopnum++;
+	if (isLoopComp) loopnum++;
+	if (isLoopSub) loopnum++;
+	if (isAdHoc) loopnum++;
+	
+	var iconSpaceX = 14;
+	var currXOffset = - iconSpaceX * loopnum * 0.5;
+	
+	c.setStrokeWidth(1);
+
+	if (isLoopStandard)
+	{
+		var stencil = mxStencilRegistry.getStencil('mxgraph.bpmn.loop');
+		
+		if (stencil != null)
+		{
+			var previousSetStrokeWidth = c.setStrokeWidth;
+			c.setStrokeWidth = function() { };
+			stencil.drawShape(c, this, w * 0.5 + currXOffset + 1, h - offsetY + 1, 12, 12);
+			c.setStrokeWidth = previousSetStrokeWidth;
+			currXOffset += iconSpaceX;
+		}
+	}
+	
+	if (isLoopMultiParallel)
+	{
+		c.translate(w * 0.5 + currXOffset + 1, h - offsetY + 1);
+		
+		c.begin();
+		c.moveTo(2.4, 0);
+		c.lineTo(2.4, 12);
+		c.moveTo(6, 0);
+		c.lineTo(6, 12);
+		c.moveTo(9.6, 0);
+		c.lineTo(9.6, 12);
+		c.stroke();
+		
+		c.translate(- w * 0.5 - currXOffset - 1, offsetY - 1 - h);
+		currXOffset += iconSpaceX;
+	}
+	
+	if (isLoopMultiSeq)
+	{
+		c.translate(w * 0.5 + currXOffset + 1, h - offsetY + 1);
+		
+		c.begin();
+		c.moveTo(0, 2.4);
+		c.lineTo(12, 2.4);
+		c.moveTo(0, 6);
+		c.lineTo(12, 6);
+		c.moveTo(0, 9.6);
+		c.lineTo(12, 9.6);
+		c.stroke();
+		
+		c.translate(- w * 0.5 - currXOffset - 1, offsetY - 1 - h);
+		currXOffset += iconSpaceX;
+	}
+	
+	if (isLoopComp)
+	{
+		var stencil = mxStencilRegistry.getStencil('mxgraph.bpmn.compensation');
+		
+		if (stencil != null)
+		{
+			var previousSetStrokeWidth = c.setStrokeWidth;
+			c.setStrokeWidth = function() { };
+			stencil.drawShape(c, this, w * 0.5 + currXOffset, h - offsetY + 1, 14, 12);
+			c.setStrokeWidth = previousSetStrokeWidth;
+			currXOffset += iconSpaceX;
+		}
+	}
+	
+	if (isLoopSub)
+	{
+		c.translate(w * 0.5 + currXOffset, h - offsetY);
+		
+		c.rect(0, 0, 14, 14);
+		c.stroke();
+		
+		c.begin();
+		c.moveTo(4, 7);
+		c.lineTo(10, 7);
+		c.moveTo(7, 4);
+		c.lineTo(7, 10);
+		c.stroke();
+		
+		c.translate(- w * 0.5 - currXOffset, offsetY - h);
+		currXOffset += iconSpaceX;
+	}
+	
+	if (isAdHoc)
+	{
+		var stencil = mxStencilRegistry.getStencil('mxgraph.bpmn.ad_hoc');
+		
+		if (stencil != null)
+		{
+			var strokeColor = mxUtils.getValue(this.style, 'strokeColor', '#000000');
+			var fillColor = mxUtils.getValue(this.style, 'fillColor', '#ffffff');
+			
+			c.setStrokeColor('none');
+			c.setFillColor(strokeColor);
+			
+			stencil.drawShape(c, this, w * 0.5 + currXOffset + 1, h - offsetY + 4, 12, 6);
+			currXOffset += iconSpaceX;
+			
+			c.setStrokeColor(strokeColor);
+			c.setFillColor(fillColor);
+			c.setStrokeWidth(1);
+		}
+	}
+	
+	var inlet = strokeWidth * 0.5;
+	if (bpmnShapeType == 'call')
+	{
+		inlet = strokeWidth * 2;
+	}
+	
+	
+	switch (taskMarker) {
+		case 'abstract':
+			break;
+		case 'service':
+		
+			c.setFillColor(mxUtils.getValue(this.style, 'fillColor', '#ffffff'));
+			
+			var stencil = mxStencilRegistry.getStencil('mxgraph.bpmn.service_task');
+			
+			if (stencil != null)
+			{
+				var previousSetStrokeWidth = c.setStrokeWidth;
+				c.setStrokeWidth = function() { };
+				stencil.drawShape(c, this, inlet + 2, inlet + 2, 16, 16);
+				c.setStrokeWidth = previousSetStrokeWidth;
+			}
+			
+			break;
+		case 'send':
+			var strokeColor = mxUtils.getValue(this.style, 'strokeColor', '#000000');
+			var fillColor = mxUtils.getValue(this.style, 'fillColor', '#ffffff');
+			
+			c.setStrokeColor(fillColor);
+			c.setFillColor(strokeColor);
+			
+			mxShapeBpmn2SendMarker.prototype.paintVertexShape(c, inlet + 4, inlet + 4, 18, 13);
+			
+			break;
+		case 'receive':
+			
+			mxShapeBpmn2SendMarker.prototype.paintVertexShape(c, inlet + 4, inlet + 4, 18, 13);
+			
+			break;
+		case 'user':
+			var stencil = mxStencilRegistry.getStencil('mxgraph.bpmn.user_task');
+			
+			if (stencil != null)
+			{
+				var previousSetStrokeWidth = c.setStrokeWidth;
+				c.setStrokeWidth = function() { };
+				stencil.drawShape(c, this, inlet + 2, inlet + 2, 16, 16);
+				c.setStrokeWidth = previousSetStrokeWidth;
+			}
+			
+			break;
+		case 'manual':
+			var stencil = mxStencilRegistry.getStencil('mxgraph.bpmn.manual_task');
+			
+			if (stencil != null)
+			{
+				var previousSetStrokeWidth = c.setStrokeWidth;
+				c.setStrokeWidth = function() { };
+				stencil.drawShape(c, this, inlet + 3, inlet + 3, 18, 14);
+				c.setStrokeWidth = previousSetStrokeWidth;
+			}
+			
+			break;
+		case 'businessRule':
+			var stencil = mxStencilRegistry.getStencil('mxgraph.bpmn.business_rule_task');
+			
+			if (stencil != null)
+			{
+				var previousSetStrokeWidth = c.setStrokeWidth;
+				c.setStrokeWidth = function() { };
+				stencil.drawShape(c, this, inlet + 4, inlet + 4, 18, 14);
+				c.setStrokeWidth = previousSetStrokeWidth;
+			}
+			
+			break;
+		case 'script':
+			var stencil = mxStencilRegistry.getStencil('mxgraph.bpmn.script_task');
+			
+			if (stencil != null)
+			{
+				var previousSetStrokeWidth = c.setStrokeWidth;
+				c.setStrokeWidth = function() { };
+				stencil.drawShape(c, this, inlet + 3, inlet + 3, 19, 18);
+				c.setStrokeWidth = previousSetStrokeWidth;
+			}
+			
+			break;
+	}
+
+	var symbolW = 20;
+	var symbolH = 20;
+	
+	var outline = mxUtils.getValue(this.style, 'outline', 'none');
+	var symbol = mxUtils.getValue(this.style, 'symbol', 'standard');
+	
+	var previousSetStrokeWidth = c.setStrokeWidth;
+	c.setStrokeWidth = function() { };
+	mxShapeBpmnEvent.prototype.strictDrawShape.call(this, c, inlet, inlet, symbolW, symbolH, outline, symbol);
+	c.setStrokeWidth = previousSetStrokeWidth;
+
+};
+
+mxCellRenderer.registerShape(mxShapeBpmn2Task2.prototype.cst.TASK, mxShapeBpmn2Task2);
+
+//**********************************************************************************************************************************************************
+//Data (LEGACY)
 //**********************************************************************************************************************************************************
 /**
 * Extends mxShape.
@@ -1915,6 +2259,114 @@ mxCellRenderer.registerShape(mxShapeBpmn2Data.prototype.cst.DATA, mxShapeBpmn2Da
 Graph.handleFactory[mxShapeBpmn2Data.prototype.cst.DATA] = Graph.handleFactory['note'];
 
 //**********************************************************************************************************************************************************
+//Data v2
+//**********************************************************************************************************************************************************
+/**
+* Extends mxShape.
+*/
+function mxShapeBpmn2Data2(bounds, fill, stroke, strokewidth)
+{
+	mxCellRenderer.prototype.getShape('note').call(this);
+	this.bounds = bounds;
+	this.fill = fill;
+	this.stroke = stroke;
+	this.strokewidth = (strokewidth != null) ? strokewidth : 1;
+	this.dy = 0.5;
+	this.dx = 0.5;
+	this.notch = 0;
+};
+
+/**
+* Extends mxShape.
+*/
+mxUtils.extend(mxShapeBpmn2Data2, mxCellRenderer.prototype.getShape('note'));
+
+mxShapeBpmn2Data2.prototype.cst = {
+		DATA : 'mxgraph.bpmn.data2'
+};
+
+mxShapeBpmn2Data2.prototype.customProperties = [
+	{name: 'bpmnTransferType', dispName: 'Transfer Type', defVal: 'none', type: 'enum', 
+		enumList: [{val: 'none', dispName: 'None'}, 
+				   {val: 'input', dispName: 'Input'}, 
+				   {val: 'output', dispName: 'Output'}]}, 
+	{name: 'isCollection', dispName: 'Collection', type: 'bool'}
+];
+
+/**
+* Function: paintVertexShape
+* 
+* Paints the vertex shape.
+*/
+mxShapeBpmn2Data2.prototype.paintVertexShape = function(c, x, y, w, h)
+{
+	var superShape = mxCellRenderer.prototype.getShape('note');
+	superShape.prototype.paintVertexShape.call(this, c, x, y, w, h);
+
+	var trType = mxUtils.getValue(this.style, 'bpmnTransferType', 'none');
+	var isColl = mxUtils.getValue(this.style, 'isCollection', false);
+	var strokeWidth = mxUtils.getValue(this.style, 'strokeWidth', 1);
+	
+	c.setShadow(false);
+	
+	c.setStrokeWidth(1);
+
+	if (trType === 'input' || trType === 'output')
+	{
+		var arrX = 3 + strokeWidth * 0.5;
+		var arrY = 3 + strokeWidth * 0.5;
+		var arrW = 14;
+		var arrH = 12;
+		
+		c.translate(arrX, arrY);
+		c.begin();
+		c.moveTo(0, arrH * 0.3);
+		c.lineTo(arrW * 0.55, arrH * 0.3);
+		c.lineTo(arrW * 0.55, 0);
+		c.lineTo(arrW, arrH * 0.5);
+		c.lineTo(arrW * 0.55, arrH);
+		c.lineTo(arrW * 0.55, arrH * 0.7);
+		c.lineTo(0, arrH * 0.7);
+		c.close();
+		c.translate(-arrX, -arrY);
+		
+		if (trType === 'input')
+		{
+			c.stroke();
+		}
+		else
+		{
+			var fillColor = mxUtils.getValue(this.style, 'fillColor', '#ffffff');
+			var strokeColor = mxUtils.getValue(this.style, 'strokeColor', '#000000');
+			
+			c.setFillColor(strokeColor);
+			c.fillAndStroke();
+			c.setFillColor(fillColor);
+		}
+	}
+	
+	if (isColl)
+	{
+		c.translate(w * 0.5 - 6, h - 12 - strokeWidth * 0.5);
+		
+		c.begin();
+		c.moveTo(2.4, 0);
+		c.lineTo(2.4, 12);
+		c.moveTo(6, 0);
+		c.lineTo(6, 12);
+		c.moveTo(9.6, 0);
+		c.lineTo(9.6, 12);
+		c.stroke();
+		
+		c.translate( - w * 0.5 + 6, - h + 12);
+	}
+};
+
+mxCellRenderer.registerShape(mxShapeBpmn2Data2.prototype.cst.DATA, mxShapeBpmn2Data2);
+
+Graph.handleFactory[mxShapeBpmn2Data2.prototype.cst.DATA] = Graph.handleFactory['note'];
+
+//**********************************************************************************************************************************************************
 //Swimlane
 //**********************************************************************************************************************************************************
 /**
@@ -1979,7 +2431,7 @@ mxCellRenderer.registerShape(mxShapeBpmn2Swimlane.prototype.cst.SWIMLANE, mxShap
 Graph.handleFactory[mxShapeBpmn2Swimlane.prototype.cst.SWIMLANE] = Graph.handleFactory['swimlane'];
 
 //**********************************************************************************************************************************************************
-//Conversation
+//Conversation (LEGACY)
 //**********************************************************************************************************************************************************
 /**
 * Extends mxShape.
@@ -2061,3 +2513,91 @@ mxShapeBpmn2Conversation.prototype.paintVertexShape = function(c, x, y, w, h)
 };
 
 mxCellRenderer.registerShape(mxShapeBpmn2Conversation.prototype.cst.CONVERSATION, mxShapeBpmn2Conversation);
+
+//**********************************************************************************************************************************************************
+//Conversation v2
+//**********************************************************************************************************************************************************
+/**
+* Extends mxShape.
+*/
+function mxShapeBpmn2Conversation2(bounds, fill, stroke, strokewidth)
+{
+	mxShape.call(this);
+	this.bounds = bounds;
+	this.fill = fill;
+	this.stroke = stroke;
+	this.strokewidth = (strokewidth != null) ? strokewidth : 1;
+};
+
+/**
+* Extends mxShape.
+*/
+mxUtils.extend(mxShapeBpmn2Conversation2, mxHexagon);
+
+mxShapeBpmn2Conversation2.prototype.customProperties = [
+	{name: 'bpmnConversationType', dispName: 'Type', defVal: 'conv', type: 'enum', 
+		enumList: [{val: 'conv', dispName: 'Conversation'}, 
+				   {val: 'call', dispName: 'Call'}]}, 
+	{name: 'isLoopSub', dispName: 'Subprocess', type: 'bool'} 
+
+];
+
+mxShapeBpmn2Conversation2.prototype.cst = {
+		CONVERSATION : 'mxgraph.bpmn.conversation2'
+};
+
+/**
+* Function: paintVertexShape
+* 
+* Paints the vertex shape.
+*/
+mxShapeBpmn2Conversation2.prototype.paintVertexShape = function(c, x, y, w, h)
+{
+	var bpmnConvType = mxUtils.getValue(this.style, 'bpmnConversationType', 'conv');
+	var strokeWidth = mxUtils.getValue(this.style, 'strokeWidth', 1);
+	
+	if (bpmnConvType == 'call')
+	{
+		c.setStrokeWidth(strokeWidth * 4);
+	}
+
+	c.translate(x, y);
+	
+	c.begin();
+	c.moveTo(0, h * 0.5);
+	c.lineTo(w * 0.25, 0);
+	c.lineTo(w * 0.75, 0);
+	c.lineTo(w, h * 0.5);
+	c.lineTo(w * 0.75, h);
+	c.lineTo(w * 0.25, h);
+	c.close();
+	c.fillAndStroke();
+
+	c.setStrokeWidth(1);
+
+	var isLoopSub = mxUtils.getValue(this.style, 'isLoopSub', false);
+
+	if (isLoopSub)
+	{
+		if (bpmnConvType == 'call')
+		{
+			c.translate(w * 0.5 - 7, h - 14 - strokeWidth * 2);
+		}
+		else
+		{
+			c.translate(w * 0.5 - 7, h - 14 - strokeWidth * 0.5);
+		}
+		
+		c.rect(0, 0, 14, 14);
+		c.stroke();
+		
+		c.begin();
+		c.moveTo(4, 7);
+		c.lineTo(10, 7);
+		c.moveTo(7, 4);
+		c.lineTo(7, 10);
+		c.stroke();
+	}
+};
+
+mxCellRenderer.registerShape(mxShapeBpmn2Conversation2.prototype.cst.CONVERSATION, mxShapeBpmn2Conversation2);

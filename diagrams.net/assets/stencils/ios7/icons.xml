@@ -354,6 +354,29 @@
         <text str="15" align="center" valign="middle" x="50" y="50"/>
     </foreground>
 </shape>
+<shape aspect="variable" h="100" name="Calendar2" strokewidth="inherit" w="100">
+    <connections/>
+    <foreground>
+        <save/>
+        <rect h="100" w="100" x="0" y="0"/>
+        <fillstroke/>
+        <path>
+            <move x="0" y="20"/>
+            <line x="100" y="20"/>
+        </path>
+        <stroke/>
+        <ellipse h="4" w="4" x="28" y="8"/>
+        <stroke/>
+        <ellipse h="4" w="4" x="68" y="8"/>
+        <stroke/>
+        <restore/>
+        <rect/>
+        <stroke/>
+        <fontsize size="20"/>
+        <fontcolor color="strokeColor"/>
+        <text str="15" align="center" valign="middle" x="50" y="50"/>
+    </foreground>
+</shape>
 <shape aspect="variable" h="58" name="Camera" strokewidth="inherit" w="100">
     <connections/>
     <foreground>
@@ -470,6 +493,36 @@
         </path>
         <fillstroke/>
         <fillcolor color="#0080F0"/>
+        <path>
+            <move x="75" y="50"/>
+            <arc large-arc-flag="0" rx="15" ry="15" sweep-flag="1" x="75" x-axis-rotation="0" y="80"/>
+            <line x="15" y="80"/>
+            <arc large-arc-flag="0" rx="15" ry="15" sweep-flag="1" x="15" x-axis-rotation="0" y="50"/>
+            <close/>
+        </path>
+        <fillstroke/>
+        <ellipse h="24" w="24" x="3" y="3"/>
+        <fill/>
+        <restore/>
+        <rect/>
+        <stroke/>
+        <ellipse h="24" w="24" x="63" y="53"/>
+        <fill/>
+    </foreground>
+</shape>
+<shape aspect="variable" h="80" name="Controls2" strokewidth="inherit" w="90">
+    <connections/>
+    <foreground>
+        <save/>
+        <path>
+            <move x="75" y="0"/>
+            <arc large-arc-flag="0" rx="15" ry="15" sweep-flag="1" x="75" x-axis-rotation="0" y="30"/>
+            <line x="15" y="30"/>
+            <arc large-arc-flag="0" rx="15" ry="15" sweep-flag="1" x="15" x-axis-rotation="0" y="0"/>
+            <close/>
+        </path>
+        <fillstroke/>
+        <fillcolor color="strokeColor"/>
         <path>
             <move x="75" y="50"/>
             <arc large-arc-flag="0" rx="15" ry="15" sweep-flag="1" x="75" x-axis-rotation="0" y="80"/>
@@ -960,9 +1013,6 @@
         <ellipse h="100" w="100" x="0" y="0"/>
         <fillstroke/>
         <path>
-        </path>
-        <fillstroke/>
-        <path>
             <move x="50" y="0"/>
             <line x="50" y="100"/>
             <move x="100" y="50"/>
@@ -1150,6 +1200,22 @@
         <ellipse h="100" w="100" x="0" y="0"/>
         <fillstroke/>
         <fillcolor color="#0080F0"/>
+        <path>
+            <move x="15" y="55"/>
+            <line x="75" y="25"/>
+            <line x="45" y="85"/>
+            <line x="45" y="55"/>
+            <close/>
+        </path>
+        <fill/>
+    </foreground>
+</shape>
+<shape aspect="variable" h="100" name="Location 22" strokewidth="inherit" w="100">
+    <connections/>
+    <foreground>
+        <ellipse h="100" w="100" x="0" y="0"/>
+        <fillstroke/>
+        <fillcolor color="strokeColor"/>
         <path>
             <move x="15" y="55"/>
             <line x="75" y="25"/>
@@ -1480,6 +1546,30 @@
 <shape aspect="variable" h="70" name="Orientation Lock" strokewidth="inherit" w="77">
     <connections/>
     <foreground>
+        <path>
+            <move x="35" y="70"/>
+            <arc large-arc-flag="1" rx="35" ry="35" sweep-flag="1" x="70" x-axis-rotation="0" y="35"/>
+            <move x="25" y="30"/>
+            <line x="25" y="25"/>
+            <arc large-arc-flag="0" rx="10" ry="10" sweep-flag="1" x="45" x-axis-rotation="0" y="25"/>
+            <line x="45" y="30"/>
+        </path>
+        <stroke/>
+        <path>
+            <move x="63" y="35"/>
+            <line x="70" y="45"/>
+            <line x="77" y="35"/>
+            <close/>
+        </path>
+        <fill/>
+        <rect h="20" w="30" x="20" y="30"/>
+        <fill/>
+    </foreground>
+</shape>
+<shape aspect="variable" h="70" name="Orientation Lock2" strokewidth="inherit" w="77">
+    <connections/>
+    <foreground>
+		<fillcolor color="strokeColor"/>
         <path>
             <move x="35" y="70"/>
             <arc large-arc-flag="1" rx="35" ry="35" sweep-flag="1" x="70" x-axis-rotation="0" y="35"/>

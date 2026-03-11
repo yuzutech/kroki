@@ -1,6 +1,5 @@
 /**
- * $Id: mxRack.js,v 1.5 2014/01/21 13:10:37 gaudenz Exp $
- * Copyright (c) 2006-2013, JGraph Ltd
+ * Copyright (c) 2006-2013, JGraph Holdings Ltd
  */
 //**********************************************************************************************************************************************************
 //Rack Numbering
@@ -546,6 +545,22 @@ mxRackRackCabinet.prototype.cst =
 		TEXT_SIZE : 'textSize'
 };
 
+mxRackRackCabinet.prototype.customProperties = [
+	{name: 'unitNum', dispName: 'Number of units', type: 'int', defVal: 12},
+	{name: 'startUnit', dispName: 'Starting unit', type: 'int', defVal: 1},
+	{name: 'unitHeight', dispName: 'Unit height', type: 'float', defVal: 14.8},
+	{name: 'textColor', dispName: 'Number text color', type: 'color', defVal: '#666666'},
+	{name: 'textSize', dispName: 'Text size', type: 'float', defVal: '12'},
+	{name: 'numDisp', dispName: 'Display Numbers', type: 'enum', defVal: 'descend',
+		enumList: [{val: 'off', dispName: 'Off'}, {val: 'ascend', dispName: 'Ascending'}, {val: 'descend', dispName: 'Descending'}],
+		onChange: function(graph, newValue)
+		{
+			graph.setCellStyles('marginLeft', (newValue == 'off') ? 9 : 33, graph.getSelectionCells());
+		}
+	}
+];
+
+
 /**
  * Function: paintVertexShape
  * 
@@ -556,9 +571,9 @@ mxRackRackCabinet.prototype.paintVertexShape = function(c, x, y, w, h)
 	var unitNum = parseFloat(mxUtils.getValue(this.style, mxRackRackCabinet.prototype.cst.UNIT_NUM, '12'));
 	var unitH = parseFloat(mxUtils.getValue(this.style, mxRackRackCabinet.prototype.cst.UNIT_HEIGHT, '14.8'));
 	var fontSize = parseFloat(mxUtils.getValue(this.style, mxRackRackCabinet.prototype.cst.TEXT_SIZE, '12'));
-	var numDis = mxUtils.getValue(this.style, mxRackRackCabinet.prototype.cst.NUMBER_DISPLAY, mxRackRackCabinet.prototype.cst.ON);
+	var numDisp = mxUtils.getValue(this.style, mxRackRackCabinet.prototype.cst.NUMBER_DISPLAY, mxRackRackCabinet.prototype.cst.ON);
 
-	if (numDis === mxRackRackCabinet.prototype.cst.ON)
+	if (numDisp !== mxRackRackCabinet.prototype.cst.OFF)
 	{
 		c.translate(x + fontSize * 2, y);
 	}
@@ -568,24 +583,24 @@ mxRackRackCabinet.prototype.paintVertexShape = function(c, x, y, w, h)
 	};
 
 	var h = unitNum * unitH + 42;
-	this.background(c, w, h, fontSize);
+	this.background(c, h);
 	c.setShadow(false);
-	this.foreground(c, w, h, fontSize);
+	this.foreground(c, h);
 
-	if (numDis === mxRackRackCabinet.prototype.cst.ON)
+	if (numDisp !== mxRackRackCabinet.prototype.cst.OFF)
 	{
-		this.sideText(c, w, h, unitNum, unitH, fontSize);
+		this.sideText(c, h, unitNum, unitH, fontSize, numDisp);
 	};
 };
 
-mxRackRackCabinet.prototype.background = function(c, w, h, fontSize)
+mxRackRackCabinet.prototype.background = function(c, h)
 {
 	c.setFillColor('#ffffff');
 	c.rect(0, 0, 180, h);
 	c.fillAndStroke();
 };
 
-mxRackRackCabinet.prototype.foreground = function(c, w, h, fontSize)
+mxRackRackCabinet.prototype.foreground = function(c, h)
 {
 	c.setFillColor('#f4f4f4');
 	c.rect(0, 0, 180, 21);
@@ -606,29 +621,29 @@ mxRackRackCabinet.prototype.foreground = function(c, w, h, fontSize)
 	c.stroke();
 };
 
-mxRackRackCabinet.prototype.sideText = function(c, w, h, unitNum, unitH, fontSize)
+mxRackRackCabinet.prototype.sideText = function(c, h, unitNum, unitH, fontSize, numDisp)
 {
 	var fontColor = mxUtils.getValue(this.style, mxRackRackCabinet.prototype.cst.TEXT_COLOR, '#666666');
-	var numDir = mxUtils.getValue(this.style, mxRackRackCabinet.prototype.cst.NUM_DIR, mxRackRackCabinet.prototype.cst.DIR_DESC);
+	var startUnit = mxUtils.getValue(this.style, 'startUnit', 1);
 	c.setFontSize(fontSize);
 	c.setFontColor(fontColor);
 
-	if (numDir === mxRackRackCabinet.prototype.cst.DIR_ASC)
+	if (numDisp === mxRackRackCabinet.prototype.cst.DIR_ASC)
 	{
 		for (var i = 0; i < unitNum; i++)
 		{
-			c.text(-fontSize, 21 + unitH * 0.5 + i * unitH, 0, 0, (i + 1).toString(), mxConstants.ALIGN_CENTER, mxConstants.ALIGN_MIDDLE, 0, null, 0, 0, 0);
+			c.text(-fontSize, 21 + unitH * 0.5 + i * unitH, 0, 0, (i + startUnit).toString(), mxConstants.ALIGN_CENTER, mxConstants.ALIGN_MIDDLE, 0, null, 0, 0, 0);
 		};
 	}
-	else
+	else if (numDisp === mxRackRackCabinet.prototype.cst.DIR_DESC || numDisp === mxRackRackCabinet.prototype.cst.DIR_ON)
 	{
 		for (var i = 0; i < unitNum; i++)
 		{
-			c.text(-fontSize, h - 21 - unitH * 0.5 - i * unitH, 0, 0, (i + 1).toString(), mxConstants.ALIGN_CENTER, mxConstants.ALIGN_MIDDLE, 0, null, 0, 0, 0);
+			c.text(-fontSize, h - 21 - unitH * 0.5 - i * unitH, 0, 0, (i + startUnit).toString(), mxConstants.ALIGN_CENTER, mxConstants.ALIGN_MIDDLE, 0, null, 0, 0, 0);
 		};
 	};
 
-	c.setStrokeColor('#dddddd');
+	c.setStrokeColor(fontColor);
 
 	c.begin();
 
@@ -636,6 +651,321 @@ mxRackRackCabinet.prototype.sideText = function(c, w, h, unitNum, unitH, fontSiz
 	{
 		c.moveTo(-2 * fontSize, 21 + i * unitH);
 		c.lineTo(0, 21 + i * unitH);
+	};
+
+	c.stroke();
+};
+
+//**********************************************************************************************************************************************************
+//Rack Cabinet v2
+//**********************************************************************************************************************************************************
+/**
+ * Extends mxShape.
+ */
+function mxRackRackCabinet2(bounds, fill, stroke, strokewidth)
+{
+	mxShape.call(this);
+	this.bounds = bounds;
+	this.fill = fill;
+	this.stroke = stroke;
+	this.strokewidth = (strokewidth != null) ? strokewidth : 1;
+};
+
+/**
+ * Extends mxShape.
+ */
+mxUtils.extend(mxRackRackCabinet2, mxShape);
+
+mxRackRackCabinet2.prototype.cst = 
+{
+		SHAPE_RACK_RACK_CABINET : 'mxgraph.rackGeneral.rackCabinet2',
+		UNIT_NUM : 'unitNum',
+		UNIT_HEIGHT : 'rackUnitSize',
+		TEXT_COLOR : 'textColor',
+		NUM_DIR : 'numDir',
+		NUMBER_DISPLAY : 'numDisp',
+		ON : 'on',
+		OFF : 'off',
+		DIR_ASC : 'ascend',
+		DIR_DESC : 'descend',
+		TEXT_SIZE : 'textSize'
+};
+
+mxRackRackCabinet2.prototype.customProperties = [
+	{name: 'unitNum', dispName: 'Number of units', type: 'int', defVal: 12},
+	{name: 'startUnit', dispName: 'Starting unit', type: 'int', defVal: 1},
+	{name: 'rackUnitSize', dispName: 'Unit height', type: 'float', defVal: 14.8},
+	{name: 'fillColor2', dispName: 'Panel Color', type: 'color', defVal: '#ffffff'},
+	{name: 'textColor', dispName: 'Number text color', type: 'color', defVal: '#666666'},
+	{name: 'textSize', dispName: 'Text size', type: 'float', defVal: '12'},
+	{name: 'numDisp', dispName: 'Display Numbers', type: 'enum', defVal: 'descend',
+		enumList: [{val: 'off', dispName: 'Off'}, {val: 'ascend', dispName: 'Ascending'}, {val: 'descend', dispName: 'Descending'}],
+		onChange: function(graph, newValue)
+		{
+			graph.setCellStyles('marginLeft', (newValue == 'off') ? 9 : 33, graph.getSelectionCells());
+		}
+	}
+];
+
+
+/**
+ * Function: paintVertexShape
+ * 
+ * Paints the vertex shape.
+ */
+mxRackRackCabinet2.prototype.paintVertexShape = function(c, x, y, w, h)
+{
+	var unitNum = parseFloat(mxUtils.getValue(this.style, mxRackRackCabinet2.prototype.cst.UNIT_NUM, '12'));
+	var unitH = parseFloat(mxUtils.getValue(this.style, mxRackRackCabinet2.prototype.cst.UNIT_HEIGHT, '14.8'));
+	var fontSize = parseFloat(mxUtils.getValue(this.style, mxRackRackCabinet2.prototype.cst.TEXT_SIZE, '12'));
+	var numDisp = mxUtils.getValue(this.style, mxRackRackCabinet2.prototype.cst.NUMBER_DISPLAY, mxRackRackCabinet2.prototype.cst.ON);
+
+	if (numDisp !== mxRackRackCabinet2.prototype.cst.OFF)
+	{
+		c.translate(x + fontSize * 2, y);
+		w = w - fontSize * 2;
+	}
+	else
+	{
+		c.translate(x, y);
+	};
+
+	var h = unitNum * unitH + 42;
+	this.background(c, w, h);
+	c.setShadow(false);
+	this.foreground(c, w, h);
+
+	if (numDisp !== mxRackRackCabinet2.prototype.cst.OFF)
+	{
+		this.sideText(c, h, unitNum, unitH, fontSize, numDisp);
+	};
+};
+
+mxRackRackCabinet2.prototype.background = function(c, w, h)
+{
+	var fillC = mxUtils.getValue(this.style, 'fillColor2', '#ffffff');
+	c.setFillColor(fillC);
+	c.rect(0, 0, w, h);
+	c.fillAndStroke();
+};
+
+mxRackRackCabinet2.prototype.foreground = function(c, w, h)
+{
+	var fillC = mxUtils.getValue(this.style, mxConstants.STYLE_FILLCOLOR, '#f4f4f4');
+	c.setFillColor(fillC);
+	c.rect(0, 0, w, 21);
+	c.fillAndStroke();
+	c.rect(0, h - 21, w, 21);
+	c.fillAndStroke();
+	c.rect(0, 21, 9, h - 42);
+	c.fillAndStroke();
+	c.rect(w - 9, 21, 9, h - 42);
+	c.fillAndStroke();
+	c.ellipse(2.5, 7.5, 6, 6);
+	c.stroke();
+	c.ellipse(w - 8.5, 7.5, 6, 6);
+	c.stroke();
+	c.ellipse(2.5, h - 13.5, 6, 6);
+	c.stroke();
+	c.ellipse(w - 8.5, h - 13.5, 6, 6);
+	c.stroke();
+};
+
+mxRackRackCabinet2.prototype.sideText = function(c, h, unitNum, unitH, fontSize, numDisp)
+{
+	var fontColor = mxUtils.getValue(this.style, mxRackRackCabinet2.prototype.cst.TEXT_COLOR, '#666666');
+	var startUnit = mxUtils.getValue(this.style, 'startUnit', 1);
+	c.setFontSize(fontSize);
+	c.setFontColor(fontColor);
+
+	if (numDisp === mxRackRackCabinet2.prototype.cst.DIR_ASC)
+	{
+		for (var i = 0; i < unitNum; i++)
+		{
+			c.text(-fontSize, 21 + unitH * 0.5 + i * unitH, 0, 0, (i + startUnit).toString(), mxConstants.ALIGN_CENTER, mxConstants.ALIGN_MIDDLE, 0, null, 0, 0, 0);
+		};
+	}
+	else if (numDisp === mxRackRackCabinet2.prototype.cst.DIR_DESC || numDisp === mxRackRackCabinet2.prototype.cst.DIR_ON)
+	{
+		for (var i = 0; i < unitNum; i++)
+		{
+			c.text(-fontSize, h - 21 - unitH * 0.5 - i * unitH, 0, 0, (i + startUnit).toString(), mxConstants.ALIGN_CENTER, mxConstants.ALIGN_MIDDLE, 0, null, 0, 0, 0);
+		};
+	};
+
+	c.setStrokeColor(fontColor);
+
+	c.begin();
+
+	for (var i = 0; i < unitNum + 1; i++)
+	{
+		c.moveTo(-2 * fontSize, 21 + i * unitH);
+		c.lineTo(0, 21 + i * unitH);
+	};
+
+	c.stroke();
+};
+
+//**********************************************************************************************************************************************************
+//Rack Cabinet v3
+//**********************************************************************************************************************************************************
+/**
+ * Extends mxShape.
+ */
+function mxRackRackCabinet3(bounds, fill, stroke, strokewidth)
+{
+	mxShape.call(this);
+	this.bounds = bounds;
+	this.fill = fill;
+	this.stroke = stroke;
+	this.strokewidth = (strokewidth != null) ? strokewidth : 1;
+};
+
+/**
+ * Extends mxShape.
+ */
+mxUtils.extend(mxRackRackCabinet3, mxShape);
+
+mxRackRackCabinet3.prototype.cst = 
+{
+		SHAPE_RACK_RACK_CABINET : 'mxgraph.rackGeneral.rackCabinet3',
+		UNIT_NUM : 'unitNum',
+		UNIT_HEIGHT : 'rackUnitSize',
+		UNIT_DIR_LEFT : 'rackUnitDirLeft',
+		TEXT_COLOR : 'textColor',
+		NUM_DIR : 'numDir',
+		NUMBER_DISPLAY : 'numDisp',
+		ON : 'on',
+		OFF : 'off',
+		DIR_ASC : 'ascend',
+		DIR_DESC : 'descend',
+		TEXT_SIZE : 'textSize'
+};
+
+mxRackRackCabinet3.prototype.customProperties = [
+	{name: 'startUnit', dispName: 'Starting unit', type: 'int', defVal: 1},
+	{name: 'rackUnitDirLeft', dispName: 'Numbering on left', type: 'boolean', defVal: true},
+	{name: 'rackUnitSize', dispName: 'Unit height', type: 'float', defVal: 14.8},
+	{name: 'fillColor2', dispName: 'Panel Color', type: 'color', defVal: '#ffffff', primary: true},
+	{name: 'textColor', dispName: 'Number text color', type: 'color', defVal: '#666666', primary: true},
+	{name: 'textSize', dispName: 'Text size', type: 'float', defVal: '12'},
+	{name: 'numDisp', dispName: 'Display Numbers', type: 'enum', defVal: 'descend',
+		enumList: [{val: 'off', dispName: 'Off'}, {val: 'ascend', dispName: 'Ascending'}, {val: 'descend', dispName: 'Descending'}],
+		onChange: function(graph, newValue)
+		{
+			graph.setCellStyles('marginLeft', (newValue == 'off') ? 9 : 33, graph.getSelectionCells());
+		}
+	}
+];
+
+
+/**
+ * Function: paintVertexShape
+ * 
+ * Paints the vertex shape.
+ */
+mxRackRackCabinet3.prototype.paintVertexShape = function(c, x, y, w, h)
+{
+	var unitH = parseFloat(mxUtils.getValue(this.style, mxRackRackCabinet3.prototype.cst.UNIT_HEIGHT, '14.8'));
+	var unitNum = Math.round((h - 42) / unitH);
+	var fontSize = parseFloat(mxUtils.getValue(this.style, mxRackRackCabinet3.prototype.cst.TEXT_SIZE, '12'));
+	var numDisp = mxUtils.getValue(this.style, mxRackRackCabinet3.prototype.cst.NUMBER_DISPLAY, mxRackRackCabinet3.prototype.cst.ON);
+	var unitDirLeft = mxUtils.getValue(this.style, mxRackRackCabinet3.prototype.cst.UNIT_DIR_LEFT, true);
+
+	if (numDisp !== mxRackRackCabinet3.prototype.cst.OFF)
+	{
+		if (unitDirLeft)
+		{	// numbering on left
+			c.translate(x + fontSize * 2, y);
+		}
+		else
+		{	// numbering on right
+			c.translate(x, y);
+		}
+
+		w = w - fontSize * 2;
+	}
+	else
+	{
+		c.translate(x, y);
+	};
+
+	var h = unitNum * unitH + 42;
+	this.background(c, w, h);
+	c.setShadow(false);
+	this.foreground(c, w, h);
+
+	if (numDisp !== mxRackRackCabinet3.prototype.cst.OFF)
+	{
+		this.sideText(c, h, w, unitNum, unitH, fontSize, numDisp, unitDirLeft);
+	};
+};
+
+mxRackRackCabinet3.prototype.background = function(c, w, h)
+{
+	var fillC = mxUtils.getValue(this.style, 'fillColor2', '#ffffff');
+	c.setFillColor(fillC);
+	c.rect(0, 0, w, h);
+	c.fillAndStroke();
+};
+
+mxRackRackCabinet3.prototype.foreground = function(c, w, h)
+{
+	var fillC = mxUtils.getValue(this.style, mxConstants.STYLE_FILLCOLOR, '#f4f4f4');
+	c.setFillColor(fillC);
+	c.rect(0, 0, w, 21);
+	c.fillAndStroke();
+	c.rect(0, h - 21, w, 21);
+	c.fillAndStroke();
+	c.rect(0, 21, 9, h - 42);
+	c.fillAndStroke();
+	c.rect(w - 9, 21, 9, h - 42);
+	c.fillAndStroke();
+	c.ellipse(2.5, 7.5, 6, 6);
+	c.stroke();
+	c.ellipse(w - 8.5, 7.5, 6, 6);
+	c.stroke();
+	c.ellipse(2.5, h - 13.5, 6, 6);
+	c.stroke();
+	c.ellipse(w - 8.5, h - 13.5, 6, 6);
+	c.stroke();
+};
+
+mxRackRackCabinet3.prototype.sideText = function(c, h, w, unitNum, unitH, fontSize, numDisp, unitDirLeft)
+{
+	var fontColor = mxUtils.getValue(this.style, mxRackRackCabinet3.prototype.cst.TEXT_COLOR, '#666666');
+	var startUnit = mxUtils.getValue(this.style, 'startUnit', 1);
+	c.setFontSize(fontSize);
+	c.setFontColor(fontColor);
+	var x = 0;
+	if (!unitDirLeft)
+	{
+		x = w + 2 * fontSize;
+	}
+
+	if (numDisp === mxRackRackCabinet3.prototype.cst.DIR_ASC)
+	{
+		for (var i = 0; i < unitNum; i++)
+		{
+			c.text(x - fontSize, 21 + unitH * 0.5 + i * unitH, 0, 0, (i + startUnit).toString(), mxConstants.ALIGN_CENTER, mxConstants.ALIGN_MIDDLE, 0, null, 0, 0, 0);
+		};
+	}
+	else if (numDisp === mxRackRackCabinet3.prototype.cst.DIR_DESC || numDisp === mxRackRackCabinet3.prototype.cst.DIR_ON)
+	{
+		for (var i = 0; i < unitNum; i++)
+		{
+			c.text(x - fontSize, h - 21 - unitH * 0.5 - i * unitH, 0, 0, (i + startUnit).toString(), mxConstants.ALIGN_CENTER, mxConstants.ALIGN_MIDDLE, 0, null, 0, 0, 0);
+		};
+	};
+
+	c.setStrokeColor(fontColor);
+
+	c.begin();
+
+	for (var i = 0; i < unitNum + 1; i++)
+	{
+		c.moveTo(x - 2 * fontSize, 21 + i * unitH);
+		c.lineTo(x, 21 + i * unitH);
 	};
 
 	c.stroke();
@@ -1243,8 +1573,11 @@ mxRackCabinetLeg.prototype.background = function(c, w, h)
 	c.fillAndStroke();
 };
 
+mxCellRenderer.registerShape(mxRackRackCabinet3.prototype.cst.SHAPE_RACK_RACK_CABINET, mxRackRackCabinet3);
+
 // New generic unit size implementations
 mxCellRenderer.registerShape(mxRackContainer.prototype.cst.SHAPE_RACK_CONTAINER, mxRackContainer);
+mxCellRenderer.registerShape(mxRackRackCabinet2.prototype.cst.SHAPE_RACK_RACK_CABINET, mxRackRackCabinet2);
 mxCellRenderer.registerShape(mxRackHorCableDuct.prototype.cst.SHAPE_RACK_HOR_CABLE_DUCT, mxRackHorCableDuct);
 mxCellRenderer.registerShape(mxRackHorRoutingBank.prototype.cst.SHAPE_RACK_HOR_ROUTING_BANK, mxRackHorRoutingBank);
 mxCellRenderer.registerShape(mxRackNeatPatch.prototype.cst.SHAPE_RACK_NEAT_PATCH, mxRackNeatPatch);

@@ -1,6 +1,5 @@
 /**
- * $Id: mxMockupText.js,v 1.4 2013/05/24 07:12:36 mate Exp $
- * Copyright (c) 2006-2010, JGraph Ltd
+ * Copyright (c) 2006-2010, JGraph Holdings Ltd
  */
 
 //**********************************************************************************************************************************************************
@@ -782,6 +781,10 @@ mxShapeMockupCaptcha.prototype.cst = {
 		SHAPE_CAPTCHA : 'mxgraph.mockup.text.captcha'
 };
 
+mxShapeMockupCaptcha.prototype.customProperties = [
+	{name: 'fillColor2', dispName: 'Fill2 Color', type: 'color', primary: true}
+];
+
 /**
  * Function: paintVertexShape
  * 
@@ -806,8 +809,9 @@ mxShapeMockupCaptcha.prototype.foreground = function(c, w, h)
 	var mainText = mxUtils.getValue(this.style, mxShapeMockupCaptcha.prototype.cst.MAIN_TEXT, 'Note line 1');
 	var fontColor = mxUtils.getValue(this.style, mxShapeMockupCaptcha.prototype.cst.TEXT_COLOR, '#666666');
 	var fontSize = mxUtils.getValue(this.style, mxShapeMockupCaptcha.prototype.cst.TEXT_SIZE, '25');
+	var fillColor2 = mxUtils.getValue(this.style, 'fillColor2', '#88aaff');
 
-	c.setFillColor('#88aaff');
+	c.setFillColor(fillColor2);
 	c.begin();
 	c.moveTo(0, 0);
 	c.lineTo(w * 0.35, 0);

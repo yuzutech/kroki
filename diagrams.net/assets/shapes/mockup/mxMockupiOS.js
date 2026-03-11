@@ -1,6 +1,5 @@
 /**
- * $Id: mxMockupiOS.js,v 1.5 2013/11/12 06:25:46 mate Exp $
- * Copyright (c) 2006-2010, JGraph Ltd
+ * Copyright (c) 2006-2010, JGraph Holdings Ltd
  */
 
 var mxMockupC =
@@ -126,7 +125,7 @@ mxShapeMockupiPhone.prototype.customProperties = [
 mxShapeMockupiPhone.prototype.paintVertexShape = function(c, x, y, w, h)
 {
 	c.translate(x, y);
-	var rSize = 25;
+	var rSize = w < 100 ? 4 : 25;
 	this.background(c, x, y, w, h, rSize);
 	c.setShadow(false);
 	this.foreground(c, x, y, w, h, rSize);
@@ -598,12 +597,15 @@ mxShapeMockupiPhone.prototype.foreground = function(c, x, y, w, h, rSize)
 	c.roundrect(0, 0, w, h, rSize, rSize);
 	c.stroke();
 
-	rSize = 22.5;
-	c.begin();
-	c.setStrokeColor('#666666');
-	c.roundrect(5, 5, w - 10, h - 10, rSize, rSize);
-	c.stroke();
-
+	if (w > 50)
+	{
+		rSize = w < 100? 3 : 22.5;
+		c.begin();
+		c.setStrokeColor('#666666');
+		c.roundrect(5, 5, w - 10, h - 10, rSize, rSize);
+		c.stroke();
+	}
+	
 	c.setAlpha(1);
 	c.ellipse(w * 0.4875, h * 0.04125, w * 0.025, h * 0.0125);
 	c.setStrokeWidth(2.5);
@@ -1187,7 +1189,7 @@ mxShapeMockupiButtonBar.prototype.customProperties = [
  */
 mxShapeMockupiButtonBar.prototype.paintVertexShape = function(c, x, y, w, h)
 {
-	var textStrings = mxUtils.getValue(this.style, mxMockupC.BUTTON_TEXT, '+Button 1, Button 2, Button 3').toString().split(',');
+	var textStrings = decodeURIComponent(mxUtils.getValue(this.style, mxMockupC.BUTTON_TEXT, '+Button 1, Button 2, Button 3').toString()).split(',');
 	var fontColor = mxUtils.getValue(this.style, mxMockupC.STYLE_TEXTCOLOR, '#666666');
 	var selectedFontColor = mxUtils.getValue(this.style, mxMockupC.STYLE_TEXTCOLOR2, '#ffffff');
 	var fontSize = mxUtils.getValue(this.style, mxConstants.STYLE_FONTSIZE, '17').toString();
@@ -1825,7 +1827,7 @@ mxUtils.extend(mxShapeMockupiButton, mxShape);
  */
 mxShapeMockupiButton.prototype.paintVertexShape = function(c, x, y, w, h)
 {
-	var mainText = mxUtils.getValue(this.style, mxMockupC.BUTTON_TEXT, 'Main Text');
+	var mainText = decodeURIComponent(mxUtils.getValue(this.style, mxMockupC.BUTTON_TEXT, 'Main Text'));
 	var fontColor = mxUtils.getValue(this.style, mxMockupC.STYLE_TEXTCOLOR2, '#666666').toString();
 	var fontSize = mxUtils.getValue(this.style, mxConstants.STYLE_FONTSIZE, '8.5').toString();
 	c.translate(x, y);
@@ -1881,7 +1883,7 @@ mxUtils.extend(mxShapeMockupiButtonBack, mxShape);
  */
 mxShapeMockupiButtonBack.prototype.paintVertexShape = function(c, x, y, w, h)
 {
-	var mainText = mxUtils.getValue(this.style, mxMockupC.BUTTON_TEXT, 'Main Text');
+	var mainText = decodeURIComponent(mxUtils.getValue(this.style, mxMockupC.BUTTON_TEXT, 'Main Text'));
 	var fontColor = mxUtils.getValue(this.style, mxMockupC.STYLE_TEXTCOLOR2, '#666666').toString();
 	var fontSize = mxUtils.getValue(this.style, mxConstants.STYLE_FONTSIZE, '17').toString();
 	c.translate(x, y);
@@ -1947,7 +1949,7 @@ mxUtils.extend(mxShapeMockupiButtonForward, mxShape);
  */
 mxShapeMockupiButtonForward.prototype.paintVertexShape = function(c, x, y, w, h)
 {
-	var mainText = mxUtils.getValue(this.style, mxMockupC.BUTTON_TEXT, 'Main Text');
+	var mainText = decodeURIComponent(mxUtils.getValue(this.style, mxMockupC.BUTTON_TEXT, 'Main Text'));
 	var fontColor = mxUtils.getValue(this.style, mxMockupC.STYLE_TEXTCOLOR2, '#666666').toString();
 	var fontSize = mxUtils.getValue(this.style, mxConstants.STYLE_FONTSIZE, '17').toString();
 	c.translate(x, y);
@@ -2084,7 +2086,7 @@ mxUtils.extend(mxShapeMockupiTextInput, mxShape);
  */
 mxShapeMockupiTextInput.prototype.paintVertexShape = function(c, x, y, w, h)
 {
-	var mainText = mxUtils.getValue(this.style, mxMockupC.BUTTON_TEXT, 'Main Text');
+	var mainText = decodeURIComponent(mxUtils.getValue(this.style, mxMockupC.BUTTON_TEXT, 'Main Text'));
 	var fontColor = mxUtils.getValue(this.style, mxMockupC.STYLE_TEXTCOLOR2, '#000000').toString();
 	var fontSize = mxUtils.getValue(this.style, mxConstants.STYLE_FONTSIZE, '8').toString();
 	c.translate(x, y);
@@ -2140,7 +2142,7 @@ mxShapeMockupiRadioGroup.prototype.paintVertexShape = function(c, x, y, w, h)
 
 	var fontColor = mxUtils.getValue(this.style, mxMockupC.STYLE_TEXTCOLOR2, '#666666').toString();
 	var fontSize = mxUtils.getValue(this.style, mxConstants.STYLE_FONTSIZE, '8').toString();
-	var optionText = mxUtils.getValue(this.style, mxMockupC.BUTTON_TEXT, 'Option 1').toString().split(',');
+	var optionText = decodeURIComponent(mxUtils.getValue(this.style, mxMockupC.BUTTON_TEXT, 'Option 1').toString()).split(',');
 	var optionNum = optionText.length;
 	var buttonSize = 5;
 	var lineH = Math.max(fontSize * 1.5, buttonSize);
@@ -2251,7 +2253,7 @@ mxShapeMockupiCheckboxGroup.prototype.paintVertexShape = function(c, x, y, w, h)
 
 	var fontColor = mxUtils.getValue(this.style, mxMockupC.STYLE_TEXTCOLOR2, '#666666').toString();
 	var fontSize = mxUtils.getValue(this.style, mxConstants.STYLE_FONTSIZE, '8').toString();
-	var optionText = mxUtils.getValue(this.style, mxMockupC.BUTTON_TEXT, 'Option 1').toString().split(',');
+	var optionText = decodeURIComponent(mxUtils.getValue(this.style, mxMockupC.BUTTON_TEXT, 'Option 1').toString()).split(',');
 	var optionNum = optionText.length;
 	var buttonSize = 5;
 	var lineH = Math.max(fontSize * 1.5, buttonSize);
@@ -2362,7 +2364,7 @@ mxUtils.extend(mxShapeMockupiComboBox, mxShape);
  */
 mxShapeMockupiComboBox.prototype.paintVertexShape = function(c, x, y, w, h)
 {
-	var mainText = mxUtils.getValue(this.style, mxMockupC.BUTTON_TEXT, 'Main Text');
+	var mainText = decodeURIComponent(mxUtils.getValue(this.style, mxMockupC.BUTTON_TEXT, 'Main Text'));
 	var fontColor = mxUtils.getValue(this.style, mxMockupC.STYLE_TEXTCOLOR2, '#666666').toString();
 	var fontSize = mxUtils.getValue(this.style, mxConstants.STYLE_FONTSIZE, '8.5').toString();
 	c.translate(x, y);
@@ -2553,7 +2555,7 @@ mxShapeMockupiAlertBox.prototype.background = function(c, x, y, w, h, rSize)
 
 mxShapeMockupiAlertBox.prototype.foreground = function(c, x, y, w, h, rSize)
 {
-	var mainText = mxUtils.getValue(this.style, mxMockupC.BUTTON_TEXT, 'Main Text').toString().split(',');
+	var mainText = decodeURIComponent(mxUtils.getValue(this.style, mxMockupC.BUTTON_TEXT, 'Main Text').toString()).split(',');
 
 	c.setStrokeColor('#497198');
 	c.setGradient('#497198', '#c5cee1', 0, 0, w, 22.5, mxConstants.DIRECTION_SOUTH, 1, 1);
@@ -2640,7 +2642,7 @@ mxShapeMockupiDialogBox.prototype.background = function(c, x, y, w, h, rSize)
 
 mxShapeMockupiDialogBox.prototype.foreground = function(c, x, y, w, h, rSize)
 {
-	var mainText = mxUtils.getValue(this.style, mxMockupC.BUTTON_TEXT, 'Main Text').toString().split(',');
+	var mainText = decodeURIComponent(mxUtils.getValue(this.style, mxMockupC.BUTTON_TEXT, 'Main Text').toString()).split(',');
 
 	c.setStrokeColor('#497198');
 	c.setGradient('#497198', '#c5cee1', 0, 0, w, 22.5, mxConstants.DIRECTION_SOUTH, 1, 1);
@@ -3969,7 +3971,7 @@ mxShapeMockupiLocationBar.prototype.background = function(c, x, y, w, h)
 mxShapeMockupiLocationBar.prototype.foreground = function(c, x, y, w, h)
 {
 	var pointerPos = mxUtils.getValue(this.style, mxMockupC.POINTER_POS, mxMockupC.POINTER_BOTTOM);
-	var locText = mxUtils.getValue(this.style, mxMockupC.BUTTON_TEXT, 'Some Location');
+	var locText = decodeURIComponent(mxUtils.getValue(this.style, mxMockupC.BUTTON_TEXT, 'Some Location'));
 	c.setAlpha(1);
 	c.setFontColor('#ffffff');
 	c.setFontSize(9.5);
@@ -4437,7 +4439,7 @@ mxShapeMockupiOption.prototype.background = function(c, x, y, w, h)
 
 mxShapeMockupiOption.prototype.foreground = function(c, x, y, w, h)
 {
-	var locText = mxUtils.getValue(this.style, mxMockupC.BUTTON_TEXT, 'Some Location');
+	var locText = decodeURIComponent(mxUtils.getValue(this.style, mxMockupC.BUTTON_TEXT, 'Some Location'));
 	var pointerPos = mxUtils.getValue(this.style, mxMockupC.POINTER_POS, mxMockupC.POINTER_BOTTOM);
 	c.setAlpha(1);
 	c.setFontColor('#ffffff');
@@ -4562,7 +4564,7 @@ mxShapeMockupiHorButtonBar.prototype.customProperties = [
  */
 mxShapeMockupiHorButtonBar.prototype.paintVertexShape = function(c, x, y, w, h)
 {
-	var textStrings = mxUtils.getValue(this.style, mxMockupC.BUTTON_TEXT, '+Button 1, Button 2, Button 3').toString().split(',');
+	var textStrings = decodeURIComponent(mxUtils.getValue(this.style, mxMockupC.BUTTON_TEXT, '+Button 1, Button 2, Button 3').toString()).split(',');
 	var fontColor = mxUtils.getValue(this.style, mxMockupC.STYLE_TEXTCOLOR, '#666666');
 	var selectedFontColor = mxUtils.getValue(this.style, mxMockupC.STYLE_TEXTCOLOR2, '#ffffff');
 	var fontSize = mxUtils.getValue(this.style, mxConstants.STYLE_FONTSIZE, '8.5').toString();
@@ -5051,7 +5053,7 @@ mxShapeMockupiURLBar.prototype.foreground = function(c, w, h)
 	c.lineTo(w * 0.7471 - 3.5, h * 0.625 - 2.5);
 	c.stroke();
 
-	var fieldText = mxUtils.getValue(this.style, mxMockupC.BUTTON_TEXT, '').toString().split(',');
+	var fieldText = decodeURIComponent(mxUtils.getValue(this.style, mxMockupC.BUTTON_TEXT, '').toString()).split(',');
 	c.setFontColor('#425664');
 	c.setFontStyle(mxConstants.FONT_BOLD);
 	c.setFontSize(8);
@@ -5342,7 +5344,7 @@ mxShapeMockupiDownloadBar.prototype.paintVertexShape = function(c, x, y, w, h)
 
 mxShapeMockupiDownloadBar.prototype.foreground = function(c, w, h)
 {
-	var fieldText = mxUtils.getValue(this.style, mxMockupC.BUTTON_TEXT, '');
+	var fieldText = decodeURIComponent(mxUtils.getValue(this.style, mxMockupC.BUTTON_TEXT, ''));
 	c.setFontColor('#ffffff');
 	c.setFontStyle(mxConstants.FONT_BOLD);
 	c.setFontSize(8);
@@ -5433,7 +5435,7 @@ mxShapeMockupiScreenNameBar.prototype.foreground = function(c, w, h, rSize)
 	c.rect(0, 0, w, h * 0.5);
 	c.fill();
 
-	var fieldText = mxUtils.getValue(this.style, mxMockupC.BUTTON_TEXT, '');
+	var fieldText = decodeURIComponent(mxUtils.getValue(this.style, mxMockupC.BUTTON_TEXT, ''));
 	var textColor = mxUtils.getValue(this.style, mxMockupC.STYLE_TEXTCOLOR, '#00ff00');
 	c.setFontColor(textColor);
 	c.setFontSize(9.5);
@@ -5474,7 +5476,7 @@ mxShapeMockupiIconGrid.prototype.customProperties = [
 mxShapeMockupiIconGrid.prototype.paintVertexShape = function(c, x, y, w, h)
 {
 	c.translate(x, y);
-	var gridSize = mxUtils.getValue(this.style, mxMockupC.GRID_SIZE, '3,3').toString().split(',');
+	var gridSize = decodeURIComponent(mxUtils.getValue(this.style, mxMockupC.GRID_SIZE, '3,3').toString()).split(',');
 	this.background(c, w, h, gridSize);
 	c.setShadow(false);
 
@@ -5589,7 +5591,7 @@ mxShapeMockupiCopy.prototype.foreground = function(c, w, h, rSize)
 	c.close();
 	c.fill();
 
-	var fieldText = mxUtils.getValue(this.style, mxMockupC.BUTTON_TEXT, '');
+	var fieldText = decodeURIComponent(mxUtils.getValue(this.style, mxMockupC.BUTTON_TEXT, ''));
 	var textColor = mxUtils.getValue(this.style, mxMockupC.STYLE_TEXTCOLOR, '#00ff00');
 	c.setFontColor(textColor);
 	c.setFontSize(8.5);
@@ -5708,7 +5710,7 @@ mxShapeMockupiCopyArea.prototype.foreground = function(c, w, h, rSize)
 	c.close();
 	c.fill();
 
-	var fieldText = mxUtils.getValue(this.style, mxMockupC.BUTTON_TEXT, '');
+	var fieldText = decodeURIComponent(mxUtils.getValue(this.style, mxMockupC.BUTTON_TEXT, ''));
 	var textColor = mxUtils.getValue(this.style, mxMockupC.STYLE_TEXTCOLOR, '#00ff00');
 	c.setFontColor(textColor);
 	c.setFontSize(8.5);

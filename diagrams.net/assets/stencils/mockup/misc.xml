@@ -38,30 +38,30 @@
             <fillstroke/>
         </foreground>
     </shape>
-    <shape name="Cursor Hand" h="33.25" w="23.893" aspect="1">
+    <shape name="Cursor Hand" h="33.25" w="23.89" aspect="1">
         <foreground>
             <strokecolor color="#000000"/>
             <fillcolor color="#ffffff"/>
             <linejoin join="round"/>
             <path>
-                <move x="7.393" y="33.25"/>
-                <arc rx="20" ry="20" x-axis-rotation="0" large-arc-flag="0" sweep-flag="0" x="5.393" y="25.25"/>
-                <arc rx="40" ry="40" x-axis-rotation="0" large-arc-flag="0" sweep-flag="0" x="0.393" y="17.25"/>
-                <arc rx="2" ry="2" x-axis-rotation="0" large-arc-flag="0" sweep-flag="1" x="2.393" y="14.25"/>
-                <arc rx="10" ry="10" x-axis-rotation="0" large-arc-flag="0" sweep-flag="1" x="5.893" y="17.75"/>
-                <line x="5.893" y="2.25"/>
-                <arc rx="2" ry="2" x-axis-rotation="0" large-arc-flag="0" sweep-flag="1" x="10.393" y="2.25"/>
-                <line x="10.393" y="14.75"/>
-                <line x="10.393" y="10.25"/>
-                <arc rx="2.5" ry="2.5" x-axis-rotation="0" large-arc-flag="0" sweep-flag="1" x="14.893" y="10.25"/>
-                <line x="14.893" y="14.75"/>
-                <line x="14.893" y="11.25"/>
-                <arc rx="2.5" ry="2.5" x-axis-rotation="0" large-arc-flag="0" sweep-flag="1" x="19.393" y="11.25"/>
-                <line x="19.393" y="16.25"/>
-                <line x="19.393" y="11.75"/>
-                <arc rx="5" ry="4" x-axis-rotation="0" large-arc-flag="0" sweep-flag="1" x="23.893" y="15.25"/>
-                <arc rx="50" ry="50" x-axis-rotation="0" large-arc-flag="0" sweep-flag="1" x="21.393" y="29.25"/>
-                <line x="21.393" y="33.25"/>
+                <move x="7.39" y="33.25"/>
+                <arc rx="20" ry="20" x-axis-rotation="0" large-arc-flag="0" sweep-flag="0" x="5.39" y="25.25"/>
+                <arc rx="40" ry="40" x-axis-rotation="0" large-arc-flag="0" sweep-flag="0" x="0.39" y="17.25"/>
+                <arc rx="2" ry="2" x-axis-rotation="0" large-arc-flag="0" sweep-flag="1" x="2.39" y="14.25"/>
+                <arc rx="10" ry="10" x-axis-rotation="0" large-arc-flag="0" sweep-flag="1" x="5.89" y="17.75"/>
+                <line x="5.89" y="2.25"/>
+                <arc rx="2" ry="2" x-axis-rotation="0" large-arc-flag="0" sweep-flag="1" x="10.39" y="2.25"/>
+                <line x="10.39" y="14.75"/>
+                <line x="10.39" y="10.25"/>
+                <arc rx="2.5" ry="2.5" x-axis-rotation="0" large-arc-flag="0" sweep-flag="1" x="14.89" y="10.25"/>
+                <line x="14.89" y="14.75"/>
+                <line x="14.89" y="11.25"/>
+                <arc rx="2.5" ry="2.5" x-axis-rotation="0" large-arc-flag="0" sweep-flag="1" x="19.39" y="11.25"/>
+                <line x="19.39" y="16.25"/>
+                <line x="19.39" y="11.75"/>
+                <arc rx="5" ry="4" x-axis-rotation="0" large-arc-flag="0" sweep-flag="1" x="23.89" y="15.25"/>
+                <arc rx="50" ry="50" x-axis-rotation="0" large-arc-flag="0" sweep-flag="1" x="21.39" y="29.25"/>
+                <line x="21.39" y="33.25"/>
                 <close/>
             </path>
             <fillstroke/>
@@ -114,12 +114,11 @@
     </shape>
     <shape name="Help Icon" h="32" w="32" aspect="1">
         <foreground>
-            <strokecolor color="#000000"/>
-            <strokecolor color="#666666"/>
-            <fillcolor color="#cccccc"/>
+            <strokecolor color="strokeColor2" default="#666666"/>
+            <fillcolor color="fillColor2" default="#cccccc"/>
             <ellipse x="0" y="0" w="32" h="32"/>
             <fillstroke/>
-            <fontcolor color="#2c457e"/>
+            <fontcolor color="fontColor2" default="#2c457e"/>
             <fontsize size="20"/>
             <fontstyle style="1"/>
             <text str="?" x="16" y="16" align="center" valign="middle"/>
@@ -373,12 +372,12 @@
     </shape>
     <shape name="Map" h="251" w="251" aspect="1">
         <foreground>
-            <strokecolor color="#000000"/>
-            <fillcolor color="#ffffff"/>
+            <strokecolor color="strokeColor2" default="#000000"/>
+            <fillcolor color="fillColor2" default="#ffffff"/>
             <rect x="0" y="0" w="250" h="250"/>
             <fillstroke/>
-            <strokecolor color="#d87146"/>
-            <fillcolor color="#ffca8c"/>
+            <strokecolor color="strokeColor3" default="#d87146"/>
+            <fillcolor color="fillColor3" default="#ffca8c"/>
             <path>
                 <move x="15" y="0"/>
                 <line x="12.834" y="4.167"/>
@@ -386,7 +385,7 @@
                 <close/>
             </path>
             <fillstroke/>
-            <fillcolor color="#d87146"/>
+            <fillcolor color="fillColor4" default="#d87146"/>
             <path>
                 <move x="5.667" y="18.167"/>
                 <line x="13.834" y="18.5"/>
@@ -403,7 +402,7 @@
                 <close/>
             </path>
             <fillstroke/>
-            <fillcolor color="#ffca8c"/>
+            <fillcolor color="fillColor3" default="#ffca8c"/>
             <path>
                 <move x="21.834" y="12"/>
                 <line x="19.167" y="9.167"/>
@@ -496,7 +495,7 @@
                 <close/>
             </path>
             <fillstroke/>
-            <fillcolor color="#d87146"/>
+            <fillcolor color="fillColor4" default="#d87146"/>
             <path>
                 <move x="153.334" y="21"/>
                 <line x="161.167" y="14"/>
@@ -505,7 +504,7 @@
                 <close/>
             </path>
             <fillstroke/>
-            <fillcolor color="#ffca8c"/>
+            <fillcolor color="fillColor3" default="#ffca8c"/>
             <path>
                 <move x="177.501" y="16.5"/>
                 <line x="180.501" y="7.167"/>
@@ -637,7 +636,7 @@
                 <close/>
             </path>
             <fillstroke/>
-            <fillcolor color="#d87146"/>
+            <fillcolor color="fillColor4" default="#d87146"/>
             <path>
                 <move x="183.334" y="73.334"/>
                 <line x="191.834" y="64"/>
@@ -646,7 +645,7 @@
                 <close/>
             </path>
             <fillstroke/>
-            <fillcolor color="#ffca8c"/>
+            <fillcolor color="fillColor3" default="#ffca8c"/>
             <path>
                 <move x="199.501" y="78.334"/>
                 <line x="203.334" y="73.667"/>
@@ -756,7 +755,7 @@
                 <close/>
             </path>
             <fillstroke/>
-            <fillcolor color="#d87146"/>
+            <fillcolor color="fillColor4" default="#d87146"/>
             <path>
                 <move x="179.334" y="247.834"/>
                 <line x="178.001" y="250.5"/>
@@ -765,7 +764,7 @@
                 <close/>
             </path>
             <fillstroke/>
-            <fillcolor color="#ffca8c"/>
+            <fillcolor color="fillColor3" default="#ffca8c"/>
             <path>
                 <move x="185.501" y="242"/>
                 <line x="164.001" y="233"/>
@@ -882,7 +881,7 @@
                 <close/>
             </path>
             <fillstroke/>
-            <fillcolor color="#d87146"/>
+            <fillcolor color="fillColor4" default="#d87146"/>
             <path>
                 <move x="134.501" y="115.167"/>
                 <line x="124.667" y="117.334"/>
@@ -901,7 +900,7 @@
                 <close/>
             </path>
             <fillstroke/>
-            <fillcolor color="#ffca8c"/>
+            <fillcolor color="fillColor3" default="#ffca8c"/>
             <path>
                 <move x="136.834" y="147.667"/>
                 <line x="152.501" y="140.167"/>
@@ -976,7 +975,7 @@
                 <close/>
             </path>
             <fillstroke/>
-            <fillcolor color="#d87146"/>
+            <fillcolor color="fillColor4" default="#d87146"/>
             <path>
                 <move x="122.501" y="99.667"/>
                 <line x="116.834" y="98"/>
@@ -986,7 +985,7 @@
                 <close/>
             </path>
             <fillstroke/>
-            <fillcolor color="#ffca8c"/>
+            <fillcolor color="fillColor3" default="#ffca8c"/>
             <path>
                 <move x="94.167" y="56.667"/>
                 <line x="107.001" y="89.167"/>
@@ -998,7 +997,7 @@
                 <close/>
             </path>
             <fillstroke/>
-            <fillcolor color="#d87146"/>
+            <fillcolor color="fillColor4" default="#d87146"/>
             <path>
                 <move x="106.667" y="87.5"/>
                 <line x="108.501" y="92"/>
@@ -1009,7 +1008,7 @@
                 <close/>
             </path>
             <fillstroke/>
-            <fillcolor color="#ffca8c"/>
+            <fillcolor color="fillColor3" default="#ffca8c"/>
             <path>
                 <move x="105.334" y="63.167"/>
                 <line x="101.167" y="52.334"/>
@@ -1050,7 +1049,7 @@
                 <close/>
             </path>
             <fillstroke/>
-            <fillcolor color="#d87146"/>
+            <fillcolor color="fillColor4" default="#d87146"/>
             <path>
                 <move x="62.334" y="52.167"/>
                 <line x="67.001" y="60.334"/>
@@ -1060,7 +1059,7 @@
                 <close/>
             </path>
             <fillstroke/>
-            <fillcolor color="#ffca8c"/>
+            <fillcolor color="fillColor3" default="#ffca8c"/>
             <path>
                 <move x="40.001" y="47.667"/>
                 <line x="53.001" y="68.834"/>
@@ -1069,7 +1068,7 @@
                 <close/>
             </path>
             <fillstroke/>
-            <fillcolor color="#d87146"/>
+            <fillcolor color="fillColor4" default="#d87146"/>
             <path>
                 <move x="47.667" y="77.834"/>
                 <line x="56.167" y="72.167"/>
@@ -1079,7 +1078,7 @@
                 <close/>
             </path>
             <fillstroke/>
-            <fillcolor color="#ffca8c"/>
+            <fillcolor color="fillColor3" default="#ffca8c"/>
             <path>
                 <move x="119.667" y="186.167"/>
                 <line x="138.667" y="173.667"/>
@@ -1104,7 +1103,7 @@
                 <close/>
             </path>
             <fillstroke/>
-            <fillcolor color="#b2d8ad"/>
+            <fillcolor color="fillColor5" default="#b2d8ad"/>
             <path>
                 <move x="16.667" y="218"/>
                 <line x="36.834" y="240.167"/>
@@ -1114,7 +1113,7 @@
                 <close/>
             </path>
             <fillstroke/>
-            <fillcolor color="#ffca8c"/>
+            <fillcolor color="fillColor3" default="#ffca8c"/>
             <path>
                 <move x="0" y="232.5"/>
                 <line x="9.667" y="223.667"/>
@@ -1124,7 +1123,7 @@
                 <close/>
             </path>
             <fillstroke/>
-            <fillcolor color="#b2d8ad"/>
+            <fillcolor color="fillColor5" default="#b2d8ad"/>
             <path>
                 <move x="13.501" y="214.667"/>
                 <line x="0.334" y="225.167"/>
@@ -1144,7 +1143,7 @@
                 <close/>
             </path>
             <fillstroke/>
-            <fillcolor color="#d87146"/>
+            <fillcolor color="fillColor4" default="#d87146"/>
             <path>
                 <move x="25.667" y="174.334"/>
                 <line x="36.001" y="186.5"/>
@@ -1153,7 +1152,7 @@
                 <close/>
             </path>
             <fillstroke/>
-            <fillcolor color="#b2d8ad"/>
+            <fillcolor color="fillColor5" default="#b2d8ad"/>
             <path>
                 <move x="33.167" y="168.667"/>
                 <line x="12.167" y="185.5"/>
@@ -1330,7 +1329,7 @@
                 <close/>
             </path>
             <fillstroke/>
-            <fillcolor color="#d87146"/>
+            <fillcolor color="fillColor4" default="#d87146"/>
             <path>
                 <move x="62.667" y="98.5"/>
                 <arc rx="50" ry="50" x-axis-rotation="0" large-arc-flag="0" sweep-flag="1" x="84.834" y="98"/>
@@ -1359,7 +1358,7 @@
                 <close/>
             </path>
             <fillstroke/>
-            <fillcolor color="#ffca8c"/>
+            <fillcolor color="fillColor3" default="#ffca8c"/>
             <path>
                 <move x="247.567" y="138.167"/>
                 <line x="250.167" y="133.967"/>
@@ -1367,7 +1366,7 @@
                 <close/>
             </path>
             <fillstroke/>
-            <fillcolor color="#b2d8ad"/>
+            <fillcolor color="fillColor5" default="#b2d8ad"/>
             <path>
                 <move x="84.767" y="207.767"/>
                 <curve x1="84.767" y1="207.767" x2="100.967" y2="192.767" x3="100.967" y3="192.767"/>
@@ -1449,7 +1448,7 @@
                 <close/>
             </path>
             <fillstroke/>
-            <fillcolor color="#ffffff"/>
+            <fillcolor color="fillColor6" default="#ffffff"/>
             <path>
                 <move x="112.334" y="122.834"/>
                 <line x="119.667" y="134.334"/>
@@ -1474,9 +1473,8 @@
                 <close/>
             </path>
             <fillstroke/>
-            <strokecolor color="#000000"/>
+            <strokecolor color="strokeColor2" default="#000000"/>
             <strokewidth width="2"/>
-            <fillcolor color="none"/>
             <rect x="0.167" y="0.167" w="250" h="250"/>
             <stroke/>
         </foreground>

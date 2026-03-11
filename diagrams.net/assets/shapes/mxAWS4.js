@@ -1,6 +1,5 @@
 /**
- * $Id: mxAws4.js,v 1.0 2018/16/11 07:05:39 mate Exp $
- * Copyright (c) 2006-2018, JGraph Ltd
+ * Copyright (c) 2006-2018, JGraph Holdings Ltd
  */
 
 //**********************************************************************************************************************************************************
@@ -200,7 +199,7 @@ mxShapeAws4Group.prototype.paintVertexShape = function(c, x, y, w, h)
 	c.lineTo(0, h);
 	c.close();
 
-	if (grStroke == '1')
+	if (grStroke == '1' || this.outline)
 	{
 		c.fillAndStroke();
 	}
@@ -272,7 +271,7 @@ mxShapeAws4GroupCenter.prototype.paintVertexShape = function(c, x, y, w, h)
 	c.lineTo(0, h);
 	c.close();
 	
-	if (grStroke == '1')
+	if (grStroke == '1' || this.outline)
 	{
 		c.fillAndStroke();
 	}

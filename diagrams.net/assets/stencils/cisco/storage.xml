@@ -33,7 +33,7 @@
 <foreground>
 <linejoin join="round"/>
 <fillstroke/>
-<fillcolor color="#ffffff"/>
+<fillcolor color="strokeColor2" default="#ffffff"/>
 <path>
 <move x="7.33" y="15.66"/>
 <line x="3" y="15.66"/>
@@ -80,7 +80,7 @@
 <restore/>
 <rect/>
 <stroke/>
-<strokecolor color="#ffffff"/>
+<strokecolor color="strokeColor2" default="#ffffff"/>
 <strokewidth width="0.67"/>
 <path>
 <move x="17" y="26.66"/>
@@ -218,7 +218,7 @@
 <close/>
 </path>
 <stroke/>
-<fillcolor color="#ffffff"/>
+<fillcolor color="strokeColor2" default="#ffffff"/>
 <path>
 <move x="23.67" y="22.33"/>
 <curve x1="23.67" y1="31" x2="23.67" y2="31" x3="23.67" y3="31"/>
@@ -293,7 +293,7 @@
 <rect/>
 <stroke/>
 <strokewidth width="0.67"/>
-<strokecolor color="#ffffff"/>
+<strokecolor color="strokeColor2" default="#ffffff"/>
 <path>
 <move x="3.67" y="11.66"/>
 <line x="3.67" y="19.66"/>
@@ -376,9 +376,9 @@
 <foreground>
 <linejoin join="round"/>
 <fillstroke/>
-<strokecolor color="#000000"/>
+<strokecolor color="strokeColor3" default="#000000"/>
 <strokewidth width="0.4"/>
-<fillcolor color="#ffffff"/>
+<fillcolor color="strokeColor2" default="#ffffff"/>
 <linecap cap="round"/>
 <path>
 <move x="9.67" y="31.33"/>
@@ -389,8 +389,8 @@
 <close/>
 </path>
 <fillstroke/>
-<strokecolor color="none"/>
-<fillcolor color="#000000"/>
+<strokecolor color="none" primary="false"/>
+<fillcolor color="strokeColor3" default="#000000"/>
 <linejoin join="miter"/>
 <linecap cap="butt"/>
 <path>
@@ -412,8 +412,8 @@
 <close/>
 </path>
 <fillstroke/>
-<strokecolor color="#000000"/>
-<fillcolor color="#ffffff"/>
+<strokecolor color="strokeColor3" default="#000000"/>
+<fillcolor color="strokeColor2" default="#ffffff"/>
 <linejoin join="round"/>
 <linecap cap="round"/>
 <path>
@@ -426,7 +426,7 @@
 </path>
 <fillstroke/>
 <restore/>
-<fillcolor color="#000000"/>
+<fillcolor color="strokeColor3" default="#000000"/>
 <linejoin join="miter"/>
 <linecap cap="butt"/>
 <path>
@@ -448,8 +448,8 @@
 <close/>
 </path>
 <fillstroke/>
-<strokecolor color="#000000"/>
-<fillcolor color="#ffffff"/>
+<strokecolor color="strokeColor3" default="#000000"/>
+<fillcolor color="strokeColor2" default="#ffffff"/>
 <linejoin join="round"/>
 <linecap cap="round"/>
 <path>
@@ -462,7 +462,7 @@
 </path>
 <fillstroke/>
 <restore/>
-<fillcolor color="#000000"/>
+<fillcolor color="strokeColor3" default="#000000"/>
 <linejoin join="miter"/>
 <linecap cap="butt"/>
 <path>
@@ -475,8 +475,8 @@
 </path>
 <fillstroke/>
 <save/>
-<strokecolor color="#000000"/>
-<fillcolor color="#ffffff"/>
+<strokecolor color="strokeColor3" default="#000000"/>
+<fillcolor color="strokeColor2" default="#ffffff"/>
 <linejoin join="round"/>
 <linecap cap="round"/>
 <path>
@@ -489,10 +489,10 @@
 </path>
 <fillstroke/>
 <restore/>
+<strokecolor color="none" primary="false"/>
+<fillcolor color="strokeColor3" default="#000000"/>
 <strokecolor color="none"/>
-<fillcolor color="#000000"/>
-<strokecolor color="none"/>
-<fillcolor color="#000000"/>
+<fillcolor color="strokeColor3" default="#000000"/>
 <linejoin join="miter"/>
 <linecap cap="butt"/>
 <path>
@@ -514,8 +514,8 @@
 <close/>
 </path>
 <fillstroke/>
-<strokecolor color="#000000"/>
-<fillcolor color="#ffffff"/>
+<strokecolor color="strokeColor3" default="#000000"/>
+<fillcolor color="strokeColor2" default="#ffffff"/>
 <linejoin join="round"/>
 <linecap cap="round"/>
 <path>
@@ -528,8 +528,8 @@
 </path>
 <fillstroke/>
 <restore/>
-<strokecolor color="none"/>
-<fillcolor color="#000000"/>
+<strokecolor color="none" primary="false"/>
+<fillcolor color="strokeColor3" default="#000000"/>
 <linejoin join="miter"/>
 <linecap cap="butt"/>
 <path>
@@ -551,8 +551,8 @@
 <close/>
 </path>
 <fillstroke/>
-<strokecolor color="#000000"/>
-<fillcolor color="#ffffff"/>
+<strokecolor color="strokeColor3" default="#000000"/>
+<fillcolor color="strokeColor2" default="#ffffff"/>
 <linejoin join="round"/>
 <linecap cap="round"/>
 <path>
@@ -565,8 +565,8 @@
 </path>
 <fillstroke/>
 <restore/>
-<strokecolor color="none"/>
-<fillcolor color="#000000"/>
+<strokecolor color="none" primary="false"/>
+<fillcolor color="strokeColor3" default="#000000"/>
 <linejoin join="miter"/>
 <linecap cap="butt"/>
 <path>
@@ -579,8 +579,8 @@
 </path>
 <fillstroke/>
 <save/>
-<strokecolor color="#000000"/>
-<fillcolor color="#ffffff"/>
+<strokecolor color="strokeColor3" default="#000000"/>
+<fillcolor color="strokeColor2" default="#ffffff"/>
 <linejoin join="round"/>
 <linecap cap="round"/>
 <path>
@@ -593,8 +593,8 @@
 </path>
 <fillstroke/>
 <restore/>
-<strokecolor color="none"/>
-<fillcolor color="#000000"/>
+<strokecolor color="none" primary="false"/>
+<fillcolor color="strokeColor3" default="#000000"/>
 <linejoin join="miter"/>
 <linecap cap="butt"/>
 <path>
@@ -616,8 +616,8 @@
 <close/>
 </path>
 <fillstroke/>
-<strokecolor color="#000000"/>
-<fillcolor color="#ffffff"/>
+<strokecolor color="strokeColor3" default="#000000"/>
+<fillcolor color="strokeColor2" default="#ffffff"/>
 <linejoin join="round"/>
 <linecap cap="round"/>
 <path>
@@ -630,8 +630,8 @@
 </path>
 <fillstroke/>
 <restore/>
-<strokecolor color="none"/>
-<fillcolor color="#000000"/>
+<strokecolor color="none" primary="false"/>
+<fillcolor color="strokeColor3" default="#000000"/>
 <linejoin join="miter"/>
 <linecap cap="butt"/>
 <path>
@@ -653,8 +653,8 @@
 <close/>
 </path>
 <fillstroke/>
-<strokecolor color="#000000"/>
-<fillcolor color="#ffffff"/>
+<strokecolor color="strokeColor3" default="#000000"/>
+<fillcolor color="strokeColor2" default="#ffffff"/>
 <linejoin join="round"/>
 <linecap cap="round"/>
 <path>
@@ -667,8 +667,8 @@
 </path>
 <fillstroke/>
 <restore/>
-<strokecolor color="none"/>
-<fillcolor color="#000000"/>
+<strokecolor color="none" primary="false"/>
+<fillcolor color="strokeColor3" default="#000000"/>
 <linejoin join="miter"/>
 <linecap cap="butt"/>
 <path>
@@ -681,8 +681,8 @@
 </path>
 <fillstroke/>
 <save/>
-<strokecolor color="#000000"/>
-<fillcolor color="#ffffff"/>
+<strokecolor color="strokeColor3" default="#000000"/>
+<fillcolor color="strokeColor2" default="#ffffff"/>
 <linejoin join="round"/>
 <linecap cap="round"/>
 <path>
@@ -695,8 +695,8 @@
 </path>
 <fillstroke/>
 <restore/>
-<strokecolor color="none"/>
-<fillcolor color="#000000"/>
+<strokecolor color="none" primary="false"/>
+<fillcolor color="strokeColor3" default="#000000"/>
 <linejoin join="miter"/>
 <linecap cap="butt"/>
 <path>
@@ -718,8 +718,8 @@
 <close/>
 </path>
 <fillstroke/>
-<strokecolor color="#000000"/>
-<fillcolor color="#ffffff"/>
+<strokecolor color="strokeColor3" default="#000000"/>
+<fillcolor color="strokeColor2" default="#ffffff"/>
 <linejoin join="round"/>
 <linecap cap="round"/>
 <path>
@@ -732,8 +732,8 @@
 </path>
 <fillstroke/>
 <restore/>
-<strokecolor color="none"/>
-<fillcolor color="#000000"/>
+<strokecolor color="none" primary="false"/>
+<fillcolor color="strokeColor3" default="#000000"/>
 <linejoin join="miter"/>
 <linecap cap="butt"/>
 <path>
@@ -755,8 +755,8 @@
 <close/>
 </path>
 <fillstroke/>
-<strokecolor color="#000000"/>
-<fillcolor color="#ffffff"/>
+<strokecolor color="strokeColor3" default="#000000"/>
+<fillcolor color="strokeColor2" default="#ffffff"/>
 <linejoin join="round"/>
 <linecap cap="round"/>
 <path>
@@ -769,8 +769,8 @@
 </path>
 <fillstroke/>
 <restore/>
-<strokecolor color="none"/>
-<fillcolor color="#000000"/>
+<strokecolor color="none" primary="false"/>
+<fillcolor color="strokeColor3" default="#000000"/>
 <linejoin join="miter"/>
 <linecap cap="butt"/>
 <path>
@@ -783,8 +783,8 @@
 </path>
 <fillstroke/>
 <save/>
-<strokecolor color="#000000"/>
-<fillcolor color="#ffffff"/>
+<strokecolor color="strokeColor3" default="#000000"/>
+<fillcolor color="strokeColor2" default="#ffffff"/>
 <linejoin join="round"/>
 <linecap cap="round"/>
 <path>
@@ -797,8 +797,8 @@
 </path>
 <fillstroke/>
 <restore/>
-<strokecolor color="none"/>
-<fillcolor color="#000000"/>
+<strokecolor color="none" primary="false"/>
+<fillcolor color="strokeColor3" default="#000000"/>
 <linejoin join="miter"/>
 <linecap cap="butt"/>
 <path>
@@ -820,8 +820,8 @@
 <close/>
 </path>
 <fillstroke/>
-<strokecolor color="#000000"/>
-<fillcolor color="#ffffff"/>
+<strokecolor color="strokeColor3" default="#000000"/>
+<fillcolor color="strokeColor2" default="#ffffff"/>
 <linejoin join="round"/>
 <linecap cap="round"/>
 <path>
@@ -834,8 +834,8 @@
 </path>
 <fillstroke/>
 <restore/>
-<strokecolor color="none"/>
-<fillcolor color="#000000"/>
+<strokecolor color="none" primary="false"/>
+<fillcolor color="strokeColor3" default="#000000"/>
 <linejoin join="miter"/>
 <linecap cap="butt"/>
 <path>
@@ -857,8 +857,8 @@
 <close/>
 </path>
 <fillstroke/>
-<strokecolor color="#000000"/>
-<fillcolor color="#ffffff"/>
+<strokecolor color="strokeColor3" default="#000000"/>
+<fillcolor color="strokeColor2" default="#ffffff"/>
 <linejoin join="round"/>
 <linecap cap="round"/>
 <path>
@@ -871,8 +871,8 @@
 </path>
 <fillstroke/>
 <restore/>
-<strokecolor color="none"/>
-<fillcolor color="#000000"/>
+<strokecolor color="none" primary="false"/>
+<fillcolor color="strokeColor3" default="#000000"/>
 <linejoin join="miter"/>
 <linecap cap="butt"/>
 <path>
@@ -885,8 +885,8 @@
 </path>
 <fillstroke/>
 <save/>
-<strokecolor color="#000000"/>
-<fillcolor color="#ffffff"/>
+<strokecolor color="strokeColor3" default="#000000"/>
+<fillcolor color="strokeColor2" default="#ffffff"/>
 <linejoin join="round"/>
 <linecap cap="round"/>
 <path>
@@ -899,8 +899,8 @@
 </path>
 <fillstroke/>
 <restore/>
-<strokecolor color="none"/>
-<fillcolor color="#000000"/>
+<strokecolor color="none" primary="false"/>
+<fillcolor color="strokeColor3" default="#000000"/>
 <linejoin join="miter"/>
 <linecap cap="butt"/>
 <path>
@@ -922,8 +922,8 @@
 <close/>
 </path>
 <fillstroke/>
-<strokecolor color="#000000"/>
-<fillcolor color="#ffffff"/>
+<strokecolor color="strokeColor3" default="#000000"/>
+<fillcolor color="strokeColor2" default="#ffffff"/>
 <linejoin join="round"/>
 <linecap cap="round"/>
 <path>
@@ -936,8 +936,8 @@
 </path>
 <fillstroke/>
 <restore/>
-<strokecolor color="none"/>
-<fillcolor color="#000000"/>
+<strokecolor color="none" primary="false"/>
+<fillcolor color="strokeColor3" default="#000000"/>
 <linejoin join="miter"/>
 <linecap cap="butt"/>
 <path>
@@ -959,8 +959,8 @@
 <close/>
 </path>
 <fillstroke/>
-<strokecolor color="#000000"/>
-<fillcolor color="#ffffff"/>
+<strokecolor color="strokeColor3" default="#000000"/>
+<fillcolor color="strokeColor2" default="#ffffff"/>
 <linejoin join="round"/>
 <linecap cap="round"/>
 <path>
@@ -973,8 +973,8 @@
 </path>
 <fillstroke/>
 <restore/>
-<strokecolor color="none"/>
-<fillcolor color="#000000"/>
+<strokecolor color="none" primary="false"/>
+<fillcolor color="strokeColor3" default="#000000"/>
 <linejoin join="miter"/>
 <linecap cap="butt"/>
 <path>
@@ -1178,8 +1178,8 @@
 <rect/>
 <stroke/>
 <strokewidth width="0.67"/>
-<strokecolor color="#ffffff"/>
-<fillcolor color="#000000"/>
+<strokecolor color="strokeColor2" default="#ffffff"/>
+<fillcolor color="fillColor2" default="#000000"/>
 <path>
 <move x="17.67" y="16"/>
 <line x="17.67" y="10.33"/>
@@ -1304,8 +1304,8 @@
 </path>
 </background>
 <foreground>
-<strokecolor color="#036897"/>
-<fillcolor color="#ffffff"/>
+<strokecolor color="strokeColor3" default="#036897"/>
+<fillcolor color="strokeColor2" default="#ffffff"/>
 <fillstroke/>
 <restore/>
 <strokewidth width="1"/>
@@ -1396,7 +1396,7 @@
 </path>
 <fillstroke/>
 <save/>
-<fillcolor color="#ffffff"/>
+<fillcolor color="strokeColor2" default="#ffffff"/>
 <path>
 <move x="57" y="40.67"/>
 <curve x1="54.67" y1="40.34" x2="53.33" y2="41.67" x3="53.67" y3="42.67"/>
@@ -1504,7 +1504,7 @@
 <close/>
 </path>
 <fillstroke/>
-<fillcolor color="#ffffff"/>
+<fillcolor color="strokeColor2" default="#ffffff"/>
 <path>
 <move x="87.67" y="23.34"/>
 <curve x1="85.33" y1="23" x2="84" y2="24.34" x3="84.33" y3="25.34"/>
@@ -1612,7 +1612,7 @@
 <close/>
 </path>
 <fillstroke/>
-<fillcolor color="#ffffff"/>
+<fillcolor color="strokeColor2" default="#ffffff"/>
 <path>
 <move x="27.67" y="22"/>
 <curve x1="25.33" y1="21.67" x2="24" y2="23" x3="24.33" y3="24"/>
@@ -1633,7 +1633,7 @@
 <close/>
 </path>
 <fill/>
-<strokecolor color="#036897"/>
+<strokecolor color="strokeColor3" default="#036897"/>
 <path>
 <move x="50.33" y="50.67"/>
 <line x="37.67" y="42.34"/>

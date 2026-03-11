@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 10 10">
+  <!-- Generator: Adobe Illustrator 29.5.1, SVG Export Plug-In . SVG Version: 2.1.0 Build 141)  -->
+  <defs>
+    <clipPath id="clippath">
+      <rect width="10" height="10" fill="none"/>
+    </clipPath>
+    <linearGradient id="linear-gradient" x1="4.52" y1="8.97" x2="8.89" y2="4.34" gradientTransform="translate(0 12) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0195ff"/>
+      <stop offset=".99" stop-color="#1147e9"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient1" x1="5.88" y1="12.19" x2="11.49" y2="7.69" gradientTransform="translate(0 12) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1348ff"/>
+      <stop offset="1" stop-color="#06238d"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient2" x1="2.44" y1="7.9" x2="8.05" y2="3.4" gradientTransform="translate(0 12) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1348ff"/>
+      <stop offset="1" stop-color="#06238d"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient3" x1=".89" y1="5.96" x2="6.5" y2="1.47" gradientTransform="translate(0 12) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1348ff"/>
+      <stop offset="1" stop-color="#06238d"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient4" x1="1.91" y1="7.24" x2="7.52" y2="2.74" gradientTransform="translate(0 12) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1348ff"/>
+      <stop offset="1" stop-color="#06238d"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient5" x1="5.53" y1="11.75" x2="11.14" y2="7.25" gradientTransform="translate(0 12) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1348ff"/>
+      <stop offset="1" stop-color="#06238d"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient6" x1="1.46" y1="10.78" x2="4.93" y2="6.13" gradientTransform="translate(0 12) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0bf"/>
+      <stop offset="1" stop-color="#008bff"/>
+    </linearGradient>
+  </defs>
+  <g clip-path="url(#clippath)">
+    <g>
+      <path d="M7.84,2.43c.2-.16.5-.25.92-.18.03,0,.05.01.08.03.14.07.41.24.63.38.11.07.22.14.29.19l.09.06c.09.06.15.14.15.25,0,.03,0,.07-.01.12-.01.07-.03.16-.08.25-.05.1-.12.2-.24.28-.12.08-.27.12-.44.12-.01,0-.03,0-.04,0,.03.23.08.52.12.83.09.65.19,1.4.19,1.68,0,.43-.14.91-.31,1.28-.08.19-.18.36-.28.48-.05.06-.11.13-.17.17-.06.04-.15.1-.27.1s-.21-.06-.27-.1c-.06-.04-.12-.1-.16-.16-.1-.11-.19-.25-.27-.38-.09-.14-.16-.28-.22-.38h-2.2c-.05.1-.13.24-.22.38-.08.13-.18.27-.27.38-.05.06-.1.11-.16.16-.06.04-.15.1-.27.1-.1,0-.18-.04-.24-.07-.06-.04-.12-.09-.18-.14-.11-.11-.21-.25-.29-.4-.18-.32-.32-.74-.32-1.17s.15-.76.31-.96c.08-.1.16-.17.22-.22.13-.1.27-.19.43-.25.14-.05.3-.08.47-.11.33-.05.72-.07,1.1-.07s.75.02,1.05.03c.11,0,.2.01.29.02h.08s.2-1.96.2-1.96c.01-.1.02-.23.06-.36.04-.13.11-.28.25-.39Z" fill="url(#linear-gradient)"/>
+      <path d="M8.24,2.25c.15-.03.32-.03.53,0,.03,0,.05.01.08.03.03.02.08.04.12.07.02-.07.04-.15.04-.23,0-.42-.34-.76-.76-.76v.9Z" fill="url(#linear-gradient1)"/>
+      <path d="M8.12,8.32s.05.04.07.06c.06.04.15.1.27.1s.21-.06.27-.1c.01,0,.02-.02.03-.03v.5s.02.08.05.11l.42.42c.07.07.02.18-.07.18h-.88c-.09,0-.16-.07-.16-.16v-1.08Z" fill="url(#linear-gradient2)"/>
+      <path d="M4.13,8.38s.03.02.05.03c.06.04.15.07.24.07.12,0,.21-.06.27-.1.03-.02.06-.05.09-.08v.55s.02.08.05.11l.42.42c.07.07.02.18-.07.18h-.88c-.09,0-.16-.07-.16-.16v-1.03Z" fill="url(#linear-gradient3)"/>
+      <path d="M3.99,5.47s-.04.03-.07.05c-.06.05-.14.12-.22.22-.05.06-.1.13-.14.22l-.67.56c-.27-.32-.23-.8.09-1.07.3-.25.73-.23,1.01.03Z" fill="url(#linear-gradient4)"/>
+      <path d="M7.22,2.11c0,.42.34.76.76.76v-1.52c-.42,0-.76.34-.76.76Z" fill="url(#linear-gradient5)"/>
+      <path d="M3.52,1.69c-.7,0-1.24.68-1.19,1.34.01.14-.05.28-.15.38-.11.1-.25.14-.39.11-.29-.05-.49.03-.61.14-.13.12-.23.32-.23.58s.08.44.19.55c.11.11.29.2.61.2h.21c.26,0,.47.21.47.47s-.21.47-.47.47h-.21c-.51,0-.96-.16-1.28-.48-.31-.32-.45-.75-.45-1.2,0-.48.18-.95.53-1.27.24-.22.55-.36.89-.39.17-.94.97-1.83,2.1-1.83.89,0,1.56.48,1.93,1.2.66.03,1.27.43,1.47,1.18.07.25-.08.51-.33.57-.25.07-.51-.08-.58-.32-.05-.19-.16-.33-.3-.41-.14-.08-.31-.11-.5-.08-.22.03-.43-.09-.51-.3-.22-.59-.64-.91-1.2-.91Z" fill="url(#linear-gradient6)"/>
+    </g>
+  </g>
+</svg>

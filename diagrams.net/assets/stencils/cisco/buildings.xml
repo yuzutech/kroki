@@ -38,7 +38,7 @@
 <restore/>
 <rect/>
 <stroke/>
-<strokecolor color="#ffffff"/>
+<strokecolor color="strokeColor2" default="#ffffff"/>
 <strokewidth width="0.4"/>
 <path>
 <move x="7" y="35.67"/>
@@ -185,7 +185,7 @@
 <linejoin join="round"/>
 <fillstroke/>
 <strokewidth width="0.67"/>
-<strokecolor color="#ffffff"/>
+<strokecolor color="strokeColor2" default="#ffffff"/>
 <path>
 <move x="15" y="15.67"/>
 <line x="24" y="15.67"/>
@@ -204,7 +204,7 @@
 <restore/>
 <rect/>
 <stroke/>
-<strokecolor color="#ffffff"/>
+<strokecolor color="strokeColor2" default="#ffffff"/>
 <strokewidth width="1.33"/>
 <path>
 <move x="14.66" y="15.34"/>
@@ -212,7 +212,7 @@
 </path>
 <stroke/>
 <strokewidth width="0.67"/>
-<fillcolor color="#ffffff"/>
+<fillcolor color="strokeColor2" default="#ffffff"/>
 <path>
 <move x="24" y="12.67"/>
 <line x="24" y="18"/>
@@ -302,7 +302,7 @@
 <restore/>
 <rect/>
 <stroke/>
-<strokecolor color="#ffffff"/>
+<strokecolor color="strokeColor2" default="#ffffff"/>
 <strokewidth width="0.67"/>
 <path>
 <move x="14.66" y="26.67"/>
@@ -314,7 +314,7 @@
 </path>
 <fillstroke/>
 <strokewidth width="0.67"/>
-<fillcolor color="#ffffff"/>
+<fillcolor color="strokeColor2" default="#ffffff"/>
 <path>
 <move x="23" y="12"/>
 <curve x1="23.33" y1="12" x2="23.33" y2="12" x3="23.33" y3="11.67"/>
@@ -331,9 +331,9 @@
 <close/>
 </path>
 <fillstroke/>
-<strokecolor color="#ffffff"/>
+<strokecolor color="strokeColor2" default="#ffffff"/>
 <strokewidth width="0.4"/>
-<fillcolor color="#000000"/>
+<fillcolor color="fillColor2" default="#000000"/>
 <path>
 <move x="12.66" y="18.34"/>
 <line x="12" y="18.34"/>
@@ -502,7 +502,7 @@
 <restore/>
 <rect/>
 <stroke/>
-<strokecolor color="#ffffff"/>
+<strokecolor color="strokeColor2" default="#ffffff"/>
 <strokewidth width="0.67"/>
 <path>
 <move x="23.34" y="40.33"/>
@@ -835,7 +835,7 @@
 <restore/>
 <rect/>
 <stroke/>
-<strokecolor color="#ffffff"/>
+<strokecolor color="strokeColor2" default="#ffffff"/>
 <path>
 <move x="7" y="26.67"/>
 <line x="7" y="30"/>
@@ -1114,7 +1114,7 @@
 <close/>
 </path>
 <fillstroke/>
-<fillcolor color="#ffffff"/>
+<fillcolor color="strokeColor2" default="#ffffff"/>
 <path>
 <move x="23.34" y="32.34"/>
 <line x="24.67" y="34"/>

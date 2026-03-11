@@ -1,6 +1,5 @@
 /**
- * $Id: mxMockupForms.js,v 1.11 2013/05/24 05:21:33 mate Exp $
- * Copyright (c) 2006-2010, JGraph Ltd
+ * Copyright (c) 2006-2010, JGraph Holdings Ltd
  */
 
 //**********************************************************************************************************************************************************
@@ -278,7 +277,7 @@ mxShapeMockupColorPicker.prototype.cst = {
 };
 
 mxShapeMockupColorPicker.prototype.customProperties = [
-	{name: 'chosenColor', dispName: 'Current Color', type: 'color'}
+	{name: 'chosenColor', dispName: 'Current Color', type: 'color', primary:true}
 ];
 
 /**
@@ -354,7 +353,7 @@ mxShapeMockupComboBox.prototype.cst = {
 };
 
 mxShapeMockupComboBox.prototype.customProperties = [
-	{name: 'fillColor2', dispName: 'Fill2 Color', type: 'color'}
+	{name: 'fillColor2', dispName: 'Fill2 Color', type: 'color', primary:true}
 ];
 
 /**
@@ -1826,7 +1825,7 @@ mxShapeMockupSearchBox.prototype.cst = {
 };
 
 mxShapeMockupSearchBox.prototype.customProperties = [
-	{name: 'strokeColor2', dispName: 'Icon Color', type: 'color'},
+	{name: 'strokeColor2', dispName: 'Icon Color', type: 'color', primary:true},
 ];
 
 /**
