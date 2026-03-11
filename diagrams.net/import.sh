@@ -17,7 +17,7 @@ rsync -avz --delete ${DRAWIODIR}/src/main/webapp/js/shapes-14-6-5.min.js ${ASSET
 rsync -avz --delete ${DRAWIODIR}/src/main/webapp/export-fonts.css        ${ASSETSDIR}/export-fonts.css
 rsync -avz --delete ${DRAWIODIR}/src/main/webapp/images/                 ${ASSETSDIR}/images
 rsync -avz --delete ${DRAWIODIR}/src/main/webapp/img/                    ${ASSETSDIR}/img
-#rsync -avz --delete ${DRAWIODIR}/src/main/webapp/math4/                  ${ASSETSDIR}/math4
+rsync -avz --delete ${DRAWIODIR}/src/main/webapp/math4/                  ${ASSETSDIR}/math4
 rsync -avz --delete ${DRAWIODIR}/src/main/webapp/mxgraph/                ${ASSETSDIR}/mxgraph
 rsync -avz --delete ${DRAWIODIR}/src/main/webapp/stencils/               ${ASSETSDIR}/stencils
 rsync -avz --delete ${DRAWIODIR}/src/main/webapp/shapes/                 ${ASSETSDIR}/shapes
