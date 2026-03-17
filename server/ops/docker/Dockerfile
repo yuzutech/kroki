@@ -3,7 +3,7 @@
 ## Nomnoml
 FROM --platform=$BUILDPLATFORM node:24.14-bookworm-slim AS kroki-builder-nomnoml
 
-RUN npm install -g @yao-pkg/pkg@5.16.1 @yao-pkg/pkg-fetch@3.5.20
+RUN npm install -g @yao-pkg/pkg@6.14.1 @yao-pkg/pkg-fetch@3.5.32
 
 ARG TARGETARCH
 ARG TARGETOS
@@ -44,7 +44,7 @@ RUN case "${TARGETARCH}" in \
 ## DBML
 FROM --platform=$BUILDPLATFORM node:24.14-bookworm-slim AS kroki-builder-dbml
 
-RUN npm install -g @yao-pkg/pkg@5.16.1 @yao-pkg/pkg-fetch@3.5.20
+RUN npm install -g @yao-pkg/pkg@6.14.1 @yao-pkg/pkg-fetch@3.5.32
 
 ARG TARGETARCH
 ARG TARGETOS
@@ -60,7 +60,7 @@ RUN /usr/local/bin/pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" = "amd64" ] &
 ## Wavedrom
 FROM --platform=$BUILDPLATFORM node:24.14-bookworm-slim AS kroki-builder-wavedrom
 
-RUN npm install -g @yao-pkg/pkg@5.16.1 @yao-pkg/pkg-fetch@3.5.20
+RUN npm install -g @yao-pkg/pkg@6.14.1 @yao-pkg/pkg-fetch@3.5.32
 
 ARG TARGETARCH
 ARG TARGETOS
@@ -76,7 +76,7 @@ RUN /usr/local/bin/pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" = "amd64" ] &
 ## Bytefield
 FROM --platform=$BUILDPLATFORM node:24.14-bookworm-slim AS kroki-builder-bytefield
 
-RUN npm install -g @yao-pkg/pkg@5.16.1 @yao-pkg/pkg-fetch@3.5.20
+RUN npm install -g @yao-pkg/pkg@6.14.1 @yao-pkg/pkg-fetch@3.5.32
 
 ARG TARGETARCH
 ARG TARGETOS
