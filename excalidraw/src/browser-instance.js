@@ -52,14 +52,7 @@ const createBrowser = async () => {
   browserProcess.on('message', (message) => {
     logger.warn({ message }, 'chrome process message')
   })
-  try {
-    return browser
-  } catch (err) {
-    await browser.close()
-    throw err
-  } finally {
-    browser.disconnect()
-  }
+  return browser
 }
 
 export async function create () {
