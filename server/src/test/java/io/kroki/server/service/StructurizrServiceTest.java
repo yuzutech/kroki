@@ -24,7 +24,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import static io.kroki.server.service.TestUtils.readTestResource;
+import static io.kroki.server.TestHarness.readTestResource;
+import static io.kroki.server.TestHarness.stripPlantUMLComments;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @ExtendWith(VertxExtension.class)
@@ -70,7 +71,7 @@ public class StructurizrServiceTest {
                          SafeMode safeMode,
                          JsonObject options) throws IOException, InterruptedException {
     byte[] result = Structurizr.convert(readTestResource(sourceFilename), FileFormat.SVG, plantumlCommand, new StructurizrPlantUMLExporter(), safeMode, options);
-    return PlantUMLUtils.stripComments(new String(result));
+    return stripPlantUMLComments(new String(result));
   }
 
   @ParameterizedTest
