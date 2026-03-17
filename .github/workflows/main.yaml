@@ -231,10 +231,10 @@ jobs:
         CACHE_FROM: 'type=local,src=/tmp/.buildx-cache'
         CACHE_TO: 'type=local,dest=/tmp/.buildx-cache-new'
 
-    - name: 'Setup Node.js 22'
+    - name: 'Setup Node.js 24'
       uses: actions/setup-node@v6
       with:
-        node-version: 22
+        node-version: 24
 
     - name: Install Node dependencies
       run: npm install
