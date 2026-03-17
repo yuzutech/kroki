@@ -61,7 +61,14 @@ const createBrowser = async () => {
   browserProcess.on('message', (message) => {
     logger.warn({ message }, 'chrome process message')
   })
-  return browser
+  try {
+    return browser
+  } catch (err) {
+    await browser.close()
+    throw err
+  } finally {
+    await browser.disconnect()
+  }
 }
 
 export async function getBrowserWSEndpoint () {

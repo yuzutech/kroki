@@ -27,7 +27,14 @@ const createBrowser = async () => {
       '--disable-software-rasterizer'
     ]
   })
-  return browser
+  try {
+    return browser
+  } catch (err) {
+    await browser.close()
+    throw err
+  } finally {
+    await browser.disconnect()
+  }
 }
 
 export async function create () {
