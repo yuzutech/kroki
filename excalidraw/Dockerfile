@@ -1,4 +1,4 @@
-FROM node:24.14-alpine3.23 AS builder
+FROM node:24.14-alpine3.22 AS builder
 
 COPY assets ./assets
 COPY package*.json ./
@@ -6,7 +6,7 @@ COPY package*.json ./
 RUN npm i
 RUN npm run build
 
-FROM node:24.14-alpine3.23
+FROM node:24.14-alpine3.22
 
 RUN addgroup -g 1001 kroki && adduser -D -G kroki -u 1001 kroki
 
