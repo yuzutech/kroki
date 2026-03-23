@@ -1,13 +1,13 @@
 # syntax=docker/dockerfile:1.22
 
 ## Nomnoml
-FROM --platform=$BUILDPLATFORM node:22.22-bookworm-slim AS kroki-builder-nomnoml
+FROM --platform=$BUILDPLATFORM node:24.14-bookworm-slim AS kroki-builder-nomnoml
 
-RUN npm install -g @yao-pkg/pkg@5.16.1 @yao-pkg/pkg-fetch@3.5.20
+RUN npm install -g @yao-pkg/pkg@6.14.1 @yao-pkg/pkg-fetch@3.5.32
 
 ARG TARGETARCH
 ARG TARGETOS
-ENV NODE=node22
+ENV NODE=node24
 RUN /usr/local/bin/pkg-fetch -n $NODE -p $TARGETOS -a $([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH")
 
 COPY --from=nomnoml index.js package.json package-lock.json /app/
@@ -42,13 +42,13 @@ RUN case "${TARGETARCH}" in \
     deno compile --target="${ARCH}-unknown-linux-gnu" --include=node_modules --node-modules-dir=auto --allow-ffi --output "app.bin" ./src/main.ts
 
 ## DBML
-FROM --platform=$BUILDPLATFORM node:22.22-bookworm-slim AS kroki-builder-dbml
+FROM --platform=$BUILDPLATFORM node:24.14-bookworm-slim AS kroki-builder-dbml
 
-RUN npm install -g @yao-pkg/pkg@5.16.1 @yao-pkg/pkg-fetch@3.5.20
+RUN npm install -g @yao-pkg/pkg@6.14.1 @yao-pkg/pkg-fetch@3.5.32
 
 ARG TARGETARCH
 ARG TARGETOS
-ENV NODE=node22
+ENV NODE=node24
 RUN /usr/local/bin/pkg-fetch -n $NODE -p $TARGETOS -a $([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH")
 
 COPY --from=dbml index.js package.json package-lock.json /app/
@@ -58,13 +58,13 @@ RUN npm install --target_arch=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || ech
 RUN /usr/local/bin/pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
 
 ## Wavedrom
-FROM --platform=$BUILDPLATFORM node:22.22-bookworm-slim AS kroki-builder-wavedrom
+FROM --platform=$BUILDPLATFORM node:24.14-bookworm-slim AS kroki-builder-wavedrom
 
-RUN npm install -g @yao-pkg/pkg@5.16.1 @yao-pkg/pkg-fetch@3.5.20
+RUN npm install -g @yao-pkg/pkg@6.14.1 @yao-pkg/pkg-fetch@3.5.32
 
 ARG TARGETARCH
 ARG TARGETOS
-ENV NODE=node22
+ENV NODE=node24
 RUN /usr/local/bin/pkg-fetch -n $NODE -p $TARGETOS -a $([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH")
 
 COPY --from=wavedrom index.js convert.js package.json package-lock.json /app/
@@ -74,13 +74,13 @@ RUN npm install --target_arch=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || ech
 RUN /usr/local/bin/pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
 
 ## Bytefield
-FROM --platform=$BUILDPLATFORM node:22.22-bookworm-slim AS kroki-builder-bytefield
+FROM --platform=$BUILDPLATFORM node:24.14-bookworm-slim AS kroki-builder-bytefield
 
-RUN npm install -g @yao-pkg/pkg@5.16.1 @yao-pkg/pkg-fetch@3.5.20
+RUN npm install -g @yao-pkg/pkg@6.14.1 @yao-pkg/pkg-fetch@3.5.32
 
 ARG TARGETARCH
 ARG TARGETOS
-ENV NODE=node22
+ENV NODE=node24
 RUN /usr/local/bin/pkg-fetch -n $NODE -p $TARGETOS -a $([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH")
 
 COPY --from=bytefield index.js package.json package-lock.json /app/
