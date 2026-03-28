@@ -46,6 +46,10 @@ The `yuzutech/kroki` Docker image contains the following diagrams libraries out-
 |{erd-version}
 //|Binary `/usr/bin/erd`
 
+|https://github.com/blampe/goat[GoAT]
+|{goat-version}
+//|Binary `/usr/bin/goat`
+
 |https://www.graphviz.org/[GraphViz]
 |{graphviz-version}
 //|Binary `/usr/bin/dot`

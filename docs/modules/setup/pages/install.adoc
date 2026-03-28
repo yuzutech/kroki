@@ -77,6 +77,7 @@ The {uri-docker-kroki-image}[yuzutech/kroki] image contains the gateway server, 
 * https://github.com/terrastruct/d2[D2]
 * http://ditaa.sourceforge.net[Ditaa]
 * https://github.com/BurntSushi/erd[Erd]
+* https://github.com/blampe/goat/[GoAT]
 * https://www.graphviz.org/[GraphViz]
 * https://github.com/skanaar/nomnoml[Nomnoml]
 * {uri-nwdiag}[NwDiag]
@@ -105,6 +106,7 @@ In other words, the following endpoints will be available:
 /d2
 /ditaa
 /erd
+/goat
 /graphviz
 /dot
 /nomnoml

@@ -163,6 +163,14 @@ RUN SVGBOB_VERSION=`cat Cargo.toml | grep "svgbob_cli =" | sed -r 's/.*"([^"]+)"
 ## Erd
 FROM ghcr.io/yuzutech/erd:v0.2.3 AS erd
 
+## GoAT
+FROM --platform=$BUILDPLATFORM golang:1.26.1-alpine AS kroki-builder-goat
+
+ARG GOAT_VERSION=0.5.1
+
+RUN apk add git
+RUN go install "github.com/blampe/goat/cmd/goat@v${GOAT_VERSION}"
+
 ## yuzutech/kroki
 FROM eclipse-temurin:21.0.9_10-jre-noble
 
@@ -256,6 +264,7 @@ COPY --from=kroki-builder-static-symbolator /build/symbolator.bin /usr/bin/symbo
 COPY --from=kroki-builder-vega /app/app.bin /usr/bin/vega
 COPY --from=kroki-builder-wavedrom /app/app.bin /usr/bin/wavedrom
 COPY --from=tikz tikz2svg /usr/bin/tikz2svg
+COPY --from=kroki-builder-goat /go/bin/goat /usr/bin/goat
 
 COPY --chown=kroki:kroki ops/docker/logback.xml /etc/kroki/logback.xml
 

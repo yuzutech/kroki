@@ -126,6 +126,7 @@ const diagramLibraryNames = [
   'ditaa',
   'erd',
   'excalidraw',
+  'goat',
   'graphviz',
   'mermaid',
   'nomnoml',
@@ -222,6 +223,11 @@ try {
       const { version } = wirevizVersionFound.groups
       diagramLibraryVersions.wireviz = version
     }
+    const goatVersionFound = line.match(/^ARG GOAT_VERSION="(?<version>.+)"$/)
+    if (goatVersionFound) {
+      const { version } = goatVersionFound.groups
+      diagramLibraryVersions.goat = version
+    }
   }
 
   const svgbobCargoContent = await fs.readFile(ospath.join(rootDir, 'server', 'ops', 'docker', 'Cargo.toml'), 'utf8')
@@ -265,6 +271,7 @@ try {
   await updateServiceGetVersion('Ditaa.java', diagramLibraryVersions.ditaa)
   await updateServiceGetVersion('Erd.java', diagramLibraryVersions.erd)
   await updateServiceGetVersion('Excalidraw.java', diagramLibraryVersions.excalidraw)
+  await updateServiceGetVersion('Goat.java', diagramLibraryVersions.goat)
   await updateServiceGetVersion('Graphviz.java', diagramLibraryVersions.graphviz)
   await updateServiceGetVersion('Mermaid.java', diagramLibraryVersions.mermaid)
   await updateServiceGetVersion('Nomnoml.java', diagramLibraryVersions.nomnoml)
