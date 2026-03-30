@@ -10,6 +10,7 @@ import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -51,7 +52,31 @@ public class Goat implements DiagramService {
   @Override
   public Future<Buffer> convert(String sourceDecoded, String serviceName, FileFormat fileFormat, JsonObject options) {
     return vertx.executeBlocking(() -> {
-      byte[] result = commander.execute(sourceDecoded.getBytes(), binPath);
+      List<String> commands = new ArrayList<>();
+      commands.add(binPath);
+
+      String svgColorDarkScheme = options.getString("svg-color-dark-scheme");
+      if (svgColorDarkScheme != null) {
+        commands.add("-svg-color-dark-scheme");
+        commands.add(svgColorDarkScheme);
+      }
+
+      String svgColorLightScheme = options.getString("svg-color-light-scheme");
+      if (svgColorLightScheme != null) {
+        commands.add("-svg-color-light-scheme");
+        commands.add(svgColorLightScheme);
+      }
+
+      String utf8 = options.getString("utf8");
+      if (utf8 != null) {
+        commands.add("-utf8");
+      }
+
+      // TODO: Integrate `css` option.
+      // Currently GoAT only supports passing custom CSS via files.
+      // It would be best if we can inline it directly instead.
+
+      byte[] result = commander.execute(sourceDecoded.getBytes(), commands.toArray(new String[0]));
       return Buffer.buffer(result);
     });
   }

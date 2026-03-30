@@ -54,7 +54,10 @@ const tests = [
   { engine: 'd2', file: 'connections.d2', options: { scale: '1' }, outputFormat: ['svg'] },
   { engine: 'wireviz', file: 'wireviz.yaml', options: {}, outputFormat: ['svg', 'png'] },
   { engine: 'tikz', file: 'periodic-table.tex', options: {}, outputFormat: ['jpeg', 'pdf', 'png', 'svg'] },
-  { engine: 'goat', file: 'components.goat', options: {}, outputFormat: ['svg'] }
+  { engine: 'goat', file: 'components.goat', options: {}, outputFormat: ['svg'] },
+  { engine: 'goat', file: 'components.goat', options: { 'svg-color-dark-scheme': '#AAA' }, outputFormat: ['svg'] },
+  { engine: 'goat', file: 'components.goat', options: { 'svg-color-light-scheme': '#AAA' }, outputFormat: ['svg'] },
+  { engine: 'goat', file: 'components.goat', options: { 'utf8': true }, outputFormat: ['svg'] },
 ]
 
 const mimeType = {

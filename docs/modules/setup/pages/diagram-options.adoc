@@ -110,6 +110,41 @@ empty string ("")
 |Tabs are normally interpreted as 8 spaces but it is possible to change that using this option
 |===
 
+== GoAT
+
+[cols="1m,1a,2a",opts="header"]
+|===
+|Name
+|Allowable Values
+|Description
+
+|svg-color-dark-scheme
+|_string_ +
+*`#FFF`*
+|Goat's SVG output attempts to learn something about the background being
+drawn on top of by means of a CSS @media query, which returns a string. +
+If the string is "dark", Goat draws with the color specified by
+this option; otherwise, Goat draws with the color specified by option
+`svg-color-light-scheme`.
+See:
+https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme
+https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute +
+Default value of 'currentColor' as tested on Firefox is one suitable for
+a "light-mode" display, therefore is dark.
+
+|svg-color-light-scheme
+|_string_ +
+*`#000`*
+|See `svg-color-dark-scheme`.
+
+|utf8
+|_flag_ +
+empty string ("")
+|Diagram input contains UTF-8 BOX characters. +
+Goat treats only these as graphics; ASCII characters regarded by Markdeep as
+coding for graphics are treated as ordinary text.
+
+|===
 == GraphViz
 
 [cols="1m,1a,2a",opts="header"]
