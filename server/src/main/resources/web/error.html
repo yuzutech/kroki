@@ -11,11 +11,11 @@
   <div class="container">
     <a href="https://kroki.io" target="_blank" rel="noopener noreferrer">{logo}</a>
     <h1 class="subtitle is-spaced">Convert <strong>plain text</strong> diagrams to <strong>images</strong> !</h1>
-    <h2 class="title">{title}</h2>
+    <h2 class="title">{titleEscaped}</h2>
     <article class="message is-danger">
       <div class="message-body">
-        <strong id="error"><code>{errorCode}</code> {errorMessage}</strong>
-        <ul id="stacktrace">{stackTrace}</ul>
+        <strong id="error"><code>{errorCodeEscaped}</code> {errorMessageEscaped}</strong>
+        <ul id="stacktrace">{stackTraceEscaped}</ul>
       </div>
     </article>
   </div>
