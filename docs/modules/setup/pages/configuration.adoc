@@ -138,6 +138,7 @@ you can override its location manually using an environment variable or a Java s
 `KROKI_DITAA_BIN_PATH`:: Path to `ditaa` binary (defaults: `/usr/bin/ditaa`)
 `KROKI_DOT_BIN_PATH`:: Path to `dot` binary (defaults: `/usr/bin/dot`)
 `KROKI_ERD_BIN_PATH`:: Path to `erd` binary (defaults: `/usr/bin/erd`)
+`KROKI_GOAT_BIN_PATH`:: Path to `goat` binary (defaults: `/usr/bin/goat`)
 `KROKI_NOMNOML_BIN_PATH`:: Path to `nomnoml` binary (defaults: `/usr/bin/nomnoml`)
 `KROKI_PIKCHR_BIN_PATH`:: Path to `pikchr` binary (defaults: `/usr/bin/pikchr`)
 `KROKI_PLANTUML_BIN_PATH`:: Path to `plantuml` binary (defaults: `/usr/bin/plantuml`)

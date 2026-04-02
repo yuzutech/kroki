@@ -42,6 +42,7 @@ Diagram::
 * Excalidraw
 * https://www.diagrams.net/[diagrams.net] (experimental)
 * WireViz
+* GoAT
 
 Visualization::
 * Bar charts
