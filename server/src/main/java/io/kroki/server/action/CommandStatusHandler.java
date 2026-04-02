@@ -6,8 +6,7 @@ public interface CommandStatusHandler {
 
   default byte[] handle(int exitValue, byte[] stdout, byte[] stderr) {
     if (exitValue != 0) {
-      String errorMessage = new String(stdout) + new String(stderr);
-      throw new BadRequestException(errorMessage + " (exit code " + exitValue + ")");
+      throw new BadRequestException("Command execution failed (exit code " + exitValue + ")");
     }
     return stdout;
   }
