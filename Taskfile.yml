@@ -47,7 +47,13 @@ tasks:
       - 'sleep {{.SERVICES_TIMEOUT}}'
       - 'npm test'
 
+  denoInstallVega:
+    internal: true
+    cmds:
+      - 'deno install'
+    dir: 'deno'
   npmInstall:
+    deps: [denoInstallVega]
     cmds:
       - 'npm i --prefix bpmn'
       - 'npm run prestart --prefix bpmn'
@@ -59,7 +65,6 @@ tasks:
       - 'npm i --prefix mermaid'
       - 'npm run prestart --prefix mermaid'
       - 'npm i --prefix nomnoml'
-      - 'npm i --prefix vega'
       - 'npm i --prefix wavedrom'
 
   updateVersions:

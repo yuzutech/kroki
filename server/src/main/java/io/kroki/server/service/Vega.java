@@ -54,7 +54,7 @@ public class Vega implements DiagramService {
     if (specFormat == SpecFormat.DEFAULT) {
       return "6.2.0";
     } else {
-      return "6.4.1"; // Vega Lite
+      return "6.4.2"; // Vega Lite
     }
   }
 

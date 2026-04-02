@@ -223,7 +223,7 @@ try {
       const { version } = wirevizVersionFound.groups
       diagramLibraryVersions.wireviz = version
     }
-    const goatVersionFound = line.match(/^ARG GOAT_VERSION="(?<version>.+)"$/)
+    const goatVersionFound = line.match(/^ARG GOAT_VERSION=(?<version>.+)$/)
     if (goatVersionFound) {
       const { version } = goatVersionFound.groups
       diagramLibraryVersions.goat = version

@@ -46,7 +46,7 @@ public class Goat implements DiagramService {
 
   @Override
   public String getVersion() {
-    return "0.5.1";
+    return "undefined";
   }
 
   @Override
