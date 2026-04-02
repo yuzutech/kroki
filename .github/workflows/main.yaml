@@ -206,10 +206,10 @@ jobs:
 
     - name: Set up QEMU
       if: ${{ inputs.build_multiarch }}
-      uses: docker/setup-qemu-action@v3
+      uses: docker/setup-qemu-action@v4
 
     - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
+      uses: docker/setup-buildx-action@v4
       with:
         version: 'v0.19.3'
         buildkitd-config-inline: |
