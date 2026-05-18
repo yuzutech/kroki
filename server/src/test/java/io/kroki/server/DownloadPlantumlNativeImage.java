@@ -12,9 +12,9 @@ public class DownloadPlantumlNativeImage {
     String plantumlVersion = new Plantuml(vertx, new JsonObject()).getVersion();
     String os = getOperatingSystemName();
     String arch = getArch();
-    String zipName = "plantuml-" + os + "-" + arch + "-" + plantumlVersion + ".zip";
+    String zipName = "plantuml-full-" + os + "-" + arch + "-" + plantumlVersion + ".zip";
     String binaryExtension = getBinaryExtension(os);
-    String binaryName = "plantuml-full-" + os + "-" + arch + "-" + plantumlVersion + binaryExtension;
+    String binaryName = "plantuml-full" + binaryExtension;
     String downloadUrl = "https://github.com/plantuml/plantuml/releases/download/v" + plantumlVersion + "-native/" + zipName;
     return DownloadNativeImage.download(vertx, downloadUrl, "PlantUML", zipName, binaryName);
   }
