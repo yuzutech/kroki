@@ -179,7 +179,7 @@ ARG D2_VERSION="0.7.1"
 ARG DITAA_VERSION="1.0.3"
 ARG DVISVGM_VERSION="3.2.1+ds-1build1"
 ARG GRAPHVIZ_VERSION="14.1.3"
-ARG PLANTUML_VERSION="1.2026.1"
+ARG PLANTUML_VERSION="1.2026.3"
 ARG UMLET_VERSION="2023-03-20_UMLet_v15.1"
 ARG WIREVIZ_VERSION="0.3.3"
 ARG TARGETARCH
@@ -239,7 +239,7 @@ RUN wget "https://github.com/terrastruct/d2/releases/download/v${D2_VERSION}/d2-
     mv usr/bin/d2-v${D2_VERSION}/bin/d2 /usr/bin/d2 && \
     chmod +x /usr/bin/d2
 
-RUN wget "https://github.com/yuzutech/plantuml/releases/download/v${PLANTUML_VERSION}/plantuml-linux-${TARGETARCH}-${PLANTUML_VERSION}.zip" -O plantuml-bin.zip && \
+RUN wget "https://github.com/plantuml/plantuml/releases/download/v${PLANTUML_VERSION}-native/plantuml-full-linux-${TARGETARCH}-${PLANTUML_VERSION}.zip" -O plantuml-bin.zip && \
     unzip plantuml-bin.zip -d plantuml && \
     mv plantuml/* /usr/bin/ && \
     mv /usr/bin/plantuml-linux-${TARGETARCH}-${PLANTUML_VERSION} /usr/bin/plantuml && \
