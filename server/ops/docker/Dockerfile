@@ -239,7 +239,7 @@ RUN wget "https://github.com/terrastruct/d2/releases/download/v${D2_VERSION}/d2-
     mv usr/bin/d2-v${D2_VERSION}/bin/d2 /usr/bin/d2 && \
     chmod +x /usr/bin/d2
 
-RUN wget "https://github.com/plantuml/plantuml/releases/download/v${PLANTUML_VERSION}-native/plantuml-headless-linux-${TARGETARCH}-${PLANTUML_VERSION}.zip" -O plantuml-bin.zip && \
+RUN wget "https://github.com/plantuml/plantuml/releases/download/snapshot/native-plantuml-linux-${TARGETARCH}-SNAPSHOT.zip" -O plantuml-bin.zip && \
     unzip plantuml-bin.zip -d plantuml && \
     mv plantuml/* /usr/bin/ && \
     mv /usr/bin/plantuml-headless /usr/bin/plantuml && \

@@ -1,21 +1,18 @@
 package io.kroki.server;
 
-import io.kroki.server.service.Plantuml;
-import io.kroki.server.service.PlantumlCommand;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
-import io.vertx.core.json.JsonObject;
 
 public class DownloadPlantumlNativeImage {
 
   public static Future<String> download(Vertx vertx) {
-    String plantumlVersion = new Plantuml(vertx, new JsonObject()).getVersion();
+    //String plantumlVersion = new Plantuml(vertx, new JsonObject()).getVersion();
     String os = getOperatingSystemName();
     String arch = getArch();
-    String zipName = "plantuml-headless-" + os + "-" + arch + "-" + plantumlVersion + ".zip";
+    String zipName = "native-plantuml-" + os + "-" + arch + "-SNAPSHOT.zip";
     String binaryExtension = getBinaryExtension(os);
-    String binaryName = "plantuml-headless" + binaryExtension;
-    String downloadUrl = "https://github.com/plantuml/plantuml/releases/download/v" + plantumlVersion + "-native/" + zipName;
+    String binaryName = "plantuml" + binaryExtension;
+    String downloadUrl = "https://github.com/plantuml/plantuml/releases/download/snapshot/" + zipName;
     return DownloadNativeImage.download(vertx, downloadUrl, "PlantUML", zipName, binaryName);
   }
 
