@@ -123,6 +123,6 @@ public class C4PlantumlServiceTest {
       "@enduml";
     byte[] convert = plantumlCommand.convert(Plantuml.sanitize(diagram, SafeMode.SAFE), FileFormat.PDF, new JsonObject());
     assertThat(convert).isNotEmpty();
-    assertThat(new String(convert, StandardCharsets.UTF_8)).contains("%PDF-1.4");
+    assertThat(new String(convert, StandardCharsets.UTF_8)).contains("%PDF-2.0");
   }
 }
