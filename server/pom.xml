@@ -13,7 +13,7 @@
 
   <properties>
     <!-- https://github.com/vert-x3/vertx-dependencies/blob/5.0.7/pom.xml#LL50C20-L50C32 -->
-    <netty.version>4.2.12.Final</netty.version>
+    <netty.version>4.2.13.Final</netty.version>
     <logback.version>1.5.32</logback.version>
     <vertx.version>5.0.11</vertx.version>
     <opentelemetry.version>1.61.0</opentelemetry.version>
