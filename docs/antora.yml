@@ -7,7 +7,7 @@ asciidoc:
     blockdiag-version: 3.1.0
     bpmn-version: 18.14.0
     bytefield-version: 1.11.0
-    c4plantuml-version: 1.2026.3
+    c4plantuml-version: 1.2026.6
     d2-version: 0.7.1
     dbml-version: 1.0.31
     diagramsnet-version: 29.6.1
@@ -21,7 +21,7 @@ asciidoc:
     nwdiag-version: 3.1.0
     packetdiag-version: 3.1.0
     pikchr-version: '85e65b9686'
-    plantuml-version: 1.2026.3
+    plantuml-version: 1.2026.6
     rackdiag-version: 3.1.0
     seqdiag-version: 3.1.0
     structurizr-version: 6.1.0
