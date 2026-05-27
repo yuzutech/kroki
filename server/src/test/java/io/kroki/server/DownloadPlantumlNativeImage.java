@@ -13,7 +13,7 @@ public class DownloadPlantumlNativeImage {
     String arch = getArch();
     String zipName = "native-plantuml-" + os + "-" + arch + "-" + plantumlVersion + ".zip";
     String binaryExtension = getBinaryExtension(os);
-    String binaryName = "plantuml-headless" + binaryExtension;
+    String binaryName = "plantuml" + binaryExtension;
     String downloadUrl = "https://github.com/plantuml/plantuml/releases/download/v" + plantumlVersion + "/" + zipName;
     return DownloadNativeImage.download(vertx, downloadUrl, "PlantUML", zipName, binaryName);
   }

@@ -242,7 +242,6 @@ RUN wget "https://github.com/terrastruct/d2/releases/download/v${D2_VERSION}/d2-
 RUN wget "https://github.com/plantuml/plantuml/releases/download/v${PLANTUML_VERSION}/native-plantuml-linux-${TARGETARCH}-${PLANTUML_VERSION}.zip" -O plantuml-bin.zip && \
     unzip plantuml-bin.zip -d plantuml && \
     mv plantuml/* /usr/bin/ && \
-    mv /usr/bin/plantuml-headless /usr/bin/plantuml && \
     chmod +x /usr/bin/plantuml
 
 RUN wget "https://github.com/yuzutech/umlet/releases/download/${UMLET_VERSION}/umlet-linux-${TARGETARCH}" -O /usr/bin/umlet && \
