@@ -60,7 +60,7 @@ public class PlantumlServiceTest {
     String diagram = "@startuml\nBob\\->Alice hello\n@enduml";
     assertThatThrownBy(() -> plantumlCommand.convert(diagram, FileFormat.SVG, new JsonObject()))
       .isInstanceOf(BadRequestException.class)
-      .hasMessageStartingWith("Syntax Error? (line: 1)");
+      .hasMessageStartingWith("Syntax Error? (Assumed diagram type: sequence) (line: 1)");
   }
 
   @Test
