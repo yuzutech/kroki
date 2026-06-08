@@ -21,8 +21,10 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: 24
-      - name: Install Node dependencies
-        run: npm i
+      - name: Install dependencies
+        run: |
+          npm i
+          npx puppeteer browsers install chrome
         working-directory: mermaid
       - name: Lint & tests
         run: npm run lint && npm t
