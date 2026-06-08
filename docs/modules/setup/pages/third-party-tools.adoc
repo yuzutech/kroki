@@ -4,6 +4,7 @@
 :url-intellij-asciidoc-plugin: https://github.com/asciidoctor/asciidoctor-intellij-plugin
 :url-keenwrite: https://keenwrite.com
 :url-niolesk: https://niolesk.top
+:url-kroki-editor: https://github.com/yoyoys/kroki-editor
 :url-vscode: https://code.visualstudio.com
 :url-vscode-asciidoctor: https://marketplace.visualstudio.com/items?itemName=asciidoctor.asciidoctor-vscode
 :url-vscode-asciidoc-slides: https://marketplace.visualstudio.com/items?itemName=flobilosaurus.vscode-asciidoc-slides
@@ -57,6 +58,10 @@ Add any Kroki URL after `https://niolesk.top/#` and you'll be able to edit your 
 
 Here's an example: https://niolesk.top/#https://kroki.io/plantuml/svg/eNpTLMlIzU1VyM3MK6nk4nLKT9K1c8zJTE61UvBIzcnJVwQArksKZQ==
 ====
+
+== Kroki Editor
+
+{url-kroki-editor}[A self-hostable web editor] for Kroki, with live preview, syntax highlighting, an examples gallery, and shareable image URLs.
 
 == Visual Studio Code
 
