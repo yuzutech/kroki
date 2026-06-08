@@ -1,12 +1,13 @@
 package io.kroki.server.error;
 
+import io.netty.handler.codec.http.DefaultHttpHeaders;
 import io.vertx.core.MultiMap;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;
-import io.vertx.core.http.impl.headers.HeadersMultiMap;
+import io.vertx.core.http.impl.headers.HeadersAdaptor;
 import io.vertx.ext.web.RoutingContext;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatcher;
@@ -159,14 +160,14 @@ public class ErrorHandlerTest {
 
   private HttpServerResponse plainResponse() {
     HttpServerResponse httpServerResponse = mock(HttpServerResponse.class);
-    MultiMap headers = HeadersMultiMap.caseInsensitive();
+    MultiMap headers = new HeadersAdaptor(new DefaultHttpHeaders());
     when(httpServerResponse.headers()).thenReturn(headers);
     return httpServerResponse;
   }
 
   private HttpServerResponse jsonServerResponse() {
     HttpServerResponse httpServerResponse = mock(HttpServerResponse.class);
-    MultiMap headers = HeadersMultiMap.caseInsensitive();
+    MultiMap headers = new HeadersAdaptor(new DefaultHttpHeaders());
     headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
     when(httpServerResponse.headers()).thenReturn(headers);
     return httpServerResponse;
@@ -174,7 +175,7 @@ public class ErrorHandlerTest {
 
   private HttpServerRequest mockHttpServerRequest() {
     HttpServerRequest httpServerRequest = mock(HttpServerRequest.class);
-    MultiMap headers = HeadersMultiMap.caseInsensitive();
+    MultiMap headers = new HeadersAdaptor(new DefaultHttpHeaders());
     headers.add(HttpHeaders.ACCEPT, "application/json");
     when(httpServerRequest.headers()).thenReturn(headers);
     return httpServerRequest;
