@@ -22,8 +22,11 @@ jobs:
         with:
           node-version: 24
       - name: Install dependencies
+        run: npm i
+        working-directory: mermaid
+      - name: Install Chrome for Puppeteer
         run: |
-          npm i
+          rm -rf ~/.cache/puppeteer/chrome
           npx puppeteer browsers install chrome
         working-directory: mermaid
       - name: Lint & tests
