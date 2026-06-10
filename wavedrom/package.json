@@ -5,7 +5,11 @@
   "bin": "index.js",
   "scripts": {
     "test": "node --test tests/*.js",
-    "lint": "biome check index.js convert.js tests"
+    "lint": "biome check index.js convert.js tests",
+    "build": "npm run build:bundle && npm run build:blob && cp \"$(command -v node)\" build/app.bin && npm run build:inject",
+    "build:bundle": "esbuild index.js --bundle --platform=node --outfile=build/app.cjs",
+    "build:blob": "node --experimental-sea-config sea-config.json",
+    "build:inject": "chmod u+w build/app.bin && (test \"$(uname)\" != Darwin || codesign --remove-signature build/app.bin) && postject build/app.bin NODE_SEA_BLOB build/sea-prep.blob --sentinel-fuse NODE_SEA_FUSE_'fce680ab2cc467b6e072b8b5df1996b2' --macho-segment-name NODE_SEA && (test \"$(uname)\" != Darwin || codesign --sign - build/app.bin)"
   },
   "license": "MIT",
   "repository": {
@@ -20,7 +24,9 @@
     "wavedrom": "3.6.1"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.16"
+    "@biomejs/biome": "2.4.16",
+    "esbuild": "0.28.0",
+    "postject": "1.0.0-alpha.6"
   },
   "volta": {
     "node": "24.16.0"

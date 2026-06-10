@@ -1,20 +1,18 @@
 # syntax=docker/dockerfile:1.23
 
+## Node.js for the target platform (provides the binary used to assemble SEA executables)
+FROM node:24.15-bookworm-slim AS kroki-node-target
+
 ## Nomnoml
 FROM --platform=$BUILDPLATFORM node:24.15-bookworm-slim AS kroki-builder-nomnoml
 
-RUN npm install -g @yao-pkg/pkg@6.14.1 @yao-pkg/pkg-fetch@3.5.32
-
-ARG TARGETARCH
-ARG TARGETOS
-ENV NODE=node24
-RUN /usr/local/bin/pkg-fetch -n $NODE -p $TARGETOS -a $([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH")
-
-COPY --from=nomnoml index.js package.json package-lock.json biome.json /app/
+COPY --from=nomnoml index.js package.json package-lock.json biome.json sea-config.json /app/
 WORKDIR /app
 
-RUN npm install --target_arch=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") --target_platform=$TARGETOS && npm run lint
-RUN /usr/local/bin/pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
+RUN npm install && npm run lint
+RUN npm run build:bundle && npm run build:blob
+COPY --from=kroki-node-target /usr/local/bin/node /app/build/app.bin
+RUN npm run build:inject
 
 ## Vega
 FROM --platform=$BUILDPLATFORM ubuntu:noble AS kroki-builder-vega
@@ -44,50 +42,35 @@ RUN case "${TARGETARCH}" in \
 ## DBML
 FROM --platform=$BUILDPLATFORM node:24.15-bookworm-slim AS kroki-builder-dbml
 
-RUN npm install -g @yao-pkg/pkg@6.14.1 @yao-pkg/pkg-fetch@3.5.32
-
-ARG TARGETARCH
-ARG TARGETOS
-ENV NODE=node24
-RUN /usr/local/bin/pkg-fetch -n $NODE -p $TARGETOS -a $([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH")
-
-COPY --from=dbml index.js package.json package-lock.json biome.json /app/
+COPY --from=dbml index.js package.json package-lock.json biome.json sea-config.json /app/
 WORKDIR /app
 
-RUN npm install --target_arch=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") --target_platform=$TARGETOS && npm run lint
-RUN /usr/local/bin/pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
+RUN npm install && npm run lint
+RUN npm run build:bundle && npm run build:blob
+COPY --from=kroki-node-target /usr/local/bin/node /app/build/app.bin
+RUN npm run build:inject
 
 ## Wavedrom
 FROM --platform=$BUILDPLATFORM node:24.15-bookworm-slim AS kroki-builder-wavedrom
 
-RUN npm install -g @yao-pkg/pkg@6.14.1 @yao-pkg/pkg-fetch@3.5.32
-
-ARG TARGETARCH
-ARG TARGETOS
-ENV NODE=node24
-RUN /usr/local/bin/pkg-fetch -n $NODE -p $TARGETOS -a $([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH")
-
-COPY --from=wavedrom index.js convert.js package.json package-lock.json biome.json /app/
+COPY --from=wavedrom index.js convert.js package.json package-lock.json biome.json sea-config.json /app/
 WORKDIR /app
 
-RUN npm install --target_arch=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") --target_platform=$TARGETOS && npm run lint
-RUN /usr/local/bin/pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
+RUN npm install && npm run lint
+RUN npm run build:bundle && npm run build:blob
+COPY --from=kroki-node-target /usr/local/bin/node /app/build/app.bin
+RUN npm run build:inject
 
 ## Bytefield
 FROM --platform=$BUILDPLATFORM node:24.15-bookworm-slim AS kroki-builder-bytefield
 
-RUN npm install -g @yao-pkg/pkg@6.14.1 @yao-pkg/pkg-fetch@3.5.32
-
-ARG TARGETARCH
-ARG TARGETOS
-ENV NODE=node24
-RUN /usr/local/bin/pkg-fetch -n $NODE -p $TARGETOS -a $([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH")
-
-COPY --from=bytefield index.js package.json package-lock.json /app/
+COPY --from=bytefield index.js package.json package-lock.json sea-config.json /app/
 WORKDIR /app
 
-RUN npm install --target_arch=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") --target_platform=$TARGETOS
-RUN /usr/local/bin/pkg --targets $NODE-$TARGETOS-$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") . -o app.bin
+RUN npm install
+RUN npm run build:bundle && npm run build:blob
+COPY --from=kroki-node-target /usr/local/bin/node /app/build/app.bin
+RUN npm run build:inject
 
 ## Symbolator
 FROM ubuntu:noble AS kroki-builder-static-symbolator
@@ -254,14 +237,14 @@ RUN wget "https://github.com/yuzutech/WireViz/releases/download/v${WIREVIZ_VERSI
     chmod +x /usr/bin/wireviz
 
 COPY --from=erd /root/.cabal/bin/erd /usr/bin/erd
-COPY --from=kroki-builder-bytefield /app/app.bin /usr/bin/bytefield
-COPY --from=kroki-builder-dbml /app/app.bin /usr/bin/dbml
-COPY --from=kroki-builder-nomnoml /app/app.bin /usr/bin/nomnoml
+COPY --from=kroki-builder-bytefield /app/build/app.bin /usr/bin/bytefield
+COPY --from=kroki-builder-dbml /app/build/app.bin /usr/bin/dbml
+COPY --from=kroki-builder-nomnoml /app/build/app.bin /usr/bin/nomnoml
 COPY --from=kroki-builder-static-pikchr /build/pikchr /usr/bin/pikchr
 COPY --from=kroki-builder-static-svgbob /usr/local/cargo/bin/svgbob_cli /usr/bin/svgbob
 COPY --from=kroki-builder-static-symbolator /build/symbolator.bin /usr/bin/symbolator
 COPY --from=kroki-builder-vega /app/app.bin /usr/bin/vega
-COPY --from=kroki-builder-wavedrom /app/app.bin /usr/bin/wavedrom
+COPY --from=kroki-builder-wavedrom /app/build/app.bin /usr/bin/wavedrom
 COPY --from=tikz tikz2svg /usr/bin/tikz2svg
 COPY --from=kroki-builder-goat /go/bin/goat /usr/bin/goat
 
