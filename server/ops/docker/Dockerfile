@@ -64,10 +64,10 @@ RUN npm run build:inject
 ## Bytefield
 FROM --platform=$BUILDPLATFORM node:24.15-bookworm-slim AS kroki-builder-bytefield
 
-COPY --from=bytefield index.js package.json package-lock.json sea-config.json /app/
+COPY --from=bytefield index.js package.json package-lock.json biome.json sea-config.json /app/
 WORKDIR /app
 
-RUN npm install
+RUN npm install && npm run lint
 RUN npm run build:bundle && npm run build:blob
 COPY --from=kroki-node-target /usr/local/bin/node /app/build/app.bin
 RUN npm run build:inject
