@@ -7,14 +7,15 @@ import micro from 'micro'
 import Task from './task.js'
 import { SyntaxError, TimeoutError, Worker } from './worker.js'
 
-(async () => {
+;(async () => {
   // QUESTION: should we create a pool of Chrome instances ?
   const worker = new Worker()
   const server = new http.Server(
     micro.serve(async (req, res) => {
       // Add a /health route that renders a sample diagram by calling the worker
       if (req.url === '/health') {
-        const sample = '<mxGraphModel><root><mxCell id="0"/><mxCell id="1" parent="0"/></root></mxGraphModel>'
+        const sample =
+          '<mxGraphModel><root><mxCell id="0"/><mxCell id="1" parent="0"/></root></mxGraphModel>'
         await worker.convert(new Task(sample, false), new URLSearchParams())
 
         // We don't actually care about the output, we just want to make sure the worker is up and running
@@ -25,7 +26,10 @@ import { SyntaxError, TimeoutError, Worker } from './worker.js'
       const url = new URL(req.url, 'http://localhost') // create a URL object. The base is not important here
       const outputType = url.pathname.match(/\/(png|svg)$/)?.[1]
       if (outputType) {
-        const diagramSource = await micro.text(req, { limit: (process.env.KROKI_MAX_BODY_SIZE ?? '1mb'), encoding: 'utf8' })
+        const diagramSource = await micro.text(req, {
+          limit: process.env.KROKI_MAX_BODY_SIZE ?? '1mb',
+          encoding: 'utf8'
+        })
         if (diagramSource) {
           try {
             const isPng = outputType === 'png'

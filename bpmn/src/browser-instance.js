@@ -37,6 +37,6 @@ const createBrowser = async () => {
   }
 }
 
-export async function create () {
+export async function create() {
   return createBrowser()
 }

@@ -10,7 +10,7 @@ ARG TARGETOS
 ENV NODE=node24
 RUN /usr/local/bin/pkg-fetch -n $NODE -p $TARGETOS -a $([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH")
 
-COPY --from=nomnoml index.js package.json package-lock.json /app/
+COPY --from=nomnoml index.js package.json package-lock.json biome.json /app/
 WORKDIR /app
 
 RUN npm install --target_arch=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") --target_platform=$TARGETOS && npm run lint
@@ -51,7 +51,7 @@ ARG TARGETOS
 ENV NODE=node24
 RUN /usr/local/bin/pkg-fetch -n $NODE -p $TARGETOS -a $([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH")
 
-COPY --from=dbml index.js package.json package-lock.json /app/
+COPY --from=dbml index.js package.json package-lock.json biome.json /app/
 WORKDIR /app
 
 RUN npm install --target_arch=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") --target_platform=$TARGETOS && npm run lint
@@ -67,7 +67,7 @@ ARG TARGETOS
 ENV NODE=node24
 RUN /usr/local/bin/pkg-fetch -n $NODE -p $TARGETOS -a $([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH")
 
-COPY --from=wavedrom index.js convert.js package.json package-lock.json /app/
+COPY --from=wavedrom index.js convert.js package.json package-lock.json biome.json /app/
 WORKDIR /app
 
 RUN npm install --target_arch=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") --target_platform=$TARGETOS && npm run lint

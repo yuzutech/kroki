@@ -38,10 +38,10 @@ const createBrowser = async () => {
 
   browserProcess.stdout.unpipe()
   browserProcess.stderr.unpipe()
-  browserProcess.stdout.on('data', (data) => {
+  browserProcess.stdout.on('data', data => {
     logger.debug({ stdout: data.toString() }, 'chrome process stdout')
   })
-  browserProcess.stderr.on('data', (data) => {
+  browserProcess.stderr.on('data', data => {
     logger.error({ stderr: data.toString() }, 'chrome process')
   })
   browserProcess.stdout.resume()
@@ -49,7 +49,7 @@ const createBrowser = async () => {
   browserProcess.on('disconnect', () => {
     logger.warn('chrome process disconnected')
   })
-  browserProcess.on('error', (err) => {
+  browserProcess.on('error', err => {
     logger.error({ err }, 'chrome process errored')
   })
   browserProcess.on('exit', (code, signal) => {
@@ -58,7 +58,7 @@ const createBrowser = async () => {
     browser.close()
     INSTANCE = undefined
   })
-  browserProcess.on('message', (message) => {
+  browserProcess.on('message', message => {
     logger.warn({ message }, 'chrome process message')
   })
   try {
@@ -71,7 +71,7 @@ const createBrowser = async () => {
   }
 }
 
-export async function getBrowserWSEndpoint () {
+export async function getBrowserWSEndpoint() {
   if (INSTANCE === undefined) {
     INSTANCE = await createBrowser()
     logger.info(`Chrome accepting connections on endpoint ${INSTANCE.wsEndpoint()}`)

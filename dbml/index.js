@@ -4,7 +4,7 @@ const { run } = require('@softwaretechnik/dbml-renderer')
 const encoding = 'utf-8'
 let data
 
-async function convert () {
+async function convert() {
   const source = data.toString(encoding)
   if (source === '') {
     return
@@ -18,11 +18,11 @@ async function convert () {
   }
 }
 
-(async () => {
+;(async () => {
   data = ''
   process.stdin.setEncoding(encoding)
 
-  process.stdin.on('readable', function () {
+  process.stdin.on('readable', () => {
     let chunk = process.stdin.read()
     while (chunk) {
       data += chunk
@@ -30,7 +30,7 @@ async function convert () {
     }
   })
 
-  process.stdin.on('end', async function () {
+  process.stdin.on('end', async () => {
     // There will be a trailing \n from the user hitting enter. Get rid of it.
     data = data.replace(/\n$/, '')
     await convert()

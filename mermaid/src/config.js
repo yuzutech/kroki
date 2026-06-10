@@ -1,12 +1,12 @@
-import set from 'lodash/set.js'
-
-export function updateConfig (initialConfig, config) {
+export function updateConfig(initialConfig, config) {
   for (const property in Object.fromEntries(config)) {
     const propertyCamelCase = convertPropertyToCamelCase(property)
-    if (propertyCamelCase === 'maxTextSize' ||
+    if (
+      propertyCamelCase === 'maxTextSize' ||
       propertyCamelCase === 'securityLevel' ||
       propertyCamelCase === 'secure' ||
-      propertyCamelCase === 'startOnLoad') {
+      propertyCamelCase === 'startOnLoad'
+    ) {
       // ignored for security reasons
       continue
     }
@@ -15,7 +15,7 @@ export function updateConfig (initialConfig, config) {
   }
 }
 
-function convertPropertyToCamelCase (property) {
+function convertPropertyToCamelCase(property) {
   const propertySplit = property.split('_')
   for (let i = 0; i < propertySplit.length; i++) {
     const split = propertySplit[i]
@@ -30,14 +30,33 @@ function convertPropertyToCamelCase (property) {
   return propertySplit.join('.')
 }
 
-function getTypedValue (value) {
+// Minimal replacement for lodash/set: assigns `value` at the dot-separated
+// `path` in `object`, creating intermediate objects as needed.
+function set(object, path, value) {
+  const keys = path.split('.')
+  let current = object
+  for (let i = 0; i < keys.length - 1; i++) {
+    const key = keys[i]
+    if (current[key] === null || typeof current[key] !== 'object') {
+      current[key] = {}
+    }
+    current = current[key]
+  }
+  current[keys[keys.length - 1]] = value
+  return object
+}
+
+function getTypedValue(value) {
   if (value.toLowerCase() === 'true' || value.toLocaleString() === 'false') {
     return value === 'true'
   }
   if (value.startsWith('[') && value.endsWith(']')) {
-    return value.substring(1, value.length - 1).split(',').map(item => this.getTypedValue(item))
+    return value
+      .substring(1, value.length - 1)
+      .split(',')
+      .map(item => this.getTypedValue(item))
   }
-  if (!isNaN(value)) {
+  if (!Number.isNaN(Number(value))) {
     return Number(value)
   }
   return value

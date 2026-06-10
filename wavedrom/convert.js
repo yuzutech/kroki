@@ -11,7 +11,7 @@ const waveSkin = {
   narrowerer: require('wavedrom/skins/narrowerer.js').narrowerer
 }
 
-function convert (source) {
+function convert(source) {
   if (source === '') {
     return
   }

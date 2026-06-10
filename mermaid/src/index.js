@@ -6,7 +6,7 @@ import micro from 'micro'
 import { SyntaxError, TimeoutError, Worker } from './worker.js'
 import Task from './task.js'
 
-(async () => {
+;(async () => {
   // QUESTION: should we create a pool of Chrome instances ?
   const worker = new Worker()
   const server = new http.Server(
@@ -24,7 +24,10 @@ import Task from './task.js'
       const url = new URL(req.url, 'http://localhost') // create a URL object. The base is not important here
       const outputType = url.pathname.match(/\/(png|svg)$/)?.[1]
       if (outputType) {
-        const diagramSource = await micro.text(req, { limit: (process.env.KROKI_MAX_BODY_SIZE ?? '1mb'), encoding: 'utf8' })
+        const diagramSource = await micro.text(req, {
+          limit: process.env.KROKI_MAX_BODY_SIZE ?? '1mb',
+          encoding: 'utf8'
+        })
         if (diagramSource) {
           try {
             const isPng = outputType === 'png'

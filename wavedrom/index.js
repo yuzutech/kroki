@@ -1,14 +1,12 @@
 #!/usr/bin/env node
 const { convert: convertWaveDrom } = require('./convert.js')
 
-const argv = require('yargs')
-  .version(false)
-  .argv
+const argv = require('yargs').version(false).argv
 
 const encoding = 'utf-8'
 let data
 
-function convert () {
+function convert() {
   const source = data.toString(encoding)
   try {
     const result = convertWaveDrom(source)
@@ -35,7 +33,7 @@ if (process.stdin.isTTY) {
   data = ''
   process.stdin.setEncoding(encoding)
 
-  process.stdin.on('readable', function () {
+  process.stdin.on('readable', () => {
     let chunk = process.stdin.read()
     while (chunk) {
       data += chunk
@@ -43,7 +41,7 @@ if (process.stdin.isTTY) {
     }
   })
 
-  process.stdin.on('end', function () {
+  process.stdin.on('end', () => {
     // There will be a trailing \n from the user hitting enter. Get rid of it.
     data = data.replace(/\n$/, '')
     convert()

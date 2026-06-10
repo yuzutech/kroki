@@ -32,10 +32,10 @@ const createBrowser = async () => {
   const browserProcess = browser.process()
   browserProcess.stdout.unpipe()
   browserProcess.stderr.unpipe()
-  browserProcess.stdout.on('data', (data) => {
+  browserProcess.stdout.on('data', data => {
     logger.debug({ stdout: data.toString() }, 'chrome process stdout')
   })
-  browserProcess.stderr.on('data', (data) => {
+  browserProcess.stderr.on('data', data => {
     logger.error({ stderr: data.toString() }, 'chrome process')
   })
   browserProcess.stdout.resume()
@@ -43,13 +43,13 @@ const createBrowser = async () => {
   browserProcess.on('disconnect', () => {
     logger.warn('chrome process disconnected')
   })
-  browserProcess.on('error', (err) => {
+  browserProcess.on('error', err => {
     logger.error({ err }, 'chrome process errored')
   })
   browserProcess.on('exit', (code, signal) => {
     logger.error({ code, signal }, 'chrome process exited')
   })
-  browserProcess.on('message', (message) => {
+  browserProcess.on('message', message => {
     logger.warn({ message }, 'chrome process message')
   })
   try {
@@ -62,6 +62,6 @@ const createBrowser = async () => {
   }
 }
 
-export async function create () {
+export async function create() {
   return createBrowser()
 }

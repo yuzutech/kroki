@@ -1,5 +1,5 @@
 export default class Task {
-  constructor (source) {
+  constructor(source) {
     this.source = source
   }
 }

@@ -1,13 +1,13 @@
 // must be declared first
 import { logger } from './logger.js'
 import http from 'node:http'
-import {TimeoutError as PuppeteerTimeoutError} from 'puppeteer'
+import { TimeoutError as PuppeteerTimeoutError } from 'puppeteer'
 import micro from 'micro'
 import Task from './task.js'
 import { create } from './browser-instance.js'
 import { SyntaxError, TimeoutError, Worker } from './worker.js'
 
-(async () => {
+;(async () => {
   // QUESTION: should we create a pool of Chrome instances ?
   const browser = await create()
   logger.info(`Chrome accepting connections on endpoint ${browser.wsEndpoint()}`)
