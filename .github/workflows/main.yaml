@@ -228,8 +228,9 @@ jobs:
       run: task dockerBuildImages
       env:
         BUILD_MULTIARCH: ${{ inputs.build_multiarch }}
-        CACHE_FROM: 'type=local,src=/tmp/.buildx-cache'
-        CACHE_TO: 'type=local,dest=/tmp/.buildx-cache-new'
+        # one cache subdirectory per bake target, see docker-bake.hcl
+        CACHE_FROM_DIR: '/tmp/.buildx-cache'
+        CACHE_TO_DIR: '/tmp/.buildx-cache-new'
 
     - name: 'Setup Node.js 24'
       uses: actions/setup-node@v6

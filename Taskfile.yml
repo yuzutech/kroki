@@ -22,7 +22,8 @@ tasks:
 
   dockerBuildImages:
     cmds:
-      - 'docker buildx bake --allow=fs.write=/tmp kroki companion-images {{if .BUILD_MULTIARCH}}--set "*.platform=linux/arm64,linux/amd64"{{end}} {{if .CACHE_FROM}}--set "*.cache-from={{.CACHE_FROM}}"{{end}} {{if .CACHE_TO}}--set "*.cache-to={{.CACHE_TO}}"{{end}}'
+      # the per-target cache locations are derived from the CACHE_FROM_DIR and CACHE_TO_DIR environment variables in docker-bake.hcl
+      - 'docker buildx bake --allow=fs=/tmp kroki companion-images {{if .BUILD_MULTIARCH}}--set "*.platform=linux/arm64,linux/amd64"{{end}}'
 
   dockerPublishImages:
     preconditions:
@@ -35,7 +36,7 @@ tasks:
     env:
       TAG: 'smoketests'
     cmds:
-      - 'docker buildx bake --allow=fs.write=/tmp kroki companion-images --load {{if .CACHE_FROM}}--set "*.cache-from={{.CACHE_FROM}}"{{end}} {{if .CACHE_TO}}--set "*.cache-to={{.CACHE_TO}}"{{end}}'
+      - 'docker buildx bake --allow=fs=/tmp kroki companion-images --load'
       - 'docker compose --file {{.TESTS_DIR}}/docker-compose.yaml up --build --detach'
       - defer: 'docker compose --file {{.TESTS_DIR}}/docker-compose.yaml stop'
       - 'echo'
