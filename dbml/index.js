@@ -18,6 +18,13 @@ async function convert() {
   }
 }
 
+const [, , ...args] = process.argv
+if (args[0] === '--version') {
+  const version = require('./package.json').dependencies['@softwaretechnik/dbml-renderer']
+  console.log(`dbml ${version}`)
+  process.exit(0)
+}
+
 ;(async () => {
   data = ''
   process.stdin.setEncoding(encoding)
