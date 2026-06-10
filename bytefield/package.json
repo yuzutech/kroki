@@ -4,7 +4,8 @@
   "description": "A CLI built on top of the bytefield diagram library.",
   "bin": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "biome check index.js"
   },
   "license": "MIT",
   "repository": {
@@ -17,7 +18,7 @@
     "bytefield-svg": "1.11.0"
   },
   "devDependencies": {
-    "standard": "17.1.2"
+    "@biomejs/biome": "2.4.16"
   },
   "volta": {
     "node": "24.16.0"

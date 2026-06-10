@@ -4,7 +4,7 @@ const nomnoml = require('nomnoml')
 const encoding = 'utf-8'
 let data
 
-function convert () {
+function convert() {
   const source = data.toString(encoding)
   if (source === '') {
     return
@@ -30,14 +30,14 @@ if (process.stdin.isTTY) {
   data = ''
   process.stdin.setEncoding(encoding)
 
-  process.stdin.on('readable', function () {
+  process.stdin.on('readable', () => {
     let chunk
     while ((chunk = process.stdin.read()) !== null) {
       data += chunk
     }
   })
 
-  process.stdin.on('end', function () {
+  process.stdin.on('end', () => {
     // There will be a trailing \n from the user hitting enter. Get rid of it.
     data = data.replace(/\n$/, '')
     convert()

@@ -8,7 +8,7 @@ import Worker from './worker.js'
 import Task from './task.js'
 import { create } from './browser-instance.js'
 
-(async () => {
+;(async () => {
   // QUESTION: should we create a pool of Chrome instances ?
   const browser = await create()
   logger.info(`Chrome accepting connections on endpoint ${browser.wsEndpoint()}`)
@@ -45,7 +45,10 @@ import { create } from './browser-instance.js'
       }
       // TODO: add a /_status route (return excalidraw version)
       // TODO: read the diagram source as plain text
-      const diagramSource = await micro.text(req, { limit: (process.env.KROKI_MAX_BODY_SIZE ?? '1mb'), encoding: 'utf8' })
+      const diagramSource = await micro.text(req, {
+        limit: process.env.KROKI_MAX_BODY_SIZE ?? '1mb',
+        encoding: 'utf8'
+      })
       if (diagramSource) {
         try {
           const svg = await worker.convert(new Task(diagramSource))

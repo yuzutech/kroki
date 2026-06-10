@@ -10,7 +10,7 @@
     "build": "npx esbuild ./assets/index.js --bundle --minify --outfile=./assets/index.bundle.js",
     "start": "node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "standard src/**.js"
+    "lint": "biome check src"
   },
   "keywords": [],
   "author": "Guillaume Grossetie",
@@ -29,8 +29,8 @@
     "react-dom": "18.3.1"
   },
   "devDependencies": {
-    "esbuild": "0.28.0",
-    "standard": "17.1.2"
+    "@biomejs/biome": "2.4.16",
+    "esbuild": "0.28.0"
   },
   "volta": {
     "node": "24.16.0"

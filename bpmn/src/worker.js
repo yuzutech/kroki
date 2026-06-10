@@ -7,26 +7,28 @@ import { logger } from './logger.js'
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
 export class TimeoutError extends Error {
-  constructor (timeoutDurationMs, action = 'convert') {
+  constructor(timeoutDurationMs, action = 'convert') {
     super(`Timeout error: ${action} took more than ${timeoutDurationMs}ms`)
   }
 }
 
 export class SyntaxError extends Error {
-  constructor (err) {
+  constructor(err) {
     logger.error({ err })
     super(`Syntax error in graph: ${JSON.stringify(err)}`)
   }
 }
 
 export class Worker {
-  constructor (browserInstance) {
+  constructor(browserInstance) {
     this.browserWSEndpoint = browserInstance.wsEndpoint()
-    this.pageUrl = process.env.KROKI_BPMN_PAGE_URL || `file://${path.join(__dirname, '..', 'assets', 'index.html')}`
+    this.pageUrl =
+      process.env.KROKI_BPMN_PAGE_URL ||
+      `file://${path.join(__dirname, '..', 'assets', 'index.html')}`
     this.convertTimeout = process.env.KROKI_BPMN_CONVERT_TIMEOUT || '15000'
   }
 
-  async convert (task) {
+  async convert(task) {
     const browser = await puppeteer.connect({
       browserWSEndpoint: this.browserWSEndpoint,
       ignoreHTTPSErrors: true
@@ -36,22 +38,28 @@ export class Worker {
       await page.setViewport({ height: 800, width: 600 })
       await page.goto(this.pageUrl)
       const evalResult = await Promise.race([
-        page.evaluate(async (bpmnXML, options) => {
-          try {
-            const container = document.getElementById('container')
-            container.innerHTML = bpmnXML
-            /* global BpmnJS */
-            const viewer = new BpmnJS({ container })
-            await viewer.importXML(bpmnXML)
-            const { svg, err } = await viewer.saveSVG()
-            return { svg, error: err }
-          } catch (err) {
-            return { svg: null, error: err }
-          }
-        }, task.source, task.bpmnConfig),
-        new Promise((resolve, reject) => setTimeout(() => reject(new TimeoutError(this.convertTimeout)), this.convertTimeout))
+        page.evaluate(
+          async (bpmnXML, _options) => {
+            try {
+              const container = document.getElementById('container')
+              container.innerHTML = bpmnXML
+              /* global BpmnJS */
+              const viewer = new BpmnJS({ container })
+              await viewer.importXML(bpmnXML)
+              const { svg, err } = await viewer.saveSVG()
+              return { svg, error: err }
+            } catch (err) {
+              return { svg: null, error: err }
+            }
+          },
+          task.source,
+          task.bpmnConfig
+        ),
+        new Promise((_resolve, reject) =>
+          setTimeout(() => reject(new TimeoutError(this.convertTimeout)), this.convertTimeout)
+        )
       ])
-      if (evalResult && evalResult.error) {
+      if (evalResult?.error) {
         throw new SyntaxError(evalResult.error)
       }
       return evalResult.svg

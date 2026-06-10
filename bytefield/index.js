@@ -4,7 +4,7 @@ const bytefieldProcessor = require('bytefield-svg')
 const encoding = 'utf-8'
 let data
 
-function convert () {
+function convert() {
   const source = data.toString(encoding)
   if (source === '') {
     return
@@ -12,11 +12,11 @@ function convert () {
   process.stdout.write(bytefieldProcessor(source))
 }
 
-const [ , , ...args ] = process.argv;
+const [, , ...args] = process.argv
 if (args[0] === '--version') {
   const version = require('./package.json').dependencies['bytefield-svg']
   console.log(`bytefield ${version}`)
-  return
+  process.exit(0)
 }
 
 if (process.stdin.isTTY) {
@@ -30,14 +30,14 @@ if (process.stdin.isTTY) {
   data = ''
   process.stdin.setEncoding(encoding)
 
-  process.stdin.on('readable', function () {
+  process.stdin.on('readable', () => {
     let chunk
-    while (chunk = process.stdin.read()) {
+    while ((chunk = process.stdin.read())) {
       data += chunk
     }
   })
 
-  process.stdin.on('end', function () {
+  process.stdin.on('end', () => {
     // There will be a trailing \n from the user hitting enter. Get rid of it.
     data = data.replace(/\n$/, '')
     convert()

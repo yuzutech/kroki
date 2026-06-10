@@ -7,7 +7,7 @@
   "bin": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
-    "lint": "standard src/**.js"
+    "lint": "biome check src"
   },
   "keywords": [],
   "author": "Guillaume Grossetie",
@@ -23,7 +23,7 @@
     "puppeteer": "25.1.0"
   },
   "devDependencies": {
-    "standard": "17.1.2"
+    "@biomejs/biome": "2.4.16"
   },
   "volta": {
     "node": "24.16.0"

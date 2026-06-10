@@ -4,7 +4,7 @@ import pino from 'pino'
 export const logger = pino({
   level: process.env.LEVEL || 'info',
   formatters: {
-    level: (label) => {
+    level: label => {
       return { level: label }
     }
   }

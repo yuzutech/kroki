@@ -1,5 +1,5 @@
 export default class Task {
-  constructor (source, isPng = false) {
+  constructor(source, isPng = false) {
     this.source = source
     this.isPng = isPng
     this.mermaidConfig = {
