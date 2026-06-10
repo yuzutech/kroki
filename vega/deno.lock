@@ -8,7 +8,7 @@
     "npm:canvas@3.2.0": "3.2.0",
     "npm:sinon@21.0.0": "21.0.0",
     "npm:vega-canvas@2.0.0": "2.0.0",
-    "npm:vega-lite@6.4.1": "6.4.1_vega@6.2.0",
+    "npm:vega-lite@6.4.3": "6.4.3_vega@6.2.0",
     "npm:vega@6.2.0": "6.2.0"
   },
   "jsr": {
@@ -254,8 +254,8 @@
     "get-caller-file@2.0.5": {
       "integrity": "sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg=="
     },
-    "get-east-asian-width@1.4.0": {
-      "integrity": "sha512-QZjmEOC+IT1uk6Rx0sX22V6uHWVwbdbxf1faPqJ1QhLdGgsRGCZoyaQBm/piRdJy/D2um6hM1UP7ZEeQ4EkP+Q=="
+    "get-east-asian-width@1.6.0": {
+      "integrity": "sha512-QRbvDIbx6YklUe6RxeTeleMR0yv3cYH6PsPZHcnVn7xv7zO1BHN8r0XETu8n6Ye3Q+ahtSarc3WgtNWmehIBfA=="
     },
     "github-from-package@0.0.0": {
       "integrity": "sha512-SyHy3T1v2NUXn29OsWdxmK6RwHD+vkj3v8en8AOBZ1wBQ/hCAQ5bAQTD02kW4W9tUp/3Qh6J8r9EvntiyCmOOw=="
@@ -327,6 +327,7 @@
         "tar-fs",
         "tunnel-agent"
       ],
+      "deprecated": true,
       "bin": true
     },
     "pump@3.0.3": {
@@ -405,8 +406,8 @@
         "safe-buffer"
       ]
     },
-    "strip-ansi@7.1.2": {
-      "integrity": "sha512-gmBGslpoQJtgnMAvOVqGZpEz9dyoKTCzy2nfz/n8aIFhN/jCE/rCmcxabB6jOOHV+0WNnylOxaxBQPSvcWklhA==",
+    "strip-ansi@7.2.0": {
+      "integrity": "sha512-yDPMNjp4WyfYBkHnjIRLfca1i6KMyGCtsVgoKe/z1+6vukgaENdgGBZt+ZmKPc4gavvEZ5OgHfHdrazhgNyG7w==",
       "dependencies": [
         "ansi-regex"
       ]
@@ -570,8 +571,8 @@
         "vega-util"
       ]
     },
-    "vega-lite@6.4.1_vega@6.2.0": {
-      "integrity": "sha512-KO3ybHNouRK4A0al/+2fN9UqgTEfxrd/ntGLY933Hg5UOYotDVQdshR3zn7OfXwQ7uj0W96Vfa5R+QxO8am3IQ==",
+    "vega-lite@6.4.3_vega@6.2.0": {
+      "integrity": "sha512-d/7hPjfz560UERaQuTmGgIVfXAe3g2hJWeC+igDeaGohUdEoNrHLXgR/yTOBT8vV/lIuuKnw+0/xWWblkDwkMQ==",
       "dependencies": [
         "json-stringify-pretty-compact",
         "tslib",
@@ -804,7 +805,7 @@
       "npm:canvas@3.2.0",
       "npm:sinon@21.0.0",
       "npm:vega-canvas@2.0.0",
-      "npm:vega-lite@6.4.1",
+      "npm:vega-lite@6.4.3",
       "npm:vega@6.2.0"
     ]
   }
