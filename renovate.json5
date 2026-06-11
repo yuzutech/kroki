@@ -5,9 +5,27 @@
     '🔗 dependencies',
   ],
   separateMajorMinor: true,
+  // wait at least 7 days after a release before proposing it
+  minimumReleaseAge: '7 days',
+  // batch all PRs on monday morning instead of creating them continuously
+  timezone: 'Europe/Paris',
+  schedule: [
+    'before 6am on monday',
+  ],
+  // major updates wait for manual approval from the dependency dashboard
+  major: {
+    dependencyDashboardApproval: true,
+  },
+  // avoid PR bursts and cascading rebases
+  prConcurrentLimit: 5,
+  prHourlyLimit: 2,
   extends: [
     ':preserveSemverRanges',
   ],
+  // security fixes should not wait
+  vulnerabilityAlerts: {
+    minimumReleaseAge: null,
+  },
   packageRules: [
     {
       "matchManagers": ["cargo"],
@@ -61,6 +79,17 @@
       ],
     },
     {
+      // lockfile regeneration resolves versions published at least 14 days ago
+      // (Renovate passes --before to npm, covering transitive dependencies too)
+      matchManagers: [
+        'npm',
+      ],
+      matchUpdateTypes: [
+        'lockFileMaintenance',
+      ],
+      minimumReleaseAge: '14 days',
+    },
+    {
       matchManagers: [
         'maven',
       ],
@@ -108,5 +137,6 @@
   ],
   lockFileMaintenance: {
     enabled: true,
+    automerge: true,
   },
 }
