@@ -6,7 +6,7 @@
     "jsr:@std/internal@^1.0.12": "1.0.12",
     "npm:@types/node@*": "24.2.0",
     "npm:canvas@3.2.0": "3.2.0",
-    "npm:sinon@21.0.0": "21.0.0",
+    "npm:sinon@21.1.2": "21.1.2",
     "npm:vega-canvas@2.0.0": "2.0.0",
     "npm:vega-lite@6.4.3": "6.4.3_vega@6.2.0",
     "npm:vega@6.2.0": "6.2.0"
@@ -32,14 +32,14 @@
         "type-detect@4.0.8"
       ]
     },
-    "@sinonjs/fake-timers@13.0.5": {
-      "integrity": "sha512-36/hTbH2uaWuGVERyC6da9YwGWnzUZXuPro/F2LfsdOsLnCojz/iSH8MxUt/FD2S5XBSVPhmArFUXcpCQ2Hkiw==",
+    "@sinonjs/fake-timers@15.4.0": {
+      "integrity": "sha512-DsG+8/LscQIQg68J6Ef3dv10u6nVyetYn923s3/sus5eaGfTo1of5WMZSLf0UJc9KDuKPilPH0UDJCjvNbDNCA==",
       "dependencies": [
         "@sinonjs/commons"
       ]
     },
-    "@sinonjs/samsam@8.0.3": {
-      "integrity": "sha512-hw6HbX+GyVZzmaYNh82Ecj1vdGZrqVIn/keDTg63IgAwiQPO+xCz99uG6Woqgb4tM0mUiFENKZ4cqd7IX94AXQ==",
+    "@sinonjs/samsam@10.0.2": {
+      "integrity": "sha512-8lVwD1Df1BmzoaOLhMcGGcz/Jyr5QY2KSB75/YK1QgKzoabTeLdIVyhXNZK9ojfSKSdirbXqdbsXXqP9/Ve8+A==",
       "dependencies": [
         "@sinonjs/commons",
         "type-detect@4.1.0"
@@ -230,8 +230,8 @@
     "detect-libc@2.1.2": {
       "integrity": "sha512-Btj2BOOO83o3WyH59e8MgXsxEQVcarkUOpEYrubB0urwnN10yQ364rsiByU11nZlqWYZm05i/of7io4mzihBtQ=="
     },
-    "diff@7.0.0": {
-      "integrity": "sha512-PJWHUb1RFevKCwaFA9RlG5tCd+FO5iRh9A8HEtkmBH2Li03iJriB6m6JIN4rGz3K3JLawI7/veA1xzRKP6ISBw=="
+    "diff@8.0.4": {
+      "integrity": "sha512-DPi0FmjiSU5EvQV0++GFDOJ9ASQUVFh5kD+OzOnYdi7n3Wpm9hWWGfB/O2blfHcMVTL5WkQXSnRiK9makhrcnw=="
     },
     "emoji-regex@10.6.0": {
       "integrity": "sha512-toUI84YS5YmxW219erniWD0CIVOo46xGKColeNQRgOzDorgBi1v4D71/OFzgD9GO2UGKIv1C3Sp8DAn0+j5w7A=="
@@ -259,9 +259,6 @@
     },
     "github-from-package@0.0.0": {
       "integrity": "sha512-SyHy3T1v2NUXn29OsWdxmK6RwHD+vkj3v8en8AOBZ1wBQ/hCAQ5bAQTD02kW4W9tUp/3Qh6J8r9EvntiyCmOOw=="
-    },
-    "has-flag@4.0.0": {
-      "integrity": "sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ=="
     },
     "iconv-lite@0.6.3": {
       "integrity": "sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==",
@@ -382,14 +379,13 @@
         "simple-concat"
       ]
     },
-    "sinon@21.0.0": {
-      "integrity": "sha512-TOgRcwFPbfGtpqvZw+hyqJDvqfapr1qUlOizROIk4bBLjlsjlB00Pg6wMFXNtJRpu+eCZuVOaLatG7M8105kAw==",
+    "sinon@21.1.2": {
+      "integrity": "sha512-FS6mN+/bx7e2ajpXkEmOcWB6xBzWiuNoAQT18/+a20SS4U7FSYl8Ms7N6VTUxN/1JAjkx7aXp+THMC8xdpp0gA==",
       "dependencies": [
         "@sinonjs/commons",
         "@sinonjs/fake-timers",
         "@sinonjs/samsam",
-        "diff",
-        "supports-color"
+        "diff"
       ]
     },
     "string-width@7.2.0": {
@@ -414,12 +410,6 @@
     },
     "strip-json-comments@2.0.1": {
       "integrity": "sha512-4gB8na07fecVVkOI6Rs4e7T6NOTki5EmL7TUduTs6bu3EdnSycntVJ4re8kgZA+wx9IueI2Y11bfbgwtzuE0KQ=="
-    },
-    "supports-color@7.2.0": {
-      "integrity": "sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==",
-      "dependencies": [
-        "has-flag"
-      ]
     },
     "tar-fs@2.1.4": {
       "integrity": "sha512-mDAjwmZdh7LTT6pNleZ05Yt65HC3E+NiQzl672vQG38jIrehtJk/J3mNwIg+vShQPcLF/LV7CMnDW6vjj6sfYQ==",
@@ -803,7 +793,7 @@
       "jsr:@std/assert@1",
       "jsr:@std/cli@*",
       "npm:canvas@3.2.0",
-      "npm:sinon@21.0.0",
+      "npm:sinon@21.1.2",
       "npm:vega-canvas@2.0.0",
       "npm:vega-lite@6.4.3",
       "npm:vega@6.2.0"
