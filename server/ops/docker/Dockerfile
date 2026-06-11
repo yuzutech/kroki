@@ -1,10 +1,10 @@
-# syntax=docker/dockerfile:1.23
+# syntax=docker/dockerfile:1.24
 
 ## Node.js for the target platform (provides the binary used to assemble SEA executables)
-FROM node:24.15-bookworm-slim AS kroki-node-target
+FROM node:24.16-bookworm-slim AS kroki-node-target
 
 ## Nomnoml
-FROM --platform=$BUILDPLATFORM node:24.15-bookworm-slim AS kroki-builder-nomnoml
+FROM --platform=$BUILDPLATFORM node:24.16-bookworm-slim AS kroki-builder-nomnoml
 
 COPY --from=nomnoml index.js package.json package-lock.json biome.json sea-config.json /app/
 WORKDIR /app
@@ -40,7 +40,7 @@ RUN case "${TARGETARCH}" in \
     deno compile --target="${ARCH}-unknown-linux-gnu" --include=node_modules --node-modules-dir=auto --allow-ffi --output "app.bin" ./src/main.ts
 
 ## DBML
-FROM --platform=$BUILDPLATFORM node:24.15-bookworm-slim AS kroki-builder-dbml
+FROM --platform=$BUILDPLATFORM node:24.16-bookworm-slim AS kroki-builder-dbml
 
 COPY --from=dbml index.js package.json package-lock.json biome.json sea-config.json /app/
 WORKDIR /app
@@ -51,7 +51,7 @@ COPY --from=kroki-node-target /usr/local/bin/node /app/build/app.bin
 RUN npm run build:inject
 
 ## Wavedrom
-FROM --platform=$BUILDPLATFORM node:24.15-bookworm-slim AS kroki-builder-wavedrom
+FROM --platform=$BUILDPLATFORM node:24.16-bookworm-slim AS kroki-builder-wavedrom
 
 COPY --from=wavedrom index.js convert.js package.json package-lock.json biome.json sea-config.json /app/
 WORKDIR /app
@@ -62,7 +62,7 @@ COPY --from=kroki-node-target /usr/local/bin/node /app/build/app.bin
 RUN npm run build:inject
 
 ## Bytefield
-FROM --platform=$BUILDPLATFORM node:24.15-bookworm-slim AS kroki-builder-bytefield
+FROM --platform=$BUILDPLATFORM node:24.16-bookworm-slim AS kroki-builder-bytefield
 
 COPY --from=bytefield index.js package.json package-lock.json biome.json sea-config.json /app/
 WORKDIR /app
@@ -119,7 +119,7 @@ RUN wget -q "https://pikchr.org/home/raw/${PIKCHR_VERSION}" -O pikchr.c
 RUN gcc -O0 -g -static -Wall -Wextra -DPIKCHR_SHELL pikchr.c -o pikchr -lm
 
 ## SVGBob
-FROM --platform=$BUILDPLATFORM rust:1.95-slim-bullseye AS kroki-builder-static-svgbob
+FROM --platform=$BUILDPLATFORM rust:1.96-slim-bullseye AS kroki-builder-static-svgbob
 
 # Install cross-compilation tools
 RUN apt-get update && apt-get install --no-install-recommends --yes \
@@ -147,7 +147,7 @@ RUN SVGBOB_VERSION=`cat Cargo.toml | grep "svgbob_cli =" | sed -r 's/.*"([^"]+)"
 FROM ghcr.io/yuzutech/erd:v0.2.3 AS erd
 
 ## GoAT
-FROM --platform=$BUILDPLATFORM golang:1.26.2-alpine AS kroki-builder-goat
+FROM --platform=$BUILDPLATFORM golang:1.26.4-alpine AS kroki-builder-goat
 
 ARG GOAT_VERSION=0.5.1
 
