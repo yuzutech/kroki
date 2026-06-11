@@ -4,7 +4,7 @@ import path from 'node:path'
 import puppeteer, { HTTPResponse, Page } from 'puppeteer'
 import { logger } from './logger.js'
 import { updateConfig } from './config.js'
-import { getBrowserWSEndpoint } from './browser-instance.js'
+import { getBrowserWSEndpoint, protocolTimeout } from './browser-instance.js'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
@@ -141,7 +141,7 @@ export class Worker {
       browserWSEndpoint,
       ignoreHTTPSErrors: true,
       // Bound CDP calls made outside the convert race (see browser-instance.js).
-      protocolTimeout: Number(process.env.KROKI_MERMAID_PROTOCOL_TIMEOUT) || 30000
+      protocolTimeout
     })
   }
 }

@@ -26,6 +26,10 @@ COPY --chown=kroki:kroki src ./src
 COPY --chown=kroki:kroki package*.json ./
 COPY --chown=kroki:kroki assets ./assets
 
+# Shared package resolved through the file:../lib/browser-instance dependency
+# ("lib" named build context, see docker-bake.hcl)
+COPY --from=lib --chown=kroki:kroki . /usr/local/lib/browser-instance
+
 RUN npm i --omit=dev
 
 EXPOSE 8002

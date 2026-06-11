@@ -4,11 +4,13 @@ on:
   push:
     paths:
       - 'mermaid/**'
+      - 'lib/**'
     branches:
       - main
   pull_request:
     paths:
       - 'mermaid/**'
+      - 'lib/**'
     branches:
       - '*'
 

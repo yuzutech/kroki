@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@excalidraw/excalidraw": "0.18.1",
+    "@kroki/browser-instance": "file:../lib/browser-instance",
     "micro": "10.0.1",
     "pino": "9.14.0",
     "pino-debug": "2.0.0",

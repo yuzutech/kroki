@@ -48,6 +48,9 @@ target "kroki" {
 
 target "kroki-mermaid" {
   context = "mermaid"
+  contexts = {
+    lib = "./lib/browser-instance"
+  }
   tags = ["yuzutech/kroki-mermaid:${TAG}"]
   cache-from = CACHE_FROM_DIR != "" ? ["type=local,src=${CACHE_FROM_DIR}/mermaid"] : []
   cache-to = CACHE_TO_DIR != "" ? ["type=local,dest=${CACHE_TO_DIR}/mermaid"] : []
@@ -59,6 +62,9 @@ target "kroki-mermaid" {
 
 target "kroki-bpmn" {
   context = "bpmn"
+  contexts = {
+    lib = "./lib/browser-instance"
+  }
   tags = ["yuzutech/kroki-bpmn:${TAG}"]
   cache-from = CACHE_FROM_DIR != "" ? ["type=local,src=${CACHE_FROM_DIR}/bpmn"] : []
   cache-to = CACHE_TO_DIR != "" ? ["type=local,dest=${CACHE_TO_DIR}/bpmn"] : []
@@ -70,6 +76,9 @@ target "kroki-bpmn" {
 
 target "kroki-excalidraw" {
   context = "excalidraw"
+  contexts = {
+    lib = "./lib/browser-instance"
+  }
   tags = ["yuzutech/kroki-excalidraw:${TAG}"]
   cache-from = CACHE_FROM_DIR != "" ? ["type=local,src=${CACHE_FROM_DIR}/excalidraw"] : []
   cache-to = CACHE_TO_DIR != "" ? ["type=local,dest=${CACHE_TO_DIR}/excalidraw"] : []
@@ -81,6 +90,9 @@ target "kroki-excalidraw" {
 
 target "kroki-diagramsnet" {
   context = "diagrams.net"
+  contexts = {
+    lib = "./lib/browser-instance"
+  }
   tags = ["yuzutech/kroki-diagramsnet:${TAG}"]
   cache-from = CACHE_FROM_DIR != "" ? ["type=local,src=${CACHE_FROM_DIR}/diagramsnet"] : []
   cache-to = CACHE_TO_DIR != "" ? ["type=local,dest=${CACHE_TO_DIR}/diagramsnet"] : []

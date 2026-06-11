@@ -1,0 +1,14 @@
+{
+  "name": "@kroki/browser-instance",
+  "version": "1.0.0",
+  "description": "Shared Chrome instance manager for the Kroki companion services.",
+  "main": "index.js",
+  "type": "module",
+  "keywords": [],
+  "author": "Guillaume Grossetie",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yuzutech/kroki.git"
+  }
+}

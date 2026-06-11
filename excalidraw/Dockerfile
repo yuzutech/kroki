@@ -1,5 +1,11 @@
 FROM node:24.16-alpine3.23 AS builder
 
+WORKDIR /usr/local/kroki/
+
+# Shared package resolved through the file:../lib/browser-instance dependency
+# ("lib" named build context, see docker-bake.hcl)
+COPY --from=lib . /usr/local/lib/browser-instance
+
 COPY assets ./assets
 COPY package*.json ./
 
@@ -30,7 +36,11 @@ ENV XDG_CACHE_HOME="/tmp/cache"
 COPY --chown=kroki:kroki src ./src
 COPY --chown=kroki:kroki package*.json ./
 COPY --chown=kroki:kroki assets ./assets
-COPY --from=builder --chown=kroki:kroki ./assets/index.bundle.js ./assets/index.bundle.js
+COPY --from=builder --chown=kroki:kroki /usr/local/kroki/assets/index.bundle.js ./assets/index.bundle.js
+
+# Shared package resolved through the file:../lib/browser-instance dependency
+# ("lib" named build context, see docker-bake.hcl)
+COPY --from=lib --chown=kroki:kroki . /usr/local/lib/browser-instance
 
 RUN npm i --omit=dev
 
