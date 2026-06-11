@@ -63,7 +63,7 @@ public class Server extends AbstractVerticle {
     HttpServer server = vertx.createHttpServer(serverOptions);
     Router router = Router.router(vertx);
     BodyHandler bodyHandler = BodyHandler.create(false).setBodyLimit(config.getLong("KROKI_BODY_LIMIT", BodyHandler.DEFAULT_BODY_LIMIT));
-    Delegator delegator = new Delegator(vertx);
+    Delegator delegator = new Delegator(vertx, config);
     // CORS
     // CORS Headers
     Set<String> allowedHeaders = new LinkedHashSet<>();

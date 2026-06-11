@@ -120,6 +120,36 @@ describe('#convert', function () {
     })
   })
 
+  it('should throw MaxTextSizeError when the source exceeds maxTextSize', async function () {
+    // Oversized source is rejected up front, before connecting to a browser:
+    // mermaid would otherwise resolve with an error *image* (HTTP 200).
+    const source = `graph TD\n${'A-->B\n'.repeat(10000)}` // > 50000 chars
+    try {
+      await new Worker().convert(new Task(source))
+      fail('Should throw a MaxTextSizeError exception')
+    } catch (err) {
+      deepEqual(err.name, 'MaxTextSizeError')
+    }
+  })
+
+  invalidSyntaxTests.forEach((testCase) => {
+    it(`should throw syntax error when exceeding the edge limit in endpoint /${testCase.endpoint}`, async function () {
+      // The default maxEdges is 500 and cannot be raised per request (see config.js).
+      // mermaid throws on this one (unlike maxTextSize), so it surfaces as a SyntaxError.
+      const edges = Array.from({ length: 600 }, (_, i) => `n${i}-->n${i + 1}`).join('\n')
+      const source = `graph TD\n${edges}`
+      const browser = await getBrowser()
+      try {
+        await new Worker(browser).convert(new Task(source, testCase.isPng))
+        fail('Should throw a SyntaxError exception')
+      } catch (err) {
+        deepEqual(err.name, 'SyntaxError')
+      } finally {
+        await browser.close()
+      }
+    })
+  })
+
   it('should properly handle <> characters', async () => {
     `sequenceDiagram
     rect rgba(200, 150, 255, 0.2)

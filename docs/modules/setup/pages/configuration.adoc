@@ -218,6 +218,59 @@ Currently, only PlantUML supports this configuration:
 Please note that this specific configuration will override `KROKI_CONVERT_TIMEOUT`.
 In other words, diagram library timeouts (for instance, `KROKI_PLANTUML_CONVERT_TIMEOUT`) have higher precedence than `KROKI_CONVERT_TIMEOUT`.
 
+== Delegate Timeout
+
+Diagrams handled by a companion container (Mermaid, BPMN, Excalidraw and diagrams.net) are delegated by the main Kroki server over HTTP.
+By default, the main server waits at most 30 seconds for the companion to respond before failing the request.
+
+Without such a limit, a slow or wedged companion would let requests pile up in the server until it runs out of memory.
+You can adjust this timeout with the `KROKI_DELEGATE_TIMEOUT_MS` environment variable (value in milliseconds):
+
+[source]
+----
+KROKI_DELEGATE_TIMEOUT_MS=30000 # default, 30 seconds
+----
+
+NOTE: The companions enforce their own convert timeout (10 seconds by default for Mermaid, see xref:mermaid-convert-timeout[] below).
+Keep `KROKI_DELEGATE_TIMEOUT_MS` slightly higher so the companion's structured error response is returned to the client instead of being cut short.
+
+== Companion Browser
+
+Mermaid, Excalidraw and diagrams.net render diagrams in a headless Chromium instance driven over the Chrome DevTools Protocol (CDP).
+
+=== Protocol Timeout
+
+To prevent a wedged browser from blocking a request for the Puppeteer default of 180 seconds, each CDP call is bounded.
+By default, a single CDP call may hang at most 30 seconds.
+You can adjust this per companion (value in milliseconds):
+
+[horizontal]
+`KROKI_MERMAID_PROTOCOL_TIMEOUT`:: Mermaid container (default: `30000`).
+`KROKI_DIAGRAMSNET_PROTOCOL_TIMEOUT`:: diagrams.net container (default: `30000`).
+`KROKI_EXCALIDRAW_PROTOCOL_TIMEOUT`:: Excalidraw container (default: `30000`).
+
+[#mermaid-convert-timeout]
+=== Mermaid Convert Timeout
+
+The Mermaid container aborts a single render that takes longer than 10 seconds and returns a `408` (Request Timeout) response status code.
+You can adjust this with the `KROKI_MERMAID_CONVERT_TIMEOUT` environment variable (value in milliseconds):
+
+[source]
+----
+KROKI_MERMAID_CONVERT_TIMEOUT=10000 # default, 10 seconds
+----
+
+=== Mermaid Diagram Limits
+
+To protect the service against resource exhaustion, the Mermaid container caps the size of a diagram:
+
+`KROKI_MERMAID_MAX_TEXT_SIZE`:: The maximum length, in characters, of a Mermaid diagram source.
+If the source exceeds this value, a `400` (Bad Request) response status code is sent. Defaults to `50000`.
+
+In addition, Mermaid's own edge limit (`maxEdges`, 500 by default) is enforced: a diagram with more edges is rejected with a `400` (Bad Request) response status code.
+
+NOTE: For security reasons, `maxTextSize`, `maxEdges`, `securityLevel`, `secure` and `startOnLoad` cannot be overridden per request through query parameters.
+
 == Companion Container Host and Port
 
 You can configure the host and port on which every companion container will be listening:

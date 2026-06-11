@@ -15,7 +15,9 @@ export default class Worker {
   async convert(task) {
     const browser = await puppeteer.connect({
       browserWSEndpoint: this.browserWSEndpoint,
-      ignoreHTTPSErrors: true
+      ignoreHTTPSErrors: true,
+      // Bound CDP calls so a wedged Chrome fails fast instead of stalling 180s.
+      protocolTimeout: Number(process.env.KROKI_EXCALIDRAW_PROTOCOL_TIMEOUT) || 30000
     })
     const page = await browser.newPage()
     try {

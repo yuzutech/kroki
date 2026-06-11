@@ -128,7 +128,9 @@ export class Worker {
     const browserWSEndpoint = await getBrowserWSEndpoint()
     return await puppeteer.connect({
       browserWSEndpoint,
-      ignoreHTTPSErrors: true
+      ignoreHTTPSErrors: true,
+      // Bound CDP calls made outside any convert race (see browser-instance.js).
+      protocolTimeout: Number(process.env.KROKI_DIAGRAMSNET_PROTOCOL_TIMEOUT) || 30000
     })
   }
 }
