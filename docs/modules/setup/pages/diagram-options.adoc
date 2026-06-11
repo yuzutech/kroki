@@ -209,6 +209,9 @@ For security reasons, the following options are not available:
 
 The complete list of options is available in Mermaid source code at: https://github.com/mermaid-js/mermaid/blob/master/packages/mermaid/src/config.type.ts
 
+Kroki bundles the https://www.npmjs.com/package/@mermaid-js/layout-elk[ELK] and https://www.npmjs.com/package/@mermaid-js/layout-tidy-tree[tidy-tree] alternate layout engines, which were moved to external packages in Mermaid v11.
+You can select one using the `layout` diagram option (e.g., `layout=elk`) or the `layout` property in the diagram frontmatter config.
+
 == PlantUML
 
 [cols="1m,1a,2a",opts="header"]
