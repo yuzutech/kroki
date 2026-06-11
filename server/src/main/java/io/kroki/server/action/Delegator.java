@@ -24,9 +24,20 @@ public class Delegator {
 
   private static final Logger logger = LoggerFactory.getLogger(Delegator.class);
   private static final Logging logging = new Logging(logger);
+  // Upstream companion services (mermaid, bpmn, ...) enforce their own convert
+  // timeout (10s by default). Allow a bit more so we receive their structured
+  // error response rather than cutting first, but never wait unbounded: without
+  // a timeout a wedged companion lets requests pile up in the client queue until
+  // the core runs out of memory.
+  private static final long DEFAULT_TIMEOUT_MS = 30_000;
   private final WebClient webClient;
+  private final long timeoutMs;
 
   public Delegator(Vertx vertx) {
+    this(vertx, new JsonObject());
+  }
+
+  public Delegator(Vertx vertx, JsonObject config) {
     HttpClient httpClient = vertx.httpClientBuilder()
       // https://vertx.io/docs/vertx-web-client/java/#_handling_30x_redirections
       // > By default the client follows redirections
@@ -36,11 +47,14 @@ public class Delegator {
       .withRedirectHandler(new AllowAnyMethodRedirectHandler())
       .build();
     this.webClient = WebClient.wrap(httpClient);
+    Long configured = config.getLong("KROKI_DELEGATE_TIMEOUT_MS");
+    this.timeoutMs = configured != null && configured > 0 ? configured : DEFAULT_TIMEOUT_MS;
   }
 
   public Future<HttpResponse<Buffer>> delegate(String host, int port, String requestURI, String body, JsonObject options) {
     HttpRequest<Buffer> request = this.webClient
       .post(port, host, requestURI)
+      .timeout(this.timeoutMs)
       .putHeader(HttpHeaders.ACCEPT.toString(), HttpHeaderValues.APPLICATION_JSON.toString());
     options.stream().iterator().forEachRemaining(entry -> {
       String key = entry.getKey();

@@ -2,10 +2,16 @@ import puppeteer from 'puppeteer'
 
 import { logger } from './logger.js'
 
+// Cap how long a single CDP call may hang. Puppeteer's default protocolTimeout
+// is 180s: when Chrome gets wedged, calls would stall for 3 minutes each,
+// holding pages open and starving the service.
+const PROTOCOL_TIMEOUT = Number(process.env.KROKI_EXCALIDRAW_PROTOCOL_TIMEOUT) || 30000
+
 const createBrowser = async () => {
   const browser = await puppeteer.launch({
     headless: 'new',
     dumpio: true,
+    protocolTimeout: PROTOCOL_TIMEOUT,
     args: [
       // Disables GPU hardware acceleration.
       // If software renderer is not in place, then the GPU process won't launch.

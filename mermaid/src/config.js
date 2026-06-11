@@ -3,11 +3,14 @@ export function updateConfig(initialConfig, config) {
     const propertyCamelCase = convertPropertyToCamelCase(property)
     if (
       propertyCamelCase === 'maxTextSize' ||
+      propertyCamelCase === 'maxEdges' ||
       propertyCamelCase === 'securityLevel' ||
       propertyCamelCase === 'secure' ||
       propertyCamelCase === 'startOnLoad'
     ) {
-      // ignored for security reasons
+      // Ignored for security reasons: these caps protect the service from
+      // resource exhaustion. maxEdges/maxTextSize could later be opened up
+      // behind a "safe mode" toggle.
       continue
     }
     const value = getTypedValue(config.get(property))

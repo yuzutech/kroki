@@ -23,6 +23,13 @@ export class SyntaxError extends Error {
   }
 }
 
+export class MaxTextSizeError extends Error {
+  constructor(actualSize, maxTextSize) {
+    super(`Diagram source is too large: ${actualSize} characters (maximum is ${maxTextSize})`)
+    this.name = 'MaxTextSizeError'
+  }
+}
+
 export class Worker {
   constructor() {
     this.pageUrl =
@@ -32,10 +39,17 @@ export class Worker {
   }
 
   async convert(task, config) {
+    const mermaidConfig = task.mermaidConfig
+    // Reject oversized sources up front: mermaid would otherwise resolve with an
+    // error *image* (HTTP 200) rather than failing. Done before spinning up a
+    // page so a flood of huge payloads can't tie up the browser.
+    const maxTextSize = mermaidConfig.maxTextSize
+    if (maxTextSize && task.source.length > maxTextSize) {
+      throw new MaxTextSizeError(task.source.length, maxTextSize)
+    }
     const browser = await this._connect()
     const page = await newPage(browser)
     try {
-      const mermaidConfig = task.mermaidConfig
       if (
         config !== null &&
         config !== undefined &&
@@ -125,7 +139,9 @@ export class Worker {
     const browserWSEndpoint = await getBrowserWSEndpoint()
     return await puppeteer.connect({
       browserWSEndpoint,
-      ignoreHTTPSErrors: true
+      ignoreHTTPSErrors: true,
+      // Bound CDP calls made outside the convert race (see browser-instance.js).
+      protocolTimeout: Number(process.env.KROKI_MERMAID_PROTOCOL_TIMEOUT) || 30000
     })
   }
 }

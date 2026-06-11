@@ -2,11 +2,24 @@ import puppeteer from 'puppeteer'
 
 import { logger } from './logger.js'
 
-let INSTANCE
+// Memoize the in-flight launch *promise* (not the resolved browser) so that
+// concurrent callers share a single Chrome instance. Storing the resolved
+// value instead left a window — between the first call entering the launch and
+// it completing — where every concurrent request launched its own browser, and
+// only the last one was ever tracked. The rest leaked (orphaned processes +
+// RSS) and the leak re-opened every time the instance was reset on crash.
+let INSTANCE_PROMISE
+
+// Cap how long a single CDP call may hang. Puppeteer's default protocolTimeout
+// is 180s: when Chrome gets wedged (e.g. a runaway render), calls outside the
+// convert race — newPage, goto, screenshot, close — would otherwise stall for
+// 3 minutes each, holding pages open and starving the service.
+const PROTOCOL_TIMEOUT = Number(process.env.KROKI_MERMAID_PROTOCOL_TIMEOUT) || 30000
 
 const createBrowser = async () => {
   const browser = await puppeteer.launch({
     dumpio: true,
+    protocolTimeout: PROTOCOL_TIMEOUT,
     // reference: https://peter.sh/experiments/chromium-command-line-switches/
     args: [
       // Disables GPU hardware acceleration.
@@ -54,7 +67,7 @@ const createBrowser = async () => {
     logger.error({ code, signal }, 'chrome process exited')
     browserProcess.kill()
     browser.close()
-    INSTANCE = undefined
+    INSTANCE_PROMISE = undefined
   })
   browserProcess.on('message', message => {
     logger.warn({ message }, 'chrome process message')
@@ -70,9 +83,17 @@ const createBrowser = async () => {
 }
 
 export async function getBrowserWSEndpoint() {
-  if (INSTANCE === undefined) {
-    INSTANCE = await createBrowser()
-    logger.info(`Chrome accepting connections on endpoint ${INSTANCE.wsEndpoint()}`)
+  if (INSTANCE_PROMISE === undefined) {
+    INSTANCE_PROMISE = createBrowser()
+    INSTANCE_PROMISE.then(
+      browser => logger.info(`Chrome accepting connections on endpoint ${browser.wsEndpoint()}`),
+      // If the launch fails, drop the memoized rejected promise so the next
+      // request retries instead of being wedged on it forever.
+      () => {
+        INSTANCE_PROMISE = undefined
+      }
+    )
   }
-  return INSTANCE.wsEndpoint()
+  const browser = await INSTANCE_PROMISE
+  return browser.wsEndpoint()
 }

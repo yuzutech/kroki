@@ -42,4 +42,14 @@ describe('#updateConfig', function () {
     deepEqual(config.er.titleTopMargin, 10)
     deepEqual(config.securityLevel, undefined)
   })
+
+  it('should ignore attempts to raise resource caps (maxEdges, maxTextSize)', function () {
+    const config = {}
+    const urlSearchParams = new URLSearchParams()
+    urlSearchParams.set('max-edges', '500000')
+    urlSearchParams.set('max-text-size', '5000000')
+    updateConfig(config, urlSearchParams)
+    deepEqual(config.maxEdges, undefined)
+    deepEqual(config.maxTextSize, undefined)
+  })
 })
