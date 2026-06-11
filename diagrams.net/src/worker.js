@@ -4,7 +4,7 @@ import { fileURLToPath, URL } from 'node:url'
 // eslint-disable-next-line
 import puppeteer, { Page } from 'puppeteer'
 import { logger } from './logger.js'
-import { getBrowserWSEndpoint } from './browser-instance.js'
+import { getBrowserWSEndpoint, protocolTimeout } from './browser-instance.js'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
@@ -130,7 +130,7 @@ export class Worker {
       browserWSEndpoint,
       ignoreHTTPSErrors: true,
       // Bound CDP calls made outside any convert race (see browser-instance.js).
-      protocolTimeout: Number(process.env.KROKI_DIAGRAMSNET_PROTOCOL_TIMEOUT) || 30000
+      protocolTimeout
     })
   }
 }

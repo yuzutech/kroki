@@ -4,14 +4,14 @@ import http from 'node:http'
 import { TimeoutError as PuppeteerTimeoutError } from 'puppeteer'
 import micro from 'micro'
 import Task from './task.js'
-import { create } from './browser-instance.js'
+import { getBrowserWSEndpoint } from './browser-instance.js'
 import { SyntaxError, TimeoutError, Worker } from './worker.js'
 
 ;(async () => {
-  // QUESTION: should we create a pool of Chrome instances ?
-  const browser = await create()
-  logger.info(`Chrome accepting connections on endpoint ${browser.wsEndpoint()}`)
-  const worker = new Worker(browser)
+  // Warm up Chrome so the service fails fast when it cannot launch; the
+  // instance is re-created on demand if the process dies (see browser-instance.js).
+  await getBrowserWSEndpoint()
+  const worker = new Worker()
   const server = new http.Server(
     micro.serve(async (req, res) => {
       // TODO: add a /_status route (return bpmn version)

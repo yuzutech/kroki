@@ -3,6 +3,7 @@ import { URL, fileURLToPath } from 'node:url'
 import puppeteer from 'puppeteer'
 
 import { logger } from './logger.js'
+import { getBrowserWSEndpoint, protocolTimeout } from './browser-instance.js'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
@@ -20,8 +21,7 @@ export class SyntaxError extends Error {
 }
 
 export class Worker {
-  constructor(browserInstance) {
-    this.browserWSEndpoint = browserInstance.wsEndpoint()
+  constructor() {
     this.pageUrl =
       process.env.KROKI_BPMN_PAGE_URL ||
       `file://${path.join(__dirname, '..', 'assets', 'index.html')}`
@@ -30,8 +30,10 @@ export class Worker {
 
   async convert(task) {
     const browser = await puppeteer.connect({
-      browserWSEndpoint: this.browserWSEndpoint,
-      ignoreHTTPSErrors: true
+      browserWSEndpoint: await getBrowserWSEndpoint(),
+      ignoreHTTPSErrors: true,
+      // Bound CDP calls so a wedged Chrome fails fast instead of stalling 180s.
+      protocolTimeout
     })
     const page = await browser.newPage()
     try {

@@ -6,13 +6,13 @@ import fsp from 'node:fs/promises'
 import micro from 'micro'
 import Worker from './worker.js'
 import Task from './task.js'
-import { create } from './browser-instance.js'
+import { getBrowserWSEndpoint } from './browser-instance.js'
 
 ;(async () => {
-  // QUESTION: should we create a pool of Chrome instances ?
-  const browser = await create()
-  logger.info(`Chrome accepting connections on endpoint ${browser.wsEndpoint()}`)
-  const worker = new Worker(browser)
+  // Warm up Chrome so the service fails fast when it cannot launch; the
+  // instance is re-created on demand if the process dies (see browser-instance.js).
+  await getBrowserWSEndpoint()
+  const worker = new Worker()
   const server = new http.Server(
     micro.serve(async (req, res) => {
       const url = new URL(req.url, 'http://localhost') // create a URL object. The base is not important here
