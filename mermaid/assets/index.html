@@ -4,6 +4,9 @@
   <div id="container"></div>
   <script type="module">
     import mermaid from './mermaid/mermaid.esm.min.mjs'
+    import elkLayouts from './mermaid/mermaid-layout-elk.esm.min.mjs'
+    import tidyTreeLayouts from './mermaid/mermaid-layout-tidy-tree.esm.min.mjs'
+    mermaid.registerLayoutLoaders([...elkLayouts, ...tidyTreeLayouts])
     mermaid.registerIconPacks([
       {
         name: 'logos',

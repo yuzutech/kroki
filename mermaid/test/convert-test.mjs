@@ -106,6 +106,32 @@ describe('#convert', function () {
     })
   })
 
+  const alternateLayouts = ['elk', 'tidy-tree']
+  alternateLayouts.forEach((layout) => {
+    it(`should render a flowchart with the ${layout} layout`, async function () {
+      const browser = await getBrowser()
+      try {
+        const worker = new Worker(browser)
+        const source = `graph TD
+  A --> B
+  A --> C
+  B --> D
+  C --> D`
+        const defaultSvg = await worker.convert(new Task(source))
+        const layoutSvg = await worker.convert(new Task(`---
+config:
+  layout: ${layout}
+---
+${source}`))
+        // when a layout is not registered, mermaid silently falls back to dagre
+        // and produces the same SVG as the default layout
+        deepEqual(layoutSvg !== defaultSvg, true, `the ${layout} layout must produce a different SVG than the default layout (dagre), the layout loader is probably not registered`)
+      } finally {
+        await browser.close()
+      }
+    })
+  })
+
   invalidSyntaxTests.forEach((testCase) => {
     it(`should throw syntax error in endpoint /${testCase.endpoint}`, async function () {
       const browser = await getBrowser()
