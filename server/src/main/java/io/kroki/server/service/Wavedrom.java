@@ -45,7 +45,7 @@ public class Wavedrom implements DiagramService {
 
   @Override
   public String getVersion() {
-    return "3.5.0";
+    return "3.6.1";
   }
 
   @Override

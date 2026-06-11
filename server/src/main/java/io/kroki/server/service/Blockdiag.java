@@ -48,7 +48,7 @@ public class Blockdiag implements DiagramService {
 
   @Override
   public String getVersion() {
-    return "3.1.0";
+    return "3.3.0";
   }
 
   @Override
