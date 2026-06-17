@@ -3,8 +3,8 @@ title: Kroki
 version: ~
 asciidoc:
   attributes:
-    actdiag-version: 3.3.0
-    blockdiag-version: 3.3.0
+    actdiag-version: 3.4.2
+    blockdiag-version: 3.4.2
     bpmn-version: 18.18.0
     bytefield-version: 1.11.0
     c4plantuml-version: 1.2026.6
@@ -18,12 +18,12 @@ asciidoc:
     graphviz-version: 14.1.3
     mermaid-version: 11.15.0
     nomnoml-version: 1.7.0
-    nwdiag-version: 3.3.0
-    packetdiag-version: 3.3.0
+    nwdiag-version: 3.4.2
+    packetdiag-version: 3.4.2
     pikchr-version: '85e65b9686'
     plantuml-version: 1.2026.6
-    rackdiag-version: 3.3.0
-    seqdiag-version: 3.3.0
+    rackdiag-version: 3.4.2
+    seqdiag-version: 3.4.2
     structurizr-version: 6.2.1
     svgbob-version: 0.7.6
     symbolator-version: 1.2.2
