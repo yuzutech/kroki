@@ -39,7 +39,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - name: Install GraphViz
-        run: sudo apt-get install graphviz -y
+        run: sudo apt-get update && sudo apt-get install graphviz -y
       - name: Set up JDK 21
         uses: actions/setup-java@v5
         with:
@@ -263,7 +263,7 @@ jobs:
         with:
           ref: ${{ env.RELEASE_VERSION }}
       - name: Install GraphViz
-        run: sudo apt-get install graphviz -y
+        run: sudo apt-get update && sudo apt-get install graphviz -y
       - name: Set up JDK 21
         uses: actions/setup-java@v5
         with:
