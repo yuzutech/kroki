@@ -28,7 +28,10 @@ public class Goat implements DiagramService {
     this.sourceDecoder = new SourceDecoder() {
       @Override
       public String decode(String encoded) throws DecodeException {
-        return DiagramSource.decode(encoded);
+        // GoAT renders ASCII art on a character grid, so leading whitespace is
+        // significant. Decode without trimming to preserve the indentation of
+        // the first line (see Svgbob, Ditaa).
+        return DiagramSource.decode(encoded, false);
       }
     };
     this.commander = commander;
