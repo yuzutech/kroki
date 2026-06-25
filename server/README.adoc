@@ -4,6 +4,35 @@ Kroki server acts as a gateway and provides a unified API on-top of diagrams lib
 
 == How to update third-party dependencies
 
+Most third-party dependencies are pinned in `server/ops/docker/Dockerfile` through an `ARG <NAME>_VERSION` variable.
+
+[IMPORTANT]
+====
+After bumping a version in the `Dockerfile`, always run `task updateVersions`.
+
+This command reads the `*_VERSION` arguments from `server/ops/docker/Dockerfile` and propagates them everywhere the version is referenced (such as `docs/antora.yml` and the `getVersion()` method of the corresponding Java service) so that everything stays in sync.
+====
+
+=== blockdiag (and actdiag, nwdiag, packetdiag, rackdiag, seqdiag)
+
+We are producing native binaries from a fork: https://github.com/yuzutech/blockdiag/releases
+
+When a new version is available, we need to:
+
+. update the fork
+. run the release workflow: https://github.com/yuzutech/blockdiag/actions
+. update the argument variable `ARG BLOCKDIAG_VERSION="x.y.z"` in `server/ops/docker/Dockerfile`
+. run `task updateVersions` (see above)
+
+=== D2
+
+Kroki uses the official D2 native binary published as a release in the official repository: https://github.com/terrastruct/d2/releases (no fork or custom build required).
+
+When a new version is available, we need to:
+
+. update the argument variable `ARG D2_VERSION="x.y.z"` in `server/ops/docker/Dockerfile`
+. run `task updateVersions` (see above)
+
 === Ditaa (mini)
 
 Since https://github.com/stathissideris/ditaa is unmaintained, we are using an active fork: https://github.com/yuzutech/ditaa-mini which is based on an active fork https://github.com/pepijnve/ditaa.
@@ -15,16 +44,27 @@ When a new version is available, we need to :
 . update the fork
 . run the following workflow: https://github.com/yuzutech/ditaa-mini/actions/workflows/native-image-on-demand.yml
 . update the argument variable `ARG DITAA_VERSION="x.y.z"` in `server/ops/docker/Dockerfile`
+. run `task updateVersions` (see above)
 
-=== PlantUML
+=== Graphviz
 
-We are producing native binaries with GraalVM: https://github.com/yuzutech/plantuml/releases
+We are producing native binaries from a builder: https://github.com/yuzutech/graphviz-builder/releases
 
 When a new version is available, we need to:
 
-. update the fork
-. run the following workflow: https://github.com/yuzutech/plantuml/actions/workflows/native-image-on-demand.yml
+. update the builder
+. run the release workflow: https://github.com/yuzutech/graphviz-builder/actions
+. update the argument variable `ARG GRAPHVIZ_VERSION="x.y.z"` in `server/ops/docker/Dockerfile`
+. run `task updateVersions` (see above)
+
+=== PlantUML
+
+Kroki uses the official PlantUML native binary published as a release in the official repository: https://github.com/plantuml/plantuml/releases (no fork or custom build required).
+
+When a new version is available, we need to:
+
 . update the argument variable `ARG PLANTUML_VERSION="x.y.z"` in `server/ops/docker/Dockerfile`
+. run `task updateVersions` (see above)
 
 === UMLet
 
@@ -35,3 +75,15 @@ When a new version is available, we need to:
 . update the fork
 . run the following workflow: https://github.com/yuzutech/umlet/actions/workflows/release.yml
 . update the argument variable `ARG UMLET_VERSION="x.y.z"` in `server/ops/docker/Dockerfile`
+. run `task updateVersions` (see above)
+
+=== WireViz
+
+We are producing native binaries from a fork: https://github.com/yuzutech/WireViz/releases
+
+When a new version is available, we need to:
+
+. update the fork
+. run the release workflow: https://github.com/yuzutech/WireViz/actions
+. update the argument variable `ARG WIREVIZ_VERSION="x.y.z"` in `server/ops/docker/Dockerfile`
+. run `task updateVersions` (see above)
