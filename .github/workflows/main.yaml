@@ -211,7 +211,7 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v4
       with:
-        version: 'v0.34.1'
+        version: 'v0.35.0'
         buildkitd-config-inline: |
           [worker.oci]
             max-parallelism = 2
