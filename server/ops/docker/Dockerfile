@@ -1,10 +1,10 @@
-# syntax=docker/dockerfile:1.24
+# syntax=docker/dockerfile:1.25
 
 ## Node.js for the target platform (provides the binary used to assemble SEA executables)
-FROM node:24.16-bookworm-slim AS kroki-node-target
+FROM node:24.18-bookworm-slim AS kroki-node-target
 
 ## Nomnoml
-FROM --platform=$BUILDPLATFORM node:24.16-bookworm-slim AS kroki-builder-nomnoml
+FROM --platform=$BUILDPLATFORM node:24.18-bookworm-slim AS kroki-builder-nomnoml
 
 COPY --from=nomnoml index.js package.json package-lock.json biome.json sea-config.json /app/
 WORKDIR /app
@@ -40,7 +40,7 @@ RUN case "${TARGETARCH}" in \
     deno compile --target="${ARCH}-unknown-linux-gnu" --include=node_modules --node-modules-dir=auto --allow-ffi --output "app.bin" ./src/main.ts
 
 ## DBML
-FROM --platform=$BUILDPLATFORM node:24.16-bookworm-slim AS kroki-builder-dbml
+FROM --platform=$BUILDPLATFORM node:24.18-bookworm-slim AS kroki-builder-dbml
 
 COPY --from=dbml index.js package.json package-lock.json biome.json sea-config.json /app/
 WORKDIR /app
@@ -51,7 +51,7 @@ COPY --from=kroki-node-target /usr/local/bin/node /app/build/app.bin
 RUN npm run build:inject
 
 ## Wavedrom
-FROM --platform=$BUILDPLATFORM node:24.16-bookworm-slim AS kroki-builder-wavedrom
+FROM --platform=$BUILDPLATFORM node:24.18-bookworm-slim AS kroki-builder-wavedrom
 
 COPY --from=wavedrom index.js convert.js package.json package-lock.json biome.json sea-config.json /app/
 WORKDIR /app
@@ -62,7 +62,7 @@ COPY --from=kroki-node-target /usr/local/bin/node /app/build/app.bin
 RUN npm run build:inject
 
 ## Bytefield
-FROM --platform=$BUILDPLATFORM node:24.16-bookworm-slim AS kroki-builder-bytefield
+FROM --platform=$BUILDPLATFORM node:24.18-bookworm-slim AS kroki-builder-bytefield
 
 COPY --from=bytefield index.js package.json package-lock.json biome.json sea-config.json /app/
 WORKDIR /app
