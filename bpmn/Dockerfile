@@ -1,4 +1,4 @@
-FROM node:24.16-alpine3.23
+FROM node:24.18-alpine3.23
 
 RUN addgroup -g 1001 kroki && adduser -D -G kroki -u 1001 kroki
 
