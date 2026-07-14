@@ -11,6 +11,10 @@ versioned entry and uses it as the GitHub release notes.
 
 ## [Unreleased]
 
+### Changed
+
+- Update Node.js base Docker images to 24.18 (Alpine) and 24.17 (Bookworm) ([#2093](https://github.com/yuzutech/kroki/pull/2093))
+
 ### Fixed
 
 - Preserve leading whitespace of the first line in GoAT diagrams ([#2086](https://github.com/yuzutech/kroki/pull/2086))
