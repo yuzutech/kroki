@@ -1,20 +1,12 @@
 name: Release
-run-name: >-
-  ${{ github.event_name == 'workflow_dispatch'
-    && format('Release v{0} by {1}',
-              inputs.release_version,
-              github.actor)
-    || format('Release {0}', github.ref_name) }}
+run-name: Release v${{ inputs.release_version }} by ${{ github.actor }}
 
 on:
-  push:
-    tags:
-      - 'v*' # Push events to matching v*, i.e. v1.0, v2.1.3
   workflow_dispatch:
     inputs:
       release_version:
         description: 'Release version'
-        required: false
+        required: true
         type: string
       create_tag:
         description: 'Create a tag'
@@ -35,9 +27,13 @@ on:
 jobs:
   release:
     runs-on: ubuntu-24.04
-    if:  ${{ inputs.release_version != '' }}
     steps:
       - uses: actions/checkout@v6
+        with:
+          # When create_tag is unchecked, the tag must already exist (retry of a
+          # failed release): build from it so the artifacts match the tag even if
+          # the branch has moved since.
+          ref: ${{ inputs.create_tag && github.ref || format('v{0}', inputs.release_version) }}
       - name: Install GraphViz
         run: sudo apt-get update && sudo apt-get install graphviz -y
       - name: Set up JDK 21
@@ -54,6 +50,7 @@ jobs:
         if:  ${{ inputs.create_tag }}
         run: |
           task mavenSetVersion
+          node ci/tasks/changelog.js release "$RELEASE_VERSION"
 
           RELEASE_GIT_NAME=$(curl -s https://api.github.com/users/$GITHUB_ACTOR | jq -r .name)
           RELEASE_GIT_EMAIL=$RELEASE_USER@users.noreply.github.com
@@ -70,10 +67,7 @@ jobs:
           BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
       - name: Build Java server
         run: task mavenBuild
-      - if: github.event_name == 'push'
-        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-      - if: github.event_name == 'workflow_dispatch'
-        run: echo "RELEASE_VERSION=v$RELEASE_VERSION" >> $GITHUB_ENV
+      - run: echo "RELEASE_VERSION=v$RELEASE_VERSION" >> $GITHUB_ENV
         env:
           RELEASE_VERSION: ${{ inputs.release_version }}
       - name: Generate checksums
@@ -85,12 +79,19 @@ jobs:
       - name: Create release
         if:  ${{ inputs.create_gh_release }}
         run: |
-          gh release create "${{ env.RELEASE_VERSION }}"
-          gh release upload "${{ env.RELEASE_VERSION }}" ./server/target/kroki-standalone-server-* --clobber
+          if ! gh release view "$RELEASE_VERSION" > /dev/null 2>&1; then
+            node ci/tasks/changelog.js notes "${RELEASE_VERSION#v}" > release-notes.md
+            gh release create "$RELEASE_VERSION" \
+              --title "$RELEASE_VERSION" \
+              --notes-file release-notes.md \
+              --generate-notes
+          fi
+          gh release upload "$RELEASE_VERSION" ./server/target/kroki-standalone-server-* --clobber
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   publish_dockerhub:
     runs-on: ubuntu-24.04
+    needs: release
     if:  ${{ inputs.publish_dockerhub }}
     steps:
       - name: Free up disk space
@@ -253,10 +254,7 @@ jobs:
           printSavedSpace $((AVAILABLE_ROOT_END - AVAILABLE_ROOT_INITIAL))
           echo "overall:"
           printSavedSpace $((AVAILABLE_END - AVAILABLE_INITIAL))
-      - if: github.event_name == 'push'
-        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-      - if: github.event_name == 'workflow_dispatch'
-        run: echo "RELEASE_VERSION=v$RELEASE_VERSION" >> $GITHUB_ENV
+      - run: echo "RELEASE_VERSION=v$RELEASE_VERSION" >> $GITHUB_ENV
         env:
           RELEASE_VERSION: ${{ inputs.release_version }}
       - uses: actions/checkout@v6
