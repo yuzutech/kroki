@@ -11,6 +11,8 @@ versioned entry and uses it as the GitHub release notes.
 
 ## [Unreleased]
 
+## [0.31.1] - 2026-07-15
+
 ### Changed
 
 - Update Node.js base Docker images to 24.18 (Alpine) and 24.17 (Bookworm) ([#2093](https://github.com/yuzutech/kroki/pull/2093))
