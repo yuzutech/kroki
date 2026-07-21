@@ -26,6 +26,26 @@
   vulnerabilityAlerts: {
     minimumReleaseAge: null,
   },
+  // PLANTUML_VERSION is a plain ARG (not a FROM tag) used to download the native
+  // PlantUML binary, so it needs a custom manager to be tracked at all
+  customManagers: [
+    {
+      customType: 'regex',
+      managerFilePatterns: [
+        '/^server/ops/docker/Dockerfile$/',
+      ],
+      matchStrings: [
+        'ARG PLANTUML_VERSION="(?<currentValue>.*?)"',
+      ],
+      datasourceTemplate: 'github-releases',
+      depNameTemplate: 'plantuml/plantuml',
+      // plain "vX.Y.Z" tags only: excludes the "snapshot"/"snapshot-native"
+      // pre-release tags (GitHub-flagged prereleases, filtered anyway by the
+      // ignoreUnstable rule below) as well as the "-native" variant tags that
+      // are a different release flavour and would break the download URL
+      extractVersionTemplate: '^v(?<version>\\d+\\.\\d+\\.\\d+)$',
+    },
+  ],
   packageRules: [
     {
       "matchManagers": ["cargo"],
@@ -125,14 +145,21 @@
       ],
     },
     {
-      matchManagers: [
-        'maven',
+      // updating PlantUML touches several non-automatable spots (Dockerfile,
+      // docs/antora.yml, Plantuml.java, ...), so only surface it on the
+      // dependency dashboard and wait for manual approval instead of raising a PR
+      matchDepNames: [
+        'plantuml/plantuml',
       ],
-      versioning: 'regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)?$',
+      matchDatasources: [
+        'github-releases',
+      ],
       groupName: 'PlantUML',
-      matchPackageNames: [
-        '/plantuml/',
-      ],
+      dependencyDashboardApproval: true,
+      // belt-and-suspenders: never suggest the "snapshot" pre-release, only
+      // the latest stable tag, even though extractVersionTemplate already
+      // filters it out
+      ignoreUnstable: true,
     },
   ],
   lockFileMaintenance: {
