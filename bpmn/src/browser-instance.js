@@ -8,7 +8,7 @@ export const { getBrowserWSEndpoint, protocolTimeout } = createBrowserInstance({
   logger,
   envPrefix: 'KROKI_BPMN',
   extraArgs: [
-    // disable web security to access local files
-    '--disable-web-security'
+    // allow local file access for diagram rendering
+    '--allow-file-access-from-files'
   ]
 })
