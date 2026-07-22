@@ -3,7 +3,30 @@ target/
 /.registry/oci/*
 *.iml
 .vertx/
-/node_modules/
+# Node.js dependencies in the root and every subproject.
+node_modules/
+**/node_modules/
+
+# Local environment and secrets (keep the documented template).
+.env
+.env.*
+!.env.example
+
+# Build and packaged artifacts.
+*.vsix
+*.log
+*.pid
+coverage/
+dist/
+build/
+.cache/
+.npm/
+
+# Local operating-system and editor files.
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
 dependency-reduced-pom.xml
 .idea
 **/.vscode

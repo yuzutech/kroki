@@ -1,0 +1,28 @@
+{
+  "name": "code-to-uml",
+  "displayName": "Code To UML",
+  "description": "Live diagram preview with browser login or API key authentication",
+  "version": "0.1.0",
+  "publisher": "code-to-uml",
+  "engines": { "vscode": "^1.95.0" },
+  "categories": ["Visualization", "Other"],
+  "activationEvents": ["onCommand:codeToUml.login", "onCommand:codeToUml.apiKey", "onCommand:codeToUml.preview"],
+  "main": "extension.js",
+  "contributes": {
+    "commands": [
+      { "command": "codeToUml.login", "title": "Code To UML: Sign in with Browser" },
+      { "command": "codeToUml.apiKey", "title": "Code To UML: Set API Key" },
+      { "command": "codeToUml.logout", "title": "Code To UML: Sign Out" },
+      { "command": "codeToUml.preview", "title": "Code To UML: Preview Current Diagram" }
+    ],
+    "configuration": {
+      "title": "Code To UML",
+      "properties": {
+        "codeToUml.serverUrl": { "type": "string", "default": "http://localhost:8000", "description": "Code To UML server URL" },
+        "codeToUml.defaultEngine": { "type": "string", "default": "plantuml", "description": "Default renderer engine" }
+      }
+    }
+  },
+  "scripts": { "package": "npx @vscode/vsce package" },
+  "devDependencies": { "@vscode/vsce": "^3.6.2" }
+}

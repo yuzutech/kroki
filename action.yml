@@ -1,0 +1,41 @@
+name: Code To UML Render
+description: Render a diagram through a Code To UML server
+inputs:
+  server-url:
+    description: Code To UML base URL
+    required: true
+  api-key:
+    description: API key (store it in GitHub Secrets)
+    required: true
+  engine:
+    description: Diagram engine, for example plantuml or mermaid
+    required: true
+  format:
+    description: svg, png, pdf, jpeg or txt
+    default: svg
+  source:
+    description: Source diagram file
+    required: true
+  output:
+    description: Output file
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: Render diagram
+      shell: bash
+      env:
+        CTU_SERVER: ${{ inputs.server-url }}
+        CTU_API_KEY: ${{ inputs.api-key }}
+        CTU_ENGINE: ${{ inputs.engine }}
+        CTU_FORMAT: ${{ inputs.format }}
+        CTU_SOURCE: ${{ inputs.source }}
+        CTU_OUTPUT: ${{ inputs.output }}
+      run: |
+        set -euo pipefail
+        curl --fail-with-body --silent --show-error \
+          -H "Authorization: Bearer ${CTU_API_KEY}" \
+          -H "Content-Type: text/plain" \
+          --data-binary "@${CTU_SOURCE}" \
+          "${CTU_SERVER%/}/${CTU_ENGINE}/${CTU_FORMAT}" \
+          --output "${CTU_OUTPUT}"

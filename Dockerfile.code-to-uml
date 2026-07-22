@@ -1,0 +1,6 @@
+FROM yuzutech/kroki:latest
+
+USER root
+COPY server/target/kroki-server.jar /usr/local/kroki/kroki-server.jar
+RUN chown kroki:kroki /usr/local/kroki/kroki-server.jar
+USER kroki

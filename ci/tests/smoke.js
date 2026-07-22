@@ -77,7 +77,9 @@ async function sendRequest (testCase, outputFormat) {
     for (const key in testCase.options) {
       headers[`Kroki-Diagram-Options-${key}`] = testCase.options[key]
     }
-    const body = await fs.readFile(`${__dirname}/diagrams/${testCase.file}`, 'utf8')
+    // Keep parser-sensitive Node renderers consistent across Windows and Linux.
+    const body = (await fs.readFile(`${__dirname}/diagrams/${testCase.file}`, 'utf8'))
+      .replace(/\r\n/g, '\n') + '\n'
     return fetch(`http://localhost:8000/${testCase.engine}/${outputFormat}`, {
       body: body,
       method: 'POST',

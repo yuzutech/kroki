@@ -1,45 +1,514 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Kroki!</title>
-    <style>{stylesheet}</style>
-  </head>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Code To UML</title>
+  <style>
+    :root {
+      --bg: #080d18;
+      --panel: #0f1728;
+      --panel-2: #131e32;
+      --line: #26344d;
+      --text: #edf4ff;
+      --muted: #8fa1bd;
+      --cyan: #41d9ff;
+      --blue: #6c7cff;
+      --green: #45e0a8;
+      --red: #ff6b81;
+    }
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      background:
+        radial-gradient(circle at 20% 0%, rgba(65,217,255,.09), transparent 30rem),
+        radial-gradient(circle at 90% 90%, rgba(108,124,255,.08), transparent 32rem),
+        var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      overflow: hidden;
+    }
+    button, select, textarea { font: inherit; }
+    button, select { color: var(--text); }
+    .app { height: 100%; display: grid; grid-template-rows: 64px 1fr 30px; }
+    .topbar {
+      display: flex; align-items: center; gap: 18px; padding: 0 22px;
+      border-bottom: 1px solid var(--line); background: rgba(8,13,24,.9);
+      backdrop-filter: blur(18px); z-index: 2;
+    }
+    .brand { display: flex; align-items: center; gap: 11px; min-width: 220px; }
+    .brand-mark {
+      width: 34px; height: 34px; display: grid; place-items: center; border-radius: 10px;
+      color: #07101a; font-weight: 900; background: linear-gradient(135deg, var(--cyan), var(--green));
+      box-shadow: 0 0 24px rgba(65,217,255,.2);
+    }
+    .brand-name { font-size: 16px; font-weight: 750; letter-spacing: -.02em; }
+    .brand-sub { color: var(--muted); font: 11px ui-monospace, SFMono-Regular, Consolas, monospace; }
+    .toolbar { display: flex; align-items: center; gap: 9px; margin-left: auto; }
+    .diagram-title-input { width:min(260px,20vw); height:36px; padding:0 10px; border:1px solid transparent; border-radius:7px; color:var(--text); background:transparent; outline:none; font-weight:650; }
+    .diagram-title-input:hover { background:#111b2d; border-color:var(--line); }
+    .diagram-title-input:focus { background:#111b2d; border-color:var(--cyan); box-shadow:0 0 0 3px rgba(65,217,255,.1); }
+    .control, .button {
+      height: 36px; border: 1px solid var(--line); border-radius: 8px;
+      background: #111b2d; padding: 0 12px; outline: none;
+    }
+    .control:focus, .button:focus-visible { border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(65,217,255,.12); }
+    .button { cursor: pointer; display: inline-flex; align-items: center; gap: 7px; }
+    .button:hover { border-color: #425574; background: #17243a; }
+    .button.primary { border-color: transparent; background: linear-gradient(135deg, #237da4, #5366df); }
+    .button.primary:hover { filter: brightness(1.12); }
+    .workspace { min-height: 0; padding: 14px; display: grid; grid-template-columns: minmax(340px, 46%) 8px 1fr; }
+    .pane { min-height: 0; border: 1px solid var(--line); background: rgba(15,23,40,.92); overflow: hidden; }
+    .editor-pane { border-radius: 13px 4px 4px 13px; display: grid; grid-template-rows: 44px 1fr; }
+    .preview-pane { border-radius: 4px 13px 13px 4px; display: grid; grid-template-rows: 44px 1fr; }
+    .pane-head {
+      display: flex; align-items: center; gap: 9px; padding: 0 14px;
+      border-bottom: 1px solid var(--line); background: rgba(19,30,50,.75);
+      color: var(--muted); font-size: 12px; letter-spacing: .04em; text-transform: uppercase;
+    }
+    .pane-head strong { color: var(--text); font-weight: 650; }
+    .pane-head .spacer { flex: 1; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 9px var(--green); }
+    .code-wrap { min-height: 0; position: relative; }
+    #source {
+      width: 100%; height: 100%; resize: none; border: 0; outline: 0; padding: 20px 22px;
+      color: #cfddf1; background: #0b1220; caret-color: var(--cyan);
+      font: 14px/1.65 "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+      tab-size: 2; white-space: pre; overflow: auto;
+    }
+    #source::selection { background: rgba(65,217,255,.22); }
+    .resizer { cursor: col-resize; position: relative; }
+    .resizer::after { content: ""; position: absolute; width: 2px; height: 38px; background: #334462; border-radius: 2px; inset: 50% auto auto 3px; transform: translateY(-50%); }
+    .preview-stage {
+      min-height: 0; position: relative; display: grid; place-items: center; overflow: hidden;
+      background-color: #f8fafc;
+      background-image: linear-gradient(#dbe3ed 1px, transparent 1px), linear-gradient(90deg, #dbe3ed 1px, transparent 1px);
+      background-size: 24px 24px;
+      cursor: grab; touch-action: none; user-select: none;
+    }
+    .preview-stage.is-panning { cursor: grabbing; }
+    #diagram { display: block; max-width: calc(100% - 48px); max-height: calc(100% - 48px); transform-origin:center center; will-change:transform; pointer-events:none; -webkit-user-drag:none; filter: drop-shadow(0 10px 22px rgba(15,23,42,.13)); }
+    .preview-tool { height:26px; padding:0 8px; color:var(--muted); border:1px solid var(--line); border-radius:6px; background:#0e1829; cursor:pointer; font-size:11px; }
+    .preview-tool:hover { color:var(--text); border-color:#425574; }
+    .empty { color: #64748b; text-align: center; max-width: 320px; line-height: 1.6; }
+    .empty b { display: block; color: #334155; font-size: 17px; margin-bottom: 5px; }
+    .error-card { display: none; margin: 24px; padding: 16px; align-self: start; justify-self: stretch; color: #8b1e35; background: #fff1f3; border: 1px solid #fecdd6; border-radius: 10px; white-space: pre-wrap; font: 12px/1.55 Consolas, monospace; }
+    .statusbar { display: flex; align-items: center; gap: 16px; padding: 0 18px; color: var(--muted); border-top: 1px solid var(--line); font: 11px ui-monospace, Consolas, monospace; }
+    .statusbar .right { margin-left: auto; }
+    #status[data-state="error"] { color: var(--red); }
+    #status[data-state="ready"] { color: var(--green); }
+    dialog { width: min(880px, calc(100% - 40px)); max-height: 78vh; color: var(--text); background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 0; box-shadow: 0 30px 80px #0009; }
+    dialog::backdrop { background: #02050ab8; backdrop-filter: blur(4px); }
+    .modal-head { position: sticky; top: 0; display: flex; align-items: center; padding: 16px 20px; background: var(--panel); border-bottom: 1px solid var(--line); }
+    .modal-head h2 { margin: 0; font-size: 16px; }
+    .modal-body { padding: 18px 20px; overflow: auto; color: var(--muted); }
+    .modal-body table { width: 100%; border-collapse: collapse; }
+    .modal-body th, .modal-body td { padding: 8px; border-bottom: 1px solid var(--line); text-align: left; }
+    .modal-body code { color: var(--cyan); }
+    .auth-shell { display: grid; grid-template-columns: 42% 1fr; min-height: 470px; }
+    .auth-visual { padding: 42px 34px; position: relative; overflow: hidden; background: linear-gradient(145deg,#101f38,#14284a 55%,#13334a); }
+    .auth-visual::before { content:""; position:absolute; width:260px; height:260px; border-radius:50%; background:rgba(65,217,255,.11); filter:blur(2px); right:-90px; bottom:-80px; }
+    .auth-visual::after { content:"</>"; position:absolute; right:24px; bottom:12px; color:rgba(255,255,255,.05); font:900 100px ui-monospace,monospace; }
+    .auth-symbol { width:52px; height:52px; display:grid; place-items:center; border-radius:15px; color:#07101a; background:linear-gradient(135deg,var(--cyan),var(--green)); font-weight:900; font-size:22px; box-shadow:0 16px 40px rgba(65,217,255,.18); }
+    .auth-visual h2 { font-size:28px; line-height:1.15; letter-spacing:-.04em; margin:28px 0 12px; }
+    .auth-visual p { color:#aabbd3; line-height:1.7; }
+    .auth-feature { display:flex; gap:10px; align-items:center; color:#cbd8e9; font-size:13px; margin:16px 0; }
+    .auth-feature span { color:var(--green); }
+    .auth-form { padding:38px 40px; display:flex; flex-direction:column; justify-content:center; }
+    .auth-form h2 { margin:0 0 6px; font-size:23px; }
+    .auth-form > p { margin:0 0 24px; color:var(--muted); }
+    .field { display:block; margin-bottom:15px; color:#bac8da; font-size:12px; font-weight:650; }
+    .field .control { display:block; width:100%; height:43px; margin-top:7px; }
+    .auth-actions { display:grid; grid-template-columns:1fr 1fr; gap:9px; margin-top:5px; }
+    .auth-actions .button { justify-content:center; height:42px; }
+    .account-card { padding:8px 0; }
+    .account-avatar { width:58px; height:58px; display:grid; place-items:center; border-radius:16px; background:linear-gradient(135deg,#256f9d,#585bd7); font-size:23px; font-weight:800; margin-bottom:16px; }
+    .key-box { margin-top:18px; padding:13px; border:1px dashed #3d526f; border-radius:9px; background:#091220; white-space:pre-wrap; color:var(--green); user-select:all; overflow-wrap:anywhere; }
+    .saved-screen { position:fixed; inset:0; z-index:20; display:grid; grid-template-columns:280px 1fr; grid-template-rows:72px 1fr; overflow:hidden; color:#17152e; background:#fbfcfe; }
+    .dash-sidebar { grid-row:1/-1; display:flex; flex-direction:column; padding:0 15px 17px; border-right:1px solid #e7e9f0; background:white; }
+    .dash-brand { height:72px; display:flex; align-items:center; gap:11px; padding:0 10px; color:#17203b; font-weight:800; font-size:18px; }
+    .dash-logo { width:35px; height:35px; display:grid; place-items:center; border-radius:10px; color:white; background:linear-gradient(135deg,#5366df,#18a4c7); }
+    .dash-section-label { margin:17px 11px 9px; color:#8a88aa; font-size:12px; }
+    .dash-nav { display:flex; align-items:center; gap:12px; height:44px; padding:0 13px; border:0; border-radius:22px; color:#24223d; background:transparent; font-weight:600; cursor:pointer; text-align:left; }
+    .dash-nav:hover,.dash-nav.active { background:#e8f2f4; }
+    .dash-nav-icon { width:22px; text-align:center; font-size:17px; }
+    .favorite-box { margin:6px 10px 20px; padding:19px 14px; border:1px solid #e2e4ed; border-radius:11px; color:#706e90; text-align:center; font-size:12px; line-height:1.5; }
+    .dash-account { margin-top:auto; display:flex; align-items:center; gap:11px; padding:10px; border-radius:12px; cursor:pointer; }
+    .dash-account:hover { background:#f2f5f8; }
+    .dash-avatar { width:40px; height:40px; display:grid; place-items:center; flex:none; border-radius:50%; color:white; background:#1496a8; font-weight:700; }
+    .dash-account-name { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-weight:700; font-size:13px; }
+    .dash-plan { color:#8b89a2; font-size:11px; margin-top:3px; }
+    .dash-topbar { grid-column:2; display:flex; align-items:center; padding:0 26px; border-bottom:1px solid #e7e9f0; background:white; }
+    .dash-topbar strong { font-size:14px; }
+    .dash-topbar .button { margin-left:auto; color:#3d3a55; border-color:#dfe2ea; background:white; }
+    .dash-main { grid-column:2; overflow:auto; padding:20px 22px 50px; }
+    .dash-banner { min-height:62px; display:flex; align-items:center; gap:20px; padding:14px 20px; border-radius:18px; color:white; background:linear-gradient(100deg,#282442,#333052); }
+    .dash-banner strong { font-size:15px; }
+    .dash-banner span { margin-left:auto; color:#77def5; font-size:13px; }
+    .dash-progress { width:78px; height:8px; border-radius:8px; background:#17152c; overflow:hidden; }
+    .dash-progress::after { content:""; display:block; height:100%; width:35%; border-radius:inherit; background:linear-gradient(90deg,#5366df,#41d9ff); }
+    .dash-actions { margin:19px 0 35px; display:flex; align-items:center; gap:10px; }
+    .dash-new { min-width:190px; height:52px; justify-content:center; color:white; border:0; border-radius:10px; background:#242139; font-weight:700; }
+    .dash-new:hover { background:#35314f; }
+    .recent-title { margin:0 0 20px; color:#8583a2; font-size:13px; font-weight:600; }
+    .diagram-gallery { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,300px)); gap:20px; min-height:260px; align-items:start; }
+    .diagram-card { padding:0; overflow:hidden; text-align:left; cursor:pointer; color:#191731; background:white; border:1px solid #e0e8ec; border-radius:18px; transition:transform .18s,border-color .18s,box-shadow .18s; }
+    .diagram-card:hover { transform:translateY(-3px); border-color:#bfcfd8; box-shadow:0 14px 34px #2c3f5618; }
+    .diagram-thumb { height:210px; display:grid; place-items:center; background:#fff; overflow:hidden; }
+    .diagram-thumb img { max-width:90%; max-height:145px; }
+    .diagram-thumb .thumb-state { color:#64748b; font-size:12px; padding:18px; text-align:center; }
+    .diagram-meta { padding:15px 17px 17px; background:#f1f8f9; }
+    .diagram-name { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-weight:700; margin-bottom:7px; }
+    .diagram-detail { display:flex; align-items:center; gap:8px; color:var(--muted); font-size:11px; }
+    .engine-badge { color:#287a8d; background:#e0f0f3; border:1px solid #cae6eb; border-radius:5px; padding:2px 6px; }
+    .gallery-empty { grid-column:1/-1; align-self:center; text-align:center; color:var(--muted); }
+    @media (max-width: 780px) {
+      body { overflow: auto; }
+      .app { min-height: 100%; height: auto; grid-template-rows: auto 1fr 30px; }
+      .topbar { min-height: 64px; flex-wrap: wrap; padding: 12px; }
+      .brand { min-width: 0; }
+      .toolbar { width: 100%; margin: 0; }
+      .toolbar .control { flex: 1; }
+      .workspace { height: 900px; grid-template-columns: 1fr; grid-template-rows: 1fr 8px 1fr; }
+      .resizer { cursor: row-resize; }
+      .editor-pane, .preview-pane { border-radius: 10px; }
+      .auth-shell { grid-template-columns:1fr; }
+      .auth-visual { display:none; }
+      .auth-form { padding:28px 22px; }
+      .saved-screen { grid-template-columns:72px 1fr; }
+      .dash-sidebar { padding-inline:9px; }
+      .dash-brand span,.dash-section-label,.dash-nav span:last-child,.favorite-box,.dash-account-copy { display:none; }
+      .dash-nav { justify-content:center; padding:0; }
+      .dash-account { justify-content:center; padding:6px; }
+      .dash-topbar,.dash-main { grid-column:2; }
+    }
+  </style>
+</head>
 <body>
-<section class="section">
-  <div class="container">
-    <a href="https://kroki.io" target="_blank" rel="noopener noreferrer">{logo}</a>
-    <h1 class="subtitle">Creates <strong>diagrams</strong> from <strong>textual</strong> descriptions!</h1>
-    <div class="content">
-      <p>
-        Kroki provides a unified API with support for BlockDiag (BlockDiag, SeqDiag, ActDiag, NwDiag, PacketDiag, RackDiag), BPMN, Bytefield, C4 (with PlantUML), D2, DBML, Diagrams.net (experimental), Ditaa, Erd, Excalidraw, GoAT, GraphViz, Mermaid, Nomnoml, Pikchr, PlantUML, Structurizr, SvgBob, Symbolator, UMLet, Vega, Vega-Lite, WaveDrom and WireViz... and more to come!
-      </p>
+<main class="app">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">C</div>
+      <div><div class="brand-name">Code To UML</div><div class="brand-sub">diagram workspace</div></div>
     </div>
+    <div class="toolbar">
+      <input id="diagramName" class="diagram-title-input" value="Untitled diagram" aria-label="Diagram name" title="Rename diagram">
+      <select id="diagramType" class="control" aria-label="Diagram type">
+        <option value="plantuml">PlantUML</option>
+        <option value="c4plantuml">C4 PlantUML</option>
+        <option value="mermaid">Mermaid</option>
+        <option value="graphviz">GraphViz</option>
+        <option value="dot">DOT</option>
+        <option value="d2">D2</option>
+        <option value="structurizr">Structurizr</option>
+        <option value="blockdiag">BlockDiag</option>
+        <option value="seqdiag">SeqDiag</option>
+        <option value="actdiag">ActDiag</option>
+        <option value="nwdiag">NwDiag</option>
+        <option value="packetdiag">PacketDiag</option>
+        <option value="rackdiag">RackDiag</option>
+        <option value="bpmn">BPMN</option>
+        <option value="dbml">DBML</option>
+        <option value="diagramsnet">Diagrams.net</option>
+        <option value="ditaa">Ditaa</option>
+        <option value="erd">ERD</option>
+        <option value="excalidraw">Excalidraw</option>
+        <option value="goat">GoAT</option>
+        <option value="nomnoml">Nomnoml</option>
+        <option value="pikchr">Pikchr</option>
+        <option value="svgbob">SvgBob</option>
+        <option value="symbolator">Symbolator</option>
+        <option value="umlet">UMLet</option>
+        <option value="vega">Vega</option>
+        <option value="vegalite">Vega-Lite</option>
+        <option value="wavedrom">WaveDrom</option>
+        <option value="bytefield">Bytefield</option>
+        <option value="wireviz">WireViz</option>
+        <option value="tikz">TikZ</option>
+      </select>
+      <button id="renderButton" class="button primary" type="button">▶ Render</button>
+      <button id="downloadButton" class="button" type="button" disabled>↓ SVG</button>
+      <button id="saveButton" class="button" type="button">Save</button>
+      <button id="savedButton" class="button" type="button">My Diagrams</button>
+      <button id="accountButton" class="button" type="button">Sign in</button>
+      <button id="infoButton" class="button" type="button" title="System information">ⓘ</button>
+    </div>
+  </header>
 
-    <h2 class="title is-2">Versions</h2>
-    <div class="content">
-      {versionsTable}
-    </div>
+  <section class="workspace" id="workspace">
+    <section class="pane editor-pane">
+      <div class="pane-head"><span class="dot"></span><strong>Source</strong><span class="spacer"></span><span id="languageLabel">PlantUML</span></div>
+      <div class="code-wrap"><textarea id="source" spellcheck="false" aria-label="Diagram source"></textarea></div>
+    </section>
+    <div class="resizer" id="resizer" aria-hidden="true"></div>
+    <section class="pane preview-pane">
+      <div class="pane-head"><strong>Live preview</strong><span class="spacer"></span><button class="preview-tool" id="fitPreview" type="button" title="Reset zoom and position">Fit · <span id="zoomLevel">100%</span></button><span id="renderTime">Waiting</span></div>
+      <div class="preview-stage" id="previewStage">
+        <div class="empty" id="emptyState"><b>Your diagram appears here</b>Start typing in the editor. Preview updates automatically.</div>
+        <img id="diagram" alt="Rendered diagram" hidden>
+        <pre class="error-card" id="errorCard"></pre>
+      </div>
+    </section>
+  </section>
 
-    <h3 class="title is-2">About</h3>
-    <div class="content">
-      <p>
-        Kroki provides a production-grade service with great performance and SLA.
-        If you want to know more, please <a href="mailto:hello@kroki.io">👋 contact us</a>.
-      </p>
-    </div>
+  <section class="saved-screen" id="savedScreen" hidden>
+    <aside class="dash-sidebar">
+      <div class="dash-brand"><div class="dash-logo">C</div><span>Code To UML</span></div>
+      <div class="dash-section-label">Your space</div>
+      <button class="dash-nav active" type="button"><span class="dash-nav-icon">⌂</span><span>Dashboard</span></button>
+      <button class="dash-nav" type="button"><span class="dash-nav-icon">□</span><span>Personal</span></button>
+      <button class="dash-nav" type="button"><span class="dash-nav-icon">⇧</span><span>Shared with you</span></button>
+      <div class="dash-section-label">Favorites</div>
+      <div class="favorite-box">Diagrams you mark as favorite will appear here for quick access.</div>
+      <div class="dash-section-label">Team spaces</div>
+      <button class="dash-nav" type="button"><span class="dash-nav-icon">＋</span><span>Create organization</span></button>
+      <div class="dash-account" id="dashboardAccount">
+        <div class="dash-avatar" id="dashboardAvatar">U</div>
+        <div class="dash-account-copy"><div class="dash-account-name" id="dashboardName">Your account</div><div class="dash-plan">Personal workspace</div></div>
+      </div>
+    </aside>
+    <header class="dash-topbar"><strong>Dashboard</strong><button class="button" id="backToEditorButton" type="button">Open editor →</button></header>
+    <section class="dash-main">
+      <div class="dash-banner"><strong>Your architecture workspace</strong><span id="diagramQuota">0 saved diagrams</span><div class="dash-progress"></div></div>
+      <div class="dash-actions"><button class="button dash-new" id="newDiagramButton" type="button">＋ New diagram</button></div>
+      <h2 class="recent-title">Recent files</h2>
+      <div id="diagramList" class="diagram-gallery"><div class="gallery-empty">Loading your diagrams…</div></div>
+    </section>
+  </section>
+
+  <footer class="statusbar">
+    <span id="status" data-state="ready">● Ready</span>
+    <span>Auto-render: ON</span>
+    <span class="right">Code To UML · {appVersion}</span>
+  </footer>
+</main>
+
+<dialog id="infoDialog">
+  <div class="modal-head"><h2>Rendering services</h2><span style="flex:1"></span><button class="button" id="closeInfo" type="button">Close</button></div>
+  <div class="modal-body"><p>Code To UML uses the local Kroki-compatible rendering API. Available engine versions:</p>{versionsTable}</div>
+</dialog>
+
+<dialog id="accountDialog">
+  <div class="modal-head"><h2 id="accountTitle">Code To UML account</h2><span style="flex:1"></span><button class="button" id="closeAccount" type="button">✕</button></div>
+  <div class="auth-shell">
+    <aside class="auth-visual">
+      <div class="auth-symbol">C</div><h2>Your architecture,<br>always in sync.</h2>
+      <p>One secure account for the playground, VS Code and automated documentation.</p>
+      <div class="auth-feature"><span>✓</span> Save and version your diagrams</div>
+      <div class="auth-feature"><span>✓</span> Connect VS Code through browser login</div>
+      <div class="auth-feature"><span>✓</span> Create API keys for CI/CD</div>
+    </aside>
+    <section class="auth-form">
+      <div id="signedOutPanel">
+        <h2>Welcome back</h2><p>Sign in or create your free local account.</p>
+        <label class="field">Display name <span style="color:var(--muted);font-weight:400">(only for registration)</span><input class="control" id="authName" autocomplete="name" placeholder="Your name"></label>
+        <label class="field">Email address<input class="control" id="authEmail" type="email" autocomplete="email" placeholder="you@example.com"></label>
+        <label class="field">Password<input class="control" id="authPassword" type="password" autocomplete="current-password" placeholder="At least 10 characters"></label>
+        <div class="auth-actions"><button class="button primary" id="loginButton">Sign in</button><button class="button" id="registerButton">Create account</button></div>
+      </div>
+      <div id="signedInPanel" class="account-card" hidden>
+        <div class="account-avatar" id="accountAvatar">U</div><h2 style="margin:0 0 7px">Your account</h2>
+        <p>Signed in as <strong id="accountName"></strong></p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="button primary" id="createKeyButton">＋ Create API key</button><button class="button" id="logoutButton">Sign out</button></div>
+        <pre id="apiKeyResult" class="key-box" hidden></pre>
+      </div>
+      <p id="authMessage" style="color:var(--red);min-height:20px"></p>
+    </section>
   </div>
-</section>
-<footer class="footer">
-  <div class="content has-text-centered">
-    <p>
-      <a href="https://kroki.io" target="_blank" rel="noopener noreferrer">{logo}</a> by <a href="https://yuzutech.fr">Yuzu tech</a>.
-    </p>
-    <p>
-      <span class="tag">{appVersion} ({appSHA1})</span>
-    </p>
-  </div>
-</footer>
+</dialog>
+
+<script>
+(() => {
+  const samples = {
+    plantuml: `@startuml\nskinparam backgroundColor transparent\nskinparam shadowing false\nskinparam sequence {\n  ArrowColor #2563EB\n  LifeLineBorderColor #64748B\n  ParticipantBorderColor #2563EB\n  ParticipantBackgroundColor #EFF6FF\n}\n\nactor User\nparticipant "Code To UML" as App\nparticipant "Render API" as API\n\nUser -> App: Update diagram code\nactivate App\nApp -> API: POST /plantuml/svg\nactivate API\nAPI --> App: SVG diagram\ndeactivate API\nApp --> User: Live preview\ndeactivate App\n@enduml`,
+    mermaid: `flowchart LR\n  A[Write code] --> B{Valid syntax?}\n  B -- Yes --> C[Render SVG]\n  B -- No --> D[Show error]\n  C --> E[Live preview]`,
+    graphviz: `digraph G {\n  rankdir=LR;\n  node [shape=box style="rounded,filled" fillcolor="#eff6ff" color="#2563eb"];\n  Code -> API -> SVG -> Preview;\n}`,
+    d2: `direction: right\ncode: Diagram code { style.fill: "#eff6ff" }\napi: Render API { style.fill: "#eef2ff" }\npreview: Live preview { style.fill: "#ecfdf5" }\ncode -> api -> preview`,
+    structurizr: `workspace {\n  model {\n    user = person "User"\n    system = softwareSystem "Code To UML"\n    user -> system "Creates diagrams"\n  }\n  views { systemContext system { include *; autoLayout lr } }\n}`
+  };
+  const source = document.querySelector('#source');
+  const type = document.querySelector('#diagramType');
+  const image = document.querySelector('#diagram');
+  const empty = document.querySelector('#emptyState');
+  const error = document.querySelector('#errorCard');
+  const previewStage = document.querySelector('#previewStage');
+  const zoomLevel = document.querySelector('#zoomLevel');
+  const status = document.querySelector('#status');
+  const time = document.querySelector('#renderTime');
+  const download = document.querySelector('#downloadButton');
+  let currentUser = null;
+  let currentDiagramId = null;
+  let timer, request, objectUrl;
+  const viewport = { scale:1, x:0, y:0, dragging:false, pointerId:null, startX:0, startY:0, originX:0, originY:0 };
+
+  function applyViewport(){image.style.transform=`translate(${viewport.x}px, ${viewport.y}px) scale(${viewport.scale})`;zoomLevel.textContent=`${Math.round(viewport.scale*100)}%`}
+  function resetViewport(){viewport.scale=1;viewport.x=0;viewport.y=0;applyViewport()}
+  function zoomPreview(clientX,clientY,factor){
+    if(image.hidden)return;
+    const rect=previewStage.getBoundingClientRect(),rx=clientX-(rect.left+rect.width/2),ry=clientY-(rect.top+rect.height/2);
+    const next=Math.min(8,Math.max(.2,viewport.scale*factor));
+    const ratio=next/viewport.scale;
+    viewport.x=rx-(rx-viewport.x)*ratio;viewport.y=ry-(ry-viewport.y)*ratio;viewport.scale=next;applyViewport();
+  }
+
+  function setStatus(text, state) { status.textContent = text; status.dataset.state = state; }
+  async function render() {
+    const code = source.value.trim();
+    if (!code) return;
+    clearTimeout(timer);
+    if (request) request.abort();
+    request = new AbortController();
+    setStatus('● Rendering…', 'busy');
+    time.textContent = 'Rendering…';
+    const started = performance.now();
+    try {
+      const response = await fetch(`/${type.value}/svg`, {
+        method: 'POST', headers: { 'Content-Type': 'text/plain', 'Accept': 'image/svg+xml' },
+        // Node-based renderers are sensitive to CRLF and require a final newline.
+        body: source.value.replace(/\r\n/g, '\n') + '\n\n', signal: request.signal
+      });
+      if (!response.ok) throw new Error((await response.text()) || `Render failed (${response.status})`);
+      const blob = await response.blob();
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
+      objectUrl = URL.createObjectURL(blob);
+      image.src = objectUrl;
+      image.onload = resetViewport;
+      image.hidden = false; empty.hidden = true; error.style.display = 'none';
+      download.disabled = false;
+      time.textContent = `${Math.round(performance.now() - started)} ms`;
+      setStatus('● Ready', 'ready');
+      localStorage.setItem(`code-to-uml:${type.value}`, source.value);
+    } catch (e) {
+      if (e.name === 'AbortError') return;
+      image.hidden = true; empty.hidden = true; error.style.display = 'block';
+      error.textContent = String(e.message).slice(0, 3000);
+      time.textContent = 'Failed'; setStatus('● Syntax or service error', 'error');
+    }
+  }
+  function schedule() { clearTimeout(timer); timer = setTimeout(render, 450); }
+  function loadType() {
+    const saved = localStorage.getItem(`code-to-uml:${type.value}`);
+    source.value = saved || samples[type.value] || '';
+    document.querySelector('#languageLabel').textContent = type.options[type.selectedIndex].text;
+    if (source.value.trim()) render();
+    else {
+      image.hidden = true; error.style.display = 'none'; empty.hidden = false;
+      empty.innerHTML = '<b>Paste your diagram source</b>This engine is ready. Preview updates automatically.';
+      setStatus('● Ready', 'ready'); time.textContent = 'Waiting';
+    }
+  }
+  source.addEventListener('input', schedule);
+  source.addEventListener('keydown', e => {
+    if (e.key === 'Tab') { e.preventDefault(); const a=source.selectionStart,b=source.selectionEnd; source.setRangeText('  ',a,b,'end'); schedule(); }
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') render();
+  });
+  type.addEventListener('change', loadType);
+  document.querySelector('#renderButton').addEventListener('click', render);
+  document.querySelector('#fitPreview').addEventListener('click', resetViewport);
+  previewStage.addEventListener('dblclick',resetViewport);
+  previewStage.addEventListener('wheel',e=>{if(image.hidden)return;e.preventDefault();const sensitivity=e.ctrlKey ? .012 : .0018;zoomPreview(e.clientX,e.clientY,Math.exp(-e.deltaY*sensitivity))},{passive:false});
+  previewStage.addEventListener('pointerdown',e=>{
+    if(e.button!==0||image.hidden)return;e.preventDefault();viewport.dragging=true;viewport.pointerId=e.pointerId;viewport.startX=e.clientX;viewport.startY=e.clientY;viewport.originX=viewport.x;viewport.originY=viewport.y;previewStage.classList.add('is-panning');previewStage.setPointerCapture(e.pointerId);
+  });
+  previewStage.addEventListener('pointermove',e=>{if(!viewport.dragging||e.pointerId!==viewport.pointerId)return;viewport.x=viewport.originX+e.clientX-viewport.startX;viewport.y=viewport.originY+e.clientY-viewport.startY;applyViewport()});
+  function endPan(e){if(!viewport.dragging||e.pointerId!==viewport.pointerId)return;viewport.dragging=false;viewport.pointerId=null;previewStage.classList.remove('is-panning');if(previewStage.hasPointerCapture(e.pointerId))previewStage.releasePointerCapture(e.pointerId)}
+  previewStage.addEventListener('pointerup',endPan);previewStage.addEventListener('pointercancel',endPan);
+  download.addEventListener('click', () => { const a=document.createElement('a'); a.href=objectUrl; a.download=`diagram-${type.value}.svg`; a.click(); });
+  const dialog = document.querySelector('#infoDialog');
+  document.querySelector('#infoButton').addEventListener('click', () => dialog.showModal());
+  document.querySelector('#closeInfo').addEventListener('click', () => dialog.close());
+
+  const accountDialog = document.querySelector('#accountDialog');
+  const authMessage = document.querySelector('#authMessage');
+  async function api(path, options={}) {
+    const response = await fetch(path, { headers: {'Content-Type':'application/json', ...(options.headers||{})}, ...options });
+    if (!response.ok) { const data=await response.json().catch(()=>({})); throw new Error(data.error || `Request failed (${response.status})`); }
+    return response.status === 204 ? null : response.json();
+  }
+  async function refreshAccount() {
+    try { currentUser=await api('/api/auth/me'); } catch { currentUser=null; }
+    document.querySelector('#signedOutPanel').hidden=!!currentUser;
+    document.querySelector('#signedInPanel').hidden=!currentUser;
+    document.querySelector('#accountButton').textContent=currentUser ? currentUser.display_name : 'Sign in';
+    if(currentUser) {
+      document.querySelector('#accountName').textContent=`${currentUser.display_name} (${currentUser.email})`;
+      document.querySelector('#accountAvatar').textContent=currentUser.display_name.trim().charAt(0).toUpperCase() || 'U';
+      document.querySelector('#dashboardName').textContent=currentUser.display_name;
+      document.querySelector('#dashboardAvatar').textContent=currentUser.display_name.trim().charAt(0).toUpperCase() || 'U';
+    }
+  }
+  async function authenticate(mode) {
+    authMessage.textContent='';
+    try {
+      const payload={email:document.querySelector('#authEmail').value,password:document.querySelector('#authPassword').value,name:document.querySelector('#authName').value};
+      await api(`/api/auth/${mode}`,{method:'POST',body:JSON.stringify(payload)}); await refreshAccount();
+    } catch(e) { authMessage.textContent=e.message; }
+  }
+  async function refreshDiagrams() {
+    const list=document.querySelector('#diagramList');
+    list.innerHTML='<div class="gallery-empty">Loading previews…</div>';
+    const items=await api('/api/diagrams');
+    document.querySelector('#diagramQuota').textContent=`${items.length} saved diagram${items.length===1?'':'s'}`;
+    if(!items.length){list.innerHTML='<div class="gallery-empty"><b style="display:block;color:var(--text);font-size:17px;margin-bottom:7px">No diagrams yet</b>Write a diagram in the editor and press Save.</div>';return}
+    list.innerHTML='';
+    items.forEach(async item=>{
+      const card=document.createElement('button');card.className='diagram-card';card.type='button';
+      const date=new Intl.DateTimeFormat('en',{dateStyle:'medium'}).format(new Date(item.updated_at));
+      card.innerHTML=`<div class="diagram-thumb"><span class="thumb-state">Rendering preview…</span></div><div class="diagram-meta"><div class="diagram-name"></div><div class="diagram-detail"><span class="engine-badge"></span><span>${date}</span></div></div>`;
+      card.querySelector('.diagram-name').textContent=item.name;card.querySelector('.engine-badge').textContent=item.engine;
+      card.onclick=async()=>{const d=await api(`/api/diagrams/${item.id}`);currentDiagramId=d.id;document.querySelector('#diagramName').value=d.name;type.value=d.engine;source.value=d.source;document.querySelector('#languageLabel').textContent=type.options[type.selectedIndex]?.text||d.engine;showEditor();render()};
+      list.appendChild(card);
+      try {
+        const d=await api(`/api/diagrams/${item.id}`);
+        const response=await fetch(`/${d.engine}/svg`,{method:'POST',headers:{'Content-Type':'text/plain','Accept':'image/svg+xml'},body:d.source.replace(/\r\n/g,'\n')+'\n\n'});
+        if(!response.ok)throw new Error('Preview unavailable');
+        const url=URL.createObjectURL(await response.blob()),img=document.createElement('img');img.src=url;img.alt=`Preview of ${item.name}`;img.onload=()=>URL.revokeObjectURL(url);
+        const thumb=card.querySelector('.diagram-thumb');thumb.innerHTML='';thumb.appendChild(img);
+      } catch { card.querySelector('.thumb-state').textContent='Preview unavailable'; }
+    });
+  }
+  document.querySelector('#accountButton').onclick=()=>accountDialog.showModal();
+  document.querySelector('#closeAccount').onclick=()=>accountDialog.close();
+  document.querySelector('#loginButton').onclick=()=>authenticate('login');
+  document.querySelector('#registerButton').onclick=()=>authenticate('register');
+  document.querySelector('#logoutButton').onclick=async()=>{await api('/api/auth/logout',{method:'POST'});showEditor();await refreshAccount()};
+  document.querySelector('#createKeyButton').onclick=async()=>{try{const r=await api('/api/keys',{method:'POST',body:JSON.stringify({name:'Personal API key'})});const box=document.querySelector('#apiKeyResult');box.hidden=false;box.textContent=`Copy this key now — it will not be shown again:\n\n${r.key}`;}catch(e){authMessage.textContent=e.message}};
+  const savedScreen=document.querySelector('#savedScreen');
+  function showEditor(){savedScreen.hidden=true;workspace.hidden=false;document.querySelector('#savedButton').classList.remove('primary')}
+  async function showSaved(){
+    if(!currentUser){accountDialog.showModal();return}
+    workspace.hidden=true;savedScreen.hidden=false;document.querySelector('#savedButton').classList.add('primary');
+    try{await refreshDiagrams()}catch(e){document.querySelector('#diagramList').innerHTML=`<div class="gallery-empty">${e.message}</div>`}
+  }
+  document.querySelector('#savedButton').onclick=showSaved;
+  document.querySelector('#newDiagramButton').onclick=()=>{currentDiagramId=null;document.querySelector('#diagramName').value='Untitled diagram';type.value='plantuml';loadType();showEditor();source.focus()};
+  document.querySelector('#backToEditorButton').onclick=showEditor;
+  document.querySelector('#dashboardAccount').onclick=()=>accountDialog.showModal();
+  async function saveDiagram(silent=false){
+    if(!currentUser){if(!silent)accountDialog.showModal();return}
+    const name=document.querySelector('#diagramName').value.trim()||'Untitled diagram';
+    const payload=JSON.stringify({name,engine:type.value,source:source.value,options:{}});
+    try{
+      if(currentDiagramId) await api(`/api/diagrams/${currentDiagramId}`,{method:'PUT',body:payload});
+      else {const created=await api('/api/diagrams',{method:'POST',body:payload});currentDiagramId=created.id}
+      document.querySelector('#diagramName').value=name;setStatus(silent?'● Name saved':'● Saved','ready');
+    }catch(e){setStatus(`● ${e.message}`,'error')}
+  }
+  document.querySelector('#saveButton').onclick=()=>saveDiagram(false);
+  document.querySelector('#diagramName').addEventListener('blur',()=>{if(currentDiagramId)saveDiagram(true)});
+  document.querySelector('#diagramName').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();e.currentTarget.blur()}});
+
+  const workspace = document.querySelector('#workspace');
+  document.querySelector('#resizer').addEventListener('mousedown', () => {
+    const move = e => { if (innerWidth > 780) { const r=workspace.getBoundingClientRect(); const p=Math.max(28,Math.min(72,(e.clientX-r.left)/r.width*100)); workspace.style.gridTemplateColumns=`${p}% 8px 1fr`; } };
+    const up = () => { removeEventListener('mousemove',move); removeEventListener('mouseup',up); };
+    addEventListener('mousemove',move); addEventListener('mouseup',up);
+  });
+  loadType();
+  refreshAccount();
+})();
+</script>
 </body>
 </html>

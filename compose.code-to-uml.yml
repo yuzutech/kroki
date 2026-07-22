@@ -1,0 +1,88 @@
+services:
+  gateway:
+    build:
+      context: ./gateway
+    image: code-to-uml-gateway:local
+    container_name: code-to-uml-gateway
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      code-to-uml-core:
+        condition: service_started
+    environment:
+      DATABASE_URL: postgresql://code_to_uml:${POSTGRES_PASSWORD:-code_to_uml_dev}@postgres:5432/code_to_uml
+      KROKI_URL: http://code-to-uml-core:8000
+      PUBLIC_URL: ${PUBLIC_URL:-http://localhost:8000}
+      COOKIE_SECURE: ${COOKIE_SECURE:-false}
+      GUEST_RATE_LIMIT: ${GUEST_RATE_LIMIT:-20}
+      USER_RATE_LIMIT: ${USER_RATE_LIMIT:-120}
+    ports:
+      - "8000:8080"
+
+  postgres:
+    image: postgres:17-alpine
+    container_name: code-to-uml-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: code_to_uml
+      POSTGRES_USER: code_to_uml
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-code_to_uml_dev}
+    volumes:
+      - code-to-uml-postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U code_to_uml -d code_to_uml"]
+      interval: 5s
+      timeout: 3s
+      retries: 15
+
+  code-to-uml-core:
+    build:
+      context: .
+      dockerfile: Dockerfile.code-to-uml
+    image: code-to-uml:local
+    container_name: code-to-uml-core
+    restart: unless-stopped
+    depends_on:
+      - mermaid
+      - bpmn
+      - excalidraw
+      - diagramsnet
+    environment:
+      KROKI_MERMAID_HOST: mermaid
+      KROKI_BPMN_HOST: bpmn
+      KROKI_EXCALIDRAW_HOST: excalidraw
+      KROKI_DIAGRAMSNET_HOST: diagramsnet
+    expose:
+      - "8000"
+
+  mermaid:
+    image: yuzutech/kroki-mermaid:latest
+    container_name: code-to-uml-mermaid
+    restart: unless-stopped
+    expose:
+      - "8002"
+
+  bpmn:
+    image: yuzutech/kroki-bpmn:latest
+    container_name: code-to-uml-bpmn
+    restart: unless-stopped
+    expose:
+      - "8003"
+
+  excalidraw:
+    image: yuzutech/kroki-excalidraw:latest
+    container_name: code-to-uml-excalidraw
+    restart: unless-stopped
+    expose:
+      - "8004"
+
+  diagramsnet:
+    image: yuzutech/kroki-diagramsnet:latest
+    container_name: code-to-uml-diagramsnet
+    restart: unless-stopped
+    expose:
+      - "8005"
+
+volumes:
+  code-to-uml-postgres:

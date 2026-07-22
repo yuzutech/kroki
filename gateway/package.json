@@ -1,0 +1,9 @@
+{
+  "name": "code-to-uml-gateway",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=24" },
+  "scripts": { "build": "esbuild src/collab-client.js --bundle --minify --format=iife --global-name=CodeToUmlCollab --outfile=public/collab-client.js", "start": "node src/server.js" },
+  "dependencies": { "esbuild": "^0.25.6", "express": "^5.1.0", "pg": "^8.16.3", "ws": "^8.18.3", "yjs": "^13.6.27" }
+}
