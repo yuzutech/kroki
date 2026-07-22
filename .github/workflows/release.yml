@@ -28,7 +28,7 @@ jobs:
   release:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           # When create_tag is unchecked, the tag must already exist (retry of a
           # failed release): build from it so the artifacts match the tag even if
@@ -257,7 +257,7 @@ jobs:
       - run: echo "RELEASE_VERSION=v$RELEASE_VERSION" >> $GITHUB_ENV
         env:
           RELEASE_VERSION: ${{ inputs.release_version }}
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           ref: ${{ env.RELEASE_VERSION }}
       - name: Install GraphViz
