@@ -24,9 +24,10 @@ function markdownPlugin(md) {
     if (!engine) return originalFence(tokens, index, options, environment, renderer)
     const explicit = info.match(/\btitle\s*=\s*(?:"([^"]+)"|'([^']+)'|([^\s]+))/i)
     let title = explicit ? explicit[1] || explicit[2] || explicit[3] : ''
+    let titleComesFromHeading = false
     if (!title) {
       for (let cursor = index - 1; cursor >= 1; cursor--) {
-        if (tokens[cursor].type === 'heading_close' && tokens[cursor - 1]?.type === 'inline') { title=tokens[cursor - 1].content;break }
+        if (tokens[cursor].type === 'heading_close' && tokens[cursor - 1]?.type === 'inline') { title=tokens[cursor - 1].content;titleComesFromHeading=true;break }
         if (tokens[cursor].type === 'fence') break
       }
     }
@@ -35,7 +36,8 @@ function markdownPlugin(md) {
     const imageUrl = `${serverUrl()}/${engine}/svg/${encoded}`
     const safeTitle = md.utils.escapeHtml(title)
     const safeUrl = md.utils.escapeHtml(imageUrl)
-    return `<figure class="code-to-uml-markdown-diagram"><figcaption><strong>${safeTitle}</strong> <small>(${engine})</small></figcaption><img src="${safeUrl}" alt="${safeTitle}" loading="lazy"></figure>`
+    const caption = titleComesFromHeading ? '' : `<figcaption><strong>${safeTitle}</strong><span>${engine}</span></figcaption>`
+    return `<figure class="code-to-uml-markdown-diagram engine-${engine}">${caption}<div class="code-to-uml-canvas"><img src="${safeUrl}" alt="${safeTitle}" loading="lazy"></div></figure>`
   }
   return md
 }
@@ -89,9 +91,18 @@ function legacyPreviewHtml(svg, engine) {
 
 const escapeHtml = value => String(value || '').replace(/[<>&"']/g, character => ({ '<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&#39;' }[character]))
 
-function previewHtml(items, fileName) {
+function legacyPreviewHtml(items, fileName) {
   const cards = items.length ? items.map(item => `<section class="card"><header><h2>${escapeHtml(item.title)}</h2><span>${escapeHtml(item.engine)}</span></header><div class="stage">${item.error ? `<pre>${escapeHtml(item.error)}</pre>` : item.svg}</div></section>`).join('') : '<div class="empty"><h2>No diagrams found</h2><p>Add a fenced block such as <code>```mermaid</code>, <code>```plantuml</code>, <code>```dot</code> or <code>```d2</code>.</p></div>'
   return `<!doctype html><html><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'"><style>*{box-sizing:border-box}body{margin:0;min-height:100vh;background:#0b1220;color:#dbe7f7;font:13px system-ui}.bar{position:sticky;top:0;z-index:2;height:44px;padding:13px 18px;border-bottom:1px solid #26344d;background:#111b2d;font-weight:650}.list{display:grid;gap:18px;padding:18px}.card{overflow:hidden;border:1px solid #26344d;border-radius:10px;background:#111b2d}.card header{padding:12px 16px;border-bottom:1px solid #26344d}.card h2{display:inline;margin:0 10px 0 0;font-size:14px}.card span{color:#7dd3fc;font-size:11px;text-transform:uppercase}.stage{display:grid;min-height:240px;place-items:center;overflow:auto;padding:24px;background:#f8fafc}.stage svg{max-width:100%;height:auto;filter:drop-shadow(0 8px 20px #0f172a22)}pre{max-width:100%;white-space:pre-wrap;color:#be123c}.empty{margin:18px;padding:28px;border:1px dashed #3b4b68;border-radius:10px;text-align:center;color:#9fb0ca}code{color:#7dd3fc}</style></head><body><div class="bar">${escapeHtml(fileName)} · ${items.length} diagram${items.length === 1 ? '' : 's'}</div><main class="list">${cards}</main></body></html>`
+}
+
+function previewHtml(items, fileName) {
+  const cards = items.length ? items.map(item => {
+    const image = item.svg ? `data:image/svg+xml;base64,${Buffer.from(item.svg, 'utf8').toString('base64')}` : ''
+    const content = item.error ? `<pre>${escapeHtml(item.error)}</pre>` : `<img src="${image}" alt="${escapeHtml(item.title)}">`
+    return `<section class="card engine-${escapeHtml(item.engine)}"><header><h2>${escapeHtml(item.title)}</h2><span>${escapeHtml(item.engine)}</span></header><div class="stage">${content}</div></section>`
+  }).join('') : '<div class="empty"><h2>No diagrams found</h2><p>Add a supported fenced diagram block.</p></div>'
+  return `<!doctype html><html><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data:; style-src 'unsafe-inline'"><style>*{box-sizing:border-box}body{margin:0;min-height:100vh;background:#0b1220;color:#dbe7f7;font:13px system-ui}.bar{position:sticky;top:0;z-index:2;height:44px;padding:13px 18px;border-bottom:1px solid #26344d;background:#111b2d;font-weight:650}.list{display:grid;gap:20px;padding:20px}.card{overflow:hidden;border:1px solid #26344d;border-radius:12px;background:#111b2d;box-shadow:0 8px 24px #02061733}.card header{display:flex;align-items:center;gap:10px;padding:13px 16px;border-bottom:1px solid #26344d}.card h2{margin:0;font-size:14px}.card span{padding:3px 7px;border:1px solid #28547a;border-radius:999px;background:#102b44;color:#7dd3fc;font-size:10px;line-height:1;text-transform:uppercase}.stage{min-height:240px;overflow:auto;padding:36px;text-align:center;background:#fff}.stage img{display:block;width:auto;height:auto;min-width:min(100%,480px);max-width:none;margin:auto;filter:drop-shadow(0 8px 20px #0f172a18)}.engine-blockdiag .stage img,.engine-seqdiag .stage img,.engine-nwdiag .stage img,.engine-packetdiag .stage img,.engine-wavedrom .stage img,.engine-bytefield .stage img,.engine-tikz .stage img,.engine-bpmn .stage img,.engine-diagramsnet .stage img,.engine-goat .stage img{min-width:min(100%,720px)}.engine-actdiag .stage img,.engine-rackdiag .stage img,.engine-nomnoml .stage img,.engine-d2 .stage img{min-width:min(100%,360px)}pre{max-width:100%;white-space:pre-wrap;color:#be123c}.empty{margin:18px;padding:28px;border:1px dashed #3b4b68;border-radius:10px;text-align:center;color:#9fb0ca}@media(max-width:700px){.list{padding:10px}.stage{padding:20px}}</style></head><body><div class="bar">${escapeHtml(fileName)} · ${items.length} diagram${items.length === 1 ? '' : 's'}</div><main class="list">${cards}</main></body></html>`
 }
 
 async function updatePreview(context, document, immediate = false) {

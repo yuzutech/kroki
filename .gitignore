@@ -17,6 +17,7 @@ node_modules/
 *.log
 *.pid
 coverage/
+artifacts/
 dist/
 build/
 .cache/

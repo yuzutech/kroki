@@ -1,0 +1,8 @@
+.code-to-uml-markdown-diagram{box-sizing:border-box;overflow:hidden;margin:16px 0 28px;border:1px solid var(--vscode-panel-border,rgba(127,127,127,.35));border-radius:12px;background:var(--vscode-editorWidget-background,#111b2d);box-shadow:0 8px 24px rgba(2,6,23,.2)}
+.code-to-uml-markdown-diagram figcaption{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid var(--vscode-panel-border,rgba(127,127,127,.35))}
+.code-to-uml-markdown-diagram figcaption span{padding:3px 7px;border:1px solid #28547a;border-radius:999px;background:#102b44;color:#7dd3fc;font-size:10px;line-height:1;text-transform:uppercase}
+.code-to-uml-canvas{min-height:240px;overflow:auto;padding:36px;text-align:center;background:#fff}
+.code-to-uml-canvas img{display:block;width:auto;height:auto;min-width:min(100%,480px);max-width:none;margin:auto;border:0;background:transparent;filter:drop-shadow(0 8px 20px rgba(15,23,42,.1))}
+.engine-blockdiag .code-to-uml-canvas img,.engine-seqdiag .code-to-uml-canvas img,.engine-nwdiag .code-to-uml-canvas img,.engine-packetdiag .code-to-uml-canvas img,.engine-wavedrom .code-to-uml-canvas img,.engine-bytefield .code-to-uml-canvas img,.engine-tikz .code-to-uml-canvas img,.engine-bpmn .code-to-uml-canvas img,.engine-diagramsnet .code-to-uml-canvas img,.engine-goat .code-to-uml-canvas img{min-width:min(100%,720px)}
+.engine-actdiag .code-to-uml-canvas img,.engine-rackdiag .code-to-uml-canvas img,.engine-nomnoml .code-to-uml-canvas img,.engine-d2 .code-to-uml-canvas img{min-width:min(100%,360px)}
+@media(max-width:700px){.code-to-uml-canvas{padding:20px}}

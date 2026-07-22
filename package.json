@@ -9,7 +9,8 @@
   "private": true,
   "scripts": {
     "test": "node --test-force-exit ci/tests/smoke.js",
-    "update-versions": "node ci/tasks/update-versions.js"
+    "update-versions": "node ci/tasks/update-versions.js",
+    "test:pr-diff": "node --test github-action/pr-diagram-diff.test.mjs"
   },
   "volta": {
     "node": "24.16.0"

@@ -1,0 +1,63 @@
+name: Code To UML PR Diff
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - "**/*.md"
+      - "**/*.markdown"
+      - "**/*.puml"
+      - "**/*.plantuml"
+      - "**/*.mmd"
+      - "**/*.mermaid"
+      - "**/*.dot"
+      - "**/*.gv"
+      - "**/*.d2"
+      - "**/*.dbml"
+      - "**/*.ditaa"
+      - "**/*.bpmn"
+      - "**/*.excalidraw"
+      - "**/*.structurizr"
+      - "**/*.drawio"
+      - "**/*.tikz"
+      - "**/*.erd"
+      - "**/*.goat"
+      - "**/*.bob"
+      - "**/*.wavedrom"
+      - "**/*.pikchr"
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  diagram-diff:
+    # Runner này phải nằm trên cùng máy đang chạy Code To UML bằng Docker.
+    # Không chạy Pull Request từ fork trên máy self-hosted cá nhân.
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: self-hosted
+    steps:
+      - name: Checkout pull request
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Use Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Verify local Code To UML
+        shell: bash
+        run: curl --fail-with-body --silent --show-error http://localhost:8000/health > /dev/null
+
+      - name: Build semantic diagram change map
+        id: diagram-diff
+        uses: ./
+        with:
+          mode: pr-diff
+          server-url: http://localhost:8000
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          diff-output: artifacts/diagram-pr-diff.svg
+          comment: "true"

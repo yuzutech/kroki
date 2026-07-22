@@ -156,7 +156,7 @@ Chỉ API Gateway được publish ra host qua cổng `8000`. PostgreSQL, Kroki 
 - `vscode-extension/package.json`: manifest extension.
 - `vscode-extension/extension.js`: auto-detect engine, API key, live preview, render-on-save và export.
 - `vscode-extension/README.md`.
-- `vscode-extension/code-to-uml-0.5.1.vsix`: extension đã đóng gói.
+- `vscode-extension/code-to-uml-0.6.1.vsix`: extension đã đóng gói.
 
 ### Kiểm thử và tài liệu
 
@@ -503,6 +503,25 @@ Khi tạo/cập nhật diagram, source và options được ghi thêm vào `diag
 
 ## 14. GitHub Action
 
+Action có hai chế độ:
+
+- `render`: render một source thành output như trước.
+- `pr-diff`: tự lấy base/head SHA từ Pull Request, phát hiện diagram thay đổi và tạo semantic change map.
+
+Workflow PR chạy bằng `runs-on: self-hosted` trên chính máy chạy Docker và gọi `http://localhost:8000`. Local Gateway cho phép guest render nên workflow không cần API key hoặc public deployment. Job có health preflight và chỉ nhận PR có head repository trùng repository hiện tại, tránh chạy code từ fork không tin cậy trên máy cá nhân.
+
+PR diff phân tích node/edge cho Mermaid, PlantUML/C4, Graphviz/DOT, D2 và DBML. Markdown được tách theo từng fenced block và tên lấy từ heading hoặc `title`. Renderer chưa có structural parser được biểu diễn ở mức file và ghi rõ là fallback, không suy đoán cấu trúc.
+
+Màu change map:
+
+| Trạng thái | Màu nền | Màu viền |
+|---|---|---|
+| Added | Xanh `#DCFCE7` | `#16A34A` |
+| Modified | Vàng `#FEF3C7` | `#D97706` |
+| Removed | Đỏ `#FEE2E2` | `#DC2626` |
+
+Artifact `diagram-pr-diff.svg` được upload bằng `actions/upload-artifact`. Bot tạo hoặc cập nhật một comment cố định có số node thêm/sửa/xóa và link đến workflow run, tránh spam comment sau mỗi lần push.
+
 Action nhận các input:
 
 | Input | Ý nghĩa |
@@ -570,13 +589,13 @@ Local service không yêu cầu login. API key tùy chọn cho hosted service đ
 File VSIX hiện tại:
 
 ```text
-vscode-extension/code-to-uml-0.5.1.vsix
+vscode-extension/code-to-uml-0.6.1.vsix
 ```
 
 Cài local:
 
 ```powershell
-code --install-extension D:\kroki-update\vscode-extension\code-to-uml-0.5.1.vsix --force
+code --install-extension D:\kroki-update\vscode-extension\code-to-uml-0.6.1.vsix --force
 ```
 
 ## 16. Docker Compose services
