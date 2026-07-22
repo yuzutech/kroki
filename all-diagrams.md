@@ -9,7 +9,7 @@ the fence language as `diagram_type`.
 
 ```plantuml
 @startuml
-Bob -> Alice : Hello
+Bob -> Ahahahahaahahhahah : Hello
 Alice --> Bob : Hi
 @enduml
 ```
