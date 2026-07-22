@@ -1,0 +1,69 @@
+name: Product CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "product/**"
+      - ".github/workflows/product-ci.yml"
+  pull_request:
+    paths:
+      - "product/**"
+      - ".github/workflows/product-ci.yml"
+
+jobs:
+  quality:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: product/package-lock.json
+      - run: npm ci
+        working-directory: product
+      - run: npm audit
+        working-directory: product
+      - run: npm run typecheck
+        working-directory: product
+      - run: npm test
+        working-directory: product
+      - run: npm run build
+        working-directory: product
+      - name: Ensure the committed Action bundle is current
+        run: git diff --exit-code -- product/github-action/dist/index.cjs
+      - run: npm --workspace=diagram-as-code-vscode run package
+        working-directory: product
+      - uses: actions/upload-artifact@v6
+        with:
+          name: diagram-as-code-vscode
+          path: product/vscode-extension/dist/*.vsix
+
+  compose:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - name: Start rendering stack
+        env:
+          DIAGRAM_API_KEYS: ci-secret
+          GATEWAY_PORT: 19000
+        run: docker compose -p diagram-product-ci --env-file .env.example up -d --build
+        working-directory: product/deploy
+      - name: Smoke renderers
+        env:
+          DIAGRAM_GATEWAY_URL: http://localhost:19000
+          DIAGRAM_API_KEY: ci-secret
+        run: node scripts/smoke-test.mjs
+        working-directory: product
+      - name: Verify deterministic renderer output without Gateway cache
+        run: docker compose -p diagram-product-ci --env-file .env.example exec -T -e KROKI_DIRECT_URL=http://kroki:8000 gateway node scripts/determinism-test.mjs
+        working-directory: product/deploy
+      - name: Show container logs
+        if: failure()
+        run: docker compose -p diagram-product-ci --env-file .env.example logs --no-color --tail=300
+        working-directory: product/deploy
+      - name: Stop rendering stack
+        if: always()
+        run: docker compose -p diagram-product-ci --env-file .env.example down --volumes --remove-orphans
+        working-directory: product/deploy

@@ -1,0 +1,7 @@
+version: 1
+kroki: 0.31.1
+mermaid: 0.31.1
+canonicalFormat: svg
+profiles:
+  mermaid: deterministic-ids
+  plantuml: no-metadata

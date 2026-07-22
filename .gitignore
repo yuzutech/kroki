@@ -1,9 +1,52 @@
-.DS_store
-target/
-/.registry/oci/*
+# Operating system and editor state
+.DS_Store
+Thumbs.db
+Desktop.ini
+.idea/
 *.iml
-.vertx/
-/node_modules/
+**/.vscode/
+*.swp
+*~
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+!*.env.example
+
+# Logs, diagnostics, and test reports
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+coverage/
+.nyc_output/
+test-results/
+playwright-report/
+blob-report/
+
+# Java and Vert.x build output
+target/
 dependency-reduced-pom.xml
-.idea
-**/.vscode
+.vertx/
+hs_err_pid*
+/.registry/oci/*
+
+# Node.js and TypeScript build output
+node_modules/
+.cache/
+.eslintcache
+*.tsbuildinfo
+*.vsix
+*.tgz
+/product/**/dist/
+/product/**/.vscode-test/
+/product/release/
+
+# GitHub Actions execute the committed bundle directly.
+!/product/github-action/dist/
+!/product/github-action/dist/index.cjs
+
+# Local workflow state and the imported reference repository
+/.specify/feature.json

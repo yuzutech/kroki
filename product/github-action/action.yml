@@ -1,0 +1,29 @@
+name: Diagram as Code Check
+description: Verify that committed SVG diagrams match their text sources.
+author: Diagram as Code
+inputs:
+  gateway-url:
+    description: Base URL of the Diagram as Code Gateway.
+    required: true
+  api-key:
+    description: Gateway API key. Pass this from GitHub Actions secrets.
+    required: true
+  config-path:
+    description: Repository-relative project configuration file.
+    required: false
+    default: .diagram.yml
+  changed-only:
+    description: Check only changed diagrams unless rendering configuration changed.
+    required: false
+    default: "true"
+outputs:
+  checked-count:
+    description: Number of source diagrams checked.
+  stale-count:
+    description: Number of stale or orphaned SVG files.
+runs:
+  using: node24
+  main: dist/index.cjs
+branding:
+  icon: image
+  color: green

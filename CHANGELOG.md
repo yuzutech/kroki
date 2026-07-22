@@ -11,6 +11,12 @@ versioned entry and uses it as the GitHub release notes.
 
 ## [Unreleased]
 
+### Added
+
+- Integrate the Diagram as Code product workspace with its Fastify Gateway, shared contracts, VS Code extension, GitHub Action, deployment files, and product CI/release workflows.
+- Standardize `.diagram.yml` with a shared JSON Schema and output planner, align Gateway and clients to the OpenAPI v1 routes, and add per-principal rate limiting.
+- Harden the Gateway production boundary with hashed API-key records and scopes, partitioned cache, bounded render concurrency, response-size limits, SVG sanitization, PNG/content-type validation, structured redacted events, and aggregate Prometheus metrics.
+
 ## [0.31.1] - 2026-07-15
 
 ### Changed

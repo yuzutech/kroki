@@ -1,0 +1,21 @@
+name: Diagram check
+
+on:
+  pull_request:
+    paths:
+      - "docs/diagrams/**"
+      - "docs/generated/**"
+      - ".diagram.yml"
+      - ".diagram-renderer.lock"
+
+jobs:
+  diagrams:
+    runs-on: [self-hosted, diagram-renderer]
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: hnamkk/MyKroki/product/github-action@main
+        with:
+          gateway-url: ${{ vars.DIAGRAM_GATEWAY_URL }}
+          api-key: ${{ secrets.DIAGRAM_API_KEY }}

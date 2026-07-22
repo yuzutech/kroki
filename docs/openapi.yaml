@@ -1,0 +1,1063 @@
+openapi: 3.2.0
+jsonSchemaDialect: https://json-schema.org/draft/2020-12/schema
+
+info:
+  title: Diagram as Code Rendering Service API
+  summary: API thống nhất để render diagram source thành SVG hoặc PNG.
+  description: |
+    Diagram Gateway là public entry point của nền tảng Diagram as Code.
+    Gateway xác thực, giới hạn request, chuẩn hóa options, tra cứu cache và
+    chuyển yêu cầu tới Kroki rendering backend.
+
+    Production deployment sử dụng Bearer credential. Local self-hosted profile
+    có thể tắt authentication bằng cấu hình rõ ràng.
+
+    Thành công trả raw SVG/PNG. Lỗi trả `application/problem+json` và luôn có
+    `requestId` để truy vết.
+  version: 1.0.0
+  license:
+    name: MIT
+
+externalDocs:
+  description: Software Design Document
+  url: ./SDD.md
+
+servers:
+  - url: http://localhost:9000
+    description: Local self-hosted Gateway
+  - url: https://{host}
+    description: Hosted hoặc private Gateway
+    variables:
+      host:
+        default: diagram.example.com
+        description: Tên miền của Diagram Gateway
+
+tags:
+  - name: Rendering
+    description: Render diagram source thành SVG hoặc PNG.
+  - name: Discovery
+    description: Khám phá engine, format và renderer version.
+  - name: Health
+    description: Liveness và readiness probes.
+
+security:
+  - bearerAuth: []
+
+paths:
+  /api/v1/render:
+    post:
+      tags: [Rendering]
+      operationId: renderDiagram
+      summary: Render diagram bằng JSON request
+      description: |
+        Endpoint chính cho VS Code Extension và GitHub Action. `engine`,
+        `format`, `source` và `options` nằm trong JSON body.
+      x-srs-requirements: [FR-001, FR-004, FR-005, FR-006, FR-009, FR-010]
+      x-local-no-auth-supported: true
+      requestBody:
+        required: true
+        description: Diagram source và tùy chọn render.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RenderRequest'
+            examples:
+              mermaid:
+                summary: Mermaid SVG
+                dataValue:
+                  engine: mermaid
+                  format: svg
+                  source: |-
+                    graph TD
+                      A[Source] --> B[Diagram]
+                  options:
+                    theme: default
+                  cache:
+                    mode: default
+              plantuml:
+                summary: PlantUML PNG
+                dataValue:
+                  engine: plantuml
+                  format: png
+                  source: |-
+                    @startuml
+                    Alice -> Bob: Hello
+                    @enduml
+                  options:
+                    theme: plain
+              graphviz:
+                summary: Graphviz SVG
+                dataValue:
+                  engine: graphviz
+                  format: svg
+                  source: digraph G { A -> B }
+                  options:
+                    layout: dot
+              d2:
+                summary: D2 SVG không ghi cache
+                dataValue:
+                  engine: d2
+                  format: svg
+                  source: client -> gateway -> renderer
+                  cache:
+                    mode: no-store
+      responses:
+        '200':
+          $ref: '#/components/responses/RenderSuccess'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '413':
+          $ref: '#/components/responses/PayloadTooLarge'
+        '422':
+          $ref: '#/components/responses/DiagramSyntaxError'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+        '502':
+          $ref: '#/components/responses/InvalidRendererOutput'
+        '503':
+          $ref: '#/components/responses/RendererUnavailable'
+        '504':
+          $ref: '#/components/responses/RenderTimeout'
+
+  /api/v1/render/{engine}/{format}:
+    parameters:
+      - $ref: '#/components/parameters/Engine'
+      - $ref: '#/components/parameters/OutputFormat'
+    post:
+      tags: [Rendering]
+      operationId: renderDiagramText
+      summary: Render diagram từ plain-text body
+      description: |
+        Render source được gửi trực tiếp với `Content-Type: text/plain`.
+        Engine và output format được xác định bởi path.
+
+        Options có thể truyền bằng query parameter `theme` và `option.*`.
+        Gateway chỉ chuyển các option nằm trong allowlist của engine.
+      x-srs-requirements: [FR-002, FR-004, FR-005, FR-006]
+      x-local-no-auth-supported: true
+      parameters:
+        - $ref: '#/components/parameters/Theme'
+        - $ref: '#/components/parameters/CacheMode'
+      requestBody:
+        required: true
+        description: Diagram source UTF-8, tối đa 1 MiB.
+        content:
+          text/plain:
+            schema:
+              type: string
+              minLength: 1
+              maxLength: 1048576
+            examples:
+              mermaid:
+                summary: Mermaid flowchart
+                serializedValue: |-
+                  graph TD
+                    A[Source] --> B[Diagram]
+              plantuml:
+                summary: PlantUML sequence
+                serializedValue: |-
+                  @startuml
+                  Alice -> Bob: Hello
+                  @enduml
+              graphviz:
+                summary: Graphviz directed graph
+                serializedValue: 'digraph G { A -> B }'
+              d2:
+                summary: D2 connection
+                serializedValue: 'client -> gateway -> renderer'
+      responses:
+        '200':
+          $ref: '#/components/responses/RenderSuccess'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '413':
+          $ref: '#/components/responses/PayloadTooLarge'
+        '422':
+          $ref: '#/components/responses/DiagramSyntaxError'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+        '502':
+          $ref: '#/components/responses/InvalidRendererOutput'
+        '503':
+          $ref: '#/components/responses/RendererUnavailable'
+        '504':
+          $ref: '#/components/responses/RenderTimeout'
+
+  /api/v1/render/{engine}/{format}/{encodedSource}:
+    parameters:
+      - $ref: '#/components/parameters/Engine'
+      - $ref: '#/components/parameters/OutputFormat'
+      - $ref: '#/components/parameters/EncodedSource'
+    get:
+      tags: [Rendering]
+      operationId: renderDiagramEncoded
+      summary: Render diagram từ source được encode trong URL
+      description: |
+        `encodedSource` được tạo bằng cách nén UTF-8 source bằng zlib/deflate,
+        sau đó encode Base64 URL-safe không padding. Sau khi decode, source
+        không được vượt quá 1 MiB.
+      x-srs-requirements: [FR-003, FR-004, FR-005, FR-006]
+      x-local-no-auth-supported: true
+      parameters:
+        - $ref: '#/components/parameters/Theme'
+        - $ref: '#/components/parameters/CacheMode'
+      responses:
+        '200':
+          $ref: '#/components/responses/RenderSuccess'
+        '400':
+          $ref: '#/components/responses/InvalidEncodedSource'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '413':
+          $ref: '#/components/responses/PayloadTooLarge'
+        '414':
+          $ref: '#/components/responses/UriTooLong'
+        '422':
+          $ref: '#/components/responses/DiagramSyntaxError'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+        '502':
+          $ref: '#/components/responses/InvalidRendererOutput'
+        '503':
+          $ref: '#/components/responses/RendererUnavailable'
+        '504':
+          $ref: '#/components/responses/RenderTimeout'
+
+  /api/v1/engines:
+    get:
+      tags: [Discovery]
+      operationId: listSupportedDiagramTypes
+      summary: Liệt kê các loại diagram được hỗ trợ
+      description: |
+        Trả engine, alias, format, renderer version và availability hiện tại.
+        Availability có thể thay đổi khi companion service gặp sự cố.
+      x-srs-requirements: [FR-008, FR-033, FR-037]
+      security: []
+      responses:
+        '200':
+          description: Danh sách engine và format được hỗ trợ.
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EngineList'
+              examples:
+                default:
+                  summary: Bốn engine MVP
+                  dataValue:
+                    apiVersion: v1
+                    generatedAt: '2026-07-22T05:00:00Z'
+                    engines:
+                      - id: mermaid
+                        aliases: []
+                        version: 11.15.0
+                        formats: [svg, png]
+                        available: true
+                      - id: plantuml
+                        aliases: [c4plantuml]
+                        version: 1.2026.6
+                        formats: [svg, png]
+                        available: true
+                      - id: graphviz
+                        aliases: [dot]
+                        version: 14.1.3
+                        formats: [svg, png]
+                        available: true
+                      - id: d2
+                        aliases: []
+                        version: '0.7.1'
+                        formats: [svg]
+                        available: false
+                        unavailableReason: Renderer process is not ready
+        '500':
+          $ref: '#/components/responses/InternalError'
+        '503':
+          $ref: '#/components/responses/ServiceNotReady'
+
+  /health:
+    get:
+      tags: [Health]
+      operationId: getHealth
+      summary: Kiểm tra trạng thái tổng hợp của Gateway
+      description: |
+        Endpoint tương thích theo SRS. Có cùng readiness semantics với
+        `/health/ready`: trả 200 khi Gateway có thể nhận render request và 503
+        khi dependency thiết yếu chưa sẵn sàng.
+      x-srs-requirements: [FR-007, FR-091]
+      security: []
+      responses:
+        '200':
+          $ref: '#/components/responses/HealthReady'
+        '503':
+          $ref: '#/components/responses/HealthNotReady'
+
+  /health/live:
+    get:
+      tags: [Health]
+      operationId: getLiveness
+      summary: Kiểm tra process Gateway còn sống
+      description: Không gọi Kroki hoặc renderer worker.
+      x-srs-requirements: [FR-007, FR-091]
+      security: []
+      responses:
+        '200':
+          description: Gateway process đang sống.
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthStatus'
+              examples:
+                alive:
+                  summary: Gateway đang sống
+                  dataValue:
+                    status: up
+                    service: diagram-gateway
+                    version: 1.0.0
+                    timestamp: '2026-07-22T05:00:00Z'
+                    checks: []
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /health/ready:
+    get:
+      tags: [Health]
+      operationId: getReadiness
+      summary: Kiểm tra Gateway và rendering backend sẵn sàng
+      description: |
+        Kiểm tra Gateway configuration, Kroki Core và các renderer bắt buộc.
+        Một optional renderer unavailable có thể làm trạng thái `degraded`
+        nhưng vẫn trả 200 nếu các renderer MVP bắt buộc còn hoạt động.
+      x-srs-requirements: [FR-007, FR-037, FR-091]
+      security: []
+      responses:
+        '200':
+          $ref: '#/components/responses/HealthReady'
+        '503':
+          $ref: '#/components/responses/HealthNotReady'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: API key or short-lived access token
+      description: |
+        API key là opaque bearer secret dạng `dg_<random>`. Gateway chỉ lưu SHA-256
+        verifier record; plaintext key nằm trong client secret store. Access token
+        ngắn hạn từ GitHub OIDC thuộc phase sau. Local profile có thể tắt authentication.
+
+  parameters:
+    Engine:
+      name: engine
+      in: path
+      required: true
+      description: Loại diagram hoặc alias được hỗ trợ.
+      schema:
+        $ref: '#/components/schemas/DiagramEngine'
+      examples:
+        mermaid:
+          dataValue: mermaid
+          serializedValue: mermaid
+        plantuml:
+          dataValue: plantuml
+          serializedValue: plantuml
+        graphviz:
+          dataValue: graphviz
+          serializedValue: graphviz
+        d2:
+          dataValue: d2
+          serializedValue: d2
+
+    OutputFormat:
+      name: format
+      in: path
+      required: true
+      description: Format output yêu cầu.
+      schema:
+        $ref: '#/components/schemas/OutputFormat'
+      examples:
+        svg:
+          dataValue: svg
+          serializedValue: svg
+        png:
+          dataValue: png
+          serializedValue: png
+
+    EncodedSource:
+      name: encodedSource
+      in: path
+      required: true
+      description: |
+        Diagram source sau zlib/deflate và Base64 URL-safe không padding.
+        Ví dụ dưới đây decode thành PlantUML `Bob -> Alice : hello`.
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 8192
+        pattern: '^[A-Za-z0-9_-]+$'
+      examples:
+        plantumlHello:
+          summary: Encoded PlantUML source
+          dataValue: SyfFKj2rKt3CoKnELR1Io4ZDoSa70000
+          serializedValue: SyfFKj2rKt3CoKnELR1Io4ZDoSa70000
+
+    Theme:
+      name: theme
+      in: query
+      required: false
+      description: Theme chung; Gateway ánh xạ sang option của từng engine.
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 64
+        default: default
+      example: default
+
+    CacheMode:
+      name: cache
+      in: query
+      required: false
+      description: Chính sách cache cho request.
+      schema:
+        $ref: '#/components/schemas/CacheMode'
+      example: default
+
+  headers:
+    RequestId:
+      description: Correlation ID duy nhất của request.
+      required: true
+      schema:
+        type: string
+        minLength: 1
+      example: req_01JABCXYZ
+
+    DiagramEngine:
+      description: Engine canonical đã xử lý request.
+      required: true
+      schema:
+        $ref: '#/components/schemas/DiagramEngine'
+      example: mermaid
+
+    RendererVersion:
+      description: Renderer version tham gia cache và stale-output semantics.
+      required: true
+      schema:
+        type: string
+      example: 11.15.0
+
+    CacheResult:
+      description: Kết quả tra cứu cache.
+      required: true
+      schema:
+        type: string
+        enum: [HIT, MISS, BYPASS]
+      example: MISS
+
+    ETag:
+      description: Entity tag được tạo từ hash của output cuối cùng.
+      required: true
+      schema:
+        type: string
+      example: '"sha256-4b0f36d1"'
+
+    RetryAfter:
+      description: Số giây client nên chờ trước khi thử lại.
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+      example: 2
+
+  schemas:
+    DiagramEngine:
+      type: string
+      description: Engine canonical hoặc alias được hỗ trợ trong MVP.
+      enum: [mermaid, plantuml, c4plantuml, graphviz, dot, d2]
+
+    OutputFormat:
+      type: string
+      enum: [svg, png]
+
+    CacheMode:
+      type: string
+      enum: [default, refresh, no-store]
+      default: default
+
+    RenderRequest:
+      type: object
+      additionalProperties: false
+      required: [engine, format, source]
+      properties:
+        engine:
+          $ref: '#/components/schemas/DiagramEngine'
+        format:
+          $ref: '#/components/schemas/OutputFormat'
+        source:
+          type: string
+          minLength: 1
+          maxLength: 1048576
+          description: Diagram source UTF-8; giới hạn được kiểm tra theo byte sau decode.
+        options:
+          type: object
+          description: |
+            Theme và engine-specific options. Gateway chỉ cho phép các option
+            nằm trong allowlist của engine.
+          properties:
+            theme:
+              type: string
+              minLength: 1
+              maxLength: 64
+          additionalProperties:
+            oneOf:
+              - type: string
+              - type: number
+              - type: integer
+              - type: boolean
+        cache:
+          type: object
+          additionalProperties: false
+          properties:
+            mode:
+              $ref: '#/components/schemas/CacheMode'
+
+    Problem:
+      type: object
+      additionalProperties: false
+      required: [type, title, status, code, message, requestId]
+      properties:
+        type:
+          type: string
+          format: uri-reference
+          description: URI nhận diện loại lỗi.
+        title:
+          type: string
+          description: Tóm tắt ổn định của loại lỗi.
+        status:
+          type: integer
+          minimum: 400
+          maximum: 599
+        code:
+          type: string
+          pattern: '^[A-Z][A-Z0-9_]+$'
+          description: Machine-readable domain error code.
+        message:
+          type: string
+          description: Thông báo có thể hiển thị cho người dùng.
+        requestId:
+          type: string
+          minLength: 1
+        engine:
+          type: string
+        line:
+          type: integer
+          minimum: 1
+        column:
+          type: integer
+          minimum: 1
+        retryAfterSeconds:
+          type: integer
+          minimum: 0
+
+    EngineInfo:
+      type: object
+      additionalProperties: false
+      required: [id, aliases, version, formats, available]
+      properties:
+        id:
+          type: string
+          enum: [mermaid, plantuml, graphviz, d2]
+        aliases:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+        version:
+          type: string
+        formats:
+          type: array
+          minItems: 1
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/OutputFormat'
+        available:
+          type: boolean
+        unavailableReason:
+          type: string
+
+    EngineList:
+      type: object
+      additionalProperties: false
+      required: [apiVersion, generatedAt, engines]
+      properties:
+        apiVersion:
+          type: string
+          const: v1
+        generatedAt:
+          type: string
+          format: date-time
+        engines:
+          type: array
+          items:
+            $ref: '#/components/schemas/EngineInfo'
+
+    HealthCheck:
+      type: object
+      additionalProperties: false
+      required: [name, status]
+      properties:
+        name:
+          type: string
+        status:
+          type: string
+          enum: [up, degraded, down]
+        detail:
+          type: string
+        latencyMs:
+          type: integer
+          minimum: 0
+
+    HealthStatus:
+      type: object
+      additionalProperties: false
+      required: [status, service, version, timestamp, checks]
+      properties:
+        status:
+          type: string
+          enum: [up, degraded, down]
+        service:
+          type: string
+          const: diagram-gateway
+        version:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        checks:
+          type: array
+          items:
+            $ref: '#/components/schemas/HealthCheck'
+
+  responses:
+    RenderSuccess:
+      description: Diagram được render thành công.
+      headers:
+        X-Request-Id:
+          $ref: '#/components/headers/RequestId'
+        X-Diagram-Engine:
+          $ref: '#/components/headers/DiagramEngine'
+        X-Renderer-Version:
+          $ref: '#/components/headers/RendererVersion'
+        X-Cache:
+          $ref: '#/components/headers/CacheResult'
+        ETag:
+          $ref: '#/components/headers/ETag'
+        Cache-Control:
+          description: HTTP cache policy theo principal và request mode.
+          schema:
+            type: string
+          example: private, max-age=3600
+      content:
+        image/svg+xml:
+          schema:
+            type: string
+            contentMediaType: image/svg+xml
+          examples:
+            simpleDiagram:
+              summary: SVG diagram tối giản
+              serializedValue: |-
+                <svg xmlns="http://www.w3.org/2000/svg" width="160" height="60" viewBox="0 0 160 60">
+                  <rect x="1" y="1" width="158" height="58" fill="white" stroke="black"/>
+                  <text x="80" y="35" text-anchor="middle">A → B</text>
+                </svg>
+        image/png:
+          schema: {}
+          examples:
+            onePixelPng:
+              summary: PNG binary minh họa dưới dạng data URI
+              externalValue: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=
+
+    BadRequest:
+      description: Request, engine, format hoặc option không hợp lệ.
+      headers:
+        X-Request-Id:
+          $ref: '#/components/headers/RequestId'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          examples:
+            invalidRequest:
+              dataValue:
+                type: /problems/invalid-request
+                title: Request không hợp lệ
+                status: 400
+                code: INVALID_REQUEST
+                message: Trường source không được để trống.
+                requestId: req_01JABCXYZ
+            unsupportedEngine:
+              dataValue:
+                type: /problems/unsupported-engine
+                title: Engine không được hỗ trợ
+                status: 400
+                code: UNSUPPORTED_ENGINE
+                message: Engine 'unknown' không được hỗ trợ.
+                requestId: req_01JABCXYZ
+                engine: unknown
+            unsupportedFormat:
+              dataValue:
+                type: /problems/unsupported-format
+                title: Format không được hỗ trợ
+                status: 400
+                code: UNSUPPORTED_FORMAT
+                message: Format 'pdf' không được hỗ trợ cho engine mermaid.
+                requestId: req_01JABCXYZ
+                engine: mermaid
+
+    InvalidEncodedSource:
+      description: Encoded source không phải Base64 URL-safe hoặc không thể deflate/decode.
+      headers:
+        X-Request-Id:
+          $ref: '#/components/headers/RequestId'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          examples:
+            invalidEncoding:
+              dataValue:
+                type: /problems/invalid-encoded-source
+                title: Encoded source không hợp lệ
+                status: 400
+                code: INVALID_ENCODED_SOURCE
+                message: Không thể Base64 URL-decode hoặc zlib-inflate source.
+                requestId: req_01JABCXYZ
+                engine: plantuml
+
+    Unauthorized:
+      description: Thiếu credential hoặc credential không hợp lệ.
+      headers:
+        X-Request-Id:
+          $ref: '#/components/headers/RequestId'
+        WWW-Authenticate:
+          description: Bearer authentication challenge.
+          schema:
+            type: string
+          example: Bearer realm="diagram-gateway"
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          examples:
+            unauthenticated:
+              dataValue:
+                type: /problems/unauthenticated
+                title: Chưa xác thực
+                status: 401
+                code: UNAUTHENTICATED
+                message: Bearer credential bị thiếu hoặc không hợp lệ.
+                requestId: req_01JABCXYZ
+
+    Forbidden:
+      description: Principal đã xác thực nhưng không được phép render.
+      headers:
+        X-Request-Id:
+          $ref: '#/components/headers/RequestId'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          examples:
+            forbidden:
+              dataValue:
+                type: /problems/forbidden
+                title: Không được phép
+                status: 403
+                code: FORBIDDEN
+                message: Principal không có scope diagram:render.
+                requestId: req_01JABCXYZ
+
+    PayloadTooLarge:
+      description: Source sau decode vượt giới hạn cấu hình.
+      headers:
+        X-Request-Id:
+          $ref: '#/components/headers/RequestId'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          examples:
+            sourceTooLarge:
+              dataValue:
+                type: /problems/payload-too-large
+                title: Payload quá lớn
+                status: 413
+                code: PAYLOAD_TOO_LARGE
+                message: Diagram source vượt giới hạn 1 MiB sau decode.
+                requestId: req_01JABCXYZ
+
+    UriTooLong:
+      description: Encoded source làm request URI vượt giới hạn server.
+      headers:
+        X-Request-Id:
+          $ref: '#/components/headers/RequestId'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          examples:
+            uriTooLong:
+              dataValue:
+                type: /problems/uri-too-long
+                title: URI quá dài
+                status: 414
+                code: URI_TOO_LONG
+                message: Hãy sử dụng POST cho diagram source lớn.
+                requestId: req_01JABCXYZ
+
+    DiagramSyntaxError:
+      description: Renderer từ chối diagram source vì lỗi cú pháp.
+      headers:
+        X-Request-Id:
+          $ref: '#/components/headers/RequestId'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          examples:
+            syntaxError:
+              dataValue:
+                type: /problems/diagram-syntax-error
+                title: Diagram source không hợp lệ
+                status: 422
+                code: DIAGRAM_SYNTAX_ERROR
+                message: Unexpected token near 'participant'.
+                requestId: req_01JABCXYZ
+                engine: mermaid
+                line: 12
+                column: 8
+
+    RateLimited:
+      description: Vượt rate limit hoặc render capacity hiện tại.
+      headers:
+        X-Request-Id:
+          $ref: '#/components/headers/RequestId'
+        Retry-After:
+          $ref: '#/components/headers/RetryAfter'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          examples:
+            rateLimited:
+              dataValue:
+                type: /problems/rate-limited
+                title: Quá nhiều request
+                status: 429
+                code: RATE_LIMITED
+                message: Đã vượt giới hạn render request hiện tại.
+                requestId: req_01JABCXYZ
+                retryAfterSeconds: 2
+            capacityExceeded:
+              dataValue:
+                type: /problems/render-capacity-exceeded
+                title: Render capacity đã đầy
+                status: 429
+                code: RENDER_CAPACITY_EXCEEDED
+                message: Không còn render slot hoặc pending queue.
+                requestId: req_01JABCXYZ
+                retryAfterSeconds: 2
+
+    InvalidRendererOutput:
+      description: Renderer trả output sai media type, không an toàn hoặc vượt giới hạn response.
+      headers:
+        X-Request-Id:
+          $ref: '#/components/headers/RequestId'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          examples:
+            invalidOutput:
+              dataValue:
+                type: /problems/invalid-render-output
+                title: Invalid renderer output
+                status: 502
+                code: INVALID_RENDER_OUTPUT
+                message: Renderer did not return a valid PNG signature.
+                requestId: req_01JABCXYZ
+                engine: mermaid
+            outputTooLarge:
+              dataValue:
+                type: /problems/render-output-too-large
+                title: Renderer output too large
+                status: 502
+                code: RENDER_OUTPUT_TOO_LARGE
+                message: Renderer output exceeded the configured response size limit.
+                requestId: req_01JABCXYZ
+                engine: graphviz
+    RendererUnavailable:
+      description: Kroki hoặc renderer worker cần thiết không khả dụng.
+      headers:
+        X-Request-Id:
+          $ref: '#/components/headers/RequestId'
+        Retry-After:
+          $ref: '#/components/headers/RetryAfter'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          examples:
+            unavailable:
+              dataValue:
+                type: /problems/renderer-unavailable
+                title: Renderer không khả dụng
+                status: 503
+                code: RENDERER_UNAVAILABLE
+                message: Mermaid renderer hiện không sẵn sàng.
+                requestId: req_01JABCXYZ
+                engine: mermaid
+                retryAfterSeconds: 5
+
+    ServiceNotReady:
+      description: Engine registry hoặc dependency discovery chưa sẵn sàng.
+      headers:
+        X-Request-Id:
+          $ref: '#/components/headers/RequestId'
+        Retry-After:
+          $ref: '#/components/headers/RetryAfter'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          examples:
+            notReady:
+              dataValue:
+                type: /problems/service-not-ready
+                title: Dịch vụ chưa sẵn sàng
+                status: 503
+                code: SERVICE_NOT_READY
+                message: Engine registry chưa sẵn sàng.
+                requestId: req_01JABCXYZ
+                retryAfterSeconds: 5
+
+    RenderTimeout:
+      description: Renderer không hoàn tất trước deadline.
+      headers:
+        X-Request-Id:
+          $ref: '#/components/headers/RequestId'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          examples:
+            timeout:
+              dataValue:
+                type: /problems/render-timeout
+                title: Render quá thời gian
+                status: 504
+                code: RENDER_TIMEOUT
+                message: Renderer không hoàn tất trong 15 giây.
+                requestId: req_01JABCXYZ
+                engine: graphviz
+
+    InternalError:
+      description: Lỗi nội bộ không phân loại; không trả stack trace.
+      headers:
+        X-Request-Id:
+          $ref: '#/components/headers/RequestId'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          examples:
+            internal:
+              dataValue:
+                type: /problems/internal-error
+                title: Lỗi nội bộ
+                status: 500
+                code: INTERNAL_ERROR
+                message: Không thể hoàn tất request. Hãy cung cấp requestId khi liên hệ vận hành.
+                requestId: req_01JABCXYZ
+
+    HealthReady:
+      description: Gateway và dependency thiết yếu sẵn sàng.
+      headers:
+        X-Request-Id:
+          $ref: '#/components/headers/RequestId'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HealthStatus'
+          examples:
+            ready:
+              summary: Tất cả renderer MVP sẵn sàng
+              dataValue:
+                status: up
+                service: diagram-gateway
+                version: 1.0.0
+                timestamp: '2026-07-22T05:00:00Z'
+                checks:
+                  - name: kroki-core
+                    status: up
+                    latencyMs: 12
+                  - name: mermaid
+                    status: up
+                    latencyMs: 85
+            degraded:
+              summary: Optional renderer gặp sự cố
+              dataValue:
+                status: degraded
+                service: diagram-gateway
+                version: 1.0.0
+                timestamp: '2026-07-22T05:00:00Z'
+                checks:
+                  - name: kroki-core
+                    status: up
+                    latencyMs: 11
+                  - name: optional-bpmn
+                    status: down
+                    detail: Connection refused
+
+    HealthNotReady:
+      description: Gateway chưa thể nhận render request.
+      headers:
+        X-Request-Id:
+          $ref: '#/components/headers/RequestId'
+        Retry-After:
+          $ref: '#/components/headers/RetryAfter'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HealthStatus'
+          examples:
+            krokiDown:
+              dataValue:
+                status: down
+                service: diagram-gateway
+                version: 1.0.0
+                timestamp: '2026-07-22T05:00:00Z'
+                checks:
+                  - name: kroki-core
+                    status: down
+                    detail: Connection refused

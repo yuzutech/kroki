@@ -25,6 +25,19 @@ endif::[]
 This section offers a basic tutorial for evaluating Kroki.
 More comprehensive installation instructions are in the {uri-kroki-docs}[Kroki documentation].
 
+== Diagram as Code product layer
+
+The repository also contains a self-hosted product layer in link:product/README.md[`product/`].
+It adds a TypeScript/Fastify Gateway, shared project contracts, a VS Code extension,
+a GitHub Action, and a Docker Compose topology in front of the Kroki rendering backend.
+
+Install and verify the product workspace independently:
+
+ $ npm ci --prefix product
+ $ npm run typecheck --prefix product
+ $ npm test --prefix product
+ $ npm run build --prefix product
+
 == Usage
 
 Kroki uses a simple algorithm (deflate + base64) to encode your diagram in the URL:

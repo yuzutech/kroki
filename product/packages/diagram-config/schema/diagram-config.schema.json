@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://diagram.example/schemas/diagram-config-v1.json",
+  "title": "Diagram as Code project configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "sources", "output"],
+  "properties": {
+    "version": { "const": 1 },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "allOf": [
+          { "not": { "pattern": "^(?:/|\\\\|[A-Za-z]:[\\\\/])" } },
+          { "not": { "pattern": "(^|[\\\\/])\\.\\.([\\\\/]|$)" } }
+        ]
+      }
+    },
+    "output": {
+      "type": "string",
+      "minLength": 1,
+      "allOf": [
+        { "not": { "pattern": "^(?:/|\\\\|[A-Za-z]:[\\\\/])" } },
+        { "not": { "pattern": "(^|[\\\\/])\\.\\.([\\\\/]|$)" } }
+      ]
+    },
+    "defaults": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "format": { "enum": ["svg", "png"], "default": "svg" },
+        "theme": { "type": "string", "minLength": 1, "maxLength": 64, "default": "default" }
+      }
+    },
+    "engines": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "mermaid": { "$ref": "#/$defs/engineConfig" },
+        "plantuml": { "$ref": "#/$defs/engineConfig" },
+        "c4plantuml": { "$ref": "#/$defs/engineConfig" },
+        "graphviz": { "$ref": "#/$defs/engineConfig" },
+        "d2": { "$ref": "#/$defs/engineConfig" }
+      }
+    },
+    "preview": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "debounceMs": { "type": "integer", "minimum": 200, "maximum": 2000, "default": 400 }
+      }
+    },
+    "render": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "onSave": { "type": "boolean", "default": false }
+      }
+    }
+  },
+  "$defs": {
+    "engineConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "format": { "enum": ["svg", "png"] },
+        "theme": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "options": {
+          "type": "object",
+          "additionalProperties": {
+            "type": ["string", "number", "boolean"]
+          },
+          "default": {}
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+name: Diagram check
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagrams:
+    name: Verify generated diagrams
+    runs-on: [self-hosted, Windows, X64, diagram-renderer]
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Check committed SVG files
+        uses: ./product/github-action
+        with:
+          gateway-url: ${{ vars.DIAGRAM_GATEWAY_URL }}
+          api-key: ${{ secrets.DIAGRAM_API_KEY }}
+          config-path: .diagram.yml
+          changed-only: "false"

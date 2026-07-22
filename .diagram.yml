@@ -1,0 +1,20 @@
+version: 1
+
+sources:
+  - docs/diagrams/**/*.mmd
+  - docs/diagrams/**/*.puml
+  - docs/diagrams/**/*.plantuml
+  - docs/diagrams/**/*.dot
+  - docs/diagrams/**/*.d2
+
+output: docs/generated
+
+defaults:
+  format: svg
+  theme: default
+
+preview:
+  debounceMs: 400
+
+render:
+  onSave: false
