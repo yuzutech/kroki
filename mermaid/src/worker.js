@@ -30,12 +30,46 @@ export class MaxTextSizeError extends Error {
   }
 }
 
+// Caps how many pages (and therefore Chromium renderer processes) may be open
+// at once. A single shared Chrome instance (see browser-instance.js) has no
+// built-in limit on concurrent pages: a burst of requests can spin up enough
+// renderer processes to exceed the container's memory/pids limits and crash
+// the browser launch itself (posix_spawn: Resource temporarily unavailable).
+// Requests beyond the cap simply wait their turn instead.
+class Semaphore {
+  constructor(max) {
+    this.max = max
+    this.count = 0
+    this.queue = []
+  }
+
+  async acquire() {
+    if (this.count < this.max) {
+      this.count++
+      return
+    }
+    return new Promise(resolve => this.queue.push(resolve))
+  }
+
+  release() {
+    const next = this.queue.shift()
+    if (next) {
+      next()
+    } else {
+      this.count--
+    }
+  }
+}
+
+const MAX_CONCURRENCY = Number(process.env.KROKI_MERMAID_MAX_CONCURRENCY) || 6
+
 export class Worker {
   constructor() {
     this.pageUrl =
       process.env.KROKI_MERMAID_PAGE_URL ||
       `file://${path.join(__dirname, '..', 'assets', 'index.html')}`
     this.convertTimeout = process.env.KROKI_MERMAID_CONVERT_TIMEOUT || '10000'
+    this.semaphore = new Semaphore(MAX_CONCURRENCY)
   }
 
   async convert(task, config) {
@@ -47,6 +81,7 @@ export class Worker {
     if (maxTextSize && task.source.length > maxTextSize) {
       throw new MaxTextSizeError(task.source.length, maxTextSize)
     }
+    await this.semaphore.acquire()
     const browser = await this._connect()
     const page = await newPage(browser)
     try {
@@ -82,6 +117,7 @@ export class Worker {
       } catch (err) {
         logger.warn({ err }, 'Unable to disconnect from the browser')
       }
+      this.semaphore.release()
     }
   }
 
