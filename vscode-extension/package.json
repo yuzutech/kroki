@@ -1,28 +1,43 @@
 {
   "name": "code-to-uml",
   "displayName": "Code To UML",
-  "description": "Live diagram preview with browser login or API key authentication",
-  "version": "0.1.0",
+  "description": "Live preview, render-on-save and export through a local or hosted Code To UML service",
+  "version": "0.5.1",
   "publisher": "code-to-uml",
   "engines": { "vscode": "^1.95.0" },
   "categories": ["Visualization", "Other"],
-  "activationEvents": ["onCommand:codeToUml.login", "onCommand:codeToUml.apiKey", "onCommand:codeToUml.preview"],
+  "activationEvents": ["onStartupFinished", "onView:codeToUml.sidebar", "onCommand:codeToUml.apiKey", "onCommand:codeToUml.clearKey", "onCommand:codeToUml.preview", "onCommand:codeToUml.export"],
   "main": "extension.js",
   "contributes": {
+    "markdown.markdownItPlugins": true,
+    "viewsContainers": {
+      "activitybar": [
+        { "id": "codeToUml", "title": "Code To UML", "icon": "media/code-to-uml.svg" }
+      ]
+    },
+    "views": {
+      "codeToUml": [
+        { "id": "codeToUml.sidebar", "name": "Code To UML", "type": "webview" }
+      ]
+    },
     "commands": [
-      { "command": "codeToUml.login", "title": "Code To UML: Sign in with Browser" },
       { "command": "codeToUml.apiKey", "title": "Code To UML: Set API Key" },
-      { "command": "codeToUml.logout", "title": "Code To UML: Sign Out" },
-      { "command": "codeToUml.preview", "title": "Code To UML: Preview Current Diagram" }
+      { "command": "codeToUml.clearKey", "title": "Code To UML: Clear API Key" },
+      { "command": "codeToUml.preview", "title": "Code To UML: Open Live Preview" },
+      { "command": "codeToUml.export", "title": "Code To UML: Export Diagram" }
     ],
     "configuration": {
       "title": "Code To UML",
       "properties": {
         "codeToUml.serverUrl": { "type": "string", "default": "http://localhost:8000", "description": "Code To UML server URL" },
-        "codeToUml.defaultEngine": { "type": "string", "default": "plantuml", "description": "Default renderer engine" }
+        "codeToUml.defaultEngine": { "type": "string", "default": "plantuml", "enum": ["plantuml", "c4plantuml", "ditaa", "blockdiag", "seqdiag", "actdiag", "nwdiag", "packetdiag", "rackdiag", "umlet", "graphviz", "erd", "svgbob", "symbolator", "nomnoml", "mermaid", "vega", "vegalite", "wavedrom", "bpmn", "bytefield", "excalidraw", "pikchr", "structurizr", "diagramsnet", "d2", "tikz", "dbml", "wireviz", "goat"], "description": "Renderer used when the file extension cannot identify an engine" },
+        "codeToUml.livePreview": { "type": "boolean", "default": true, "description": "Update an open preview while typing" },
+        "codeToUml.renderOnSave": { "type": "boolean", "default": true, "description": "Render the preview immediately when its source file is saved" },
+        "codeToUml.followActiveEditor": { "type": "boolean", "default": true, "description": "Make the preview follow the active editor" },
+        "codeToUml.previewDelay": { "type": "number", "default": 350, "minimum": 100, "maximum": 3000, "description": "Live preview debounce in milliseconds" }
       }
     }
   },
-  "scripts": { "package": "npx @vscode/vsce package" },
+  "scripts": { "test": "node test-renderers.js", "package": "npx @vscode/vsce package" },
   "devDependencies": { "@vscode/vsce": "^3.6.2" }
 }

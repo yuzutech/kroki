@@ -84,8 +84,8 @@ async function identify(req) {
   const auth = req.headers.authorization || ''
   const bearer = auth.startsWith('Bearer ') ? auth.slice(7) : null
   if (bearer?.startsWith('ctu_')) {
-    const q = await pool.query(`UPDATE api_keys SET last_used_at=now() WHERE secret_hash=$1 AND (expires_at IS NULL OR expires_at>now()) RETURNING user_id`, [sha(bearer)])
-    if (q.rows[0]) return { id: q.rows[0].user_id, method: 'api_key' }
+    const q = await pool.query(`UPDATE api_keys k SET last_used_at=now() FROM users u WHERE k.secret_hash=$1 AND (k.expires_at IS NULL OR k.expires_at>now()) AND u.id=k.user_id RETURNING u.id,u.email,u.display_name`, [sha(bearer)])
+    if (q.rows[0]) return { ...q.rows[0], method: 'api_key' }
   }
   const token = cookies(req).ctu_session || (bearer?.startsWith('ctu_access_') ? bearer : null)
   if (token) {
@@ -137,7 +137,7 @@ app.post('/api/auth/device/token', async(req,res,next)=>{ try {
 app.get('/activate', (req,res)=>res.type('html').send(`<!doctype html><meta charset="utf-8"><title>Connect Code To UML</title><style>body{font:16px system-ui;background:#080d18;color:#edf4ff;display:grid;place-items:center;height:100vh;margin:0}.c{width:360px;background:#111b2d;padding:28px;border:1px solid #26344d;border-radius:14px}input,button{width:100%;padding:12px;margin-top:10px;box-sizing:border-box}button{background:#5366df;color:white;border:0;border-radius:7px}</style><form class="c" id="f"><h2>Connect your extension</h2><p>Approve the code shown by VS Code.</p><input id="code" value="${String(req.query.code||'').replace(/[^A-F0-9]/g,'')}" placeholder="Device code" required><button>Approve device</button><p id="m"></p></form><script>f.onsubmit=async e=>{e.preventDefault();let r=await fetch('/api/auth/device/approve',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({user_code:code.value})});m.textContent=r.ok?'Device connected. You may close this tab.':(r.status===401?'Please log in on the playground first.':'Invalid or expired code.')}</script>`))
 
 app.get('/api/keys',requireUser,async(req,res,next)=>{try{const q=await pool.query(`SELECT id,name,key_prefix,last_used_at,expires_at,created_at FROM api_keys WHERE user_id=$1 ORDER BY created_at DESC`,[req.identity.id]);res.json(q.rows)}catch(e){next(e)}})
-app.post('/api/keys',requireUser,async(req,res,next)=>{try{const secret=random('ctu_',32),id=crypto.randomUUID(),name=String(req.body.name||'API key').slice(0,80);await pool.query(`INSERT INTO api_keys(id,user_id,name,key_prefix,secret_hash) VALUES($1,$2,$3,$4,$5)`,[id,req.identity.id,name,secret.slice(0,12),sha(secret)]);res.status(201).json({id,name,key:secret,warning:'Copy this key now. It will not be shown again.'})}catch(e){next(e)}})
+app.post('/api/keys',requireUser,async(req,res,next)=>{const client=await pool.connect();try{const secret=random('ctu_',32),id=crypto.randomUUID(),name=String(req.body.name||'API key').slice(0,80);await client.query('BEGIN');await client.query(`DELETE FROM api_keys WHERE user_id=$1`,[req.identity.id]);await client.query(`INSERT INTO api_keys(id,user_id,name,key_prefix,secret_hash) VALUES($1,$2,$3,$4,$5)`,[id,req.identity.id,name,secret.slice(0,12),sha(secret)]);await client.query('COMMIT');res.status(201).json({id,name,key:secret,replaced_previous_keys:true,warning:'Copy this key now. It will not be shown again.'})}catch(e){await client.query('ROLLBACK');next(e)}finally{client.release()}})
 app.delete('/api/keys/:id',requireUser,async(req,res,next)=>{try{await pool.query(`DELETE FROM api_keys WHERE id=$1 AND user_id=$2`,[req.params.id,req.identity.id]);res.status(204).end()}catch(e){next(e)}})
 
 app.get('/api/diagrams',requireUser,async(req,res,next)=>{try{const q=await pool.query(`SELECT id,name,engine,options,is_public,created_at,updated_at FROM diagrams WHERE user_id=$1 ORDER BY updated_at DESC`,[req.identity.id]);res.json(q.rows)}catch(e){next(e)}})
@@ -154,7 +154,7 @@ app.post('/api/diagrams/:id/share',requireUser,async(req,res,next)=>{try{
 }catch(e){next(e)}})
 app.get('/api/diagrams/:id/shares',requireUser,async(req,res,next)=>{try{const q=await pool.query(`SELECT s.id,s.permission,s.expires_at,s.created_at FROM share_links s JOIN diagrams d ON d.id=s.diagram_id WHERE d.id=$1 AND d.user_id=$2 AND s.revoked_at IS NULL ORDER BY s.created_at DESC`,[req.params.id,req.identity.id]);res.json(q.rows)}catch(e){next(e)}})
 app.delete('/api/diagrams/:diagramId/shares/:shareId',requireUser,async(req,res,next)=>{try{await pool.query(`UPDATE share_links s SET revoked_at=now() FROM diagrams d WHERE s.id=$1 AND s.diagram_id=d.id AND d.id=$2 AND d.user_id=$3`,[req.params.shareId,req.params.diagramId,req.identity.id]);res.status(204).end()}catch(e){next(e)}})
-app.get('/api/shared/:token',async(req,res,next)=>{try{const q=await pool.query(`SELECT d.id,d.name,d.engine,s.permission,s.expires_at FROM share_links s JOIN diagrams d ON d.id=s.diagram_id WHERE s.token_hash=$1 AND s.revoked_at IS NULL AND (s.expires_at IS NULL OR s.expires_at>now())`,[sha(req.params.token)]);q.rows[0]?res.json(q.rows[0]):jsonError(res,404,'Share link is invalid or expired')}catch(e){next(e)}})
+app.get('/api/shared/:token',async(req,res,next)=>{try{const q=await pool.query(`SELECT d.id,d.name,d.engine,d.options,s.permission,s.expires_at FROM share_links s JOIN diagrams d ON d.id=s.diagram_id WHERE s.token_hash=$1 AND s.revoked_at IS NULL AND (s.expires_at IS NULL OR s.expires_at>now())`,[sha(req.params.token)]);q.rows[0]?res.json(q.rows[0]):jsonError(res,404,'Share link is invalid or expired')}catch(e){next(e)}})
 
 function rateLimit(req,res,next){const key=req.identity?.id||req.ip,limit=req.identity?userLimit:guestLimit,minute=Math.floor(Date.now()/60000),id=`${key}:${minute}`,count=(buckets.get(id)||0)+1;buckets.set(id,count);res.set('X-RateLimit-Limit',String(limit));res.set('X-RateLimit-Remaining',String(Math.max(0,limit-count)));if(count>limit)return jsonError(res,429,'Rate limit exceeded');next()}
 const renderPath=/^\/(plantuml|c4plantuml|mermaid|graphviz|dot|d2|structurizr|blockdiag|seqdiag|actdiag|nwdiag|packetdiag|rackdiag|bpmn|dbml|diagramsnet|ditaa|erd|excalidraw|goat|nomnoml|pikchr|svgbob|symbolator|umlet|vega|vegalite|wavedrom|bytefield|wireviz|tikz)\/(svg|png|pdf|jpeg|txt)$/
@@ -170,4 +170,41 @@ app.use(async(req,res,next)=>{try{const upstream=await fetch(core+req.originalUr
 app.use((err,_req,res,_next)=>{console.error(err);jsonError(res,500,'Internal server error')})
 
 await migrate()
-app.listen(port,'0.0.0.0',()=>console.log(`Code To UML gateway listening on ${port}`))
+const server=http.createServer(app)
+const wss=new WebSocketServer({noServer:true,maxPayload:1024*1024})
+
+const encode=bytes=>Buffer.from(bytes).toString('base64')
+const decode=value=>new Uint8Array(Buffer.from(value,'base64'))
+async function authorizeCollaboration(req,diagramId,shareToken){
+  const identity=await identify(req)
+  if(identity){const q=await pool.query(`SELECT id,name,engine,source,user_id FROM diagrams WHERE id=$1`,[diagramId]);if(q.rows[0]&&q.rows[0].user_id===identity.id)return{diagram:q.rows[0],permission:'owner',identity}}
+  if(shareToken){const q=await pool.query(`SELECT d.id,d.name,d.engine,d.source,d.user_id,s.permission FROM share_links s JOIN diagrams d ON d.id=s.diagram_id WHERE d.id=$1 AND s.token_hash=$2 AND s.revoked_at IS NULL AND (s.expires_at IS NULL OR s.expires_at>now())`,[diagramId,sha(shareToken)]);if(q.rows[0])return{diagram:q.rows[0],permission:q.rows[0].permission,identity:null}}
+  return null
+}
+async function getCollaborativeDoc(diagram){
+  if(collaborativeDocs.has(diagram.id))return collaborativeDocs.get(diagram.id)
+  const doc=new Y.Doc(),text=doc.getText('source');text.insert(0,diagram.source||'')
+  const room={doc,text,clients:new Set(),diagram,persistTimer:null,evictionTimer:null}
+  doc.on('update',(update,origin)=>{
+    for(const client of room.clients)if(client!==origin&&client.readyState===1)client.send(JSON.stringify({type:'update',update:encode(update)}))
+    clearTimeout(room.persistTimer);room.persistTimer=setTimeout(async()=>{try{const source=text.toString();await pool.query(`UPDATE diagrams SET source=$1,updated_at=now() WHERE id=$2`,[source,diagram.id]);await pool.query(`INSERT INTO diagram_versions(diagram_id,source,options) VALUES($1,$2,'{}')`,[diagram.id,source])}catch(error){console.error('collaboration persistence failed',error)}},1200)
+  })
+  collaborativeDocs.set(diagram.id,room);return room
+}
+function broadcastPresence(room){const users=[...room.clients].map(client=>({id:client.clientId,name:client.displayName,permission:client.permission}));const payload=JSON.stringify({type:'presence',users});for(const client of room.clients)if(client.readyState===1)client.send(payload)}
+
+server.on('upgrade',async(req,socket,head)=>{try{
+  const url=new URL(req.url,publicUrl),match=url.pathname.match(/^\/ws\/diagrams\/([0-9a-f-]{36})$/i);if(!match){socket.destroy();return}
+  const access=await authorizeCollaboration(req,match[1],url.searchParams.get('share'));if(!access){socket.write('HTTP/1.1 403 Forbidden\r\n\r\n');socket.destroy();return}
+  wss.handleUpgrade(req,socket,head,ws=>{ws.access=access;wss.emit('connection',ws,req)})
+}catch(error){console.error(error);socket.destroy()}})
+
+wss.on('connection',async ws=>{
+  const {diagram,permission,identity}=ws.access,room=await getCollaborativeDoc(diagram)
+  clearTimeout(room.evictionTimer);room.clients.add(ws);ws.permission=permission;ws.clientId=crypto.randomUUID();ws.displayName=identity?.display_name||`Guest ${ws.clientId.slice(0,4)}`
+  ws.send(JSON.stringify({type:'sync',update:encode(Y.encodeStateAsUpdate(room.doc)),metadata:{id:diagram.id,name:diagram.name,engine:diagram.engine,permission}}));broadcastPresence(room)
+  ws.on('message',data=>{try{const message=JSON.parse(data.toString());if(message.type==='update'&&permission!=='view'&&typeof message.update==='string')Y.applyUpdate(room.doc,decode(message.update),ws)}catch(error){console.error('invalid collaboration message',error)}})
+  ws.on('close',()=>{room.clients.delete(ws);broadcastPresence(room);if(room.clients.size===0)room.evictionTimer=setTimeout(()=>{if(room.clients.size===0){room.doc.destroy();collaborativeDocs.delete(diagram.id)}},60000)})
+})
+
+server.listen(port,'0.0.0.0',()=>console.log(`Code To UML gateway listening on ${port}`))

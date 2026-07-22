@@ -13,7 +13,8 @@ Code To UML được phát triển từ source Kroki, với mục tiêu biến r
 - API Gateway làm điểm truy cập duy nhất.
 - Rate limit, cache và phân tách renderer trong Docker network.
 - GitHub Action để render diagram trong pipeline.
-- VS Code extension có browser login, API key login và preview.
+- VS Code extension có auto-detect engine, live preview, render-on-save, export và API key tùy chọn cho hosted service.
+- Realtime collaborative editing bằng Yjs CRDT và WebSocket.
 
 Địa chỉ mặc định khi chạy local:
 
@@ -153,9 +154,9 @@ Chỉ API Gateway được publish ra host qua cổng `8000`. PostgreSQL, Kroki 
 
 - `action.yml`: GitHub Composite Action.
 - `vscode-extension/package.json`: manifest extension.
-- `vscode-extension/extension.js`: device login, API key và preview.
+- `vscode-extension/extension.js`: auto-detect engine, API key, live preview, render-on-save và export.
 - `vscode-extension/README.md`.
-- `vscode-extension/code-to-uml-0.1.0.vsix`: extension đã đóng gói.
+- `vscode-extension/code-to-uml-0.5.1.vsix`: extension đã đóng gói.
 
 ### Kiểm thử và tài liệu
 
@@ -292,6 +293,31 @@ Lưu web session và extension access token:
 
 Lưu lịch sử source và options mỗi lần diagram được cập nhật.
 
+### `share_links`
+
+- Token chia sẻ chỉ được lưu dưới dạng SHA-256 hash.
+- Quyền `view` hoặc `edit`.
+- Có thời hạn và có thể thu hồi.
+- Liên kết với diagram và user tạo link.
+
+## Realtime collaboration
+
+Owner nhấn **Share** trong editor để tạo link có quyền xem hoặc chỉnh sửa. Người nhận mở link sẽ tham gia WebSocket room của diagram mà không cần tài khoản.
+
+Source được đồng bộ bằng Yjs CRDT, vì vậy thao tác đồng thời được merge thay vì áp dụng theo kiểu last-write-wins. Gateway giữ Y.Doc theo room, broadcast binary updates, hiển thị presence/online count, debounce lưu source vào PostgreSQL và tạo `diagram_versions` snapshot. Room được giải phóng sau khi client cuối cùng rời đi.
+
+```text
+Owner/Guest editors
+        │ Yjs updates
+        ▼
+WebSocket /ws/diagrams/{diagramId}
+        │
+        ├── CRDT merge + presence broadcast
+        └── Debounced persistence
+                    ▼
+            diagrams + diagram_versions
+```
+
 ### `render_cache`
 
 - `cache_key`.
@@ -348,7 +374,8 @@ User đăng nhập
   ▼
 Gateway tạo: ctu_<random secret>
   │
-  ├── Trả raw key đúng một lần
+  ├── Thu hồi toàn bộ key cũ của tài khoản trong cùng transaction
+  ├── Trả raw key mới đúng một lần
   └── Chỉ lưu SHA-256 key trong PostgreSQL
 ```
 
@@ -358,9 +385,11 @@ Client sử dụng:
 Authorization: Bearer ctu_xxxxxxxxx
 ```
 
-Mỗi lần key hợp lệ được dùng, `last_used_at` được cập nhật.
+Mỗi lần key hợp lệ được dùng, `last_used_at` được cập nhật. Extension gọi
+`/api/auth/me` mỗi 3 giây; khi key bị thu hồi hoặc hết hạn, key bị xóa khỏi
+SecretStorage và sidebar trở về Local mode.
 
-## 10. Device authorization flow cho VS Code
+## 10. Device authorization API (không dùng trong extension hiện tại)
 
 Luồng này cho trải nghiệm tương tự CLI/extension của các công cụ AI:
 
@@ -518,10 +547,10 @@ Không commit API key vào repository. Luôn sử dụng GitHub Actions Secrets.
 Các command:
 
 ```text
-Code To UML: Sign in with Browser
 Code To UML: Set API Key
-Code To UML: Preview Current Diagram
-Code To UML: Sign Out
+Code To UML: Clear API Key
+Code To UML: Open Live Preview
+Code To UML: Export Diagram
 ```
 
 Cấu hình:
@@ -529,22 +558,25 @@ Cấu hình:
 ```json
 {
   "codeToUml.serverUrl": "http://localhost:8000",
-  "codeToUml.defaultEngine": "plantuml"
+  "codeToUml.defaultEngine": "plantuml",
+  "codeToUml.livePreview": true,
+  "codeToUml.renderOnSave": true,
+  "codeToUml.followActiveEditor": true
 }
 ```
 
-Extension không lưu secret trong `settings.json`. Access token hoặc API key được lưu trong VS Code SecretStorage.
+Local service không yêu cầu login. API key tùy chọn cho hosted service được lưu trong VS Code SecretStorage, không nằm trong `settings.json`.
 
 File VSIX hiện tại:
 
 ```text
-vscode-extension/code-to-uml-0.1.0.vsix
+vscode-extension/code-to-uml-0.5.1.vsix
 ```
 
 Cài local:
 
 ```powershell
-code --install-extension D:\kroki-update\vscode-extension\code-to-uml-0.1.0.vsix
+code --install-extension D:\kroki-update\vscode-extension\code-to-uml-0.5.1.vsix --force
 ```
 
 ## 16. Docker Compose services
@@ -725,9 +757,6 @@ Phiên bản hiện tại là nền tảng/MVP đầy đủ để phát triển 
 ## 23. Hướng phát triển tiếp theo
 
 - Monaco Editor và syntax highlighting theo engine.
-- Auto-detect engine theo file extension.
-- Auto preview khi VS Code document thay đổi.
-- Sidebar quản lý diagram trong extension.
 - OAuth Google/GitHub.
 - Team/workspace và role Owner/Admin/Member/Viewer.
 - Public/private sharing link.
@@ -744,6 +773,82 @@ Phiên bản hiện tại là nền tảng/MVP đầy đủ để phát triển 
 ## 24. Tóm tắt trạng thái bàn giao
 
 Hệ thống hiện có thể chạy local hoàn toàn bằng Docker, cung cấp toàn bộ renderer Kroki qua một gateway duy nhất, lưu dữ liệu bằng PostgreSQL, hỗ trợ web login, API key, device login cho VS Code, lưu diagram/version, cache render, rate limit, GitHub Action và extension đã đóng gói.
+
+## 25. Các cập nhật UI và collaboration mới nhất
+
+### Dashboard screen
+
+- Dashboard là một screen riêng, không phải popup.
+- Dark theme đồng bộ với editor và sidebar cố định.
+- Sidebar chỉ giữ navigation Dashboard và account/username ở cuối.
+- Banner hiển thị số diagram đã lưu.
+- Recent files hiển thị dạng card có preview SVG, tên, engine và ngày cập nhật.
+- Chọn card sẽ mở lại diagram trong editor.
+- Nút New diagram reset diagram ID, tên và collaboration room.
+
+### Inline diagram name
+
+- Tên diagram là input trực tiếp trên editor toolbar.
+- Diagram mới có tên mặc định `Untitled diagram`.
+- Save lần đầu tạo record mới.
+- Save những lần sau cập nhật record hiện tại thay vì tạo bản trùng.
+- Đổi tên rồi nhấn Enter hoặc blur sẽ lưu tên vào PostgreSQL.
+- Khi mở diagram từ Dashboard, ID, tên, engine và source được khôi phục vào editor.
+
+### Preview zoom và pan
+
+- Wheel up/down để zoom in/out.
+- Pinch touchpad được xử lý qua wheel gesture của trình duyệt.
+- Zoom lấy vị trí con trỏ làm tâm.
+- Giữ chuột trái để kéo/pan diagram.
+- Cursor chuyển giữa grab và grabbing.
+- Giới hạn zoom từ 20% đến 800%.
+- Hiển thị phần trăm zoom.
+- Nút Fit và double-click reset về 100%, căn giữa.
+- Diagram mới render tự reset viewport.
+
+### Share link và quyền truy cập
+
+- Owner tạo share link trực tiếp từ editor.
+- Hai quyền: `view` và `edit`.
+- Link mặc định hết hạn sau 30 ngày.
+- Raw share token chỉ có trong URL; PostgreSQL chỉ lưu SHA-256 hash.
+- Link hết hạn hoặc bị revoke không thể kết nối API/WebSocket.
+- Guest có link edit không bắt buộc đăng ký tài khoản.
+- Guest có link view nhận realtime updates nhưng textarea ở trạng thái read-only.
+
+### Yjs CRDT collaboration
+
+- Browser client bundle được tạo bằng esbuild tại `/assets/collab-client.js`.
+- Mỗi diagram sử dụng một Y.Doc và Y.Text `source`.
+- WebSocket endpoint: `/ws/diagrams/{diagramId}`.
+- Owner authenticate bằng session; guest authenticate bằng share token.
+- Yjs binary update được truyền dưới dạng Base64 JSON message.
+- Concurrent edits được CRDT merge, không dùng last-write-wins.
+- Online presence hiển thị số client trong room.
+- Source được debounce lưu sau 1,2 giây.
+- Mỗi persistence tạo một `diagram_versions` snapshot.
+- Room được giữ thêm 60 giây sau khi người cuối rời đi rồi mới giải phóng.
+
+### Kiểm thử collaboration
+
+Đã mô phỏng hai WebSocket client độc lập:
+
+1. Owner tạo diagram.
+2. Owner tạo edit share link.
+3. Owner và guest cùng kết nối một room.
+4. Owner chèn nội dung ở đầu document.
+5. Guest chèn nội dung ở cuối document.
+6. Hai Y.Doc hội tụ về cùng source.
+7. Source cuối cùng được kiểm tra lại từ PostgreSQL.
+
+Kết quả:
+
+```text
+clientsConverged: true
+persisted: true
+sharePermission: edit
+```
 
 Lệnh khởi động chính:
 

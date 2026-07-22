@@ -21,14 +21,6 @@ Authorization: Bearer ctu_...
 
 API keys and session/access tokens are stored as SHA-256 hashes. Passwords are salted and hashed with scrypt. API keys are shown only once.
 
-VS Code browser login flow:
-
-1. Extension calls `POST /api/auth/device/start`.
-2. It opens the returned `verification_uri_complete` in the browser.
-3. The signed-in user approves the code.
-4. Extension polls `POST /api/auth/device/token`.
-5. The resulting token is stored using VS Code SecretStorage.
-
 ## GitHub Action
 
 Create an API key in Account, save it as the repository secret `CODE_TO_UML_API_KEY`, then use:
@@ -50,10 +42,12 @@ Create an API key in Account, save it as the repository secret `CODE_TO_UML_API_
 cd vscode-extension
 npm install
 npm run package
-code --install-extension .\code-to-uml-0.1.0.vsix
+code --install-extension .\code-to-uml-0.5.1.vsix --force
 ```
 
-Set `codeToUml.serverUrl`, then run **Code To UML: Sign in with Browser** or **Code To UML: Set API Key** from the Command Palette.
+Set `codeToUml.serverUrl` to a local or hosted service. Use **Code To UML: Open Live Preview** for render-on-change/render-on-save and **Code To UML: Export Diagram** for SVG, PNG or PDF. Authentication remains available for protected services.
+
+Markdown files support multiple fenced diagrams. `Ctrl+Shift+V` renders supported fences in VS Code's built-in Markdown Preview. Export offers each named diagram separately and an **All diagrams** option that combines every valid diagram into one SVG while skipping and reporting invalid blocks.
 
 ## Operations
 

@@ -1,0 +1,15 @@
+@startuml
+skinparam backgroundColor transparent
+skinparam shadowing false
+skinparam sequence {
+  
+}
+
+activate App
+App -> API: POST /plantuml/svg
+activate API
+API --> App: SVG diagram
+deactivate API
+App --> User: Live preview
+deactivate App
+@enduml

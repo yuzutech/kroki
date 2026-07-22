@@ -92,6 +92,10 @@
     #diagram { display: block; max-width: calc(100% - 48px); max-height: calc(100% - 48px); transform-origin:center center; will-change:transform; pointer-events:none; -webkit-user-drag:none; filter: drop-shadow(0 10px 22px rgba(15,23,42,.13)); }
     .preview-tool { height:26px; padding:0 8px; color:var(--muted); border:1px solid var(--line); border-radius:6px; background:#0e1829; cursor:pointer; font-size:11px; }
     .preview-tool:hover { color:var(--text); border-color:#425574; }
+    .presence { display:inline-flex; align-items:center; gap:6px; color:var(--muted); font-size:11px; }
+    .presence-dot { width:7px; height:7px; border-radius:50%; background:var(--green); box-shadow:0 0 7px var(--green); }
+    .share-box { display:flex; gap:8px; margin-top:12px; }
+    .share-box input { flex:1; min-width:0; }
     .empty { color: #64748b; text-align: center; max-width: 320px; line-height: 1.6; }
     .empty b { display: block; color: #334155; font-size: 17px; margin-bottom: 5px; }
     .error-card { display: none; margin: 24px; padding: 16px; align-self: start; justify-self: stretch; color: #8b1e35; background: #fff1f3; border: 1px solid #fecdd6; border-radius: 10px; white-space: pre-wrap; font: 12px/1.55 Consolas, monospace; }
@@ -126,43 +130,39 @@
     .account-card { padding:8px 0; }
     .account-avatar { width:58px; height:58px; display:grid; place-items:center; border-radius:16px; background:linear-gradient(135deg,#256f9d,#585bd7); font-size:23px; font-weight:800; margin-bottom:16px; }
     .key-box { margin-top:18px; padding:13px; border:1px dashed #3d526f; border-radius:9px; background:#091220; white-space:pre-wrap; color:var(--green); user-select:all; overflow-wrap:anywhere; }
-    .saved-screen { position:fixed; inset:0; z-index:20; display:grid; grid-template-columns:280px 1fr; grid-template-rows:72px 1fr; overflow:hidden; color:#17152e; background:#fbfcfe; }
-    .dash-sidebar { grid-row:1/-1; display:flex; flex-direction:column; padding:0 15px 17px; border-right:1px solid #e7e9f0; background:white; }
-    .dash-brand { height:72px; display:flex; align-items:center; gap:11px; padding:0 10px; color:#17203b; font-weight:800; font-size:18px; }
-    .dash-logo { width:35px; height:35px; display:grid; place-items:center; border-radius:10px; color:white; background:linear-gradient(135deg,#5366df,#18a4c7); }
-    .dash-section-label { margin:17px 11px 9px; color:#8a88aa; font-size:12px; }
-    .dash-nav { display:flex; align-items:center; gap:12px; height:44px; padding:0 13px; border:0; border-radius:22px; color:#24223d; background:transparent; font-weight:600; cursor:pointer; text-align:left; }
-    .dash-nav:hover,.dash-nav.active { background:#e8f2f4; }
+    .saved-screen { position:fixed; inset:0; z-index:20; display:grid; grid-template-columns:250px 1fr; grid-template-rows:72px 1fr; overflow:hidden; color:var(--text); background:#080d18; }
+    .dash-sidebar { grid-row:1/-1; display:flex; flex-direction:column; padding:18px 14px 17px; border-right:1px solid var(--line); background:#0b1220; }
+    .dash-nav { display:flex; align-items:center; gap:12px; height:46px; padding:0 14px; border:1px solid transparent; border-radius:10px; color:#aebdd2; background:transparent; font-weight:650; cursor:pointer; text-align:left; }
+    .dash-nav:hover,.dash-nav.active { color:var(--text); border-color:#31435f; background:#16243a; }
     .dash-nav-icon { width:22px; text-align:center; font-size:17px; }
-    .favorite-box { margin:6px 10px 20px; padding:19px 14px; border:1px solid #e2e4ed; border-radius:11px; color:#706e90; text-align:center; font-size:12px; line-height:1.5; }
-    .dash-account { margin-top:auto; display:flex; align-items:center; gap:11px; padding:10px; border-radius:12px; cursor:pointer; }
-    .dash-account:hover { background:#f2f5f8; }
-    .dash-avatar { width:40px; height:40px; display:grid; place-items:center; flex:none; border-radius:50%; color:white; background:#1496a8; font-weight:700; }
+    .dash-account { margin-top:auto; display:flex; align-items:center; gap:11px; padding:10px; border:1px solid transparent; border-radius:12px; cursor:pointer; }
+    .dash-account:hover { border-color:#31435f; background:#111d30; }
+    .dash-avatar { width:40px; height:40px; display:grid; place-items:center; flex:none; border-radius:50%; color:#06111a; background:linear-gradient(135deg,var(--cyan),var(--green)); font-weight:800; }
     .dash-account-name { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-weight:700; font-size:13px; }
-    .dash-plan { color:#8b89a2; font-size:11px; margin-top:3px; }
-    .dash-topbar { grid-column:2; display:flex; align-items:center; padding:0 26px; border-bottom:1px solid #e7e9f0; background:white; }
+    .dash-plan { color:var(--muted); font-size:11px; margin-top:3px; }
+    .dash-topbar { grid-column:2; display:flex; align-items:center; padding:0 26px; border-bottom:1px solid var(--line); background:#0d1626; }
     .dash-topbar strong { font-size:14px; }
-    .dash-topbar .button { margin-left:auto; color:#3d3a55; border-color:#dfe2ea; background:white; }
-    .dash-main { grid-column:2; overflow:auto; padding:20px 22px 50px; }
-    .dash-banner { min-height:62px; display:flex; align-items:center; gap:20px; padding:14px 20px; border-radius:18px; color:white; background:linear-gradient(100deg,#282442,#333052); }
+    .dash-topbar .button { margin-left:auto; color:var(--text); border-color:var(--line); background:#111b2d; }
+    .dash-main { grid-column:2; overflow:auto; padding:20px 28px 50px; background:radial-gradient(circle at 90% 0%,rgba(65,217,255,.06),transparent 30rem),#080d18; }
+    .dash-banner { min-height:62px; display:flex; align-items:center; gap:20px; padding:14px 20px; border:1px solid #2d3b58; border-radius:14px; color:white; background:linear-gradient(100deg,#17243a,#202d49); }
     .dash-banner strong { font-size:15px; }
     .dash-banner span { margin-left:auto; color:#77def5; font-size:13px; }
     .dash-progress { width:78px; height:8px; border-radius:8px; background:#17152c; overflow:hidden; }
     .dash-progress::after { content:""; display:block; height:100%; width:35%; border-radius:inherit; background:linear-gradient(90deg,#5366df,#41d9ff); }
     .dash-actions { margin:19px 0 35px; display:flex; align-items:center; gap:10px; }
-    .dash-new { min-width:190px; height:52px; justify-content:center; color:white; border:0; border-radius:10px; background:#242139; font-weight:700; }
-    .dash-new:hover { background:#35314f; }
-    .recent-title { margin:0 0 20px; color:#8583a2; font-size:13px; font-weight:600; }
+    .dash-new { min-width:190px; height:48px; justify-content:center; color:white; border:1px solid #3d5274; border-radius:10px; background:#182842; font-weight:700; }
+    .dash-new:hover { background:#203454; }
+    .recent-title { margin:0 0 20px; color:#9caec7; font-size:13px; font-weight:600; }
     .diagram-gallery { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,300px)); gap:20px; min-height:260px; align-items:start; }
-    .diagram-card { padding:0; overflow:hidden; text-align:left; cursor:pointer; color:#191731; background:white; border:1px solid #e0e8ec; border-radius:18px; transition:transform .18s,border-color .18s,box-shadow .18s; }
-    .diagram-card:hover { transform:translateY(-3px); border-color:#bfcfd8; box-shadow:0 14px 34px #2c3f5618; }
-    .diagram-thumb { height:210px; display:grid; place-items:center; background:#fff; overflow:hidden; }
+    .diagram-card { padding:0; overflow:hidden; text-align:left; cursor:pointer; color:var(--text); background:#111b2d; border:1px solid #263750; border-radius:14px; transition:transform .18s,border-color .18s,box-shadow .18s; }
+    .diagram-card:hover { transform:translateY(-3px); border-color:#49617f; box-shadow:0 16px 38px #0007; }
+    .diagram-thumb { height:210px; display:grid; place-items:center; background:#f8fafc; overflow:hidden; }
     .diagram-thumb img { max-width:90%; max-height:145px; }
     .diagram-thumb .thumb-state { color:#64748b; font-size:12px; padding:18px; text-align:center; }
-    .diagram-meta { padding:15px 17px 17px; background:#f1f8f9; }
+    .diagram-meta { padding:15px 17px 17px; background:#111b2d; border-top:1px solid #263750; }
     .diagram-name { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-weight:700; margin-bottom:7px; }
     .diagram-detail { display:flex; align-items:center; gap:8px; color:var(--muted); font-size:11px; }
-    .engine-badge { color:#287a8d; background:#e0f0f3; border:1px solid #cae6eb; border-radius:5px; padding:2px 6px; }
+    .engine-badge { color:#73def5; background:#123047; border:1px solid #20506c; border-radius:5px; padding:2px 6px; }
     .gallery-empty { grid-column:1/-1; align-self:center; text-align:center; color:var(--muted); }
     @media (max-width: 780px) {
       body { overflow: auto; }
@@ -177,11 +177,10 @@
       .auth-shell { grid-template-columns:1fr; }
       .auth-visual { display:none; }
       .auth-form { padding:28px 22px; }
-      .saved-screen { grid-template-columns:72px 1fr; }
+      .saved-screen { grid-template-columns:180px 1fr; }
       .dash-sidebar { padding-inline:9px; }
-      .dash-brand span,.dash-section-label,.dash-nav span:last-child,.favorite-box,.dash-account-copy { display:none; }
-      .dash-nav { justify-content:center; padding:0; }
-      .dash-account { justify-content:center; padding:6px; }
+      .dash-nav { padding:0 10px; }
+      .dash-account { padding:7px; }
       .dash-topbar,.dash-main { grid-column:2; }
     }
   </style>
@@ -231,6 +230,7 @@
       <button id="renderButton" class="button primary" type="button">▶ Render</button>
       <button id="downloadButton" class="button" type="button" disabled>↓ SVG</button>
       <button id="saveButton" class="button" type="button">Save</button>
+      <button id="shareButton" class="button" type="button">Share</button>
       <button id="savedButton" class="button" type="button">My Diagrams</button>
       <button id="accountButton" class="button" type="button">Sign in</button>
       <button id="infoButton" class="button" type="button" title="System information">ⓘ</button>
@@ -239,7 +239,7 @@
 
   <section class="workspace" id="workspace">
     <section class="pane editor-pane">
-      <div class="pane-head"><span class="dot"></span><strong>Source</strong><span class="spacer"></span><span id="languageLabel">PlantUML</span></div>
+      <div class="pane-head"><span class="dot"></span><strong>Source</strong><span class="presence" id="presence" hidden><span class="presence-dot"></span><span id="presenceCount">1 online</span></span><span class="spacer"></span><span id="languageLabel">PlantUML</span></div>
       <div class="code-wrap"><textarea id="source" spellcheck="false" aria-label="Diagram source"></textarea></div>
     </section>
     <div class="resizer" id="resizer" aria-hidden="true"></div>
@@ -253,17 +253,10 @@
     </section>
   </section>
 
+
   <section class="saved-screen" id="savedScreen" hidden>
     <aside class="dash-sidebar">
-      <div class="dash-brand"><div class="dash-logo">C</div><span>Code To UML</span></div>
-      <div class="dash-section-label">Your space</div>
       <button class="dash-nav active" type="button"><span class="dash-nav-icon">⌂</span><span>Dashboard</span></button>
-      <button class="dash-nav" type="button"><span class="dash-nav-icon">□</span><span>Personal</span></button>
-      <button class="dash-nav" type="button"><span class="dash-nav-icon">⇧</span><span>Shared with you</span></button>
-      <div class="dash-section-label">Favorites</div>
-      <div class="favorite-box">Diagrams you mark as favorite will appear here for quick access.</div>
-      <div class="dash-section-label">Team spaces</div>
-      <button class="dash-nav" type="button"><span class="dash-nav-icon">＋</span><span>Create organization</span></button>
       <div class="dash-account" id="dashboardAccount">
         <div class="dash-avatar" id="dashboardAvatar">U</div>
         <div class="dash-account-copy"><div class="dash-account-name" id="dashboardName">Your account</div><div class="dash-plan">Personal workspace</div></div>
@@ -319,10 +312,22 @@
   </div>
 </dialog>
 
+<dialog id="shareDialog">
+  <div class="modal-head"><h2>Share diagram</h2><span style="flex:1"></span><button class="button" id="closeShare" type="button">✕</button></div>
+  <div class="modal-body">
+    <p>Create a secure link. Editors can update the source with you in real time; viewers can only follow changes.</p>
+    <label class="field">Permission<select id="sharePermission" class="control"><option value="edit">Can edit</option><option value="view">Can view</option></select></label>
+    <button class="button primary" id="createShareButton" type="button">Create share link</button>
+    <div class="share-box" id="shareResult" hidden><input class="control" id="shareUrl" readonly><button class="button" id="copyShareButton" type="button">Copy</button></div>
+    <p id="shareMessage"></p>
+  </div>
+</dialog>
+
+<script src="/assets/collab-client.js"></script>
 <script>
 (() => {
   const samples = {
-    plantuml: `@startuml\nskinparam backgroundColor transparent\nskinparam shadowing false\nskinparam sequence {\n  ArrowColor #2563EB\n  LifeLineBorderColor #64748B\n  ParticipantBorderColor #2563EB\n  ParticipantBackgroundColor #EFF6FF\n}\n\nactor User\nparticipant "Code To UML" as App\nparticipant "Render API" as API\n\nUser -> App: Update diagram code\nactivate App\nApp -> API: POST /plantuml/svg\nactivate API\nAPI --> App: SVG diagram\ndeactivate API\nApp --> User: Live preview\ndeactivate App\n@enduml`,
+    plantuml: `@startuml\nallowmixing\nleft to right direction\n\nclass User {\n  +id: UUID\n  +email: String\n  +createDiagram()\n}\n\ncomponent "Code To UML" as App\ncomponent "Render API" as API\n\nUser --> App : edits\nApp --> API : renders\n@enduml`,
     mermaid: `flowchart LR\n  A[Write code] --> B{Valid syntax?}\n  B -- Yes --> C[Render SVG]\n  B -- No --> D[Show error]\n  C --> E[Live preview]`,
     graphviz: `digraph G {\n  rankdir=LR;\n  node [shape=box style="rounded,filled" fillcolor="#eff6ff" color="#2563eb"];\n  Code -> API -> SVG -> Preview;\n}`,
     d2: `direction: right\ncode: Diagram code { style.fill: "#eff6ff" }\napi: Render API { style.fill: "#eef2ff" }\npreview: Live preview { style.fill: "#ecfdf5" }\ncode -> api -> preview`,
@@ -340,6 +345,8 @@
   const download = document.querySelector('#downloadButton');
   let currentUser = null;
   let currentDiagramId = null;
+  let collaboration = null;
+  let activeShareToken = null;
   let timer, request, objectUrl;
   const viewport = { scale:1, x:0, y:0, dragging:false, pointerId:null, startX:0, startY:0, originX:0, originY:0 };
 
@@ -354,6 +361,16 @@
   }
 
   function setStatus(text, state) { status.textContent = text; status.dataset.state = state; }
+  function stopCollaboration(){if(collaboration){collaboration.destroy();collaboration=null}document.querySelector('#presence').hidden=true;source.readOnly=false}
+  function startCollaboration(diagramId,shareToken=null){
+    stopCollaboration();activeShareToken=shareToken;
+    collaboration=new window.CollaborationClient({url:location.origin,diagramId,shareToken,textarea:source,
+      onStatus:state=>setStatus(`● Collaboration ${state}`,state==='connected'?'ready':'error'),
+      onPresence:users=>{document.querySelector('#presence').hidden=false;document.querySelector('#presenceCount').textContent=`${users.length} online`},
+      onMetadata:metadata=>{if(metadata.name)document.querySelector('#diagramName').value=metadata.name;if(metadata.engine){type.value=metadata.engine;document.querySelector('#languageLabel').textContent=type.options[type.selectedIndex]?.text||metadata.engine}if(metadata.permission==='view'){source.readOnly=true;document.querySelector('#saveButton').hidden=true;document.querySelector('#shareButton').hidden=true}}
+    });
+  }
+  source.addEventListener('collaboration-change',schedule);
   async function render() {
     const code = source.value.trim();
     if (!code) return;
@@ -458,7 +475,7 @@
       const date=new Intl.DateTimeFormat('en',{dateStyle:'medium'}).format(new Date(item.updated_at));
       card.innerHTML=`<div class="diagram-thumb"><span class="thumb-state">Rendering preview…</span></div><div class="diagram-meta"><div class="diagram-name"></div><div class="diagram-detail"><span class="engine-badge"></span><span>${date}</span></div></div>`;
       card.querySelector('.diagram-name').textContent=item.name;card.querySelector('.engine-badge').textContent=item.engine;
-      card.onclick=async()=>{const d=await api(`/api/diagrams/${item.id}`);currentDiagramId=d.id;document.querySelector('#diagramName').value=d.name;type.value=d.engine;source.value=d.source;document.querySelector('#languageLabel').textContent=type.options[type.selectedIndex]?.text||d.engine;showEditor();render()};
+      card.onclick=async()=>{const d=await api(`/api/diagrams/${item.id}`);currentDiagramId=d.id;document.querySelector('#diagramName').value=d.name;type.value=d.engine;source.value=d.source;document.querySelector('#languageLabel').textContent=type.options[type.selectedIndex]?.text||d.engine;showEditor();startCollaboration(d.id);render()};
       list.appendChild(card);
       try {
         const d=await api(`/api/diagrams/${item.id}`);
@@ -474,7 +491,7 @@
   document.querySelector('#loginButton').onclick=()=>authenticate('login');
   document.querySelector('#registerButton').onclick=()=>authenticate('register');
   document.querySelector('#logoutButton').onclick=async()=>{await api('/api/auth/logout',{method:'POST'});showEditor();await refreshAccount()};
-  document.querySelector('#createKeyButton').onclick=async()=>{try{const r=await api('/api/keys',{method:'POST',body:JSON.stringify({name:'Personal API key'})});const box=document.querySelector('#apiKeyResult');box.hidden=false;box.textContent=`Copy this key now — it will not be shown again:\n\n${r.key}`;}catch(e){authMessage.textContent=e.message}};
+  document.querySelector('#createKeyButton').onclick=async()=>{try{const r=await api('/api/keys',{method:'POST',body:JSON.stringify({name:'Personal API key'})});const box=document.querySelector('#apiKeyResult');box.hidden=false;box.textContent=r.key;box.title='Copy this key now — it will not be shown again. Creating another key revokes this one.';authMessage.textContent='New key created. Every previous API key has been revoked.';}catch(e){authMessage.textContent=e.message}};
   const savedScreen=document.querySelector('#savedScreen');
   function showEditor(){savedScreen.hidden=true;workspace.hidden=false;document.querySelector('#savedButton').classList.remove('primary')}
   async function showSaved(){
@@ -483,7 +500,7 @@
     try{await refreshDiagrams()}catch(e){document.querySelector('#diagramList').innerHTML=`<div class="gallery-empty">${e.message}</div>`}
   }
   document.querySelector('#savedButton').onclick=showSaved;
-  document.querySelector('#newDiagramButton').onclick=()=>{currentDiagramId=null;document.querySelector('#diagramName').value='Untitled diagram';type.value='plantuml';loadType();showEditor();source.focus()};
+  document.querySelector('#newDiagramButton').onclick=()=>{stopCollaboration();activeShareToken=null;currentDiagramId=null;document.querySelector('#saveButton').hidden=false;document.querySelector('#shareButton').hidden=false;document.querySelector('#diagramName').value='Untitled diagram';type.value='plantuml';source.value=samples.plantuml;document.querySelector('#languageLabel').textContent='PlantUML';showEditor();render();source.focus()};
   document.querySelector('#backToEditorButton').onclick=showEditor;
   document.querySelector('#dashboardAccount').onclick=()=>accountDialog.showModal();
   async function saveDiagram(silent=false){
@@ -492,13 +509,19 @@
     const payload=JSON.stringify({name,engine:type.value,source:source.value,options:{}});
     try{
       if(currentDiagramId) await api(`/api/diagrams/${currentDiagramId}`,{method:'PUT',body:payload});
-      else {const created=await api('/api/diagrams',{method:'POST',body:payload});currentDiagramId=created.id}
+      else {const created=await api('/api/diagrams',{method:'POST',body:payload});currentDiagramId=created.id;startCollaboration(currentDiagramId)}
       document.querySelector('#diagramName').value=name;setStatus(silent?'● Name saved':'● Saved','ready');
-    }catch(e){setStatus(`● ${e.message}`,'error')}
+      return true
+    }catch(e){setStatus(`● ${e.message}`,'error');return false}
   }
   document.querySelector('#saveButton').onclick=()=>saveDiagram(false);
   document.querySelector('#diagramName').addEventListener('blur',()=>{if(currentDiagramId)saveDiagram(true)});
   document.querySelector('#diagramName').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();e.currentTarget.blur()}});
+  const shareDialog=document.querySelector('#shareDialog');
+  document.querySelector('#shareButton').onclick=async()=>{if(!currentUser){accountDialog.showModal();return}if(!currentDiagramId&&!(await saveDiagram(false)))return;document.querySelector('#shareResult').hidden=true;document.querySelector('#shareMessage').textContent='';shareDialog.showModal()};
+  document.querySelector('#closeShare').onclick=()=>shareDialog.close();
+  document.querySelector('#createShareButton').onclick=async()=>{try{const result=await api(`/api/diagrams/${currentDiagramId}/share`,{method:'POST',body:JSON.stringify({permission:document.querySelector('#sharePermission').value,expires_in_days:30})});document.querySelector('#shareUrl').value=result.url;document.querySelector('#shareResult').hidden=false;document.querySelector('#shareMessage').textContent='This link expires in 30 days.'}catch(e){document.querySelector('#shareMessage').textContent=e.message}};
+  document.querySelector('#copyShareButton').onclick=async()=>{const input=document.querySelector('#shareUrl');try{await navigator.clipboard.writeText(input.value);document.querySelector('#copyShareButton').textContent='Copied!'}catch{input.select();document.execCommand('copy')}};
 
   const workspace = document.querySelector('#workspace');
   document.querySelector('#resizer').addEventListener('mousedown', () => {
@@ -506,8 +529,15 @@
     const up = () => { removeEventListener('mousemove',move); removeEventListener('mouseup',up); };
     addEventListener('mousemove',move); addEventListener('mouseup',up);
   });
-  loadType();
-  refreshAccount();
+  async function initializeApp(){
+    loadType();await refreshAccount();
+    const token=new URLSearchParams(location.search).get('share');
+    if(token){
+      try{const shared=await api(`/api/shared/${encodeURIComponent(token)}`);activeShareToken=token;currentDiagramId=shared.id;document.querySelector('#diagramName').value=shared.name;type.value=shared.engine;document.querySelector('#languageLabel').textContent=type.options[type.selectedIndex]?.text||shared.engine;document.querySelector('#accountButton').textContent=currentUser?currentUser.display_name:'Guest editor';startCollaboration(shared.id,token)}
+      catch(e){setStatus(`● ${e.message}`,'error')}
+    }
+  }
+  initializeApp();
 })();
 </script>
 </body>
