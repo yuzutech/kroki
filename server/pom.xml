@@ -13,10 +13,10 @@
 
   <properties>
     <!-- https://github.com/vert-x3/vertx-dependencies/blob/5.0.7/pom.xml#LL50C20-L50C32 -->
-    <netty.version>4.2.15.Final</netty.version>
-    <logback.version>1.5.34</logback.version>
-    <vertx.version>5.1.2</vertx.version>
-    <opentelemetry.version>1.63.0</opentelemetry.version>
+    <netty.version>4.2.16.Final</netty.version>
+    <logback.version>1.5.38</logback.version>
+    <vertx.version>5.1.5</vertx.version>
+    <opentelemetry.version>1.64.0</opentelemetry.version>
     <junit.jupiter.version>6.1.0</junit.jupiter.version>
     <assertj-core.version>3.27.7</assertj-core.version>
     <mockito-core.version>5.23.0</mockito-core.version>
@@ -28,7 +28,7 @@
     <structurizr-export.version>6.2.1</structurizr-export.version>
     <structurizr-core.version>6.2.1</structurizr-core.version>
     <caffeine.version>3.2.4</caffeine.version>
-    <bouncycastle.version>1.84</bouncycastle.version>
+    <bouncycastle.version>1.85</bouncycastle.version>
   </properties>
 
   <dependencies>
