@@ -7,7 +7,7 @@
   "imports": {
     "@std/parse-args": "jsr:@std/cli/parse-args",
     "@std/assert": "jsr:@std/assert@1",
-    "canvas": "npm:canvas@3.2.0",
+    "canvas": "npm:canvas@3.2.3",
     "sinon": "npm:sinon@22.0.0",
     "vega" : "npm:vega@6.2.0",
     "vega-canvas": "npm:vega-canvas@2.0.0",

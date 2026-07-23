@@ -4,7 +4,7 @@
     "jsr:@std/assert@1": "1.0.19",
     "jsr:@std/cli@*": "1.0.30",
     "jsr:@std/internal@^1.0.12": "1.0.14",
-    "npm:canvas@3.2.0": "3.2.0",
+    "npm:canvas@3.2.3": "3.2.3",
     "npm:sinon@22.0.0": "22.0.0",
     "npm:vega-canvas@2.0.0": "2.0.0",
     "npm:vega-lite@6.4.3": "6.4.3_vega@6.2.0",
@@ -74,8 +74,8 @@
         "ieee754"
       ]
     },
-    "canvas@3.2.0": {
-      "integrity": "sha512-jk0GxrLtUEmW/TmFsk2WghvgHe8B0pxGilqCL21y8lHkPUGa6FTsnCNtHPOzT8O3y+N+m3espawV80bbBlgfTA==",
+    "canvas@3.2.3": {
+      "integrity": "sha512-PzE5nJZPz72YUAfo8oTp0u3fqqY7IzlTubneAihqDYAUcBk7ryeCmBbdJBEdaH0bptSOe2VT2Zwcb3UaFyaSWw==",
       "dependencies": [
         "node-addon-api",
         "prebuild-install"
@@ -286,8 +286,8 @@
     "napi-build-utils@2.0.0": {
       "integrity": "sha512-GEbrYkbfF7MoNaoh2iGG84Mnf/WZfB0GdGEsM8wz7Expx/LlWf5U8t9nvJKXSp3qr5IsEbK04cBGhol/KwOsWA=="
     },
-    "node-abi@3.92.0": {
-      "integrity": "sha512-KdHvFWZjEKDf0cakgFjebl371GPsISX2oZHcuyKqM7DtogIsHrqKeLTo8wBHxaXRAQlY2PsPlZmfo+9ZCxEREQ==",
+    "node-abi@3.94.0": {
+      "integrity": "sha512-W5ZNO5KRPB5TkYmGVD9F6YqhsglXJzE6etpbmT+f6EQElhiX/UTG551cnsRGvLG3fyZEg9HwaDmNmj5nwJ4z9g==",
       "dependencies": [
         "semver"
       ]
@@ -357,8 +357,8 @@
     "safer-buffer@2.1.2": {
       "integrity": "sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg=="
     },
-    "semver@7.8.4": {
-      "integrity": "sha512-rUCObTnP32Q08R2uuIrt7r9PlEonuTmtuXYcW6s5kjdlj3xbnwe+21yXptAUYcMAABLkYYTtnmzb3w3EDZfueA==",
+    "semver@7.8.5": {
+      "integrity": "sha512-Y7/KDsb8LjooZpwaqGyulO6DQlksgCncchHGk+sZIY4SBvUocMBEFH5Ur1fI4dV+Jvl0w6cjvucaIi40puRioA==",
       "bin": true
     },
     "simple-concat@1.0.1": {
@@ -404,8 +404,8 @@
     "strip-json-comments@2.0.1": {
       "integrity": "sha512-4gB8na07fecVVkOI6Rs4e7T6NOTki5EmL7TUduTs6bu3EdnSycntVJ4re8kgZA+wx9IueI2Y11bfbgwtzuE0KQ=="
     },
-    "tar-fs@2.1.4": {
-      "integrity": "sha512-mDAjwmZdh7LTT6pNleZ05Yt65HC3E+NiQzl672vQG38jIrehtJk/J3mNwIg+vShQPcLF/LV7CMnDW6vjj6sfYQ==",
+    "tar-fs@2.1.5": {
+      "integrity": "sha512-OboTd8mmMhZDNPV+UjQcK9yKAatXu2aJ+r1w4im1Otd4M4fl2hwvdoXUxIYHFTHWK/3y3FarBP70v3vwmGlOxw==",
       "dependencies": [
         "chownr",
         "mkdirp-classic",
@@ -777,7 +777,7 @@
     "dependencies": [
       "jsr:@std/assert@1",
       "jsr:@std/cli@*",
-      "npm:canvas@3.2.0",
+      "npm:canvas@3.2.3",
       "npm:sinon@22.0.0",
       "npm:vega-canvas@2.0.0",
       "npm:vega-lite@6.4.3",
