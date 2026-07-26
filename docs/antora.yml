@@ -24,7 +24,7 @@ asciidoc:
     plantuml-version: 1.2026.6
     rackdiag-version: 3.4.2
     seqdiag-version: 3.4.2
-    structurizr-version: 6.2.1
+    structurizr-version: 6.2.2
     svgbob-version: 0.7.6
     symbolator-version: 1.2.2
     umlet-version: 15.1
