@@ -31,7 +31,9 @@ import Task from './task.js'
         if (diagramSource) {
           try {
             const isPng = outputType === 'png'
-            const output = await worker.convert(new Task(diagramSource, isPng), url.searchParams)
+            // Fail closed: an unrecognized or missing value is treated as 'secure'.
+            const safeMode = url.searchParams.get('safeMode') === 'unsafe' ? 'unsafe' : 'secure'
+            const output = await worker.convert(new Task(diagramSource, isPng, safeMode), url.searchParams)
             res.setHeader('Content-Type', isPng ? 'image/png' : 'image/svg+xml')
             return micro.send(res, 200, output)
           } catch (err) {

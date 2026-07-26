@@ -6,7 +6,8 @@ export function updateConfig(initialConfig, config) {
       propertyCamelCase === 'maxEdges' ||
       propertyCamelCase === 'securityLevel' ||
       propertyCamelCase === 'secure' ||
-      propertyCamelCase === 'startOnLoad'
+      propertyCamelCase === 'startOnLoad' ||
+      propertyCamelCase === 'safeMode'
     ) {
       // Ignored for security reasons: these caps protect the service from
       // resource exhaustion. maxEdges/maxTextSize could later be opened up

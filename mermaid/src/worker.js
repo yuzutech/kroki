@@ -4,7 +4,7 @@ import path from 'node:path'
 import puppeteer, { HTTPResponse, Page } from 'puppeteer'
 import { logger } from './logger.js'
 import { updateConfig } from './config.js'
-import { getBrowserWSEndpoint, protocolTimeout } from './browser-instance.js'
+import { applyNetworkPolicy, getBrowserWSEndpoint, protocolTimeout } from './browser-instance.js'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
@@ -50,6 +50,10 @@ export class Worker {
     const browser = await this._connect()
     const page = await newPage(browser)
     try {
+      // Must run before the first navigation: mermaid.render() itself can
+      // trigger a resource load (e.g. a flowchart image-shape node), not just
+      // the later PNG screenshot step.
+      await applyNetworkPolicy(page, { pageUrl: this.pageUrl, safeMode: task.safeMode })
       if (
         config !== null &&
         config !== undefined &&
