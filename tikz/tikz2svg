@@ -110,11 +110,20 @@ cd $tempdir
 cat >raw_input.tex
 
 if [ "$safe_mode" -ge "10" ]; then
-  # SECURE more or above
-  if grep -q "\\\verbatiminput" raw_input.tex; then
-    printf "Diagrams cannot contain \verbatiminput command while running in secure mode."
-    exit 10
-  fi
+  # SECURE mode or above.
+  #
+  # Restrict TeX's kpathsea file lookup (openin_any/openout_any) to the
+  # current working directory instead of blocklisting specific commands.
+  # LaTeX has many primitives/macros that can read or write files
+  # (\input, \include, \openin+\read, \lstinputlisting,
+  # \pgfplotstableread, ...) and any one of them can be aliased or
+  # invoked indirectly, so blocking individual command names (e.g. only
+  # \verbatiminput) is not effective. "paranoid" mode rejects absolute
+  # paths and directory traversal ("..") for both reads and writes,
+  # which is all that's needed since diagrams never legitimately need
+  # to reference files outside of this temporary directory.
+  export openin_any=p
+  export openout_any=p
 fi
 
 fixup_documentclass $output_format raw_input.tex > file.tex
