@@ -14,6 +14,15 @@ versioned entry and uses it as the GitHub release notes.
 ### Security
 
 - Prevent TikZ diagrams in secure mode from reading arbitrary files on the container filesystem via `\input`, `\include`, `\openin`/`\read`, `\lstinputlisting` and similar LaTeX file-access primitives, by restricting kpathsea's `openin_any`/`openout_any` to the current working directory instead of only blocklisting `\verbatiminput`
+- Prevent Mermaid flowchart image-shape nodes (`N@{ img: "URL" }`) from making the companion's headless Chromium fetch an attacker-controlled URL on `/svg` and `/png`, by wiring `KROKI_MERMAID_SAFE_MODE`/`KROKI_SAFE_MODE` into a shared Puppeteer request-interception policy (`applyNetworkPolicy`) that restricts requests to `file:`/`data:`/same-origin plus an optional operator-configured allowlist (`KROKI_MERMAID_ALLOWED_ORIGINS` / `KROKI_ALLOWED_ORIGINS`)
+
+### Changed
+
+- Update Node.js base Docker images to 24.18 (Bookworm) ([#2097](https://github.com/yuzutech/kroki/pull/2097))
+
+### Diagram libraries
+
+- Update Structurizr to 6.2.2 ([#2099](https://github.com/yuzutech/kroki/pull/2099))
 
 ## [0.31.1] - 2026-07-15
 
