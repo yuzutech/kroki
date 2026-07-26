@@ -271,6 +271,18 @@ In addition, Mermaid's own edge limit (`maxEdges`, 500 by default) is enforced: 
 
 NOTE: For security reasons, `maxTextSize`, `maxEdges`, `securityLevel`, `secure` and `startOnLoad` cannot be overridden per request through query parameters.
 
+=== Mermaid Concurrency Limit
+
+The Mermaid container opens one Chromium page per render. Without a limit, a burst of simultaneous conversions could spin up enough renderer processes to exceed the container's memory limit and crash the browser.
+Requests beyond the limit queue instead of spawning unbounded pages.
+
+You can adjust this with the `KROKI_MERMAID_MAX_CONCURRENCY` environment variable:
+
+[source]
+----
+KROKI_MERMAID_MAX_CONCURRENCY=6 # default
+----
+
 == Companion Container Host and Port
 
 You can configure the host and port on which every companion container will be listening:

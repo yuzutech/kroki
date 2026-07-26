@@ -20,6 +20,10 @@ versioned entry and uses it as the GitHub release notes.
 
 - Update Node.js base Docker images to 24.18 (Bookworm) ([#2097](https://github.com/yuzutech/kroki/pull/2097))
 
+### Fixed
+
+- Cap concurrent Mermaid conversions (`KROKI_MERMAID_MAX_CONCURRENCY`, default 6) to bound Chromium memory usage; a burst of simultaneous requests could otherwise spin up enough renderer processes to exceed the container's memory limit and crash the service
+
 ### Diagram libraries
 
 - Update Structurizr to 6.2.2 ([#2099](https://github.com/yuzutech/kroki/pull/2099))
