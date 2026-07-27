@@ -44,7 +44,7 @@ export class Worker {
           async (bpmnXML, _options) => {
             try {
               const container = document.getElementById('container')
-              container.innerHTML = bpmnXML
+              container.textContent = ''
               /* global BpmnJS */
               const viewer = new BpmnJS({ container })
               await viewer.importXML(bpmnXML)
