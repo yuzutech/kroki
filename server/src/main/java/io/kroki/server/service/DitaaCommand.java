@@ -55,6 +55,15 @@ public class DitaaCommand {
       commands.add("--tabs");
       commands.add(tabs);
     }
+    String background = options.getString("background");
+    if (background != null) {
+      commands.add("--background");
+      commands.add(background);
+    }
+    String transparent = options.getString("transparent");
+    if (transparent != null) {
+      commands.add("--transparent");
+    }
     commands.add("-");
     logger.info("commands: {}", Arrays.toString(commands.toArray(new String[0])));
     return commander.execute(source.getBytes(), commands.toArray(new String[0]));

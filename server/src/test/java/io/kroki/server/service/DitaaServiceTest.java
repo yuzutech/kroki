@@ -62,6 +62,47 @@ public class DitaaServiceTest {
   }
 
   @Test
+  public void should_call_ditaa_with_background() throws Exception {
+    String input = "+---------+\n" +
+      "| cBLU    |\n" +
+      "|         |\n" +
+      "|    +----+\n" +
+      "|    |cPNK|\n" +
+      "|    |    |\n" +
+      "+----+----+";
+
+    // background is white by default
+    byte[] defaultResult = ditaaCommand.convert(input, FileFormat.SVG, new JsonObject());
+    assertThat(new String(defaultResult, StandardCharsets.UTF_8)).contains("style=\"fill: #ffffff\"");
+
+    JsonObject options = new JsonObject();
+    options.put("background", "FF0000");
+    byte[] result = ditaaCommand.convert(input, FileFormat.SVG, options);
+    assertThat(new String(result, StandardCharsets.UTF_8)).contains("style=\"fill: #ff0000\"");
+  }
+
+  @Test
+  public void should_call_ditaa_with_transparent() throws Exception {
+    String input = "+---------+\n" +
+      "| cBLU    |\n" +
+      "|         |\n" +
+      "|    +----+\n" +
+      "|    |cPNK|\n" +
+      "|    |    |\n" +
+      "+----+----+";
+
+    // background is not transparent by default
+    byte[] withoutTransparent = ditaaCommand.convert(input, FileFormat.SVG, new JsonObject());
+    assertThat(new String(withoutTransparent, StandardCharsets.UTF_8)).contains("style=\"fill: #ffffff\"");
+
+    // enable transparency by setting the transparent option
+    JsonObject options = new JsonObject();
+    options.put("transparent", "");
+    byte[] withTransparent = ditaaCommand.convert(input, FileFormat.SVG, options);
+    assertThat(new String(withTransparent, StandardCharsets.UTF_8)).doesNotContain("style=\"fill: #ffffff\"");
+  }
+
+  @Test
   public void should_call_ditaa_with_scale() throws Exception {
     String input = "+---------+\n" +
       "| cBLU    |\n" +
