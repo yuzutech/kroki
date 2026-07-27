@@ -108,6 +108,15 @@ empty string ("")
 |tabs
 |_any_ +
 |Tabs are normally interpreted as 8 spaces but it is possible to change that using this option
+
+|background
+|_six-digit hexadecimal number_ +
+*`FFFFFF`*
+|The background colour of the image. The format should be a six-digit hexadecimal number (as in HTML, FF0000 for red). This is overridden by `transparent`
+
+|transparent
+|_any_ +
+|Makes the background of the image transparent. This overrides `background`
 |===
 
 == GoAT
