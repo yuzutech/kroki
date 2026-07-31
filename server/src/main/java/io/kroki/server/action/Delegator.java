@@ -9,6 +9,7 @@ import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpClient;
 import io.vertx.core.http.HttpHeaders;
+import io.vertx.core.http.PoolOptions;
 import io.vertx.core.json.DecodeException;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.HttpRequest;
@@ -30,6 +31,13 @@ public class Delegator {
   // a timeout a wedged companion lets requests pile up in the client queue until
   // the core runs out of memory.
   private static final long DEFAULT_TIMEOUT_MS = 30_000;
+  // Vert.x's own default (5) is below Mermaid's KROKI_MERMAID_MAX_CONCURRENCY (6,
+  // see mermaid/src/worker.js): when the companion is degraded (e.g. Chromium
+  // restarting after a crash), every in-flight request holds its pooled connection
+  // for up to timeoutMs, so a 6th legitimate request can't even acquire a
+  // connection and times out ("...exceeded when getting a connection to
+  // <host>:<port>") well before the companion itself is actually overloaded.
+  private static final int DEFAULT_MAX_POOL_SIZE = 10;
   private final WebClient webClient;
   private final long timeoutMs;
 
@@ -38,6 +46,8 @@ public class Delegator {
   }
 
   public Delegator(Vertx vertx, JsonObject config) {
+    Integer configuredPoolSize = config.getInteger("KROKI_DELEGATE_MAX_POOL_SIZE");
+    int maxPoolSize = configuredPoolSize != null && configuredPoolSize > 0 ? configuredPoolSize : DEFAULT_MAX_POOL_SIZE;
     HttpClient httpClient = vertx.httpClientBuilder()
       // https://vertx.io/docs/vertx-web-client/java/#_handling_30x_redirections
       // > By default the client follows redirections
@@ -45,6 +55,7 @@ public class Delegator {
       // > For security reason, client won’t follow redirects for request with methods different from GET or HEAD
       // So we need custom redirect handler.
       .withRedirectHandler(new AllowAnyMethodRedirectHandler())
+      .with(new PoolOptions().setHttp1MaxSize(maxPoolSize))
       .build();
     this.webClient = WebClient.wrap(httpClient);
     Long configured = config.getLong("KROKI_DELEGATE_TIMEOUT_MS");
