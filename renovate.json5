@@ -89,6 +89,77 @@
       ],
       groupName: 'Node dependencies',
     },
+    // each diagram library lives in its own service directory; group updates
+    // per directory so e.g. a bpmn-js bump doesn't wait on / get bundled with
+    // an unrelated wavedrom bump (overrides the generic "Node dependencies"
+    // bucket above for these specific files)
+    {
+      matchManagers: [
+        'npm',
+      ],
+      matchFileNames: [
+        'mermaid/package.json',
+      ],
+      groupName: 'Mermaid',
+    },
+    {
+      matchManagers: [
+        'npm',
+      ],
+      matchFileNames: [
+        'bpmn/package.json',
+      ],
+      groupName: 'bpmn-js',
+    },
+    {
+      matchManagers: [
+        'npm',
+      ],
+      matchFileNames: [
+        'nomnoml/package.json',
+      ],
+      groupName: 'nomnoml',
+    },
+    {
+      matchManagers: [
+        'npm',
+      ],
+      matchFileNames: [
+        'bytefield/package.json',
+      ],
+      groupName: 'Bytefield',
+    },
+    {
+      matchManagers: [
+        'npm',
+      ],
+      matchFileNames: [
+        'wavedrom/package.json',
+      ],
+      groupName: 'WaveDrom',
+    },
+    {
+      matchManagers: [
+        'npm',
+      ],
+      matchFileNames: [
+        'excalidraw/package.json',
+      ],
+      groupName: 'Excalidraw',
+    },
+    {
+      matchManagers: [
+        'npm',
+      ],
+      matchFileNames: [
+        'dbml/package.json',
+      ],
+      groupName: 'DBML',
+    },
+    // vega and vega-lite are tracked via vega/deno.json (Renovate's "imports"
+    // manager, not "npm"), so they're already excluded from the "Node
+    // dependencies" bucket above and get one PR per package by default —
+    // no rule needed here to keep them independent of each other.
     {
       matchManagers: [
         'npm',
