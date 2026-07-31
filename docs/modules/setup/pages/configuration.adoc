@@ -234,6 +234,23 @@ KROKI_DELEGATE_TIMEOUT_MS=30000 # default, 30 seconds
 NOTE: The companions enforce their own convert timeout (10 seconds by default for Mermaid, see xref:mermaid-convert-timeout[] below).
 Keep `KROKI_DELEGATE_TIMEOUT_MS` slightly higher so the companion's structured error response is returned to the client instead of being cut short.
 
+== Delegate Connection Pool Size
+
+The main server keeps a pool of HTTP connections open to each companion container, reused across requests.
+By default, up to 5 connections are kept per companion.
+
+If a companion is degraded (for instance, Mermaid's Chromium instance restarting after a crash), in-flight requests can hold their connection for as long as `KROKI_DELEGATE_TIMEOUT_MS`.
+Once every pooled connection is in that state, further requests cannot even acquire one and fail with a `"...exceeded when getting a connection"` timeout, even though the companion itself is not actually overloaded.
+
+You can raise the pool size with the `KROKI_DELEGATE_MAX_POOL_SIZE` environment variable:
+
+[source]
+----
+KROKI_DELEGATE_MAX_POOL_SIZE=10 # default
+----
+
+TIP: For Mermaid, keep this at or above `KROKI_MERMAID_MAX_CONCURRENCY` (see xref:mermaid-concurrency-limit[] below) so the pool is never the bottleneck below what the companion can actually process concurrently.
+
 == Companion Browser
 
 Mermaid, Excalidraw and diagrams.net render diagrams in a headless Chromium instance driven over the Chrome DevTools Protocol (CDP).
@@ -271,6 +288,7 @@ In addition, Mermaid's own edge limit (`maxEdges`, 500 by default) is enforced: 
 
 NOTE: For security reasons, `maxTextSize`, `maxEdges`, `securityLevel`, `secure` and `startOnLoad` cannot be overridden per request through query parameters.
 
+[#mermaid-concurrency-limit]
 === Mermaid Concurrency Limit
 
 The Mermaid container opens one Chromium page per render. Without a limit, a burst of simultaneous conversions could spin up enough renderer processes to exceed the container's memory limit and crash the browser.
