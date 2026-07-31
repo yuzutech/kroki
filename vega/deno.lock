@@ -7,8 +7,8 @@
     "npm:canvas@3.2.0": "3.2.0",
     "npm:sinon@22.0.0": "22.0.0",
     "npm:vega-canvas@2.0.0": "2.0.0",
-    "npm:vega-lite@6.4.3": "6.4.3_vega@6.2.0",
-    "npm:vega@6.2.0": "6.2.0"
+    "npm:vega-lite@6.4.3": "6.4.3_vega@6.3.1",
+    "npm:vega@6.3.1": "6.3.1"
   },
   "jsr": {
     "@std/assert@1.0.19": {
@@ -451,24 +451,24 @@
     "vega-canvas@2.0.0": {
       "integrity": "sha512-9x+4TTw/USYST5nx4yN272sy9WcqSRjAR0tkQYZJ4cQIeon7uVsnohvoPQK1JZu7K1QXGUqzj08z0u/UegBVMA=="
     },
-    "vega-crossfilter@5.1.0": {
-      "integrity": "sha512-EmVhfP3p6AM7o/lPan/QAoqjblI19BxWUlvl2TSs0xjQd8KbaYYbS4Ixt3cmEvl0QjRdBMF6CdJJ/cy9DTS4Fw==",
+    "vega-crossfilter@5.1.2": {
+      "integrity": "sha512-K14PtfBxQzb7UJq5rL1IuwDdPov6lucoHVzRaraGiBBnfc963jkWHQNfRFAuEj/nIt5BIixXBiqIrGKgfScjSA==",
       "dependencies": [
         "d3-array",
         "vega-dataflow",
         "vega-util"
       ]
     },
-    "vega-dataflow@6.1.0": {
-      "integrity": "sha512-JxumGlODtFbzoQ4c/jQK8Tb/68ih0lrexlCozcMfTAwQ12XhTqCvlafh7MAKKTMBizjOfaQTHm4Jkyb1H5CfyQ==",
+    "vega-dataflow@6.1.2": {
+      "integrity": "sha512-0/HBBlzPERh0wV5kUOh/N4aAAmb3rB18Kfpej+nWvDIjPk3dixTapNkVVkoA9CsB5dY5bY+HNqiM/Pp4XPduGQ==",
       "dependencies": [
         "vega-format",
         "vega-loader",
         "vega-util"
       ]
     },
-    "vega-encode@5.1.0": {
-      "integrity": "sha512-q26oI7B+MBQYcTQcr5/c1AMsX3FvjZLQOBi7yI0vV+GEn93fElDgvhQiYrgeYSD4Exi/jBPeUXuN6p4bLz16kA==",
+    "vega-encode@5.2.1": {
+      "integrity": "sha512-YuvJ66z6FQRtu0n0IYxsJp7BpliXVgaxNsur0Fqic10/a5TLMQmDYURPUcrtWViAMpqKgdNMyxnmr0ZQ4bjwCA==",
       "dependencies": [
         "d3-array",
         "d3-interpolate",
@@ -487,16 +487,23 @@
         "vega-util"
       ]
     },
-    "vega-force@5.1.0": {
-      "integrity": "sha512-wdnchOSeXpF9Xx8Yp0s6Do9F7YkFeOn/E/nENtsI7NOcyHpICJ5+UkgjUo9QaQ/Yu+dIDU+sP/4NXsUtq6SMaQ==",
+    "vega-expression@6.2.1": {
+      "integrity": "sha512-AK4EYh9ErCC7KU8vGigsetwG66S1wLLfPFnfjkOdydRaN4kNJp129qp4jos0wA/r7F/lIlhM3uIzw+KSA2cZEg==",
+      "dependencies": [
+        "@types/estree",
+        "vega-util"
+      ]
+    },
+    "vega-force@5.1.2": {
+      "integrity": "sha512-693paaBvACvAtUO8vp4m/KUJ0F3tKaoXixzw+ExpP4qKkqJ/Me2MGWsVrEJh/f6KuU9bp7xv+g7OPNhqnVrpoQ==",
       "dependencies": [
         "d3-force",
         "vega-dataflow",
         "vega-util"
       ]
     },
-    "vega-format@2.1.0": {
-      "integrity": "sha512-i9Ht33IgqG36+S1gFDpAiKvXCPz+q+1vDhDGKK8YsgMxGOG4PzinKakI66xd7SdV4q97FgpR7odAXqtDN2wKqw==",
+    "vega-format@2.1.2": {
+      "integrity": "sha512-cJ2oqGEGYJ2NbkIIUDic03ZZX1meE+sq330gq4HFf3CvzSupTwHLWQj3/H5zug5DrqEQhLCLkiRwvmMe4pEqfg==",
       "dependencies": [
         "d3-array",
         "d3-format",
@@ -505,14 +512,14 @@
         "vega-util"
       ]
     },
-    "vega-functions@6.1.1": {
-      "integrity": "sha512-Due6jP0y0FfsGMTrHnzUGnEwXPu7VwE+9relfo+LjL/tRPYnnKqwWvzt7n9JkeBuZqjkgYjMzm/WucNn6Hkw5A==",
+    "vega-functions@6.1.3": {
+      "integrity": "sha512-WOgWVxGg1T1tuICyylIppxXWXWEtl7P81Xnj0vQtoIn11VvQ0mrsBZr1aia4g8Sw0fEH1mUO7Dtj7v3o8BgBmQ==",
       "dependencies": [
         "d3-array",
         "d3-color",
         "d3-geo",
         "vega-dataflow",
-        "vega-expression",
+        "vega-expression@6.2.1",
         "vega-scale",
         "vega-scenegraph",
         "vega-selections",
@@ -521,8 +528,8 @@
         "vega-util"
       ]
     },
-    "vega-geo@5.1.0": {
-      "integrity": "sha512-H8aBBHfthc3rzDbz/Th18+Nvp00J73q3uXGAPDQqizioDm/CoXCK8cX4pMePydBY9S6ikBiGJrLKFDa80wI20g==",
+    "vega-geo@5.1.2": {
+      "integrity": "sha512-tls2+IVuKaIOxEqdshuSk2Til8qcF7SUNaWkATKu5hwWqQEY3cp7tfdXosuTMaDTkLp+Nw84iWfe5BzfoxDYMA==",
       "dependencies": [
         "d3-array",
         "d3-color",
@@ -534,16 +541,16 @@
         "vega-util"
       ]
     },
-    "vega-hierarchy@5.1.0": {
-      "integrity": "sha512-rZlU8QJNETlB6o73lGCPybZtw2fBBsRIRuFE77aCLFHdGsh6wIifhplVarqE9icBqjUHRRUOmcEYfzwVIPr65g==",
+    "vega-hierarchy@5.1.2": {
+      "integrity": "sha512-7a72/lA6j50HU6PQe5ChbomftHi29V1oCcibaQpDozZncHuAnsQummqfiPyTMPpNMrSRtyZy18do0IEoOvrbMg==",
       "dependencies": [
         "d3-hierarchy",
         "vega-dataflow",
         "vega-util"
       ]
     },
-    "vega-label@2.1.0": {
-      "integrity": "sha512-/hgf+zoA3FViDBehrQT42Lta3t8In6YwtMnwjYlh72zNn1p3c7E3YUBwqmAqTM1x+tudgzMRGLYig+bX1ewZxQ==",
+    "vega-label@2.1.2": {
+      "integrity": "sha512-MFsOKOCG6a5QwP5atoFFi+R58IP/Q7//65UvgrSeankX2QrDcWjBtzIqS6JlYBOAdyjoiAAghx7pnIAj5nAO6A==",
       "dependencies": [
         "vega-canvas",
         "vega-dataflow",
@@ -551,21 +558,21 @@
         "vega-util"
       ]
     },
-    "vega-lite@6.4.3_vega@6.2.0": {
+    "vega-lite@6.4.3_vega@6.3.1": {
       "integrity": "sha512-d/7hPjfz560UERaQuTmGgIVfXAe3g2hJWeC+igDeaGohUdEoNrHLXgR/yTOBT8vV/lIuuKnw+0/xWWblkDwkMQ==",
       "dependencies": [
         "json-stringify-pretty-compact",
         "tslib",
         "vega",
         "vega-event-selector",
-        "vega-expression",
+        "vega-expression@6.1.0",
         "vega-util",
         "yargs"
       ],
       "bin": true
     },
-    "vega-loader@5.1.0": {
-      "integrity": "sha512-GaY3BdSPbPNdtrBz8SYUBNmNd8mdPc3mtdZfdkFazQ0RD9m+Toz5oR8fKnTamNSk9fRTJX0Lp3uEqxrAlQVreg==",
+    "vega-loader@5.1.2": {
+      "integrity": "sha512-O29bKHsSJBi391H88OZXH8vgUdopWMorC5ZJ/8XjTq8TIXVdeUrNnI8dMkUyv7yQg3ywMTji+5fHhov1TOkkyA==",
       "dependencies": [
         "d3-dsv",
         "topojson-client",
@@ -573,8 +580,8 @@
         "vega-util"
       ]
     },
-    "vega-parser@7.1.0": {
-      "integrity": "sha512-g0lrYxtmYVW8G6yXpIS4J3Uxt9OUSkc0bLu5afoYDo4rZmoOOdll3x3ebActp5LHPW+usZIE+p5nukRS2vEc7Q==",
+    "vega-parser@7.1.2": {
+      "integrity": "sha512-88HNkVrEwWbMmbbhPCmFHPrl/ClTcvThRv2UMZqMJJ5IqgjWLUolCA1fhAvnAbvRPe+Z1j+GbV/WWjYWAjEuyw==",
       "dependencies": [
         "vega-dataflow",
         "vega-event-selector",
@@ -583,16 +590,16 @@
         "vega-util"
       ]
     },
-    "vega-projection@2.1.0": {
-      "integrity": "sha512-EjRjVSoMR5ibrU7q8LaOQKP327NcOAM1+eZ+NO4ANvvAutwmbNVTmfA1VpPH+AD0AlBYc39ND/wnRk7SieDiXA==",
+    "vega-projection@2.1.2": {
+      "integrity": "sha512-HL+FS9AgYSOa1UOIJfhOD39RMT4tDODkMcN6MCRsdlRNnukVm1+JhrixDnciBjqiZLxDhUjESJwgLQtXx8cUyw==",
       "dependencies": [
         "d3-geo",
         "d3-geo-projection",
         "vega-scale"
       ]
     },
-    "vega-regression@2.1.0": {
-      "integrity": "sha512-HzC7MuoEwG1rIxRaNTqgcaYF03z/ZxYkQR2D5BN0N45kLnHY1HJXiEcZkcffTsqXdspLjn47yLi44UoCwF5fxQ==",
+    "vega-regression@2.1.2": {
+      "integrity": "sha512-2dyb2sT6cxdTK5K87uNDYpW7LbTP90lplxW62imjfLAwKUq1wL74X8y03a0W5tpRfV8+f3ai+cYTv+HXB3XmDQ==",
       "dependencies": [
         "d3-array",
         "vega-dataflow",
@@ -600,15 +607,15 @@
         "vega-util"
       ]
     },
-    "vega-runtime@7.1.0": {
-      "integrity": "sha512-mItI+WHimyEcZlZrQ/zYR3LwHVeyHCWwp7MKaBjkU8EwkSxEEGVceyGUY9X2YuJLiOgkLz/6juYDbMv60pfwYA==",
+    "vega-runtime@7.1.2": {
+      "integrity": "sha512-MMfm7FeWLX2XqaY26i99GrlToexO/EWYqT7MRqEkpw+0nYgKh4zpQ47j04LB3ishnSZAj2AL0HNl9uPZLxgFhg==",
       "dependencies": [
         "vega-dataflow",
         "vega-util"
       ]
     },
-    "vega-scale@8.1.0": {
-      "integrity": "sha512-VEgDuEcOec8+C8+FzLcnAmcXrv2gAJKqQifCdQhkgnsLa978vYUgVfCut/mBSMMHbH8wlUV1D0fKZTjRukA1+A==",
+    "vega-scale@8.1.2": {
+      "integrity": "sha512-ADCGgdSmhcZyHxtHbrVcDrG76er2s2eXowO3qDg0vx2eclHdXL4YNaEjTHrosNG/1TAI5LAe7aQ2BGssJFfAXA==",
       "dependencies": [
         "d3-array",
         "d3-interpolate",
@@ -618,8 +625,8 @@
         "vega-util"
       ]
     },
-    "vega-scenegraph@5.1.0": {
-      "integrity": "sha512-4gA89CFIxkZX+4Nvl8SZF2MBOqnlj9J5zgdPh/HPx+JOwtzSlUqIhxFpFj7GWYfwzr/PyZnguBLPihPw1Og/cA==",
+    "vega-scenegraph@5.2.1": {
+      "integrity": "sha512-tWolI3s/cjU5g8evEjpxJqgqKQ2IJv1FoPXqvNuviLNdylP1I/h5iF5RY08Cz4jkuP9zircSskFEBsHylD1dgQ==",
       "dependencies": [
         "d3-path",
         "d3-shape",
@@ -629,11 +636,11 @@
         "vega-util"
       ]
     },
-    "vega-selections@6.1.2": {
-      "integrity": "sha512-xJ+V4qdd46nk2RBdwIRrQm2iSTMHdlu/omhLz1pqRL3jZDrkqNBXimrisci2kIKpH2WBpA1YVagwuZEKBmF2Qw==",
+    "vega-selections@6.1.4": {
+      "integrity": "sha512-qR5feBL8xq5BjoG3rf7e2WKle/cn5Fa9pBFMBnzoOYp4nTA0GYDoKuOjZkftibsQcmdST0HzPjSrS14jH3TCQw==",
       "dependencies": [
         "d3-array",
-        "vega-expression",
+        "vega-expression@6.2.1",
         "vega-util"
       ]
     },
@@ -643,16 +650,16 @@
         "d3-array"
       ]
     },
-    "vega-time@3.1.0": {
-      "integrity": "sha512-G93mWzPwNa6UYQRkr8Ujur9uqxbBDjDT/WpXjbDY0yygdSkRT+zXF+Sb4gjhW0nPaqdiwkn0R6kZcSPMj1bMNA==",
+    "vega-time@3.2.1": {
+      "integrity": "sha512-SXo1klLYPsmBdSj9itYSuFMmCpwnnIvQS8jWFxsCTnyWcPaBQKz0kf2M7DqTysi34KTk+6ws4kqZg11XMWnIYA==",
       "dependencies": [
         "d3-array",
         "d3-time",
         "vega-util"
       ]
     },
-    "vega-transforms@5.1.0": {
-      "integrity": "sha512-mj/sO2tSuzzpiXX8JSl4DDlhEmVwM/46MTAzTNQUQzJPMI/n4ChCjr/SdEbfEyzlD4DPm1bjohZGjLc010yuMg==",
+    "vega-transforms@5.2.1": {
+      "integrity": "sha512-csKiYXJFa0YY5lubP1wc8b99SJ8nHLG/sOWvKFpW3CfDfjp8LoB0exrxgtIoClCsngAguKiuZVDwQZxBhPJZwA==",
       "dependencies": [
         "d3-array",
         "vega-dataflow",
@@ -661,28 +668,28 @@
         "vega-util"
       ]
     },
-    "vega-typings@2.1.0": {
-      "integrity": "sha512-zdis4Fg4gv37yEvTTSZEVMNhp8hwyEl7GZ4X4HHddRVRKxWFsbyKvZx/YW5Z9Ox4sjxVA2qHzEbod4Fdx+SEJA==",
+    "vega-typings@2.2.0": {
+      "integrity": "sha512-pX7LsqgMpzMPOyydg/drYbIjh+mmvLfKtuKr75OpCu/ZYKJ2i8UjSmNlpARYeYGLaXfuNUAM3hMN8NPZPDYiBQ==",
       "dependencies": [
         "@types/geojson",
         "vega-event-selector",
-        "vega-expression",
+        "vega-expression@6.2.1",
         "vega-util"
       ]
     },
     "vega-util@2.1.1": {
       "integrity": "sha512-tpNmm8bGtUa8gKfFDSjXPffxqSyPr91vaWIEBnJS/rijhoLZMwM+mgYQG6XfwdcBSN1+jkZ57P0sYSEW/jophw=="
     },
-    "vega-view-transforms@5.1.0": {
-      "integrity": "sha512-fpigh/xn/32t+An1ShoY3MLeGzNdlbAp2+HvFKzPpmpMTZqJEWkk/J/wHU7Swyc28Ta7W1z3fO+8dZkOYO5TWQ==",
+    "vega-view-transforms@5.2.1": {
+      "integrity": "sha512-TiguoCJ6BB7TEV+s3nNMoCoH4+q5A6XQsDMEzbVuRaSWmfIJxvWUlbZQqn4CUt65VMDr63Fy21Xpb0ntlaU5LQ==",
       "dependencies": [
         "vega-dataflow",
         "vega-scenegraph",
         "vega-util"
       ]
     },
-    "vega-view@6.1.0": {
-      "integrity": "sha512-hmHDm/zC65lb23mb9Tr9Gx0wkxP0TMS31LpMPYxIZpvInxvUn7TYitkOtz1elr63k2YZrgmF7ztdGyQ4iCQ5fQ==",
+    "vega-view@6.1.2": {
+      "integrity": "sha512-BG/Kqd1csdK4uKdJ4hv72msgQX3Ry5SzCV1ngbytkn6QwuQPpFWzya/f0OSWyMQP9S79avdHXqdLCxjSeiDQRw==",
       "dependencies": [
         "d3-array",
         "d3-timer",
@@ -694,16 +701,16 @@
         "vega-util"
       ]
     },
-    "vega-voronoi@5.1.0": {
-      "integrity": "sha512-uKdsoR9x60mz7eYtVG+NhlkdQXeVdMr6jHNAHxs+W+i6kawkUp5S9jp1xf1FmW/uZvtO1eqinHQNwATcDRsiUg==",
+    "vega-voronoi@5.1.2": {
+      "integrity": "sha512-8BgKb6aF/42L/PrFi3Idqag7FtbzNqDVhvPD4SfswSzGYlRDcxcn1eQQsa//q72qIZk4i5rsHeAiH2QbIjPSBg==",
       "dependencies": [
         "d3-delaunay",
         "vega-dataflow",
         "vega-util"
       ]
     },
-    "vega-wordcloud@5.1.0": {
-      "integrity": "sha512-sSdNmT8y2D7xXhM2h76dKyaYn3PA4eV49WUUkfYfqHz/vpcu10GSAoFxLhQQTkbZXR+q5ZB63tFUow9W2IFo6g==",
+    "vega-wordcloud@5.1.2": {
+      "integrity": "sha512-ZSw6fupf4qx4hBzL9q/oVUKPVbVePjJ/FSgfxxgRcKvE1VoYq3HWfx9qg+CQMvgDS+oGDsn2WoQJuNLYx9T3AQ==",
       "dependencies": [
         "vega-canvas",
         "vega-dataflow",
@@ -712,14 +719,14 @@
         "vega-util"
       ]
     },
-    "vega@6.2.0": {
-      "integrity": "sha512-BIwalIcEGysJdQDjeVUmMWB3e50jPDNAMfLJscjEvpunU9bSt7X1OYnQxkg3uBwuRRI4nWfFZO9uIW910nLeGw==",
+    "vega@6.3.1": {
+      "integrity": "sha512-mX5tvY3ISCSiPPmunuZyQfccq0XlUvJd2t5oyc6SNS0N0TwnPNoklx0mVod5n+qbzuUoiuxl7Ve/SvoRqH4RzA==",
       "dependencies": [
         "vega-crossfilter",
         "vega-dataflow",
         "vega-encode",
         "vega-event-selector",
-        "vega-expression",
+        "vega-expression@6.2.1",
         "vega-force",
         "vega-format",
         "vega-functions",
@@ -781,7 +788,7 @@
       "npm:sinon@22.0.0",
       "npm:vega-canvas@2.0.0",
       "npm:vega-lite@6.4.3",
-      "npm:vega@6.2.0"
+      "npm:vega@6.3.1"
     ]
   }
 }
