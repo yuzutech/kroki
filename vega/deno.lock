@@ -1,27 +1,16 @@
 {
   "version": "5",
   "specifiers": {
-    "jsr:@std/assert@^1.0.19": "1.0.19",
     "jsr:@std/cli@1.0.32": "1.0.32",
-    "jsr:@std/internal@^1.0.12": "1.0.13",
-    "npm:canvas@3.2.0": "3.2.0",
+    "npm:canvas@3.2.3": "3.2.3",
     "npm:sinon@22.1.0": "22.1.0",
     "npm:vega-canvas@2.0.0": "2.0.0",
     "npm:vega-lite@6.4.3": "6.4.3_vega@6.3.1",
     "npm:vega@6.3.1": "6.3.1"
   },
   "jsr": {
-    "@std/assert@1.0.19": {
-      "integrity": "eaada96ee120cb980bc47e040f82814d786fe8162ecc53c91d8df60b8755991e",
-      "dependencies": [
-        "jsr:@std/internal"
-      ]
-    },
     "@std/cli@1.0.32": {
       "integrity": "188b3a100d6202d64e3f5bd3d799c7fa4f6d77f92cc65eb7f641c1fa0aa92a66"
-    },
-    "@std/internal@1.0.13": {
-      "integrity": "2f9546691d4ac2d32859c82dff284aaeac980ddeca38430d07941e7e288725c0"
     }
   },
   "npm": {
@@ -74,8 +63,8 @@
         "ieee754"
       ]
     },
-    "canvas@3.2.0": {
-      "integrity": "sha512-jk0GxrLtUEmW/TmFsk2WghvgHe8B0pxGilqCL21y8lHkPUGa6FTsnCNtHPOzT8O3y+N+m3espawV80bbBlgfTA==",
+    "canvas@3.2.3": {
+      "integrity": "sha512-PzE5nJZPz72YUAfo8oTp0u3fqqY7IzlTubneAihqDYAUcBk7ryeCmBbdJBEdaH0bptSOe2VT2Zwcb3UaFyaSWw==",
       "dependencies": [
         "node-addon-api",
         "prebuild-install"
@@ -677,8 +666,8 @@
         "vega-util"
       ]
     },
-    "vega-util@2.1.1": {
-      "integrity": "sha512-tpNmm8bGtUa8gKfFDSjXPffxqSyPr91vaWIEBnJS/rijhoLZMwM+mgYQG6XfwdcBSN1+jkZ57P0sYSEW/jophw=="
+    "vega-util@2.1.2": {
+      "integrity": "sha512-Mdvv33BUlx4no5gz2VHdue4bJ6ejWmInuieID3JGnAXwewHKrPWE/Xr2vVWA+xS9Om1eHvj/0wVsiBGJ61v2uQ=="
     },
     "vega-view-transforms@5.2.1": {
       "integrity": "sha512-TiguoCJ6BB7TEV+s3nNMoCoH4+q5A6XQsDMEzbVuRaSWmfIJxvWUlbZQqn4CUt65VMDr63Fy21Xpb0ntlaU5LQ==",
@@ -784,7 +773,7 @@
     "dependencies": [
       "jsr:@std/assert@^1.0.19",
       "jsr:@std/cli@1.0.32",
-      "npm:canvas@3.2.0",
+      "npm:canvas@3.2.3",
       "npm:sinon@22.1.0",
       "npm:vega-canvas@2.0.0",
       "npm:vega-lite@6.4.3",
