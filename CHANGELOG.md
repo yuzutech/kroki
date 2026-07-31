@@ -19,6 +19,10 @@ versioned entry and uses it as the GitHub release notes.
 
 - Prevent BPMN diagram source from executing arbitrary HTML/JavaScript in the companion's headless Chromium page: the diagram source was assigned to the rendering container via `innerHTML` before being handed to bpmn-js, so a crafted request to `/bpmn/svg` could inject an element (e.g. `<img onerror=...>`) that ran script in that page; combined with the browser's `--disable-web-security` flag (same-origin policy disabled), that script could issue cross-origin requests and read the responses. Fixed by clearing the container instead of parsing the diagram source as HTML, and by dropping `--disable-web-security` — the only reason it was set, local file access, is already covered by the shared `--allow-file-access-from-files` flag ([#2089](https://github.com/yuzutech/kroki/pull/2089))
 
+### Fixed
+
+- Prevent the headless Chromium instance shared by the Mermaid, BPMN, Excalidraw and diagrams.net companions from crashing once it exhausts Docker's default 64MB `/dev/shm`, by passing `--disable-dev-shm-usage` so Chromium falls back to `/tmp`
+
 ## [0.31.2] - 2026-07-26
 
 ### Security
