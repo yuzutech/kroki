@@ -18,7 +18,13 @@ LATEX_OPTIONS="-no-shell-escape -halt-on-error"
 #
 # * --font-format=woff - Embeds fonts in the SVG using the Web Open Font
 #   Format. This increases the size of the SVG but improves font rendering.
-DVISVGM_OPTIONS="--font-format=woff"
+# * --no-specials=ps - Disables processing of PostScript specials. Without
+#   this, dvisvgm hands PostScript specials (\special{ps:...}) off to
+#   Ghostscript, which it runs with -dDELAYSAFER instead of -dSAFER. That
+#   allows the %pipe% device and arbitrary command execution regardless of
+#   KROKI_SAFE_MODE, since safe mode only restricts kpathsea (LaTeX) file
+#   access and has no effect on Ghostscript's file access layer.
+DVISVGM_OPTIONS="--font-format=woff --no-specials=ps"
 
 backend_driver() {
     output_format=$1
