@@ -11,6 +11,8 @@ versioned entry and uses it as the GitHub release notes.
 
 ## [Unreleased]
 
+## [0.32.0] - 2026-08-03
+
 ### Added
 
 - Add `background` and `transparent` options to Ditaa diagrams, to set the background colour of the image or make it transparent
