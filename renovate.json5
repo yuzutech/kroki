@@ -1,6 +1,11 @@
 {
   $schema: 'https://docs.renovatebot.com/renovate-schema.json',
   dependencyDashboard: true,
+  // the server/pom.xml <parent> points at this repo's own root pom.xml,
+  // it's never published so Renovate can't (and shouldn't) look it up
+  ignoreDeps: [
+    'io.kroki:kroki',
+  ],
   labels: [
     '🔗 dependencies',
   ],
