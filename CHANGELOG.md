@@ -25,6 +25,10 @@ versioned entry and uses it as the GitHub release notes.
 - Prevent the headless Chromium instance shared by the Mermaid, BPMN, Excalidraw and diagrams.net companions from crashing once it exhausts Docker's default 64MB `/dev/shm`, by passing `--disable-dev-shm-usage` so Chromium falls back to `/tmp`
 - Raise the core's HTTP connection pool towards each companion from Vert.x's default of 5 to 10 (configurable via `KROKI_DELEGATE_MAX_POOL_SIZE`), so a degraded companion (e.g. Mermaid restarting Chromium after a crash) doesn't starve unrelated requests of a pooled connection and fail them with a `getting a connection` timeout before the companion itself is actually overloaded
 
+### Diagram libraries
+
+- Update Vega to 6.3.1
+
 ## [0.31.2] - 2026-07-26
 
 ### Security

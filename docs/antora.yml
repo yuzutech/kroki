@@ -28,7 +28,7 @@ asciidoc:
     svgbob-version: 0.7.6
     symbolator-version: 1.2.2
     umlet-version: 15.1
-    vega-version: 6.2.0
+    vega-version: 6.3.1
     vegalite-version: 6.4.3
     wavedrom-version: 3.6.1
     wireviz-version: 0.3.3
