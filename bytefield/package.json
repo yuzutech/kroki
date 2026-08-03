@@ -22,11 +22,11 @@
     "bytefield-svg": "1.11.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.16",
-    "esbuild": "0.28.0",
+    "@biomejs/biome": "2.5.5",
+    "esbuild": "0.28.1",
     "postject": "1.0.0-alpha.6"
   },
   "volta": {
-    "node": "24.16.0"
+    "node": "24.18.0"
   }
 }
