@@ -32,6 +32,9 @@ versioned entry and uses it as the GitHub release notes.
 ### Diagram libraries
 
 - Update Vega to 6.3.1
+- Update bpmn-js to 18.22.0 ([#2114](https://github.com/yuzutech/kroki/pull/2114))
+- Update Mermaid to 11.16.0 ([#2119](https://github.com/yuzutech/kroki/pull/2119))
+- Update WaveDrom to 3.6.2 ([#2122](https://github.com/yuzutech/kroki/pull/2122))
 
 ## [0.31.2] - 2026-07-26
 
