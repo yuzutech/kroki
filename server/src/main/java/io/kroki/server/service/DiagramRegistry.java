@@ -4,9 +4,11 @@ import io.kroki.server.error.MethodNotAllowedException;
 import io.kroki.server.error.UnsupportedFormatException;
 import io.kroki.server.response.Caching;
 import io.vertx.core.http.HttpMethod;
+import io.vertx.ext.web.Route;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.BodyHandler;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +17,17 @@ import java.util.stream.Collectors;
 
 public class DiagramRegistry {
 
-  private final Map<String, DiagramHandler> registry = new HashMap<>();
+  private static class Entry {
+    final DiagramHandler handler;
+    final List<Route> routes;
+
+    Entry(DiagramHandler handler, List<Route> routes) {
+      this.handler = handler;
+      this.routes = routes;
+    }
+  }
+
+  private final Map<String, Entry> registry = new HashMap<>();
   private final Router router;
   private final BodyHandler bodyHandler;
 
@@ -27,23 +39,23 @@ public class DiagramRegistry {
   public void register(DiagramService diagramService, String... names) {
     DiagramHandler diagramHandler = new DiagramHandler(diagramService, new Caching(diagramService.getVersion()));
     for (String name : names) {
-      registry.put(name, diagramHandler);
-      router.get("/" + name + "/:output_format/:source_encoded")
+      List<Route> routes = new ArrayList<>();
+      routes.add(router.get("/" + name + "/:output_format/:source_encoded")
         .handler(diagramHandler.createRequestReceived(name))
-        .handler(diagramHandler.createGet(name));
-      router.route("/" + name)
+        .handler(diagramHandler.createGet(name)));
+      routes.add(router.route("/" + name)
         .handler(event -> {
           if (HttpMethod.POST.equals(event.request().method())) {
             event.next();
             return;
           }
           event.fail(405, new MethodNotAllowedException(List.of("POST")));
-        });
-      router.post("/" + name)
+        }));
+      routes.add(router.post("/" + name)
         .handler(bodyHandler)
         .handler(diagramHandler.createRequestReceived(name))
-        .handler(diagramHandler.createPost(name));
-      router.route("/" + name + "/:output_format")
+        .handler(diagramHandler.createPost(name)));
+      routes.add(router.route("/" + name + "/:output_format")
         .handler(event -> {
           if (HttpMethod.POST.equals(event.request().method())) {
             event.next();
@@ -57,16 +69,40 @@ public class DiagramRegistry {
             return;
           }
           event.fail(405, new MethodNotAllowedException(List.of("POST")));
-        });
-      router.post("/" + name + "/:output_format")
+        }));
+      routes.add(router.post("/" + name + "/:output_format")
         .handler(bodyHandler)
         .handler(diagramHandler.createRequestReceived(name))
-        .handler(diagramHandler.createPost(name));
+        .handler(diagramHandler.createPost(name)));
+      registry.put(name, new Entry(diagramHandler, routes));
     }
   }
 
+  /**
+   * Removes a previously registered diagram type, disabling its routes.
+   * Used to evict a companion service that unregistered or missed its heartbeat deadline.
+   *
+   * @param name the diagram type name
+   * @return true if a registration was removed, false if none existed
+   */
+  public boolean unregister(String name) {
+    Entry entry = registry.remove(name);
+    if (entry == null) {
+      return false;
+    }
+    for (Route route : entry.routes) {
+      route.remove();
+    }
+    return true;
+  }
+
+  public boolean isRegistered(String name) {
+    return registry.containsKey(name);
+  }
+
   public DiagramHandler get(String name) {
-    return registry.get(name);
+    Entry entry = registry.get(name);
+    return entry != null ? entry.handler : null;
   }
 
   public Set<String> names() {
@@ -76,7 +112,7 @@ public class DiagramRegistry {
   public Map<String, String> getVersions() {
     return registry.entrySet().stream().map(registryEntry -> {
       String diagramName = registryEntry.getKey();
-      String diagramVersion = registryEntry.getValue().getService().getVersion();
+      String diagramVersion = registryEntry.getValue().handler.getService().getVersion();
       return Map.entry(diagramName, diagramVersion);
     }).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
   }

@@ -314,6 +314,88 @@ KROKI_EXCALIDRAW_PORT:: Port of the Excalidraw container (default: `8004`).
 
 NOTE: If you are using the default `docker-compose.yaml` file you can rely on the default values.
 
+== Companion Service Discovery
+
+In addition to the companion containers built into Kroki (Mermaid, BPMN, Excalidraw, diagrams.net), you can extend Kroki with your own companion container for a diagram type that isn't built in. A companion registers itself with the gateway over a small REST API, and Kroki then delegates conversion requests for that diagram type to it — see https://github.com/yuzutech/kroki/issues/1423[issue #1423] for the design discussion.
+
+This feature is disabled by default. Enable it with `KROKI_ENABLE_COMPANION_DISCOVERY=true`.
+
+[IMPORTANT]
+====
+Companion service discovery is always disabled while Kroki runs in `SECURE` safe mode (the default, see <<Safe Mode>>), regardless of `KROKI_ENABLE_COMPANION_DISCOVERY`. `SECURE` means the operator does not trust a service's own security checks, which is exactly what registering a new, unvetted companion would ask the gateway to do. This also means the feature is never available on the public https://kroki.io instance.
+
+To use this feature, explicitly set `KROKI_SAFE_MODE` to `SAFE` or `UNSAFE`.
+====
+
+=== Registering a companion
+
+A companion registers itself by sending its name, version, supported output formats, and where it can be reached:
+
+[source,bash]
+----
+curl -X POST https://my.kroki.example/services \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "name": "mscgen",
+    "version": "1.2.3",
+    "formats": ["png", "svg"],
+    "host": "mscgen-companion",
+    "port": 8080
+  }'
+----
+
+`name`:: The diagram type name, used in the conversion URL (`/mscgen/svg/...`). Must be lowercase letters and digits only, and not already used by a built-in diagram type or another registered companion (`422` otherwise).
+`version`:: A free-form version string, reported on the `/health` endpoint and the homepage.
+`formats`:: A non-empty array of the output formats the companion supports (`png`, `svg`, `jpeg`, `pdf`, `base64`, `txt` or `utxt`).
+`host` and `port`:: Where Kroki should reach the companion. Loopback, link-local (which covers every major cloud provider's instance-metadata address) and private addresses are rejected, as well as a small built-in denylist of cloud metadata hostnames — see `KROKI_COMPANION_BLOCKED_HOSTS` below.
+
+On success, the server responds `201 Created` and the diagram type is immediately available, e.g. `POST /mscgen/svg`. The companion is expected to implement the same wire protocol as Kroki's own companion containers: `POST /<name>/<format>` with the decoded diagram source as the request body.
+
+Since Kroki is stateless, the registry does not survive a restart, and a companion is expected to keep renewing its registration with a heartbeat:
+
+[source,bash]
+----
+curl -X PUT https://my.kroki.example/services/mscgen/heartbeat
+----
+
+A companion that misses its heartbeat deadline (`KROKI_COMPANION_HEARTBEAT_TTL_MS`, default `90000` — 90 seconds) is automatically evicted, freeing up its name. A companion can also unregister explicitly on graceful shutdown:
+
+[source,bash]
+----
+curl -X DELETE https://my.kroki.example/services/mscgen
+----
+
+`GET /services/:name` and `GET /services` return the current registration(s) as JSON, for inspection.
+
+=== Securing the registration API
+
+Since registering a companion lets it serve conversion requests under a new diagram type name, the `/services` API should only be reachable from a trusted network (e.g. a private Docker or Kubernetes network with no route from the outside).
+
+As an additional layer, you can require a bearer token on every `/services` request with `KROKI_COMPANION_REGISTRATION_TOKEN`:
+
+[source,bash]
+----
+KROKI_COMPANION_REGISTRATION_TOKEN=s3cr3t
+----
+
+[source,bash]
+----
+curl -X POST https://my.kroki.example/services \
+  -H 'Authorization: Bearer s3cr3t' \
+  -H 'Content-Type: application/json' \
+  -d '{ "name": "mscgen", "version": "1.2.3", "formats": ["svg"], "host": "mscgen-companion", "port": 8080 }'
+----
+
+If `KROKI_ENABLE_COMPANION_DISCOVERY` is set without a token, Kroki logs a warning on startup: the registration API is then reachable by anyone who can reach the gateway.
+
+=== Companion Service Discovery Environment Variables
+
+`KROKI_ENABLE_COMPANION_DISCOVERY`:: Enables the `/services` registration API. Defaults to `false`. Has no effect while `KROKI_SAFE_MODE` is `SECURE`.
+`KROKI_COMPANION_REGISTRATION_TOKEN`:: Bearer token required on every `/services` request. Optional, but strongly recommended.
+`KROKI_COMPANION_HEARTBEAT_TTL_MS`:: How long a companion may go without a heartbeat before being evicted. Defaults to `90000` (90 seconds).
+`KROKI_COMPANION_HEARTBEAT_SWEEP_INTERVAL_MS`:: How often expired registrations are checked for. Defaults to a third of `KROKI_COMPANION_HEARTBEAT_TTL_MS`, with a floor of `5000`.
+`KROKI_COMPANION_BLOCKED_HOSTS`:: Comma-separated list of additional hostnames to reject as a companion's `host`, on top of the built-in denylist (loopback, link-local, private addresses, and known cloud metadata hostnames).
+
 == Max URI length
 
 Some diagrams, like Excalidraw, have verbose textual descriptions that will produce long URI.

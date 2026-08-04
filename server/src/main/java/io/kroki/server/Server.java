@@ -5,6 +5,10 @@ import io.kroki.server.action.Delegator;
 import io.kroki.server.error.ErrorHandler;
 import io.kroki.server.error.InvalidRequestHandler;
 import io.kroki.server.log.Logging;
+import io.kroki.server.registry.CompanionAuthHandler;
+import io.kroki.server.registry.CompanionRegistry;
+import io.kroki.server.registry.CompanionServiceHandler;
+import io.kroki.server.security.SafeMode;
 import io.kroki.server.service.*;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.*;
@@ -20,6 +24,7 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.CorsHandler;
 
+import java.time.Duration;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -119,6 +124,8 @@ public class Server extends AbstractVerticle {
     registry.register(new Wireviz(vertx, config, commander), "wireviz");
     registry.register(new Goat(vertx, config, commander), "goat");
 
+    mountCompanionDiscovery(vertx, config, router, bodyHandler, delegator, registry);
+
     router.post("/")
       .handler(bodyHandler)
       .handler(new DiagramRest(registry).create());
@@ -130,7 +137,9 @@ public class Server extends AbstractVerticle {
     router.get("/metrics")
       .handler(metricHandlerService);
     // health
-    HealthHandler healthHandler = new HealthHandler(registry.getVersions(), blockedThreadChecker);
+    // queries registry.getVersions() live (rather than a startup snapshot) so that companion
+    // services registered or evicted at runtime (see issue #1423) are reflected immediately
+    HealthHandler healthHandler = new HealthHandler(registry::getVersions, blockedThreadChecker);
     Handler<RoutingContext> healthHandlerService = healthHandler.create();
     router.get("/health")
       .handler(healthHandlerService);
@@ -140,14 +149,16 @@ public class Server extends AbstractVerticle {
       .handler(healthHandlerService);
 
     // hello
-    List<ServiceVersion> serviceVersions = healthHandler.getServiceVersions();
     String krokiBuildHash = healthHandler.getKrokiBuildHash();
     String krokiVersionNumber = healthHandler.getKrokiVersionNumber();
     router.get("/")
-      .handler(new HelloHandler(vertx, serviceVersions, krokiVersionNumber, krokiBuildHash).create());
+      .handler(new HelloHandler(vertx, healthHandler::getServiceVersions, krokiVersionNumber, krokiBuildHash).create());
 
     // Default route
-    Route route = router.route("/*");
+    // Ordered last so that companion services registered dynamically at runtime (see issue
+    // #1423), whose routes are necessarily added to the router after this one, still get a
+    // chance to match instead of always falling through to this catch-all 404.
+    Route route = router.route("/*").order(Integer.MAX_VALUE);
     route.handler(routingContext -> routingContext.fail(404));
     ErrorHandler errorHandler = new ErrorHandler(vertx, config.getBoolean("KROKI_DISPLAY_EXCEPTION_DETAILS", false));
     route.failureHandler(errorHandler);
@@ -156,6 +167,71 @@ public class Server extends AbstractVerticle {
       .invalidRequestHandler(new InvalidRequestHandler(errorHandler, serverOptions.getMaxInitialLineLength()))
       .requestHandler(router)
       .listen(getListenAddress(config));
+  }
+
+  /**
+   * Mounts the companion service discovery REST API (see issue #1423) under {@code /services},
+   * allowing companion containers not built into Kroki to register themselves as a new diagram
+   * type. Disabled by default: this opens a new registration surface that should only be exposed
+   * on a trusted network, ideally with {@code KROKI_COMPANION_REGISTRATION_TOKEN} configured.
+   *
+   * <p>Always disabled under {@code KROKI_SAFE_MODE=SECURE} (the default, including on kroki.io),
+   * regardless of {@code KROKI_ENABLE_COMPANION_DISCOVERY}: SECURE means the operator does not
+   * trust arbitrary services' own security checks, which is precisely what registering a new,
+   * unvetted companion would ask the gateway to do.
+   */
+  private static void mountCompanionDiscovery(Vertx vertx, JsonObject config, Router router, BodyHandler bodyHandler, Delegator delegator, DiagramRegistry registry) {
+    if (!config.getBoolean("KROKI_ENABLE_COMPANION_DISCOVERY", false)) {
+      return;
+    }
+    SafeMode safeMode = SafeMode.get(config.getString("KROKI_SAFE_MODE", "secure"), SafeMode.SECURE);
+    if (safeMode == SafeMode.SECURE) {
+      logger.warn("KROKI_ENABLE_COMPANION_DISCOVERY is enabled but KROKI_SAFE_MODE is SECURE (the default): " +
+        "companion service discovery stays disabled. Set KROKI_SAFE_MODE to SAFE or UNSAFE to allow it.");
+      return;
+    }
+    String token = config.getString("KROKI_COMPANION_REGISTRATION_TOKEN");
+    if (token == null || token.isEmpty()) {
+      logger.warn("KROKI_ENABLE_COMPANION_DISCOVERY is enabled without KROKI_COMPANION_REGISTRATION_TOKEN: " +
+        "the /services registration API is unauthenticated, only expose it on a trusted network.");
+    }
+    long heartbeatTtlMs = config.getLong("KROKI_COMPANION_HEARTBEAT_TTL_MS", 90_000L);
+
+    // additional hostnames to reject as a companion's host, on top of the built-in cloud metadata denylist
+    Set<String> extraBlockedHosts = new LinkedHashSet<>();
+    String blockedHostsVar = config.getString("KROKI_COMPANION_BLOCKED_HOSTS");
+    if (blockedHostsVar != null) {
+      Arrays.stream(blockedHostsVar.split(","))
+        .map(String::trim)
+        .filter(s -> !s.isEmpty())
+        .forEach(extraBlockedHosts::add);
+    }
+
+    CompanionRegistry companionRegistry = new CompanionRegistry(registry, delegator, extraBlockedHosts);
+    CompanionServiceHandler serviceHandler = new CompanionServiceHandler(companionRegistry);
+
+    if (token != null && !token.isEmpty()) {
+      router.route("/services*").handler(new CompanionAuthHandler(token));
+    }
+    router.post("/services")
+      .handler(bodyHandler)
+      .handler(serviceHandler.createRegister());
+    router.put("/services/:name/heartbeat")
+      .handler(serviceHandler.createHeartbeat());
+    router.get("/services/:name")
+      .handler(serviceHandler.createGet());
+    router.get("/services")
+      .handler(serviceHandler.createList());
+    router.delete("/services/:name")
+      .handler(serviceHandler.createUnregister());
+
+    long sweepIntervalMs = config.getLong("KROKI_COMPANION_HEARTBEAT_SWEEP_INTERVAL_MS", Math.max(heartbeatTtlMs / 3, 5_000L));
+    vertx.setPeriodic(sweepIntervalMs, timerId -> {
+      List<String> expired = companionRegistry.sweepExpired(Duration.ofMillis(heartbeatTtlMs));
+      if (!expired.isEmpty()) {
+        logger.info("Evicted companion service(s) that missed their heartbeat deadline: {}", expired);
+      }
+    });
   }
 
   private static void setPemKeyCertOptions(JsonObject config, HttpServerOptions serverOptions, boolean enableSSL) {
