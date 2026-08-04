@@ -6,16 +6,26 @@ import io.vertx.core.http.HttpHeaders;
 import io.vertx.ext.web.RoutingContext;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 public class HelloHandler {
 
   private final String rowTemplate;
   private final String tableTemplate;
   private final String pageTemplate;
-  private final List<ServiceVersion> serviceVersions;
+  private final Supplier<List<ServiceVersion>> serviceVersionsSupplier;
 
   public HelloHandler(Vertx vertx, List<ServiceVersion> serviceVersions, String krokiVersionNumber, String krokiBuildHash) {
-    this.serviceVersions = serviceVersions;
+    this(vertx, () -> serviceVersions, krokiVersionNumber, krokiBuildHash);
+  }
+
+  /**
+   * @param serviceVersionsSupplier queried on every request (rather than a fixed snapshot) so
+   *                                 that diagram types registered or evicted at runtime (see
+   *                                 issue #1423) show up on the homepage immediately.
+   */
+  public HelloHandler(Vertx vertx, Supplier<List<ServiceVersion>> serviceVersionsSupplier, String krokiVersionNumber, String krokiBuildHash) {
+    this.serviceVersionsSupplier = serviceVersionsSupplier;
     this.rowTemplate = vertx.fileSystem().readFileBlocking("web/version_row.html").toString();
     this.tableTemplate = vertx.fileSystem().readFileBlocking("web/version_table.html").toString();
     String stylesheet = vertx.fileSystem().readFileBlocking("web/root/css/main.css").toString();
@@ -29,7 +39,7 @@ public class HelloHandler {
 
   public Handler<RoutingContext> create() {
     return routingContext -> {
-      String versionsTable = generateVersionsTable(serviceVersions);
+      String versionsTable = generateVersionsTable(serviceVersionsSupplier.get());
       routingContext
         .response()
         .putHeader(HttpHeaders.CONTENT_TYPE, "text/html")

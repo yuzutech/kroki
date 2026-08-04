@@ -10,25 +10,35 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class HealthHandler {
 
   private final String krokiVersionNumber;
   private final String krokiBuildHash;
-  private final List<ServiceVersion> serviceVersions;
+  private final Supplier<Map<String, String>> versionsSupplier;
 
   public HealthHandler(Map<String, String> versions) {
-    this(versions, null);
+    this(() -> versions, null);
+  }
+
+  public HealthHandler(Supplier<Map<String, String>> versionsSupplier) {
+    this(versionsSupplier, null);
   }
 
   public HealthHandler(Map<String, String> versions, KrokiBlockedThreadChecker blockedThreadChecker) {
+    this(() -> versions, blockedThreadChecker);
+  }
+
+  /**
+   * @param versionsSupplier queried on every call (rather than a fixed snapshot) so that diagram
+   *                          types registered or evicted at runtime (see issue #1423) are reflected
+   *                          immediately, both in the /health response and on the homepage.
+   */
+  public HealthHandler(Supplier<Map<String, String>> versionsSupplier, KrokiBlockedThreadChecker blockedThreadChecker) {
     krokiVersionNumber = Main.getApplicationProperty("app.version", "");
     krokiBuildHash = Main.getApplicationProperty("app.sha1", "");
-    serviceVersions = new ArrayList<>();
-    // QUESTION: should we dynamically fetch the versions ?
-    for (Map.Entry<String, String> entry : versions.entrySet()) {
-      serviceVersions.add(new ServiceVersion(entry.getKey(), entry.getValue()));
-    }
+    this.versionsSupplier = versionsSupplier;
   }
 
   public Handler<RoutingContext> create() {
@@ -41,7 +51,7 @@ public class HealthHandler {
       krokiVersion.put("build_hash", krokiBuildHash);
       versions.put("kroki", krokiVersion);
       data.put("version", versions);
-      for (ServiceVersion serviceVersion : serviceVersions) {
+      for (ServiceVersion serviceVersion : getServiceVersions()) {
         versions.put(serviceVersion.getService(), serviceVersion.getVersion());
       }
       routingContext
@@ -60,6 +70,10 @@ public class HealthHandler {
   }
 
   public List<ServiceVersion> getServiceVersions() {
+    List<ServiceVersion> serviceVersions = new ArrayList<>();
+    for (Map.Entry<String, String> entry : versionsSupplier.get().entrySet()) {
+      serviceVersions.add(new ServiceVersion(entry.getKey(), entry.getValue()));
+    }
     return serviceVersions;
   }
 }
