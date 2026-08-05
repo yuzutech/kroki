@@ -22,11 +22,11 @@
     "@softwaretechnik/dbml-renderer": "1.0.31"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.5",
+    "@biomejs/biome": "2.5.6",
     "esbuild": "0.28.1",
     "postject": "1.0.0-alpha.6"
   },
   "volta": {
-    "node": "24.18.0"
+    "node": "24.18.1"
   }
 }
