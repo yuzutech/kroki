@@ -30,10 +30,10 @@
     "react-dom": "18.3.1"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.5",
+    "@biomejs/biome": "2.5.6",
     "esbuild": "0.28.1"
   },
   "volta": {
-    "node": "24.18.0"
+    "node": "24.18.1"
   }
 }
