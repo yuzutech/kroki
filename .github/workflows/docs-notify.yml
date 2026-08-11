@@ -7,6 +7,8 @@ on:
     branches:
       - main
 
+permissions: {}
+
 jobs:
   trigger_publish:
     runs-on: ubuntu-latest

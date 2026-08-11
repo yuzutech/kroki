@@ -5,6 +5,8 @@ on:
     tags:
       - 'v*'
       - .github/workflows/dockerhub-description.yml
+permissions:
+  contents: read
 jobs:
   docker-hub-description:
     runs-on: ubuntu-latest
