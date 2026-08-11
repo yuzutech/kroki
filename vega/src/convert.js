@@ -25,6 +25,74 @@ const nullLogger = {
 };
 
 /**
+ * Whether a `data` definition (either a single object, as found on
+ * `spec.data` or `mark.encode.*`, or an array of them, as found on
+ * `spec.data` or `mark.data`) includes a `url` attribute.
+ * @param data
+ * @returns {boolean}
+ */
+function dataHasUrl(data) {
+  if (!data) {
+    return false;
+  }
+  if (Array.isArray(data)) {
+    return data.some((item) => item && item.url);
+  }
+  return typeof data === "object" && !!data.url;
+}
+
+/**
+ * Whether a mark's `encode` block sets a `url` on any of its property
+ * sets (e.g. `enter`, `update`, `exit`, `hover`). Image marks load this
+ * URL directly through the renderer, independently of `data`.
+ * @param encode
+ * @returns {boolean}
+ */
+function encodeHasUrl(encode) {
+  if (!encode || typeof encode !== "object") {
+    return false;
+  }
+  return Object.values(encode).some((entry) => dataHasUrl(entry));
+}
+
+/**
+ * Whether any mark in the given array (including those nested inside
+ * group marks, since Vega allows group marks to be nested arbitrarily
+ * deep) references a URL, either through its `data` or through an
+ * image mark's `encode.*.url`.
+ * @param marks
+ * @returns {boolean}
+ */
+function marksHaveUnsafeUrl(marks) {
+  return marks.some((mark) => {
+    if (!mark) {
+      return false;
+    }
+    if (dataHasUrl(mark.data) || encodeHasUrl(mark.encode)) {
+      return true;
+    }
+    return Array.isArray(mark.marks) && marksHaveUnsafeUrl(mark.marks);
+  });
+}
+
+/**
+ * Whether a parsed Vega/Vega-Lite spec references a URL anywhere secure
+ * mode must block: top-level `data`, or `data`/`encode.*.url` on any
+ * mark, however deeply nested.
+ * @param spec
+ * @returns {boolean}
+ */
+function specHasUnsafeUrl(spec) {
+  if (!spec) {
+    return false;
+  }
+  if (dataHasUrl(spec.data)) {
+    return true;
+  }
+  return Array.isArray(spec.marks) && marksHaveUnsafeUrl(spec.marks);
+}
+
+/**
  * @param source
  * @param options
  * @returns {Promise<string|Buffer>}
@@ -35,33 +103,11 @@ export async function convert(source, options) {
   if (specFormat === "lite") {
     spec = compile(spec, { logger: nullLogger }).spec;
   }
-  if (safeMode === "secure" && spec) {
-    if (spec.data && Array.isArray(spec.data)) {
-      const dataWithUrlAttribute = spec.data.filter((item) => item.url);
-      if (dataWithUrlAttribute && dataWithUrlAttribute.length > 0) {
-        throw new UnsafeIncludeError(
-          `Unable to load data from an URL while running in secure mode.
+  if (safeMode === "secure" && specHasUnsafeUrl(spec)) {
+    throw new UnsafeIncludeError(
+      `Unable to load data from an URL while running in secure mode.
 Please include your data set as 'values' or run Kroki in unsafe mode using the KROKI_SAFE_MODE environment variable.`,
-        );
-      }
-    }
-    if (spec.data && typeof spec.data === "object" && spec.data.url) {
-      throw new UnsafeIncludeError(
-        `Unable to load data from an URL while running in secure mode.
-Please include your data set as 'values' or run Kroki in unsafe mode using the KROKI_SAFE_MODE environment variable.`,
-      );
-    }
-    if (spec.marks && Array.isArray(spec.marks)) {
-      const dataWithUrlAttribute = spec.marks.flatMap((m) => m.data).filter((
-        item,
-      ) => item && item.url);
-      if (dataWithUrlAttribute && dataWithUrlAttribute.length > 0) {
-        throw new UnsafeIncludeError(
-          `Unable to load data from an URL while running in secure mode.
-Please include your data set as 'values' or run Kroki in unsafe mode using the KROKI_SAFE_MODE environment variable.`,
-        );
-      }
-    }
+    );
   }
   const view = new View(parse(spec), {
     renderer: format === "svg" ? "svg" : "canvas",

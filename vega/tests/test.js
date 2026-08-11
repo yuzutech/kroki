@@ -127,6 +127,71 @@ describe("#convert", function () {
       deepEqual(err.name, "UnsafeIncludeError");
     }
   });
+  it("should throw UnsafeIncludeError in secure mode when the Vega specification contains marks[].marks[].data[].url (nested group marks)", async function () {
+    const input = `{
+  "marks": [
+    {
+      "type": "group",
+      "marks": [
+        {
+          "type": "group",
+          "data": [
+            {
+              "url": "data/cars.json"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}`;
+    try {
+      await convert(input, {
+        specFormat: "",
+        safeMode: "secure",
+        format: "svg",
+      });
+      fail(
+        "",
+        "",
+        "It should throw an error in secure mode when the Vega specification contains marks[].marks[].data[].url",
+      );
+    } catch (err) {
+      deepEqual(err.name, "UnsafeIncludeError");
+    }
+  });
+  it("should throw UnsafeIncludeError in secure mode when the Vega specification contains an image mark with encode.*.url", async function () {
+    const input = `{
+  "marks": [
+    {
+      "type": "image",
+      "encode": {
+        "enter": {
+          "url": { "value": "http://169.254.169.254/latest/meta-data/" },
+          "x": { "value": 0 },
+          "y": { "value": 0 },
+          "width": { "value": 100 },
+          "height": { "value": 100 }
+        }
+      }
+    }
+  ]
+}`;
+    try {
+      await convert(input, {
+        specFormat: "",
+        safeMode: "secure",
+        format: "svg",
+      });
+      fail(
+        "",
+        "",
+        "It should throw an error in secure mode when the Vega specification contains an image mark with encode.*.url",
+      );
+    } catch (err) {
+      deepEqual(err.name, "UnsafeIncludeError");
+    }
+  });
   it("should throw IllegalArgumentError when output format is not supported", async function () {
     const input = `{
   "data": {
