@@ -192,6 +192,113 @@ describe("#convert", function () {
       deepEqual(err.name, "UnsafeIncludeError");
     }
   });
+  it("should throw UnsafeIncludeError for deeply nested mark data URLs", async function () {
+    const input = `{
+  "marks": [
+    {
+      "type": "group",
+      "marks": [
+        {
+          "type": "group",
+          "marks": [
+            {
+              "type": "group",
+              "marks": [
+                {
+                  "type": "text",
+                  "data": {
+                    "url": "file:///etc/passwd"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}`;
+    try {
+      await convert(input, {
+        specFormat: "",
+        safeMode: "secure",
+        format: "svg",
+      });
+      fail("Deeply nested mark data URLs should be rejected in secure mode");
+    } catch (err) {
+      deepEqual(err.name, "UnsafeIncludeError");
+    }
+  });
+  it("should throw UnsafeIncludeError for nested image encode signal URLs", async function () {
+    const input = `{
+  "marks": [
+    {
+      "type": "group",
+      "marks": [
+        {
+          "type": "group",
+          "marks": [
+            {
+              "type": "image",
+              "encode": {
+                "update": {
+                  "url": {
+                    "signal": "'http://169.254.169.254/latest/meta-data/'"
+                  },
+                  "x": {"value": 0},
+                  "y": {"value": 0},
+                  "width": {"value": 100},
+                  "height": {"value": 100}
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}`;
+    try {
+      await convert(input, {
+        specFormat: "",
+        safeMode: "secure",
+        format: "svg",
+      });
+      fail("Nested image encode URLs should be rejected in secure mode");
+    } catch (err) {
+      deepEqual(err.name, "UnsafeIncludeError");
+    }
+  });
+  it("should allow inline values in secure mode", async function () {
+    const input = `{
+  "width": 100,
+  "height": 100,
+  "data": {
+    "values": [
+      {"x": 10, "y": 10}
+    ]
+  },
+  "marks": [
+    {
+      "type": "rect",
+      "encode": {
+        "enter": {
+          "x": {"field": "x"},
+          "y": {"field": "y"},
+          "width": {"value": 20},
+          "height": {"value": 20}
+        }
+      }
+    }
+  ]
+}`;
+    const result = await convert(input, {
+      specFormat: "",
+      safeMode: "secure",
+      format: "svg",
+    });
+    deepEqual(result.includes("<svg"), true);
+  });
   it("should throw IllegalArgumentError when output format is not supported", async function () {
     const input = `{
   "data": {
