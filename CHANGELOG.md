@@ -11,6 +11,8 @@ versioned entry and uses it as the GitHub release notes.
 
 ## [Unreleased]
 
+## [0.32.1] - 2026-08-12
+
 ### Security
 
 - Prevent Vega diagrams from bypassing `KROKI_SAFE_MODE=SECURE`'s URL-loading restriction: the guard only inspected `spec.data` and the direct children of `spec.marks`, so a URL-bearing data definition nested inside a group mark (`marks[].marks[].data[].url`) reached Vega's loader unchecked, allowing SSRF and local file reads (e.g. `file:///etc/passwd`); separately, an `image` mark's `encode.*.url` (e.g. `encode.enter.url`) is fetched directly by the renderer and wasn't inspected at all, allowing SSRF (e.g. against cloud metadata endpoints) even without any `data` block. Fixed by recursively scanning every mark, however deeply nested, for a `url` on either `data` or `encode`
