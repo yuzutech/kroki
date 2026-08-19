@@ -27,7 +27,7 @@
     "puppeteer": "25.1.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.6"
+    "@biomejs/biome": "2.5.8"
   },
   "volta": {
     "node": "24.19.0"
