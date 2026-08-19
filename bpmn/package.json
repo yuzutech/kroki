@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@kroki/browser-instance": "file:../lib/browser-instance",
-    "bpmn-js": "18.22.1",
+    "bpmn-js": "18.24.0",
     "micro": "10.0.1",
     "pino": "9.14.0",
     "pino-debug": "^2.0.0",
