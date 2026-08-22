@@ -26,6 +26,7 @@ versioned entry and uses it as the GitHub release notes.
 ### Added
 
 - Add `background` and `transparent` options to Ditaa diagrams, to set the background colour of the image or make it transparent
+- Add companion service discovery: a companion container not built into Kroki can now register itself as a new diagram type via `POST /services` (with a heartbeat to stay registered, since the registry is in-memory and does not survive a restart). Disabled by default, opt in with `KROKI_ENABLE_COMPANION_DISCOVERY`; secure the registration API with `KROKI_COMPANION_REGISTRATION_TOKEN`. Always disabled while `KROKI_SAFE_MODE` is `SECURE` (the default, including on kroki.io) ([#1423](https://github.com/yuzutech/kroki/issues/1423))
 
 ### Security
 
