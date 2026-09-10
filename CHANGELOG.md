@@ -11,6 +11,10 @@ versioned entry and uses it as the GitHub release notes.
 
 ## [Unreleased]
 
+### Added
+
+- Add opt-in browserless mermaidx renderer (via `uvx`) for Mermaid diagrams, selectable with `KROKI_MERMAID_RENDERER=mermaidx` ([#2143](https://github.com/yuzutech/kroki/pull/2143))
+
 ## [0.32.1] - 2026-08-12
 
 ### Security

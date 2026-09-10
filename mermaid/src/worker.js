@@ -5,30 +5,12 @@ import puppeteer, { HTTPResponse, Page } from 'puppeteer'
 import { logger } from './logger.js'
 import { updateConfig } from './config.js'
 import { applyNetworkPolicy, getBrowserWSEndpoint, protocolTimeout } from './browser-instance.js'
+// Shared with worker-mermaidx.js so index.js `instanceof` checks hold
+// regardless of the selected renderer (see renderer.js).
+export { MaxTextSizeError, SyntaxError, TimeoutError } from './errors.js'
+import { MaxTextSizeError, SyntaxError, TimeoutError } from './errors.js'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
-
-export class TimeoutError extends Error {
-  constructor(timeoutDurationMs, action = 'convert') {
-    super(`Timeout error: ${action} took more than ${timeoutDurationMs}ms`)
-  }
-}
-
-export class SyntaxError extends Error {
-  constructor(err) {
-    super('Syntax error in graph', { cause: err })
-    logger.error(this)
-    this.name = 'SyntaxError'
-    this.message = err.message
-  }
-}
-
-export class MaxTextSizeError extends Error {
-  constructor(actualSize, maxTextSize) {
-    super(`Diagram source is too large: ${actualSize} characters (maximum is ${maxTextSize})`)
-    this.name = 'MaxTextSizeError'
-  }
-}
 
 // Caps how many pages (and therefore Chromium renderer processes) may be open
 // at once. A single shared Chrome instance (see browser-instance.js) has no
