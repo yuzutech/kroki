@@ -82,8 +82,10 @@ UpdateBoundaryStyle("container", $bgColor=$CONTAINER_BOUNDARY_BG_COLOR, $fontCol
   !$SEQUENCE_BG_COLOR = $BOUNDARY_BG_COLOR
 !endif
 
-' "C4 styled" default is no foot boxes hide footbox
-' "C4 styled" default is that lifeline is arrow color skinparam SequenceLifelineBorderColor $ARROW_COLOR
+' "C4 styled" default is no foot boxes
+hide footbox
+' "C4 styled" default is that lifeline is arrow color
+skinparam SequenceLifelineBorderColor $ARROW_COLOR
 
 skinparam SequenceGroupBodyBackgroundColor $SEQUENCE_BG_COLOR
 skinparam SequenceGroupFontColor $BOUNDARY_COLOR

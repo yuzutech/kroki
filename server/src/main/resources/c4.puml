@@ -274,7 +274,11 @@ skinparam person {
 !endif
 
 ' Some boundary skinparams have to be set as package skinparams too (PlantUML uses internal packages)
-' UpdateBoundaryStyle() called in boundary section below skinparam rectangle<<boundary>> { StereotypeFontSize $TRANSPARENT_STEREOTYPE_FONT_SIZE StereotypeFontColor $BOUNDARY_BG_COLOR BorderStyle $BOUNDARY_BORDER_STYLE
+' UpdateBoundaryStyle() called in boundary section below
+skinparam rectangle<<boundary>> {
+    StereotypeFontSize $TRANSPARENT_STEREOTYPE_FONT_SIZE
+    StereotypeFontColor $BOUNDARY_BG_COLOR
+    BorderStyle $BOUNDARY_BORDER_STYLE
 }
 
 skinparam package {

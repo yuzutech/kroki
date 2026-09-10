@@ -11,6 +11,10 @@ versioned entry and uses it as the GitHub release notes.
 
 ## [Unreleased]
 
+### Diagram libraries
+
+- Upgrade the bundled C4-PlantUML model files from 2.7.0 to 2.14.0, adding the `$borderStyle` and `$borderThickness` parameters for `AddElementTag`/`AddRelTag` (and every other change up to 2.14.0) to the `C4 with PlantUML` diagram type ([#2145](https://github.com/yuzutech/kroki/pull/2145))
+
 ## [0.32.1] - 2026-08-12
 
 ### Security
