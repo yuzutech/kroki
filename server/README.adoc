@@ -66,6 +66,58 @@ When a new version is available, we need to:
 . update the argument variable `ARG PLANTUML_VERSION="x.y.z"` in `server/ops/docker/Dockerfile`
 . run `task updateVersions` (see above)
 
+==== C4-PlantUML (bundled model files)
+
+The `C4 with PlantUML` diagram type relies on the https://github.com/plantuml-stdlib/C4-PlantUML[C4-PlantUML] macro library.
+PlantUML runs in `SAFE` mode, which blocks `!include` of remote URLs, so Kroki cannot let diagrams pull the library from GitHub at render time.
+Instead, the library files are vendored under `server/src/main/resources/` and `Plantuml.sanitize()` (`server/src/main/java/io/kroki/server/service/Plantuml.java`) inlines them: each file is read from the classpath, the files are concatenated in dependency order, and the result replaces the matching `!include C4_*.puml` line in the diagram source.
+
+The seven vendored files map to upstream like this (upstream name -> resource name):
+
+[cols="1,1"]
+|===
+| `C4.puml`            | `c4.puml`
+| `C4_Context.puml`    | `c4_context.puml`
+| `C4_Container.puml`  | `c4_container.puml`
+| `C4_Component.puml`  | `c4_component.puml`
+| `C4_Deployment.puml` | `c4_deployment.puml`
+| `C4_Dynamic.puml`    | `c4_dynamic.puml`
+| `C4_Sequence.puml`   | `c4_sequence.puml`
+|===
+
+When a new version is available, we need to:
+
+. copy each upstream file from the release tag (e.g. `https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/v<x.y.z>/C4_Context.puml`) over the matching resource file, keeping the lower-case resource name
+. in the six sub-files (everything except `c4.puml`), delete the include guard that upstream added at the top of the file — it references a remote URL that `SAFE` mode rejects and must not survive inlining:
++
+[source]
+----
+!if %variable_exists("RELATIVE_INCLUDE")
+  !include ./C4_Context.puml
+!else
+  !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/.../C4_Context.puml
+!endif
+----
+. make no other edits — do **not** reflow, merge, or re-indent any remaining line. Once step 2 is done, `c4.puml` must be byte-for-byte identical to upstream `C4.puml`, and each sub-file identical to its upstream counterpart apart from the removed guard block. A quick check:
++
+[source,console]
+----
+$ diff <(curl -sL https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/v<x.y.z>/C4.puml) server/src/main/resources/c4.puml
+$ # -> no output for c4.puml; for a sub-file, only the guard block from step 2 shows as removed
+----
+. bump the version assertion in `server/src/test/java/io/kroki/server/service/C4PlantumlServiceTest.java` (`assertThat(result).contains("<x.y.z>")`) to the new version
+. run the C4 tests, which render real diagrams through the inlined bundle and would catch a broken concatenation (the rendering tests run only on `linux/amd64`, same as CI):
++
+[source,console]
+----
+$ ./mvnw -q -pl server test -Dtest=C4PlantumlServiceTest
+----
+
+[NOTE]
+====
+The inlining concatenates the files without an intervening blank line and feeds the result to the PlantUML preprocessor directly, so any construct that upstream splits across lines only because its own `!include` mechanism re-joins it (historically: string literals broken over several source lines) has to be collapsed onto one line with `\n` escapes. Newer upstream releases avoid this, but if `C4PlantumlServiceTest` fails after an update with a preprocessor or `Assumed diagram type: class` error, render `c4.puml` + `c4_context.puml` + your test diagram with a standalone `plantuml.jar` and look for a library line that leaked into the diagram body.
+====
+
 === UMLet
 
 We are producing native binaries with GraalVM: https://github.com/yuzutech/umlet/releases
