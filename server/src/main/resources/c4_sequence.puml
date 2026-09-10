@@ -1,3 +1,4 @@
+﻿' convert it with additional command line argument -DRELATIVE_INCLUDE="relative/absolute" to use locally
 ' Scope: Interactions in an enterprise, software system or container.
 ' Primary and supporting elements: Depends on the diagram scope -
 '     enterprise - people and software systems Related to the enterprise in scope
@@ -17,7 +18,7 @@
 !pragma teoz true
 
 
-' Legend redefintion
+' Legend redefinition
 ' ##################################
 ' sequence has no dashed boxes
 !if ($LEGEND_DASHED_BOUNDARY == "dashed")
@@ -26,10 +27,10 @@
 !if ($LEGEND_DASHED_TRANSPARENT_BOUNDARY == "dashed")
   !$LEGEND_DASHED_TRANSPARENT_BOUNDARY = ""
 !endif
-UpdateBoundaryStyle("", $bgColor=$BOUNDARY_BG_COLOR, $fontColor=$BOUNDARY_COLOR, $borderColor=$BOUNDARY_COLOR)
-UpdateBoundaryStyle("enterprise", $bgColor=$ENTERPRISE_BOUNDARY_BG_COLOR, $fontColor=$ENTERPRISE_BOUNDARY_COLOR, $borderColor=$ENTERPRISE_BOUNDARY_COLOR, $type="Enterprise")
-UpdateBoundaryStyle("system", $bgColor=$SYSTEM_BOUNDARY_BG_COLOR, $fontColor=$SYSTEM_BOUNDARY_COLOR, $borderColor=$SYSTEM_BOUNDARY_COLOR, $type="System")
-UpdateBoundaryStyle("container", $bgColor=$CONTAINER_BOUNDARY_BG_COLOR, $fontColor=$CONTAINER_BOUNDARY_COLOR, $borderColor=$CONTAINER_BOUNDARY_COLOR, $type="Container")
+UpdateBoundaryStyle("", $bgColor=$BOUNDARY_BG_COLOR, $fontColor=$BOUNDARY_COLOR, $borderColor=$BOUNDARY_COLOR, $shape=$DEFAULT_SHAPE)
+UpdateBoundaryStyle("enterprise", $bgColor=$ENTERPRISE_BOUNDARY_BG_COLOR, $fontColor=$ENTERPRISE_BOUNDARY_COLOR, $borderColor=$ENTERPRISE_BOUNDARY_COLOR, $type="$ENTERPRISE_BOUNDARY_TYPE", $shape=$DEFAULT_SHAPE)
+UpdateBoundaryStyle("system", $bgColor=$SYSTEM_BOUNDARY_BG_COLOR, $fontColor=$SYSTEM_BOUNDARY_COLOR, $borderColor=$SYSTEM_BOUNDARY_COLOR, $type="$SYSTEM_BOUNDARY_TYPE", $shape=$DEFAULT_SHAPE)
+UpdateBoundaryStyle("container", $bgColor=$CONTAINER_BOUNDARY_BG_COLOR, $fontColor=$CONTAINER_BOUNDARY_COLOR, $borderColor=$CONTAINER_BOUNDARY_COLOR, $type="$CONTAINER_BOUNDARY_TYPE", $shape=$DEFAULT_SHAPE)
 
 ' Styling and Layout
 ' ##################################
@@ -68,8 +69,8 @@ UpdateBoundaryStyle("container", $bgColor=$CONTAINER_BOUNDARY_BG_COLOR, $fontCol
 !if (%variable_exists("$THEME"))
 !else
 ' $BOUNDARY_BG_COLOR... have to be defined in theme itself that it can be used in styles,...
-' (no default values which are defined in C4.puml) 
-' If skinparams and styles are defined with concrete values no variables are required 
+' (no default values which are defined in C4.puml)
+' If skinparams and styles are defined with concrete values no variables are required
 !$BOUNDARY_BG_COLOR ?= "transparent"
 !$BOUNDARY_COLOR ?= "#444444"
 !$ARROW_COLOR ?= "#666666"
@@ -81,10 +82,8 @@ UpdateBoundaryStyle("container", $bgColor=$CONTAINER_BOUNDARY_BG_COLOR, $fontCol
   !$SEQUENCE_BG_COLOR = $BOUNDARY_BG_COLOR
 !endif
 
-' "C4 styled" default is no foot boxes
-hide footbox
-' "C4 styled" default is that lifeline is arrow color
-skinparam SequenceLifelineBorderColor $ARROW_COLOR
+' "C4 styled" default is no foot boxes hide footbox
+' "C4 styled" default is that lifeline is arrow color skinparam SequenceLifelineBorderColor $ARROW_COLOR
 
 skinparam SequenceGroupBodyBackgroundColor $SEQUENCE_BG_COLOR
 skinparam SequenceGroupFontColor $BOUNDARY_COLOR
@@ -120,6 +119,10 @@ sequenceDiagram {
 !endif
 ' ======= if no theme is defined hide foot box and activate C4_blue styles
 
+!if (ROUNDED_STYLE == 1)
+skinparam participantRoundCorner $ROUNDED_BOX_SIZE
+!endif
+
 ' Elements redefinition
 ' ##################################
 
@@ -135,7 +138,7 @@ sequenceDiagram {
     !if ($brPos > 0)
       !$multiLine = $multiLine + %substr($text, 0, $brPos) + $lineEnd + %newline() + $lineStart
     !else
-      ' <U+00A0> non breaking change that newLine breaks with formats can be used with \n\n 
+      ' <U+00A0> non breaking change that newLine breaks with formats can be used with \n\n
       !$multiLine = $multiLine + "<U+00A0>" + $lineEnd + %newline() + $lineStart
     !endif
     !$text = %substr($text, $brPos+2)
@@ -185,17 +188,20 @@ sequenceDiagram {
   !return $breakWithNewline($text, $lineStart, $lineEnd, $REL_TECHN_MAX_CHAR_WIDTH)
 !endfunction
 
-' description is not displayed (size too big, line breaks not supported)
 ' properties are not displayed in sequence diagram (size would be too big)
 ' $breakLabel() not required by participant
 !procedure $getParticipant($elementType, $alias, $label, $techn, $descr, $sprite, $tags, $link)
   !$sprite=$toElementArg($sprite, $tags, "ElementTagSprite", $elementType)
   !$techn=$toElementArg($techn, $tags, "ElementTagTechn", $elementType)
+  !if ($elementType!="person" || $showPersonTypeViaTech == %true())
+    !$techn=$updateTechWithElementType($techn, $elementType)
+  !endif
   !$stereo = $toStereos($elementType,$tags)
   !$calcLabel = "== " + $breakNewLineLabel($label)
   !$calcTech = "//<size:" + $TECHN_FONT_SIZE + ">[" + $breakNewLineTechn($techn) + "]</size>//"
   !$calcDescr = $breakNewLineDescr($descr)
   !$calcLink = $getLink($link)
+  !$props = $getProps()
 
 participant $alias $stereo $calcLink [
 !if ($sprite != "")
@@ -225,7 +231,7 @@ $calcDescr
   $getParticipant("external_person", $alias, $label, $type, $descr, $sprite, $tags, $link)
 !endprocedure
 
-!unquoted procedure System($alias, $label, $descr="", $sprite="", $tags="", $link="", $type="")
+!unquoted procedure System($alias, $label, $descr="", $sprite="", $tags="", $link="", $type="", $baseShape="rectangle")
   ' $type reuses $techn definition of $tags
   $getParticipant("system", $alias, $label, $type, $descr, $sprite, $tags, $link)
 !endprocedure
@@ -240,7 +246,7 @@ $calcDescr
   $getParticipant("system", $alias, $label, $type, $descr, $sprite, $tags, $link)
 !endprocedure
 
-!unquoted procedure System_Ext($alias, $label, $descr="", $sprite="", $tags="", $link="", $type="")
+!unquoted procedure System_Ext($alias, $label, $descr="", $sprite="", $tags="", $link="", $type="", $baseShape="rectangle")
   ' $type reuses $techn definition of $tags
   $getParticipant("external_system", $alias, $label, $type, $descr, $sprite, $tags, $link)
 !endprocedure
@@ -257,7 +263,7 @@ $calcDescr
 
 
 
-!unquoted procedure Container($alias, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
+!unquoted procedure Container($alias, $label, $techn="", $descr="", $sprite="", $tags="", $link="", $baseShape="rectangle")
   $getParticipant("container", $alias, $label, $techn, $descr, $sprite, $tags, $link)
 !endprocedure
 
@@ -269,7 +275,7 @@ $calcDescr
   $getParticipant("container", $alias, $label, $techn, $descr, $sprite, $tags, $link)
 !endprocedure
 
-!unquoted procedure Container_Ext($alias, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
+!unquoted procedure Container_Ext($alias, $label, $techn="", $descr="", $sprite="", $tags="", $link="", $baseShape="rectangle")
   $getParticipant("external_container", $alias, $label, $techn, $descr, $sprite, $tags, $link)
 !endprocedure
 
@@ -283,7 +289,7 @@ $calcDescr
 
 
 
-!unquoted procedure Component($alias, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
+!unquoted procedure Component($alias, $label, $techn="", $descr="", $sprite="", $tags="", $link="", $baseShape="rectangle")
   $getParticipant("component", $alias, $label, $techn, $descr, $sprite, $tags, $link)
 !endprocedure
 
@@ -295,7 +301,7 @@ $calcDescr
   $getParticipant("component", $alias, $label, $techn, $descr, $sprite, $tags, $link)
 !endprocedure
 
-!unquoted procedure Component_Ext($alias, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
+!unquoted procedure Component_Ext($alias, $label, $techn="", $descr="", $sprite="", $tags="", $link="", $baseShape="rectangle")
   $getParticipant("external_component", $alias, $label, $techn, $descr, $sprite, $tags, $link)
 !endprocedure
 
@@ -311,25 +317,34 @@ $calcDescr
 ' Boundary redefinition
 ' ##################################
 
-' all boundaries have to be displayed as box and 
+' all boundaries have to be displayed as box and
 ' !!! important changes: without { at the end; and boundary ends with Boundary_End() instead of }
 
 ' alias ignored
 ' $breakLabel() not required by participant
 
-!unquoted procedure Boundary($alias, $label, $type="", $tags="", $link="")
+!unquoted procedure Boundary($alias, $label, $type="", $tags="", $link="", $descr = "")
 !$boundaryTags = $addBoundaryPostfix($tags)
-' nodes $type reuses $techn definition of $boundaryTags
+' boundary $type reuses $techn definition of $boundaryTags
 !$type=$toElementArg($type, $boundaryTags, "ElementTagTechn", "boundary")
+!$sprite=$toElementArg("", $boundaryTags, "ElementTagSprite", "boundary")
+!$labelSprite=""
+!if ($sprite != "")
+  ' add sprite in label line that it is more compact
+  !$labelSprite = $getSprite($smallVersionSprite($sprite, $BOUNDARY_IMAGE_SIZE_FACTOR)) + ' '
+!endif
 !if ($link != "")
   !$usedNewLine = ']]\n== [[' + $link + ' '
-  !$labelType = '== [[' + $link + ' ' + $breakText($label, $usedNewLine) + ']]'
+  !$labelType = '== [[' + $link + ' ' + $labelSprite + $breakText($label, $usedNewLine) + ']]'
 !else
   !$usedNewLine = '\n== '
-  !$labelType = $breakText($label, $usedNewLine)
+  !$labelType = $labelSprite + $breakText($label, $usedNewLine)
 !endif
 !if (type != "")
     !$labelType = $labelType + '\n<size:' + $TECHN_FONT_SIZE + '>[' + $type + ']</size>'
+!endif
+!if ($display_element_description == %true() && $descr != "")
+    !$labelType = $labelType + '\n\n' + $breakDescr($descr, $BOUNDARY_DESCR_MAX_CHAR_WIDTH)
 !endif
 box "$labelType" $toStereos("boundary", $boundaryTags)
 !endprocedure
@@ -338,34 +353,34 @@ box "$labelType" $toStereos("boundary", $boundaryTags)
 end box
 !endprocedure
 
-!unquoted procedure Enterprise_Boundary($alias, $label, $tags="", $link="")
+!unquoted procedure Enterprise_Boundary($alias, $label, $tags="", $link="", $descr = "")
   !if ($tags != "")
     !$allTags = $tags + '+enterprise'
   !else
     !$allTags = 'enterprise'
   !endif
   ' $type defined via $tag style
-  Boundary($alias, $label, "", $allTags, $link)
+  Boundary($alias, $label, "", $allTags, $link, $descr)
 !endprocedure
 
-!unquoted procedure System_Boundary($alias, $label, $tags="", $link="")
+!unquoted procedure System_Boundary($alias, $label, $tags="", $link="", $descr = "")
   !if ($tags != "")
     !$allTags = $tags + '+system'
   !else
     !$allTags = 'system'
   !endif
   ' $type defined via $tag style
-  Boundary($alias, $label, "", $allTags, $link)
+  Boundary($alias, $label, "", $allTags, $link, $descr)
 !endprocedure
 
-!unquoted procedure Container_Boundary($alias, $label, $tags="", $link="")
+!unquoted procedure Container_Boundary($alias, $label, $tags="", $link="", $descr = "")
   !if ($tags != "")
     !$allTags = $tags + '+container'
   !else
     !$allTags = 'container'
   !endif
   ' $type defined via $tag style
-  Boundary($alias, $label, "", $allTags, $link)
+  Boundary($alias, $label, "", $allTags, $link, $descr)
 !endprocedure
 
 ' Relationship (redefinition)
@@ -373,6 +388,7 @@ end box
 
 ' only Rel is supported in sequence diagram
 
+' first Rel() supports the $index and $rel argument too; second Rel() overwrites C4.puml definition
 ' don't add empty lines in procedure otherwise & calls are not working anymore '& a -> b: call' are not working anymore
 !unquoted procedure Rel($from, $to, $label, $techn="", $descr="", $sprite="", $tags="", $link="", $index="", $rel="")
   !if ($show_index == %true())
@@ -384,4 +400,7 @@ end box
     !$rel = "->"
   !endif
 $getRel($rel, $from, $to, $pre + $label, $techn, $descr, $sprite, $tags, $link)
+!endprocedure
+!unquoted procedure Rel($from, $to, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
+Rel($from, $to, $label, $techn, $descr, $sprite, $tags, $link, "", "")
 !endprocedure

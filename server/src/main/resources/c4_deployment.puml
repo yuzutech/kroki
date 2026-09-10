@@ -1,9 +1,27 @@
+' convert it with additional command line argument -DRELATIVE_INCLUDE="relative/absolute" to use locally
 ' Colors
 ' ##################################
 
 !$NODE_FONT_COLOR ?= "#000000"
 !$NODE_BG_COLOR ?= "#FFFFFF"
 !$NODE_BORDER_COLOR ?= "#A2A2A2"
+
+' New C4 style automatically swaps font and background colors, but with those settings the component/node background would be black.
+' Therefore the colors should be displayed unchanged (the init colors have to be swapped too).
+!$NEW_C4_USE_ORIGINAL_NODE_COLORS ?= 1
+!$nodeColorsSwappedAlready ?= 0
+!if (NEW_C4_STYLE == 1 && $NEW_C4_USE_ORIGINAL_NODE_COLORS == 1 && $nodeColorsSwappedAlready == 0)
+  !$swap=$NODE_BG_COLOR
+  !$NODE_BG_COLOR=$NODE_FONT_COLOR
+  !$NODE_FONT_COLOR=$swap
+  ' don't swap them again below if C4_... included again
+  !$nodeColorsSwappedAlready=1
+!endif
+
+' Labels
+' ##################################
+
+!$NODE_LEGEND_TEXT ?= "node"
 
 ' Styling
 ' ##################################
@@ -15,16 +33,16 @@
 !$NODE_TYPE_MAX_CHAR_WIDTH ?= 35
 !$NODE_DESCR_MAX_CHAR_WIDTH ?= 32
 
-UpdateElementStyle("node", $bgColor=$NODE_BG_COLOR, $fontColor=$NODE_FONT_COLOR, $borderColor=$NODE_BORDER_COLOR)
+UpdateElementStyle("node", $bgColor=$NODE_BG_COLOR, $fontColor=$NODE_FONT_COLOR, $borderColor=$NODE_BORDER_COLOR, $shape=$DEFAULT_SHAPE, $legendText="$NODE_LEGEND_TEXT")
 skinparam rectangle<<node>> {
     FontStyle normal
 }
 
 ' shortcuts with default colors
 ' node specific: $techn is only used in old scripts, new scripts uses $type ($techn has to remain, it could be called via named argument)
-!unquoted procedure AddNodeTag($tagStereo, $bgColor="", $fontColor="", $borderColor="", $shadowing="", $shape="", $sprite="", $type="", $legendText="", $legendSprite="", $techn="")
+!unquoted procedure AddNodeTag($tagStereo, $bgColor="", $fontColor="", $borderColor="", $shadowing="", $shape="", $sprite="", $type="", $legendText="", $legendSprite="", $techn="", $borderStyle="", $borderThickness="")
   !$type=$type+$techn
-  $addElementTagInclReuse("node", $tagStereo, $bgColor, $fontColor, $borderColor, $shadowing, $shape, $sprite, $type, $legendText, $legendSprite)
+  $addElementTagInclReuse("node", $tagStereo, $bgColor, $fontColor, $borderColor, $shadowing, $shape, $sprite, $type, $legendText, $legendSprite, $borderStyle, $borderThickness)
 !endprocedure
 
 ' Layout

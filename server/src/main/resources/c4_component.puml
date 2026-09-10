@@ -1,3 +1,4 @@
+' convert it with additional command line argument -DRELATIVE_INCLUDE="relative/absolute" to use locally
 ' Scope: A single container.
 ' Primary elements: Components within the container in scope.
 ' Supporting elements: Containers (within the software system in scope) plus people and software systems directly connected to the components.
@@ -10,22 +11,44 @@
 !$COMPONENT_BG_COLOR ?= "#85BBF0"
 !$COMPONENT_BORDER_COLOR ?= "#78A8D8"
 
+!$EXTERNAL_COMPONENT_LEGEND_TEXT ?= "external component"
 !$EXTERNAL_COMPONENT_FONT_COLOR ?= $COMPONENT_FONT_COLOR
 !$EXTERNAL_COMPONENT_BG_COLOR ?= "#CCCCCC"
 !$EXTERNAL_COMPONENT_BORDER_COLOR ?= "#BFBFBF"
 
+' New C4 style automatically swaps font and background colors, but with those settings the component/node background would be black.
+' Therefore the colors should be displayed unchanged (the init colors have to be swapped too).
+!$NEW_C4_USE_ORIGINAL_COMPONENT_COLORS ?= 1
+!$componentColorsSwappedAlready ?= 0
+!if (NEW_C4_STYLE == 1 && $NEW_C4_USE_ORIGINAL_COMPONENT_COLORS == 1 && $componentColorsSwappedAlready == 0)
+  !$swap=$COMPONENT_BG_COLOR
+  !$COMPONENT_BG_COLOR=$COMPONENT_FONT_COLOR
+  !$COMPONENT_FONT_COLOR=$swap
+  !$swap=$EXTERNAL_COMPONENT_BG_COLOR
+  !$EXTERNAL_COMPONENT_BG_COLOR=$EXTERNAL_COMPONENT_FONT_COLOR
+  !$EXTERNAL_COMPONENT_FONT_COLOR=$swap
+  ' don't swap them again below if C4_... included again
+  !$componentColorsSwappedAlready=1
+!endif
+
+' Labels
+' ##################################
+
+!$COMPONENT_LEGEND_TEXT ?= "component"
+!$EXTERNAL_COMPONENT_LEGEND_TEXT ?= "external component"
+
 ' Styling
 ' ##################################
 
-UpdateElementStyle("component", $COMPONENT_BG_COLOR, $COMPONENT_FONT_COLOR, $COMPONENT_BORDER_COLOR)
-UpdateElementStyle("external_component", $EXTERNAL_COMPONENT_BG_COLOR, $EXTERNAL_COMPONENT_FONT_COLOR, $EXTERNAL_COMPONENT_BORDER_COLOR)
+UpdateElementStyle("component", $COMPONENT_BG_COLOR, $COMPONENT_FONT_COLOR, $COMPONENT_BORDER_COLOR, $shape=$DEFAULT_SHAPE, $legendText="$COMPONENT_LEGEND_TEXT")
+UpdateElementStyle("external_component", $EXTERNAL_COMPONENT_BG_COLOR, $EXTERNAL_COMPONENT_FONT_COLOR, $EXTERNAL_COMPONENT_BORDER_COLOR, $shape=$DEFAULT_SHAPE, $legendText="$EXTERNAL_COMPONENT_LEGEND_TEXT")
 
 ' shortcuts with default colors
-!unquoted procedure AddComponentTag($tagStereo, $bgColor="", $fontColor="", $borderColor="", $shadowing="", $shape="", $sprite="", $techn="", $legendText="", $legendSprite="")
-  $addElementTagInclReuse("component", $tagStereo, $bgColor, $fontColor, $borderColor, $shadowing, $shape, $sprite, $techn, $legendText, $legendSprite)
+!unquoted procedure AddComponentTag($tagStereo, $bgColor="", $fontColor="", $borderColor="", $shadowing="", $shape="", $sprite="", $techn="", $legendText="", $legendSprite="", $borderStyle="", $borderThickness="")
+  $addElementTagInclReuse("component", $tagStereo, $bgColor, $fontColor, $borderColor, $shadowing, $shape, $sprite, $techn, $legendText, $legendSprite, $borderStyle, $borderThickness)
 !endprocedure
-!unquoted procedure AddExternalComponentTag($tagStereo, $bgColor="", $fontColor="", $borderColor="", $shadowing="", $shape="", $sprite="", $techn="", $legendText="", $legendSprite="")
-  $addElementTagInclReuse("external_component", $tagStereo, $bgColor, $fontColor, $borderColor, $shadowing, $shape, $sprite, $techn, $legendText, $legendSprite)
+!unquoted procedure AddExternalComponentTag($tagStereo, $bgColor="", $fontColor="", $borderColor="", $shadowing="", $shape="", $sprite="", $techn="", $legendText="", $legendSprite="", $borderStyle="", $borderThickness="")
+  $addElementTagInclReuse("external_component", $tagStereo, $bgColor, $fontColor, $borderColor, $shadowing, $shape, $sprite, $techn, $legendText, $legendSprite, $borderStyle, $borderThickness)
 !endprocedure
 
 ' Layout
@@ -51,8 +74,8 @@ endlegend
 ' Elements
 ' ##################################
 
-!unquoted procedure Component($alias, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
-  $getElementLine("rectangle", "component", $alias, $label, $techn, $descr, $sprite, $tags, $link)
+!unquoted procedure Component($alias, $label, $techn="", $descr="", $sprite="", $tags="", $link="", $baseShape="rectangle")
+  $getElementLine($baseShape, "component", $alias, $label, $techn, $descr, $sprite, $tags, $link)
 !endprocedure
 
 !unquoted procedure ComponentDb($alias, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
@@ -63,8 +86,8 @@ endlegend
   $getElementLine("queue", "component", $alias, $label, $techn, $descr, $sprite, $tags, $link)
 !endprocedure
 
-!unquoted procedure Component_Ext($alias, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
-  $getElementLine("rectangle", "external_component", $alias, $label, $techn, $descr, $sprite, $tags, $link)
+!unquoted procedure Component_Ext($alias, $label, $techn="", $descr="", $sprite="", $tags="", $link="", $baseShape="rectangle")
+  $getElementLine($baseShape, "external_component", $alias, $label, $techn, $descr, $sprite, $tags, $link)
 !endprocedure
 
 !unquoted procedure ComponentDb_Ext($alias, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
