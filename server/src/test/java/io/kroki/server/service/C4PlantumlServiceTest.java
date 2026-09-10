@@ -49,7 +49,7 @@ public class C4PlantumlServiceTest {
       "!include /path/to/c4.puml # comment \n" +
       "@enduml";
     String result = Plantuml.sanitize(diagram, SafeMode.SECURE);
-    assertThat(result).contains("https://github.com/plantuml-stdlib/C4-PlantUML");
+    assertThat(result).contains("2.14.0");
   }
 
   @Test
