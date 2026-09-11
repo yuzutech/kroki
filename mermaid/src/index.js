@@ -3,12 +3,12 @@ import { logger } from './logger.js'
 
 import http from 'node:http'
 import micro from 'micro'
-import { MaxTextSizeError, SyntaxError, TimeoutError, Worker } from './worker.js'
+import { MaxTextSizeError, SyntaxError, TimeoutError } from './errors.js'
+import { createWorker } from './renderer.js'
 import Task from './task.js'
 
 ;(async () => {
-  // QUESTION: should we create a pool of Chrome instances ?
-  const worker = new Worker()
+  const worker = createWorker()
   const server = new http.Server(
     micro.serve(async (req, res) => {
       // Add a /health route that renders a sample diagram by calling the worker
