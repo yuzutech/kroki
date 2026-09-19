@@ -331,6 +331,28 @@ empty string ("")
 |===
 
 
+== SVG theme delivery (all SVG diagram types)
+
+Optional post-process after the diagram engine returns SVG.
+Does **not** change default fixed-color output.
+
+[cols="1m,1a,2a",opts="header"]
+|===
+|Name
+|Allowable Values
+|Description
+
+|svg-theme
+|`fixed` (default) +
+`adaptive` +
+`host`
+|Themed SVG delivery mode for SVG responses. +
+`adaptive` marks the SVG for standalone `<img>` use with a `prefers-color-scheme` scaffold (engine-native dual palettes preferred). +
+`host` marks the SVG for CSS custom-property / host-toggle delivery. +
+See https://github.com/yuzutech/kroki/issues/2146 and https://github.com/dev-centr/themed-svg/blob/main/proposals/2026-09-15-generator-kroki-themed-svg.md[Themed SVG RFC]. Temporary polyfills: https://github.com/dev-centr/mermaid-svg-css-vars[`mermaid-svg-css-vars`], https://github.com/dev-centr/plantuml-svg-css-vars[`plantuml-svg-css-vars`].
+|===
+
+
 == Symbolator
 
 [cols="1m,1a,2a",opts="header"]
