@@ -21,7 +21,7 @@
   "dependencies": {
     "json5": "2.2.3",
     "onml": "2.1.0",
-    "wavedrom": "3.6.2"
+    "wavedrom": "3.7.0"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.8",
