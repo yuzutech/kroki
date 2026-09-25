@@ -49,6 +49,12 @@ Find how to install Kroki using Docker or Podman on the xref:use-docker-or-podma
 == Kubernetes
 Find how to make a Kubernetes installation on the xref:use-kubernetes.adoc[] page.
 
+== Easypanel
+
+https://easypanel.io[Easypanel] is a self-hosted Docker deployment platform, and it maintains a one-click deployment template for Kroki with the Mermaid, BPMN, and Excalidraw companion containers wired up automatically.
+
+image::https://easypanel.io/img/deploy-on-easypanel-40.svg[Deploy on Easypanel,link=https://easypanel.io/templates/kroki]
+
 == Manual installation
 You can also make a customized manual installation that suits your needs.
 
