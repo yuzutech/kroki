@@ -21,15 +21,15 @@
   "dependencies": {
     "@kroki/browser-instance": "file:../lib/browser-instance",
     "micro": "10.0.1",
-    "pino": "9.14.0",
-    "pino-debug": "2.0.0",
+    "pino": "10.3.1",
+    "pino-debug": "4.0.2",
     "puppeteer": "25.1.0"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.8",
-    "@mermaid-js/layout-elk": "0.2.3",
-    "@mermaid-js/layout-tidy-tree": "0.2.2",
-    "mermaid": "11.17.2",
+    "@mermaid-js/layout-elk": "1.0.0",
+    "@mermaid-js/layout-tidy-tree": "1.0.1",
+    "mermaid": "12.0.0",
     "pngjs": "7.0.0"
   },
   "volta": {
