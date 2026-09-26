@@ -1,6 +1,7 @@
 :uri-kroki: https://kroki.io/
 :uri-kroki-docs: https://docs.kroki.io/
 :uri-maven: https://maven.apache.org/
+:uri-hostinger-deploy: https://www.hostg.xyz/aff_c?offer_id=815&aff_id=244069&url_id=6821
 
 ++++
 <a href="https://kroki.io/">
@@ -24,6 +25,16 @@ endif::[]
 
 This section offers a basic tutorial for evaluating Kroki.
 More comprehensive installation instructions are in the {uri-kroki-docs}[Kroki documentation].
+
+== Hosting Providers
+
+If you don't want to manage the infrastructure yourself, the following third-party providers offer hosted Kroki instances:
+
+image:https://assets.hostinger.com/vps/deploy.svg[Deploy on Hostinger,width=200,link={uri-hostinger-deploy}]
+
+* https://kroki.wovalab.com/[Wovalab] — community-run hosted Kroki instance
+
+NOTE: These are third-party/community offerings, not officially operated by the Kroki team.
 
 == Usage
 
