@@ -24,11 +24,11 @@
     "wavedrom": "3.7.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.8",
+    "@biomejs/biome": "2.5.14",
     "esbuild": "0.28.2",
     "postject": "1.0.0-alpha.6"
   },
   "volta": {
-    "node": "24.19.0"
+    "node": "24.21.0"
   }
 }
