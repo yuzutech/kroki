@@ -30,9 +30,20 @@ More comprehensive installation instructions are in the {uri-kroki-docs}[Kroki d
 
 If you don't want to manage the infrastructure yourself, the following third-party providers offer hosted Kroki instances:
 
-image:https://assets.hostinger.com/vps/deploy.svg[Deploy on Hostinger,width=200,link={uri-hostinger-deploy}]
+https://www.hostinger.com/[Hostinger]::
+A secure, speedy, reliable VPS hosting with built-in Docker manager.
++
+image::https://assets.hostinger.com/vps/deploy.svg[Deploy on Hostinger,width=200,link=https://www.hostg.xyz/aff_c?offer_id=815&aff_id=244069&url_id=6821]
 
-* https://kroki.wovalab.com/[Wovalab] — community-run hosted Kroki instance
+https://kroki.wovalab.com/[Wovalab]::
+A community-run hosted Kroki instance.
++
+image::https://kroki.wovalab.com/try-on-wovalab.svg[Try on Wovalab,link=https://kroki.wovalab.com/]
+
+https://easypanel.io[Easypanel]::
+A self-hosted Docker deployment platform, and it maintains a one-click deployment template for Kroki with the Mermaid, BPMN, and Excalidraw companion containers wired up automatically.
++
+image::https://easypanel.io/img/deploy-on-easypanel-40.svg[Deploy on Easypanel,link=https://easypanel.io/templates/kroki]
 
 NOTE: These are third-party/community offerings, not officially operated by the Kroki team.
 
