@@ -63,6 +63,8 @@ https://kroki.wovalab.com/[*Wovalab*]
 
 A community-run hosted Kroki instance.
 
+image::https://kroki.wovalab.com/try-on-wovalab.svg[Try on Wovalab,link=https://kroki.wovalab.com/]
+
 https://easypanel.io[*Easypanel*]
 
 A self-hosted Docker deployment platform, and it maintains a one-click deployment template for Kroki with the Mermaid, BPMN, and Excalidraw companion containers wired up automatically.
