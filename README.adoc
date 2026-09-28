@@ -21,11 +21,6 @@ endif::[]
 
 {uri-kroki}[Kroki] provides a unified API with support for BlockDiag (BlockDiag, SeqDiag, ActDiag, NwDiag, PacketDiag, RackDiag), BPMN, Bytefield, C4 (with PlantUML), D2, DBML, Diagrams.net (experimental), Ditaa, Erd, Excalidraw, GoAT, GraphViz, Mermaid, Nomnoml, Pikchr, PlantUML, SvgBob, Symbolator, UMLet, Vega, Vega-Lite, WaveDrom and WireViz... and more to come!
 
-== Quickstart
-
-This section offers a basic tutorial for evaluating Kroki.
-More comprehensive installation instructions are in the {uri-kroki-docs}[Kroki documentation].
-
 == Hosting Providers
 
 If you don't want to manage the infrastructure yourself, the following third-party providers offer hosted Kroki instances:
@@ -46,6 +41,11 @@ A self-hosted Docker deployment platform, and it maintains a one-click deploymen
 image::https://easypanel.io/img/deploy-on-easypanel-40.svg[Deploy on Easypanel,link=https://easypanel.io/templates/kroki]
 
 NOTE: These are third-party/community offerings, not officially operated by the Kroki team.
+
+== Quickstart
+
+This section offers a basic tutorial for evaluating Kroki.
+More comprehensive installation instructions are in the {uri-kroki-docs}[Kroki documentation].
 
 == Usage
 
