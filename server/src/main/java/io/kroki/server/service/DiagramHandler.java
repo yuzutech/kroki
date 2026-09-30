@@ -6,6 +6,7 @@ import io.kroki.server.format.FileFormat;
 import io.kroki.server.log.Logging;
 import io.kroki.server.response.Caching;
 import io.kroki.server.response.DiagramResponse;
+import io.kroki.server.transform.ThemedSvgPostProcessor;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.MultiMap;
@@ -197,7 +198,8 @@ public class DiagramHandler {
       } else {
         HttpServerResponse response = routingContext.response();
         if (!response.closed()) {
-          diagramResponse.end(response, sourceDecoded, fileFormat, buffer);
+          Buffer themed = ThemedSvgPostProcessor.maybeApply(serviceName, fileFormat, options, buffer);
+          diagramResponse.end(response, sourceDecoded, fileFormat, themed);
         }
       }
     }, routingContext::fail);
