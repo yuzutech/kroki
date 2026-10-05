@@ -14,6 +14,12 @@ versioned entry and uses it as the GitHub release notes.
 ### Diagram libraries
 
 - Upgrade the bundled C4-PlantUML model files from 2.7.0 to 2.14.0, adding the `$borderStyle` and `$borderThickness` parameters for `AddElementTag`/`AddRelTag` (and every other change up to 2.14.0) to the `C4 with PlantUML` diagram type ([#2145](https://github.com/yuzutech/kroki/pull/2145))
+- Update bpmn-js to 18.28.0
+- Update Mermaid to 12.1.0
+- Update PlantUML to 1.2026.8
+- Update Structurizr to 6.2.3
+- Update Vega to 6.4.0
+- Update WaveDrom to 3.7.0
 
 ## [0.32.1] - 2026-08-12
 
