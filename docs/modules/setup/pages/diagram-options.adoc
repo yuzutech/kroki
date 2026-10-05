@@ -332,6 +332,20 @@ empty string ("")
 |===
 
 
+== TikZ
+
+[cols="1m,1a,2a",opts="header"]
+|===
+|Name
+|Allowable Values
+|Description
+
+|page
+|_positive integer_
+|Render only the specified page of the diagram. This option applies to SVG, PNG and JPEG output. PDF output always contains all pages.
+
+|===
+
 == Symbolator
 
 [cols="1m,1a,2a",opts="header"]

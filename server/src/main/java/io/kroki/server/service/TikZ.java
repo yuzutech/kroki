@@ -55,16 +55,23 @@ public class TikZ implements DiagramService {
   @Override
   public Future<Buffer> convert(String sourceDecoded, String serviceName, FileFormat fileFormat, JsonObject options) {
     return vertx.executeBlocking(() -> {
-      byte[] result = tikz2svg(sourceDecoded.getBytes(), fileFormat.getName());
+      byte[] result = tikz2svg(sourceDecoded.getBytes(), fileFormat.getName(), options);
       return Buffer.buffer(result);
     });
   }
 
-  private byte[] tikz2svg(byte[] source, String format) throws IOException, InterruptedException, IllegalStateException {
+  private byte[] tikz2svg(byte[] source, String format, JsonObject options)
+    throws IOException, InterruptedException, IllegalStateException {
     List<String> commands = new ArrayList<>();
     commands.add(binPath);
     commands.add(format);
     commands.add(String.valueOf(safeMode.value));
+
+    String page = options.getString("page");
+    if (page != null) {
+      commands.add(page);
+    }
+
     return commander.execute(source, commands.toArray(new String[0]));
   }
 }

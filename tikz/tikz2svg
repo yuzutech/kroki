@@ -97,6 +97,7 @@ fixup_documentclass() {
 output_format="$1"
 
 safe_mode="$2"
+page="$3"
 
 tempdir=$(mktemp --directory)
 
@@ -137,12 +138,20 @@ latex $LATEX_OPTIONS -output-format=$(intermediate_format $output_format) file.t
 
 case "$output_format" in
     jpeg|png)
-        pdftocairo -singlefile -$output_format file.pdf -
+        if [ -n "$page" ]; then
+            pdftocairo -f "$page" -l "$page" -singlefile -$output_format file.pdf -
+        else
+            pdftocairo -singlefile -$output_format file.pdf -
+        fi
         ;;
     pdf)
         cat file.pdf
         ;;
     svg)
-        dvisvgm --stdout $DVISVGM_OPTIONS file.dvi
+        if [ -n "$page" ]; then
+            dvisvgm --stdout $DVISVGM_OPTIONS --page="$page" file.dvi
+        else
+            dvisvgm --stdout $DVISVGM_OPTIONS file.dvi
+        fi
         ;;
 esac
