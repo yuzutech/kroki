@@ -11,6 +11,8 @@ versioned entry and uses it as the GitHub release notes.
 
 ## [Unreleased]
 
+## [0.33.0] - 2026-10-05
+
 ### Changed
 
 - Mermaid diagrams now use the ELK layout engine by default, as it is bundled with Mermaid 12 (the separate `@mermaid-js/layout-elk` package is no longer included). Use `layout=dagre` (or `layout: dagre` in the diagram frontmatter config) to restore the previous layout
