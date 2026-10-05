@@ -1,0 +1,24 @@
+import{a as O}from"./chunk-V3KJR4XU.mjs";import{a as G}from"./chunk-H2SWLY5Y.mjs";import"./chunk-DFAUXGQ3.mjs";import"./chunk-XOUW2DEQ.mjs";import"./chunk-JOOTFCOX.mjs";import"./chunk-GDTRMLOK.mjs";import"./chunk-AJJEVQBW.mjs";import"./chunk-C5JO3OR4.mjs";import"./chunk-5EYK72AM.mjs";import"./chunk-CJ6WPRXO.mjs";import"./chunk-ADJWZCCI.mjs";import"./chunk-EW3V7WDR.mjs";import"./chunk-LFUUSPDU.mjs";import"./chunk-A2CVJI47.mjs";import"./chunk-5OZTHVBM.mjs";import"./chunk-XS6APLAC.mjs";import"./chunk-USJJLVIZ.mjs";import"./chunk-WLHZKB66.mjs";import{a as R}from"./chunk-SQW7XO2P.mjs";import{p as D}from"./chunk-YF46JFGZ.mjs";import"./chunk-ZZ52EIBP.mjs";import{P as v,T,U as W,V as j,W as A,X as E,Y as F,Z as z,j as S,u as $}from"./chunk-VSAMGZVZ.mjs";import{b as w}from"./chunk-L2B47AAZ.mjs";import{a as c}from"./chunk-QVIEFLGF.mjs";var M=S.packet,y=class{constructor(){this.packet=[];this.setAccTitle=W;this.getAccTitle=j;this.setDiagramTitle=F;this.getDiagramTitle=z;this.getAccDescription=E;this.setAccDescription=A}static{c(this,"PacketDB")}getConfig(){let t=D({...M,...$().packet});return t.showBits&&(t.paddingY+=10),t}getPacket(){return this.packet}pushWord(t){t.length>0&&this.packet.push(t)}clear(){T(),this.packet=[]}};var N=1e4,I=c((e,t)=>{O(e,t);let a=-1,o=[],n=1,{bitsPerRow:l}=t.getConfig();for(let{start:r,end:i,bits:d,label:f}of e.blocks){if(r!==void 0&&i!==void 0&&i<r)throw new Error(`Packet block ${r} - ${i} is invalid. End must be greater than start.`);if(r??=a+1,r!==a+1)throw new Error(`Packet block ${r} - ${i??r} is not contiguous. It should start from ${a+1}.`);if(d===0)throw new Error(`Packet block ${r} is invalid. Cannot have a zero bit field.`);for(i??=r+(d??1)-1,d??=i-r+1,a=i,w.debug(`Packet block ${r} - ${a} with label ${f}`);o.length<=l+1&&t.getPacket().length<N;){let[p,m]=Y({start:r,end:i,bits:d,label:f},n,l);if(o.push(p),p.end+1===n*l&&(t.pushWord(o),o=[],n++),!m)break;({start:r,end:i,bits:d,label:f}=m)}}t.pushWord(o)},"populate"),Y=c((e,t,a)=>{if(e.start===void 0)throw new Error("start should have been set during first phase");if(e.end===void 0)throw new Error("end should have been set during first phase");if(e.start>e.end)throw new Error(`Block start ${e.start} is greater than block end ${e.end}.`);if(e.end+1<=t*a)return[e,void 0];let o=t*a-1,n=t*a;return[{start:e.start,end:o,label:e.label,bits:o-e.start},{start:n,end:e.end,label:e.label,bits:e.end-n}]},"getNextFittingBlock"),x={parser:{yy:void 0},parse:c(async e=>{let t=await G("packet",e),a=x.parser?.yy;if(!(a instanceof y))throw new Error("parser.parser?.yy was not a PacketDB. This is due to a bug within Mermaid, please report this issue at https://github.com/mermaid-js/mermaid/issues.");w.debug(t),I(t,a)},"parse")};var U=c((e,t,a,o)=>{let n=o.db,l=n.getConfig(),{rowHeight:r,paddingY:i,bitWidth:d,bitsPerRow:f}=l,p=n.getPacket(),m=n.getDiagramTitle(),b=r+i,s=b*(p.length+1)-(m?0:r),g=d*f+2,k=R(t);k.attr("viewBox",`0 0 ${g} ${s}`),v(k,s,g,l.useMaxWidth);for(let[B,u]of p.entries())H(k,u,B,l);k.append("text").text(m).attr("x",g/2).attr("y",s-b/2).attr("dominant-baseline","middle").attr("text-anchor","middle").attr("class","packetTitle")},"draw"),H=c((e,t,a,{rowHeight:o,paddingX:n,paddingY:l,bitWidth:r,bitsPerRow:i,showBits:d,bitOrder:f})=>{let p=e.append("g"),m=a*(o+l)+l,b=f==="descending";for(let s of t){let g=s.end-s.start+1,k=s.start%i,u=(b?i-k-g:k)*r+1,h=g*r-n;if(p.append("rect").attr("x",u).attr("y",m).attr("width",h).attr("height",o).attr("class","packetBlock"),p.append("text").attr("x",u+h/2).attr("y",m+o/2).attr("class","packetLabel").attr("dominant-baseline","middle").attr("text-anchor","middle").text(s.label),!d)continue;let[q,L]=b?[s.end,s.start]:[s.start,s.end],P=g===1,C=m-2;p.append("text").attr("x",u+(P?h/2:0)).attr("y",C).attr("class","packetByte start").attr("dominant-baseline","auto").attr("text-anchor",P?"middle":"start").text(q),P||p.append("text").attr("x",u+h).attr("y",C).attr("class","packetByte end").attr("dominant-baseline","auto").attr("text-anchor","end").text(L)}},"drawWord"),_={draw:U};var K={byteFontSize:"10px",startByteColor:"black",endByteColor:"black",labelColor:"black",labelFontSize:"12px",titleColor:"black",titleFontSize:"14px",blockStrokeColor:"black",blockStrokeWidth:"1",blockFillColor:"#efefef"},V=c(({packet:e}={})=>{let t=D(K,e);return`
+	.packetByte {
+		font-size: ${t.byteFontSize};
+	}
+	.packetByte.start {
+		fill: ${t.startByteColor};
+	}
+	.packetByte.end {
+		fill: ${t.endByteColor};
+	}
+	.packetLabel {
+		fill: ${t.labelColor};
+		font-size: ${t.labelFontSize};
+	}
+	.packetTitle {
+		fill: ${t.titleColor};
+		font-size: ${t.titleFontSize};
+	}
+	.packetBlock {
+		stroke: ${t.blockStrokeColor};
+		stroke-width: ${t.blockStrokeWidth};
+		fill: ${t.blockFillColor};
+	}
+	`},"styles");var ht={parser:x,get db(){return new y},renderer:_,styles:V};export{ht as diagram};

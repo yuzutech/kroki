@@ -16,7 +16,7 @@ asciidoc:
     excalidraw-version: 0.18.1
     goat-version: 0.5.1
     graphviz-version: 14.1.3
-    mermaid-version: 12.0.0
+    mermaid-version: 12.1.0
     nomnoml-version: 1.7.0
     nwdiag-version: 3.4.2
     packetdiag-version: 3.4.2

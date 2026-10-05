@@ -29,7 +29,7 @@
     "@biomejs/biome": "2.5.14",
     "@mermaid-js/layout-elk": "1.0.0",
     "@mermaid-js/layout-tidy-tree": "1.0.1",
-    "mermaid": "12.0.0",
+    "mermaid": "12.1.0",
     "pngjs": "7.0.0"
   },
   "volta": {
