@@ -6,7 +6,7 @@
   "bin": "src/index.js",
   "type": "module",
   "scripts": {
-    "prestart": "rm -rf assets/mermaid/* && mkdir -p assets/mermaid/chunks/mermaid.esm.min assets/mermaid/chunks/mermaid-layout-elk.esm.min assets/mermaid/chunks/mermaid-layout-tidy-tree.esm.min && cp -r node_modules/mermaid/dist/mermaid.esm.min.mjs assets/mermaid/ && cp -r node_modules/mermaid/dist/chunks/mermaid.esm.min/*.mjs assets/mermaid/chunks/mermaid.esm.min/ && cp node_modules/@mermaid-js/layout-elk/dist/mermaid-layout-elk.esm.min.mjs assets/mermaid/ && cp node_modules/@mermaid-js/layout-elk/dist/chunks/mermaid-layout-elk.esm.min/*.mjs assets/mermaid/chunks/mermaid-layout-elk.esm.min/ && cp node_modules/@mermaid-js/layout-tidy-tree/dist/mermaid-layout-tidy-tree.esm.min.mjs assets/mermaid/ && cp node_modules/@mermaid-js/layout-tidy-tree/dist/chunks/mermaid-layout-tidy-tree.esm.min/*.mjs assets/mermaid/chunks/mermaid-layout-tidy-tree.esm.min/",
+    "prestart": "rm -rf assets/mermaid/* && mkdir -p assets/mermaid/chunks/mermaid.esm.min assets/mermaid/chunks/mermaid-layout-tidy-tree.esm.min && cp -r node_modules/mermaid/dist/mermaid.esm.min.mjs assets/mermaid/ && cp -r node_modules/mermaid/dist/chunks/mermaid.esm.min/*.mjs assets/mermaid/chunks/mermaid.esm.min/ && cp node_modules/@mermaid-js/layout-tidy-tree/dist/mermaid-layout-tidy-tree.esm.min.mjs assets/mermaid/ && cp node_modules/@mermaid-js/layout-tidy-tree/dist/chunks/mermaid-layout-tidy-tree.esm.min/*.mjs assets/mermaid/chunks/mermaid-layout-tidy-tree.esm.min/",
     "start": "node src/index.js",
     "test": "node --test --test-force-exit",
     "lint": "biome check src"
@@ -27,7 +27,6 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.14",
-    "@mermaid-js/layout-elk": "1.0.0",
     "@mermaid-js/layout-tidy-tree": "1.0.1",
     "mermaid": "12.1.0",
     "pngjs": "7.0.0"

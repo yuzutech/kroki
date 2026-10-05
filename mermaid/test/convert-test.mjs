@@ -3,7 +3,7 @@
 // must be declared first
 import { logger } from '../src/logger.js'
 
-import { describe, it, after } from 'node:test'
+import { describe, it } from 'node:test'
 import puppeteer from 'puppeteer'
 import pngjs from 'pngjs'
 import { Worker } from '../src/worker.js'
@@ -22,7 +22,7 @@ const svgTests = [
 
 const pngTests = [
   {
-    type: 'graph', width: 210, height: 170, content: `graph TD
+    type: 'graph', width: 436, height: 228, content: `graph TD
   A --> B
   C{{test}} --> D[(db)]
   A --> D`
@@ -106,7 +106,8 @@ describe('#convert', function () {
     })
   })
 
-  const alternateLayouts = ['elk', 'tidy-tree']
+  // ELK is now bundled with mermaid and is the default layout algorithm.
+  const alternateLayouts = ['dagre', 'tidy-tree']
   alternateLayouts.forEach((layout) => {
     it(`should render a flowchart with the ${layout} layout`, async function () {
       const browser = await getBrowser()
@@ -123,9 +124,9 @@ config:
   layout: ${layout}
 ---
 ${source}`))
-        // when a layout is not registered, mermaid silently falls back to dagre
-        // and produces the same SVG as the default layout
-        deepEqual(layoutSvg !== defaultSvg, true, `the ${layout} layout must produce a different SVG than the default layout (dagre), the layout loader is probably not registered`)
+        // when a layout is not registered, mermaid silently falls back to the default layout
+        // and produces the same SVG
+        deepEqual(layoutSvg.toString('utf8') !== defaultSvg.toString('utf8'), true, `the ${layout} layout must produce a different SVG than the default layout (elk), the layout loader is probably not registered`)
       } finally {
         await browser.close()
       }
