@@ -218,8 +218,9 @@ For security reasons, the following options are not available:
 
 The complete list of options is available in Mermaid source code at: https://github.com/mermaid-js/mermaid/blob/master/packages/mermaid/src/config.type.ts
 
-Kroki bundles the https://www.npmjs.com/package/@mermaid-js/layout-elk[ELK] and https://www.npmjs.com/package/@mermaid-js/layout-tidy-tree[tidy-tree] alternate layout engines, which were moved to external packages in Mermaid v11.
-You can select one using the `layout` diagram option (e.g., `layout=elk`) or the `layout` property in the diagram frontmatter config.
+Since Mermaid v12, ELK is bundled with Mermaid and is the default layout engine.
+Kroki also bundles the https://www.npmjs.com/package/@mermaid-js/layout-tidy-tree[tidy-tree] alternate layout engine.
+You can select a layout engine using the `layout` diagram option (e.g., `layout=dagre` or `layout=tidy-tree`) or the `layout` property in the diagram frontmatter config.
 
 == PlantUML
 
