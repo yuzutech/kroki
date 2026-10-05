@@ -352,34 +352,14 @@ public class PlantumlServiceTest {
   void should_return_an_ascii_text_diagram() throws IOException, InterruptedException {
     String diagram = "@startuml\nBob->Alice:hello\n@enduml";
     byte[] convert = plantumlCommand.convert(diagram, FileFormat.TXT, new JsonObject());
-    //@formatter:off
-    assertThat(new String(convert)).isEqualTo(
-      "     ,---.          ,-----.\n" +
-      "     |Bob|          |Alice|\n" +
-      "     `-+-'          `--+--'\n" +
-      "       |    hello      |   \n" +
-      "       |-------------->|   \n" +
-      "     ,-+-.          ,--+--.\n" +
-      "     |Bob|          |Alice|\n" +
-      "     `---'          `-----'\n");
-    //@formatter:on
+    SnapshotAssert.assertThat(new String(convert)).matchesSnapshot("hello.expected.txt");
   }
 
   @Test
   void should_return_an_unicode_text_diagram() throws IOException, InterruptedException {
     String diagram = "@startuml\nBob->Alice:hello\n@enduml";
     byte[] convert = plantumlCommand.convert(diagram, FileFormat.UTXT, new JsonObject());
-    //@formatter:off
-    assertThat(new String(convert)).isEqualTo(
-      "     ┌───┐          ┌─────┐\n" +
-      "     │Bob│          │Alice│\n" +
-      "     └─┬─┘          └──┬──┘\n" +
-      "       │    hello      │   \n" +
-      "       │──────────────>│   \n" +
-      "     ┌─┴─┐          ┌──┴──┐\n" +
-      "     │Bob│          │Alice│\n" +
-      "     └───┘          └─────┘\n");
-    //@formatter:on
+    SnapshotAssert.assertThat(new String(convert)).matchesSnapshot("hello.expected.utxt");
   }
 
   @Test
@@ -701,7 +681,8 @@ public class PlantumlServiceTest {
     if (osName.contains("mac")) {
       expectedFileName = "./plantuml_with_minty_theme_macos.svg";
     }
-    assertThat(stripComments(new String(convert))).isEqualTo(read(expectedFileName));
+    SnapshotAssert.assertThat(stripComments(new String(convert)))
+      .matchesSnapshot(expectedFileName);
   }
 
   @Test
