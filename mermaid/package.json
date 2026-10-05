@@ -9,7 +9,8 @@
     "prestart": "rm -rf assets/mermaid/* && mkdir -p assets/mermaid/chunks/mermaid.esm.min assets/mermaid/chunks/mermaid-layout-tidy-tree.esm.min && cp -r node_modules/mermaid/dist/mermaid.esm.min.mjs assets/mermaid/ && cp -r node_modules/mermaid/dist/chunks/mermaid.esm.min/*.mjs assets/mermaid/chunks/mermaid.esm.min/ && cp node_modules/@mermaid-js/layout-tidy-tree/dist/mermaid-layout-tidy-tree.esm.min.mjs assets/mermaid/ && cp node_modules/@mermaid-js/layout-tidy-tree/dist/chunks/mermaid-layout-tidy-tree.esm.min/*.mjs assets/mermaid/chunks/mermaid-layout-tidy-tree.esm.min/",
     "start": "node src/index.js",
     "test": "node --test --test-force-exit",
-    "lint": "biome check src"
+    "lint": "biome check src",
+    "update-icons": "node scripts/update-icons.js"
   },
   "keywords": [],
   "author": "Guillaume Grossetie",
