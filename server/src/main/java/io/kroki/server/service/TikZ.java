@@ -3,6 +3,7 @@ package io.kroki.server.service;
 import io.kroki.server.action.Commander;
 import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
+import io.kroki.server.error.BadRequestException;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
 import io.kroki.server.security.SafeMode;
@@ -69,9 +70,22 @@ public class TikZ implements DiagramService {
 
     String page = options.getString("page");
     if (page != null) {
-      commands.add(page);
+      commands.add(String.valueOf(parsePage(page)));
     }
 
     return commander.execute(source, commands.toArray(new String[0]));
+  }
+
+  private static int parsePage(String page) {
+    int pageNumber;
+    try {
+      pageNumber = Integer.parseInt(page.trim(), 10);
+    } catch (NumberFormatException e) {
+      throw new BadRequestException("Invalid page option: " + page + ", must be a positive integer.", e);
+    }
+    if (pageNumber < 1) {
+      throw new BadRequestException("Invalid page option: " + page + ", must be a positive integer.");
+    }
+    return pageNumber;
   }
 }
