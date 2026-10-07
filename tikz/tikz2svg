@@ -1,9 +1,10 @@
 #!/bin/sh
 
-# Usage: tikz2svg <output-format> <input.tex >output
+# Usage: tikz2svg <output-format> <safe-mode> [page] <input.tex >output
 #
 # Converts PGF/TikZ on stdin to one of the supported output formats (jpeg,
-# pdf, png, svg) on stdout.
+# pdf, png, svg) on stdout. When page (a positive integer) is given, only that
+# page is rendered (jpeg, png and svg only; pdf output contains all pages).
 
 set -e
 
@@ -99,6 +100,15 @@ output_format="$1"
 safe_mode="$2"
 page="$3"
 
+case "$page" in
+    '')
+        ;;
+    *[!0-9]*|0*)
+        echo "Invalid page: $page, must be a positive integer." >&2
+        exit 1
+        ;;
+esac
+
 tempdir=$(mktemp --directory)
 
 cleanup() {
@@ -149,6 +159,18 @@ case "$output_format" in
         ;;
     svg)
         if [ -n "$page" ]; then
+            # dvisvgm silently renders the last page when the requested page
+            # is out of range (pdftocairo fails on its own), so check it
+            # against the total page count stored in the DVI postamble.
+            page_count=$(dvitype -output-level=0 file.dvi | sed -n 's/^maxv=-\{0,1\}[0-9]*, maxh=-\{0,1\}[0-9]*, maxstackdepth=[0-9]*, totalpages=\([0-9]*\)$/\1/p')
+            if [ -z "$page_count" ]; then
+                echo "Unable to determine the number of pages." >&2
+                exit 1
+            fi
+            if [ "$page" -gt "$page_count" ]; then
+                echo "Page $page does not exist, the diagram has $page_count page(s)." >&2
+                exit 1
+            fi
             dvisvgm --stdout $DVISVGM_OPTIONS --page="$page" file.dvi
         else
             dvisvgm --stdout $DVISVGM_OPTIONS file.dvi

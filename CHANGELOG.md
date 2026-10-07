@@ -11,6 +11,10 @@ versioned entry and uses it as the GitHub release notes.
 
 ## [Unreleased]
 
+### Added
+
+- Add a `page` option to TikZ diagrams to render only the specified page in SVG, PNG and JPEG output ([#2167](https://github.com/yuzutech/kroki/pull/2167))
+
 ## [0.33.0] - 2026-10-05
 
 ### Changed
