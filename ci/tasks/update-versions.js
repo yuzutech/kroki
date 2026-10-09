@@ -128,6 +128,7 @@ const diagramLibraryNames = [
   'excalidraw',
   'goat',
   'graphviz',
+  'lini',
   'mermaid',
   'nomnoml',
   'nwdiag',
@@ -230,12 +231,17 @@ try {
     }
   }
 
-  const svgbobCargoContent = await fs.readFile(ospath.join(rootDir, 'server', 'ops', 'docker', 'Cargo.toml'), 'utf8')
-  for (const line of svgbobCargoContent.split('\n')) {
+  const cargoContent = await fs.readFile(ospath.join(rootDir, 'server', 'ops', 'docker', 'Cargo.toml'), 'utf8')
+  for (const line of cargoContent.split('\n')) {
     const svgbobVersionFound = line.match(/^svgbob_cli\s*=\s*"(?<version>.+)"$/)
     if (svgbobVersionFound) {
       const { version } = svgbobVersionFound.groups
       diagramLibraryVersions.svgbob = version
+    }
+    const liniVersionFound = line.match(/^lini\s*=\s*"(?<version>.+)"$/)
+    if (liniVersionFound) {
+      const { version } = liniVersionFound.groups
+      diagramLibraryVersions.lini = version
     }
   }
 
@@ -273,6 +279,7 @@ try {
   await updateServiceGetVersion('Excalidraw.java', diagramLibraryVersions.excalidraw)
   await updateServiceGetVersion('Goat.java', diagramLibraryVersions.goat)
   await updateServiceGetVersion('Graphviz.java', diagramLibraryVersions.graphviz)
+  await updateServiceGetVersion('Lini.java', diagramLibraryVersions.lini)
   await updateServiceGetVersion('Mermaid.java', diagramLibraryVersions.mermaid)
   await updateServiceGetVersion('Nomnoml.java', diagramLibraryVersions.nomnoml)
   await updateServiceGetVersion('Pikchr.java', diagramLibraryVersions.pikchr)

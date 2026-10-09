@@ -1,0 +1,7 @@
+{ |svc::box| { fill: --teal-wash; stroke: --teal-ink } }
+
+|group| "Services" [ |svc#api| "API"; |svc#auth| "Auth" ]
+|svc#db| "Postgres"
+
+api  -> db "read"
+auth -> db "write"

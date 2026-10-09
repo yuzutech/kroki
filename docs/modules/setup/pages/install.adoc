@@ -99,6 +99,7 @@ The {uri-docker-kroki-image}[yuzutech/kroki] image contains the gateway server, 
 * https://github.com/BurntSushi/erd[Erd]
 * https://github.com/blampe/goat/[GoAT]
 * https://www.graphviz.org/[GraphViz]
+* https://lini.rs[Lini]
 * https://github.com/skanaar/nomnoml[Nomnoml]
 * {uri-nwdiag}[NwDiag]
 * {uri-packetdiag}[PacketDiag]
@@ -129,6 +130,7 @@ In other words, the following endpoints will be available:
 /goat
 /graphviz
 /dot
+/lini
 /nomnoml
 /nwdiag
 /packetdiag

@@ -54,6 +54,10 @@ The `yuzutech/kroki` Docker image contains the following diagrams libraries out-
 |{graphviz-version}
 //|Binary `/usr/bin/dot`
 
+|https://lini.rs[Lini]
+|{lini-version}
+//|Binary `/usr/bin/lini`
+
 |https://github.com/skanaar/nomnoml[Nomnoml]
 |{nomnoml-version}
 //|Binary `/usr/bin/nomnoml`

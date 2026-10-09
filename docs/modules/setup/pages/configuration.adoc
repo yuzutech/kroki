@@ -107,6 +107,11 @@ Structurizr's restricted mode is activated unless Kroki is running in `UNSAFE` m
 
 If you want to enable this feature, you can set the safe mode using the global environment variable `KROKI_SAFE_MODE` or the specific environment variable `KROKI_STRUCTURIZR_SAFE_MODE` (i.e., the safe mode will only apply to Structurizr).
 
+=== Lini
+
+Unless Kroki is running in `UNSAFE` mode, Lini runs with its `--no-fs` flag and never reads a file.
+An image (`|image|`) can only point at a URL or a `data:` URI: a local file path is an error, and the `theme` option only accepts the built-in themes.
+
 == Cross-origin resource sharing (CORS)
 
 By default, the following headers are allowed:
@@ -139,6 +144,7 @@ you can override its location manually using an environment variable or a Java s
 `KROKI_DOT_BIN_PATH`:: Path to `dot` binary (defaults: `/usr/bin/dot`)
 `KROKI_ERD_BIN_PATH`:: Path to `erd` binary (defaults: `/usr/bin/erd`)
 `KROKI_GOAT_BIN_PATH`:: Path to `goat` binary (defaults: `/usr/bin/goat`)
+`KROKI_LINI_BIN_PATH`:: Path to `lini` binary (defaults: `/usr/bin/lini`)
 `KROKI_NOMNOML_BIN_PATH`:: Path to `nomnoml` binary (defaults: `/usr/bin/nomnoml`)
 `KROKI_PIKCHR_BIN_PATH`:: Path to `pikchr` binary (defaults: `/usr/bin/pikchr`)
 `KROKI_PLANTUML_BIN_PATH`:: Path to `plantuml` binary (defaults: `/usr/bin/plantuml`)

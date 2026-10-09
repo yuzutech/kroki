@@ -143,6 +143,31 @@ RUN SVGBOB_VERSION=`cat Cargo.toml | grep "svgbob_cli =" | sed -r 's/.*"([^"]+)"
     rustup target add $RUST_TARGET_ARCH-unknown-linux-gnu && \
     cargo install --quiet --target $RUST_TARGET_ARCH-unknown-linux-gnu --version $SVGBOB_VERSION svgbob_cli
 
+## Lini
+FROM --platform=$BUILDPLATFORM rust:1.97-slim-bullseye AS kroki-builder-static-lini
+
+# Install cross-compilation tools
+RUN apt-get update && apt-get install --no-install-recommends --yes \
+    gcc-aarch64-linux-gnu \
+    gcc-x86-64-linux-gnu \
+    libc6-dev-amd64-cross \
+    libc6-dev-arm64-cross && \
+    apt-get clean && apt-get autoremove
+
+COPY ops/docker/Cargo.toml .
+COPY ops/docker/.cargo .cargo
+
+ARG TARGETARCH
+ENV CARGO_REGISTRIES_CRATES_IO_PROTOCOL=sparse
+RUN LINI_VERSION=`cat Cargo.toml | grep "^lini =" | sed -r 's/.*"([^"]+)"/\1/'` && \
+    case $TARGETARCH in \
+        "amd64") RUST_TARGET_ARCH=x86_64 ;; \
+        "arm64") RUST_TARGET_ARCH=aarch64 ;; \
+        *) RUST_TARGET_ARCH=$TARGETARCH ;; \
+    esac && \
+    rustup target add $RUST_TARGET_ARCH-unknown-linux-gnu && \
+    cargo install --quiet --locked --target $RUST_TARGET_ARCH-unknown-linux-gnu --version $LINI_VERSION lini
+
 ## Erd
 FROM ghcr.io/yuzutech/erd:v0.2.3 AS erd
 
@@ -247,6 +272,7 @@ COPY --from=kroki-builder-vega /app/app.bin /usr/bin/vega
 COPY --from=kroki-builder-wavedrom /app/build/app.bin /usr/bin/wavedrom
 COPY --from=tikz tikz2svg /usr/bin/tikz2svg
 COPY --from=kroki-builder-goat /go/bin/goat /usr/bin/goat
+COPY --from=kroki-builder-static-lini /usr/local/cargo/bin/lini /usr/bin/lini
 
 COPY --chown=kroki:kroki ops/docker/logback.xml /etc/kroki/logback.xml
 
@@ -268,6 +294,7 @@ ENV KROKI_TIKZ2SVG_BIN_PATH=/usr/bin/tikz2svg
 ENV KROKI_DITAA_BIN_PATH=/usr/bin/ditaa
 ENV KROKI_SYMBOLATOR_BIN_PATH=/usr/bin/symbolator
 ENV KROKI_WIREVIZ_BIN_PATH=/usr/bin/wireviz
+ENV KROKI_LINI_BIN_PATH=/usr/bin/lini
 ENV JAVA_OPTS="-Dlogback.configurationFile=/etc/kroki/logback.xml -Dvertx.logger-delegate-factory-class-name=io.vertx.core.logging.SLF4JLogDelegateFactory"
 
 COPY --chown=kroki:kroki target/kroki-server.jar /usr/local/kroki/kroki-server.jar
