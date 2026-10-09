@@ -123,6 +123,7 @@ public class Server extends AbstractVerticle {
     registry.register(new Dbml(vertx, config, commander), "dbml");
     registry.register(new Wireviz(vertx, config, commander), "wireviz");
     registry.register(new Goat(vertx, config, commander), "goat");
+    registry.register(new Lini(vertx, config, commander), "lini");
 
     mountCompanionDiscovery(vertx, config, router, bodyHandler, delegator, registry);
 
