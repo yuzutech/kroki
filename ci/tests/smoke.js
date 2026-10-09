@@ -58,6 +58,9 @@ const tests = [
   { engine: 'goat', file: 'components.goat', options: { 'svg-color-dark-scheme': '#AAA' }, outputFormat: ['svg'] },
   { engine: 'goat', file: 'components.goat', options: { 'svg-color-light-scheme': '#AAA' }, outputFormat: ['svg'] },
   { engine: 'goat', file: 'components.goat', options: { 'utf8': true }, outputFormat: ['svg'] },
+  { engine: 'lini', file: 'services.lini', options: {}, outputFormat: ['svg'] },
+  { engine: 'lini', file: 'services.lini', options: { theme: 'dark' }, outputFormat: ['svg'] },
+  { engine: 'lini', file: 'services.lini', options: { static: 'true' }, outputFormat: ['svg'] },
 ]
 
 const mimeType = {
@@ -144,6 +147,21 @@ describe('CJK font', function () {
       deepEqual(boxWidthRegex.test(textResponse), true, `text response must include <foreignObject> tag with a width attribute but could not find this tag in: ${textResponse}`)
       const match = textResponse.match(boxWidthRegex)
       deepEqual(parseInt(match[1]) > 110, true, 'width must be greater than 110')
+    } catch (err) {
+      console.log('response:', textResponse)
+      throw err
+    }
+  })
+})
+
+describe('Lini safe mode', function () {
+  it('lini should refuse to read a local image path (KROKI_SAFE_MODE=secure)', async () => {
+    const testCase = { engine: 'lini', file: 'local-image.lini' }
+    const response = await sendRequest(testCase, 'svg')
+    const textResponse = await response.text()
+    try {
+      deepEqual(response.status, 400, `status code must be 400 but was: ${response.status}`)
+      deepEqual(textResponse.includes('local files are off (--no-fs)'), true, `text response must explain that local files are off in: ${textResponse}`)
     } catch (err) {
       console.log('response:', textResponse)
       throw err

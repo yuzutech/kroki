@@ -195,6 +195,31 @@ If this value is omitted, 72.0 is used.
 This number is used to convert the point coordinate units used in the pos attribute into inches, which is what is expected by neato and fdp: https://graphviz.org/doc/info/command.html#-s
 |===
 
+== Lini
+
+[cols="1m,1a,2a",opts="header"]
+|===
+|Name
+|Allowable Values
+|Description
+
+|theme
+|
+* `default` (light and dark, follows the color scheme)
+* `light`
+* `dark`
+* `high-contrast`
+* `blueprint`
+* a light/dark pair of the above, e.g. `light/blueprint`
+|Color theme of the diagram.
+
+|static
+|_flag_ +
+empty string ("")
+|Inline the CSS variables as plain values and convert text to paths, so the SVG renders the same outside a browser (librsvg, resvg, PDF converters). +
+With flag set, option takes effect.
+|===
+
 == Mermaid
 
 Mermaid naming convention for configuration is camelCase, for instance: `htmlLabels`.

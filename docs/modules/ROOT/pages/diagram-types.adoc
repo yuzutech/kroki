@@ -43,6 +43,7 @@ Diagram::
 * https://www.diagrams.net/[diagrams.net] (experimental)
 * WireViz
 * GoAT
+* Lini
 
 Visualization::
 * Bar charts
