@@ -45,6 +45,11 @@ A deployment platform that runs the Kroki image on its managed ZopCloud or in yo
 +
 image::https://zop.dev/deploytozopday-inkhard.svg[Deploy to ZopDay,link=https://zop.dev/zopday/app/deploy?image=yuzutech/kroki:latest&port=8000&name=kroki]
 
+https://pethost.dev/templates/kroki/[Pethost]::
+A hosting platform for personal projects, with a one-click template that runs Kroki and its Mermaid companion on a server of your own plan.
++
+image::https://pethost.dev/button.svg[Deploy on Pethost,link=https://pethost.dev/templates/kroki/]
+
 NOTE: These are third-party/community offerings, not officially operated by the Kroki team.
 
 == Quickstart
