@@ -50,6 +50,20 @@
       // are a different release flavour and would break the download URL
       extractVersionTemplate: '^v(?<version>\\d+\\.\\d+\\.\\d+)$',
     },
+    // D2_VERSION is a plain ARG used to download the d2 binary from GitHub releases
+    {
+      customType: 'regex',
+      managerFilePatterns: [
+        '/^server/ops/docker/Dockerfile$/',
+      ],
+      matchStrings: [
+        'ARG D2_VERSION="(?<currentValue>.*?)"',
+      ],
+      datasourceTemplate: 'github-releases',
+      depNameTemplate: 'd2lang/d2',
+      // tags are "vX.Y.Z", the Dockerfile stores the bare version
+      extractVersionTemplate: '^v(?<version>.*)$',
+    },
   ],
   packageRules: [
     {
