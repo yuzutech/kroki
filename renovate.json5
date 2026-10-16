@@ -77,6 +77,21 @@
       datasourceTemplate: 'github-releases',
       depNameTemplate: 'yuzutech/graphviz-builder',
     },
+    // WIREVIZ_VERSION is a plain ARG used to download the wireviz binary
+    // built from the yuzutech/WireViz fork
+    {
+      customType: 'regex',
+      managerFilePatterns: [
+        '/^server/ops/docker/Dockerfile$/',
+      ],
+      matchStrings: [
+        'ARG WIREVIZ_VERSION="(?<currentValue>.*?)"',
+      ],
+      datasourceTemplate: 'github-releases',
+      depNameTemplate: 'yuzutech/WireViz',
+      // tags are "vX.Y.Z", the Dockerfile stores the bare version
+      extractVersionTemplate: '^v(?<version>.*)$',
+    },
   ],
   packageRules: [
     {
