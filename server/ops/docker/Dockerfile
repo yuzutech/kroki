@@ -15,7 +15,7 @@ COPY --from=kroki-node-target /usr/local/bin/node /app/build/app.bin
 RUN npm run build:inject
 
 ## Vega
-FROM --platform=$BUILDPLATFORM ubuntu:noble AS kroki-builder-vega
+FROM --platform=$BUILDPLATFORM ubuntu:resolute AS kroki-builder-vega
 
 RUN apt-get update && apt-get install --no-install-recommends --yes \
     curl \
@@ -73,7 +73,7 @@ COPY --from=kroki-node-target /usr/local/bin/node /app/build/app.bin
 RUN npm run build:inject
 
 ## Symbolator
-FROM ubuntu:noble AS kroki-builder-static-symbolator
+FROM ubuntu:resolute AS kroki-builder-static-symbolator
 
 # Build from forked source because upstream is broken for the latest python3 versions
 ARG SYMBOLATOR_VERSION=1.2.2
@@ -101,7 +101,7 @@ RUN python3 -m pip install --break-system-packages --upgrade ${SYMBOLATOR_SOURCE
 RUN python3 -m nuitka --onefile `which symbolator` --include-module=gi.overrides.Pango --include-module=gi._gi_cairo
 
 ## Pikchr
-FROM ubuntu:noble AS kroki-builder-static-pikchr
+FROM ubuntu:resolute AS kroki-builder-static-pikchr
 
 ARG PIKCHR_VERSION=85e65b968651b342c46e6334f4772b45d6cbb4317c5cbaa95d207779a50c6709
 
