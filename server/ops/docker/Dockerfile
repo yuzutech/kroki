@@ -1,4 +1,4 @@
-# syntax=docker/dockerfile:1.26
+# syntax=docker/dockerfile:1.28
 
 ## Node.js for the target platform (provides the binary used to assemble SEA executables)
 FROM node:24.19-bookworm-slim AS kroki-node-target
