@@ -6,7 +6,7 @@ import fsp from 'node:fs/promises'
 import micro from 'micro'
 import Worker, { QueueFullError, TimeoutError } from './worker.js'
 import Task from './task.js'
-import { getBrowserWSEndpoint } from './browser-instance.js'
+import { closeOnShutdown, getBrowserWSEndpoint } from './browser-instance.js'
 
 ;(async () => {
   // Warm up Chrome so the service fails fast when it cannot launch; the
@@ -93,6 +93,8 @@ import { getBrowserWSEndpoint } from './browser-instance.js'
       })
     })
   )
+  // Let in-flight conversions finish on SIGTERM (see @kroki/browser-instance).
+  closeOnShutdown(server)
   server.listen(8004)
 })().catch(err => {
   logger.error({ err }, 'Unable to start the service')
