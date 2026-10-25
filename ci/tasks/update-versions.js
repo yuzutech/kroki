@@ -176,7 +176,7 @@ try {
       const { version } = erdVersionFound.groups
       diagramLibraryVersions.erd = version
     }
-    const pikchrVersionFound = line.match(/^ARG PIKCHR_VERSION=(?<version>.+)$/)
+    const pikchrVersionFound = line.match(/^FROM ghcr.io\/yuzutech\/kroki-builder-pikchr:(?<version>\S+) AS kroki-builder-static-pikchr$/)
     if (pikchrVersionFound) {
       const { version } = pikchrVersionFound.groups
       diagramLibraryVersions.pikchr = version.slice(0, 10)
