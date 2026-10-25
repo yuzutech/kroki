@@ -177,7 +177,12 @@ FROM --platform=$BUILDPLATFORM golang:1.26.5-alpine AS kroki-builder-goat
 ARG GOAT_VERSION=0.5.1
 
 RUN apk add git
-RUN go install "github.com/blampe/goat/cmd/goat@v${GOAT_VERSION}"
+ARG TARGETOS
+ARG TARGETARCH
+# Cross-compile for the target platform: when it differs from the build platform,
+# go install puts the binary in /go/bin/<os>_<arch>/ instead of /go/bin/
+RUN CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go install "github.com/blampe/goat/cmd/goat@v${GOAT_VERSION}" && \
+    if [ -f "/go/bin/${TARGETOS}_${TARGETARCH}/goat" ]; then mv "/go/bin/${TARGETOS}_${TARGETARCH}/goat" /go/bin/goat; fi
 
 ## yuzutech/kroki
 FROM eclipse-temurin:21.0.9_10-jre-noble
