@@ -295,16 +295,36 @@ In addition, Mermaid's own edge limit (`maxEdges`, 500 by default) is enforced: 
 NOTE: For security reasons, `maxTextSize`, `maxEdges`, `securityLevel`, `secure` and `startOnLoad` cannot be overridden per request through query parameters.
 
 [#mermaid-concurrency-limit]
-=== Mermaid Concurrency Limit
+=== Concurrency Limit
 
-The Mermaid container opens one Chromium page per render. Without a limit, a burst of simultaneous conversions could spin up enough renderer processes to exceed the container's memory limit and crash the browser.
+The Mermaid, BPMN, diagrams.net and Excalidraw containers open one Chromium page per render. Without a limit, a burst of simultaneous conversions could spin up enough renderer processes to exceed the container's memory limit and crash the browser.
 Requests beyond the limit queue instead of spawning unbounded pages.
 
-You can adjust this with the `KROKI_MERMAID_MAX_CONCURRENCY` environment variable:
+You can adjust the limit per companion:
+
+[horizontal]
+`KROKI_MERMAID_MAX_CONCURRENCY`:: Mermaid container (default: `6`).
+`KROKI_BPMN_MAX_CONCURRENCY`:: BPMN container (default: `6`).
+`KROKI_DIAGRAMSNET_MAX_CONCURRENCY`:: diagrams.net container (default: `6`).
+`KROKI_EXCALIDRAW_MAX_CONCURRENCY`:: Excalidraw container (default: `4`).
+
+=== Excalidraw Page Pool
+
+Loading the Excalidraw library in a page is far more expensive than rendering a diagram.
+The Excalidraw container therefore keeps up to `KROKI_EXCALIDRAW_MAX_CONCURRENCY` pages initialized and reuses them across requests.
+A page is discarded (and re-created on demand) when it crashes, when a render times out, or after a given number of renders, to bound the memory used by a long-lived page:
 
 [source]
 ----
-KROKI_MERMAID_MAX_CONCURRENCY=6 # default
+KROKI_EXCALIDRAW_PAGE_MAX_USES=100 # default
+----
+
+The Excalidraw container aborts a single render that takes longer than 15 seconds and returns a `408` (Request Timeout) response status code.
+You can adjust this with the `KROKI_EXCALIDRAW_CONVERT_TIMEOUT` environment variable (value in milliseconds):
+
+[source]
+----
+KROKI_EXCALIDRAW_CONVERT_TIMEOUT=15000 # default, 15 seconds
 ----
 
 The wait queue is bounded as well, so a degraded Chromium (e.g. restarting after a crash) cannot make queued requests pile up until the container runs out of memory.

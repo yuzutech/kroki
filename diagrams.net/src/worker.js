@@ -3,6 +3,7 @@ import path from 'node:path'
 import { fileURLToPath, URL } from 'node:url'
 // eslint-disable-next-line
 import puppeteer, { Page } from 'puppeteer'
+import { Semaphore } from '@kroki/browser-instance'
 import { logger } from './logger.js'
 import { getBrowserWSEndpoint, protocolTimeout } from './browser-instance.js'
 
@@ -23,12 +24,16 @@ export class SyntaxError extends Error {
   }
 }
 
+// Caps concurrent pages (see Semaphore in @kroki/browser-instance).
+const MAX_CONCURRENCY = Number(process.env.KROKI_DIAGRAMSNET_MAX_CONCURRENCY) || 6
+
 export class Worker {
   constructor() {
     this.pageUrl =
       process.env.KROKI_DIAGRAMSNET_PAGE_URL ||
       `file://${path.join(__dirname, '..', 'assets', 'index.html')}`
     this.convertTimeout = process.env.KROKI_DIAGRAMSNET_CONVERT_TIMEOUT || '15000'
+    this.semaphore = new Semaphore(MAX_CONCURRENCY)
   }
 
   /**
@@ -36,6 +41,15 @@ export class Worker {
    * @returns {Promise<string|Buffer>}
    */
   async convert(task) {
+    await this.semaphore.acquire()
+    try {
+      return await this._convert(task)
+    } finally {
+      this.semaphore.release()
+    }
+  }
+
+  async _convert(task) {
     const browser = await this._connect()
     const page = await newPage(browser)
     try {
