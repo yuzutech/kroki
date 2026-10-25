@@ -1,6 +1,7 @@
 # syntax=docker/dockerfile:1.28
 # symbolator compiled to a single binary with Nuitka (so the Kroki image does not need Python),
 # published as ghcr.io/yuzutech/kroki-builder-symbolator by the "Tool images" workflow.
+# renovate: datasource=github-tags depName=zebreus/symbolator extractVersion=^v(?<version>.+)$
 ARG VERSION=1.2.2
 
 # Keep ubuntu:noble: Nuitka produces a binary that crashes at runtime on ubuntu:resolute

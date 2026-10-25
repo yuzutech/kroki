@@ -69,20 +69,21 @@ The binary is published as a container image, `ghcr.io/yuzutech/kroki-builder-er
 
 When a new version is available, we need to:
 
-. if needed, update `tools/erd/Dockerfile` (the pull request runs the "Tool images" workflow to build and test it on amd64 and arm64)
+. update `ARG VERSION` in `tools/erd/Dockerfile` (Renovate opens this pull request, which runs the "Tool images" workflow to build and test it on amd64 and arm64)
 . run the "Tool images" workflow with the tool `erd` and the new version: https://github.com/yuzutech/kroki/actions/workflows/tool-images.yml
-. update the image tag in `FROM ghcr.io/yuzutech/kroki-builder-erd:<version> AS erd` in `server/ops/docker/Dockerfile`
+. update the image tag in `FROM ghcr.io/yuzutech/kroki-builder-erd:<version> AS erd` in `server/ops/docker/Dockerfile` (Renovate opens this pull request too)
 . run `task updateVersions` (see above)
 
 === Graphviz
 
-We are producing native binaries from a builder: https://github.com/yuzutech/graphviz-builder/releases
+We are building a `dot` binary (statically linked against the Graphviz libraries) from the upstream release sources (https://gitlab.com/graphviz/graphviz/-/releases) in `tools/graphviz/Dockerfile`.
+The binary is published as a container image, `ghcr.io/yuzutech/kroki-builder-graphviz:<version>`, so building Kroki only copies it.
 
 When a new version is available, we need to:
 
-. update the builder
-. run the release workflow: https://github.com/yuzutech/graphviz-builder/actions
-. update the argument variable `ARG GRAPHVIZ_VERSION="x.y.z"` in `server/ops/docker/Dockerfile`
+. update `ARG VERSION` in `tools/graphviz/Dockerfile` (Renovate opens this pull request, which runs the "Tool images" workflow to build and test it on amd64 and arm64)
+. run the "Tool images" workflow with the tool `graphviz` and the new version: https://github.com/yuzutech/kroki/actions/workflows/tool-images.yml
+. update the image tag in `FROM ghcr.io/yuzutech/kroki-builder-graphviz:<version> AS graphviz` in `server/ops/docker/Dockerfile` (Renovate opens this pull request too)
 . run `task updateVersions` (see above)
 
 === PlantUML
@@ -122,9 +123,9 @@ The binary is published as a container image, `ghcr.io/yuzutech/kroki-builder-sy
 
 When a new version is available, we need to:
 
-. if needed, update `tools/symbolator/Dockerfile` (the pull request runs the "Tool images" workflow to build and test it on amd64 and arm64)
+. update `ARG VERSION` in `tools/symbolator/Dockerfile` (Renovate opens this pull request, which runs the "Tool images" workflow to build and test it on amd64 and arm64)
 . run the "Tool images" workflow with the tool `symbolator` and the new version: https://github.com/yuzutech/kroki/actions/workflows/tool-images.yml
-. update the image tag in `FROM ghcr.io/yuzutech/kroki-builder-symbolator:<version> AS kroki-builder-static-symbolator` in `server/ops/docker/Dockerfile`
+. update the image tag in `FROM ghcr.io/yuzutech/kroki-builder-symbolator:<version> AS kroki-builder-static-symbolator` in `server/ops/docker/Dockerfile` (Renovate opens this pull request too)
 . run `task updateVersions` (see above)
 
 === UMLet

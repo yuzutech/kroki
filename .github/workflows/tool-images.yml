@@ -13,6 +13,7 @@ on:
         type: choice
         options:
           - erd
+          - graphviz
           - symbolator
       version:
         description: 'Tool version (upstream release)'
@@ -34,7 +35,7 @@ jobs:
     strategy:
       matrix:
         # on pull requests, build and test every tool with the version set in its Dockerfile
-        tool: ${{ fromJSON(github.event_name == 'workflow_dispatch' && format('["{0}"]', inputs.tool) || '["erd", "symbolator"]') }}
+        tool: ${{ fromJSON(github.event_name == 'workflow_dispatch' && format('["{0}"]', inputs.tool) || '["erd", "graphviz", "symbolator"]') }}
         platform: [linux/amd64, linux/arm64]
         include:
           - platform: linux/amd64
@@ -113,7 +114,8 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Create the multi-platform image
         run: |
+          mapfile -t images < <(jq -r --arg image "$IMAGE" '"\($image)@\(.["containerimage.digest"])"' "$RUNNER_TEMP"/image-metadata/*.json)
           docker buildx imagetools create --tag "$IMAGE:$VERSION" \
             --annotation "index:org.opencontainers.image.source=https://github.com/yuzutech/kroki" \
-            $(jq -r --arg image "$IMAGE" '"\($image)@\(.["containerimage.digest"])"' "$RUNNER_TEMP"/image-metadata/*.json)
+            "${images[@]}"
           docker buildx imagetools inspect "$IMAGE:$VERSION"
