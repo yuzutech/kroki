@@ -64,19 +64,6 @@
       // tags are "vX.Y.Z", the Dockerfile stores the bare version
       extractVersionTemplate: '^v(?<version>.*)$',
     },
-    // GRAPHVIZ_VERSION is a plain ARG used to download the static dot binary
-    // built by yuzutech/graphviz-builder (tags are the bare Graphviz version)
-    {
-      customType: 'regex',
-      managerFilePatterns: [
-        '/^server/ops/docker/Dockerfile$/',
-      ],
-      matchStrings: [
-        'ARG GRAPHVIZ_VERSION="(?<currentValue>.*?)"',
-      ],
-      datasourceTemplate: 'github-releases',
-      depNameTemplate: 'yuzutech/graphviz-builder',
-    },
     // WIREVIZ_VERSION is a plain ARG used to download the wireviz binary
     // built from the yuzutech/WireViz fork
     {

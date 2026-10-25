@@ -171,7 +171,7 @@ try {
       const { version } = d2VersionFound.groups
       diagramLibraryVersions.d2 = version
     }
-    const erdVersionFound = line.match(/^FROM ghcr.io\/yuzutech\/erd:v(?<version>\S+) AS erd$/)
+    const erdVersionFound = line.match(/^FROM ghcr.io\/yuzutech\/kroki-builder-erd:(?<version>\S+) AS erd$/)
     if (erdVersionFound) {
       const { version } = erdVersionFound.groups
       diagramLibraryVersions.erd = version
@@ -181,7 +181,7 @@ try {
       const { version } = pikchrVersionFound.groups
       diagramLibraryVersions.pikchr = version.slice(0, 10)
     }
-    const symbolatorVersionFound = line.match(/^ARG SYMBOLATOR_VERSION=(?<version>.+)$/)
+    const symbolatorVersionFound = line.match(/^FROM ghcr.io\/yuzutech\/kroki-builder-symbolator:(?<version>\S+) AS kroki-builder-static-symbolator$/)
     if (symbolatorVersionFound) {
       const { version } = symbolatorVersionFound.groups
       diagramLibraryVersions.symbolator = version
@@ -198,7 +198,7 @@ try {
       diagramLibraryVersions.plantuml = version
       diagramLibraryVersions.c4plantuml = version
     }
-    const graphvizVersionFound = line.match(/^ARG GRAPHVIZ_VERSION="(?<version>.+)"$/)
+    const graphvizVersionFound = line.match(/^FROM ghcr.io\/yuzutech\/kroki-builder-graphviz:(?<version>\S+) AS graphviz$/)
     if (graphvizVersionFound) {
       const { version } = graphvizVersionFound.groups
       diagramLibraryVersions.graphviz = version

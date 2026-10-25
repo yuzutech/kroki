@@ -72,33 +72,8 @@ RUN npm run build:bundle && npm run build:blob
 COPY --from=kroki-node-target /usr/local/bin/node /app/build/app.bin
 RUN npm run build:inject
 
-## Symbolator
-FROM ubuntu:noble AS kroki-builder-static-symbolator
-
-# Build from forked source because upstream is broken for the latest python3 versions
-ARG SYMBOLATOR_VERSION=1.2.2
-ARG SYMBOLATOR_SOURCE=git+https://github.com/zebreus/symbolator.git@v$SYMBOLATOR_VERSION
-
-RUN apt-get update && apt-get install --no-install-recommends --yes \
-    build-essential \
-    git \
-    pip \
-    python3-dev \
-    patchelf \
-    python3-gi-cairo \
-    python3-gi \
-    python3-pip \
-    python3-setuptools \
-    libpango1.0-dev && \
-    apt-get clean && apt-get autoremove
-
-WORKDIR /build
-
-RUN python3 -m pip install --break-system-packages --upgrade nuitka
-RUN python3 -m pip install --break-system-packages --upgrade ${SYMBOLATOR_SOURCE}
-
-# Use nuitka to compile a static binary so we dont need python in the final image
-RUN python3 -m nuitka --onefile `which symbolator` --include-module=gi.overrides.Pango --include-module=gi._gi_cairo
+## Symbolator (built by the "Tool images" workflow, see tools/symbolator)
+FROM ghcr.io/yuzutech/kroki-builder-symbolator:1.2.2 AS kroki-builder-static-symbolator
 
 ## Pikchr
 FROM ubuntu:noble AS kroki-builder-static-pikchr
@@ -168,8 +143,11 @@ RUN LINI_VERSION=`cat Cargo.toml | grep "^lini =" | sed -r 's/.*"([^"]+)"/\1/'` 
     rustup target add $RUST_TARGET_ARCH-unknown-linux-gnu && \
     cargo install --quiet --locked --target $RUST_TARGET_ARCH-unknown-linux-gnu --version $LINI_VERSION lini
 
-## Erd
-FROM ghcr.io/yuzutech/erd:v0.2.3 AS erd
+## Erd (built by the "Tool images" workflow, see tools/erd)
+FROM ghcr.io/yuzutech/kroki-builder-erd:0.2.2 AS erd
+
+## Graphviz (built by the "Tool images" workflow, see tools/graphviz)
+FROM ghcr.io/yuzutech/kroki-builder-graphviz:14.1.3 AS graphviz
 
 ## GoAT
 FROM --platform=$BUILDPLATFORM golang:1.26.5-alpine AS kroki-builder-goat
@@ -191,7 +169,6 @@ ARG BLOCKDIAG_VERSION="3.4.2"
 ARG D2_VERSION="0.7.1"
 ARG DITAA_VERSION="1.0.3"
 ARG DVISVGM_VERSION="3.2.1+ds-1build1"
-ARG GRAPHVIZ_VERSION="14.1.3"
 ARG PLANTUML_VERSION="1.2026.8"
 ARG UMLET_VERSION="2023-03-20_UMLet_v15.1"
 ARG WIREVIZ_VERSION="0.3.3"
@@ -242,9 +219,6 @@ RUN apt-get update && apt-get install --no-install-recommends --yes \
 COPY --from=vega packages packages
 RUN dpkg -i packages/libjpeg62-turbo_2.1.5-4_${TARGETARCH}.deb
 
-RUN wget "https://github.com/yuzutech/graphviz-builder/releases/download/${GRAPHVIZ_VERSION}/dot-linux-${TARGETARCH}" -O /usr/bin/dot && \
-    chmod +x /usr/bin/dot
-
 RUN wget "https://github.com/yuzutech/ditaa-mini/releases/download/${DITAA_VERSION}/ditaamini-linux-${TARGETARCH}-${DITAA_VERSION}" -O /usr/bin/ditaa && \
     chmod +x /usr/bin/ditaa
 
@@ -266,13 +240,14 @@ RUN wget "https://github.com/yuzutech/blockdiag/releases/download/v${BLOCKDIAG_V
 RUN wget "https://github.com/yuzutech/WireViz/releases/download/v${WIREVIZ_VERSION}/wireviz-linux-${TARGETARCH}.bin" -O /usr/bin/wireviz && \
     chmod +x /usr/bin/wireviz
 
-COPY --from=erd /root/.cabal/bin/erd /usr/bin/erd
+COPY --from=erd /usr/bin/erd /usr/bin/erd
+COPY --from=graphviz /usr/bin/dot /usr/bin/dot
 COPY --from=kroki-builder-bytefield /app/build/app.bin /usr/bin/bytefield
 COPY --from=kroki-builder-dbml /app/build/app.bin /usr/bin/dbml
 COPY --from=kroki-builder-nomnoml /app/build/app.bin /usr/bin/nomnoml
 COPY --from=kroki-builder-static-pikchr /build/pikchr /usr/bin/pikchr
 COPY --from=kroki-builder-static-svgbob /usr/local/cargo/bin/svgbob_cli /usr/bin/svgbob
-COPY --from=kroki-builder-static-symbolator /build/symbolator.bin /usr/bin/symbolator
+COPY --from=kroki-builder-static-symbolator /usr/bin/symbolator /usr/bin/symbolator
 COPY --from=kroki-builder-vega /app/app.bin /usr/bin/vega
 COPY --from=kroki-builder-wavedrom /app/build/app.bin /usr/bin/wavedrom
 COPY --from=tikz tikz2svg /usr/bin/tikz2svg
