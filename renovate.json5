@@ -92,6 +92,17 @@
       // tags are "vX.Y.Z", the Dockerfile stores the bare version
       extractVersionTemplate: '^v(?<version>.*)$',
     },
+    // ARG VERSION in tools/<tool>/Dockerfile is the upstream version of a tool published as an image
+    // by the "Tool images" workflow, annotated with a "# renovate: ..." comment on the line above
+    {
+      customType: 'regex',
+      managerFilePatterns: [
+        '/^tools/[^/]+/Dockerfile$/',
+      ],
+      matchStrings: [
+        '# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( registryUrl=(?<registryUrl>\\S+))?( extractVersion=(?<extractVersion>\\S+))?\\s+ARG VERSION=(?<currentValue>\\S+)',
+      ],
+    },
   ],
   packageRules: [
     {
