@@ -4,7 +4,7 @@ import http from 'node:http'
 import path from 'node:path'
 import fsp from 'node:fs/promises'
 import micro from 'micro'
-import Worker from './worker.js'
+import Worker, { TimeoutError } from './worker.js'
 import Task from './task.js'
 import { getBrowserWSEndpoint } from './browser-instance.js'
 
@@ -55,6 +55,15 @@ import { getBrowserWSEndpoint } from './browser-instance.js'
           res.setHeader('Content-Type', 'image/svg+xml')
           return micro.send(res, 200, svg)
         } catch (err) {
+          if (err instanceof TimeoutError) {
+            return micro.send(res, 408, {
+              error: {
+                message: `Request timeout: ${err.message}`,
+                name: 'TimeoutError',
+                stacktrace: err.stack
+              }
+            })
+          }
           logger.warn({ err }, 'Exception during convert')
           return micro.send(res, 400, {
             error: {

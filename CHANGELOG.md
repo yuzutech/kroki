@@ -19,6 +19,8 @@ versioned entry and uses it as the GitHub release notes.
 ### Fixed
 
 - Fix the Mermaid service running out of memory after Chromium crashes: a failure while connecting to the browser or opening a page leaked a concurrency slot, until every request waited forever. The wait queue is now also bounded (`KROKI_MERMAID_MAX_QUEUE_SIZE`, default 100, and `KROKI_MERMAID_QUEUE_TIMEOUT`, default 30s); rejected requests get a `503` ([#2183](https://github.com/yuzutech/kroki/pull/2183))
+- Fix the Excalidraw container becoming unresponsive under load (`Runtime.callFunctionOn timed out`, `Target crashed`): pages are now initialized once and reused instead of loading the Excalidraw library for every request, conversions are capped (`KROKI_EXCALIDRAW_MAX_CONCURRENCY`, default 4) and a render taking longer than `KROKI_EXCALIDRAW_CONVERT_TIMEOUT` (default 15s) returns a `408`
+- Cap concurrent BPMN and diagrams.net conversions (`KROKI_BPMN_MAX_CONCURRENCY` and `KROKI_DIAGRAMSNET_MAX_CONCURRENCY`, default 6) to bound Chromium memory usage
 
 ## [0.33.0] - 2026-10-05
 
