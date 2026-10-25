@@ -11,6 +11,10 @@ versioned entry and uses it as the GitHub release notes.
 
 ## [Unreleased]
 
+### Fixed
+
+- Fix GoAT diagrams on `linux/arm64`: the `yuzutech/kroki` arm64 image shipped an x86-64 `goat` binary, because it was built for the build platform instead of the target platform ([#2186](https://github.com/yuzutech/kroki/pull/2186))
+
 ## [0.34.0] - 2026-10-25
 
 ### Added
