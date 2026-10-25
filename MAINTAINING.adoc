@@ -62,6 +62,18 @@ When a new version is available, we need to :
 . update the argument variable `ARG DITAA_VERSION="x.y.z"` in `server/ops/docker/Dockerfile`
 . run `task updateVersions` (see above)
 
+=== Erd
+
+We are building erd from the upstream release sources (https://github.com/BurntSushi/erd/releases) in `tools/erd/Dockerfile`.
+The binary is published as a container image, `ghcr.io/yuzutech/kroki-builder-erd:<version>`, so building Kroki only copies it.
+
+When a new version is available, we need to:
+
+. if needed, update `tools/erd/Dockerfile` (the pull request runs the "Tool images" workflow to build and test it on amd64 and arm64)
+. run the "Tool images" workflow with the tool `erd` and the new version: https://github.com/yuzutech/kroki/actions/workflows/tool-images.yml
+. update the image tag in `FROM ghcr.io/yuzutech/kroki-builder-erd:<version> AS erd` in `server/ops/docker/Dockerfile`
+. run `task updateVersions` (see above)
+
 === Graphviz
 
 We are producing native binaries from a builder: https://github.com/yuzutech/graphviz-builder/releases
@@ -102,6 +114,18 @@ When a new version is available, we need to:
 . make no other edits: the files are inlined verbatim, so every remaining line must stay exactly as upstream. Verify with `diff <(curl -sL <raw-url>) server/src/main/resources/<file>` — only the guard block above may differ
 . bump the version assertion in `server/src/test/java/io/kroki/server/service/C4PlantumlServiceTest.java` to the new version
 . run `./mvnw -q -pl server test -Dtest=C4PlantumlServiceTest` (renders C4 diagrams through the inlined bundle; `linux/amd64` only, like CI)
+
+=== Symbolator
+
+We are compiling symbolator (from the fork https://github.com/zebreus/symbolator) to a single binary with Nuitka in `tools/symbolator/Dockerfile`.
+The binary is published as a container image, `ghcr.io/yuzutech/kroki-builder-symbolator:<version>`, so building Kroki only copies it.
+
+When a new version is available, we need to:
+
+. if needed, update `tools/symbolator/Dockerfile` (the pull request runs the "Tool images" workflow to build and test it on amd64 and arm64)
+. run the "Tool images" workflow with the tool `symbolator` and the new version: https://github.com/yuzutech/kroki/actions/workflows/tool-images.yml
+. update the image tag in `FROM ghcr.io/yuzutech/kroki-builder-symbolator:<version> AS kroki-builder-static-symbolator` in `server/ops/docker/Dockerfile`
+. run `task updateVersions` (see above)
 
 === UMLet
 
