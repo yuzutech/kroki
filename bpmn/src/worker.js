@@ -16,7 +16,7 @@ export class TimeoutError extends Error {
 
 export class SyntaxError extends Error {
   constructor(err) {
-    logger.error({ err })
+    logger.debug({ err })
     super(`Syntax error in graph: ${JSON.stringify(err)}`)
   }
 }
