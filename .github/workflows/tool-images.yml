@@ -1,0 +1,119 @@
+name: Tool images
+run-name: ${{ github.event_name == 'workflow_dispatch' && format('Publish {0} {1} by {2}', inputs.tool, inputs.version, github.actor) || 'Tool images' }}
+
+# Tools that rarely change and only provide a binary to the Kroki image (see tools/)
+# are built on demand and published as ghcr.io/yuzutech/kroki-builder-<tool>:<version>,
+# so that building and releasing Kroki only copies the published binary.
+on:
+  workflow_dispatch:
+    inputs:
+      tool:
+        description: 'Tool'
+        required: true
+        type: choice
+        options:
+          - erd
+          - symbolator
+      version:
+        description: 'Tool version (upstream release)'
+        required: true
+        type: string
+  pull_request:
+    paths:
+      - 'tools/**'
+      - '.github/workflows/tool-images.yml'
+
+permissions:
+  contents: read
+
+env:
+  PUBLISH: ${{ github.event_name == 'workflow_dispatch' }}
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        # on pull requests, build and test every tool with the version set in its Dockerfile
+        tool: ${{ fromJSON(github.event_name == 'workflow_dispatch' && format('["{0}"]', inputs.tool) || '["erd", "symbolator"]') }}
+        platform: [linux/amd64, linux/arm64]
+        include:
+          - platform: linux/amd64
+            runner: ubuntu-24.04
+          - platform: linux/arm64
+            runner: ubuntu-24.04-arm
+    runs-on: ${{ matrix.runner }}
+    permissions:
+      contents: read
+      packages: write
+    env:
+      TOOL: ${{ matrix.tool }}
+      VERSION: ${{ inputs.version }}
+      IMAGE: ghcr.io/yuzutech/kroki-builder-${{ matrix.tool }}
+    steps:
+      - name: Check version
+        if: env.PUBLISH == 'true'
+        run: |
+          if [[ ! "$VERSION" =~ ^[0-9A-Za-z._-]+$ ]]; then
+            echo "::error::Invalid version: $VERSION"
+            exit 1
+          fi
+      - uses: actions/checkout@v7
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+      - name: Test the binary
+        run: docker buildx build --target test ${VERSION:+--build-arg "VERSION=$VERSION"} "tools/$TOOL"
+      - name: Login to GitHub Container Registry
+        if: env.PUBLISH == 'true'
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Push the image by digest
+        if: env.PUBLISH == 'true'
+        run: |
+          mkdir -p "$RUNNER_TEMP/image-metadata"
+          docker buildx build --build-arg "VERSION=$VERSION" \
+            --label org.opencontainers.image.source=https://github.com/yuzutech/kroki \
+            --output "type=image,name=$IMAGE,push-by-digest=true,name-canonical=true,push=true" \
+            --metadata-file "$RUNNER_TEMP/image-metadata/$RUNNER_ARCH.json" \
+            "tools/$TOOL"
+      - name: Upload the image digest
+        if: env.PUBLISH == 'true'
+        uses: actions/upload-artifact@v7
+        with:
+          name: image-metadata-${{ runner.arch }}
+          path: ${{ runner.temp }}/image-metadata/${{ runner.arch }}.json
+          if-no-files-found: error
+          retention-days: 1
+  publish:
+    if: github.event_name == 'workflow_dispatch'
+    needs: build
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      packages: write
+    env:
+      VERSION: ${{ inputs.version }}
+      IMAGE: ghcr.io/yuzutech/kroki-builder-${{ inputs.tool }}
+    steps:
+      - name: Download the image digests
+        uses: actions/download-artifact@v8
+        with:
+          pattern: image-metadata-*
+          merge-multiple: true
+          path: ${{ runner.temp }}/image-metadata
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create the multi-platform image
+        run: |
+          docker buildx imagetools create --tag "$IMAGE:$VERSION" \
+            --annotation "index:org.opencontainers.image.source=https://github.com/yuzutech/kroki" \
+            $(jq -r --arg image "$IMAGE" '"\($image)@\(.["containerimage.digest"])"' "$RUNNER_TEMP"/image-metadata/*.json)
+          docker buildx imagetools inspect "$IMAGE:$VERSION"
