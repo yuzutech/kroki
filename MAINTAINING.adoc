@@ -86,6 +86,19 @@ When a new version is available, we need to:
 . update the image tag in `FROM ghcr.io/yuzutech/kroki-builder-graphviz:<version> AS graphviz` in `server/ops/docker/Dockerfile` (Renovate opens this pull request too)
 . run `task updateVersions` (see above)
 
+=== Pikchr
+
+We are building a static `pikchr` binary from the single-file source in `tools/pikchr/Dockerfile`.
+Pikchr has no releases: the version is the hash of a `pikchr.c` artifact, listed at https://pikchr.org/home/finfo?name=pikchr.c.
+The binary is published as a container image, `ghcr.io/yuzutech/kroki-builder-pikchr:<hash>`, so building Kroki only copies it.
+
+When a new version is available, we need to:
+
+. update `ARG VERSION` in `tools/pikchr/Dockerfile` with the artifact hash (the pull request runs the "Tool images" workflow to build and test it on amd64 and arm64)
+. run the "Tool images" workflow with the tool `pikchr` and the artifact hash: https://github.com/yuzutech/kroki/actions/workflows/tool-images.yml
+. update the image tag in `FROM ghcr.io/yuzutech/kroki-builder-pikchr:<hash> AS kroki-builder-static-pikchr` in `server/ops/docker/Dockerfile`
+. run `task updateVersions` (see above)
+
 === PlantUML
 
 Kroki uses the official PlantUML native binary published as a release in the official repository: https://github.com/plantuml/plantuml/releases (no fork or custom build required).
