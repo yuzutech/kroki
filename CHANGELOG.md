@@ -11,6 +11,8 @@ versioned entry and uses it as the GitHub release notes.
 
 ## [Unreleased]
 
+## [0.34.0] - 2026-10-25
+
 ### Added
 
 - Add support for [Lini](https://lini.rs) diagrams (`lini`), with `theme` and `static` options. Local image paths are refused unless `KROKI_SAFE_MODE` is `unsafe` ([#2169](https://github.com/yuzutech/kroki/pull/2169))
