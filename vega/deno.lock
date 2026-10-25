@@ -7,7 +7,7 @@
     "npm:canvas@3.2.3": "3.2.3",
     "npm:sinon@22.1.0": "22.1.0",
     "npm:vega-canvas@2.0.0": "2.0.0",
-    "npm:vega-lite@6.4.3": "6.4.3_vega@6.4.0",
+    "npm:vega-lite@6.5.0": "6.5.0_vega@6.4.0",
     "npm:vega@6.4.0": "6.4.0"
   },
   "jsr": {
@@ -50,8 +50,8 @@
     "@types/geojson@7946.0.16": {
       "integrity": "sha512-6C8nqWur3j98U6+lXDfTUWIfgvZU+EumvpHKcYjujKH7woYyLj2sUmff0tRhrqM7BohUw7Pz3ZB1jj2gW9Fvmg=="
     },
-    "ansi-regex@6.2.2": {
-      "integrity": "sha512-Bq3SmSpyFHaWjPk8If9yc6svM8c56dB5BAtW4Qbw5jHTwwXXcTLoRMkpDJp6VL0XzlWaCHTXrkFURMYmD0sLqg=="
+    "ansi-regex@6.4.0": {
+      "integrity": "sha512-KzTVk2tCWAHtYrvvvaP8bJKJq2pVinhLcGEQdtLIYPbmNGNyYe8QwNaTUYQp2J7/vIsUKt5QCqAfUkYyG9DkOw=="
     },
     "ansi-styles@6.2.3": {
       "integrity": "sha512-4Dj6M28JB+oAH8kFkTLUo+a2jwOFkuqb3yucU0CANcRRUbxS0cP0nZYCGjcc3BNXwRIsUVmDGgzawme7zvJHvg=="
@@ -88,7 +88,7 @@
     "cliui@9.0.1": {
       "integrity": "sha512-k7ndgKhwoQveBL+/1tqGJYNz097I7WOvwbmmU2AR5+magtbjPWQTS1C5vzGkBC8Ym8UWRzfKUzUUqFLypY4Q+w==",
       "dependencies": [
-        "string-width",
+        "string-width@7.2.0",
         "strip-ansi",
         "wrap-ansi"
       ]
@@ -250,8 +250,8 @@
     "get-caller-file@2.0.5": {
       "integrity": "sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg=="
     },
-    "get-east-asian-width@1.6.0": {
-      "integrity": "sha512-QRbvDIbx6YklUe6RxeTeleMR0yv3cYH6PsPZHcnVn7xv7zO1BHN8r0XETu8n6Ye3Q+ahtSarc3WgtNWmehIBfA=="
+    "get-east-asian-width@1.7.0": {
+      "integrity": "sha512-XjH1AECxf0giL2V1aU8vKyRR2ppRUb5c0EvT7zuJTokQ74bNo52zOtghqdWIqrhUD79fo3x0WfKZdOqxF6LG1Q=="
     },
     "github-from-package@0.0.0": {
       "integrity": "sha512-SyHy3T1v2NUXn29OsWdxmK6RwHD+vkj3v8en8AOBZ1wBQ/hCAQ5bAQTD02kW4W9tUp/3Qh6J8r9EvntiyCmOOw=="
@@ -392,6 +392,13 @@
         "strip-ansi"
       ]
     },
+    "string-width@8.3.0": {
+      "integrity": "sha512-ZbmZM0JCihQN91dWnxoipT2KOEyHqEyfRXUyjuRhW8b/xnqPDoq4gWEVApTVa9db2wN8mmoikgFBbjh71+cGeQ==",
+      "dependencies": [
+        "get-east-asian-width",
+        "strip-ansi"
+      ]
+    },
     "string_decoder@1.3.0": {
       "integrity": "sha512-hkRX8U1WjJFd8LsDJ2yQ/wWWxaopEsABU1XfkM8A+j0+85JAGppt16cr1Whg6KIbb4okU6Mql6BOj+uup/wKeA==",
       "dependencies": [
@@ -483,13 +490,6 @@
     "vega-event-selector@4.0.0": {
       "integrity": "sha512-CcWF4m4KL/al1Oa5qSzZ5R776q8lRxCj3IafCHs5xipoEHrkgu1BWa7F/IH5HrDNXeIDnqOpSV1pFsAWRak4gQ=="
     },
-    "vega-expression@6.1.0": {
-      "integrity": "sha512-hHgNx/fQ1Vn1u6vHSamH7lRMsOa/yQeHGGcWVmh8fZafLdwdhCM91kZD9p7+AleNpgwiwzfGogtpATFaMmDFYg==",
-      "dependencies": [
-        "@types/estree",
-        "vega-util"
-      ]
-    },
     "vega-expression@6.2.2": {
       "integrity": "sha512-9yTpQBYDnl4yC27iGbUxDUnRAeO+la/lfzA5WSALB0INvA2A2NVxIorBakfqIkO7nwKM9bT3rmNRfj8Z3hjb7g==",
       "dependencies": [
@@ -523,7 +523,7 @@
         "d3-ease",
         "d3-geo",
         "vega-dataflow",
-        "vega-expression@6.2.2",
+        "vega-expression",
         "vega-scale",
         "vega-scenegraph",
         "vega-selections",
@@ -562,14 +562,14 @@
         "vega-util"
       ]
     },
-    "vega-lite@6.4.3_vega@6.4.0": {
-      "integrity": "sha512-d/7hPjfz560UERaQuTmGgIVfXAe3g2hJWeC+igDeaGohUdEoNrHLXgR/yTOBT8vV/lIuuKnw+0/xWWblkDwkMQ==",
+    "vega-lite@6.5.0_vega@6.4.0": {
+      "integrity": "sha512-fMXF6s0MrIg0UTWnLIfeFtgSLzVhyzSKobzGrh5rhS+mL6FOYFG3m7ouJ4U23gj65EK+gl9FIIT5w7wLNaAzkA==",
       "dependencies": [
         "json-stringify-pretty-compact",
         "tslib",
         "vega",
         "vega-event-selector",
-        "vega-expression@6.1.0",
+        "vega-expression",
         "vega-util",
         "yargs"
       ],
@@ -644,7 +644,7 @@
       "integrity": "sha512-evYoCV1wuE0kuiDrKH2dVVweMUuz0pNN7rYTYKBSNDqa7TBjDU4+tbWFm/CgowoaAqjC6Omd+jEZz9lwpgeE3w==",
       "dependencies": [
         "d3-array",
-        "vega-expression@6.2.2",
+        "vega-expression",
         "vega-util"
       ]
     },
@@ -677,7 +677,7 @@
       "dependencies": [
         "@types/geojson",
         "vega-event-selector",
-        "vega-expression@6.2.2",
+        "vega-expression",
         "vega-util"
       ]
     },
@@ -730,7 +730,7 @@
         "vega-dataflow",
         "vega-encode",
         "vega-event-selector",
-        "vega-expression@6.2.2",
+        "vega-expression",
         "vega-force",
         "vega-format",
         "vega-functions",
@@ -759,7 +759,7 @@
       "integrity": "sha512-42AtmgqjV+X1VpdOfyTGOYRi0/zsoLqtXQckTmqTeybT+BDIbM/Guxo7x3pE2vtpr1ok6xRqM9OpBe+Jyoqyww==",
       "dependencies": [
         "ansi-styles",
-        "string-width",
+        "string-width@7.2.0",
         "strip-ansi"
       ]
     },
@@ -772,13 +772,13 @@
     "yargs-parser@22.0.0": {
       "integrity": "sha512-rwu/ClNdSMpkSrUb+d6BRsSkLUq1fmfsY6TOpYzTwvwkg1/NRG85KBy3kq++A8LKQwX6lsu+aWad+2khvuXrqw=="
     },
-    "yargs@18.0.0": {
-      "integrity": "sha512-4UEqdc2RYGHZc7Doyqkrqiln3p9X2DZVxaGbwhn2pi7MrRagKaOcIKe8L3OxYcbhXLgLFUS3zAYuQjKBQgmuNg==",
+    "yargs@18.2.0": {
+      "integrity": "sha512-9OpKOLeaoNFecEp7P6iYbzze/5CqWoH7N3SMs/6y1XF4nMvFMspEGZzJ6uFi9MmQwXhyzqYoSEKO3tvA3Z/o2w==",
       "dependencies": [
         "cliui",
         "escalade",
         "get-caller-file",
-        "string-width",
+        "string-width@8.3.0",
         "y18n",
         "yargs-parser"
       ]
@@ -791,7 +791,7 @@
       "npm:canvas@3.2.3",
       "npm:sinon@22.1.0",
       "npm:vega-canvas@2.0.0",
-      "npm:vega-lite@6.4.3",
+      "npm:vega-lite@6.5.0",
       "npm:vega@6.4.0"
     ]
   }
