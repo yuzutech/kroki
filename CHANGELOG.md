@@ -18,7 +18,7 @@ versioned entry and uses it as the GitHub release notes.
 
 ### Fixed
 
-- Fix the Mermaid service running out of memory after Chromium crashes: a failure while connecting to the browser or opening a page leaked a concurrency slot, until every request waited forever. The wait queue is now also bounded (`KROKI_MERMAID_MAX_QUEUE_SIZE`, default 100, and `KROKI_MERMAID_QUEUE_TIMEOUT`, default 30s); rejected requests get a `503`
+- Fix the Mermaid service running out of memory after Chromium crashes: a failure while connecting to the browser or opening a page leaked a concurrency slot, until every request waited forever. The wait queue is now also bounded (`KROKI_MERMAID_MAX_QUEUE_SIZE`, default 100, and `KROKI_MERMAID_QUEUE_TIMEOUT`, default 30s); rejected requests get a `503` ([#2183](https://github.com/yuzutech/kroki/pull/2183))
 
 ## [0.33.0] - 2026-10-05
 
