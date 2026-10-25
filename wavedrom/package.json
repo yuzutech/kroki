@@ -20,7 +20,7 @@
   "author": "Guillaume Grossetie",
   "dependencies": {
     "json5": "2.2.3",
-    "onml": "2.1.0",
+    "onml": "2.3.0",
     "wavedrom": "3.7.0"
   },
   "devDependencies": {
