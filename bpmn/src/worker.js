@@ -2,7 +2,7 @@ import path from 'node:path'
 import { URL, fileURLToPath } from 'node:url'
 import puppeteer from 'puppeteer'
 
-import { Semaphore } from '@kroki/browser-instance'
+import { createSemaphore, QueueFullError } from '@kroki/browser-instance'
 import { logger } from './logger.js'
 import { getBrowserWSEndpoint, protocolTimeout } from './browser-instance.js'
 
@@ -21,8 +21,8 @@ export class SyntaxError extends Error {
   }
 }
 
-// Caps concurrent pages (see Semaphore in @kroki/browser-instance).
-const MAX_CONCURRENCY = Number(process.env.KROKI_BPMN_MAX_CONCURRENCY) || 6
+// Re-exported for index.js, which maps it to a 503.
+export { QueueFullError }
 
 export class Worker {
   constructor() {
@@ -30,7 +30,9 @@ export class Worker {
       process.env.KROKI_BPMN_PAGE_URL ||
       `file://${path.join(__dirname, '..', 'assets', 'index.html')}`
     this.convertTimeout = process.env.KROKI_BPMN_CONVERT_TIMEOUT || '15000'
-    this.semaphore = new Semaphore(MAX_CONCURRENCY)
+    // KROKI_BPMN_MAX_CONCURRENCY (6), KROKI_BPMN_MAX_QUEUE_SIZE (100) and
+    // KROKI_BPMN_QUEUE_TIMEOUT (30s), see Semaphore in @kroki/browser-instance.
+    this.semaphore = createSemaphore({ envPrefix: 'KROKI_BPMN', maxConcurrency: 6 })
   }
 
   async convert(task) {
@@ -43,14 +45,20 @@ export class Worker {
   }
 
   async _convert(task) {
-    const browser = await puppeteer.connect({
-      browserWSEndpoint: await getBrowserWSEndpoint(),
-      ignoreHTTPSErrors: true,
-      // Bound CDP calls so a wedged Chrome fails fast instead of stalling 180s.
-      protocolTimeout
-    })
-    const page = await browser.newPage()
+    // Connecting and opening the page happen inside the try block: they fail
+    // when Chrome has just crashed or is wedged (e.g. newPage hitting the
+    // protocol timeout). Doing them outside leaked the CDP connection on every
+    // such failure.
+    let browser
+    let page
     try {
+      browser = await puppeteer.connect({
+        browserWSEndpoint: await getBrowserWSEndpoint(),
+        ignoreHTTPSErrors: true,
+        // Bound CDP calls so a wedged Chrome fails fast instead of stalling 180s.
+        protocolTimeout
+      })
+      page = await browser.newPage()
       await page.setViewport({ height: 800, width: 600 })
       await page.goto(this.pageUrl)
       const evalResult = await Promise.race([
@@ -81,12 +89,12 @@ export class Worker {
       return evalResult.svg
     } finally {
       try {
-        await page.close()
+        await page?.close()
       } catch (err) {
         logger.warn({ err }, 'Unable to close the page')
       }
       try {
-        await browser.disconnect()
+        await browser?.disconnect()
       } catch (err) {
         logger.warn({ err }, 'Unable to disconnect from the browser')
       }

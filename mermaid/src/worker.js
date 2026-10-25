@@ -3,6 +3,7 @@ import path from 'node:path'
 // eslint-disable-next-line
 import puppeteer, { HTTPResponse, Page } from 'puppeteer'
 import { logger } from './logger.js'
+import { createSemaphore, QueueFullError } from '@kroki/browser-instance'
 import { updateConfig } from './config.js'
 import { applyNetworkPolicy, getBrowserWSEndpoint, protocolTimeout } from './browser-instance.js'
 
@@ -30,78 +31,8 @@ export class MaxTextSizeError extends Error {
   }
 }
 
-export class QueueFullError extends Error {
-  constructor(message) {
-    super(message)
-    this.name = 'QueueFullError'
-  }
-}
-
-// Caps how many pages (and therefore Chromium renderer processes) may be open
-// at once. A single shared Chrome instance (see browser-instance.js) has no
-// built-in limit on concurrent pages: a burst of requests can spin up enough
-// renderer processes to exceed the container's memory/pids limits and crash
-// the browser launch itself (posix_spawn: Resource temporarily unavailable).
-// Requests beyond the cap wait their turn instead.
-//
-// The wait queue is bounded too, both in size and in time: when Chrome is
-// wedged, permits are not returned for a while and every queued request keeps
-// its request/response objects and diagram source alive. An unbounded queue
-// then grows until the Node.js heap runs out of memory. Rejected requests get
-// a 503 so the caller can retry later.
-class Semaphore {
-  constructor(max, { maxQueueSize, queueTimeout }) {
-    this.max = max
-    this.maxQueueSize = maxQueueSize
-    this.queueTimeout = queueTimeout
-    this.count = 0
-    this.queue = []
-  }
-
-  async acquire() {
-    if (this.count < this.max) {
-      this.count++
-      return
-    }
-    if (this.queue.length >= this.maxQueueSize) {
-      throw new QueueFullError(
-        `Too many pending conversions: ${this.queue.length} requests are already waiting (maximum is ${this.maxQueueSize})`
-      )
-    }
-    return new Promise((resolve, reject) => {
-      const waiter = {
-        resolve: () => {
-          clearTimeout(waiter.timer)
-          resolve()
-        },
-        timer: setTimeout(() => {
-          this.queue.splice(this.queue.indexOf(waiter), 1)
-          reject(
-            new QueueFullError(
-              `Timed out after ${this.queueTimeout}ms waiting for a conversion slot`
-            )
-          )
-        }, this.queueTimeout)
-      }
-      this.queue.push(waiter)
-    })
-  }
-
-  release() {
-    const next = this.queue.shift()
-    if (next) {
-      next.resolve()
-    } else {
-      this.count--
-    }
-  }
-}
-
-const MAX_CONCURRENCY = Number(process.env.KROKI_MERMAID_MAX_CONCURRENCY) || 6
-const MAX_QUEUE_SIZE = Number(process.env.KROKI_MERMAID_MAX_QUEUE_SIZE) || 100
-// Matches the Kroki server's default delegate timeout (KROKI_DELEGATE_TIMEOUT_MS):
-// past that point, nobody is waiting for the response anymore.
-const QUEUE_TIMEOUT = Number(process.env.KROKI_MERMAID_QUEUE_TIMEOUT) || 30000
+// Re-exported for index.js, which maps it to a 503.
+export { QueueFullError }
 
 export class Worker {
   constructor() {
@@ -109,10 +40,9 @@ export class Worker {
       process.env.KROKI_MERMAID_PAGE_URL ||
       `file://${path.join(__dirname, '..', 'assets', 'index.html')}`
     this.convertTimeout = process.env.KROKI_MERMAID_CONVERT_TIMEOUT || '10000'
-    this.semaphore = new Semaphore(MAX_CONCURRENCY, {
-      maxQueueSize: MAX_QUEUE_SIZE,
-      queueTimeout: QUEUE_TIMEOUT
-    })
+    // KROKI_MERMAID_MAX_CONCURRENCY (6), KROKI_MERMAID_MAX_QUEUE_SIZE (100) and
+    // KROKI_MERMAID_QUEUE_TIMEOUT (30s), see Semaphore in @kroki/browser-instance.
+    this.semaphore = createSemaphore({ envPrefix: 'KROKI_MERMAID', maxConcurrency: 6 })
   }
 
   async convert(task, config) {
@@ -125,11 +55,19 @@ export class Worker {
       throw new MaxTextSizeError(task.source.length, maxTextSize)
     }
     await this.semaphore.acquire()
+    try {
+      return await this._convert(task, config)
+    } finally {
+      this.semaphore.release()
+    }
+  }
+
+  async _convert(task, config) {
+    const mermaidConfig = task.mermaidConfig
     // Connecting and opening the page happen inside the try block: they fail
     // when Chrome has just crashed or is wedged (e.g. newPage hitting the
-    // protocol timeout). Doing them outside leaked the semaphore permit and the
-    // CDP connection on every such failure until the service stopped serving
-    // requests altogether.
+    // protocol timeout). Doing them outside leaked the CDP connection on every
+    // such failure.
     let browser
     let page
     try {
@@ -167,7 +105,6 @@ export class Worker {
       } catch (err) {
         logger.warn({ err }, 'Unable to disconnect from the browser')
       }
-      this.semaphore.release()
     }
   }
 

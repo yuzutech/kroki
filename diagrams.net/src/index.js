@@ -5,7 +5,7 @@ import http from 'node:http'
 import { TimeoutError as PuppeteerTimeoutError } from 'puppeteer'
 import micro from 'micro'
 import Task from './task.js'
-import { SyntaxError, TimeoutError, Worker } from './worker.js'
+import { QueueFullError, SyntaxError, TimeoutError, Worker } from './worker.js'
 
 ;(async () => {
   // QUESTION: should we create a pool of Chrome instances ?
@@ -38,6 +38,16 @@ import { SyntaxError, TimeoutError, Worker } from './worker.js'
             res.setHeader('Content-Type', isPng ? 'image/png' : 'image/svg+xml')
             return micro.send(res, 200, output)
           } catch (err) {
+            if (err instanceof QueueFullError) {
+              logger.warn({ err }, 'Conversion rejected')
+              return micro.send(res, 503, {
+                error: {
+                  message: err.message,
+                  name: err.name,
+                  stacktrace: err.stack
+                }
+              })
+            }
             if (err instanceof PuppeteerTimeoutError || err instanceof TimeoutError) {
               return micro.send(res, 408, {
                 error: {

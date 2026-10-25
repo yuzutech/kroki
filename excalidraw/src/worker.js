@@ -1,5 +1,5 @@
 import puppeteer from 'puppeteer'
-import { Semaphore } from '@kroki/browser-instance'
+import { createSemaphore, QueueFullError } from '@kroki/browser-instance'
 import { logger } from './logger.js'
 import { getBrowserWSEndpoint, protocolTimeout } from './browser-instance.js'
 
@@ -10,9 +10,9 @@ export class TimeoutError extends Error {
   }
 }
 
-// Caps concurrent conversions, and therefore the number of pages kept in the
-// pool (see Semaphore in @kroki/browser-instance).
-const MAX_CONCURRENCY = Number(process.env.KROKI_EXCALIDRAW_MAX_CONCURRENCY) || 4
+// Re-exported for index.js, which maps it to a 503.
+export { QueueFullError }
+
 // Recycle a page after this many conversions to bound memory growth in a
 // long-lived renderer (fonts, detached nodes, JIT caches...).
 const PAGE_MAX_USES = Number(process.env.KROKI_EXCALIDRAW_PAGE_MAX_USES) || 100
@@ -33,7 +33,11 @@ export default class Worker {
       process.env.KROKI_EXCALIDRAW_PAGE_URL || 'http://127.0.0.1:8004/public/index.html'
     this.assetPath = process.env.KROKI_EXCALIDRAW_ASSET_PATH || '/public'
     this.convertTimeout = Number(process.env.KROKI_EXCALIDRAW_CONVERT_TIMEOUT) || 15000
-    this.semaphore = new Semaphore(MAX_CONCURRENCY)
+    // Caps concurrent conversions, and therefore the number of pages kept in the
+    // pool: KROKI_EXCALIDRAW_MAX_CONCURRENCY (4), KROKI_EXCALIDRAW_MAX_QUEUE_SIZE
+    // (100) and KROKI_EXCALIDRAW_QUEUE_TIMEOUT (30s), see Semaphore in
+    // @kroki/browser-instance.
+    this.semaphore = createSemaphore({ envPrefix: 'KROKI_EXCALIDRAW', maxConcurrency: 4 })
     this.idlePages = []
     this.browserPromise = undefined
   }
