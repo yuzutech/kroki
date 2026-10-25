@@ -52,4 +52,10 @@ describe('#updateConfig', function () {
     deepEqual(config.maxEdges, undefined)
     deepEqual(config.maxTextSize, undefined)
   })
+
+  it('should not pass the flatten-svg Kroki option to Mermaid', function () {
+    const config = {}
+    updateConfig(config, new URLSearchParams('flatten-svg=true'))
+    deepEqual(config.flattenSvg, undefined)
+  })
 })

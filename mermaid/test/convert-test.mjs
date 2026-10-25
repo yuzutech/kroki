@@ -197,3 +197,72 @@ end`))
     }
   })
 })
+
+describe('#convert with the flatten-svg option', function () {
+  async function convertWith (source, { isPng = false, option, flattenSvg = false } = {}) {
+    const browser = await getBrowser()
+    try {
+      const worker = new Worker(browser)
+      // KROKI_MERMAID_FLATTEN_SVG default
+      worker.flattenSvg = flattenSvg
+      const config = new URLSearchParams()
+      if (option !== undefined) config.set('flatten-svg', option)
+      return await worker.convert(new Task(source, isPng), config)
+    } finally {
+      await browser.close()
+    }
+  }
+
+  function convertFlat (source, isPng = false) {
+    return convertWith(source, { isPng, option: 'true' })
+  }
+
+  it('should return SVG without HTML labels, style sheets or em units', async function () {
+    const result = await convertFlat(`graph TD
+  A[Hello] -->|link| B{World}`)
+    deepEqual(result.includes('<foreignObject'), false, `output must not include <foreignObject> but was: ${result}`)
+    deepEqual(result.includes('<style'), false, `output must not include <style> but was: ${result}`)
+    deepEqual(/hsl\(/.test(result), false, `output must not include hsl() colors but was: ${result}`)
+    deepEqual(/="[-\d.]+em"/.test(result), false, `output must not include em units but was: ${result}`)
+    deepEqual(/<text[^>]*>(<tspan[^>]*>)*Hello</.test(result), true, `output must include Hello as SVG text but was: ${result}`)
+  })
+
+  it('should inline computed colors as presentation attributes', async function () {
+    const result = await convertFlat(`graph TD
+  A[Start]:::red
+  classDef red fill:#f96,stroke:#c00`)
+    deepEqual(result.includes('fill="#ff9966"'), true, `output must include fill="#ff9966" but was: ${result}`)
+    deepEqual(result.includes('stroke="#cc0000"'), true, `output must include stroke="#cc0000" but was: ${result}`)
+  })
+
+  it('should merge per-word tspans so words are not anchored separately', async function () {
+    const result = await convertFlat(`stateDiagram-v2
+  A --> B : valid signature`)
+    deepEqual(result.includes('>valid signature<'), true, `output must include the label as one run but was: ${result}`)
+  })
+
+  it('should leave PNG output unchanged', async function () {
+    const result = await convertFlat('graph TD\n  A --> B', true)
+    deepEqual(result.subarray(1, 4).toString(), 'PNG', 'output must be a PNG')
+  })
+
+  it('should flatten when the option is an empty flag', async function () {
+    const result = await convertWith('graph TD\n  A --> B', { option: '' })
+    deepEqual(result.includes('<style'), false, `output must not include <style> but was: ${result}`)
+  })
+
+  it('should not flatten without the option', async function () {
+    const result = await convertWith('graph TD\n  A --> B')
+    deepEqual(result.includes('<style'), true, `output must include <style> but was: ${result}`)
+  })
+
+  it('should use KROKI_MERMAID_FLATTEN_SVG as the default', async function () {
+    const result = await convertWith('graph TD\n  A --> B', { flattenSvg: true })
+    deepEqual(result.includes('<style'), false, `output must not include <style> but was: ${result}`)
+  })
+
+  it('should not flatten when the option is false, whatever the default', async function () {
+    const result = await convertWith('graph TD\n  A --> B', { option: 'false', flattenSvg: true })
+    deepEqual(result.includes('<style'), true, `output must include <style> but was: ${result}`)
+  })
+})

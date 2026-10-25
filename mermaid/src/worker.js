@@ -4,6 +4,7 @@ import path from 'node:path'
 import puppeteer, { HTTPResponse, Page } from 'puppeteer'
 import { logger } from './logger.js'
 import { updateConfig } from './config.js'
+import { flattenSvg } from './flatten-svg.js'
 import { applyNetworkPolicy, getBrowserWSEndpoint, protocolTimeout } from './browser-instance.js'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
@@ -69,11 +70,27 @@ export class Worker {
       process.env.KROKI_MERMAID_PAGE_URL ||
       `file://${path.join(__dirname, '..', 'assets', 'index.html')}`
     this.convertTimeout = process.env.KROKI_MERMAID_CONVERT_TIMEOUT || '10000'
+    // Default for the flatten-svg diagram option (see flatten-svg.js).
+    this.flattenSvg = process.env.KROKI_MERMAID_FLATTEN_SVG === 'true'
     this.semaphore = new Semaphore(MAX_CONCURRENCY)
   }
 
   async convert(task, config) {
     const mermaidConfig = task.mermaidConfig
+    // Rewrite SVG output so non-browser renderers can draw it. The flatten-svg
+    // option is a flag: present (empty or any value but 'false') turns it on.
+    const flattenOption = config?.get?.('flatten-svg')
+    const flatten =
+      !task.isPng &&
+      (flattenOption === null || flattenOption === undefined
+        ? this.flattenSvg
+        : flattenOption !== 'false')
+    if (flatten) {
+      // Plain SVG <text> labels instead of HTML in <foreignObject>.
+      // Set before updateConfig() so a request can still override it.
+      mermaidConfig.htmlLabels = false
+      mermaidConfig.flowchart.htmlLabels = false
+    }
     // Reject oversized sources up front: mermaid would otherwise resolve with an
     // error *image* (HTTP 200) rather than failing. Done before spinning up a
     // page so a flood of huge payloads can't tie up the browser.
@@ -104,6 +121,9 @@ export class Worker {
       }
       if (task.isPng) {
         return await toPNG(page, evalResult.svg)
+      }
+      if (flatten) {
+        return await flattenSvg(page, evalResult.svg)
       }
       return evalResult.svg
     } finally {

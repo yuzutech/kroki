@@ -1,6 +1,10 @@
 export function updateConfig(initialConfig, config) {
   for (const property in Object.fromEntries(config)) {
     const propertyCamelCase = convertPropertyToCamelCase(property)
+    if (propertyCamelCase === 'flattenSvg') {
+      // Kroki option handled by worker.js, not a Mermaid config key.
+      continue
+    }
     if (
       propertyCamelCase === 'maxTextSize' ||
       propertyCamelCase === 'maxEdges' ||

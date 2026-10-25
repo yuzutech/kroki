@@ -307,6 +307,20 @@ You can adjust this with the `KROKI_MERMAID_MAX_CONCURRENCY` environment variabl
 KROKI_MERMAID_MAX_CONCURRENCY=6 # default
 ----
 
+[#mermaid-flatten-svg]
+=== Mermaid SVG for Non-Browser Renderers
+
+The `flatten-svg` diagram option rewrites Mermaid's SVG output so tools without a browser engine, such as asciidoctor-pdf (prawn-svg), rsvg-convert or Apache Batik, can draw it (see xref:diagram-options.adoc#mermaid-flatten-svg[]).
+
+You can turn it on for every request that doesn't set the option with the `KROKI_MERMAID_FLATTEN_SVG` environment variable on the Mermaid container:
+
+[source]
+----
+KROKI_MERMAID_FLATTEN_SVG=true # default: false
+----
+
+A request can still turn it off with `flatten-svg=false`.
+
 == Companion Container Host and Port
 
 You can configure the host and port on which every companion container will be listening:

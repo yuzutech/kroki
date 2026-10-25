@@ -247,6 +247,32 @@ Since Mermaid v12, ELK is bundled with Mermaid and is the default layout engine.
 Kroki also bundles the https://www.npmjs.com/package/@mermaid-js/layout-tidy-tree[tidy-tree] alternate layout engine.
 You can select a layout engine using the `layout` diagram option (e.g., `layout=dagre` or `layout=tidy-tree`) or the `layout` property in the diagram frontmatter config.
 
+[#mermaid-flatten-svg]
+=== SVG for Non-Browser Renderers
+
+By default, Mermaid's SVG output only renders correctly in a web browser: most diagram types put their labels in HTML (`<foreignObject>`), and colors and fonts come from a CSS style sheet.
+Tools that draw SVG without a browser engine, such as asciidoctor-pdf (prawn-svg), rsvg-convert or Apache Batik, show empty boxes, black fills or overlapping text instead.
+
+Set the `flatten-svg` diagram option to produce SVG these tools can draw.
+It's a flag: an empty value or `true` turns it on, and `false` turns it off.
+When the option isn't set, the server default applies (see xref:configuration.adoc#mermaid-flatten-svg[]).
+
+With the option on, SVG requests:
+
+* default to `htmlLabels: false`, so labels are SVG `<text>` elements. A request can still set `html-labels=true`.
+* are post-processed in the rendering browser page: every computed style is written as a plain SVG attribute (colors as hex, lengths in pixels), and the `<style>` sheet is removed.
+
+PNG output is not affected.
+
+Because it's a per-request option, the same diagram can be rendered both ways, for example as browser-native SVG for an HTML site and as flattened SVG for a PDF of the same content.
+
+TIP: Mermaid sizes each shape around its label using the fonts available to Chromium in the Mermaid container (Fira Sans by default).
+If your renderer draws the text in a font with different character widths, labels can overflow their shapes.
+For best results, set the `font-family` diagram option to a font that both the container and your renderer have, with the same metrics.
+
+NOTE: With `htmlLabels: false`, Mermaid drops a bare `>` from labels.
+Use the `#gt;` and `#lt;` entity codes instead.
+
 == PlantUML
 
 [cols="1m,1a,2a",opts="header"]
