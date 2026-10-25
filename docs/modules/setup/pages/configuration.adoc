@@ -308,6 +308,15 @@ You can adjust the limit per companion:
 `KROKI_DIAGRAMSNET_MAX_CONCURRENCY`:: diagrams.net container (default: `6`).
 `KROKI_EXCALIDRAW_MAX_CONCURRENCY`:: Excalidraw container (default: `4`).
 
+The wait queue is bounded as well, so a degraded Chromium (e.g. restarting after a crash) cannot make queued requests pile up until the container runs out of memory.
+A request that cannot be queued, or that waits too long for a slot, is rejected with a `503` (Service Unavailable) response status code.
+Both limits are configured per companion, using the same prefix as the concurrency limit (`KROKI_MERMAID`, `KROKI_BPMN`, `KROKI_DIAGRAMSNET` or `KROKI_EXCALIDRAW`):
+
+`<PREFIX>_MAX_QUEUE_SIZE`:: The maximum number of requests waiting for a slot. Defaults to `100`.
+`<PREFIX>_QUEUE_TIMEOUT`:: How long, in milliseconds, a request may wait for a slot. Defaults to `30000`, which matches the default `KROKI_DELEGATE_TIMEOUT_MS`.
+
+For instance, `KROKI_EXCALIDRAW_MAX_QUEUE_SIZE=50`.
+
 === Excalidraw Page Pool
 
 Loading the Excalidraw library in a page is far more expensive than rendering a diagram.
@@ -326,12 +335,6 @@ You can adjust this with the `KROKI_EXCALIDRAW_CONVERT_TIMEOUT` environment vari
 ----
 KROKI_EXCALIDRAW_CONVERT_TIMEOUT=15000 # default, 15 seconds
 ----
-
-The wait queue is bounded as well, so a degraded Chromium (e.g. restarting after a crash) cannot make queued requests pile up until the container runs out of memory.
-A request that cannot be queued, or that waits too long for a slot, is rejected with a `503` (Service Unavailable) response status code:
-
-KROKI_MERMAID_MAX_QUEUE_SIZE:: The maximum number of requests waiting for a slot. Defaults to `100`.
-KROKI_MERMAID_QUEUE_TIMEOUT:: How long, in milliseconds, a request may wait for a slot. Defaults to `30000`, which matches the default `KROKI_DELEGATE_TIMEOUT_MS`.
 
 == Companion Container Host and Port
 

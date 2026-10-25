@@ -37,3 +37,6 @@ jobs:
       - name: Lint & tests
         run: npm run lint && npm t
         working-directory: mermaid
+      - name: Shared browser-instance library tests
+        run: npm t
+        working-directory: lib/browser-instance

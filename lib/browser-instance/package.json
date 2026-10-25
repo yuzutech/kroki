@@ -4,6 +4,9 @@
   "description": "Shared Chrome instance manager for the Kroki companion services.",
   "main": "index.js",
   "type": "module",
+  "scripts": {
+    "test": "node --test"
+  },
   "keywords": [],
   "author": "Guillaume Grossetie",
   "license": "MIT",

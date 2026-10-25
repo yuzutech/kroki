@@ -5,7 +5,7 @@ import { TimeoutError as PuppeteerTimeoutError } from 'puppeteer'
 import micro from 'micro'
 import Task from './task.js'
 import { getBrowserWSEndpoint } from './browser-instance.js'
-import { SyntaxError, TimeoutError, Worker } from './worker.js'
+import { QueueFullError, SyntaxError, TimeoutError, Worker } from './worker.js'
 
 ;(async () => {
   // Warm up Chrome so the service fails fast when it cannot launch; the
@@ -23,6 +23,16 @@ import { SyntaxError, TimeoutError, Worker } from './worker.js'
           res.setHeader('Content-Type', 'image/svg+xml')
           return micro.send(res, 200, svg)
         } catch (err) {
+          if (err instanceof QueueFullError) {
+            logger.warn({ err }, 'Conversion rejected')
+            return micro.send(res, 503, {
+              error: {
+                message: err.message,
+                name: err.name,
+                stacktrace: err.stack
+              }
+            })
+          }
           if (err instanceof PuppeteerTimeoutError || err instanceof TimeoutError) {
             return micro.send(res, 408, {
               error: {
