@@ -1,6 +1,7 @@
 # syntax=docker/dockerfile:1.28
 # erd (https://github.com/BurntSushi/erd) built from the upstream release sources,
 # published as ghcr.io/yuzutech/kroki-builder-erd by the "Tool images" workflow.
+# renovate: datasource=github-tags depName=BurntSushi/erd extractVersion=^v(?<version>.+)$
 ARG VERSION=0.2.2
 
 # erd 0.2.2 declares text 1.x and bytestring 0.10 (GHC <= 9.2), but the cabal-install
