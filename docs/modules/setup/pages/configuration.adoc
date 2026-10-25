@@ -307,6 +307,12 @@ You can adjust this with the `KROKI_MERMAID_MAX_CONCURRENCY` environment variabl
 KROKI_MERMAID_MAX_CONCURRENCY=6 # default
 ----
 
+The wait queue is bounded as well, so a degraded Chromium (e.g. restarting after a crash) cannot make queued requests pile up until the container runs out of memory.
+A request that cannot be queued, or that waits too long for a slot, is rejected with a `503` (Service Unavailable) response status code:
+
+KROKI_MERMAID_MAX_QUEUE_SIZE:: The maximum number of requests waiting for a slot. Defaults to `100`.
+KROKI_MERMAID_QUEUE_TIMEOUT:: How long, in milliseconds, a request may wait for a slot. Defaults to `30000`, which matches the default `KROKI_DELEGATE_TIMEOUT_MS`.
+
 == Companion Container Host and Port
 
 You can configure the host and port on which every companion container will be listening:

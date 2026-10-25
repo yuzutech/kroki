@@ -3,7 +3,7 @@ import { logger } from './logger.js'
 
 import http from 'node:http'
 import micro from 'micro'
-import { MaxTextSizeError, SyntaxError, TimeoutError, Worker } from './worker.js'
+import { MaxTextSizeError, QueueFullError, SyntaxError, TimeoutError, Worker } from './worker.js'
 import Task from './task.js'
 
 ;(async () => {
@@ -45,6 +45,15 @@ import Task from './task.js'
                 error: {
                   message: `Request timeout: ${err.message}`,
                   name: 'TimeoutError',
+                  stacktrace: err.stack
+                }
+              })
+            } else if (err instanceof QueueFullError) {
+              logger.warn({ err }, 'Conversion rejected')
+              return micro.send(res, 503, {
+                error: {
+                  message: err.message,
+                  name: err.name,
                   stacktrace: err.stack
                 }
               })

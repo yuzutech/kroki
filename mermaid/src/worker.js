@@ -30,15 +30,30 @@ export class MaxTextSizeError extends Error {
   }
 }
 
+export class QueueFullError extends Error {
+  constructor(message) {
+    super(message)
+    this.name = 'QueueFullError'
+  }
+}
+
 // Caps how many pages (and therefore Chromium renderer processes) may be open
 // at once. A single shared Chrome instance (see browser-instance.js) has no
 // built-in limit on concurrent pages: a burst of requests can spin up enough
 // renderer processes to exceed the container's memory/pids limits and crash
 // the browser launch itself (posix_spawn: Resource temporarily unavailable).
-// Requests beyond the cap simply wait their turn instead.
+// Requests beyond the cap wait their turn instead.
+//
+// The wait queue is bounded too, both in size and in time: when Chrome is
+// wedged, permits are not returned for a while and every queued request keeps
+// its request/response objects and diagram source alive. An unbounded queue
+// then grows until the Node.js heap runs out of memory. Rejected requests get
+// a 503 so the caller can retry later.
 class Semaphore {
-  constructor(max) {
+  constructor(max, { maxQueueSize, queueTimeout }) {
     this.max = max
+    this.maxQueueSize = maxQueueSize
+    this.queueTimeout = queueTimeout
     this.count = 0
     this.queue = []
   }
@@ -48,13 +63,34 @@ class Semaphore {
       this.count++
       return
     }
-    return new Promise(resolve => this.queue.push(resolve))
+    if (this.queue.length >= this.maxQueueSize) {
+      throw new QueueFullError(
+        `Too many pending conversions: ${this.queue.length} requests are already waiting (maximum is ${this.maxQueueSize})`
+      )
+    }
+    return new Promise((resolve, reject) => {
+      const waiter = {
+        resolve: () => {
+          clearTimeout(waiter.timer)
+          resolve()
+        },
+        timer: setTimeout(() => {
+          this.queue.splice(this.queue.indexOf(waiter), 1)
+          reject(
+            new QueueFullError(
+              `Timed out after ${this.queueTimeout}ms waiting for a conversion slot`
+            )
+          )
+        }, this.queueTimeout)
+      }
+      this.queue.push(waiter)
+    })
   }
 
   release() {
     const next = this.queue.shift()
     if (next) {
-      next()
+      next.resolve()
     } else {
       this.count--
     }
@@ -62,6 +98,10 @@ class Semaphore {
 }
 
 const MAX_CONCURRENCY = Number(process.env.KROKI_MERMAID_MAX_CONCURRENCY) || 6
+const MAX_QUEUE_SIZE = Number(process.env.KROKI_MERMAID_MAX_QUEUE_SIZE) || 100
+// Matches the Kroki server's default delegate timeout (KROKI_DELEGATE_TIMEOUT_MS):
+// past that point, nobody is waiting for the response anymore.
+const QUEUE_TIMEOUT = Number(process.env.KROKI_MERMAID_QUEUE_TIMEOUT) || 30000
 
 export class Worker {
   constructor() {
@@ -69,7 +109,10 @@ export class Worker {
       process.env.KROKI_MERMAID_PAGE_URL ||
       `file://${path.join(__dirname, '..', 'assets', 'index.html')}`
     this.convertTimeout = process.env.KROKI_MERMAID_CONVERT_TIMEOUT || '10000'
-    this.semaphore = new Semaphore(MAX_CONCURRENCY)
+    this.semaphore = new Semaphore(MAX_CONCURRENCY, {
+      maxQueueSize: MAX_QUEUE_SIZE,
+      queueTimeout: QUEUE_TIMEOUT
+    })
   }
 
   async convert(task, config) {
@@ -82,9 +125,16 @@ export class Worker {
       throw new MaxTextSizeError(task.source.length, maxTextSize)
     }
     await this.semaphore.acquire()
-    const browser = await this._connect()
-    const page = await newPage(browser)
+    // Connecting and opening the page happen inside the try block: they fail
+    // when Chrome has just crashed or is wedged (e.g. newPage hitting the
+    // protocol timeout). Doing them outside leaked the semaphore permit and the
+    // CDP connection on every such failure until the service stopped serving
+    // requests altogether.
+    let browser
+    let page
     try {
+      browser = await this._connect()
+      page = await newPage(browser)
       // Must run before the first navigation: mermaid.render() itself can
       // trigger a resource load (e.g. a flowchart image-shape node), not just
       // the later PNG screenshot step.
@@ -108,12 +158,12 @@ export class Worker {
       return evalResult.svg
     } finally {
       try {
-        await page.close()
+        await page?.close()
       } catch (err) {
         logger.warn({ err }, 'Unable to close the page')
       }
       try {
-        await browser.disconnect()
+        await browser?.disconnect()
       } catch (err) {
         logger.warn({ err }, 'Unable to disconnect from the browser')
       }

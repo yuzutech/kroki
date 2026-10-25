@@ -16,6 +16,10 @@ versioned entry and uses it as the GitHub release notes.
 - Add support for [Lini](https://lini.rs) diagrams (`lini`), with `theme` and `static` options. Local image paths are refused unless `KROKI_SAFE_MODE` is `unsafe` ([#2169](https://github.com/yuzutech/kroki/pull/2169))
 - Add a `page` option to TikZ diagrams to render only the specified page in SVG, PNG and JPEG output ([#2167](https://github.com/yuzutech/kroki/pull/2167))
 
+### Fixed
+
+- Fix the Mermaid service running out of memory after Chromium crashes: a failure while connecting to the browser or opening a page leaked a concurrency slot, until every request waited forever. The wait queue is now also bounded (`KROKI_MERMAID_MAX_QUEUE_SIZE`, default 100, and `KROKI_MERMAID_QUEUE_TIMEOUT`, default 30s); rejected requests get a `503`
+
 ## [0.33.0] - 2026-10-05
 
 ### Changed
