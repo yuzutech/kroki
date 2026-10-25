@@ -223,3 +223,7 @@ services:
 ----
 
  $ docker-compose up -d
+
+== Maintenance
+
+To update a third-party dependency or prepare a release, see the link:MAINTAINING.adoc[maintainer guide].

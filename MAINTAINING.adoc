@@ -1,0 +1,126 @@
+= Maintainer guide
+
+This guide describes the tasks the maintainers perform to keep Kroki up to date and to release it.
+
+== How to prepare a release
+
+Renovate only bumps the version declared in the dependency manifests (`package.json`, `deno.json`, `Dockerfile`, `pom.xml`...).
+It does not run the scripts that regenerate the vendored assets and propagate the versions everywhere else, so the following steps are mandatory before triggering the https://github.com/yuzutech/kroki/actions/workflows/release.yml[Release workflow]:
+
+. from an up-to-date `main` branch, run `task npmInstall`
++
+This command installs the dependencies of every companion service and regenerates the assets committed in the repository, such as `mermaid/assets/mermaid/` (`npm run prestart --prefix mermaid`) and `bpmn/assets/bpmn-viewer.production.min.js` (`npm run prestart --prefix bpmn`).
+Without this step, a container would still bundle the previous version of the library even though its `package.json` was updated.
+. run `task updateVersions`
++
+This command reads the versions of the diagram libraries (`package.json`, `deno.json`, `Dockerfile`, `Cargo.toml`, `pom.xml` and `diagrams.net/assets/js/app.min.js`) and updates `docs/antora.yml` and the `getVersion()` method of each Java service accordingly.
+. check that the regenerated assets and versions match the updated libraries (`git status`, `git diff`)
+. add an entry for each updated diagram library under `### Diagram libraries` in the `## [Unreleased]` section of `CHANGELOG.md`
+. open a pull request with these changes and merge it before triggering the Release workflow
+
+== How to update third-party dependencies
+
+Most third-party dependencies are pinned in `server/ops/docker/Dockerfile` through an `ARG <NAME>_VERSION` variable.
+
+[IMPORTANT]
+====
+After bumping a version in the `Dockerfile`, always run `task updateVersions`.
+
+This command reads the `*_VERSION` arguments from `server/ops/docker/Dockerfile` and propagates them everywhere the version is referenced (such as `docs/antora.yml` and the `getVersion()` method of the corresponding Java service) so that everything stays in sync.
+====
+
+=== blockdiag (and actdiag, nwdiag, packetdiag, rackdiag, seqdiag)
+
+We are producing native binaries from a fork: https://github.com/yuzutech/blockdiag/releases
+
+When a new version is available, we need to:
+
+. update the fork
+. run the release workflow: https://github.com/yuzutech/blockdiag/actions
+. update the argument variable `ARG BLOCKDIAG_VERSION="x.y.z"` in `server/ops/docker/Dockerfile`
+. run `task updateVersions` (see above)
+
+=== D2
+
+Kroki uses the official D2 native binary published as a release in the official repository: https://github.com/terrastruct/d2/releases (no fork or custom build required).
+
+When a new version is available, we need to:
+
+. update the argument variable `ARG D2_VERSION="x.y.z"` in `server/ops/docker/Dockerfile`
+. run `task updateVersions` (see above)
+
+=== Ditaa (mini)
+
+Since https://github.com/stathissideris/ditaa is unmaintained, we are using an active fork: https://github.com/yuzutech/ditaa-mini which is based on an active fork https://github.com/pepijnve/ditaa.
+
+We are producing native binaries with GraalVM: https://github.com/yuzutech/ditaa-mini/releases.
+
+When a new version is available, we need to :
+
+. update the fork
+. run the following workflow: https://github.com/yuzutech/ditaa-mini/actions/workflows/native-image-on-demand.yml
+. update the argument variable `ARG DITAA_VERSION="x.y.z"` in `server/ops/docker/Dockerfile`
+. run `task updateVersions` (see above)
+
+=== Graphviz
+
+We are producing native binaries from a builder: https://github.com/yuzutech/graphviz-builder/releases
+
+When a new version is available, we need to:
+
+. update the builder
+. run the release workflow: https://github.com/yuzutech/graphviz-builder/actions
+. update the argument variable `ARG GRAPHVIZ_VERSION="x.y.z"` in `server/ops/docker/Dockerfile`
+. run `task updateVersions` (see above)
+
+=== PlantUML
+
+Kroki uses the official PlantUML native binary published as a release in the official repository: https://github.com/plantuml/plantuml/releases (no fork or custom build required).
+
+When a new version is available, we need to:
+
+. update the argument variable `ARG PLANTUML_VERSION="x.y.z"` in `server/ops/docker/Dockerfile`
+. run `task updateVersions` (see above)
+
+==== C4-PlantUML (bundled model files)
+
+The `C4 with PlantUML` diagram type uses the https://github.com/plantuml-stdlib/C4-PlantUML[C4-PlantUML] macro library. Because PlantUML runs in `SAFE` mode (no remote `!include`), the library files are vendored under `server/src/main/resources/` and concatenated into the diagram source by `Plantuml.sanitize()`. Vendored file names are the lower-case upstream names: `C4.puml` -> `c4.puml`, `C4_Context.puml` -> `c4_context.puml`, and likewise for `Container`, `Component`, `Deployment`, `Dynamic` and `Sequence`.
+
+When a new version is available, we need to:
+
+. copy each upstream file from the release tag (e.g. `https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/v<x.y.z>/C4_Context.puml`) over the matching resource file
+. in the six sub-files (all except `c4.puml`), delete the include guard upstream puts at the top — it resolves to a remote URL that `SAFE` mode rejects:
++
+[source]
+----
+!if %variable_exists("RELATIVE_INCLUDE")
+  !include ./C4_Context.puml
+!else
+  !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/.../C4_Context.puml
+!endif
+----
+. make no other edits: the files are inlined verbatim, so every remaining line must stay exactly as upstream. Verify with `diff <(curl -sL <raw-url>) server/src/main/resources/<file>` — only the guard block above may differ
+. bump the version assertion in `server/src/test/java/io/kroki/server/service/C4PlantumlServiceTest.java` to the new version
+. run `./mvnw -q -pl server test -Dtest=C4PlantumlServiceTest` (renders C4 diagrams through the inlined bundle; `linux/amd64` only, like CI)
+
+=== UMLet
+
+We are producing native binaries with GraalVM: https://github.com/yuzutech/umlet/releases
+
+When a new version is available, we need to:
+
+. update the fork
+. run the following workflow: https://github.com/yuzutech/umlet/actions/workflows/release.yml
+. update the argument variable `ARG UMLET_VERSION="x.y.z"` in `server/ops/docker/Dockerfile`
+. run `task updateVersions` (see above)
+
+=== WireViz
+
+We are producing native binaries from a fork: https://github.com/yuzutech/WireViz/releases
+
+When a new version is available, we need to:
+
+. update the fork
+. run the release workflow: https://github.com/yuzutech/WireViz/actions
+. update the argument variable `ARG WIREVIZ_VERSION="x.y.z"` in `server/ops/docker/Dockerfile`
+. run `task updateVersions` (see above)
