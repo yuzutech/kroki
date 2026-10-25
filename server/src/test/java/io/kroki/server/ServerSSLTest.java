@@ -3,19 +3,34 @@ package io.kroki.server;
 import io.vertx.core.*;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.net.PemKeyCertOptions;
-import io.vertx.core.net.SelfSignedCertificate;
 import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.ext.web.client.WebClient;
 import io.vertx.ext.web.client.WebClientOptions;
 import io.vertx.ext.web.codec.BodyCodec;
 import io.vertx.junit5.VertxExtension;
+import org.bouncycastle.asn1.x500.X500Name;
+import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
+import org.bouncycastle.cert.jcajce.JcaX509v3CertificateBuilder;
+import org.bouncycastle.openssl.jcajce.JcaPEMWriter;
+import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.io.TempDir;
 
 import java.io.IOException;
+import java.io.Writer;
+import java.math.BigInteger;
 import java.net.ServerSocket;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.cert.X509Certificate;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
@@ -28,11 +43,42 @@ class ServerSSLTest {
   private PemKeyCertOptions pemKeyCertOptions;
 
   @BeforeEach
-  void init() throws IOException {
+  void init(@TempDir Path tempDir) throws Exception {
     ServerSocket socket = new ServerSocket(0);
     port = socket.getLocalPort();
     socket.close();
-    pemKeyCertOptions = SelfSignedCertificate.create().keyCertOptions();
+    pemKeyCertOptions = createSelfSignedCertificate(tempDir);
+  }
+
+  private static PemKeyCertOptions createSelfSignedCertificate(Path dir) throws Exception {
+    KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+    keyPairGenerator.initialize(2048);
+    KeyPair keyPair = keyPairGenerator.generateKeyPair();
+    X500Name subject = new X500Name("CN=localhost");
+    Instant now = Instant.now();
+    X509Certificate certificate = new JcaX509CertificateConverter().getCertificate(
+      new JcaX509v3CertificateBuilder(
+        subject,
+        BigInteger.valueOf(now.toEpochMilli()),
+        Date.from(now.minus(Duration.ofDays(1))),
+        Date.from(now.plus(Duration.ofDays(1))),
+        subject,
+        keyPair.getPublic()
+      ).build(new JcaContentSignerBuilder("SHA256withRSA").build(keyPair.getPrivate()))
+    );
+    Path keyPath = dir.resolve("key.pem");
+    Path certPath = dir.resolve("cert.pem");
+    writePem(keyPath, keyPair.getPrivate());
+    writePem(certPath, certificate);
+    return new PemKeyCertOptions()
+      .setKeyPath(keyPath.toString())
+      .setCertPath(certPath.toString());
+  }
+
+  private static void writePem(Path path, Object object) throws IOException {
+    try (Writer writer = Files.newBufferedWriter(path); JcaPEMWriter pemWriter = new JcaPEMWriter(writer)) {
+      pemWriter.writeObject(object);
+    }
   }
 
   @Test
