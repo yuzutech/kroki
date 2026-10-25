@@ -146,6 +146,9 @@ RUN LINI_VERSION=`cat Cargo.toml | grep "^lini =" | sed -r 's/.*"([^"]+)"/\1/'` 
 ## Erd (built by the "Tool images" workflow, see tools/erd)
 FROM ghcr.io/yuzutech/kroki-builder-erd:0.2.2 AS erd
 
+## Graphviz (built by the "Tool images" workflow, see tools/graphviz)
+FROM ghcr.io/yuzutech/kroki-builder-graphviz:14.1.3 AS graphviz
+
 ## GoAT
 FROM --platform=$BUILDPLATFORM golang:1.26.5-alpine AS kroki-builder-goat
 
@@ -166,7 +169,6 @@ ARG BLOCKDIAG_VERSION="3.4.2"
 ARG D2_VERSION="0.7.1"
 ARG DITAA_VERSION="1.0.3"
 ARG DVISVGM_VERSION="3.2.1+ds-1build1"
-ARG GRAPHVIZ_VERSION="14.1.3"
 ARG PLANTUML_VERSION="1.2026.8"
 ARG UMLET_VERSION="2023-03-20_UMLet_v15.1"
 ARG WIREVIZ_VERSION="0.3.3"
@@ -217,9 +219,6 @@ RUN apt-get update && apt-get install --no-install-recommends --yes \
 COPY --from=vega packages packages
 RUN dpkg -i packages/libjpeg62-turbo_2.1.5-4_${TARGETARCH}.deb
 
-RUN wget "https://github.com/yuzutech/graphviz-builder/releases/download/${GRAPHVIZ_VERSION}/dot-linux-${TARGETARCH}" -O /usr/bin/dot && \
-    chmod +x /usr/bin/dot
-
 RUN wget "https://github.com/yuzutech/ditaa-mini/releases/download/${DITAA_VERSION}/ditaamini-linux-${TARGETARCH}-${DITAA_VERSION}" -O /usr/bin/ditaa && \
     chmod +x /usr/bin/ditaa
 
@@ -242,6 +241,7 @@ RUN wget "https://github.com/yuzutech/WireViz/releases/download/v${WIREVIZ_VERSI
     chmod +x /usr/bin/wireviz
 
 COPY --from=erd /usr/bin/erd /usr/bin/erd
+COPY --from=graphviz /usr/bin/dot /usr/bin/dot
 COPY --from=kroki-builder-bytefield /app/build/app.bin /usr/bin/bytefield
 COPY --from=kroki-builder-dbml /app/build/app.bin /usr/bin/dbml
 COPY --from=kroki-builder-nomnoml /app/build/app.bin /usr/bin/nomnoml

@@ -198,7 +198,7 @@ try {
       diagramLibraryVersions.plantuml = version
       diagramLibraryVersions.c4plantuml = version
     }
-    const graphvizVersionFound = line.match(/^ARG GRAPHVIZ_VERSION="(?<version>.+)"$/)
+    const graphvizVersionFound = line.match(/^FROM ghcr.io\/yuzutech\/kroki-builder-graphviz:(?<version>\S+) AS graphviz$/)
     if (graphvizVersionFound) {
       const { version } = graphvizVersionFound.groups
       diagramLibraryVersions.graphviz = version
