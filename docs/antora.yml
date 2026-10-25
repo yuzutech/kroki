@@ -12,7 +12,7 @@ asciidoc:
     dbml-version: 1.0.31
     diagramsnet-version: 29.6.1
     ditaa-version: 1.0.3
-    erd-version: 0.2.3
+    erd-version: 0.2.2
     excalidraw-version: 0.18.1
     goat-version: 0.5.1
     graphviz-version: 14.1.3

@@ -47,7 +47,7 @@ public class Erd implements DiagramService {
 
   @Override
   public String getVersion() {
-    return "0.2.3";
+    return "0.2.2";
   }
 
   @Override
