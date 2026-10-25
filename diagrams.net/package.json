@@ -19,7 +19,7 @@
   "dependencies": {
     "@kroki/browser-instance": "file:../lib/browser-instance",
     "micro": "10.0.1",
-    "pino": "10.3.1",
+    "pino": "10.4.0",
     "pino-debug": "^4.0.0",
     "puppeteer": "25.1.0"
   },
