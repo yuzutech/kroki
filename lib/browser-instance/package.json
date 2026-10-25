@@ -5,6 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "lint": "../../mermaid/node_modules/.bin/biome check --config-path ../../mermaid .",
     "test": "node --test"
   },
   "keywords": [],

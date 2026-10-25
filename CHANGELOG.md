@@ -16,12 +16,16 @@ versioned entry and uses it as the GitHub release notes.
 - Add support for [Lini](https://lini.rs) diagrams (`lini`), with `theme` and `static` options. Local image paths are refused unless `KROKI_SAFE_MODE` is `unsafe` ([#2169](https://github.com/yuzutech/kroki/pull/2169))
 - Add a `page` option to TikZ diagrams to render only the specified page in SVG, PNG and JPEG output ([#2167](https://github.com/yuzutech/kroki/pull/2167))
 
+### Changed
+
+- BPMN and diagrams.net conversions are now capped (`KROKI_BPMN_MAX_CONCURRENCY` and `KROKI_DIAGRAMSNET_MAX_CONCURRENCY`, default 6) to bound Chromium memory usage, and the BPMN, diagrams.net and Excalidraw wait queues are bounded like Mermaid's (`KROKI_<SERVICE>_MAX_QUEUE_SIZE`, default 100, and `KROKI_<SERVICE>_QUEUE_TIMEOUT`, default 30s): requests beyond these limits get a `503`. `KROKI_<SERVICE>_MAX_QUEUE_SIZE` can be set to `0` to reject requests immediately when every slot is busy ([#2182](https://github.com/yuzutech/kroki/pull/2182))
+
 ### Fixed
 
 - Fix the Mermaid service running out of memory after Chromium crashes: a failure while connecting to the browser or opening a page leaked a concurrency slot, until every request waited forever. The wait queue is now also bounded (`KROKI_MERMAID_MAX_QUEUE_SIZE`, default 100, and `KROKI_MERMAID_QUEUE_TIMEOUT`, default 30s); rejected requests get a `503` ([#2183](https://github.com/yuzutech/kroki/pull/2183))
 - Fix the Excalidraw container becoming unresponsive under load (`Runtime.callFunctionOn timed out`, `Target crashed`): pages are now initialized once and reused instead of loading the Excalidraw library for every request, conversions are capped (`KROKI_EXCALIDRAW_MAX_CONCURRENCY`, default 4) and a render taking longer than `KROKI_EXCALIDRAW_CONVERT_TIMEOUT` (default 15s) returns a `408` ([#2182](https://github.com/yuzutech/kroki/pull/2182))
-- Cap concurrent BPMN and diagrams.net conversions (`KROKI_BPMN_MAX_CONCURRENCY` and `KROKI_DIAGRAMSNET_MAX_CONCURRENCY`, default 6) to bound Chromium memory usage. The BPMN, diagrams.net and Excalidraw wait queues are bounded like Mermaid's (`KROKI_<SERVICE>_MAX_QUEUE_SIZE`, default 100, and `KROKI_<SERVICE>_QUEUE_TIMEOUT`, default 30s; rejected requests get a `503`), and a failure while connecting to the browser or opening a page no longer leaks the CDP connection ([#2182](https://github.com/yuzutech/kroki/pull/2182))
-- Fix the Mermaid, BPMN, diagrams.net and Excalidraw containers ignoring `SIGTERM`: Chrome was closed but the Node.js process kept running (and relaunched Chrome on the next request), so `docker stop` had to wait for its grace period and kill the container ([#2182](https://github.com/yuzutech/kroki/pull/2182))
+- Fix the BPMN and diagrams.net services leaking their browser connection when opening a page failed ([#2182](https://github.com/yuzutech/kroki/pull/2182))
+- Fix the Mermaid, BPMN, diagrams.net and Excalidraw containers ignoring `SIGTERM`: Chrome was closed but the Node.js process kept running (and relaunched Chrome on the next request), so `docker stop` had to wait for its grace period and kill the container. They now stop accepting connections and exit once in-flight conversions are done, or after 8 seconds ([#2182](https://github.com/yuzutech/kroki/pull/2182))
 
 ## [0.33.0] - 2026-10-05
 

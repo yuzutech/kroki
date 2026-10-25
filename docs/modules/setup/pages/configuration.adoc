@@ -297,7 +297,7 @@ NOTE: For security reasons, `maxTextSize`, `maxEdges`, `securityLevel`, `secure`
 [#mermaid-concurrency-limit]
 === Concurrency Limit
 
-The Mermaid, BPMN, diagrams.net and Excalidraw containers open one Chromium page per render. Without a limit, a burst of simultaneous conversions could spin up enough renderer processes to exceed the container's memory limit and crash the browser.
+The Mermaid, BPMN, diagrams.net and Excalidraw containers render diagrams in Chromium pages: Mermaid, BPMN and diagrams.net open one page per render, while Excalidraw reuses pages from a pool (see xref:excalidraw-page-pool[]). Without a limit, a burst of simultaneous conversions could spin up enough renderer processes to exceed the container's memory limit and crash the browser.
 Requests beyond the limit queue instead of spawning unbounded pages.
 
 You can adjust the limit per companion:
@@ -312,11 +312,12 @@ The wait queue is bounded as well, so a degraded Chromium (e.g. restarting after
 A request that cannot be queued, or that waits too long for a slot, is rejected with a `503` (Service Unavailable) response status code.
 Both limits are configured per companion, using the same prefix as the concurrency limit (`KROKI_MERMAID`, `KROKI_BPMN`, `KROKI_DIAGRAMSNET` or `KROKI_EXCALIDRAW`):
 
-`<PREFIX>_MAX_QUEUE_SIZE`:: The maximum number of requests waiting for a slot. Defaults to `100`.
+`<PREFIX>_MAX_QUEUE_SIZE`:: The maximum number of requests waiting for a slot. Defaults to `100`. Set it to `0` to reject requests immediately when every slot is busy.
 `<PREFIX>_QUEUE_TIMEOUT`:: How long, in milliseconds, a request may wait for a slot. Defaults to `30000`, which matches the default `KROKI_DELEGATE_TIMEOUT_MS`.
 
 For instance, `KROKI_EXCALIDRAW_MAX_QUEUE_SIZE=50`.
 
+[#excalidraw-page-pool]
 === Excalidraw Page Pool
 
 Loading the Excalidraw library in a page is far more expensive than rendering a diagram.

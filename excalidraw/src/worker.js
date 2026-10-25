@@ -13,10 +13,6 @@ export class TimeoutError extends Error {
 // Re-exported for index.js, which maps it to a 503.
 export { QueueFullError }
 
-// Recycle a page after this many conversions to bound memory growth in a
-// long-lived renderer (fonts, detached nodes, JIT caches...).
-const PAGE_MAX_USES = Number(process.env.KROKI_EXCALIDRAW_PAGE_MAX_USES) || 100
-
 /**
  * Converts Excalidraw scenes using a pool of warm pages.
  *
@@ -25,7 +21,7 @@ const PAGE_MAX_USES = Number(process.env.KROKI_EXCALIDRAW_PAGE_MAX_USES) || 100
  * the CPU and the memory of the container under load, causing CDP timeouts
  * ("Runtime.callFunctionOn timed out") and renderer crashes ("Target crashed").
  * Pages are therefore initialized once and reused; a page is discarded (and
- * lazily re-created) whenever it crashes, times out or reaches PAGE_MAX_USES.
+ * lazily re-created) whenever it crashes, times out or reaches pageMaxUses.
  */
 export default class Worker {
   constructor() {
@@ -33,6 +29,9 @@ export default class Worker {
       process.env.KROKI_EXCALIDRAW_PAGE_URL || 'http://127.0.0.1:8004/public/index.html'
     this.assetPath = process.env.KROKI_EXCALIDRAW_ASSET_PATH || '/public'
     this.convertTimeout = Number(process.env.KROKI_EXCALIDRAW_CONVERT_TIMEOUT) || 15000
+    // Recycle a page after this many conversions to bound memory growth in a
+    // long-lived renderer (fonts, detached nodes, JIT caches...).
+    this.pageMaxUses = Number(process.env.KROKI_EXCALIDRAW_PAGE_MAX_USES) || 100
     // Caps concurrent conversions, and therefore the number of pages kept in the
     // pool: KROKI_EXCALIDRAW_MAX_CONCURRENCY (4), KROKI_EXCALIDRAW_MAX_QUEUE_SIZE
     // (100) and KROKI_EXCALIDRAW_QUEUE_TIMEOUT (30s), see Semaphore in
@@ -107,7 +106,7 @@ export default class Worker {
 
   async _releasePage(pooledPage, reusable) {
     pooledPage.uses++
-    if (reusable && pooledPage.uses < PAGE_MAX_USES && isHealthy(pooledPage)) {
+    if (reusable && pooledPage.uses < this.pageMaxUses && isHealthy(pooledPage)) {
       this.idlePages.push(pooledPage)
     } else {
       await closePage(pooledPage)

@@ -37,6 +37,8 @@ jobs:
       - name: Lint & tests
         run: npm run lint && npm t
         working-directory: mermaid
-      - name: Shared browser-instance library tests
-        run: npm t
+      # The library has no dependencies of its own (its node_modules would end
+      # up in the "lib" Docker build context): lint it with Mermaid's Biome.
+      - name: Lint & test the shared browser-instance library
+        run: npm run lint && npm t
         working-directory: lib/browser-instance

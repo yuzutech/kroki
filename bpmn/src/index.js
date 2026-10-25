@@ -4,7 +4,7 @@ import http from 'node:http'
 import { TimeoutError as PuppeteerTimeoutError } from 'puppeteer'
 import micro from 'micro'
 import Task from './task.js'
-import { getBrowserWSEndpoint } from './browser-instance.js'
+import { closeOnShutdown, getBrowserWSEndpoint } from './browser-instance.js'
 import { QueueFullError, SyntaxError, TimeoutError, Worker } from './worker.js'
 
 ;(async () => {
@@ -70,6 +70,8 @@ import { QueueFullError, SyntaxError, TimeoutError, Worker } from './worker.js'
       })
     })
   )
+  // Let in-flight conversions finish on SIGTERM (see @kroki/browser-instance).
+  closeOnShutdown(server)
   server.listen(8003)
 })().catch(err => {
   logger.error({ err }, 'Unable to start the service')

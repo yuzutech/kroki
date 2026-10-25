@@ -5,6 +5,7 @@ import http from 'node:http'
 import micro from 'micro'
 import { MaxTextSizeError, QueueFullError, SyntaxError, TimeoutError, Worker } from './worker.js'
 import Task from './task.js'
+import { closeOnShutdown } from './browser-instance.js'
 
 ;(async () => {
   // QUESTION: should we create a pool of Chrome instances ?
@@ -102,6 +103,8 @@ import Task from './task.js'
       })
     })
   )
+  // Let in-flight conversions finish on SIGTERM (see @kroki/browser-instance).
+  closeOnShutdown(server)
   server.listen(8002)
 })().catch(err => {
   logger.error({ err }, 'Unable to start the service')

@@ -5,6 +5,7 @@ import http from 'node:http'
 import { TimeoutError as PuppeteerTimeoutError } from 'puppeteer'
 import micro from 'micro'
 import Task from './task.js'
+import { closeOnShutdown } from './browser-instance.js'
 import { QueueFullError, SyntaxError, TimeoutError, Worker } from './worker.js'
 
 ;(async () => {
@@ -93,6 +94,8 @@ import { QueueFullError, SyntaxError, TimeoutError, Worker } from './worker.js'
       })
     })
   )
+  // Let in-flight conversions finish on SIGTERM (see @kroki/browser-instance).
+  closeOnShutdown(server)
   server.listen(process.env.KROKI_DIAGRAMNET_PORT ?? 8005)
 })().catch(err => {
   logger.error({ err }, 'Unable to start the service')
