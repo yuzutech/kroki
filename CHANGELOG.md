@@ -28,6 +28,11 @@ versioned entry and uses it as the GitHub release notes.
 - Fix the Mermaid, BPMN, diagrams.net and Excalidraw containers ignoring `SIGTERM`: Chrome was closed but the Node.js process kept running (and relaunched Chrome on the next request), so `docker stop` had to wait for its grace period and kill the container. They now stop accepting connections and exit once in-flight conversions are done, or after 8 seconds ([#2182](https://github.com/yuzutech/kroki/pull/2182))
 - Reduce log noise in the Chromium-based companion containers (Mermaid, BPMN, Excalidraw, diagrams.net): Chromium output is no longer written unformatted before the JSON logger, harmless Chromium messages (D-Bus, `SharedImageManager`, rejected IPC messages, crashpad dump collection) are logged at debug level, other Chromium output is logged as `warn` instead of `error`, and diagram syntax errors (already returned as a `400`) are logged at debug level instead of `error` ([#2185](https://github.com/yuzutech/kroki/pull/2185))
 
+### Diagram libraries
+
+- Update bpmn-js to 18.31.0
+- Update Mermaid to 12.2.0
+
 ## [0.33.0] - 2026-10-05
 
 ### Changed
