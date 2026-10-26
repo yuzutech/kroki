@@ -134,6 +134,12 @@ FROM ghcr.io/yuzutech/kroki-builder-erd:0.2.2 AS erd
 ## Graphviz (built by the "Tool images" workflow, see tools/graphviz)
 FROM ghcr.io/yuzutech/kroki-builder-graphviz:14.1.3 AS graphviz
 
+## blockdiag (built by the "Tool images" workflow, see tools/blockdiag)
+FROM ghcr.io/yuzutech/kroki-builder-blockdiag:3.4.2 AS blockdiag
+
+## WireViz (built by the "Tool images" workflow, see tools/wireviz)
+FROM ghcr.io/yuzutech/kroki-builder-wireviz:0.3.3 AS wireviz
+
 ## GoAT
 FROM --platform=$BUILDPLATFORM golang:1.26.5-alpine AS kroki-builder-goat
 
@@ -150,13 +156,11 @@ RUN CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go install "github.com/b
 ## yuzutech/kroki
 FROM eclipse-temurin:21.0.9_10-jre-noble
 
-ARG BLOCKDIAG_VERSION="3.4.2"
 ARG D2_VERSION="0.9.0"
 ARG DITAA_VERSION="1.0.3"
 ARG DVISVGM_VERSION="3.2.1+ds-1build1"
 ARG PLANTUML_VERSION="1.2026.9"
 ARG UMLET_VERSION="2023-03-20_UMLet_v15.1"
-ARG WIREVIZ_VERSION="0.3.3"
 ARG TARGETARCH
 
 RUN apt-get update && apt-get install --no-install-recommends --yes \
@@ -219,12 +223,8 @@ RUN wget "https://github.com/plantuml/plantuml/releases/download/v${PLANTUML_VER
 RUN wget "https://github.com/yuzutech/umlet/releases/download/${UMLET_VERSION}/umlet-linux-${TARGETARCH}" -O /usr/bin/umlet && \
     chmod +x /usr/bin/umlet
 
-RUN wget "https://github.com/yuzutech/blockdiag/releases/download/v${BLOCKDIAG_VERSION}/blockdiag-bundle-linux-${TARGETARCH}.bin" -O /usr/bin/blockdiag && \
-    chmod +x /usr/bin/blockdiag
-
-RUN wget "https://github.com/yuzutech/WireViz/releases/download/v${WIREVIZ_VERSION}/wireviz-linux-${TARGETARCH}.bin" -O /usr/bin/wireviz && \
-    chmod +x /usr/bin/wireviz
-
+COPY --from=blockdiag /usr/bin/blockdiag /usr/bin/blockdiag
+COPY --from=wireviz /usr/bin/wireviz /usr/bin/wireviz
 COPY --from=erd /usr/bin/erd /usr/bin/erd
 COPY --from=graphviz /usr/bin/dot /usr/bin/dot
 COPY --from=kroki-builder-bytefield /app/build/app.bin /usr/bin/bytefield
