@@ -140,6 +140,12 @@ FROM ghcr.io/yuzutech/kroki-builder-blockdiag:3.4.2 AS blockdiag
 ## WireViz (built by the "Tool images" workflow, see tools/wireviz)
 FROM ghcr.io/yuzutech/kroki-builder-wireviz:0.3.3 AS wireviz
 
+## ditaa (built by the "Tool images" workflow, see tools/ditaa)
+FROM ghcr.io/yuzutech/kroki-builder-ditaa:1.0.3 AS ditaa
+
+## UMLet (built by the "Tool images" workflow, see tools/umlet)
+FROM ghcr.io/yuzutech/kroki-builder-umlet:15.1 AS umlet
+
 ## GoAT
 FROM --platform=$BUILDPLATFORM golang:1.26.5-alpine AS kroki-builder-goat
 
@@ -157,10 +163,8 @@ RUN CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go install "github.com/b
 FROM eclipse-temurin:21.0.12.1_1-jre-resolute
 
 ARG D2_VERSION="0.9.0"
-ARG DITAA_VERSION="1.0.3"
 ARG DVISVGM_VERSION="3.6+ds-1"
 ARG PLANTUML_VERSION="1.2026.9"
-ARG UMLET_VERSION="2023-03-20_UMLet_v15.1"
 ARG TARGETARCH
 
 RUN apt-get update && apt-get install --no-install-recommends --yes \
@@ -208,9 +212,6 @@ RUN apt-get update && apt-get install --no-install-recommends --yes \
 COPY --from=vega packages packages
 RUN dpkg -i packages/libjpeg62-turbo_2.1.5-4_${TARGETARCH}.deb
 
-RUN wget "https://github.com/yuzutech/ditaa-mini/releases/download/${DITAA_VERSION}/ditaamini-linux-${TARGETARCH}-${DITAA_VERSION}" -O /usr/bin/ditaa && \
-    chmod +x /usr/bin/ditaa
-
 RUN wget "https://github.com/terrastruct/d2/releases/download/v${D2_VERSION}/d2-v${D2_VERSION}-linux-${TARGETARCH}.tar.gz" -O - | tar -zxv -C /usr/bin d2-v${D2_VERSION}/bin/d2 && \
     mv usr/bin/d2-v${D2_VERSION}/bin/d2 /usr/bin/d2 && \
     chmod +x /usr/bin/d2
@@ -220,10 +221,12 @@ RUN wget "https://github.com/plantuml/plantuml/releases/download/v${PLANTUML_VER
     mv plantuml/* /usr/bin/ && \
     chmod +x /usr/bin/plantuml
 
-RUN wget "https://github.com/yuzutech/umlet/releases/download/${UMLET_VERSION}/umlet-linux-${TARGETARCH}" -O /usr/bin/umlet && \
-    chmod +x /usr/bin/umlet
-
 COPY --from=blockdiag /usr/bin/blockdiag /usr/bin/blockdiag
+# ditaa and UMLet native binaries load the AWT shared libraries located next to them
+COPY --from=ditaa /opt/ditaa /opt/ditaa
+COPY --from=umlet /opt/umlet /opt/umlet
+RUN ln -s /opt/ditaa/ditaa /usr/bin/ditaa && \
+    ln -s /opt/umlet/umlet /usr/bin/umlet
 COPY --from=wireviz /usr/bin/wireviz /usr/bin/wireviz
 COPY --from=erd /usr/bin/erd /usr/bin/erd
 COPY --from=graphviz /usr/bin/dot /usr/bin/dot
