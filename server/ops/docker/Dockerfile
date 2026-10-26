@@ -15,7 +15,7 @@ COPY --from=kroki-node-target /usr/local/bin/node /app/build/app.bin
 RUN npm run build:inject
 
 ## Vega
-FROM --platform=$BUILDPLATFORM ubuntu:noble AS kroki-builder-vega
+FROM --platform=$BUILDPLATFORM ubuntu:resolute AS kroki-builder-vega
 
 RUN apt-get update && apt-get install --no-install-recommends --yes \
     curl \
