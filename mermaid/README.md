@@ -13,23 +13,21 @@ alternate layout engine is registered in `assets/index.html`.
 
 ## Update Mermaid
 
-The files in `assets/mermaid/` are copied from `node_modules` and committed to
-the repository — the Docker image runs `node src/index.js` directly and only
-installs production dependencies, so they are not regenerated at build time.
+The files in `assets/mermaid/` are copied from `node_modules` by the
+`prestart` script, which `npm start` and `npm test` run first; they are not
+committed. The Docker image generates them in a build stage, since `mermaid`
+and `@mermaid-js/layout-tidy-tree` are devDependencies.
 
 To update the Mermaid version:
 
 1. Bump the `mermaid` (and, if needed, `@mermaid-js/layout-tidy-tree`) version
    in `package.json`.
 2. Run `npm install`.
-3. Run `npm start` (or `npm run prestart`) to replace the content of
-   `assets/mermaid/` with the freshly installed bundles and their chunks.
-4. Run `npm test` and `npm run lint`.
-5. Commit the regenerated `assets/mermaid/` directory (including the added
-   and deleted chunk files) along with the `package.json`/`package-lock.json`
-   changes. Update the version above, `mermaid-version` in
-   `../docs/antora.yml` and the version returned by
-   `../server/src/main/java/io/kroki/server/service/Mermaid.java`.
+3. Run `npm test` and `npm run lint`.
+4. Commit the `package.json`/`package-lock.json` changes. Update the version
+   above and run `task updateVersions` from the root directory (it updates
+   `mermaid-version` in `../docs/antora.yml` and the version returned by
+   `../server/src/main/java/io/kroki/server/service/Mermaid.java`).
 
 ## Update the icons
 

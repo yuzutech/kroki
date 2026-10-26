@@ -9,18 +9,15 @@ flags (shared defaults live in `../lib/browser-instance`).
 
 ## Update
 
-`assets/bpmn-viewer.production.min.js` is a pre-built bundle of bpmn-js that
-is committed to the repository and loaded by `assets/index.html` at
-conversion time — the Docker image runs `node src/index.js` directly, so the
-bundle is not regenerated at build time.
+`assets/bpmn-viewer.production.min.js` is a pre-built bundle of bpmn-js loaded
+by `assets/index.html` at conversion time. It is copied from `node_modules` by
+the `prestart` script, which `npm start` runs first, and is not committed: the
+Docker image generates it in a build stage.
 
 To update the bpmn-js version:
 
 1. Bump the `bpmn-js` version in `package.json`.
-2. Run `npm install`.
-3. Run `npm start` (or `npm run prestart`) to copy the freshly installed
-   `node_modules/bpmn-js/dist/bpmn-viewer.production.min.js` over
-   `assets/bpmn-viewer.production.min.js`.
-4. Commit the regenerated `assets/bpmn-viewer.production.min.js` along with
-   the `package.json`/`package-lock.json` changes, and update the version
-   above.
+2. Run `npm install`, then `npm start` to check the conversion with the new
+   bundle.
+3. Commit the `package.json`/`package-lock.json` changes, update the version
+   above and run `task updateVersions` from the root directory.

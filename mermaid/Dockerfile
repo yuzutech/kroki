@@ -1,3 +1,18 @@
+# Copy the Mermaid bundles from node_modules into assets/mermaid (they are devDependencies,
+# so the runtime stage does not install them)
+FROM node:24.19-alpine3.24 AS builder
+
+WORKDIR /usr/local/kroki/
+
+# Shared package resolved through the file:../lib/browser-instance dependency
+# ("lib" named build context, see docker-bake.hcl)
+COPY --from=lib . /usr/local/lib/browser-instance
+
+COPY package*.json ./
+
+RUN PUPPETEER_SKIP_DOWNLOAD=true npm i
+RUN npm run prestart
+
 FROM node:24.19-alpine3.24
 
 RUN addgroup -g 1001 kroki && adduser -D -G kroki -u 1001 kroki
@@ -25,6 +40,7 @@ ENV XDG_CACHE_HOME="/tmp/cache"
 COPY --chown=kroki:kroki src ./src
 COPY --chown=kroki:kroki package*.json ./
 COPY --chown=kroki:kroki assets ./assets
+COPY --from=builder --chown=kroki:kroki /usr/local/kroki/assets/mermaid ./assets/mermaid
 
 # Shared package resolved through the file:../lib/browser-instance dependency
 # ("lib" named build context, see docker-bake.hcl)

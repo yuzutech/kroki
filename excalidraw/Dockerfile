@@ -10,6 +10,7 @@ COPY assets ./assets
 COPY package*.json ./
 
 RUN npm i
+RUN npm run prestart
 RUN npm run build
 
 FROM node:24.19-alpine3.24
@@ -37,6 +38,7 @@ COPY --chown=kroki:kroki src ./src
 COPY --chown=kroki:kroki package*.json ./
 COPY --chown=kroki:kroki assets ./assets
 COPY --from=builder --chown=kroki:kroki /usr/local/kroki/assets/index.bundle.js ./assets/index.bundle.js
+COPY --from=builder --chown=kroki:kroki /usr/local/kroki/assets/fonts ./assets/fonts
 
 # Shared package resolved through the file:../lib/browser-instance dependency
 # ("lib" named build context, see docker-bake.hcl)
