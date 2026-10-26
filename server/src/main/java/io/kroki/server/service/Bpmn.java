@@ -47,6 +47,7 @@ public class Bpmn implements DiagramService {
 
   @Override
   public String getVersion() {
+    // renovate: datasource=npm depName=bpmn-js
     return "18.31.0";
   }
 

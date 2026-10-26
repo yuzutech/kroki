@@ -48,6 +48,7 @@ public class Svgbob implements DiagramService {
 
   @Override
   public String getVersion() {
+    // renovate: datasource=crate depName=svgbob_cli
     return "0.7.6";
   }
 

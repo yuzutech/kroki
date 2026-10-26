@@ -52,6 +52,7 @@ public class Mermaid implements DiagramService {
 
   @Override
   public String getVersion() {
+    // renovate: datasource=npm depName=mermaid
     return "12.2.0";
   }
 

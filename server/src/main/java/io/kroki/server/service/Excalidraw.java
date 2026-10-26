@@ -47,6 +47,7 @@ public class Excalidraw implements DiagramService {
 
   @Override
   public String getVersion() {
+    // renovate: datasource=npm depName=@excalidraw/excalidraw
     return "0.18.1";
   }
 

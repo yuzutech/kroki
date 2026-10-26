@@ -10,6 +10,11 @@
     '🔗 dependencies',
   ],
   separateMajorMinor: true,
+  // the "Diagram library versions" workflow pushes a changelog entry to the Renovate branches:
+  // keep updating (rebasing) these branches anyway
+  gitIgnoredAuthors: [
+    '41898282+github-actions[bot]@users.noreply.github.com',
+  ],
   // wait at least 7 days after a release before proposing it
   minimumReleaseAge: '7 days',
   // batch all PRs on monday morning instead of creating them continuously
@@ -75,10 +80,26 @@
         '# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( registryUrl=(?<registryUrl>\\S+))?( extractVersion=(?<extractVersion>\\S+))?\\s+ARG VERSION=(?<currentValue>\\S+)',
       ],
     },
+    // the diagram library versions are also reported by the getVersion() method of the Java services
+    // (used by /health, as the HTTP cache key and by the tests to download the PlantUML binary)
+    // and in docs/antora.yml, annotated with a "renovate: ..." comment on the line above:
+    // Renovate updates them in the same pull request as the dependency manifest
+    {
+      customType: 'regex',
+      managerFilePatterns: [
+        '/^server/src/main/java/io/kroki/server/service/[^/]+\\.java$/',
+        '/^docs/antora\\.yml$/',
+      ],
+      matchStrings: [
+        '// renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( extractVersion=(?<extractVersion>\\S+))?\\s+return "(?<currentValue>[^"]+)";',
+        '# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( extractVersion=(?<extractVersion>\\S+))?\\s+[a-z0-9]+-version: (?<currentValue>[^\\s\']+)',
+      ],
+    },
   ],
   packageRules: [
     {
-      "matchManagers": ["cargo"],
+      // datasource rather than manager: also matches the svgbob and lini versions annotated in the Java services and docs/antora.yml
+      "matchDatasources": ["crate"],
       "groupName": "Rust crate",
       "versioning": "cargo",
       "rangeStrategy": "bump"
@@ -104,6 +125,17 @@
     {
       matchManagers: [
         'dockerfile',
+      ],
+      groupName: 'Docker images',
+    },
+    // the tool image versions annotated in the Java services and docs/antora.yml
+    // must land in the same pull request as the Dockerfile FROM instructions
+    {
+      matchDatasources: [
+        'docker',
+      ],
+      matchPackageNames: [
+        'ghcr.io/yuzutech/kroki-builder-*',
       ],
       groupName: 'Docker images',
     },
@@ -224,6 +256,51 @@
       ],
       groupName: 'Build tooling',
     },
+    // the diagram library versions annotated in the Java services and docs/antora.yml
+    // are not matched by the per-directory rules above (different manager and file):
+    // give them the same groupName so they land in the same pull request as the package.json
+    {
+      matchPackageNames: [
+        'mermaid',
+      ],
+      groupName: 'Mermaid',
+    },
+    {
+      matchPackageNames: [
+        'bpmn-js',
+      ],
+      groupName: 'bpmn-js',
+    },
+    {
+      matchPackageNames: [
+        'nomnoml',
+      ],
+      groupName: 'nomnoml',
+    },
+    {
+      matchPackageNames: [
+        'bytefield-svg',
+      ],
+      groupName: 'Bytefield',
+    },
+    {
+      matchPackageNames: [
+        'wavedrom',
+      ],
+      groupName: 'WaveDrom',
+    },
+    {
+      matchPackageNames: [
+        '@excalidraw/excalidraw',
+      ],
+      groupName: 'Excalidraw',
+    },
+    {
+      matchPackageNames: [
+        '@softwaretechnik/dbml-renderer',
+      ],
+      groupName: 'DBML',
+    },
     // vega and vega-lite are tracked via vega/deno.json (Renovate's "imports"
     // manager, not "npm"), so they're already excluded from the "Node
     // dependencies" bucket above and get one PR per package by default —
@@ -275,18 +352,15 @@
       ],
     },
     {
-      matchManagers: [
-        'maven',
-      ],
+      // no matchManagers: also matches the Structurizr version annotated in Structurizr.java and docs/antora.yml
       groupName: 'Structurizr packages',
       matchPackageNames: [
         '/^com.structurizr/',
       ],
     },
     {
-      // updating PlantUML touches several non-automatable spots (Dockerfile,
-      // docs/antora.yml, Plantuml.java, ...), so only surface it on the
-      // dependency dashboard and wait for manual approval instead of raising a PR
+      // the Dockerfile, Plantuml.java and docs/antora.yml (plantuml and c4plantuml) versions
+      // are updated together in a single pull request
       matchDepNames: [
         'plantuml/plantuml',
       ],
@@ -294,7 +368,6 @@
         'github-releases',
       ],
       groupName: 'PlantUML',
-      dependencyDashboardApproval: true,
       // belt-and-suspenders: never suggest the "snapshot" pre-release, only
       // the latest stable tag, even though extractVersionTemplate already
       // filters it out

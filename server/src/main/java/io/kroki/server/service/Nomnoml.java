@@ -46,6 +46,7 @@ public class Nomnoml implements DiagramService {
 
   @Override
   public String getVersion() {
+    // renovate: datasource=npm depName=nomnoml
     return "1.7.0";
   }
 

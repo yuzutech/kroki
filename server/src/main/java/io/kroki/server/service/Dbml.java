@@ -46,6 +46,7 @@ public class Dbml implements DiagramService {
 
   @Override
   public String getVersion() {
+    // renovate: datasource=npm depName=@softwaretechnik/dbml-renderer
     return "1.0.31";
   }
 

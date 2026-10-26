@@ -51,6 +51,7 @@ public class Lini implements DiagramService {
 
   @Override
   public String getVersion() {
+    // renovate: datasource=crate depName=lini
     return "1.1.0";
   }
 

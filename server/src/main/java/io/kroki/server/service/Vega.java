@@ -52,8 +52,10 @@ public class Vega implements DiagramService {
   @Override
   public String getVersion() {
     if (specFormat == SpecFormat.DEFAULT) {
+      // renovate: datasource=npm depName=vega
       return "6.4.0";
     } else {
+      // renovate: datasource=npm depName=vega-lite
       return "6.5.0"; // Vega Lite
     }
   }

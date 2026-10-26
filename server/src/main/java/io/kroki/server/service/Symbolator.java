@@ -42,6 +42,7 @@ public class Symbolator implements DiagramService {
 
   @Override
   public String getVersion() {
+    // renovate: datasource=docker depName=ghcr.io/yuzutech/kroki-builder-symbolator
     return "1.2.2";
   }
 
