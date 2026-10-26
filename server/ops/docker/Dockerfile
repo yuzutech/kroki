@@ -187,7 +187,7 @@ RUN apt-get update && apt-get install --no-install-recommends --yes \
     libgd3 \
     libgif-dev \
     libjpeg-dev \
-    libgirepository-1.0 \
+    libgirepository-1.0-1 \
     libcairo2-dev \
     libcairo-gobject2 \
     libjpeg9 \

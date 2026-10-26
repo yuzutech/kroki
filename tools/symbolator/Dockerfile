@@ -35,7 +35,7 @@ FROM ubuntu:noble AS test
 RUN apt-get update && apt-get install --no-install-recommends --yes \
     fonts-liberation \
     libpango1.0-dev \
-    libgirepository-1.0 \
+    libgirepository-1.0-1 \
     libcairo2-dev \
     libcairo-gobject2 && \
     apt-get clean && apt-get autoremove
