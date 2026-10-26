@@ -182,6 +182,7 @@ public class Plantuml implements DiagramService {
 
   @Override
   public String getVersion() {
+    // renovate: datasource=github-releases depName=plantuml/plantuml extractVersion=^v(?<version>\d+\.\d+\.\d+)$
     return "1.2026.9";
   }
 

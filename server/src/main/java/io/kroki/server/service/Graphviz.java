@@ -48,6 +48,7 @@ public class Graphviz implements DiagramService {
 
   @Override
   public String getVersion() {
+    // renovate: datasource=docker depName=ghcr.io/yuzutech/kroki-builder-graphviz
     return "14.1.3";
   }
 

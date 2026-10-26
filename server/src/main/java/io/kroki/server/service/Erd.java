@@ -47,6 +47,7 @@ public class Erd implements DiagramService {
 
   @Override
   public String getVersion() {
+    // renovate: datasource=docker depName=ghcr.io/yuzutech/kroki-builder-erd
     return "0.2.2";
   }
 

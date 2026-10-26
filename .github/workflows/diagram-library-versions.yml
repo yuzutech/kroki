@@ -1,0 +1,74 @@
+name: Diagram library versions
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  # The diagram library versions are reported in several places: the dependency manifests
+  # (package.json, deno.json, Dockerfile, pom.xml...), the getVersion() method of the Java services
+  # (used by /health, as the HTTP cache key and by the tests to download the PlantUML binary) and docs/antora.yml.
+  # Renovate updates them together thanks to the "renovate: ..." annotations (see renovate.json5):
+  # fail if one of them was missed (not annotated, or updated by hand).
+  check:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - name: Setup Node.js 24
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      # update-versions.js reads the Structurizr version from the Maven project
+      - name: Setup Java 21
+        uses: actions/setup-java@v6
+        with:
+          java-version: 21
+          distribution: temurin
+          cache: maven
+      - name: Check the diagram library versions
+        run: |
+          node ci/tasks/update-versions.js > /dev/null
+          if ! git diff --exit-code; then
+            echo "::error::The diagram library versions are out of sync, run 'task updateVersions' and commit the result"
+            exit 1
+          fi
+
+  # Add the "Update <library> to <version>" changelog entries to the Renovate pull requests.
+  # The commit author is listed in gitIgnoredAuthors (renovate.json5), so Renovate keeps updating the branch.
+  # A commit pushed with the GITHUB_TOKEN does not trigger a new workflow run: it only changes CHANGELOG.md.
+  changelog:
+    if: github.event_name == 'pull_request' && startsWith(github.head_ref, 'renovate/') && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - name: Setup Node.js 24
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - name: Add the changelog entries
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          BASE_REF: ${{ github.base_ref }}
+        run: node ci/tasks/changelog.js diagram-libraries "$PR_NUMBER" "$(git merge-base HEAD "origin/$BASE_REF")"
+      - name: Push the changelog entries
+        run: |
+          if git diff --quiet; then
+            echo "The changelog is up to date"
+            exit 0
+          fi
+          git diff
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit --all --message 'docs(changelog): add the diagram library update'
+          git push

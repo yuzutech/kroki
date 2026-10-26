@@ -45,6 +45,7 @@ public class Wireviz implements DiagramService {
 
   @Override
   public String getVersion() {
+    // renovate: datasource=github-releases depName=yuzutech/WireViz extractVersion=^v(?<version>.*)$
     return "0.3.3";
   }
 

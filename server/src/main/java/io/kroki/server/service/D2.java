@@ -75,6 +75,7 @@ public class D2 implements DiagramService {
 
   @Override
   public String getVersion() {
+    // renovate: datasource=github-releases depName=d2lang/d2 extractVersion=^v(?<version>.*)$
     return "0.9.0";
   }
 
