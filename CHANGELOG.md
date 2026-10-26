@@ -15,6 +15,7 @@ versioned entry and uses it as the GitHub release notes.
 
 - Fix GoAT diagrams on `linux/arm64`: the `yuzutech/kroki` arm64 image shipped an x86-64 `goat` binary, because it was built for the build platform instead of the target platform ([#2186](https://github.com/yuzutech/kroki/pull/2186))
 - Stop installing a C/C++ toolchain (`gcc`, `build-essential`, ...) and development packages in the `yuzutech/kroki` image, pulled by a misspelled `libgirepository` package name (about 240 MB smaller) ([#2199](https://github.com/yuzutech/kroki/pull/2199))
+- Report the Pikchr and GoAT versions shipped in the image in `/health` (and in the HTTP cache key): Pikchr reported an older `pikchr.c` artifact (`7269f78c4a` instead of `85e65b9686`) and GoAT reported `undefined` instead of 0.5.1 ([#2205](https://github.com/yuzutech/kroki/pull/2205))
 
 ### Diagram libraries
 

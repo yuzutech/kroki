@@ -29,11 +29,11 @@ function getImportVersion(pkg, name) {
 async function updateServiceGetVersion(javaServiceFileName, version) {
   const servicePath = ospath.join(krokiServicePath, javaServiceFileName)
   const javaContent = await fs.readFile(servicePath, 'utf8')
-  const versionFound = javaContent.match(/(?<= +public String getVersion\(\) {\n(?:\s+\/\/.*\n)?\s+return ")(?<version>[0-9.]+)(?=";\n\s+})/)
+  const versionFound = javaContent.match(/(?<= +public String getVersion\(\) {\n(?:\s+\/\/.*\n)?\s+return ")(?<version>[^"]+)(?=";\n\s+})/)
   if (versionFound) {
     const currentVersion = versionFound.groups.version
     if (currentVersion !== version) {
-      const updatedJavaContent = javaContent.replace(/(?<= +public String getVersion\(\) {\n(?:\s+\/\/.*\n)?\s+return ")(?<version>[0-9.]+)(?=";\n\s+})/, version)
+      const updatedJavaContent = javaContent.replace(/(?<= +public String getVersion\(\) {\n(?:\s+\/\/.*\n)?\s+return ")(?<version>[^"]+)(?=";\n\s+})/, version)
       await fs.writeFile(servicePath, updatedJavaContent, 'utf8')
     }
   }

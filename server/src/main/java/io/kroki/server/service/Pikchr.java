@@ -46,7 +46,7 @@ public class Pikchr implements DiagramService {
 
   @Override
   public String getVersion() {
-    return "7269f78c4a";
+    return "85e65b9686";
   }
 
   @Override
