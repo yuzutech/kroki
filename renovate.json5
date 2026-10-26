@@ -64,21 +64,6 @@
       // tags are "vX.Y.Z", the Dockerfile stores the bare version
       extractVersionTemplate: '^v(?<version>.*)$',
     },
-    // WIREVIZ_VERSION is a plain ARG used to download the wireviz binary
-    // built from the yuzutech/WireViz fork
-    {
-      customType: 'regex',
-      managerFilePatterns: [
-        '/^server/ops/docker/Dockerfile$/',
-      ],
-      matchStrings: [
-        'ARG WIREVIZ_VERSION="(?<currentValue>.*?)"',
-      ],
-      datasourceTemplate: 'github-releases',
-      depNameTemplate: 'yuzutech/WireViz',
-      // tags are "vX.Y.Z", the Dockerfile stores the bare version
-      extractVersionTemplate: '^v(?<version>.*)$',
-    },
     // ARG VERSION in tools/<tool>/Dockerfile is the upstream version of a tool published as an image
     // by the "Tool images" workflow, annotated with a "# renovate: ..." comment on the line above
     {

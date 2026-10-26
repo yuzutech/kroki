@@ -208,7 +208,7 @@ try {
       const { version } = ditaaVersionFound.groups
       diagramLibraryVersions.ditaa = version
     }
-    const blockdiagVersionFound = line.match(/^ARG BLOCKDIAG_VERSION="(?<version>.+)"$/)
+    const blockdiagVersionFound = line.match(/^FROM ghcr.io\/yuzutech\/kroki-builder-blockdiag:(?<version>\S+) AS blockdiag$/)
     if (blockdiagVersionFound) {
       const { version } = blockdiagVersionFound.groups
       diagramLibraryVersions.blockdiag = version
@@ -219,7 +219,7 @@ try {
       diagramLibraryVersions.nwdiag = version
       diagramLibraryVersions.nwdiag = version
     }
-    const wirevizVersionFound = line.match(/^ARG WIREVIZ_VERSION="(?<version>.+)"$/)
+    const wirevizVersionFound = line.match(/^FROM ghcr.io\/yuzutech\/kroki-builder-wireviz:(?<version>\S+) AS wireviz$/)
     if (wirevizVersionFound) {
       const { version } = wirevizVersionFound.groups
       diagramLibraryVersions.wireviz = version
