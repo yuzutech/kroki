@@ -75,23 +75,8 @@ RUN npm run build:inject
 ## Symbolator (built by the "Tool images" workflow, see tools/symbolator)
 FROM ghcr.io/yuzutech/kroki-builder-symbolator:1.2.2 AS kroki-builder-static-symbolator
 
-## Pikchr
-FROM ubuntu:noble AS kroki-builder-static-pikchr
-
-ARG PIKCHR_VERSION=85e65b968651b342c46e6334f4772b45d6cbb4317c5cbaa95d207779a50c6709
-
-RUN apt-get update && apt-get install --no-install-recommends --yes \
-    build-essential \
-    ca-certificates \
-    wget && \
-    apt-get clean && apt-get autoremove
-
-WORKDIR /build
-
-RUN wget -q "https://pikchr.org/home/raw/${PIKCHR_VERSION}" -O pikchr.c
-
-# build pikchr binary
-RUN gcc -O0 -g -static -Wall -Wextra -DPIKCHR_SHELL pikchr.c -o pikchr -lm
+## Pikchr (built by the "Tool images" workflow, see tools/pikchr)
+FROM ghcr.io/yuzutech/kroki-builder-pikchr:85e65b968651b342c46e6334f4772b45d6cbb4317c5cbaa95d207779a50c6709 AS kroki-builder-static-pikchr
 
 ## SVGBob
 FROM --platform=$BUILDPLATFORM rust:1.97-slim-bullseye AS kroki-builder-static-svgbob
@@ -245,7 +230,7 @@ COPY --from=graphviz /usr/bin/dot /usr/bin/dot
 COPY --from=kroki-builder-bytefield /app/build/app.bin /usr/bin/bytefield
 COPY --from=kroki-builder-dbml /app/build/app.bin /usr/bin/dbml
 COPY --from=kroki-builder-nomnoml /app/build/app.bin /usr/bin/nomnoml
-COPY --from=kroki-builder-static-pikchr /build/pikchr /usr/bin/pikchr
+COPY --from=kroki-builder-static-pikchr /usr/bin/pikchr /usr/bin/pikchr
 COPY --from=kroki-builder-static-svgbob /usr/local/cargo/bin/svgbob_cli /usr/bin/svgbob
 COPY --from=kroki-builder-static-symbolator /usr/bin/symbolator /usr/bin/symbolator
 COPY --from=kroki-builder-vega /app/app.bin /usr/bin/vega
