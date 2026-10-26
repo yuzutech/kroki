@@ -122,6 +122,23 @@
       ],
       groupName: 'Docker images',
     },
+    // tools/<tool>/Dockerfile builds binaries that run in the Kroki image, so their Ubuntu release
+    // must match the one of the Kroki base image (eclipse-temurin:<version>-noble): move them together, by hand
+    {
+      matchManagers: [
+        'dockerfile',
+      ],
+      matchFileNames: [
+        'tools/**',
+      ],
+      matchPackageNames: [
+        'ubuntu',
+      ],
+      matchUpdateTypes: [
+        'major',
+      ],
+      enabled: false,
+    },
     {
       matchManagers: [
         'pip_requirements',
