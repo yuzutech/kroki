@@ -18,7 +18,10 @@ versioned entry and uses it as the GitHub release notes.
 
 ### Diagram libraries
 
+- Update D2 to 0.9.0 ([#2192](https://github.com/yuzutech/kroki/pull/2192))
 - Update erd to 0.2.2, built from the upstream release sources (Kroki reported 0.2.3 but actually shipped erd 0.2.1.0) ([#2188](https://github.com/yuzutech/kroki/pull/2188))
+- Update PlantUML (and C4-PlantUML) to 1.2026.9 ([#2190](https://github.com/yuzutech/kroki/pull/2190))
+- Update Vega-Lite to 6.5.0 ([#2195](https://github.com/yuzutech/kroki/pull/2195))
 
 ## [0.34.0] - 2026-10-25
 
