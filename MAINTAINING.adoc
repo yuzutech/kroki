@@ -31,13 +31,16 @@ This command reads the `*_VERSION` arguments from `server/ops/docker/Dockerfile`
 
 === blockdiag (and actdiag, nwdiag, packetdiag, rackdiag, seqdiag)
 
-We are producing native binaries from a fork: https://github.com/yuzutech/blockdiag/releases
+We are building a single binary with Nuitka from a fork, https://github.com/yuzutech/blockdiag, in `tools/blockdiag/Dockerfile`.
+The upstream project looks abandoned, and the fork works with recent Python versions and reads/writes stdin/stdout in CLI mode.
+The binary is published as a container image, `ghcr.io/yuzutech/kroki-builder-blockdiag:<version>`, so building Kroki only copies it.
 
 When a new version is available, we need to:
 
-. update the fork
-. run the release workflow: https://github.com/yuzutech/blockdiag/actions
-. update the argument variable `ARG BLOCKDIAG_VERSION="x.y.z"` in `server/ops/docker/Dockerfile`
+. update the fork and tag the new version (`vx.y.z`)
+. update `ARG VERSION` in `tools/blockdiag/Dockerfile` (Renovate opens this pull request, which runs the "Tool images" workflow to build and test it on amd64 and arm64)
+. run the "Tool images" workflow with the tool `blockdiag` and the new version: https://github.com/yuzutech/kroki/actions/workflows/tool-images.yml
+. update the image tag in `FROM ghcr.io/yuzutech/kroki-builder-blockdiag:<version> AS blockdiag` in `server/ops/docker/Dockerfile` (Renovate opens this pull request too)
 . run `task updateVersions` (see above)
 
 === D2
@@ -154,11 +157,14 @@ When a new version is available, we need to:
 
 === WireViz
 
-We are producing native binaries from a fork: https://github.com/yuzutech/WireViz/releases
+We are building a single binary with Nuitka from a fork, https://github.com/yuzutech/WireViz, in `tools/wireviz/Dockerfile`.
+The fork reads/writes stdin/stdout in CLI mode; these changes should eventually land upstream (https://github.com/wireviz/WireViz), and we will then build from the upstream releases.
+The binary is published as a container image, `ghcr.io/yuzutech/kroki-builder-wireviz:<version>`, so building Kroki only copies it.
 
 When a new version is available, we need to:
 
-. update the fork
-. run the release workflow: https://github.com/yuzutech/WireViz/actions
-. update the argument variable `ARG WIREVIZ_VERSION="x.y.z"` in `server/ops/docker/Dockerfile`
+. update the fork and tag the new version (`vx.y.z`)
+. update `ARG VERSION` in `tools/wireviz/Dockerfile` (Renovate opens this pull request, which runs the "Tool images" workflow to build and test it on amd64 and arm64)
+. run the "Tool images" workflow with the tool `wireviz` and the new version: https://github.com/yuzutech/kroki/actions/workflows/tool-images.yml
+. update the image tag in `FROM ghcr.io/yuzutech/kroki-builder-wireviz:<version> AS wireviz` in `server/ops/docker/Dockerfile` (Renovate opens this pull request too)
 . run `task updateVersions` (see above)

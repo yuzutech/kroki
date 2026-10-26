@@ -12,10 +12,12 @@ on:
         required: true
         type: choice
         options:
+          - blockdiag
           - erd
           - graphviz
           - pikchr
           - symbolator
+          - wireviz
       version:
         description: 'Tool version (upstream release)'
         required: true
@@ -36,7 +38,7 @@ jobs:
     strategy:
       matrix:
         # on pull requests, build and test every tool with the version set in its Dockerfile
-        tool: ${{ fromJSON(github.event_name == 'workflow_dispatch' && format('["{0}"]', inputs.tool) || '["erd", "graphviz", "pikchr", "symbolator"]') }}
+        tool: ${{ fromJSON(github.event_name == 'workflow_dispatch' && format('["{0}"]', inputs.tool) || '["blockdiag", "erd", "graphviz", "pikchr", "symbolator", "wireviz"]') }}
         platform: [linux/amd64, linux/arm64]
         include:
           - platform: linux/amd64
