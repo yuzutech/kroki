@@ -11,6 +11,10 @@ versioned entry and uses it as the GitHub release notes.
 
 ## [Unreleased]
 
+### Changed
+
+- Update the `yuzutech/kroki` base image to Ubuntu 26.04 LTS (`eclipse-temurin:21.0.12.1_1-jre-resolute`, previously `21.0.9_10-jre-noble`), with dvisvgm 3.6 for TikZ diagrams ([#2209](https://github.com/yuzutech/kroki/pull/2209))
+
 ### Fixed
 
 - Fix GoAT diagrams on `linux/arm64`: the `yuzutech/kroki` arm64 image shipped an x86-64 `goat` binary, because it was built for the build platform instead of the target platform ([#2186](https://github.com/yuzutech/kroki/pull/2186))

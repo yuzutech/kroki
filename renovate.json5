@@ -141,7 +141,7 @@
     },
     // eclipse-temurin tags (e.g. 21.0.9_10-jre-noble, 21.0.12.1_1-jre-noble) append the build number after an
     // underscore, which the docker versioning cannot parse (skipReason: invalid-value): Renovate never updated them.
-    // The suffix (jre-noble) is the compatibility: moving to another Ubuntu release stays a manual change
+    // The suffix (e.g. jre-resolute) is the compatibility: moving to another Ubuntu release stays a manual change
     {
       matchDatasources: [
         'docker',
@@ -153,8 +153,9 @@
       // Java LTS releases only (every 4 releases since 17)
       allowedVersions: '/^(21|25|29|33)\\./',
     },
-    // tools/<tool>/Dockerfile builds binaries that run in the Kroki image, so their Ubuntu release
-    // must match the one of the Kroki base image (eclipse-temurin:<version>-noble): move them together, by hand
+    // tools/<tool>/Dockerfile builds binaries that run in the Kroki image (eclipse-temurin:<version>-resolute):
+    // a binary runs on a newer glibc but not on an older one, so their Ubuntu release must not be newer than
+    // the one of the Kroki base image: move them by hand (symbolator cannot be built on resolute yet, see #2198)
     {
       matchManagers: [
         'dockerfile',
