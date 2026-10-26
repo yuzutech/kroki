@@ -1,9 +1,9 @@
 # syntax=docker/dockerfile:1.28
 # ditaa compiled to a native binary with GraalVM (so the Kroki image does not need a JVM to run it),
 # published as ghcr.io/yuzutech/kroki-builder-ditaa by the "Tool images" workflow.
-# Built from the yuzutech/ditaa-mini fork: upstream (https://github.com/stathissideris/ditaa) is unmaintained,
-# and the fork is based on an active fork (https://github.com/pepijnve/ditaa).
-# renovate: datasource=github-tags depName=yuzutech/ditaa-mini extractVersion=^mini-(?<version>.+)$
+# Built from the "mini" releases of https://github.com/pepijnve/ditaa, a maintained fork of the unmaintained
+# https://github.com/stathissideris/ditaa (the yuzutech/ditaa-mini fork only added a workflow to build native images).
+# renovate: datasource=github-tags depName=pepijnve/ditaa extractVersion=^mini-(?<version>.+)$
 ARG VERSION=1.0.3
 
 # The binary runs on any glibc at least as recent as Oracle Linux 9's (2.34)
@@ -12,7 +12,7 @@ ARG VERSION
 # AWT (used to measure and render text) loads fonts with FreeType and Fontconfig
 RUN microdnf install --assumeyes --nodocs freetype fontconfig dejavu-sans-fonts && \
     microdnf clean all
-ADD --keep-git-dir=false "https://github.com/yuzutech/ditaa-mini.git#mini-${VERSION}" /build
+ADD --keep-git-dir=false "https://github.com/pepijnve/ditaa.git#mini-${VERSION}" /build
 WORKDIR /build
 # AWT looks for an optional font configuration file in ${java.home}/lib, which a native image does not set,
 # and only falls back to Fontconfig when this directory exists (see sun.awt.FontConfiguration#findFontConfigFile)

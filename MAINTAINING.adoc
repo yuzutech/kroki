@@ -51,15 +51,14 @@ When a new version is available, we need to:
 
 === Ditaa (mini)
 
-Since https://github.com/stathissideris/ditaa is unmaintained, we are using an active fork: https://github.com/yuzutech/ditaa-mini which is based on an active fork https://github.com/pepijnve/ditaa.
+Since https://github.com/stathissideris/ditaa is unmaintained, we are using the `mini` releases of an active fork: https://github.com/pepijnve/ditaa.
 
-We are building a native binary with GraalVM from the fork in `tools/ditaa/Dockerfile`.
+We are building a native binary with GraalVM from these releases in `tools/ditaa/Dockerfile`.
 The binary loads the AWT shared libraries generated next to it, so the image contains the whole `/opt/ditaa` directory.
 It is published as a container image, `ghcr.io/yuzutech/kroki-builder-ditaa:<version>`, so building Kroki only copies it.
 
 When a new version is available, we need to:
 
-. update the fork and tag the new version (`mini-x.y.z`)
 . update `ARG VERSION` in `tools/ditaa/Dockerfile` (Renovate opens this pull request, which runs the "Tool images" workflow to build and test it on amd64 and arm64)
 . run the "Tool images" workflow with the tool `ditaa` and the new version: https://github.com/yuzutech/kroki/actions/workflows/tool-images.yml
 . update the image tag in `FROM ghcr.io/yuzutech/kroki-builder-ditaa:<version> AS ditaa` in `server/ops/docker/Dockerfile` (Renovate opens this pull request too)
