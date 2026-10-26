@@ -5,16 +5,13 @@ This guide describes the tasks the maintainers perform to keep Kroki up to date 
 == How to prepare a release
 
 Renovate only bumps the version declared in the dependency manifests (`package.json`, `deno.json`, `Dockerfile`, `pom.xml`...).
-It does not run the scripts that regenerate the vendored assets and propagate the versions everywhere else, so the following steps are mandatory before triggering the https://github.com/yuzutech/kroki/actions/workflows/release.yml[Release workflow]:
+The assets copied from `node_modules` (such as `mermaid/assets/mermaid/` and `bpmn/assets/bpmn-viewer.production.min.js`) are not committed: the companion images generate them at build time.
+But Renovate does not propagate the versions everywhere else, so the following steps are mandatory before triggering the https://github.com/yuzutech/kroki/actions/workflows/release.yml[Release workflow]:
 
-. from an up-to-date `main` branch, run `task npmInstall`
-+
-This command installs the dependencies of every companion service and regenerates the assets committed in the repository, such as `mermaid/assets/mermaid/` (`npm run prestart --prefix mermaid`) and `bpmn/assets/bpmn-viewer.production.min.js` (`npm run prestart --prefix bpmn`).
-Without this step, a container would still bundle the previous version of the library even though its `package.json` was updated.
-. run `task updateVersions`
+. from an up-to-date `main` branch, run `task updateVersions`
 +
 This command reads the versions of the diagram libraries (`package.json`, `deno.json`, `Dockerfile`, `Cargo.toml`, `pom.xml` and `diagrams.net/assets/js/app.min.js`) and updates `docs/antora.yml` and the `getVersion()` method of each Java service accordingly.
-. check that the regenerated assets and versions match the updated libraries (`git status`, `git diff`)
+. check that the versions match the updated libraries (`git status`, `git diff`)
 . add an entry for each updated diagram library under `### Diagram libraries` in the `## [Unreleased]` section of `CHANGELOG.md`
 . open a pull request with these changes and merge it before triggering the Release workflow
 
