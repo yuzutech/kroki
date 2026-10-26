@@ -7,8 +7,8 @@ asciidoc:
     blockdiag-version: 3.4.2
     bpmn-version: 18.31.0
     bytefield-version: 1.11.0
-    c4plantuml-version: 1.2026.8
-    d2-version: 0.7.1
+    c4plantuml-version: 1.2026.9
+    d2-version: 0.9.0
     dbml-version: 1.0.31
     diagramsnet-version: 29.6.1
     ditaa-version: 1.0.3
@@ -22,7 +22,7 @@ asciidoc:
     nwdiag-version: 3.4.2
     packetdiag-version: 3.4.2
     pikchr-version: '85e65b9686'
-    plantuml-version: 1.2026.8
+    plantuml-version: 1.2026.9
     rackdiag-version: 3.4.2
     seqdiag-version: 3.4.2
     structurizr-version: 6.2.3
@@ -30,7 +30,7 @@ asciidoc:
     symbolator-version: 1.2.2
     umlet-version: 15.1
     vega-version: 6.4.0
-    vegalite-version: 6.4.3
+    vegalite-version: 6.5.0
     wavedrom-version: 3.7.0
     wireviz-version: 0.3.3
     uri-docker-get-started: https://docs.docker.com/get-started/
