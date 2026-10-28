@@ -8,7 +8,7 @@ asciidoc:
     # renovate: datasource=docker depName=ghcr.io/yuzutech/kroki-builder-blockdiag
     blockdiag-version: 3.4.2
     # renovate: datasource=npm depName=bpmn-js
-    bpmn-version: 18.31.0
+    bpmn-version: 18.31.1
     # renovate: datasource=npm depName=bytefield-svg
     bytefield-version: 1.11.0
     # renovate: datasource=github-releases depName=plantuml/plantuml extractVersion=^v(?<version>\d+\.\d+\.\d+)$
