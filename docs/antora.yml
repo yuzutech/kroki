@@ -55,7 +55,7 @@ asciidoc:
     # renovate: datasource=npm depName=vega-lite
     vegalite-version: 6.5.0
     # renovate: datasource=npm depName=wavedrom
-    wavedrom-version: 3.7.0
+    wavedrom-version: 3.8.0
     # renovate: datasource=docker depName=ghcr.io/yuzutech/kroki-builder-wireviz
     wireviz-version: 0.3.3
     uri-docker-get-started: https://docs.docker.com/get-started/
