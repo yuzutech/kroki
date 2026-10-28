@@ -8,7 +8,7 @@ ARG VERSION=0.2.2
 # of the GHC 9.2 images can no longer verify the Hackage index signatures.
 # Build with GHC 9.6 and relax both bounds instead; text >= 2.1.2 exports a `show`
 # function that clashes with Prelude's in erd's sources, hence the extra constraint.
-FROM haskell:9.6.7-slim-bullseye AS build
+FROM haskell:9.10.3-slim-bullseye AS build
 ARG VERSION
 WORKDIR /build
 RUN curl -fsSL "https://github.com/BurntSushi/erd/archive/refs/tags/v${VERSION}.tar.gz" | tar -xz --strip-components=1
