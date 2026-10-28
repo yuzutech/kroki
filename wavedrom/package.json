@@ -5,7 +5,7 @@
   "bin": "index.js",
   "scripts": {
     "test": "node --test tests/*.js",
-    "lint": "biome check index.js convert.js tests",
+    "lint": "biome check",
     "build": "npm run build:bundle && npm run build:blob && cp \"$(command -v node)\" build/app.bin && npm run build:inject",
     "build:bundle": "esbuild index.js --bundle --platform=node --outfile=build/app.cjs",
     "build:blob": "node --experimental-sea-config sea-config.json",
