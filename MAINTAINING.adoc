@@ -51,15 +51,17 @@ When a new version is available, we need to:
 
 === Ditaa (mini)
 
-Since https://github.com/stathissideris/ditaa is unmaintained, we are using an active fork: https://github.com/yuzutech/ditaa-mini which is based on an active fork https://github.com/pepijnve/ditaa.
+Since https://github.com/stathissideris/ditaa is unmaintained, we are using the `mini` releases of an active fork: https://github.com/pepijnve/ditaa.
 
-We are producing native binaries with GraalVM: https://github.com/yuzutech/ditaa-mini/releases.
+We are building a native binary with GraalVM from these releases in `tools/ditaa/Dockerfile`.
+The binary loads the AWT shared libraries generated next to it, so the image contains the whole `/opt/ditaa` directory.
+It is published as a container image, `ghcr.io/yuzutech/kroki-builder-ditaa:<version>`, so building Kroki only copies it.
 
-When a new version is available, we need to :
+When a new version is available, we need to:
 
-. update the fork
-. run the following workflow: https://github.com/yuzutech/ditaa-mini/actions/workflows/native-image-on-demand.yml
-. update the argument variable `ARG DITAA_VERSION="x.y.z"` in `server/ops/docker/Dockerfile`
+. update `ARG VERSION` in `tools/ditaa/Dockerfile` (Renovate opens this pull request, which runs the "Tool images" workflow to build and test it on amd64 and arm64)
+. run the "Tool images" workflow with the tool `ditaa` and the new version: https://github.com/yuzutech/kroki/actions/workflows/tool-images.yml
+. update the image tag in `FROM ghcr.io/yuzutech/kroki-builder-ditaa:<version> AS ditaa` in `server/ops/docker/Dockerfile` (Renovate opens this pull request too)
 . run `task updateVersions` (see above)
 
 === Erd
@@ -143,13 +145,15 @@ When a new version is available, we need to:
 
 === UMLet
 
-We are producing native binaries with GraalVM: https://github.com/yuzutech/umlet/releases
+We are building a native binary with GraalVM from the upstream release sources (https://github.com/umlet/umlet) in `tools/umlet/Dockerfile`, with a command line interface, `tools/umlet/UmletCli.java`, that reads a diagram from stdin and writes the converted diagram to stdout.
+The binary loads the AWT shared libraries generated next to it, so the image contains the whole `/opt/umlet` directory.
+It is published as a container image, `ghcr.io/yuzutech/kroki-builder-umlet:<version>`, so building Kroki only copies it.
 
 When a new version is available, we need to:
 
-. update the fork
-. run the following workflow: https://github.com/yuzutech/umlet/actions/workflows/release.yml
-. update the argument variable `ARG UMLET_VERSION="x.y.z"` in `server/ops/docker/Dockerfile`
+. update `ARG VERSION` in `tools/umlet/Dockerfile` (Renovate opens this pull request, which runs the "Tool images" workflow to build and test it on amd64 and arm64)
+. run the "Tool images" workflow with the tool `umlet` and the new version: https://github.com/yuzutech/kroki/actions/workflows/tool-images.yml
+. update the image tag in `FROM ghcr.io/yuzutech/kroki-builder-umlet:<version> AS umlet` in `server/ops/docker/Dockerfile` (Renovate opens this pull request too)
 . run `task updateVersions` (see above)
 
 === WireViz
