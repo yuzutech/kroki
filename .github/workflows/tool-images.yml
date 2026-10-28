@@ -36,11 +36,45 @@ env:
   PUBLISH: ${{ github.event_name == 'workflow_dispatch' }}
 
 jobs:
+  tools:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      tools: ${{ steps.tools.outputs.tools }}
+    steps:
+      # on pull requests, only build and test the tools whose directory changed (every tool when this workflow changed),
+      # with the version set in their Dockerfile
+      - name: List the tools to build
+        id: tools
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          TOOL: ${{ inputs.tool }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          if [[ "$PUBLISH" == 'true' ]]; then
+            echo "tools=$(jq -cn --arg tool "$TOOL" '[$tool]')" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          all=$(gh api "repos/$REPO/contents/tools?ref=$HEAD_SHA" --jq '.[] | select(.type == "dir") | .name')
+          changed=$(gh api --paginate "repos/$REPO/pulls/$PR_NUMBER/files" --jq '.[].filename')
+          if grep -qx '.github/workflows/tool-images.yml' <<< "$changed"; then
+            tools=$all
+          else
+            # ignore the tools that were removed
+            tools=$(grep -Fxf <(sed -nE 's|^tools/([^/]+)/.*|\1|p' <<< "$changed" | sort -u) <<< "$all" || true)
+          fi
+          echo "Tools to build: ${tools//$'\n'/, }"
+          echo "tools=$(jq -cR '[., inputs | select(. != "")]' <<< "$tools")" >> "$GITHUB_OUTPUT"
   build:
+    needs: tools
+    if: needs.tools.outputs.tools != '[]'
     strategy:
       matrix:
-        # on pull requests, build and test every tool with the version set in its Dockerfile
-        tool: ${{ fromJSON(github.event_name == 'workflow_dispatch' && format('["{0}"]', inputs.tool) || '["blockdiag", "ditaa", "erd", "graphviz", "pikchr", "symbolator", "umlet", "wireviz"]') }}
+        tool: ${{ fromJSON(needs.tools.outputs.tools) }}
         platform: [linux/amd64, linux/arm64]
         include:
           - platform: linux/amd64
