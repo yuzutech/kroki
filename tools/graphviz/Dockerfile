@@ -3,7 +3,7 @@
 # published as ghcr.io/yuzutech/kroki-builder-graphviz by the "Tool images" workflow.
 # Replaces https://github.com/yuzutech/graphviz-builder
 # renovate: datasource=gitlab-releases depName=graphviz/graphviz registryUrl=https://gitlab.com
-ARG VERSION=14.1.3
+ARG VERSION=16.1.0
 
 # Build on the same Ubuntu release as the Kroki image, so that `dot` links against the system libraries it provides
 FROM ubuntu:noble AS build
