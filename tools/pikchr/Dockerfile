@@ -6,13 +6,13 @@ ARG VERSION=85e65b968651b342c46e6334f4772b45d6cbb4317c5cbaa95d207779a50c6709
 
 FROM ubuntu:noble AS build
 ARG VERSION
-RUN apt-get update && apt-get install --no-install-recommends --yes \
+RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -qq --no-install-recommends --yes \
     build-essential \
     ca-certificates \
-    wget && \
-    apt-get clean && apt-get autoremove
+    curl > /dev/null && \
+    apt-get clean && apt-get autoremove -qq > /dev/null
 WORKDIR /build
-RUN wget -q "https://pikchr.org/home/raw/${VERSION}" -O pikchr.c
+RUN curl -fsSL "https://pikchr.org/home/raw/${VERSION}" -o pikchr.c
 RUN gcc -O0 -g -static -Wall -Wextra -DPIKCHR_SHELL pikchr.c -o pikchr -lm
 
 # Run the binary on the same base image as Kroki, the way Kroki calls it

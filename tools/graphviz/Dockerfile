@@ -8,10 +8,10 @@ ARG VERSION=16.1.0
 # Build on the same Ubuntu release as the Kroki image, so that `dot` links against the system libraries it provides
 FROM ubuntu:noble AS build
 ARG VERSION
-RUN apt-get update && apt-get install --no-install-recommends --yes \
+RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -qq --no-install-recommends --yes \
     build-essential \
     ca-certificates \
-    wget \
+    curl \
     libx11-6 \
     libxmu6 \
     libxt6 \
@@ -31,10 +31,10 @@ RUN apt-get update && apt-get install --no-install-recommends --yes \
     fonts-freefont-ttf \
     fonts-noto-cjk \
     gsfonts \
-    ghostscript && \
-    apt-get clean && apt-get autoremove
+    ghostscript > /dev/null && \
+    apt-get clean && apt-get autoremove -qq > /dev/null
 WORKDIR /build
-RUN wget -q "https://gitlab.com/api/v4/projects/4207231/packages/generic/graphviz-releases/${VERSION}/graphviz-${VERSION}.tar.gz" -O graphviz.tar.gz && \
+RUN curl -fsSL "https://gitlab.com/api/v4/projects/4207231/packages/generic/graphviz-releases/${VERSION}/graphviz-${VERSION}.tar.gz" -o graphviz.tar.gz && \
     mkdir -p graphviz-src && \
     tar xzf graphviz.tar.gz --strip-components=1 -C graphviz-src
 WORKDIR /build/graphviz-src
@@ -72,14 +72,14 @@ RUN ./configure \
 
 # Run the binary on the same base image as Kroki, with the same runtime libraries
 FROM ubuntu:noble AS test
-RUN apt-get update && apt-get install --no-install-recommends --yes \
+RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -qq --no-install-recommends --yes \
     fonts-liberation \
     libpango1.0-dev \
     librsvg2-dev \
     libgd3 \
     libcairo2-dev \
-    libjpeg9 && \
-    apt-get clean && apt-get autoremove
+    libjpeg9 > /dev/null && \
+    apt-get clean && apt-get autoremove -qq > /dev/null
 COPY --from=build /build/graphviz-src/cmd/dot/dot_static /usr/bin/dot
 RUN dot -V && \
     for format in svg png jpeg pdf; do \

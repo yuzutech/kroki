@@ -10,7 +10,7 @@ ARG VERSION
 # Build from forked source because upstream is broken for the latest python3 versions
 ARG SYMBOLATOR_SOURCE=git+https://github.com/zebreus/symbolator.git@v$VERSION
 
-RUN apt-get update && apt-get install --no-install-recommends --yes \
+RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -qq --no-install-recommends --yes \
     build-essential \
     git \
     pip \
@@ -20,8 +20,8 @@ RUN apt-get update && apt-get install --no-install-recommends --yes \
     python3-gi \
     python3-pip \
     python3-setuptools \
-    libpango1.0-dev && \
-    apt-get clean && apt-get autoremove
+    libpango1.0-dev > /dev/null && \
+    apt-get clean && apt-get autoremove -qq > /dev/null
 
 WORKDIR /build
 
@@ -32,13 +32,13 @@ RUN python3 -m nuitka --onefile `which symbolator` --include-module=gi.overrides
 
 # Run the binary on the same base image as Kroki, with the same runtime libraries
 FROM ubuntu:noble AS test
-RUN apt-get update && apt-get install --no-install-recommends --yes \
+RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -qq --no-install-recommends --yes \
     fonts-liberation \
     libpango1.0-dev \
     libgirepository-1.0-1 \
     libcairo2-dev \
-    libcairo-gobject2 && \
-    apt-get clean && apt-get autoremove
+    libcairo-gobject2 > /dev/null && \
+    apt-get clean && apt-get autoremove -qq > /dev/null
 COPY --from=build /build/symbolator.bin /usr/bin/symbolator
 COPY <<EOF /tmp/component.sv
 module demo_device #(

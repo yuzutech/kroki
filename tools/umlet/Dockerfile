@@ -53,11 +53,11 @@ RUN mkdir -p /opt/umlet/lib native-image-config && \
 # Run the binary on the same base image as Kroki, the way Kroki calls it
 # (the AWT font manager needs FreeType and Fontconfig, both installed in the Kroki image)
 FROM ubuntu:noble AS test
-RUN apt-get update && apt-get install --no-install-recommends --yes \
+RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -qq --no-install-recommends --yes \
     fontconfig \
     fonts-dejavu-core \
-    libfreetype6 && \
-    apt-get clean && apt-get autoremove
+    libfreetype6 > /dev/null && \
+    apt-get clean && apt-get autoremove -qq > /dev/null
 COPY --from=build /opt/umlet /opt/umlet
 RUN ln -s /opt/umlet/umlet /usr/bin/umlet
 COPY --from=build /build/fixtures /tmp/fixtures

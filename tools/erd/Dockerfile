@@ -19,10 +19,10 @@ RUN cabal update && \
 
 # Run the binary on the same base image as Kroki
 FROM ubuntu:noble AS test
-RUN apt-get update && apt-get install --no-install-recommends --yes \
+RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -qq --no-install-recommends --yes \
     graphviz \
-    libgmp10 && \
-    apt-get clean && apt-get autoremove
+    libgmp10 > /dev/null && \
+    apt-get clean && apt-get autoremove -qq > /dev/null
 COPY --from=build /build/bin/erd /usr/bin/erd
 COPY --from=build /build/examples/simple.er /tmp/simple.er
 RUN erd --fmt=svg < /tmp/simple.er > /tmp/simple.svg && grep -q "<svg" /tmp/simple.svg
