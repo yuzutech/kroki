@@ -192,17 +192,11 @@ jobs:
     - name: Install GraphViz
       run: sudo apt-get update && sudo apt-get install graphviz -y
 
-    - name: Set up JDK 21
-      uses: actions/setup-java@v6
+    - name: Set up the build tools
+      uses: jdx/mise-action@v5
       with:
-        java-version: 21
-        distribution: temurin
-
-    - name: Install Task
-      uses: go-task/setup-task@v2
-      with:
-        version: 3.x
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        version: 2026.10.23
+        install_args: java node task
 
     - name: Build Java server
       run: task mavenBuild
@@ -234,11 +228,6 @@ jobs:
         # one cache subdirectory per bake target, see docker-bake.hcl
         CACHE_FROM_DIR: '/tmp/.buildx-cache'
         CACHE_TO_DIR: '/tmp/.buildx-cache-new'
-
-    - name: 'Setup Node.js 24'
-      uses: actions/setup-node@v7
-      with:
-        node-version: 24
 
     - name: Install Node dependencies
       run: npm install

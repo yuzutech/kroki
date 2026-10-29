@@ -149,7 +149,10 @@ A companion web server written in JavaScript (powered by _micro_) that provides 
 
 == Build
 
-Install `task` command-line: https://taskfile.dev/installation/
+The versions of the build tools (Java, Node.js, Deno and `task`) are declared in `mise.toml`.
+Install https://mise.jdx.dev/getting-started.html[mise], then install the tools at the versions used by the CI:
+
+ $ mise install
 
 === Gateway Server
 
@@ -161,9 +164,9 @@ The first step is to build the project using Maven:
 
 To build all the Docker images, use the following command:
 
- $ sudo task dockerBuildImages
+ $ task dockerBuildImages
 
-NOTE: `sudo` might not be needed depending on your distribution and `docker` configuration.
+NOTE: If your user cannot access the Docker daemon, use `sudo "$(mise which task)" dockerBuildImages`: `sudo` does not inherit the tools installed by mise.
 
 == Run
 

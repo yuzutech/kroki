@@ -22,10 +22,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - name: 'Setup Node.js 24'
-        uses: actions/setup-node@v7
+      - name: Set up Node.js
+        uses: jdx/mise-action@v5
         with:
-          node-version: 24
+          version: 2026.10.23
+          install_args: node
       - name: Install dependencies
         run: npm i
         working-directory: mermaid
