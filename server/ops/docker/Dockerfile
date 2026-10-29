@@ -17,11 +17,11 @@ RUN npm run build:inject
 ## Vega
 FROM --platform=$BUILDPLATFORM ubuntu:resolute AS kroki-builder-vega
 
-RUN apt-get update && apt-get install --no-install-recommends --yes \
+RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -qq --no-install-recommends --yes \
     curl \
     ca-certificates \
-    unzip && \
-    apt-get clean && apt-get autoremove
+    unzip > /dev/null && \
+    apt-get clean && apt-get autoremove -qq > /dev/null
 
 RUN curl -fsSL https://deno.land/install.sh | DENO_INSTALL=/usr/local sh
 
@@ -37,7 +37,8 @@ RUN case "${TARGETARCH}" in \
     "arm64") ARCH="aarch64" ;; \
     *) echo "Unsupported arch: ${TARGETARCH}" && exit 1 ;; \
     esac && \
-    deno compile --target="${ARCH}-unknown-linux-gnu" --include=node_modules --node-modules-dir=auto --allow-ffi --output "app.bin" ./src/main.ts
+    deno compile --quiet --target="${ARCH}-unknown-linux-gnu" --include=node_modules --node-modules-dir=auto --allow-ffi --output "app.bin" ./src/main.ts && \
+    ls -lh app.bin
 
 ## DBML
 FROM --platform=$BUILDPLATFORM node:24.19-bookworm-slim AS kroki-builder-dbml
@@ -82,12 +83,12 @@ FROM ghcr.io/yuzutech/kroki-builder-pikchr:85e65b968651b342c46e6334f4772b45d6cbb
 FROM --platform=$BUILDPLATFORM rust:1.97-slim-bullseye AS kroki-builder-static-svgbob
 
 # Install cross-compilation tools
-RUN apt-get update && apt-get install --no-install-recommends --yes \
+RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -qq --no-install-recommends --yes \
     gcc-aarch64-linux-gnu \
     gcc-x86-64-linux-gnu \
     libc6-dev-amd64-cross \
-    libc6-dev-arm64-cross && \
-    apt-get clean && apt-get autoremove
+    libc6-dev-arm64-cross > /dev/null && \
+    apt-get clean && apt-get autoremove -qq > /dev/null
 
 COPY ops/docker/Cargo.toml .
 COPY ops/docker/.cargo .cargo
@@ -107,12 +108,12 @@ RUN SVGBOB_VERSION=`cat Cargo.toml | grep "svgbob_cli =" | sed -r 's/.*"([^"]+)"
 FROM --platform=$BUILDPLATFORM rust:1.97-slim-bullseye AS kroki-builder-static-lini
 
 # Install cross-compilation tools
-RUN apt-get update && apt-get install --no-install-recommends --yes \
+RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -qq --no-install-recommends --yes \
     gcc-aarch64-linux-gnu \
     gcc-x86-64-linux-gnu \
     libc6-dev-amd64-cross \
-    libc6-dev-arm64-cross && \
-    apt-get clean && apt-get autoremove
+    libc6-dev-arm64-cross > /dev/null && \
+    apt-get clean && apt-get autoremove -qq > /dev/null
 
 COPY ops/docker/Cargo.toml .
 COPY ops/docker/.cargo .cargo
@@ -151,7 +152,7 @@ FROM --platform=$BUILDPLATFORM golang:1.26.5-alpine AS kroki-builder-goat
 
 ARG GOAT_VERSION=0.5.1
 
-RUN apk add git
+RUN apk add --quiet --no-cache git
 ARG TARGETOS
 ARG TARGETARCH
 # Cross-compile for the target platform: when it differs from the build platform,
@@ -167,8 +168,8 @@ ARG DVISVGM_VERSION="3.6+ds-1"
 ARG PLANTUML_VERSION="1.2026.9"
 ARG TARGETARCH
 
-RUN apt-get update && apt-get install --no-install-recommends --yes \
-    adduser && \
+RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -qq --no-install-recommends --yes \
+    adduser > /dev/null && \
     addgroup --gecos 1001 kroki && adduser --disabled-password --ingroup kroki -u 1001 kroki
 
 # For TikZ
@@ -180,7 +181,7 @@ RUN apt-get update && apt-get install --no-install-recommends --yes \
 #   captions
 # * texlive-pictures - Provides various graphics packages like "circuitikz"
 # * texlive-science - Provides various science packages like "siunitx"
-RUN apt-get update && apt-get install --no-install-recommends --yes \
+RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -qq --no-install-recommends --yes \
     unzip \
     dvisvgm=$DVISVGM_VERSION \
     libpango1.0-dev \
@@ -206,18 +207,17 @@ RUN apt-get update && apt-get install --no-install-recommends --yes \
     texlive-latex-extra \
     texlive-pictures \
     texlive-pstricks \
-    texlive-science && \
-    apt-get clean && apt-get autoremove
+    texlive-science > /dev/null && \
+    apt-get clean && apt-get autoremove -qq > /dev/null
 
 COPY --from=vega packages packages
 RUN dpkg -i packages/libjpeg62-turbo_2.1.5-4_${TARGETARCH}.deb
 
-RUN wget "https://github.com/terrastruct/d2/releases/download/v${D2_VERSION}/d2-v${D2_VERSION}-linux-${TARGETARCH}.tar.gz" -O - | tar -zxv -C /usr/bin d2-v${D2_VERSION}/bin/d2 && \
-    mv usr/bin/d2-v${D2_VERSION}/bin/d2 /usr/bin/d2 && \
+RUN curl -fsSL "https://github.com/terrastruct/d2/releases/download/v${D2_VERSION}/d2-v${D2_VERSION}-linux-${TARGETARCH}.tar.gz" | tar -xz -C /usr/bin --strip-components=2 d2-v${D2_VERSION}/bin/d2 && \
     chmod +x /usr/bin/d2
 
-RUN wget "https://github.com/plantuml/plantuml/releases/download/v${PLANTUML_VERSION}/native-plantuml-linux-${TARGETARCH}-${PLANTUML_VERSION}.zip" -O plantuml-bin.zip && \
-    unzip plantuml-bin.zip -d plantuml && \
+RUN curl -fsSL "https://github.com/plantuml/plantuml/releases/download/v${PLANTUML_VERSION}/native-plantuml-linux-${TARGETARCH}-${PLANTUML_VERSION}.zip" -o plantuml-bin.zip && \
+    unzip -q plantuml-bin.zip -d plantuml && \
     mv plantuml/* /usr/bin/ && \
     chmod +x /usr/bin/plantuml
 
