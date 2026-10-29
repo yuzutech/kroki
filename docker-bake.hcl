@@ -9,6 +9,8 @@ variable "CACHE_FROM_DIR" {
   default = ""
 }
 
+# mode=max also exports the layers of the intermediate stages (kroki-builder-*),
+# otherwise any change in the final stage rebuilds them from scratch.
 variable "CACHE_TO_DIR" {
   default = ""
 }
@@ -39,7 +41,7 @@ target "kroki" {
   dockerfile = "ops/docker/Dockerfile"
   tags = ["yuzutech/kroki:${TAG}"]
   cache-from = CACHE_FROM_DIR != "" ? ["type=local,src=${CACHE_FROM_DIR}/kroki"] : []
-  cache-to = CACHE_TO_DIR != "" ? ["type=local,dest=${CACHE_TO_DIR}/kroki"] : []
+  cache-to = CACHE_TO_DIR != "" ? ["type=local,dest=${CACHE_TO_DIR}/kroki,mode=max"] : []
   inherits = ["oci-labels"]
   labels = {
     "org.opencontainers.image.title" = "Kroki"
@@ -53,7 +55,7 @@ target "kroki-mermaid" {
   }
   tags = ["yuzutech/kroki-mermaid:${TAG}"]
   cache-from = CACHE_FROM_DIR != "" ? ["type=local,src=${CACHE_FROM_DIR}/mermaid"] : []
-  cache-to = CACHE_TO_DIR != "" ? ["type=local,dest=${CACHE_TO_DIR}/mermaid"] : []
+  cache-to = CACHE_TO_DIR != "" ? ["type=local,dest=${CACHE_TO_DIR}/mermaid,mode=max"] : []
   inherits = ["oci-labels"]
   labels = {
     "org.opencontainers.image.title" = "Kroki - Mermaid"
@@ -67,7 +69,7 @@ target "kroki-bpmn" {
   }
   tags = ["yuzutech/kroki-bpmn:${TAG}"]
   cache-from = CACHE_FROM_DIR != "" ? ["type=local,src=${CACHE_FROM_DIR}/bpmn"] : []
-  cache-to = CACHE_TO_DIR != "" ? ["type=local,dest=${CACHE_TO_DIR}/bpmn"] : []
+  cache-to = CACHE_TO_DIR != "" ? ["type=local,dest=${CACHE_TO_DIR}/bpmn,mode=max"] : []
   inherits = ["oci-labels"]
   labels = {
     "org.opencontainers.image.title" = "Kroki - BPMN"
@@ -81,7 +83,7 @@ target "kroki-excalidraw" {
   }
   tags = ["yuzutech/kroki-excalidraw:${TAG}"]
   cache-from = CACHE_FROM_DIR != "" ? ["type=local,src=${CACHE_FROM_DIR}/excalidraw"] : []
-  cache-to = CACHE_TO_DIR != "" ? ["type=local,dest=${CACHE_TO_DIR}/excalidraw"] : []
+  cache-to = CACHE_TO_DIR != "" ? ["type=local,dest=${CACHE_TO_DIR}/excalidraw,mode=max"] : []
   inherits = ["oci-labels"]
   labels = {
     "org.opencontainers.image.title" = "Kroki - Excalidraw"
@@ -95,7 +97,7 @@ target "kroki-diagramsnet" {
   }
   tags = ["yuzutech/kroki-diagramsnet:${TAG}"]
   cache-from = CACHE_FROM_DIR != "" ? ["type=local,src=${CACHE_FROM_DIR}/diagramsnet"] : []
-  cache-to = CACHE_TO_DIR != "" ? ["type=local,dest=${CACHE_TO_DIR}/diagramsnet"] : []
+  cache-to = CACHE_TO_DIR != "" ? ["type=local,dest=${CACHE_TO_DIR}/diagramsnet,mode=max"] : []
   inherits = ["oci-labels"]
   labels = {
     "org.opencontainers.image.title" = "Kroki - diagrams.net"

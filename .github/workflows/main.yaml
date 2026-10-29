@@ -217,23 +217,35 @@ jobs:
       uses: actions/cache@v6
       with:
         path: /tmp/.buildx-cache
-        key: ${{ runner.os }}-buildx-${{ github.sha }}
+        # separate caches: restoring the (larger) multi-arch cache in the amd64 build, or the other way around, misses most layers
+        key: ${{ runner.os }}-buildx-${{ inputs.build_multiarch && 'multiarch' || 'amd64' }}-${{ github.sha }}
         restore-keys: |
-          ${{ runner.os }}-buildx-
+          ${{ runner.os }}-buildx-${{ inputs.build_multiarch && 'multiarch' || 'amd64' }}-
 
-    - name: Build container images
+    # Multi-platform images cannot be loaded into the Docker daemon: build every platform first,
+    # the next step then only loads the images of the runner platform from the BuildKit cache.
+    - name: Build multi-arch container images
+      if: ${{ inputs.build_multiarch }}
       run: task dockerBuildImages
       env:
-        BUILD_MULTIARCH: ${{ inputs.build_multiarch }}
+        BUILD_MULTIARCH: true
         # one cache subdirectory per bake target, see docker-bake.hcl
         CACHE_FROM_DIR: '/tmp/.buildx-cache'
         CACHE_TO_DIR: '/tmp/.buildx-cache-new'
+
+    - name: Build container images
+      run: task smokeTestsBuildImages
+      env:
+        # one cache subdirectory per bake target, see docker-bake.hcl
+        CACHE_FROM_DIR: '/tmp/.buildx-cache'
+        # the multi-arch build already exported the cache of every platform
+        CACHE_TO_DIR: ${{ !inputs.build_multiarch && '/tmp/.buildx-cache-new' || '' }}
 
     - name: Install Node dependencies
       run: npm install
 
     - name: Run smoke tests
-      run: task smokeTests
+      run: task smokeTestsRun
 
     # This ugly bit is necessary if you don't want your cache to grow forever until it hits GitHub's limit of 5GB.
     # Temp fix
