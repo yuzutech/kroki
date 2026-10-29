@@ -80,6 +80,18 @@
         '# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( registryUrl=(?<registryUrl>\\S+))?( extractVersion=(?<extractVersion>\\S+))?\\s+ARG VERSION=(?<currentValue>\\S+)',
       ],
     },
+    // the BuildKit image used by docker/setup-buildx-action (driver-opts), pinned in the workflows
+    {
+      customType: 'regex',
+      managerFilePatterns: [
+        '/^\\.github/workflows/[^/]+\\.ya?ml$/',
+      ],
+      matchStrings: [
+        'image=moby/buildkit:(?<currentValue>v[0-9.]+)',
+      ],
+      datasourceTemplate: 'docker',
+      depNameTemplate: 'moby/buildkit',
+    },
     // the diagram library versions are also reported by the getVersion() method of the Java services
     // (used by /health, as the HTTP cache key and by the tests to download the PlantUML binary)
     // and in docs/antora.yml, annotated with a "renovate: ..." comment on the line above:

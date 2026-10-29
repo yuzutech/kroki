@@ -45,10 +45,16 @@ jobs:
     - name: Build Java server
       run: task mavenBuild
 
+    # BuildKit v0.34.1 does not reuse the cache of the Mermaid and Excalidraw builder stages: their first steps
+    # (FROM node:alpine, WORKDIR, COPY --from=lib) are identical to the other companion images, BuildKit merges them
+    # when the images are built in the same bake and resolves them from the cache of another image, then the next
+    # steps no longer match (https://github.com/moby/buildkit/issues/6418). Fixed by https://github.com/moby/buildkit/pull/7312:
+    # remove this comment once Renovate upgrades BuildKit to a version that includes the fix.
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v4
       with:
         version: 'v0.38.1'
+        driver-opts: image=moby/buildkit:v0.34.1
         buildkitd-config: .github/buildkitd.toml
 
     # BuildKit uses the GitHub Actions cache API directly (cache type=gha, see docker-bake.hcl),
