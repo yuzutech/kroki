@@ -53,43 +53,26 @@ jobs:
           [worker.oci]
             max-parallelism = 2
 
-    # Only the pushes on main save the cache (an amd64 one): the pull requests and the nightly build
-    # restore it but do not save their own, otherwise the caches would exceed the repository quota.
-    # One cache per architecture: restoring the cache of the other architecture would miss every layer,
-    # so the nightly arm64 job does not find any cache.
-    - name: Restore Docker layers cache
-      uses: actions/cache/restore@v6
+    # BuildKit uses the GitHub Actions cache API directly (cache type=gha, see docker-bake.hcl),
+    # but only JavaScript actions receive its URL and token: expose them to the next steps.
+    - name: Expose the GitHub Actions cache API
+      uses: actions/github-script@v9
       with:
-        path: /tmp/.buildx-cache
-        key: ${{ runner.os }}-buildx-${{ runner.arch == 'ARM64' && 'arm64' || 'amd64' }}-${{ github.sha }}
-        restore-keys: |
-          ${{ runner.os }}-buildx-${{ runner.arch == 'ARM64' && 'arm64' || 'amd64' }}-
+        script: |
+          core.exportVariable('ACTIONS_RESULTS_URL', process.env.ACTIONS_RESULTS_URL)
+          core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN)
 
+    # Only the pushes on main write the cache: the pull requests and the nightly build read it
+    # but do not write their own, otherwise the caches would exceed the repository quota.
+    # One cache scope per architecture: the nightly arm64 job does not find any cache.
     - name: Build container images
       run: task smokeTestsBuildImages
       env:
-        # one cache subdirectory per bake target, see docker-bake.hcl
-        CACHE_FROM_DIR: '/tmp/.buildx-cache'
-        CACHE_TO_DIR: ${{ github.event_name == 'push' && '/tmp/.buildx-cache-new' || '' }}
+        GHA_CACHE_SCOPE: buildx-${{ runner.arch == 'ARM64' && 'arm64' || 'amd64' }}
+        GHA_CACHE_WRITE: ${{ github.event_name == 'push' }}
 
     - name: Install Node dependencies
       run: npm install
 
     - name: Run smoke tests
       run: task smokeTestsRun
-
-    # The exported cache replaces the restored one, otherwise the cache would grow forever.
-    # https://github.com/docker/build-push-action/issues/252
-    # https://github.com/moby/buildkit/issues/1896
-    - name: Replace Docker layers cache
-      if: ${{ github.event_name == 'push' }}
-      run: |
-        rm -rf /tmp/.buildx-cache
-        mv /tmp/.buildx-cache-new /tmp/.buildx-cache
-
-    - name: Save Docker layers cache
-      if: ${{ github.event_name == 'push' }}
-      uses: actions/cache/save@v6
-      with:
-        path: /tmp/.buildx-cache
-        key: ${{ runner.os }}-buildx-${{ runner.arch == 'ARM64' && 'arm64' || 'amd64' }}-${{ github.sha }}

@@ -2,6 +2,7 @@ variable "TAG" {
   default = "latest"
 }
 
+# Local development: a local cache directory, with one subdirectory per target.
 # Each target must use its own cache directory: concurrent cache exports
 # to the same local directory race in the ingest area and fail with
 # "error writing layer blob: rename tmp file ... no such file or directory".
@@ -9,10 +10,39 @@ variable "CACHE_FROM_DIR" {
   default = ""
 }
 
-# mode=max also exports the layers of the intermediate stages (kroki-builder-*),
-# otherwise any change in the final stage rebuilds them from scratch.
 variable "CACHE_TO_DIR" {
   default = ""
+}
+
+# CI: the GitHub Actions cache, with one scope per target (and per architecture, see GHA_CACHE_SCOPE).
+# BuildKit reads the cache API URL and token from the ACTIONS_RESULTS_URL and ACTIONS_RUNTIME_TOKEN
+# environment variables, see the "Expose the GitHub Actions cache API" step of the CI workflow.
+variable "GHA_CACHE_SCOPE" {
+  default = ""
+}
+
+variable "GHA_CACHE_WRITE" {
+  type = bool
+  default = false
+}
+
+# mode=max also exports the layers of the intermediate stages (kroki-builder-*),
+# otherwise any change in the final stage rebuilds them from scratch.
+# ignore-error: a failed cache export (for instance when the cache API throttles the requests) must not fail the build.
+function "cache_from" {
+  params = [name]
+  result = concat(
+    CACHE_FROM_DIR != "" ? ["type=local,src=${CACHE_FROM_DIR}/${name}"] : [],
+    GHA_CACHE_SCOPE != "" ? ["type=gha,version=2,scope=${GHA_CACHE_SCOPE}-${name}"] : [],
+  )
+}
+
+function "cache_to" {
+  params = [name]
+  result = concat(
+    CACHE_TO_DIR != "" ? ["type=local,dest=${CACHE_TO_DIR}/${name},mode=max"] : [],
+    GHA_CACHE_SCOPE != "" && GHA_CACHE_WRITE ? ["type=gha,version=2,scope=${GHA_CACHE_SCOPE}-${name},mode=max,ignore-error=true"] : [],
+  )
 }
 
 group "companion-images" {
@@ -40,8 +70,8 @@ target "kroki" {
   }
   dockerfile = "ops/docker/Dockerfile"
   tags = ["yuzutech/kroki:${TAG}"]
-  cache-from = CACHE_FROM_DIR != "" ? ["type=local,src=${CACHE_FROM_DIR}/kroki"] : []
-  cache-to = CACHE_TO_DIR != "" ? ["type=local,dest=${CACHE_TO_DIR}/kroki,mode=max"] : []
+  cache-from = cache_from("kroki")
+  cache-to = cache_to("kroki")
   inherits = ["oci-labels"]
   labels = {
     "org.opencontainers.image.title" = "Kroki"
@@ -54,8 +84,8 @@ target "kroki-mermaid" {
     lib = "./lib/browser-instance"
   }
   tags = ["yuzutech/kroki-mermaid:${TAG}"]
-  cache-from = CACHE_FROM_DIR != "" ? ["type=local,src=${CACHE_FROM_DIR}/mermaid"] : []
-  cache-to = CACHE_TO_DIR != "" ? ["type=local,dest=${CACHE_TO_DIR}/mermaid,mode=max"] : []
+  cache-from = cache_from("mermaid")
+  cache-to = cache_to("mermaid")
   inherits = ["oci-labels"]
   labels = {
     "org.opencontainers.image.title" = "Kroki - Mermaid"
@@ -68,8 +98,8 @@ target "kroki-bpmn" {
     lib = "./lib/browser-instance"
   }
   tags = ["yuzutech/kroki-bpmn:${TAG}"]
-  cache-from = CACHE_FROM_DIR != "" ? ["type=local,src=${CACHE_FROM_DIR}/bpmn"] : []
-  cache-to = CACHE_TO_DIR != "" ? ["type=local,dest=${CACHE_TO_DIR}/bpmn,mode=max"] : []
+  cache-from = cache_from("bpmn")
+  cache-to = cache_to("bpmn")
   inherits = ["oci-labels"]
   labels = {
     "org.opencontainers.image.title" = "Kroki - BPMN"
@@ -82,8 +112,8 @@ target "kroki-excalidraw" {
     lib = "./lib/browser-instance"
   }
   tags = ["yuzutech/kroki-excalidraw:${TAG}"]
-  cache-from = CACHE_FROM_DIR != "" ? ["type=local,src=${CACHE_FROM_DIR}/excalidraw"] : []
-  cache-to = CACHE_TO_DIR != "" ? ["type=local,dest=${CACHE_TO_DIR}/excalidraw,mode=max"] : []
+  cache-from = cache_from("excalidraw")
+  cache-to = cache_to("excalidraw")
   inherits = ["oci-labels"]
   labels = {
     "org.opencontainers.image.title" = "Kroki - Excalidraw"
@@ -96,8 +126,8 @@ target "kroki-diagramsnet" {
     lib = "./lib/browser-instance"
   }
   tags = ["yuzutech/kroki-diagramsnet:${TAG}"]
-  cache-from = CACHE_FROM_DIR != "" ? ["type=local,src=${CACHE_FROM_DIR}/diagramsnet"] : []
-  cache-to = CACHE_TO_DIR != "" ? ["type=local,dest=${CACHE_TO_DIR}/diagramsnet,mode=max"] : []
+  cache-from = cache_from("diagramsnet")
+  cache-to = cache_to("diagramsnet")
   inherits = ["oci-labels"]
   labels = {
     "org.opencontainers.image.title" = "Kroki - diagrams.net"
