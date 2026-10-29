@@ -14,6 +14,7 @@ on:
   workflow_call:
     inputs:
       build_multiarch:
+        description: Also build and test the images on a native arm64 runner
         default: false
         required: true
         type: boolean
@@ -23,7 +24,12 @@ permissions:
 
 jobs:
   test-containers:
-    runs-on: ubuntu-24.04
+    # The nightly build also runs on a native arm64 runner (no QEMU emulation), like the release workflow.
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: ${{ fromJSON(inputs.build_multiarch && '["ubuntu-24.04", "ubuntu-24.04-arm"]' || '["ubuntu-24.04"]') }}
+    runs-on: ${{ matrix.runner }}
     steps:
     - uses: actions/checkout@v7
     
@@ -39,10 +45,6 @@ jobs:
     - name: Build Java server
       run: task mavenBuild
 
-    - name: Set up QEMU
-      if: ${{ inputs.build_multiarch }}
-      uses: docker/setup-qemu-action@v4
-
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v4
       with:
@@ -51,25 +53,17 @@ jobs:
           [worker.oci]
             max-parallelism = 2
 
-    # Only the pushes on main save the cache (an amd64 one): the pull requests and the nightly multi-arch build
+    # Only the pushes on main save the cache (an amd64 one): the pull requests and the nightly build
     # restore it but do not save their own, otherwise the caches would exceed the repository quota.
+    # One cache per architecture: restoring the cache of the other architecture would miss every layer,
+    # so the nightly arm64 job does not find any cache.
     - name: Restore Docker layers cache
       uses: actions/cache/restore@v6
       with:
         path: /tmp/.buildx-cache
-        key: ${{ runner.os }}-buildx-amd64-${{ github.sha }}
+        key: ${{ runner.os }}-buildx-${{ runner.arch == 'ARM64' && 'arm64' || 'amd64' }}-${{ github.sha }}
         restore-keys: |
-          ${{ runner.os }}-buildx-amd64-
-
-    # Multi-platform images cannot be loaded into the Docker daemon: build every platform first,
-    # the next step then only loads the images of the runner platform from the BuildKit cache.
-    - name: Build multi-arch container images
-      if: ${{ inputs.build_multiarch }}
-      run: task dockerBuildImages
-      env:
-        BUILD_MULTIARCH: true
-        # one cache subdirectory per bake target, see docker-bake.hcl
-        CACHE_FROM_DIR: '/tmp/.buildx-cache'
+          ${{ runner.os }}-buildx-${{ runner.arch == 'ARM64' && 'arm64' || 'amd64' }}-
 
     - name: Build container images
       run: task smokeTestsBuildImages
@@ -98,4 +92,4 @@ jobs:
       uses: actions/cache/save@v6
       with:
         path: /tmp/.buildx-cache
-        key: ${{ runner.os }}-buildx-amd64-${{ github.sha }}
+        key: ${{ runner.os }}-buildx-${{ runner.arch == 'ARM64' && 'arm64' || 'amd64' }}-${{ github.sha }}
