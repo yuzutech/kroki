@@ -1,0 +1,7 @@
+# Versions of the tools used to build Kroki, shared by the contributors and the CI (jdx/mise-action).
+# Run `mise install` to install them.
+[tools]
+java = "temurin-21"
+node = "24"
+deno = "2"
+task = "3"

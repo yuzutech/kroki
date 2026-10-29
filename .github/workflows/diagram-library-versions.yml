@@ -20,17 +20,18 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7
-      - name: Setup Node.js 24
-        uses: actions/setup-node@v7
-        with:
-          node-version: 24
       # update-versions.js reads the Structurizr version from the Maven project
-      - name: Setup Java 21
-        uses: actions/setup-java@v6
+      - name: Set up Node.js and Java
+        uses: jdx/mise-action@v5
         with:
-          java-version: 21
-          distribution: temurin
-          cache: maven
+          version: 2026.10.23
+          install_args: java node
+      - name: Cache the Maven repository
+        uses: actions/cache@v6
+        with:
+          path: ~/.m2/repository
+          key: maven-${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
+          restore-keys: maven-${{ runner.os }}-
       - name: Check the diagram library versions
         run: |
           node ci/tasks/update-versions.js > /dev/null
@@ -52,10 +53,11 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
-      - name: Setup Node.js 24
-        uses: actions/setup-node@v7
+      - name: Set up Node.js
+        uses: jdx/mise-action@v5
         with:
-          node-version: 24
+          version: 2026.10.23
+          install_args: node
       - name: Add the changelog entries
         env:
           PR_NUMBER: ${{ github.event.pull_request.number }}
