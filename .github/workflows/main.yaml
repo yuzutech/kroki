@@ -64,8 +64,12 @@ jobs:
     # but do not write their own, otherwise the caches would exceed the repository quota.
     # One cache scope per architecture: the nightly arm64 job does not find any cache.
     - name: Build container images
-      run: task smokeTestsBuildImages
+      # condense the BuildKit progress output to one line per Dockerfile step, see ci/tasks/buildkit-progress.js
+      # (the explicit bash shell enables pipefail, so a failed build still fails the step)
+      shell: bash
+      run: task smokeTestsBuildImages 2>&1 | node ci/tasks/buildkit-progress.js
       env:
+        BUILDKIT_PROGRESS: rawjson
         GHA_CACHE_SCOPE: buildx-${{ runner.arch == 'ARM64' && 'arm64' || 'amd64' }}
         GHA_CACHE_WRITE: ${{ github.event_name == 'push' }}
 
