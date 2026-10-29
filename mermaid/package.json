@@ -28,12 +28,12 @@
     "puppeteer": "25.1.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.15",
+    "@biomejs/biome": "2.6.2",
     "@mermaid-js/layout-tidy-tree": "1.0.1",
     "mermaid": "12.2.0",
     "pngjs": "7.0.0"
   },
   "volta": {
-    "node": "24.22.0"
+    "node": "24.22.1"
   }
 }
