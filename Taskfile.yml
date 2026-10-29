@@ -22,7 +22,7 @@ tasks:
 
   dockerBuildImages:
     cmds:
-      # the per-target cache locations are derived from the CACHE_FROM_DIR and CACHE_TO_DIR environment variables in docker-bake.hcl
+      # the cache is configured by environment variables, see docker-bake.hcl: CACHE_FROM_DIR and CACHE_TO_DIR (local) or GHA_CACHE_SCOPE and GHA_CACHE_WRITE (CI)
       - 'docker buildx bake --allow=fs=/tmp kroki companion-images {{if .BUILD_MULTIARCH}}--set "*.platform=linux/arm64,linux/amd64"{{end}}'
 
   dockerPublishImages:
@@ -73,7 +73,7 @@ tasks:
     env:
       TAG: 'smoketests'
     cmds:
-      # the per-target cache locations are derived from the CACHE_FROM_DIR and CACHE_TO_DIR environment variables in docker-bake.hcl
+      # the cache is configured by environment variables, see docker-bake.hcl: CACHE_FROM_DIR and CACHE_TO_DIR (local) or GHA_CACHE_SCOPE and GHA_CACHE_WRITE (CI)
       - 'docker buildx bake --allow=fs=/tmp kroki companion-images --load'
 
   # Runs the smoke tests against the images loaded by smokeTestsBuildImages.
