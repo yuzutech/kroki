@@ -38,7 +38,7 @@ jobs:
           # the branch has moved since.
           ref: ${{ inputs.create_tag && github.ref || format('v{0}', inputs.release_version) }}
       - name: Install GraphViz
-        run: sudo apt-get update && sudo apt-get install graphviz -y
+        run: sudo apt-get update -qq && sudo DEBIAN_FRONTEND=noninteractive apt-get install -qq --yes graphviz > /dev/null
       - name: Set up the build tools
         uses: jdx/mise-action@v5
         with:
