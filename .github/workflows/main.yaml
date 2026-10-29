@@ -13,7 +13,7 @@ on:
       - '*'
   workflow_call:
     inputs:
-      build_multiarch:
+      test_arm64:
         description: Also build and test the images on a native arm64 runner
         default: false
         required: true
@@ -28,7 +28,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        runner: ${{ fromJSON(inputs.build_multiarch && '["ubuntu-24.04", "ubuntu-24.04-arm"]' || '["ubuntu-24.04"]') }}
+        runner: ${{ fromJSON(inputs.test_arm64 && '["ubuntu-24.04", "ubuntu-24.04-arm"]' || '["ubuntu-24.04"]') }}
     runs-on: ${{ matrix.runner }}
     steps:
     - uses: actions/checkout@v7
@@ -49,9 +49,7 @@ jobs:
       uses: docker/setup-buildx-action@v4
       with:
         version: 'v0.38.1'
-        buildkitd-config-inline: |
-          [worker.oci]
-            max-parallelism = 2
+        buildkitd-config: .github/buildkitd.toml
 
     # BuildKit uses the GitHub Actions cache API directly (cache type=gha, see docker-bake.hcl),
     # but only JavaScript actions receive its URL and token: expose them to the next steps.
