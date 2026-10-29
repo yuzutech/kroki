@@ -153,6 +153,26 @@
       // Java LTS releases only (every 4 releases since 17)
       allowedVersions: '/^(21|25|29|33)\\./',
     },
+    // mise.toml declares major versions only: keep the build JDK on the same LTS releases as the image
+    {
+      matchManagers: [
+        'mise',
+      ],
+      matchDepNames: [
+        'java',
+      ],
+      allowedVersions: '/^(21|25|29|33)(\\.|\\+|$)/',
+    },
+    // Node.js LTS releases only (even majors)
+    {
+      matchManagers: [
+        'mise',
+      ],
+      matchDepNames: [
+        'node',
+      ],
+      allowedVersions: '/^\\d*[02468](\\.|$)/',
+    },
     // tools/<tool>/Dockerfile builds binaries that run in the Kroki image (eclipse-temurin:<version>-resolute):
     // a binary runs on a newer glibc but not on an older one, so their Ubuntu release must not be newer than
     // the one of the Kroki base image: move them by hand (symbolator cannot be built on resolute yet, see #2198)
