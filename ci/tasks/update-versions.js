@@ -186,11 +186,10 @@ try {
       const { version } = symbolatorVersionFound.groups
       diagramLibraryVersions.symbolator = version
     }
-    const umletVersionFound = line.match(/^ARG UMLET_VERSION="(?<version>.+)"$/)
+    const umletVersionFound = line.match(/^FROM ghcr.io\/yuzutech\/kroki-builder-umlet:(?<version>\S+) AS umlet$/)
     if (umletVersionFound) {
       const { version } = umletVersionFound.groups
-      // format: YYYY-mm-dd_UMLet_v0.0
-      diagramLibraryVersions.umlet = version.split('_')[2].substring(1)
+      diagramLibraryVersions.umlet = version
     }
     const plantumlVersionFound = line.match(/^ARG PLANTUML_VERSION="(?<version>.+)"$/)
     if (plantumlVersionFound) {
@@ -203,7 +202,7 @@ try {
       const { version } = graphvizVersionFound.groups
       diagramLibraryVersions.graphviz = version
     }
-    const ditaaVersionFound = line.match(/^ARG DITAA_VERSION="(?<version>.+)"$/)
+    const ditaaVersionFound = line.match(/^FROM ghcr.io\/yuzutech\/kroki-builder-ditaa:(?<version>\S+) AS ditaa$/)
     if (ditaaVersionFound) {
       const { version } = ditaaVersionFound.groups
       diagramLibraryVersions.ditaa = version
