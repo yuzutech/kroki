@@ -29,6 +29,7 @@ versioned entry and uses it as the GitHub release notes.
 - Update Vega-Lite to 6.5.0 ([#2195](https://github.com/yuzutech/kroki/pull/2195))
 - Update bpmn-js to 18.31.1 ([#2211](https://github.com/yuzutech/kroki/pull/2211))
 - Update Structurizr to 6.2.4 ([#2216](https://github.com/yuzutech/kroki/pull/2216))
+- Update WaveDrom to 3.8.0 ([#2217](https://github.com/yuzutech/kroki/pull/2217))
 
 ## [0.34.0] - 2026-10-25
 

@@ -46,7 +46,7 @@ public class Wavedrom implements DiagramService {
   @Override
   public String getVersion() {
     // renovate: datasource=npm depName=wavedrom
-    return "3.7.0";
+    return "3.8.0";
   }
 
   @Override
