@@ -90,7 +90,7 @@ public class Structurizr implements DiagramService {
   @Override
   public String getVersion() {
     // renovate: datasource=maven depName=com.structurizr:structurizr-dsl
-    return "6.2.3";
+    return "6.2.4";
   }
 
   @Override

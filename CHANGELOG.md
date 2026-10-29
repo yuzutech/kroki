@@ -28,6 +28,7 @@ versioned entry and uses it as the GitHub release notes.
 - Update PlantUML (and C4-PlantUML) to 1.2026.9 ([#2190](https://github.com/yuzutech/kroki/pull/2190))
 - Update Vega-Lite to 6.5.0 ([#2195](https://github.com/yuzutech/kroki/pull/2195))
 - Update bpmn-js to 18.31.1 ([#2211](https://github.com/yuzutech/kroki/pull/2211))
+- Update Structurizr to 6.2.4 ([#2216](https://github.com/yuzutech/kroki/pull/2216))
 
 ## [0.34.0] - 2026-10-25
 

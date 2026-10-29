@@ -44,7 +44,7 @@ asciidoc:
     # renovate: datasource=docker depName=ghcr.io/yuzutech/kroki-builder-blockdiag
     seqdiag-version: 3.4.2
     # renovate: datasource=maven depName=com.structurizr:structurizr-dsl
-    structurizr-version: 6.2.3
+    structurizr-version: 6.2.4
     # renovate: datasource=crate depName=svgbob_cli
     svgbob-version: 0.7.6
     # renovate: datasource=docker depName=ghcr.io/yuzutech/kroki-builder-symbolator
