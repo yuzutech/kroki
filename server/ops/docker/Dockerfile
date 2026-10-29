@@ -9,7 +9,7 @@ FROM --platform=$BUILDPLATFORM node:24.19-bookworm-slim AS kroki-builder-nomnoml
 COPY --from=nomnoml index.js package.json package-lock.json biome.json sea-config.json /app/
 WORKDIR /app
 
-RUN npm install && npm run lint
+RUN npm install --no-audit --no-fund --no-update-notifier --loglevel=error && npm run lint
 RUN npm run build:bundle && npm run build:blob
 COPY --from=kroki-node-target /usr/local/bin/node /app/build/app.bin
 RUN npm run build:inject
@@ -45,7 +45,7 @@ FROM --platform=$BUILDPLATFORM node:24.19-bookworm-slim AS kroki-builder-dbml
 COPY --from=dbml index.js package.json package-lock.json biome.json sea-config.json /app/
 WORKDIR /app
 
-RUN npm install && npm run lint
+RUN npm install --no-audit --no-fund --no-update-notifier --loglevel=error && npm run lint
 RUN npm run build:bundle && npm run build:blob
 COPY --from=kroki-node-target /usr/local/bin/node /app/build/app.bin
 RUN npm run build:inject
@@ -56,7 +56,7 @@ FROM --platform=$BUILDPLATFORM node:24.19-bookworm-slim AS kroki-builder-wavedro
 COPY --from=wavedrom index.js convert.js package.json package-lock.json biome.json sea-config.json /app/
 WORKDIR /app
 
-RUN npm install && npm run lint
+RUN npm install --no-audit --no-fund --no-update-notifier --loglevel=error && npm run lint
 RUN npm run build:bundle && npm run build:blob
 COPY --from=kroki-node-target /usr/local/bin/node /app/build/app.bin
 RUN npm run build:inject
@@ -67,7 +67,7 @@ FROM --platform=$BUILDPLATFORM node:24.19-bookworm-slim AS kroki-builder-bytefie
 COPY --from=bytefield index.js package.json package-lock.json biome.json sea-config.json /app/
 WORKDIR /app
 
-RUN npm install && npm run lint
+RUN npm install --no-audit --no-fund --no-update-notifier --loglevel=error && npm run lint
 RUN npm run build:bundle && npm run build:blob
 COPY --from=kroki-node-target /usr/local/bin/node /app/build/app.bin
 RUN npm run build:inject
