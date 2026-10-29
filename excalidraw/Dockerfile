@@ -9,7 +9,7 @@ COPY --from=lib . /usr/local/lib/browser-instance
 COPY assets ./assets
 COPY package*.json ./
 
-RUN npm i
+RUN npm i --no-audit --no-fund --no-update-notifier --loglevel=error
 RUN npm run prestart
 RUN npm run build
 
@@ -44,7 +44,7 @@ COPY --from=builder --chown=kroki:kroki /usr/local/kroki/assets/fonts ./assets/f
 # ("lib" named build context, see docker-bake.hcl)
 COPY --from=lib --chown=kroki:kroki . /usr/local/lib/browser-instance
 
-RUN npm i --omit=dev
+RUN npm i --omit=dev --no-audit --no-fund --no-update-notifier --loglevel=error
 
 EXPOSE 8004
 

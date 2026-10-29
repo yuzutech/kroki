@@ -28,7 +28,7 @@ COPY --chown=kroki:kroki assets ./assets
 # ("lib" named build context, see docker-bake.hcl)
 COPY --from=lib --chown=kroki:kroki . /usr/local/lib/browser-instance
 
-RUN npm i --omit=dev
+RUN npm i --omit=dev --no-audit --no-fund --no-update-notifier --loglevel=error
 
 EXPOSE 8005
 

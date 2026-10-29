@@ -9,7 +9,7 @@ COPY --from=lib . /usr/local/lib/browser-instance
 
 COPY package*.json ./
 
-RUN PUPPETEER_SKIP_DOWNLOAD=true npm i --omit=dev
+RUN PUPPETEER_SKIP_DOWNLOAD=true npm i --omit=dev --no-audit --no-fund --no-update-notifier --loglevel=error
 RUN mkdir -p assets && npm run prestart
 
 FROM node:24.19-alpine3.24
@@ -43,7 +43,7 @@ COPY --from=builder --chown=kroki:kroki /usr/local/kroki/assets/bpmn-viewer.prod
 # ("lib" named build context, see docker-bake.hcl)
 COPY --from=lib --chown=kroki:kroki . /usr/local/lib/browser-instance
 
-RUN npm i --omit=dev
+RUN npm i --omit=dev --no-audit --no-fund --no-update-notifier --loglevel=error
 
 EXPOSE 8003
 
