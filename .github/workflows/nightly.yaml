@@ -1,6 +1,7 @@
 name: CI (nightly)
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: '0 2 * * *'
 
@@ -8,7 +9,7 @@ permissions:
   contents: read
 
 jobs:
-  test-containers-multiarch:
+  test-containers:
     uses: ./.github/workflows/main.yaml
     with:
-      build_multiarch: true
+      test_arm64: true

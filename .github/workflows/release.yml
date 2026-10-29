@@ -128,6 +128,7 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
         with:
+          version: 'v0.38.1'
           buildkitd-config: .github/buildkitd.toml
       - name: Login to Docker Hub
         run: |
@@ -168,6 +169,8 @@ jobs:
           install_args: task
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
+        with:
+          version: 'v0.38.1'
       - name: Login to Docker Hub
         run: |
           echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
