@@ -15,13 +15,18 @@ RUN microdnf install --assumeyes --nodocs freetype fontconfig dejavu-sans-fonts 
 ADD --keep-git-dir=false "https://github.com/pepijnve/ditaa.git#mini-${VERSION}" /build
 WORKDIR /build
 # AWT looks for an optional font configuration file in ${java.home}/lib, which a native image does not set,
-# and only falls back to Fontconfig when this directory exists (see sun.awt.FontConfiguration#findFontConfigFile)
+# and only falls back to Fontconfig when this directory exists (see sun.awt.FontConfiguration#findFontConfigFile):
+# use the directory of the binary, so that it also runs outside of /opt/ditaa (e.g. extracted by the Kroki tests).
+# The headless mode set at build time is not kept at runtime: without it, AWT uses X11 when DISPLAY is set and fails.
 COPY <<EOF /build/src/main/java/NativeLauncher.java
+import java.nio.file.Paths;
+
 public class NativeLauncher {
   public static void main(String[] args) throws Exception {
     if (System.getProperty("java.home") == null) {
-      System.setProperty("java.home", "/opt/ditaa");
+      System.setProperty("java.home", Paths.get("/proc/self/exe").toRealPath().getParent().toString());
     }
+    System.setProperty("java.awt.headless", "true");
     org.stathissideris.ditaa.core.CommandLineConverter.main(args);
   }
 }
@@ -62,7 +67,9 @@ RUN ln -s /opt/ditaa/ditaa /usr/bin/ditaa
 COPY --from=build /build/fixtures/diagram.txt /tmp/diagram.txt
 RUN ditaa --svg - < /tmp/diagram.txt > /tmp/diagram.svg && grep -q "<svg" /tmp/diagram.svg && \
     ditaa - < /tmp/diagram.txt > /tmp/diagram.png && test -s /tmp/diagram.png && \
-    ditaa --round-corners --no-shadows --transparent --scale 2 - < /tmp/diagram.txt > /tmp/diagram-options.png && test -s /tmp/diagram-options.png
+    ditaa --round-corners --no-shadows --transparent --scale 2 - < /tmp/diagram.txt > /tmp/diagram-options.png && test -s /tmp/diagram-options.png && \
+    cp -r /opt/ditaa /tmp/relocated && \
+    DISPLAY=:0 /tmp/relocated/ditaa --svg - < /tmp/diagram.txt > /tmp/relocated.svg && grep -q "<svg" /tmp/relocated.svg
 
 # The binary loads the AWT shared libraries generated next to it
 FROM scratch
