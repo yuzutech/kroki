@@ -13,6 +13,7 @@ import org.xml.sax.SAXException;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.PrintStream;
+import java.nio.file.Paths;
 
 /**
  * Converts a UMLet diagram read from stdin to the format given as the first argument (svg, png, jpeg...), written to stdout.
@@ -21,10 +22,13 @@ public class UmletCli {
 
   public static void main(String[] args) throws Exception {
     // AWT looks for an optional font configuration file in ${java.home}/lib, which a native image does not set,
-    // and only falls back to Fontconfig when this directory exists (see sun.awt.FontConfiguration#findFontConfigFile)
+    // and only falls back to Fontconfig when this directory exists (see sun.awt.FontConfiguration#findFontConfigFile):
+    // use the directory of the binary, so that it also runs outside of /opt/umlet
     if (System.getProperty("java.home") == null) {
-      System.setProperty("java.home", "/opt/umlet");
+      System.setProperty("java.home", Paths.get("/proc/self/exe").toRealPath().getParent().toString());
     }
+    // The headless mode set at build time is not kept at runtime: without it, AWT uses X11 when DISPLAY is set and fails
+    System.setProperty("java.awt.headless", "true");
     // Custom elements are drawn by JavaScript code, which Rhino compiles to classes by default:
     // interpret it instead, since a native image cannot define classes at runtime
     ContextFactory.initGlobal(new ContextFactory() {

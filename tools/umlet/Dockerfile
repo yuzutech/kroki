@@ -71,7 +71,9 @@ RUN for fixture in /tmp/fixtures/*.uxf; do \
       if grep -q "This Element has an Error" /tmp/diagram.svg; then echo "Element error in $fixture" && exit 1; fi; \
     done && \
     if echo "<diagram" | umlet svg 2> /tmp/error.txt; then echo "Invalid XML must fail" && exit 1; fi && \
-    test -s /tmp/error.txt
+    test -s /tmp/error.txt && \
+    cp -r /opt/umlet /tmp/relocated && \
+    DISPLAY=:0 /tmp/relocated/umlet svg < /tmp/fixtures/old-state-machine.uxf > /tmp/relocated.svg && grep -q "<svg" /tmp/relocated.svg
 
 # The binary loads the AWT shared libraries generated next to it
 FROM scratch
