@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 const { convert: convertWaveDrom } = require('./convert.js')
 
-const argv = require('yargs').version(false).argv
-
 const encoding = 'utf-8'
 let data
 
@@ -17,7 +15,8 @@ function convert() {
   }
 }
 
-if (argv.version) {
+const [, , ...args] = process.argv
+if (args[0] === '--version') {
   const version = require('./package.json').dependencies.wavedrom
   console.log(`wavedrom ${version}`)
   process.exit(0)
