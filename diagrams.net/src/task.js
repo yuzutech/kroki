@@ -1,7 +1,7 @@
 export default class Task {
-  constructor(source, isPng = false, isUnsafe = false) {
+  constructor(source, isPng = false, safeMode = 'secure') {
     this.source = source
     this.isPng = isPng
-    this.isUnsafe = isUnsafe
+    this.safeMode = safeMode
   }
 }

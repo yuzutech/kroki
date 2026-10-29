@@ -34,8 +34,10 @@ import { QueueFullError, SyntaxError, TimeoutError, Worker } from './worker.js'
         if (diagramSource) {
           try {
             const isPng = outputType === 'png'
-            const krokiUnsafe = (process.env.KROKI_SAFE_MODE ?? 'secure').toLowerCase() === 'unsafe'
-            const output = await worker.convert(new Task(diagramSource, isPng, krokiUnsafe))
+            // Forwarded by the gateway (KROKI_DIAGRAMSNET_SAFE_MODE/KROKI_SAFE_MODE).
+            // Fail closed: an unrecognized or missing value is treated as 'secure'.
+            const safeMode = url.searchParams.get('safeMode') === 'unsafe' ? 'unsafe' : 'secure'
+            const output = await worker.convert(new Task(diagramSource, isPng, safeMode))
             res.setHeader('Content-Type', isPng ? 'image/png' : 'image/svg+xml')
             return micro.send(res, 200, output)
           } catch (err) {

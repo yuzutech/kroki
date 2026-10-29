@@ -51,7 +51,10 @@ import { closeOnShutdown, getBrowserWSEndpoint } from './browser-instance.js'
       })
       if (diagramSource) {
         try {
-          const svg = await worker.convert(new Task(diagramSource))
+          // Forwarded by the gateway (KROKI_EXCALIDRAW_SAFE_MODE/KROKI_SAFE_MODE).
+          // Fail closed: an unrecognized or missing value is treated as 'secure'.
+          const safeMode = url.searchParams.get('safeMode') === 'unsafe' ? 'unsafe' : 'secure'
+          const svg = await worker.convert(new Task(diagramSource, safeMode))
           res.setHeader('Content-Type', 'image/svg+xml')
           return micro.send(res, 200, svg)
         } catch (err) {

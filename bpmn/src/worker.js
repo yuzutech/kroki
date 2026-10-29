@@ -4,7 +4,7 @@ import puppeteer from 'puppeteer'
 
 import { createSemaphore, QueueFullError } from '@kroki/browser-instance'
 import { logger } from './logger.js'
-import { getBrowserWSEndpoint, protocolTimeout } from './browser-instance.js'
+import { applyNetworkPolicy, getBrowserWSEndpoint, protocolTimeout } from './browser-instance.js'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
@@ -59,6 +59,9 @@ export class Worker {
         protocolTimeout
       })
       page = await browser.newPage()
+      // Must run before the first navigation, so that it also covers the
+      // resources loaded while rendering the diagram.
+      await applyNetworkPolicy(page, { pageUrl: this.pageUrl, safeMode: task.safeMode })
       await page.setViewport({ height: 800, width: 600 })
       await page.goto(this.pageUrl)
       const evalResult = await Promise.race([
