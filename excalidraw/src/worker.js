@@ -1,7 +1,7 @@
 import puppeteer from 'puppeteer'
 import { createSemaphore, QueueFullError } from '@kroki/browser-instance'
 import { logger } from './logger.js'
-import { getBrowserWSEndpoint, protocolTimeout } from './browser-instance.js'
+import { applyNetworkPolicy, getBrowserWSEndpoint, protocolTimeout } from './browser-instance.js'
 
 export class TimeoutError extends Error {
   constructor(timeoutDurationMs, action = 'convert') {
@@ -46,7 +46,7 @@ export default class Worker {
     let pooledPage
     let reusable = false
     try {
-      pooledPage = await this._acquirePage()
+      pooledPage = await this._acquirePage(task.safeMode)
       const result = await this._eval(pooledPage.page, task)
       // The page made it through the render: an error raised by Excalidraw
       // itself (e.g. an invalid scene) leaves it in a reusable state.
@@ -93,15 +93,20 @@ export default class Worker {
     }
   }
 
-  async _acquirePage() {
-    while (this.idlePages.length > 0) {
-      const pooledPage = this.idlePages.pop()
+  // The network policy is applied once, when the page is created (see
+  // _createPage): only reuse a page created for the same safe mode. The
+  // gateway forwards a single, deployment-wide value, so in practice the pool
+  // holds pages of one mode only.
+  async _acquirePage(safeMode) {
+    let index
+    while ((index = this.idlePages.findLastIndex(p => p.safeMode === safeMode)) !== -1) {
+      const [pooledPage] = this.idlePages.splice(index, 1)
       if (isHealthy(pooledPage)) {
         return pooledPage
       }
       await closePage(pooledPage)
     }
-    return await this._createPage()
+    return await this._createPage(safeMode)
   }
 
   async _releasePage(pooledPage, reusable) {
@@ -113,15 +118,18 @@ export default class Worker {
     }
   }
 
-  async _createPage() {
+  async _createPage(safeMode) {
     const browser = await this._getBrowser()
     const page = await browser.newPage()
-    const pooledPage = { page, uses: 0, crashed: false }
+    const pooledPage = { page, safeMode, uses: 0, crashed: false }
     page.once('error', err => {
       logger.warn({ err }, 'Excalidraw page crashed')
       pooledPage.crashed = true
     })
     try {
+      // Must run before the first navigation, so that it also covers the
+      // resources loaded while rendering a scene (e.g. an image element).
+      await applyNetworkPolicy(page, { pageUrl: this.pageUrl, safeMode })
       await page.setViewport({ height: 800, width: 600 })
       await page.goto(this.pageUrl)
       if (this.assetPath) {
@@ -130,8 +138,10 @@ export default class Worker {
         })
       }
       // index.bundle.js is using the EXCALIDRAW_ASSET_PATH variable.
+      // Resolved against the page URL: the network policy only lets the page
+      // load same-origin scripts.
       await page.addScriptTag({
-        url: 'http://127.0.0.1:8004/public/index.bundle.js'
+        url: new URL('index.bundle.js', this.pageUrl).href
       })
       return pooledPage
     } catch (err) {

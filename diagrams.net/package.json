@@ -7,6 +7,7 @@
   "bin": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
+    "test": "node --test --test-force-exit",
     "lint": "biome check src"
   },
   "keywords": [],

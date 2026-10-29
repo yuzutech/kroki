@@ -11,6 +11,10 @@ versioned entry and uses it as the GitHub release notes.
 
 ## [Unreleased]
 
+### Security
+
+- Prevent diagrams.net image-shape nodes (`shape=image;image=URL`) and background images, as well as Excalidraw image elements, from making the companion's headless Chromium fetch an attacker-controlled URL (server-side request forgery), by applying the request-interception policy already used by the Mermaid companion to the diagrams.net, Excalidraw and BPMN companions: requests are restricted to `file:`/`data:`/same-origin plus an optional operator-configured allowlist (`KROKI_DIAGRAMSNET_ALLOWED_ORIGINS`, `KROKI_EXCALIDRAW_ALLOWED_ORIGINS`, `KROKI_BPMN_ALLOWED_ORIGINS` / `KROKI_ALLOWED_ORIGINS`) unless the gateway runs in `UNSAFE` mode (`KROKI_DIAGRAMSNET_SAFE_MODE`, `KROKI_EXCALIDRAW_SAFE_MODE`, `KROKI_BPMN_SAFE_MODE` / `KROKI_SAFE_MODE`). The diagrams.net companion now also takes the safe mode from the gateway, instead of its own `KROKI_SAFE_MODE` environment variable, to decide whether to inline the images referenced by the diagram ([#2225](https://github.com/yuzutech/kroki/pull/2225))
+
 ### Changed
 
 - Update the `yuzutech/kroki` base image to Ubuntu 26.04 LTS (`eclipse-temurin:21.0.12.1_1-jre-resolute`, previously `21.0.9_10-jre-noble`), with dvisvgm 3.6 for TikZ diagrams ([#2209](https://github.com/yuzutech/kroki/pull/2209))

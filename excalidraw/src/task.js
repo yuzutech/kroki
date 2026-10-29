@@ -1,5 +1,6 @@
 export default class Task {
-  constructor(source) {
+  constructor(source, safeMode = 'secure') {
     this.source = source
+    this.safeMode = safeMode
   }
 }

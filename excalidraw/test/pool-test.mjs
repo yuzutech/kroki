@@ -32,6 +32,12 @@ class FakePage {
     this.listeners[event]?.(arg)
   }
 
+  on() {}
+
+  async setRequestInterception(value) {
+    this.requestInterception = value
+  }
+
   async setViewport() {}
   async goto() {}
   async addScriptTag() {}
@@ -65,6 +71,18 @@ describe('#page pool', () => {
     deepEqual(browser.pages.length, 1)
     deepEqual(worker.idlePages.length, 1)
     deepEqual(worker.semaphore.count, 0)
+  })
+
+  it('should only reuse a page created for the same safe mode', async () => {
+    const worker = new Worker()
+    const browser = stubBrowser(worker)
+    await worker.convert(new Task(SCENE))
+    await worker.convert(new Task(SCENE, 'unsafe'))
+    await worker.convert(new Task(SCENE, 'secure'))
+    deepEqual(browser.pages.length, 2)
+    deepEqual(browser.pages[0].requestInterception, true)
+    deepEqual(browser.pages[1].requestInterception, undefined)
+    deepEqual(worker.idlePages.length, 2)
   })
 
   it('should not reuse a page that crashed', async () => {

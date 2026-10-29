@@ -112,6 +112,19 @@ If you want to enable this feature, you can set the safe mode using the global e
 Unless Kroki is running in `UNSAFE` mode, Lini runs with its `--no-fs` flag and never reads a file.
 An image (`|image|`) can only point at a URL or a `data:` URI: a local file path is an error, and the `theme` option only accepts the built-in themes.
 
+=== Mermaid, diagrams.net, Excalidraw and BPMN
+
+These companion services render diagrams in a headless Chromium instance.
+Unless Kroki is running in `UNSAFE` mode, the browser can only load local resources (`file:`, `data:` and the page's own origin): a resource referenced by a diagram on another host (e.g. a Mermaid image-shape node, a diagrams.net image shape or background image, or an Excalidraw image element) is blocked.
+
+The safe mode can be set using the global environment variable `KROKI_SAFE_MODE` or a service-specific environment variable on the gateway: `KROKI_MERMAID_SAFE_MODE`, `KROKI_DIAGRAMSNET_SAFE_MODE`, `KROKI_EXCALIDRAW_SAFE_MODE` or `KROKI_BPMN_SAFE_MODE`.
+In `UNSAFE` mode, diagrams.net also inlines the referenced images in the SVG output.
+
+To allow some trusted origins (e.g. an internal image bank) without switching to `UNSAFE` mode, set a comma-separated list of origins on the companion container, using the global environment variable `KROKI_ALLOWED_ORIGINS` or a service-specific one: `KROKI_MERMAID_ALLOWED_ORIGINS`, `KROKI_DIAGRAMSNET_ALLOWED_ORIGINS`, `KROKI_EXCALIDRAW_ALLOWED_ORIGINS` or `KROKI_BPMN_ALLOWED_ORIGINS`.
+
+[source,env]
+KROKI_DIAGRAMSNET_ALLOWED_ORIGINS=https://images.example.com,https://cdn.example.com
+
 == Cross-origin resource sharing (CORS)
 
 By default, the following headers are allowed:

@@ -5,7 +5,7 @@ import { fileURLToPath, URL } from 'node:url'
 import puppeteer, { Page } from 'puppeteer'
 import { createSemaphore, QueueFullError } from '@kroki/browser-instance'
 import { logger } from './logger.js'
-import { getBrowserWSEndpoint, protocolTimeout } from './browser-instance.js'
+import { applyNetworkPolicy, getBrowserWSEndpoint, protocolTimeout } from './browser-instance.js'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
@@ -61,6 +61,10 @@ export class Worker {
     try {
       browser = await this._connect()
       page = await newPage(browser)
+      // Must run before the first navigation: rendering the graph itself
+      // loads the resources it references (an image-shape node, the document
+      // background image), not just the later PNG screenshot step.
+      await applyNetworkPolicy(page, { pageUrl: this.pageUrl, safeMode: task.safeMode })
       await page.setViewport({ height: 800, width: 600 })
       await this._goto(page)
       const evalResult = await this._eval(page, task)
@@ -122,7 +126,7 @@ export class Worker {
             return s.serializeToString(svgRoot)
           },
           task.source,
-          task.isUnsafe
+          task.safeMode === 'unsafe'
         )
         .catch(err => {
           throw new SyntaxError(err)
