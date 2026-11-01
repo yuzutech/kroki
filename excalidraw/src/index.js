@@ -1,48 +1,22 @@
 // must be declared first
 import { logger } from './logger.js'
 import http from 'node:http'
-import path from 'node:path'
-import fsp from 'node:fs/promises'
 import micro from 'micro'
 import Worker, { QueueFullError, TimeoutError } from './worker.js'
 import Task from './task.js'
+import { startAssetsServer } from './assets-server.js'
 import { closeOnShutdown, getBrowserWSEndpoint } from './browser-instance.js'
 
 ;(async () => {
   // Warm up Chrome so the service fails fast when it cannot launch; the
   // instance is re-created on demand if the process dies (see browser-instance.js).
   await getBrowserWSEndpoint()
-  const worker = new Worker()
+  const worker = new Worker(
+    process.env.KROKI_EXCALIDRAW_PAGE_URL || (await startAssetsServer()).pageUrl
+  )
   const server = new http.Server(
     micro.serve(async (req, res) => {
       const url = new URL(req.url, 'http://localhost') // create a URL object. The base is not important here
-      if (url.pathname.startsWith('/public/')) {
-        const relativePath = url.pathname.slice('/public/'.length)
-        const filePath = path.join(process.cwd(), 'assets', relativePath)
-        // prevent directory traversal
-        if (!filePath.startsWith(path.join(process.cwd(), 'assets'))) {
-          return micro.send(res, 403, 'Forbidden')
-        }
-        try {
-          const content = await fsp.readFile(filePath)
-          const ext = path.extname(filePath).toLowerCase()
-          const mimeTypes = {
-            '.html': 'text/html',
-            '.js': 'application/javascript',
-            '.css': 'text/css',
-            '.json': 'application/json',
-            '.woff2': 'font/woff2',
-            '.woff': 'font/woff',
-            '.ttf': 'font/ttf',
-            '.svg': 'image/svg+xml',
-            '.png': 'image/png'
-          }
-          res.setHeader('Content-Type', mimeTypes[ext] || 'application/octet-stream')
-          return micro.send(res, 200, content)
-        } catch {
-          return micro.send(res, 404, 'Not Found')
-        }
-      }
       // TODO: add a /_status route (return excalidraw version)
       // TODO: read the diagram source as plain text
       const diagramSource = await micro.text(req, {

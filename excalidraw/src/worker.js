@@ -24,9 +24,8 @@ export { QueueFullError }
  * lazily re-created) whenever it crashes, times out or reaches pageMaxUses.
  */
 export default class Worker {
-  constructor() {
-    this.pageUrl =
-      process.env.KROKI_EXCALIDRAW_PAGE_URL || 'http://127.0.0.1:8004/public/index.html'
+  constructor(pageUrl) {
+    this.pageUrl = pageUrl
     this.assetPath = process.env.KROKI_EXCALIDRAW_ASSET_PATH || '/public'
     this.convertTimeout = Number(process.env.KROKI_EXCALIDRAW_CONVERT_TIMEOUT) || 15000
     // Recycle a page after this many conversions to bound memory growth in a

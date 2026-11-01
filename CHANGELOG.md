@@ -27,6 +27,7 @@ versioned entry and uses it as the GitHub release notes.
 - Stop installing a C/C++ toolchain (`gcc`, `build-essential`, ...) and development packages in the `yuzutech/kroki` image, pulled by a misspelled `libgirepository` package name (about 240 MB smaller) ([#2199](https://github.com/yuzutech/kroki/pull/2199))
 - Report the Pikchr and GoAT versions shipped in the image in `/health` (and in the HTTP cache key): Pikchr reported an older `pikchr.c` artifact (`7269f78c4a` instead of `85e65b9686`) and GoAT reported `undefined` instead of 0.5.1 ([#2205](https://github.com/yuzutech/kroki/pull/2205))
 - Fix zombie processes piling up in the Mermaid, BPMN, Excalidraw and diagrams.net containers after a Chromium crash: `tini` now runs as PID 1 to reap them ([#2244](https://github.com/yuzutech/kroki/pull/2244))
+- Fix the Excalidraw container taking 8.5 seconds to stop after its first render, and failing the conversions still loading a page at that point with a 400 error: the page and its assets are now served by a dedicated server listening on a random loopback port, which also means they are no longer exposed on port 8004 ([#2247](https://github.com/yuzutech/kroki/pull/2247))
 
 ### Diagram libraries
 
