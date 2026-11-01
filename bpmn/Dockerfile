@@ -1,5 +1,5 @@
 # Copy the bpmn-js viewer bundle from node_modules into assets
-FROM node:24.19-alpine3.24 AS builder
+FROM node:24.22-alpine3.24 AS builder
 
 WORKDIR /usr/local/kroki/
 
@@ -12,7 +12,7 @@ COPY package*.json ./
 RUN PUPPETEER_SKIP_DOWNLOAD=true npm i --omit=dev --no-audit --no-fund --no-update-notifier --loglevel=error
 RUN mkdir -p assets && npm run prestart
 
-FROM node:24.19-alpine3.24
+FROM node:24.22-alpine3.24
 
 RUN addgroup -g 1001 kroki && adduser -D -G kroki -u 1001 kroki
 

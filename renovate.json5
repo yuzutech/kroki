@@ -282,12 +282,12 @@
       ],
       groupName: 'DBML',
     },
-    // @biomejs/biome, esbuild, postject and the volta node pin are identical
+    // @biomejs/biome, esbuild and postject are identical
     // build tooling duplicated across every diagram-library package.json
     // (mermaid/, bpmn/, wavedrom/, ...). Without this rule each directory's
     // groupName above would bundle these internal-only bumps together with
     // the actual diagram library version (e.g. PR #2122 mixed a wavedrom
-    // bump with @biomejs/biome, esbuild and node), which is wrong per the
+    // bump with @biomejs/biome and esbuild), which is wrong per the
     // changelog rule: library bumps are user-visible, tooling bumps aren't.
     // Placed after the per-directory rules so it wins on groupName for
     // these package names and collapses them into one shared PR.
@@ -299,7 +299,6 @@
         '@biomejs/biome',
         'esbuild',
         'postject',
-        'node',
       ],
       groupName: 'Build tooling',
     },

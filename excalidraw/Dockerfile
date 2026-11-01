@@ -1,4 +1,4 @@
-FROM node:24.19-alpine3.24 AS builder
+FROM node:24.22-alpine3.24 AS builder
 
 WORKDIR /usr/local/kroki/
 
@@ -13,7 +13,7 @@ RUN npm i --no-audit --no-fund --no-update-notifier --loglevel=error
 RUN npm run prestart
 RUN npm run build
 
-FROM node:24.19-alpine3.24
+FROM node:24.22-alpine3.24
 
 RUN addgroup -g 1001 kroki && adduser -D -G kroki -u 1001 kroki
 

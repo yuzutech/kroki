@@ -32,8 +32,5 @@
   "devDependencies": {
     "@biomejs/biome": "2.5.15",
     "esbuild": "0.28.2"
-  },
-  "volta": {
-    "node": "24.22.0"
   }
 }
