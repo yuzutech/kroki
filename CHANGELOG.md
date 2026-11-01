@@ -13,6 +13,7 @@ versioned entry and uses it as the GitHub release notes.
 
 ### Security
 
+- Update Node.js to 24.22 in the companion images and the Node.js-based converters of the `yuzutech/kroki` image (previously 24.19), which includes the fix for the Brotli decoder vulnerability CVE-2026-111497. The vulnerable decoder was not reachable in Kroki, as no Brotli data is decompressed with `node:zlib` ([#2243](https://github.com/yuzutech/kroki/pull/2243))
 - Prevent diagrams.net image-shape nodes (`shape=image;image=URL`) and background images, as well as Excalidraw image elements, from making the companion's headless Chromium fetch an attacker-controlled URL (server-side request forgery), by applying the request-interception policy already used by the Mermaid companion to the diagrams.net, Excalidraw and BPMN companions: requests are restricted to `file:`/`data:`/same-origin plus an optional operator-configured allowlist (`KROKI_DIAGRAMSNET_ALLOWED_ORIGINS`, `KROKI_EXCALIDRAW_ALLOWED_ORIGINS`, `KROKI_BPMN_ALLOWED_ORIGINS` / `KROKI_ALLOWED_ORIGINS`) unless the gateway runs in `UNSAFE` mode (`KROKI_DIAGRAMSNET_SAFE_MODE`, `KROKI_EXCALIDRAW_SAFE_MODE`, `KROKI_BPMN_SAFE_MODE` / `KROKI_SAFE_MODE`). The diagrams.net companion now also takes the safe mode from the gateway, instead of its own `KROKI_SAFE_MODE` environment variable, to decide whether to inline the images referenced by the diagram ([#2225](https://github.com/yuzutech/kroki/pull/2225))
 
 ### Changed

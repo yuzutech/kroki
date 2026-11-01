@@ -32,8 +32,5 @@
     "@mermaid-js/layout-tidy-tree": "1.0.1",
     "mermaid": "12.2.0",
     "pngjs": "7.0.0"
-  },
-  "volta": {
-    "node": "24.22.0"
   }
 }
