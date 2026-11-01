@@ -80,7 +80,7 @@ FROM ghcr.io/yuzutech/kroki-builder-symbolator:1.2.2 AS kroki-builder-static-sym
 FROM ghcr.io/yuzutech/kroki-builder-pikchr:85e65b968651b342c46e6334f4772b45d6cbb4317c5cbaa95d207779a50c6709 AS kroki-builder-static-pikchr
 
 ## SVGBob
-FROM --platform=$BUILDPLATFORM rust:1.97-slim-bullseye AS kroki-builder-static-svgbob
+FROM --platform=$BUILDPLATFORM rust:1.98-slim-bullseye AS kroki-builder-static-svgbob
 
 # Install cross-compilation tools
 RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -qq --no-install-recommends --yes \
@@ -105,7 +105,7 @@ RUN SVGBOB_VERSION=`cat Cargo.toml | grep "svgbob_cli =" | sed -r 's/.*"([^"]+)"
     cargo install --quiet --target $RUST_TARGET_ARCH-unknown-linux-gnu --version $SVGBOB_VERSION svgbob_cli
 
 ## Lini
-FROM --platform=$BUILDPLATFORM rust:1.97-slim-bullseye AS kroki-builder-static-lini
+FROM --platform=$BUILDPLATFORM rust:1.98-slim-bullseye AS kroki-builder-static-lini
 
 # Install cross-compilation tools
 RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -qq --no-install-recommends --yes \
@@ -148,7 +148,7 @@ FROM ghcr.io/yuzutech/kroki-builder-ditaa:1.0.3 AS ditaa
 FROM ghcr.io/yuzutech/kroki-builder-umlet:15.1 AS umlet
 
 ## GoAT
-FROM --platform=$BUILDPLATFORM golang:1.26.5-alpine AS kroki-builder-goat
+FROM --platform=$BUILDPLATFORM golang:1.27.3-alpine AS kroki-builder-goat
 
 ARG GOAT_VERSION=0.5.1
 
@@ -161,7 +161,7 @@ RUN CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go install "github.com/b
     if [ -f "/go/bin/${TARGETOS}_${TARGETARCH}/goat" ]; then mv "/go/bin/${TARGETOS}_${TARGETARCH}/goat" /go/bin/goat; fi
 
 ## yuzutech/kroki
-FROM eclipse-temurin:21.0.12.1_1-jre-resolute
+FROM eclipse-temurin:21.0.13_9-jre-resolute
 
 ARG D2_VERSION="0.9.0"
 ARG DVISVGM_VERSION="3.6+ds-1"
