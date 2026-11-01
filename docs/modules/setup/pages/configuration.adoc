@@ -24,7 +24,14 @@ If the host is unspecified, the server will use `[::]` (i.e., bind to all networ
 `KROKI_LISTEN` also accepts IPv6 enclosed within square brackets (`[` and `]`),
 for instance: `KROKI_LISTEN=[2001:db8:1f70::999:de8:7648:6e8]:1234`.
 
-In addition, `KROKI_LISTEN` supports UNIX domain sockets by prefixing `unix://` to a path, for example: `KROKI_LISTEN=unix:///var/run/kroki.sock`.
+In addition, `KROKI_LISTEN` supports UNIX domain sockets by prefixing `unix://` to a path, for example: `KROKI_LISTEN=unix:///tmp/kroki.sock`.
+The parent directory must be writable by the user running Kroki, and only this user can connect to the socket.
+
+The `yuzutech/kroki` Docker image runs as the `kroki` user (UID 1001), which cannot write to `/run` or `/var/run`.
+To use the socket from outside the container, mount a directory that UID 1001 can write to, and connect as UID 1001:
+
+[source,cli]
+docker run -e KROKI_LISTEN=unix:///var/run/kroki/kroki.sock -v /path/to/socket-dir:/var/run/kroki yuzutech/kroki
 ====
 
 
