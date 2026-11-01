@@ -106,6 +106,15 @@ By default, the security profile is inferred from the Kroki safe mode:
 
 For more information, see the https://plantuml.com/en/security[PlantUML security documentation].
 
+=== Vega and Vega-Lite
+
+The `vega` binary cannot access the network or the file system, so Vega and Vega-Lite diagrams cannot load external resources, regardless of the safe mode.
+Please include your data set as `values` in the specification.
+
+While running in `SECURE` or `SAFE` mode, Kroki rejects a specification that references a URL in `data` or in an image mark.
+
+While running in `UNSAFE` mode, Kroki does not reject it, but the resource is still not loaded: the diagram is rendered without the data and image marks are left empty in SVG. In PNG and PDF, an image mark can fail the conversion.
+
 === Structurizr
 
 Structurizr's restricted mode is activated unless Kroki is running in `UNSAFE` mode:

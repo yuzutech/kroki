@@ -30,6 +30,11 @@ describe("#convert", function () {
       );
     } catch (err) {
       deepEqual(err.name, "UnsafeIncludeError");
+      deepEqual(
+        err.message,
+        `Unable to load data from an URL: Kroki does not load external resources in Vega and Vega-Lite diagrams.
+Please include your data set as 'values'.`,
+      );
     }
   });
   it("should throw UnsafeIncludeError in secure mode when the Vega specification contains data.url", async () => {
@@ -268,6 +273,28 @@ describe("#convert", function () {
     } catch (err) {
       deepEqual(err.name, "UnsafeIncludeError");
     }
+  });
+  it("should not load a computed image URL in secure mode", async function () {
+    const input = `{
+  "width": 100,
+  "height": 100,
+  "marks": [
+    {
+      "type": "image",
+      "encode": {"enter": {"width": {"value": 50}, "height": {"value": 50}}},
+      "transform": [
+        {"type": "formula", "expr": "'http://127.0.0.1:1/image.png'", "as": "url"}
+      ]
+    }
+  ]
+}`;
+    // Without the loader, the image is not loaded and the canvas renderer throws.
+    const result = await convert(input, {
+      specFormat: "default",
+      safeMode: "secure",
+      format: "png",
+    });
+    deepEqual([...result.subarray(1, 4)], [0x50, 0x4e, 0x47]);
   });
   it("should allow inline values in secure mode", async function () {
     const input = `{
