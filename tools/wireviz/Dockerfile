@@ -7,7 +7,7 @@
 ARG VERSION=0.3.3
 
 # The binary bundles Python and its libraries, and runs on any glibc at least as recent as Debian bookworm's
-FROM python:3.11-slim-bookworm AS build
+FROM python:3.15-slim-bookworm AS build
 ARG VERSION
 RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -qq --no-install-recommends --yes \
     ca-certificates \

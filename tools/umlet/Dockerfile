@@ -6,7 +6,7 @@
 # renovate: datasource=github-tags depName=umlet/umlet extractVersion=^v(?<version>\d+\.\d+(\.\d+)?)$
 ARG VERSION=15.1
 
-FROM maven:3.9-eclipse-temurin-11 AS jar
+FROM maven:3.10-eclipse-temurin-11 AS jar
 ARG VERSION
 ADD --keep-git-dir=false "https://github.com/umlet/umlet.git#v${VERSION}" /build
 WORKDIR /build
