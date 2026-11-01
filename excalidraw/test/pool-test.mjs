@@ -6,6 +6,7 @@ import { deepEqual, rejects } from 'node:assert'
 import Worker, { TimeoutError } from '../src/worker.js'
 import Task from '../src/task.js'
 
+const PAGE_URL = 'http://127.0.0.1:8004/public/index.html'
 const SCENE = JSON.stringify({ type: 'excalidraw', elements: [] })
 
 class FakePage {
@@ -64,7 +65,7 @@ function stubBrowser(worker) {
 
 describe('#page pool', () => {
   it('should reuse a page across conversions', async () => {
-    const worker = new Worker()
+    const worker = new Worker(PAGE_URL)
     const browser = stubBrowser(worker)
     deepEqual(await worker.convert(new Task(SCENE)), '<svg/>')
     deepEqual(await worker.convert(new Task(SCENE)), '<svg/>')
@@ -74,7 +75,7 @@ describe('#page pool', () => {
   })
 
   it('should only reuse a page created for the same safe mode', async () => {
-    const worker = new Worker()
+    const worker = new Worker(PAGE_URL)
     const browser = stubBrowser(worker)
     await worker.convert(new Task(SCENE))
     await worker.convert(new Task(SCENE, 'unsafe'))
@@ -86,7 +87,7 @@ describe('#page pool', () => {
   })
 
   it('should not reuse a page that crashed', async () => {
-    const worker = new Worker()
+    const worker = new Worker(PAGE_URL)
     const browser = stubBrowser(worker)
     await worker.convert(new Task(SCENE))
     const [crashedPage] = browser.pages
@@ -98,7 +99,7 @@ describe('#page pool', () => {
   })
 
   it('should put a page back in the pool when Excalidraw fails to render the scene', async () => {
-    const worker = new Worker()
+    const worker = new Worker(PAGE_URL)
     const browser = stubBrowser(worker)
     await worker.convert(new Task(SCENE))
     browser.pages[0].evaluate = async () => ({
@@ -112,7 +113,7 @@ describe('#page pool', () => {
   })
 
   it('should close a page once it reaches the maximum number of uses', async () => {
-    const worker = new Worker()
+    const worker = new Worker(PAGE_URL)
     worker.pageMaxUses = 2
     const browser = stubBrowser(worker)
     await worker.convert(new Task(SCENE))
@@ -124,7 +125,7 @@ describe('#page pool', () => {
   })
 
   it('should discard a page whose render timed out', async () => {
-    const worker = new Worker()
+    const worker = new Worker(PAGE_URL)
     worker.convertTimeout = 20
     const browser = stubBrowser(worker)
     await worker.convert(new Task(SCENE))
@@ -136,7 +137,7 @@ describe('#page pool', () => {
   })
 
   it('should discard a page whose renderer crashed during the render', async () => {
-    const worker = new Worker()
+    const worker = new Worker(PAGE_URL)
     const browser = stubBrowser(worker)
     await worker.convert(new Task(SCENE))
     browser.pages[0].evaluate = async () => {
@@ -148,7 +149,7 @@ describe('#page pool', () => {
   })
 
   it('should release the permit when opening a page fails', async () => {
-    const worker = new Worker()
+    const worker = new Worker(PAGE_URL)
     const browser = stubBrowser(worker)
     browser.newPage = () => Promise.reject(new Error('Target.createTarget timed out'))
     for (let i = 0; i < worker.semaphore.max + 1; i++) {
@@ -158,7 +159,7 @@ describe('#page pool', () => {
   })
 
   it('should drop idle pages when the browser connection is lost', async () => {
-    const worker = new Worker()
+    const worker = new Worker(PAGE_URL)
     const browser = stubBrowser(worker)
     await worker.convert(new Task(SCENE))
     browser.connected = false
