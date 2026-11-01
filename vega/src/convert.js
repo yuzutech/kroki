@@ -25,6 +25,16 @@ const nullLogger = {
 };
 
 /**
+ * Rejects every resource request, whatever its origin in the specification
+ * (data sets, image marks, computed URLs...). Used unless Kroki is running in
+ * unsafe mode, in addition to the check made by `specHasUnsafeUrl`, which only
+ * looks at known locations but returns an explicit error.
+ */
+const rejectResource = () =>
+  Promise.reject(new Error("Kroki does not load external resources."));
+const denyAllLoader = { load: rejectResource, sanitize: rejectResource };
+
+/**
  * Whether a `data` definition (either a single object, as found on
  * `spec.data` or `mark.encode.*`, or an array of them, as found on
  * `spec.data` or `mark.data`) includes a `url` attribute.
@@ -105,12 +115,13 @@ export async function convert(source, options) {
   }
   if (safeMode === "secure" && specHasUnsafeUrl(spec)) {
     throw new UnsafeIncludeError(
-      `Unable to load data from an URL while running in secure mode.
-Please include your data set as 'values' or run Kroki in unsafe mode using the KROKI_SAFE_MODE environment variable.`,
+      `Unable to load data from an URL: Kroki does not load external resources in Vega and Vega-Lite diagrams.
+Please include your data set as 'values'.`,
     );
   }
   const view = new View(parse(spec), {
     renderer: format === "svg" ? "svg" : "canvas",
+    ...(safeMode === "unsafe" ? {} : { loader: denyAllLoader }),
   }).finalize();
   if (format === "svg") {
     return await view.toSVG();

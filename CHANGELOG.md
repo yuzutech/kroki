@@ -15,6 +15,7 @@ versioned entry and uses it as the GitHub release notes.
 
 - Update Node.js to 24.22 in the companion images and the Node.js-based converters of the `yuzutech/kroki` image (previously 24.19), which includes the fix for the Brotli decoder vulnerability CVE-2026-111497. The vulnerable decoder was not reachable in Kroki, as no Brotli data is decompressed with `node:zlib` ([#2243](https://github.com/yuzutech/kroki/pull/2243))
 - Prevent diagrams.net image-shape nodes (`shape=image;image=URL`) and background images, as well as Excalidraw image elements, from making the companion's headless Chromium fetch an attacker-controlled URL (server-side request forgery), by applying the request-interception policy already used by the Mermaid companion to the diagrams.net, Excalidraw and BPMN companions: requests are restricted to `file:`/`data:`/same-origin plus an optional operator-configured allowlist (`KROKI_DIAGRAMSNET_ALLOWED_ORIGINS`, `KROKI_EXCALIDRAW_ALLOWED_ORIGINS`, `KROKI_BPMN_ALLOWED_ORIGINS` / `KROKI_ALLOWED_ORIGINS`) unless the gateway runs in `UNSAFE` mode (`KROKI_DIAGRAMSNET_SAFE_MODE`, `KROKI_EXCALIDRAW_SAFE_MODE`, `KROKI_BPMN_SAFE_MODE` / `KROKI_SAFE_MODE`). The diagrams.net companion now also takes the safe mode from the gateway, instead of its own `KROKI_SAFE_MODE` environment variable, to decide whether to inline the images referenced by the diagram ([#2225](https://github.com/yuzutech/kroki/pull/2225))
+- Reject every resource request made by Vega and Vega-Lite diagrams unless Kroki is running in `UNSAFE` mode, using a custom Vega loader. The existing check only looked for URLs at known locations of the specification, so a URL computed by a transform was not rejected. It was not exploitable in the published images, as the `vega` binary has no network or file system access ([#2246](https://github.com/yuzutech/kroki/pull/2246))
 
 ### Changed
 
@@ -28,6 +29,7 @@ versioned entry and uses it as the GitHub release notes.
 - Report the Pikchr and GoAT versions shipped in the image in `/health` (and in the HTTP cache key): Pikchr reported an older `pikchr.c` artifact (`7269f78c4a` instead of `85e65b9686`) and GoAT reported `undefined` instead of 0.5.1 ([#2205](https://github.com/yuzutech/kroki/pull/2205))
 - Fix zombie processes piling up in the Mermaid, BPMN, Excalidraw and diagrams.net containers after a Chromium crash: `tini` now runs as PID 1 to reap them ([#2244](https://github.com/yuzutech/kroki/pull/2244))
 - Fix the Excalidraw container taking 8.5 seconds to stop after its first render, and failing the conversions still loading a page at that point with a 400 error: the page and its assets are now served by a dedicated server listening on a random loopback port, which also means they are no longer exposed on port 8004 ([#2247](https://github.com/yuzutech/kroki/pull/2247))
+- Fix the error returned when a Vega or Vega-Lite diagram references a URL: it recommended `KROKI_SAFE_MODE=unsafe`, which does not allow loading external resources, as the `vega` binary has no network or file system access. This limitation is now documented ([#2246](https://github.com/yuzutech/kroki/pull/2246))
 
 ### Diagram libraries
 
