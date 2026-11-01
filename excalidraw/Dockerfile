@@ -19,7 +19,8 @@ RUN addgroup -g 1001 kroki && adduser -D -G kroki -u 1001 kroki
 
 RUN apk add --quiet --no-cache --update \
   chromium \
-  font-noto-cjk
+  font-noto-cjk \
+  tini
 
 USER kroki
 WORKDIR /usr/local/kroki/
@@ -48,4 +49,5 @@ RUN npm i --omit=dev --no-audit --no-fund --no-update-notifier --loglevel=error
 
 EXPOSE 8004
 
-ENTRYPOINT ["node", "src/index.js"]
+# tini runs as PID 1 to reap the Chromium processes orphaned by a crash, and forwards SIGTERM to Node.js
+ENTRYPOINT ["/sbin/tini", "-s", "--", "node", "src/index.js"]
