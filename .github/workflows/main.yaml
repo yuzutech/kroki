@@ -39,7 +39,7 @@ jobs:
     - name: Set up the build tools
       uses: jdx/mise-action@v5
       with:
-        version: 2026.10.23
+        version: 2026.10.25
         install_args: java node task
 
     - name: Build Java server
