@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Map;
 
 public class Commander {
 
@@ -35,8 +37,15 @@ public class Commander {
   }
 
   public byte[] execute(byte[] source, String... cmd) throws IOException, InterruptedException, IllegalStateException {
+    return execute(source, Collections.emptyMap(), cmd);
+  }
+
+  public byte[] execute(byte[] source, Map<String, String> environment, String... cmd) throws IOException, InterruptedException, IllegalStateException {
     ProcessBuilder builder = new ProcessBuilder();
     builder.command(cmd);
+    if (!environment.isEmpty()) {
+      builder.environment().putAll(environment);
+    }
     //builder.redirectError(ProcessBuilder.Redirect.PIPE);
     //builder.redirectInput(ProcessBuilder.Redirect.PIPE);
     Process process = builder.start();

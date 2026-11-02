@@ -15,10 +15,23 @@ import io.vertx.core.json.JsonObject;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class Bytefield implements DiagramService {
 
   private static final List<FileFormat> SUPPORTED_FORMATS = Collections.singletonList(FileFormat.SVG);
+  /**
+   * bytefield-svg evaluates its input with sci (a Clojure interpreter) running on Node.js. The sci
+   * sandbox exposes {@code aget}, which allows traversing the prototype chain from a string literal
+   * up to the {@code Function} constructor and evaluating arbitrary JavaScript (remote code
+   * execution). Running the process with {@code --disallow-code-generation-from-strings} makes the
+   * V8 context reject {@code new Function(...)} / {@code eval(...)}, which neutralizes that escape
+   * while leaving legitimate diagrams unaffected. The flag must be set at process startup (via
+   * NODE_OPTIONS), as it only applies when the V8 context is created; toggling it at runtime from
+   * inside the script has no effect. It is scoped to this process so other Node-based services
+   * (e.g. Vega, which legitimately compiles expressions to functions) are not impacted.
+   */
+  private static final String DISALLOW_CODE_GENERATION_FLAG = "--disallow-code-generation-from-strings";
   private final Vertx vertx;
   private final String binPath;
   private final SourceDecoder sourceDecoder;
@@ -61,6 +74,17 @@ public class Bytefield implements DiagramService {
   }
 
   private byte[] bytefield(byte[] source) throws IOException, InterruptedException, IllegalStateException {
-    return commander.execute(source, binPath);
+    return commander.execute(source, nodeOptionsEnvironment(), binPath);
+  }
+
+  private static Map<String, String> nodeOptionsEnvironment() {
+    String existing = System.getenv("NODE_OPTIONS");
+    String value;
+    if (existing == null || existing.isBlank()) {
+      value = DISALLOW_CODE_GENERATION_FLAG;
+    } else {
+      value = existing + " " + DISALLOW_CODE_GENERATION_FLAG;
+    }
+    return Map.of("NODE_OPTIONS", value);
   }
 }
