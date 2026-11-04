@@ -420,6 +420,10 @@
       ignoreUnstable: true,
     },
   ],
+  // the "file:../lib/browser-instance" dependency makes Renovate run a full `npm install` (not --package-lock-only):
+  // reusing the node_modules left by a previous branch of the same run, npm then drops the resolved and integrity
+  // fields of the unchanged packages (npm/cli#4263). npm handles "file:" dependencies fine with --package-lock-only
+  skipInstalls: true,
   lockFileMaintenance: {
     enabled: true,
     automerge: true,
