@@ -29,7 +29,7 @@ asciidoc:
     # renovate: datasource=crate depName=lini
     lini-version: 1.1.0
     # renovate: datasource=npm depName=mermaid
-    mermaid-version: 12.2.0
+    mermaid-version: 12.3.0
     # renovate: datasource=npm depName=nomnoml
     nomnoml-version: 1.7.0
     # renovate: datasource=docker depName=ghcr.io/yuzutech/kroki-builder-blockdiag
