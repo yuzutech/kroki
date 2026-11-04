@@ -40,6 +40,7 @@ versioned entry and uses it as the GitHub release notes.
 - Update bpmn-js to 18.31.1 ([#2211](https://github.com/yuzutech/kroki/pull/2211))
 - Update Structurizr to 6.2.4 ([#2216](https://github.com/yuzutech/kroki/pull/2216))
 - Update WaveDrom to 3.8.0 ([#2217](https://github.com/yuzutech/kroki/pull/2217))
+- Update Mermaid to 12.3.0 ([#2252](https://github.com/yuzutech/kroki/pull/2252))
 
 ## [0.34.0] - 2026-10-25
 
