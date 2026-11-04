@@ -24,7 +24,7 @@ jobs:
       - name: Set up Node.js and Java
         uses: jdx/mise-action@v5
         with:
-          version: 2026.10.25
+          version: 2026.11.0
           install_args: java node
       - name: Cache the Maven repository
         uses: actions/cache@v6
@@ -56,7 +56,7 @@ jobs:
       - name: Set up Node.js
         uses: jdx/mise-action@v5
         with:
-          version: 2026.10.25
+          version: 2026.11.0
           install_args: node
       - name: Add the changelog entries
         env:

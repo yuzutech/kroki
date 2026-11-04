@@ -42,7 +42,7 @@ jobs:
       - name: Set up the build tools
         uses: jdx/mise-action@v5
         with:
-          version: 2026.10.25
+          version: 2026.11.0
           install_args: java node task
       - name: Tag, commit and push
         if:  ${{ inputs.create_tag }}
@@ -123,12 +123,12 @@ jobs:
       - name: Install Task
         uses: jdx/mise-action@v5
         with:
-          version: 2026.10.25
+          version: 2026.11.0
           install_args: task
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
         with:
-          version: 'v0.38.1'
+          version: 'v0.38.2'
           driver-opts: image=moby/buildkit:v0.34.1
           buildkitd-config: .github/buildkitd.toml
       - name: Login to Docker Hub
@@ -166,12 +166,12 @@ jobs:
       - name: Install Task
         uses: jdx/mise-action@v5
         with:
-          version: 2026.10.25
+          version: 2026.11.0
           install_args: task
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
         with:
-          version: 'v0.38.1'
+          version: 'v0.38.2'
           driver-opts: image=moby/buildkit:v0.34.1
       - name: Login to Docker Hub
         run: |
