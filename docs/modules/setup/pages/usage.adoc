@@ -149,6 +149,22 @@ Kroki defines the precedence order as follows:
 
 To find out what options are available, please read the xref:diagram-options.adoc[] page.
 
+== OpenAPI specification
+
+Kroki describes its HTTP API with an https://spec.openapis.org/oas/v3.1.0[OpenAPI 3.1] document served at `/openapi.json`:
+
+[source,http]
+----
+GET /openapi.json
+----
+
+The document is generated from the diagram types available on the server: each diagram type lists its own output formats and the version of the diagram library.
+Companion services registered at runtime are included as long as they are registered.
+
+Kroki does not ship an interactive API explorer.
+To browse the API or send requests from a UI, load the document URL (for instance `+https://kroki.io/openapi.json+`) in a tool such as https://editor.swagger.io[Swagger Editor], https://scalar.com[Scalar], https://redocly.com[Redocly] or your IDE.
+CORS is enabled on every route, so a browser-based tool can fetch the document directly.
+
 == Next
 
 * Install xref:install.adoc[Kroki on your server] for the first time

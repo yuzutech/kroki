@@ -66,6 +66,17 @@ public class Server extends AbstractVerticle {
     serverOptions.setSsl(enableSSL);
     setPemKeyCertOptions(config, serverOptions, enableSSL);
     HttpServer server = vertx.createHttpServer(serverOptions);
+    ErrorHandler errorHandler = new ErrorHandler(vertx, config.getBoolean("KROKI_DISPLAY_EXCEPTION_DETAILS", false));
+    return server
+      .invalidRequestHandler(new InvalidRequestHandler(errorHandler, serverOptions.getMaxInitialLineLength()))
+      .requestHandler(createRouter(vertx, vertxOptions, config, errorHandler))
+      .listen(getListenAddress(config));
+  }
+
+  /**
+   * Builds the router with every route exposed by Kroki (visible for testing).
+   */
+  static Router createRouter(Vertx vertx, VertxOptions vertxOptions, JsonObject config, ErrorHandler errorHandler) {
     Router router = Router.router(vertx);
     BodyHandler bodyHandler = BodyHandler.create(false).setBodyLimit(config.getLong("KROKI_BODY_LIMIT", BodyHandler.DEFAULT_BODY_LIMIT));
     Delegator delegator = new Delegator(vertx, config);
@@ -152,6 +163,9 @@ public class Server extends AbstractVerticle {
     // hello
     String krokiBuildHash = healthHandler.getKrokiBuildHash();
     String krokiVersionNumber = healthHandler.getKrokiVersionNumber();
+    // openapi
+    router.get("/openapi.json")
+      .handler(new OpenApiHandler(registry, krokiVersionNumber).create());
     router.get("/")
       .handler(new HelloHandler(vertx, healthHandler::getServiceVersions, krokiVersionNumber, krokiBuildHash).create());
 
@@ -161,13 +175,8 @@ public class Server extends AbstractVerticle {
     // chance to match instead of always falling through to this catch-all 404.
     Route route = router.route("/*").order(Integer.MAX_VALUE);
     route.handler(routingContext -> routingContext.fail(404));
-    ErrorHandler errorHandler = new ErrorHandler(vertx, config.getBoolean("KROKI_DISPLAY_EXCEPTION_DETAILS", false));
     route.failureHandler(errorHandler);
-
-    return server
-      .invalidRequestHandler(new InvalidRequestHandler(errorHandler, serverOptions.getMaxInitialLineLength()))
-      .requestHandler(router)
-      .listen(getListenAddress(config));
+    return router;
   }
 
   /**

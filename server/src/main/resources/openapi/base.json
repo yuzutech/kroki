@@ -1,0 +1,106 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Kroki API",
+    "description": "Creates diagrams from textual descriptions. The diagram conversion paths are generated from the diagram types registered on this instance.",
+    "license": { "name": "MIT", "identifier": "MIT" },
+    "version": "overridden at runtime"
+  },
+  "servers": [{ "url": "/" }],
+  "paths": {
+    "/": {
+      "get": {
+        "operationId": "getHomePage",
+        "summary": "Home page",
+        "responses": { "200": { "description": "HTML page listing the available diagram types.", "content": { "text/html": {} } } }
+      },
+      "post": {
+        "operationId": "postDiagram",
+        "summary": "Convert a diagram whose type is given in the request body",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["diagram_source", "diagram_type", "output_format"],
+                "properties": {
+                  "diagram_source": { "type": "string" },
+                  "diagram_type": { "type": "string" },
+                  "output_format": { "type": "string" },
+                  "diagram_options": { "$ref": "#/components/schemas/DiagramOptions" }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "The rendered diagram." }, "default": { "$ref": "#/components/responses/Error" } }
+      }
+    },
+    "/health": { "$ref": "#/components/pathItems/Health" },
+    "/v1/health": { "$ref": "#/components/pathItems/Health" },
+    "/healthz": { "$ref": "#/components/pathItems/Health" },
+    "/metrics": {
+      "get": {
+        "operationId": "getMetrics",
+        "summary": "Prometheus metrics",
+        "responses": { "200": { "description": "Metrics in the Prometheus text format.", "content": { "text/plain": {} } } }
+      }
+    },
+    "/openapi.json": {
+      "get": {
+        "operationId": "getOpenApi",
+        "summary": "This OpenAPI document",
+        "responses": { "200": { "description": "OpenAPI document.", "content": { "application/json": {} } } }
+      }
+    }
+  },
+  "components": {
+    "pathItems": {
+      "Health": {
+        "get": {
+          "summary": "Health check, with the version of each diagram library",
+          "responses": { "200": { "description": "Health status.", "content": { "application/health+json": {} } } }
+        }
+      }
+    },
+    "parameters": {
+      "SourceEncoded": {
+        "name": "source_encoded",
+        "in": "path",
+        "required": true,
+        "description": "Diagram source compressed with deflate (zlib), then encoded with URL-safe base64.",
+        "schema": { "type": "string" }
+      }
+    },
+    "schemas": {
+      "DiagramOptions": {
+        "type": "object",
+        "description": "Diagram-specific options. They can also be passed as query parameters or as Kroki-Diagram-Options-* headers.",
+        "additionalProperties": { "type": "string" }
+      }
+    },
+    "requestBodies": {
+      "DiagramInput": {
+        "required": true,
+        "content": {
+          "text/plain": { "schema": { "type": "string" } },
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": ["diagram_source"],
+              "properties": {
+                "diagram_source": { "type": "string" },
+                "output_format": { "type": "string" },
+                "diagram_options": { "$ref": "#/components/schemas/DiagramOptions" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "Error": { "description": "Error (unsupported format, invalid diagram, ...).", "content": { "text/html": {}, "application/json": {} } }
+    }
+  }
+}
