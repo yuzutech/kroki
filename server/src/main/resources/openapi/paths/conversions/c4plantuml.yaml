@@ -1,0 +1,43 @@
+c4plantumlGet:
+  get:
+    tags:
+    - Diagram conversion
+    operationId: getC4PlantumlDiagram
+    summary: Convert a C4-PlantUML diagram with a GET request
+    description: The source is zlib-wrapped deflate data encoded with base64 and URL-encoded.
+    parameters:
+    - $ref: ../../common/parameters.yaml#/OutputFormat
+    - $ref: ../../common/parameters.yaml#/SourceEncoded
+    responses:
+      '200':
+        $ref: ../../common/responses.yaml#/RenderedDiagram
+      default:
+        $ref: ../../common/responses.yaml#/Error
+c4plantumlPost:
+  post:
+    tags:
+    - Diagram conversion
+    operationId: postC4PlantumlDiagram
+    summary: Convert a C4-PlantUML diagram
+    requestBody:
+      $ref: ../../common/requestBodies.yaml#/DiagramInput
+    responses:
+      '200':
+        $ref: ../../common/responses.yaml#/RenderedDiagram
+      default:
+        $ref: ../../common/responses.yaml#/Error
+c4plantumlPostFormat:
+  parameters:
+  - $ref: ../../common/parameters.yaml#/OutputFormat
+  post:
+    tags:
+    - Diagram conversion
+    operationId: postC4PlantumlDiagramInFormat
+    summary: Convert a C4-PlantUML diagram to a selected format
+    requestBody:
+      $ref: ../../common/requestBodies.yaml#/DiagramInput
+    responses:
+      '200':
+        $ref: ../../common/responses.yaml#/RenderedDiagram
+      default:
+        $ref: ../../common/responses.yaml#/Error

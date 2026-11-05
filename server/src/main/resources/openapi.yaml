@@ -2,8 +2,8 @@ openapi: 3.0.3
 info:
   title: Kroki API
   version: 0.34.0
-  description: |
-    HTTP API for converting diagram descriptions to rendered output.
+  description: 'HTTP API for converting diagram descriptions to rendered output.
+
 
     Diagram conversion routes are registered for the built-in diagram types below. Their
     supported output formats vary by type; unsupported formats return 400. Companion diagram
@@ -11,9 +11,12 @@ info:
     The registry and conversion routes for those types exist only while the companion remains
     registered.
 
+
     The companion-management API is disabled by default and is unavailable in SECURE safe mode.
     When KROKI_COMPANION_REGISTRATION_TOKEN is configured, every /services request requires
     Authorization: Bearer <token>. Expose this API only on a trusted network.
+
+    '
   contact:
     name: Kroki
     url: https://kroki.io
@@ -21,1917 +24,284 @@ info:
     name: MIT
     url: https://github.com/yuzutech/kroki/blob/main/LICENSE
 servers:
-  - url: /
-    description: Current Kroki server
+- url: /
+  description: Current Kroki server
 tags:
-  - name: Diagram conversion
-    description: Convert diagrams using a built-in or registered diagram service.
-  - name: Companion services
-    description: Optional runtime registration API for trusted companion services.
-  - name: Operations
-    description: Health, metrics, and web documentation endpoints.
-
+- name: Diagram conversion
+  description: Convert diagrams using a built-in or registered diagram service.
+- name: Companion services
+  description: Optional runtime registration API for trusted companion services.
+- name: Operations
+  description: Health, metrics, and web documentation endpoints.
 x-dynamic-companion-conversion-routes:
-  description: |
-    Successful POST /services registration adds the following routes under the registered
+  description: 'Successful POST /services registration adds the following routes under the registered
     service name. These are represented as this extension because a generic OpenAPI path
     parameter would collide with fixed paths such as /health and /services/{name}.
+
+    '
   routes:
-    - method: GET
-      path: /{name}/{output_format}/{source_encoded}
-      description: GET conversion route; source encoding and response behavior match the built-in routes.
-    - method: POST
-      path: /{name}
-      description: POST conversion route; accepts text/plain or application/json.
-    - method: POST
-      path: /{name}/{output_format}
-      description: POST conversion route with the output format in the path.
+  - method: GET
+    path: /{name}/{output_format}/{source_encoded}
+    description: GET conversion route; source encoding and response behavior match the built-in routes.
+  - method: POST
+    path: /{name}
+    description: POST conversion route; accepts text/plain or application/json.
+  - method: POST
+    path: /{name}/{output_format}
+    description: POST conversion route with the output format in the path.
 x-default-route:
   method: any
   path: /*
   description: Requests not matched by a registered endpoint fail with 404.
-
 paths:
-  # Routes are listed in the same service-registration order as Server.start().
   /plantuml/{output_format}/{source_encoded}:
-    get:
-      tags: [Diagram conversion]
-      operationId: getPlantumlDiagram
-      summary: Convert a PlantUML diagram with a GET request
-      description: The source is zlib-wrapped deflate data encoded with base64 and URL-encoded.
-      parameters:
-        - $ref: '#/components/parameters/OutputFormat'
-        - $ref: '#/components/parameters/SourceEncoded'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/plantuml.yaml#/plantumlGet
   /plantuml:
-    post:
-      tags: [Diagram conversion]
-      operationId: postPlantumlDiagram
-      summary: Convert a PlantUML diagram
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/plantuml.yaml#/plantumlPost
   /plantuml/{output_format}:
-    parameters:
-      - $ref: '#/components/parameters/OutputFormat'
-    post:
-      tags: [Diagram conversion]
-      operationId: postPlantumlDiagramInFormat
-      summary: Convert a PlantUML diagram to a selected format
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
-
+    $ref: ./openapi/paths/conversions/plantuml.yaml#/plantumlPostFormat
   /c4plantuml/{output_format}/{source_encoded}:
-    get:
-      tags: [Diagram conversion]
-      operationId: getC4PlantumlDiagram
-      summary: Convert a C4-PlantUML diagram with a GET request
-      description: The source is zlib-wrapped deflate data encoded with base64 and URL-encoded.
-      parameters:
-        - $ref: '#/components/parameters/OutputFormat'
-        - $ref: '#/components/parameters/SourceEncoded'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/c4plantuml.yaml#/c4plantumlGet
   /c4plantuml:
-    post:
-      tags: [Diagram conversion]
-      operationId: postC4PlantumlDiagram
-      summary: Convert a C4-PlantUML diagram
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/c4plantuml.yaml#/c4plantumlPost
   /c4plantuml/{output_format}:
-    parameters:
-      - $ref: '#/components/parameters/OutputFormat'
-    post:
-      tags: [Diagram conversion]
-      operationId: postC4PlantumlDiagramInFormat
-      summary: Convert a C4-PlantUML diagram to a selected format
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
-
+    $ref: ./openapi/paths/conversions/c4plantuml.yaml#/c4plantumlPostFormat
   /ditaa/{output_format}/{source_encoded}:
-    get:
-      tags: [Diagram conversion]
-      operationId: getDitaaDiagram
-      summary: Convert a Ditaa diagram with a GET request
-      description: The source is zlib-wrapped deflate data encoded with base64 and URL-encoded.
-      parameters:
-        - $ref: '#/components/parameters/OutputFormat'
-        - $ref: '#/components/parameters/SourceEncoded'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/ditaa.yaml#/ditaaGet
   /ditaa:
-    post:
-      tags: [Diagram conversion]
-      operationId: postDitaaDiagram
-      summary: Convert a Ditaa diagram
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/ditaa.yaml#/ditaaPost
   /ditaa/{output_format}:
-    parameters:
-      - $ref: '#/components/parameters/OutputFormat'
-    post:
-      tags: [Diagram conversion]
-      operationId: postDitaaDiagramInFormat
-      summary: Convert a Ditaa diagram to a selected format
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
-
+    $ref: ./openapi/paths/conversions/ditaa.yaml#/ditaaPostFormat
   /blockdiag/{output_format}/{source_encoded}:
-    get:
-      tags: [Diagram conversion]
-      operationId: getBlockdiagDiagram
-      summary: Convert a Blockdiag diagram with a GET request
-      description: The source is zlib-wrapped deflate data encoded with base64 and URL-encoded.
-      parameters:
-        - $ref: '#/components/parameters/OutputFormat'
-        - $ref: '#/components/parameters/SourceEncoded'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/blockdiag.yaml#/blockdiagGet
   /blockdiag:
-    post:
-      tags: [Diagram conversion]
-      operationId: postBlockdiagDiagram
-      summary: Convert a Blockdiag diagram
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/blockdiag.yaml#/blockdiagPost
   /blockdiag/{output_format}:
-    parameters:
-      - $ref: '#/components/parameters/OutputFormat'
-    post:
-      tags: [Diagram conversion]
-      operationId: postBlockdiagDiagramInFormat
-      summary: Convert a Blockdiag diagram to a selected format
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
-
+    $ref: ./openapi/paths/conversions/blockdiag.yaml#/blockdiagPostFormat
   /seqdiag/{output_format}/{source_encoded}:
-    get:
-      tags: [Diagram conversion]
-      operationId: getSeqdiagDiagram
-      summary: Convert a Seqdiag diagram with a GET request
-      description: The source is zlib-wrapped deflate data encoded with base64 and URL-encoded.
-      parameters:
-        - $ref: '#/components/parameters/OutputFormat'
-        - $ref: '#/components/parameters/SourceEncoded'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/seqdiag.yaml#/seqdiagGet
   /seqdiag:
-    post:
-      tags: [Diagram conversion]
-      operationId: postSeqdiagDiagram
-      summary: Convert a Seqdiag diagram
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/seqdiag.yaml#/seqdiagPost
   /seqdiag/{output_format}:
-    parameters:
-      - $ref: '#/components/parameters/OutputFormat'
-    post:
-      tags: [Diagram conversion]
-      operationId: postSeqdiagDiagramInFormat
-      summary: Convert a Seqdiag diagram to a selected format
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
-
+    $ref: ./openapi/paths/conversions/seqdiag.yaml#/seqdiagPostFormat
   /actdiag/{output_format}/{source_encoded}:
-    get:
-      tags: [Diagram conversion]
-      operationId: getActdiagDiagram
-      summary: Convert an Actdiag diagram with a GET request
-      description: The source is zlib-wrapped deflate data encoded with base64 and URL-encoded.
-      parameters:
-        - $ref: '#/components/parameters/OutputFormat'
-        - $ref: '#/components/parameters/SourceEncoded'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/actdiag.yaml#/actdiagGet
   /actdiag:
-    post:
-      tags: [Diagram conversion]
-      operationId: postActdiagDiagram
-      summary: Convert an Actdiag diagram
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/actdiag.yaml#/actdiagPost
   /actdiag/{output_format}:
-    parameters:
-      - $ref: '#/components/parameters/OutputFormat'
-    post:
-      tags: [Diagram conversion]
-      operationId: postActdiagDiagramInFormat
-      summary: Convert an Actdiag diagram to a selected format
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
-
+    $ref: ./openapi/paths/conversions/actdiag.yaml#/actdiagPostFormat
   /nwdiag/{output_format}/{source_encoded}:
-    get:
-      tags: [Diagram conversion]
-      operationId: getNwdiagDiagram
-      summary: Convert an Nwdiag diagram with a GET request
-      description: The source is zlib-wrapped deflate data encoded with base64 and URL-encoded.
-      parameters:
-        - $ref: '#/components/parameters/OutputFormat'
-        - $ref: '#/components/parameters/SourceEncoded'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/nwdiag.yaml#/nwdiagGet
   /nwdiag:
-    post:
-      tags: [Diagram conversion]
-      operationId: postNwdiagDiagram
-      summary: Convert an Nwdiag diagram
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/nwdiag.yaml#/nwdiagPost
   /nwdiag/{output_format}:
-    parameters:
-      - $ref: '#/components/parameters/OutputFormat'
-    post:
-      tags: [Diagram conversion]
-      operationId: postNwdiagDiagramInFormat
-      summary: Convert an Nwdiag diagram to a selected format
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
-
+    $ref: ./openapi/paths/conversions/nwdiag.yaml#/nwdiagPostFormat
   /packetdiag/{output_format}/{source_encoded}:
-    get:
-      tags: [Diagram conversion]
-      operationId: getPacketdiagDiagram
-      summary: Convert a Packetdiag diagram with a GET request
-      description: The source is zlib-wrapped deflate data encoded with base64 and URL-encoded.
-      parameters:
-        - $ref: '#/components/parameters/OutputFormat'
-        - $ref: '#/components/parameters/SourceEncoded'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/packetdiag.yaml#/packetdiagGet
   /packetdiag:
-    post:
-      tags: [Diagram conversion]
-      operationId: postPacketdiagDiagram
-      summary: Convert a Packetdiag diagram
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/packetdiag.yaml#/packetdiagPost
   /packetdiag/{output_format}:
-    parameters:
-      - $ref: '#/components/parameters/OutputFormat'
-    post:
-      tags: [Diagram conversion]
-      operationId: postPacketdiagDiagramInFormat
-      summary: Convert a Packetdiag diagram to a selected format
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
-
+    $ref: ./openapi/paths/conversions/packetdiag.yaml#/packetdiagPostFormat
   /rackdiag/{output_format}/{source_encoded}:
-    get:
-      tags: [Diagram conversion]
-      operationId: getRackdiagDiagram
-      summary: Convert a Rackdiag diagram with a GET request
-      description: The source is zlib-wrapped deflate data encoded with base64 and URL-encoded.
-      parameters:
-        - $ref: '#/components/parameters/OutputFormat'
-        - $ref: '#/components/parameters/SourceEncoded'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/rackdiag.yaml#/rackdiagGet
   /rackdiag:
-    post:
-      tags: [Diagram conversion]
-      operationId: postRackdiagDiagram
-      summary: Convert a Rackdiag diagram
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/rackdiag.yaml#/rackdiagPost
   /rackdiag/{output_format}:
-    parameters:
-      - $ref: '#/components/parameters/OutputFormat'
-    post:
-      tags: [Diagram conversion]
-      operationId: postRackdiagDiagramInFormat
-      summary: Convert a Rackdiag diagram to a selected format
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
-
+    $ref: ./openapi/paths/conversions/rackdiag.yaml#/rackdiagPostFormat
   /umlet/{output_format}/{source_encoded}:
-    get:
-      tags: [Diagram conversion]
-      operationId: getUmletDiagram
-      summary: Convert a UMLet diagram with a GET request
-      description: The source is zlib-wrapped deflate data encoded with base64 and URL-encoded.
-      parameters:
-        - $ref: '#/components/parameters/OutputFormat'
-        - $ref: '#/components/parameters/SourceEncoded'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/umlet.yaml#/umletGet
   /umlet:
-    post:
-      tags: [Diagram conversion]
-      operationId: postUmletDiagram
-      summary: Convert a UMLet diagram
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/umlet.yaml#/umletPost
   /umlet/{output_format}:
-    parameters:
-      - $ref: '#/components/parameters/OutputFormat'
-    post:
-      tags: [Diagram conversion]
-      operationId: postUmletDiagramInFormat
-      summary: Convert a UMLet diagram to a selected format
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
-
+    $ref: ./openapi/paths/conversions/umlet.yaml#/umletPostFormat
   /graphviz/{output_format}/{source_encoded}:
-    get:
-      tags: [Diagram conversion]
-      operationId: getGraphvizDiagram
-      summary: Convert a Graphviz diagram with a GET request
-      description: The source is zlib-wrapped deflate data encoded with base64 and URL-encoded.
-      parameters:
-        - $ref: '#/components/parameters/OutputFormat'
-        - $ref: '#/components/parameters/SourceEncoded'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/graphviz.yaml#/graphvizGet
   /graphviz:
-    post:
-      tags: [Diagram conversion]
-      operationId: postGraphvizDiagram
-      summary: Convert a Graphviz diagram
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/graphviz.yaml#/graphvizPost
   /graphviz/{output_format}:
-    parameters:
-      - $ref: '#/components/parameters/OutputFormat'
-    post:
-      tags: [Diagram conversion]
-      operationId: postGraphvizDiagramInFormat
-      summary: Convert a Graphviz diagram to a selected format
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
-
+    $ref: ./openapi/paths/conversions/graphviz.yaml#/graphvizPostFormat
   /dot/{output_format}/{source_encoded}:
-    get:
-      tags: [Diagram conversion]
-      operationId: getDotDiagram
-      summary: Convert a dot diagram with a GET request
-      description: The source is zlib-wrapped deflate data encoded with base64 and URL-encoded.
-      parameters:
-        - $ref: '#/components/parameters/OutputFormat'
-        - $ref: '#/components/parameters/SourceEncoded'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/dot.yaml#/dotGet
   /dot:
-    post:
-      tags: [Diagram conversion]
-      operationId: postDotDiagram
-      summary: Convert a dot diagram
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/dot.yaml#/dotPost
   /dot/{output_format}:
-    parameters:
-      - $ref: '#/components/parameters/OutputFormat'
-    post:
-      tags: [Diagram conversion]
-      operationId: postDotDiagramInFormat
-      summary: Convert a dot diagram to a selected format
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
-
+    $ref: ./openapi/paths/conversions/dot.yaml#/dotPostFormat
   /erd/{output_format}/{source_encoded}:
-    get:
-      tags: [Diagram conversion]
-      operationId: getErdDiagram
-      summary: Convert an ERD diagram with a GET request
-      description: The source is zlib-wrapped deflate data encoded with base64 and URL-encoded.
-      parameters:
-        - $ref: '#/components/parameters/OutputFormat'
-        - $ref: '#/components/parameters/SourceEncoded'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/erd.yaml#/erdGet
   /erd:
-    post:
-      tags: [Diagram conversion]
-      operationId: postErdDiagram
-      summary: Convert an ERD diagram
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/erd.yaml#/erdPost
   /erd/{output_format}:
-    parameters:
-      - $ref: '#/components/parameters/OutputFormat'
-    post:
-      tags: [Diagram conversion]
-      operationId: postErdDiagramInFormat
-      summary: Convert an ERD diagram to a selected format
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
-
+    $ref: ./openapi/paths/conversions/erd.yaml#/erdPostFormat
   /svgbob/{output_format}/{source_encoded}:
-    get:
-      tags: [Diagram conversion]
-      operationId: getSvgbobDiagram
-      summary: Convert an SVGBob diagram with a GET request
-      description: The source is zlib-wrapped deflate data encoded with base64 and URL-encoded.
-      parameters:
-        - $ref: '#/components/parameters/OutputFormat'
-        - $ref: '#/components/parameters/SourceEncoded'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/svgbob.yaml#/svgbobGet
   /svgbob:
-    post:
-      tags: [Diagram conversion]
-      operationId: postSvgbobDiagram
-      summary: Convert an SVGBob diagram
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/svgbob.yaml#/svgbobPost
   /svgbob/{output_format}:
-    parameters:
-      - $ref: '#/components/parameters/OutputFormat'
-    post:
-      tags: [Diagram conversion]
-      operationId: postSvgbobDiagramInFormat
-      summary: Convert an SVGBob diagram to a selected format
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
-
+    $ref: ./openapi/paths/conversions/svgbob.yaml#/svgbobPostFormat
   /symbolator/{output_format}/{source_encoded}:
-    get:
-      tags: [Diagram conversion]
-      operationId: getSymbolatorDiagram
-      summary: Convert a Symbolator diagram with a GET request
-      description: The source is zlib-wrapped deflate data encoded with base64 and URL-encoded.
-      parameters:
-        - $ref: '#/components/parameters/OutputFormat'
-        - $ref: '#/components/parameters/SourceEncoded'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/symbolator.yaml#/symbolatorGet
   /symbolator:
-    post:
-      tags: [Diagram conversion]
-      operationId: postSymbolatorDiagram
-      summary: Convert a Symbolator diagram
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/symbolator.yaml#/symbolatorPost
   /symbolator/{output_format}:
-    parameters:
-      - $ref: '#/components/parameters/OutputFormat'
-    post:
-      tags: [Diagram conversion]
-      operationId: postSymbolatorDiagramInFormat
-      summary: Convert a Symbolator diagram to a selected format
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
-
+    $ref: ./openapi/paths/conversions/symbolator.yaml#/symbolatorPostFormat
   /nomnoml/{output_format}/{source_encoded}:
-    get:
-      tags: [Diagram conversion]
-      operationId: getNomnomlDiagram
-      summary: Convert a Nomnoml diagram with a GET request
-      description: The source is zlib-wrapped deflate data encoded with base64 and URL-encoded.
-      parameters:
-        - $ref: '#/components/parameters/OutputFormat'
-        - $ref: '#/components/parameters/SourceEncoded'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/nomnoml.yaml#/nomnomlGet
   /nomnoml:
-    post:
-      tags: [Diagram conversion]
-      operationId: postNomnomlDiagram
-      summary: Convert a Nomnoml diagram
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/nomnoml.yaml#/nomnomlPost
   /nomnoml/{output_format}:
-    parameters:
-      - $ref: '#/components/parameters/OutputFormat'
-    post:
-      tags: [Diagram conversion]
-      operationId: postNomnomlDiagramInFormat
-      summary: Convert a Nomnoml diagram to a selected format
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
-
+    $ref: ./openapi/paths/conversions/nomnoml.yaml#/nomnomlPostFormat
   /mermaid/{output_format}/{source_encoded}:
-    get:
-      tags: [Diagram conversion]
-      operationId: getMermaidDiagram
-      summary: Convert a Mermaid diagram with a GET request
-      description: The source is zlib-wrapped deflate data encoded with base64 and URL-encoded.
-      parameters:
-        - $ref: '#/components/parameters/OutputFormat'
-        - $ref: '#/components/parameters/SourceEncoded'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/mermaid.yaml#/mermaidGet
   /mermaid:
-    post:
-      tags: [Diagram conversion]
-      operationId: postMermaidDiagram
-      summary: Convert a Mermaid diagram
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/mermaid.yaml#/mermaidPost
   /mermaid/{output_format}:
-    parameters:
-      - $ref: '#/components/parameters/OutputFormat'
-    post:
-      tags: [Diagram conversion]
-      operationId: postMermaidDiagramInFormat
-      summary: Convert a Mermaid diagram to a selected format
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
-
+    $ref: ./openapi/paths/conversions/mermaid.yaml#/mermaidPostFormat
   /vega/{output_format}/{source_encoded}:
-    get:
-      tags: [Diagram conversion]
-      operationId: getVegaDiagram
-      summary: Convert a Vega specification with a GET request
-      description: The source is zlib-wrapped deflate data encoded with base64 and URL-encoded.
-      parameters:
-        - $ref: '#/components/parameters/OutputFormat'
-        - $ref: '#/components/parameters/SourceEncoded'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/vega.yaml#/vegaGet
   /vega:
-    post:
-      tags: [Diagram conversion]
-      operationId: postVegaDiagram
-      summary: Convert a Vega specification
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/vega.yaml#/vegaPost
   /vega/{output_format}:
-    parameters:
-      - $ref: '#/components/parameters/OutputFormat'
-    post:
-      tags: [Diagram conversion]
-      operationId: postVegaDiagramInFormat
-      summary: Convert a Vega specification to a selected format
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
-
+    $ref: ./openapi/paths/conversions/vega.yaml#/vegaPostFormat
   /vegalite/{output_format}/{source_encoded}:
-    get:
-      tags: [Diagram conversion]
-      operationId: getVegaLiteDiagram
-      summary: Convert a Vega-Lite specification with a GET request
-      description: The source is zlib-wrapped deflate data encoded with base64 and URL-encoded.
-      parameters:
-        - $ref: '#/components/parameters/OutputFormat'
-        - $ref: '#/components/parameters/SourceEncoded'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/vegalite.yaml#/vegaliteGet
   /vegalite:
-    post:
-      tags: [Diagram conversion]
-      operationId: postVegaLiteDiagram
-      summary: Convert a Vega-Lite specification
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/vegalite.yaml#/vegalitePost
   /vegalite/{output_format}:
-    parameters:
-      - $ref: '#/components/parameters/OutputFormat'
-    post:
-      tags: [Diagram conversion]
-      operationId: postVegaLiteDiagramInFormat
-      summary: Convert a Vega-Lite specification to a selected format
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
-
+    $ref: ./openapi/paths/conversions/vegalite.yaml#/vegalitePostFormat
   /wavedrom/{output_format}/{source_encoded}:
-    get:
-      tags: [Diagram conversion]
-      operationId: getWavedromDiagram
-      summary: Convert a WaveDrom diagram with a GET request
-      description: The source is zlib-wrapped deflate data encoded with base64 and URL-encoded.
-      parameters:
-        - $ref: '#/components/parameters/OutputFormat'
-        - $ref: '#/components/parameters/SourceEncoded'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/wavedrom.yaml#/wavedromGet
   /wavedrom:
-    post:
-      tags: [Diagram conversion]
-      operationId: postWavedromDiagram
-      summary: Convert a WaveDrom diagram
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/wavedrom.yaml#/wavedromPost
   /wavedrom/{output_format}:
-    parameters:
-      - $ref: '#/components/parameters/OutputFormat'
-    post:
-      tags: [Diagram conversion]
-      operationId: postWavedromDiagramInFormat
-      summary: Convert a WaveDrom diagram to a selected format
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
-
+    $ref: ./openapi/paths/conversions/wavedrom.yaml#/wavedromPostFormat
   /bpmn/{output_format}/{source_encoded}:
-    get:
-      tags: [Diagram conversion]
-      operationId: getBpmnDiagram
-      summary: Convert a BPMN diagram with a GET request
-      description: The source is zlib-wrapped deflate data encoded with base64 and URL-encoded.
-      parameters:
-        - $ref: '#/components/parameters/OutputFormat'
-        - $ref: '#/components/parameters/SourceEncoded'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/bpmn.yaml#/bpmnGet
   /bpmn:
-    post:
-      tags: [Diagram conversion]
-      operationId: postBpmnDiagram
-      summary: Convert a BPMN diagram
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/bpmn.yaml#/bpmnPost
   /bpmn/{output_format}:
-    parameters:
-      - $ref: '#/components/parameters/OutputFormat'
-    post:
-      tags: [Diagram conversion]
-      operationId: postBpmnDiagramInFormat
-      summary: Convert a BPMN diagram to a selected format
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
-
+    $ref: ./openapi/paths/conversions/bpmn.yaml#/bpmnPostFormat
   /bytefield/{output_format}/{source_encoded}:
-    get:
-      tags: [Diagram conversion]
-      operationId: getBytefieldDiagram
-      summary: Convert a Bytefield diagram with a GET request
-      description: The source is zlib-wrapped deflate data encoded with base64 and URL-encoded.
-      parameters:
-        - $ref: '#/components/parameters/OutputFormat'
-        - $ref: '#/components/parameters/SourceEncoded'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/bytefield.yaml#/bytefieldGet
   /bytefield:
-    post:
-      tags: [Diagram conversion]
-      operationId: postBytefieldDiagram
-      summary: Convert a Bytefield diagram
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/bytefield.yaml#/bytefieldPost
   /bytefield/{output_format}:
-    parameters:
-      - $ref: '#/components/parameters/OutputFormat'
-    post:
-      tags: [Diagram conversion]
-      operationId: postBytefieldDiagramInFormat
-      summary: Convert a Bytefield diagram to a selected format
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
-
+    $ref: ./openapi/paths/conversions/bytefield.yaml#/bytefieldPostFormat
   /excalidraw/{output_format}/{source_encoded}:
-    get:
-      tags: [Diagram conversion]
-      operationId: getExcalidrawDiagram
-      summary: Convert an Excalidraw diagram with a GET request
-      description: The source is zlib-wrapped deflate data encoded with base64 and URL-encoded.
-      parameters:
-        - $ref: '#/components/parameters/OutputFormat'
-        - $ref: '#/components/parameters/SourceEncoded'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/excalidraw.yaml#/excalidrawGet
   /excalidraw:
-    post:
-      tags: [Diagram conversion]
-      operationId: postExcalidrawDiagram
-      summary: Convert an Excalidraw diagram
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/excalidraw.yaml#/excalidrawPost
   /excalidraw/{output_format}:
-    parameters:
-      - $ref: '#/components/parameters/OutputFormat'
-    post:
-      tags: [Diagram conversion]
-      operationId: postExcalidrawDiagramInFormat
-      summary: Convert an Excalidraw diagram to a selected format
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
-
+    $ref: ./openapi/paths/conversions/excalidraw.yaml#/excalidrawPostFormat
   /pikchr/{output_format}/{source_encoded}:
-    get:
-      tags: [Diagram conversion]
-      operationId: getPikchrDiagram
-      summary: Convert a Pikchr diagram with a GET request
-      description: The source is zlib-wrapped deflate data encoded with base64 and URL-encoded.
-      parameters:
-        - $ref: '#/components/parameters/OutputFormat'
-        - $ref: '#/components/parameters/SourceEncoded'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/pikchr.yaml#/pikchrGet
   /pikchr:
-    post:
-      tags: [Diagram conversion]
-      operationId: postPikchrDiagram
-      summary: Convert a Pikchr diagram
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/pikchr.yaml#/pikchrPost
   /pikchr/{output_format}:
-    parameters:
-      - $ref: '#/components/parameters/OutputFormat'
-    post:
-      tags: [Diagram conversion]
-      operationId: postPikchrDiagramInFormat
-      summary: Convert a Pikchr diagram to a selected format
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
-
+    $ref: ./openapi/paths/conversions/pikchr.yaml#/pikchrPostFormat
   /structurizr/{output_format}/{source_encoded}:
-    get:
-      tags: [Diagram conversion]
-      operationId: getStructurizrDiagram
-      summary: Convert a Structurizr diagram with a GET request
-      description: The source is zlib-wrapped deflate data encoded with base64 and URL-encoded.
-      parameters:
-        - $ref: '#/components/parameters/OutputFormat'
-        - $ref: '#/components/parameters/SourceEncoded'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/structurizr.yaml#/structurizrGet
   /structurizr:
-    post:
-      tags: [Diagram conversion]
-      operationId: postStructurizrDiagram
-      summary: Convert a Structurizr diagram
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/structurizr.yaml#/structurizrPost
   /structurizr/{output_format}:
-    parameters:
-      - $ref: '#/components/parameters/OutputFormat'
-    post:
-      tags: [Diagram conversion]
-      operationId: postStructurizrDiagramInFormat
-      summary: Convert a Structurizr diagram to a selected format
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
-
+    $ref: ./openapi/paths/conversions/structurizr.yaml#/structurizrPostFormat
   /diagramsnet/{output_format}/{source_encoded}:
-    get:
-      tags: [Diagram conversion]
-      operationId: getDiagramsnetDiagram
-      summary: Convert a diagrams.net diagram with a GET request
-      description: The source is zlib-wrapped deflate data encoded with base64 and URL-encoded.
-      parameters:
-        - $ref: '#/components/parameters/OutputFormat'
-        - $ref: '#/components/parameters/SourceEncoded'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/diagramsnet.yaml#/diagramsnetGet
   /diagramsnet:
-    post:
-      tags: [Diagram conversion]
-      operationId: postDiagramsnetDiagram
-      summary: Convert a diagrams.net diagram
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/diagramsnet.yaml#/diagramsnetPost
   /diagramsnet/{output_format}:
-    parameters:
-      - $ref: '#/components/parameters/OutputFormat'
-    post:
-      tags: [Diagram conversion]
-      operationId: postDiagramsnetDiagramInFormat
-      summary: Convert a diagrams.net diagram to a selected format
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
-
+    $ref: ./openapi/paths/conversions/diagramsnet.yaml#/diagramsnetPostFormat
   /d2/{output_format}/{source_encoded}:
-    get:
-      tags: [Diagram conversion]
-      operationId: getD2Diagram
-      summary: Convert a D2 diagram with a GET request
-      description: The source is zlib-wrapped deflate data encoded with base64 and URL-encoded.
-      parameters:
-        - $ref: '#/components/parameters/OutputFormat'
-        - $ref: '#/components/parameters/SourceEncoded'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/d2.yaml#/d2Get
   /d2:
-    post:
-      tags: [Diagram conversion]
-      operationId: postD2Diagram
-      summary: Convert a D2 diagram
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/d2.yaml#/d2Post
   /d2/{output_format}:
-    parameters:
-      - $ref: '#/components/parameters/OutputFormat'
-    post:
-      tags: [Diagram conversion]
-      operationId: postD2DiagramInFormat
-      summary: Convert a D2 diagram to a selected format
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
-
+    $ref: ./openapi/paths/conversions/d2.yaml#/d2PostFormat
   /tikz/{output_format}/{source_encoded}:
-    get:
-      tags: [Diagram conversion]
-      operationId: getTikzDiagram
-      summary: Convert a TikZ diagram with a GET request
-      description: The source is zlib-wrapped deflate data encoded with base64 and URL-encoded.
-      parameters:
-        - $ref: '#/components/parameters/OutputFormat'
-        - $ref: '#/components/parameters/SourceEncoded'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/tikz.yaml#/tikzGet
   /tikz:
-    post:
-      tags: [Diagram conversion]
-      operationId: postTikzDiagram
-      summary: Convert a TikZ diagram
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/tikz.yaml#/tikzPost
   /tikz/{output_format}:
-    parameters:
-      - $ref: '#/components/parameters/OutputFormat'
-    post:
-      tags: [Diagram conversion]
-      operationId: postTikzDiagramInFormat
-      summary: Convert a TikZ diagram to a selected format
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
-
+    $ref: ./openapi/paths/conversions/tikz.yaml#/tikzPostFormat
   /dbml/{output_format}/{source_encoded}:
-    get:
-      tags: [Diagram conversion]
-      operationId: getDbmlDiagram
-      summary: Convert a DBML diagram with a GET request
-      description: The source is zlib-wrapped deflate data encoded with base64 and URL-encoded.
-      parameters:
-        - $ref: '#/components/parameters/OutputFormat'
-        - $ref: '#/components/parameters/SourceEncoded'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/dbml.yaml#/dbmlGet
   /dbml:
-    post:
-      tags: [Diagram conversion]
-      operationId: postDbmlDiagram
-      summary: Convert a DBML diagram
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/dbml.yaml#/dbmlPost
   /dbml/{output_format}:
-    parameters:
-      - $ref: '#/components/parameters/OutputFormat'
-    post:
-      tags: [Diagram conversion]
-      operationId: postDbmlDiagramInFormat
-      summary: Convert a DBML diagram to a selected format
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
-
+    $ref: ./openapi/paths/conversions/dbml.yaml#/dbmlPostFormat
   /wireviz/{output_format}/{source_encoded}:
-    get:
-      tags: [Diagram conversion]
-      operationId: getWirevizDiagram
-      summary: Convert a Wireviz diagram with a GET request
-      description: The source is zlib-wrapped deflate data encoded with base64 and URL-encoded.
-      parameters:
-        - $ref: '#/components/parameters/OutputFormat'
-        - $ref: '#/components/parameters/SourceEncoded'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/wireviz.yaml#/wirevizGet
   /wireviz:
-    post:
-      tags: [Diagram conversion]
-      operationId: postWirevizDiagram
-      summary: Convert a Wireviz diagram
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/wireviz.yaml#/wirevizPost
   /wireviz/{output_format}:
-    parameters:
-      - $ref: '#/components/parameters/OutputFormat'
-    post:
-      tags: [Diagram conversion]
-      operationId: postWirevizDiagramInFormat
-      summary: Convert a Wireviz diagram to a selected format
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
-
+    $ref: ./openapi/paths/conversions/wireviz.yaml#/wirevizPostFormat
   /goat/{output_format}/{source_encoded}:
-    get:
-      tags: [Diagram conversion]
-      operationId: getGoatDiagram
-      summary: Convert a GoAT diagram with a GET request
-      description: The source is zlib-wrapped deflate data encoded with base64 and URL-encoded.
-      parameters:
-        - $ref: '#/components/parameters/OutputFormat'
-        - $ref: '#/components/parameters/SourceEncoded'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/goat.yaml#/goatGet
   /goat:
-    post:
-      tags: [Diagram conversion]
-      operationId: postGoatDiagram
-      summary: Convert a GoAT diagram
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/goat.yaml#/goatPost
   /goat/{output_format}:
-    parameters:
-      - $ref: '#/components/parameters/OutputFormat'
-    post:
-      tags: [Diagram conversion]
-      operationId: postGoatDiagramInFormat
-      summary: Convert a GoAT diagram to a selected format
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
-
+    $ref: ./openapi/paths/conversions/goat.yaml#/goatPostFormat
   /lini/{output_format}/{source_encoded}:
-    get:
-      tags: [Diagram conversion]
-      operationId: getLiniDiagram
-      summary: Convert a Lini diagram with a GET request
-      description: The source is zlib-wrapped deflate data encoded with base64 and URL-encoded.
-      parameters:
-        - $ref: '#/components/parameters/OutputFormat'
-        - $ref: '#/components/parameters/SourceEncoded'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/lini.yaml#/liniGet
   /lini:
-    post:
-      tags: [Diagram conversion]
-      operationId: postLiniDiagram
-      summary: Convert a Lini diagram
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
+    $ref: ./openapi/paths/conversions/lini.yaml#/liniPost
   /lini/{output_format}:
-    parameters:
-      - $ref: '#/components/parameters/OutputFormat'
-    post:
-      tags: [Diagram conversion]
-      operationId: postLiniDiagramInFormat
-      summary: Convert a Lini diagram to a selected format
-      requestBody:
-        $ref: '#/components/requestBodies/DiagramInput'
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
-
-  # Runtime companion routes, mounted only when companion discovery is enabled and safe mode permits it.
+    $ref: ./openapi/paths/conversions/lini.yaml#/liniPostFormat
   /services:
-    post:
-      tags: [Companion services]
-      operationId: registerCompanionService
-      summary: Register a companion diagram service
-      description: |
-        Registers a new diagram type and mounts its conversion routes until it is unregistered
-        or its heartbeat expires. This endpoint is disabled by default and in SECURE safe mode.
-        If a registration token is configured, send it as a bearer token. The host must be
-        reachable by Kroki and must not be a literal private, loopback, or link-local address.
-      parameters:
-        - $ref: '#/components/parameters/CompanionAuthorization'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CompanionRegistrationRequest'
-            example:
-              name: mscgen
-              version: 0.20.0
-              formats: [svg, png]
-              host: mscgen
-              port: 8080
-      responses:
-        '201':
-          description: The companion service was registered.
-          headers:
-            Location:
-              description: URL of the registration resource.
-              schema:
-                type: string
-                example: /services/mscgen
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CompanionRegistration'
-        '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          description: Missing or invalid bearer token when token authentication is configured.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AuthenticationError'
-        '422':
-          description: The requested diagram type name is already registered.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        default:
-          $ref: '#/components/responses/Error'
-    get:
-      tags: [Companion services]
-      operationId: listCompanionServices
-      summary: List registered companion services
-      description: Returns an empty array when no companion services are registered.
-      parameters:
-        - $ref: '#/components/parameters/CompanionAuthorization'
-      responses:
-        '200':
-          description: The current companion service registrations.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/CompanionRegistration'
-        '401':
-          description: Missing or invalid bearer token when token authentication is configured.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AuthenticationError'
-        default:
-          $ref: '#/components/responses/Error'
-
+    $ref: ./openapi/paths/companions.yaml#/servicesCollection
   /services/{name}/heartbeat:
-    put:
-      tags: [Companion services]
-      operationId: heartbeatCompanionService
-      summary: Refresh a companion service heartbeat
-      description: Updates the registration activity time and prevents TTL-based eviction.
-      parameters:
-        - $ref: '#/components/parameters/CompanionName'
-        - $ref: '#/components/parameters/CompanionAuthorization'
-      responses:
-        '200':
-          description: The updated registration.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CompanionRegistration'
-        '401':
-          description: Missing or invalid bearer token when token authentication is configured.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AuthenticationError'
-        '404':
-          description: The companion is not registered.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HeartbeatNotFound'
-        default:
-          $ref: '#/components/responses/Error'
-
+    $ref: ./openapi/paths/companions.yaml#/companionHeartbeat
   /services/{name}:
-    parameters:
-      - $ref: '#/components/parameters/CompanionName'
-      - $ref: '#/components/parameters/CompanionAuthorization'
-    get:
-      tags: [Companion services]
-      operationId: getCompanionService
-      summary: Get a companion service registration
-      responses:
-        '200':
-          description: The requested registration.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CompanionRegistration'
-        '401':
-          description: Missing or invalid bearer token when token authentication is configured.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AuthenticationError'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        default:
-          $ref: '#/components/responses/Error'
-    delete:
-      tags: [Companion services]
-      operationId: unregisterCompanionService
-      summary: Unregister a companion service
-      description: Removes the registration and its diagram conversion routes immediately.
-      responses:
-        '204':
-          description: The registration was removed.
-        '401':
-          description: Missing or invalid bearer token when token authentication is configured.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AuthenticationError'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        default:
-          $ref: '#/components/responses/Error'
-
-  # The root path has both operations; POST is registered before the operations endpoints,
-  # and GET is registered after the Swagger routes.
+    $ref: ./openapi/paths/companions.yaml#/companionRegistration
   /:
-    post:
-      tags: [Diagram conversion]
-      operationId: convertDiagram
-      summary: Convert a diagram using the JSON API
-      description: |
-        Converts a diagram selected by diagram_type. The service must be registered and support
-        the requested output_format. diagram_options are passed to that diagram service.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/DiagramRestRequest'
-            example:
-              diagram_type: graphviz
-              output_format: svg
-              diagram_source: 'digraph G { Hello -> World }'
-              diagram_options: {}
-      responses:
-        '200':
-          $ref: '#/components/responses/RenderedDiagram'
-        default:
-          $ref: '#/components/responses/Error'
-    get:
-      tags: [Operations]
-      operationId: getHomePage
-      summary: Get the Kroki home page
-      responses:
-        '200':
-          description: The HTML home page with registered diagram service versions.
-          content:
-            text/html:
-              schema:
-                type: string
-        default:
-          $ref: '#/components/responses/Error'
-
+    $ref: ./openapi/paths/operations.yaml#/root
   /metrics:
-    get:
-      tags: [Operations]
-      operationId: getMetrics
-      summary: Get Prometheus metrics
-      description: Exposes Kroki worker-thread and event-loop blocked-thread percentages.
-      responses:
-        '200':
-          description: Prometheus text exposition format.
-          content:
-            text/plain:
-              schema:
-                type: string
-              example: |
-                # HELP kroki_worker_thread_blocked_percentage The percentage of worker thread blocked.
-                # TYPE kroki_worker_thread_blocked_percentage gauge
-                kroki_worker_thread_blocked_percentage 0 1730815200000
-        default:
-          $ref: '#/components/responses/Error'
-
+    $ref: ./openapi/paths/operations.yaml#/metrics
   /health:
-    get:
-      tags: [Operations]
-      operationId: getHealth
-      summary: Get Kroki health and service versions
-      responses:
-        '200':
-          $ref: '#/components/responses/Health'
-        default:
-          $ref: '#/components/responses/Error'
-
+    $ref: ./openapi/paths/operations.yaml#/health
   /v1/health:
-    get:
-      tags: [Operations]
-      operationId: getVersionedHealth
-      summary: Get Kroki health and service versions
-      description: Versioned alias of GET /health.
-      responses:
-        '200':
-          $ref: '#/components/responses/Health'
-        default:
-          $ref: '#/components/responses/Error'
-
+    $ref: ./openapi/paths/operations.yaml#/versionedHealth
   /healthz:
-    get:
-      tags: [Operations]
-      operationId: getHealthz
-      summary: Get Kroki liveness status
-      description: Kubernetes liveness-probe alias of GET /health.
-      responses:
-        '200':
-          $ref: '#/components/responses/Health'
-        default:
-          $ref: '#/components/responses/Error'
-
+    $ref: ./openapi/paths/operations.yaml#/healthz
   /swagger:
-    get:
-      tags: [Operations]
-      operationId: getSwaggerUi
-      summary: Get the Swagger UI page
-      responses:
-        '200':
-          description: Swagger UI HTML. The page loads its pinned UI assets from unpkg.com.
-          content:
-            text/html:
-              schema:
-                type: string
-        default:
-          $ref: '#/components/responses/Error'
-
+    $ref: ./openapi/paths/operations.yaml#/swaggerUi
   /openapi.yaml:
-    get:
-      tags: [Operations]
-      operationId: getOpenApiSpecification
-      summary: Get this OpenAPI specification
-      responses:
-        '200':
-          description: OpenAPI document in YAML format.
-          content:
-            application/yaml:
-              schema:
-                type: string
-        default:
-          $ref: '#/components/responses/Error'
-
+    $ref: ./openapi/paths/operations.yaml#/openApiDocument
 components:
   parameters:
     OutputFormat:
-      name: output_format
-      in: path
-      required: true
-      description: |
-        Requested output format. Valid formats are png, svg, jpeg, pdf, base64, txt, and utxt;
-        each diagram service supports only a subset. Unsupported formats return 400.
-      schema:
-        type: string
-        enum: [png, svg, jpeg, pdf, base64, txt, utxt]
+      $ref: ./openapi/common/parameters.yaml#/OutputFormat
     SourceEncoded:
-      name: source_encoded
-      in: path
-      required: true
-      description: Diagram source compressed with zlib-wrapped deflate, base64-encoded, then URL-encoded.
-      schema:
-        type: string
+      $ref: ./openapi/common/parameters.yaml#/SourceEncoded
     CompanionName:
-      name: name
-      in: path
-      required: true
-      description: Registered companion service name.
-      schema:
-        type: string
-        pattern: '^[a-z][a-z0-9]{1,31}$'
-        minLength: 2
-        maxLength: 32
+      $ref: ./openapi/common/parameters.yaml#/CompanionName
     CompanionAuthorization:
-      name: Authorization
-      in: header
-      required: false
-      description: |
-        Use the Bearer scheme with the configured registration token when token authentication
-        is enabled by the operator. Omit this header when token authentication is not configured.
-      schema:
-        type: string
-        example: Bearer token
-
+      $ref: ./openapi/common/parameters.yaml#/CompanionAuthorization
   requestBodies:
     DiagramInput:
-      required: true
-      description: |
-        Submit plain diagram text, selecting the output format with the path parameter or Accept
-        header; or submit JSON with diagram_source, optional diagram_options and optional
-        output_format. For JSON, a path output_format takes precedence over the body field.
-        When no output_format is provided in the path or JSON body, Accept must select a format
-        supported by the diagram service.
-        Diagram options may also be supplied as query parameters or in
-        Kroki-Diagram-Options-* headers. Body diagram_options take precedence over those values.
-      content:
-        text/plain:
-          schema:
-            type: string
-          example: 'digraph G { Hello -> World }'
-        application/json:
-          schema:
-            $ref: '#/components/schemas/DiagramPostRequest'
+      $ref: ./openapi/common/requestBodies.yaml#/DiagramInput
   responses:
     RenderedDiagram:
-      description: Rendered diagram. The actual media type is determined by the selected format.
-      content:
-        image/jpeg:
-          schema:
-            type: string
-            format: binary
-        application/pdf:
-          schema:
-            type: string
-            format: binary
-        text/plain:
-          schema:
-            type: string
-        text/plain; charset=utf-8:
-          schema:
-            type: string
-        text/plain; charset=x-user-defined:
-          schema:
-            type: string
-        image/svg+xml:
-          schema:
-            type: string
-            format: binary
-          description: Error image when the client requests SVG.
-        image/png:
-          schema:
-            type: string
-            format: binary
-          description: Error image when the client requests PNG.
+      $ref: ./openapi/common/responses.yaml#/RenderedDiagram
     Health:
-      description: Kroki is running and reports its registered service versions.
-      content:
-        application/health+json:
-          schema:
-            $ref: '#/components/schemas/HealthResponse'
+      $ref: ./openapi/common/responses.yaml#/Health
     NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-        text/plain:
-          schema:
-            type: string
-        text/html:
-          schema:
-            type: string
+      $ref: ./openapi/common/responses.yaml#/NotFound
     Error:
-      description: |
-        Error response. The body representation is negotiated from Accept and can be JSON,
-        plain text, or HTML. The status code reflects the failure (commonly 400, 404, 405, 422,
-        500, or 503).
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-        text/plain:
-          schema:
-            type: string
-        text/html:
-          schema:
-            type: string
-
+      $ref: ./openapi/common/responses.yaml#/Error
   schemas:
     DiagramPostRequest:
-      type: object
-      required: [diagram_source]
-      properties:
-        diagram_source:
-          type: string
-          minLength: 1
-          description: Source text for the diagram.
-        output_format:
-          type: string
-          enum: [png, svg, jpeg, pdf, base64, txt, utxt]
-          description: Optional output format; defaults to the Accept header if omitted.
-        diagram_options:
-          type: object
-          description: Diagram-service-specific options.
-          additionalProperties: true
-      additionalProperties: true
+      $ref: ./openapi/common/schemas.yaml#/DiagramPostRequest
     DiagramRestRequest:
-      type: object
-      required: [diagram_type, output_format, diagram_source]
-      properties:
-        diagram_type:
-          type: string
-          minLength: 1
-          description: Built-in or currently registered diagram type (for example graphviz).
-        output_format:
-          type: string
-          enum: [png, svg, jpeg, pdf, base64, txt, utxt]
-          description: Must be supported by the selected diagram type.
-        diagram_source:
-          type: string
-          minLength: 1
-          description: Source text for the diagram.
-        diagram_options:
-          type: object
-          description: Diagram-service-specific options.
-          additionalProperties: true
-      additionalProperties: true
+      $ref: ./openapi/common/schemas.yaml#/DiagramRestRequest
     CompanionRegistrationRequest:
-      type: object
-      required: [name, version, formats, host, port]
-      properties:
-        name:
-          type: string
-          pattern: '^[a-z][a-z0-9]{1,31}$'
-          minLength: 2
-          maxLength: 32
-          description: Unique lowercase service name. Reserved and already registered names are rejected.
-        version:
-          type: string
-          minLength: 1
-          description: Free-form service version, included in health and home-page service listings.
-        formats:
-          type: array
-          minItems: 1
-          items:
-            type: string
-            enum: [png, svg, jpeg, pdf, base64, txt, utxt]
-          description: Output formats supported by the companion.
-        host:
-          type: string
-          minLength: 1
-          description: Companion hostname or address reachable from Kroki; private, loopback, and link-local IP literals are rejected.
-        port:
-          type: integer
-          minimum: 1
-          maximum: 65535
-          description: Companion HTTP port.
-      additionalProperties: false
+      $ref: ./openapi/common/schemas.yaml#/CompanionRegistrationRequest
     CompanionRegistration:
-      type: object
-      required: [name, version, formats, created_at, updated_at, last_activity_at]
-      properties:
-        name:
-          type: string
-        version:
-          type: string
-        formats:
-          type: array
-          items:
-            type: string
-            enum: [png, svg, jpeg, pdf, base64, txt, utxt]
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-        last_activity_at:
-          type: string
-          format: date-time
-      additionalProperties: false
+      $ref: ./openapi/common/schemas.yaml#/CompanionRegistration
     HealthResponse:
-      type: object
-      required: [status, version]
-      properties:
-        status:
-          type: string
-          enum: [pass]
-        version:
-          type: object
-          required: [kroki]
-          properties:
-            kroki:
-              type: object
-              required: [number, build_hash]
-              properties:
-                number:
-                  type: string
-                build_hash:
-                  type: string
-              additionalProperties: false
-          additionalProperties:
-            type: string
-          description: Additional properties map registered diagram-service names to versions.
-      additionalProperties: false
+      $ref: ./openapi/common/schemas.yaml#/HealthResponse
     ErrorResponse:
-      type: object
-      required: [error]
-      properties:
-        error:
-          type: object
-          required: [code, message]
-          properties:
-            code:
-              type: integer
-            message:
-              type: string
-          additionalProperties: false
-        stack:
-          type: array
-          items:
-            type: string
-          description: Included only when exception details are enabled by the operator.
-      additionalProperties: false
+      $ref: ./openapi/common/schemas.yaml#/ErrorResponse
     AuthenticationError:
-      type: object
-      required: [error]
-      properties:
-        error:
-          type: string
-          example: Missing or invalid bearer token.
-      additionalProperties: false
+      $ref: ./openapi/common/schemas.yaml#/AuthenticationError
     HeartbeatNotFound:
-      type: object
-      required: [error, _links]
-      properties:
-        error:
-          type: string
-        _links:
-          type: object
-          required: [register]
-          properties:
-            register:
-              type: object
-              required: [href, method]
-              properties:
-                href:
-                  type: string
-                  example: /services
-                method:
-                  type: string
-                  enum: [POST]
-              additionalProperties: false
-          additionalProperties: false
-      additionalProperties: false
+      $ref: ./openapi/common/schemas.yaml#/HeartbeatNotFound

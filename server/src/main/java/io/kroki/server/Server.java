@@ -196,6 +196,8 @@ public class Server extends AbstractVerticle {
       .handler(swaggerHandler);
     router.get("/openapi.yaml")
       .handler(swaggerHandler);
+    router.get("/openapi/*")
+      .handler(swaggerHandler);
 
     // hello
     String krokiBuildHash = healthHandler.getKrokiBuildHash();

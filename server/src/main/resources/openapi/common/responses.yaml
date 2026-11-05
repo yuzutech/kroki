@@ -1,0 +1,62 @@
+RenderedDiagram:
+  description: Rendered diagram. The actual media type is determined by the selected format.
+  content:
+    image/jpeg:
+      schema:
+        type: string
+        format: binary
+    application/pdf:
+      schema:
+        type: string
+        format: binary
+    text/plain:
+      schema:
+        type: string
+    text/plain; charset=utf-8:
+      schema:
+        type: string
+    text/plain; charset=x-user-defined:
+      schema:
+        type: string
+    image/svg+xml:
+      schema:
+        type: string
+        format: binary
+      description: Error image when the client requests SVG.
+    image/png:
+      schema:
+        type: string
+        format: binary
+      description: Error image when the client requests PNG.
+Health:
+  description: Kroki is running and reports its registered service versions.
+  content:
+    application/health+json:
+      schema:
+        $ref: './schemas.yaml#/HealthResponse'
+NotFound:
+  description: The requested resource was not found.
+  content:
+    application/json:
+      schema:
+        $ref: './schemas.yaml#/ErrorResponse'
+    text/plain:
+      schema:
+        type: string
+    text/html:
+      schema:
+        type: string
+Error:
+  description: 'Error response. The body representation is negotiated from Accept and can be JSON,
+    plain text, or HTML. The status code reflects the failure (commonly 400, 404, 405, 422,
+    500, or 503).'
+  content:
+    application/json:
+      schema:
+        $ref: './schemas.yaml#/ErrorResponse'
+    text/plain:
+      schema:
+        type: string
+    text/html:
+      schema:
+        type: string

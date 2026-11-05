@@ -1,0 +1,43 @@
+excalidrawGet:
+  get:
+    tags:
+    - Diagram conversion
+    operationId: getExcalidrawDiagram
+    summary: Convert an Excalidraw diagram with a GET request
+    description: The source is zlib-wrapped deflate data encoded with base64 and URL-encoded.
+    parameters:
+    - $ref: ../../common/parameters.yaml#/OutputFormat
+    - $ref: ../../common/parameters.yaml#/SourceEncoded
+    responses:
+      '200':
+        $ref: ../../common/responses.yaml#/RenderedDiagram
+      default:
+        $ref: ../../common/responses.yaml#/Error
+excalidrawPost:
+  post:
+    tags:
+    - Diagram conversion
+    operationId: postExcalidrawDiagram
+    summary: Convert an Excalidraw diagram
+    requestBody:
+      $ref: ../../common/requestBodies.yaml#/DiagramInput
+    responses:
+      '200':
+        $ref: ../../common/responses.yaml#/RenderedDiagram
+      default:
+        $ref: ../../common/responses.yaml#/Error
+excalidrawPostFormat:
+  parameters:
+  - $ref: ../../common/parameters.yaml#/OutputFormat
+  post:
+    tags:
+    - Diagram conversion
+    operationId: postExcalidrawDiagramInFormat
+    summary: Convert an Excalidraw diagram to a selected format
+    requestBody:
+      $ref: ../../common/requestBodies.yaml#/DiagramInput
+    responses:
+      '200':
+        $ref: ../../common/responses.yaml#/RenderedDiagram
+      default:
+        $ref: ../../common/responses.yaml#/Error

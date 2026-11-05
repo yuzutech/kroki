@@ -1,0 +1,43 @@
+diagramsnetGet:
+  get:
+    tags:
+    - Diagram conversion
+    operationId: getDiagramsnetDiagram
+    summary: Convert a diagrams.net diagram with a GET request
+    description: The source is zlib-wrapped deflate data encoded with base64 and URL-encoded.
+    parameters:
+    - $ref: ../../common/parameters.yaml#/OutputFormat
+    - $ref: ../../common/parameters.yaml#/SourceEncoded
+    responses:
+      '200':
+        $ref: ../../common/responses.yaml#/RenderedDiagram
+      default:
+        $ref: ../../common/responses.yaml#/Error
+diagramsnetPost:
+  post:
+    tags:
+    - Diagram conversion
+    operationId: postDiagramsnetDiagram
+    summary: Convert a diagrams.net diagram
+    requestBody:
+      $ref: ../../common/requestBodies.yaml#/DiagramInput
+    responses:
+      '200':
+        $ref: ../../common/responses.yaml#/RenderedDiagram
+      default:
+        $ref: ../../common/responses.yaml#/Error
+diagramsnetPostFormat:
+  parameters:
+  - $ref: ../../common/parameters.yaml#/OutputFormat
+  post:
+    tags:
+    - Diagram conversion
+    operationId: postDiagramsnetDiagramInFormat
+    summary: Convert a diagrams.net diagram to a selected format
+    requestBody:
+      $ref: ../../common/requestBodies.yaml#/DiagramInput
+    responses:
+      '200':
+        $ref: ../../common/responses.yaml#/RenderedDiagram
+      default:
+        $ref: ../../common/responses.yaml#/Error

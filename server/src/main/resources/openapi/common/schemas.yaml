@@ -1,0 +1,225 @@
+DiagramPostRequest:
+  type: object
+  required:
+  - diagram_source
+  properties:
+    diagram_source:
+      type: string
+      minLength: 1
+      description: Source text for the diagram.
+    output_format:
+      type: string
+      enum:
+      - png
+      - svg
+      - jpeg
+      - pdf
+      - base64
+      - txt
+      - utxt
+      description: Optional output format; defaults to the Accept header if omitted.
+    diagram_options:
+      type: object
+      description: Diagram-service-specific options.
+      additionalProperties: true
+  additionalProperties: true
+DiagramRestRequest:
+  type: object
+  required:
+  - diagram_type
+  - output_format
+  - diagram_source
+  properties:
+    diagram_type:
+      type: string
+      minLength: 1
+      description: Built-in or currently registered diagram type (for example graphviz).
+    output_format:
+      type: string
+      enum:
+      - png
+      - svg
+      - jpeg
+      - pdf
+      - base64
+      - txt
+      - utxt
+      description: Must be supported by the selected diagram type.
+    diagram_source:
+      type: string
+      minLength: 1
+      description: Source text for the diagram.
+    diagram_options:
+      type: object
+      description: Diagram-service-specific options.
+      additionalProperties: true
+  additionalProperties: true
+CompanionRegistrationRequest:
+  type: object
+  required:
+  - name
+  - version
+  - formats
+  - host
+  - port
+  properties:
+    name:
+      type: string
+      pattern: ^[a-z][a-z0-9]{1,31}$
+      minLength: 2
+      maxLength: 32
+      description: Unique lowercase service name. Reserved and already registered names are rejected.
+    version:
+      type: string
+      minLength: 1
+      description: Free-form service version, included in health and home-page service listings.
+    formats:
+      type: array
+      minItems: 1
+      items:
+        type: string
+        enum:
+        - png
+        - svg
+        - jpeg
+        - pdf
+        - base64
+        - txt
+        - utxt
+      description: Output formats supported by the companion.
+    host:
+      type: string
+      minLength: 1
+      description: Companion hostname or address reachable from Kroki; private, loopback, and link-local IP literals are rejected.
+    port:
+      type: integer
+      minimum: 1
+      maximum: 65535
+      description: Companion HTTP port.
+  additionalProperties: false
+CompanionRegistration:
+  type: object
+  required:
+  - name
+  - version
+  - formats
+  - created_at
+  - updated_at
+  - last_activity_at
+  properties:
+    name:
+      type: string
+    version:
+      type: string
+    formats:
+      type: array
+      items:
+        type: string
+        enum:
+        - png
+        - svg
+        - jpeg
+        - pdf
+        - base64
+        - txt
+        - utxt
+    created_at:
+      type: string
+      format: date-time
+    updated_at:
+      type: string
+      format: date-time
+    last_activity_at:
+      type: string
+      format: date-time
+  additionalProperties: false
+HealthResponse:
+  type: object
+  required:
+  - status
+  - version
+  properties:
+    status:
+      type: string
+      enum:
+      - pass
+    version:
+      type: object
+      required:
+      - kroki
+      properties:
+        kroki:
+          type: object
+          required:
+          - number
+          - build_hash
+          properties:
+            number:
+              type: string
+            build_hash:
+              type: string
+          additionalProperties: false
+      additionalProperties:
+        type: string
+      description: Additional properties map registered diagram-service names to versions.
+  additionalProperties: false
+ErrorResponse:
+  type: object
+  required:
+  - error
+  properties:
+    error:
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+      additionalProperties: false
+    stack:
+      type: array
+      items:
+        type: string
+      description: Included only when exception details are enabled by the operator.
+  additionalProperties: false
+AuthenticationError:
+  type: object
+  required:
+  - error
+  properties:
+    error:
+      type: string
+      example: Missing or invalid bearer token.
+  additionalProperties: false
+HeartbeatNotFound:
+  type: object
+  required:
+  - error
+  - _links
+  properties:
+    error:
+      type: string
+    _links:
+      type: object
+      required:
+      - register
+      properties:
+        register:
+          type: object
+          required:
+          - href
+          - method
+          properties:
+            href:
+              type: string
+              example: /services
+            method:
+              type: string
+              enum:
+              - POST
+          additionalProperties: false
+      additionalProperties: false
+  additionalProperties: false

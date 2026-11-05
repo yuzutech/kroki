@@ -44,4 +44,48 @@ class SwaggerHandlerTest {
     verify(response).putHeader(HttpHeaders.CONTENT_TYPE, "text/html; charset=utf-8");
     verify(response).end(org.mockito.ArgumentMatchers.contains("/openapi.yaml"));
   }
+
+  @Test
+  void should_serve_external_openapi_files() {
+    RoutingContext routingContext = mock(RoutingContext.class);
+    HttpServerRequest request = mock(HttpServerRequest.class);
+    HttpServerResponse response = mock(HttpServerResponse.class);
+    when(routingContext.request()).thenReturn(request);
+    when(request.path()).thenReturn("/openapi/paths/conversions/plantuml.yaml");
+    when(routingContext.response()).thenReturn(response);
+    when(response.putHeader(any(CharSequence.class), any(CharSequence.class))).thenReturn(response);
+
+    new SwaggerHandler().create().handle(routingContext);
+
+    verify(response).putHeader(HttpHeaders.CONTENT_TYPE, "application/yaml; charset=utf-8");
+    verify(response).end(org.mockito.ArgumentMatchers.contains("plantumlGet"));
+  }
+
+  @Test
+  void should_serve_common_openapi_definitions() {
+    RoutingContext routingContext = mock(RoutingContext.class);
+    HttpServerRequest request = mock(HttpServerRequest.class);
+    HttpServerResponse response = mock(HttpServerResponse.class);
+    when(routingContext.request()).thenReturn(request);
+    when(request.path()).thenReturn("/openapi/common/parameters.yaml");
+    when(routingContext.response()).thenReturn(response);
+    when(response.putHeader(any(CharSequence.class), any(CharSequence.class))).thenReturn(response);
+
+    new SwaggerHandler().create().handle(routingContext);
+
+    verify(response).putHeader(HttpHeaders.CONTENT_TYPE, "application/yaml; charset=utf-8");
+    verify(response).end(org.mockito.ArgumentMatchers.contains("OutputFormat"));
+  }
+
+  @Test
+  void should_reject_unrecognized_openapi_resource_paths() {
+    RoutingContext routingContext = mock(RoutingContext.class);
+    HttpServerRequest request = mock(HttpServerRequest.class);
+    when(routingContext.request()).thenReturn(request);
+    when(request.path()).thenReturn("/openapi/../application.properties");
+
+    new SwaggerHandler().create().handle(routingContext);
+
+    verify(routingContext).fail(404);
+  }
 }

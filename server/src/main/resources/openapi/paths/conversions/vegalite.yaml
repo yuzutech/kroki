@@ -1,0 +1,43 @@
+vegaliteGet:
+  get:
+    tags:
+    - Diagram conversion
+    operationId: getVegaLiteDiagram
+    summary: Convert a Vega-Lite specification with a GET request
+    description: The source is zlib-wrapped deflate data encoded with base64 and URL-encoded.
+    parameters:
+    - $ref: ../../common/parameters.yaml#/OutputFormat
+    - $ref: ../../common/parameters.yaml#/SourceEncoded
+    responses:
+      '200':
+        $ref: ../../common/responses.yaml#/RenderedDiagram
+      default:
+        $ref: ../../common/responses.yaml#/Error
+vegalitePost:
+  post:
+    tags:
+    - Diagram conversion
+    operationId: postVegaLiteDiagram
+    summary: Convert a Vega-Lite specification
+    requestBody:
+      $ref: ../../common/requestBodies.yaml#/DiagramInput
+    responses:
+      '200':
+        $ref: ../../common/responses.yaml#/RenderedDiagram
+      default:
+        $ref: ../../common/responses.yaml#/Error
+vegalitePostFormat:
+  parameters:
+  - $ref: ../../common/parameters.yaml#/OutputFormat
+  post:
+    tags:
+    - Diagram conversion
+    operationId: postVegaLiteDiagramInFormat
+    summary: Convert a Vega-Lite specification to a selected format
+    requestBody:
+      $ref: ../../common/requestBodies.yaml#/DiagramInput
+    responses:
+      '200':
+        $ref: ../../common/responses.yaml#/RenderedDiagram
+      default:
+        $ref: ../../common/responses.yaml#/Error

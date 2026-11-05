@@ -1,0 +1,43 @@
+liniGet:
+  get:
+    tags:
+    - Diagram conversion
+    operationId: getLiniDiagram
+    summary: Convert a Lini diagram with a GET request
+    description: The source is zlib-wrapped deflate data encoded with base64 and URL-encoded.
+    parameters:
+    - $ref: ../../common/parameters.yaml#/OutputFormat
+    - $ref: ../../common/parameters.yaml#/SourceEncoded
+    responses:
+      '200':
+        $ref: ../../common/responses.yaml#/RenderedDiagram
+      default:
+        $ref: ../../common/responses.yaml#/Error
+liniPost:
+  post:
+    tags:
+    - Diagram conversion
+    operationId: postLiniDiagram
+    summary: Convert a Lini diagram
+    requestBody:
+      $ref: ../../common/requestBodies.yaml#/DiagramInput
+    responses:
+      '200':
+        $ref: ../../common/responses.yaml#/RenderedDiagram
+      default:
+        $ref: ../../common/responses.yaml#/Error
+liniPostFormat:
+  parameters:
+  - $ref: ../../common/parameters.yaml#/OutputFormat
+  post:
+    tags:
+    - Diagram conversion
+    operationId: postLiniDiagramInFormat
+    summary: Convert a Lini diagram to a selected format
+    requestBody:
+      $ref: ../../common/requestBodies.yaml#/DiagramInput
+    responses:
+      '200':
+        $ref: ../../common/responses.yaml#/RenderedDiagram
+      default:
+        $ref: ../../common/responses.yaml#/Error

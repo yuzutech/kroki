@@ -1,0 +1,42 @@
+OutputFormat:
+  name: output_format
+  in: path
+  required: true
+  description: 'Requested output format. Valid formats are png, svg, jpeg, pdf, base64, txt, and utxt;
+    each diagram service supports only a subset. Unsupported formats return 400.'
+  schema:
+    type: string
+    enum:
+    - png
+    - svg
+    - jpeg
+    - pdf
+    - base64
+    - txt
+    - utxt
+SourceEncoded:
+  name: source_encoded
+  in: path
+  required: true
+  description: Diagram source compressed with zlib-wrapped deflate, base64-encoded, then URL-encoded.
+  schema:
+    type: string
+CompanionName:
+  name: name
+  in: path
+  required: true
+  description: Registered companion service name.
+  schema:
+    type: string
+    pattern: ^[a-z][a-z0-9]{1,31}$
+    minLength: 2
+    maxLength: 32
+CompanionAuthorization:
+  name: Authorization
+  in: header
+  required: false
+  description: 'Use the Bearer scheme with the configured registration token when token authentication
+    is enabled by the operator. Omit this header when token authentication is not configured.'
+  schema:
+    type: string
+    example: Bearer token
