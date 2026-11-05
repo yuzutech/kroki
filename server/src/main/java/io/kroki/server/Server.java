@@ -1,5 +1,17 @@
 package io.kroki.server;
 
+import java.time.Duration;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.kroki.server.action.Commander;
 import io.kroki.server.action.Delegator;
 import io.kroki.server.error.ErrorHandler;
@@ -9,27 +21,56 @@ import io.kroki.server.registry.CompanionAuthHandler;
 import io.kroki.server.registry.CompanionRegistry;
 import io.kroki.server.registry.CompanionServiceHandler;
 import io.kroki.server.security.SafeMode;
-import io.kroki.server.service.*;
+import io.kroki.server.service.Blockdiag;
+import io.kroki.server.service.Bpmn;
+import io.kroki.server.service.Bytefield;
+import io.kroki.server.service.D2;
+import io.kroki.server.service.Dbml;
+import io.kroki.server.service.DiagramRegistry;
+import io.kroki.server.service.DiagramRest;
+import io.kroki.server.service.Diagramsnet;
+import io.kroki.server.service.Ditaa;
+import io.kroki.server.service.Erd;
+import io.kroki.server.service.Excalidraw;
+import io.kroki.server.service.Goat;
+import io.kroki.server.service.Graphviz;
+import io.kroki.server.service.HealthHandler;
+import io.kroki.server.service.HelloHandler;
+import io.kroki.server.service.KrokiBlockedThreadChecker;
+import io.kroki.server.service.Lini;
+import io.kroki.server.service.Mermaid;
+import io.kroki.server.service.MetricHandler;
+import io.kroki.server.service.Nomnoml;
+import io.kroki.server.service.Pikchr;
+import io.kroki.server.service.Plantuml;
+import io.kroki.server.service.Structurizr;
+import io.kroki.server.service.Svgbob;
+import io.kroki.server.service.SwaggerHandler;
+import io.kroki.server.service.Symbolator;
+import io.kroki.server.service.TikZ;
+import io.kroki.server.service.Umlet;
+import io.kroki.server.service.Vega;
+import io.kroki.server.service.Wavedrom;
+import io.kroki.server.service.Wireviz;
 import io.vertx.config.ConfigRetriever;
-import io.vertx.core.*;
+import io.vertx.core.AbstractVerticle;
+import io.vertx.core.Future;
+import io.vertx.core.Handler;
+import io.vertx.core.Promise;
+import io.vertx.core.Vertx;
+import io.vertx.core.VertxOptions;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.json.JsonObject;
-import io.vertx.core.net.*;
+import io.vertx.core.net.PemKeyCertOptions;
+import io.vertx.core.net.SocketAddress;
 import io.vertx.ext.web.Route;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.CorsHandler;
-
-import java.time.Duration;
-import java.util.*;
-import java.util.stream.Collectors;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class Server extends AbstractVerticle {
 
@@ -148,6 +189,13 @@ public class Server extends AbstractVerticle {
       .handler(healthHandlerService);
     router.get("/healthz") // k8s liveness default URL (alias)
       .handler(healthHandlerService);
+
+    // swagger
+    Handler<RoutingContext> swaggerHandler = new SwaggerHandler().create();
+    router.get("/swagger")
+      .handler(swaggerHandler);
+    router.get("/openapi.yaml")
+      .handler(swaggerHandler);
 
     // hello
     String krokiBuildHash = healthHandler.getKrokiBuildHash();
