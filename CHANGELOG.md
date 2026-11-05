@@ -11,6 +11,8 @@ versioned entry and uses it as the GitHub release notes.
 
 ## [Unreleased]
 
+## [0.35.0] - 2026-11-05
+
 ### Security
 
 - Prevent remote code execution through Bytefield diagrams. `bytefield-svg` evaluates its input with [sci](https://github.com/babashka/sci) (a Clojure interpreter) on Node.js, and the sci sandbox exposes `aget`, which lets a crafted diagram traverse the JavaScript prototype chain up to the `Function` constructor and run arbitrary JavaScript (and, in the single-executable `bytefield` binary, OS commands via `process.binding`). The `bytefield` process is now started with `NODE_OPTIONS=--disallow-code-generation-from-strings`, so its V8 context rejects `new Function(...)`/`eval(...)` and the escape no longer works, while legitimate diagrams are unaffected
