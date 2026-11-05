@@ -24,7 +24,7 @@
     "wavedrom": "3.8.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.6.3",
+    "@biomejs/biome": "2.6.4",
     "esbuild": "0.28.2",
     "postject": "1.0.0-alpha.6"
   }
