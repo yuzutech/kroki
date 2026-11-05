@@ -108,8 +108,8 @@
     "d3-color@3.1.1": {
       "integrity": "sha512-lfab8x0Bj0UO7SNsY8dZSbNIA6ipbkE3X0NG9nqjCu6CfCHZseuDnOSJY7hidKrjpP++i1M2qT+FlAdPKYRilA=="
     },
-    "d3-delaunay@6.0.5": {
-      "integrity": "sha512-6n1ZJb1+6RYJJfyAmLW4ERKGHRSCK2bNM+hu7Zxc2XLhzFLHWGqltjr3znBS7lZ9Vg3syUxNMnebBZUxpvjqqQ==",
+    "d3-delaunay@6.0.6": {
+      "integrity": "sha512-DMQIEvSJhZCB6pwedcXaAlQ+MeKU5LlM2XakKtc73b/VM+RBiI1SRXycOEOKg2jsKj4zZ9F0KGYG6nCGwwWu/g==",
       "dependencies": [
         "delaunator"
       ]
