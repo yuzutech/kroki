@@ -47,6 +47,7 @@ const tests = [
   { engine: 'diagramsnet', file: 'diagramsnet-infography.xml', options: { id: 'foo' }, outputFormat: ['svg', 'png'] },
   { engine: 'd2', file: 'connections.d2', options: {}, outputFormat: ['svg'] },
   { engine: 'd2', file: 'connections.d2', options: { layout: 'elk' }, outputFormat: ['svg'] },
+  { engine: 'd2', file: 'connections.d2', options: { layout: 'tala' }, outputFormat: ['svg'] },
   { engine: 'd2', file: 'connections.d2', options: { theme: '200' }, outputFormat: ['svg'] },
   { engine: 'd2', file: 'connections.d2', options: { pad: '50' }, outputFormat: ['svg'] },
   { engine: 'd2', file: 'connections.d2', options: { 'animate-interval': '50' }, outputFormat: ['svg'] },
