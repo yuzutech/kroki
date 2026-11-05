@@ -1,0 +1,307 @@
+openapi: 3.0.3
+info:
+  title: Kroki API
+  version: 0.34.0
+  description: 'HTTP API for converting diagram descriptions to rendered output.
+
+
+    Diagram conversion routes are registered for the built-in diagram types below. Their
+    supported output formats vary by type; unsupported formats return 400. Companion diagram
+    types can add the same three route shapes at runtime when companion discovery is enabled.
+    The registry and conversion routes for those types exist only while the companion remains
+    registered.
+
+
+    The companion-management API is disabled by default and is unavailable in SECURE safe mode.
+    When KROKI_COMPANION_REGISTRATION_TOKEN is configured, every /services request requires
+    Authorization: Bearer <token>. Expose this API only on a trusted network.
+
+    '
+  contact:
+    name: Kroki
+    url: https://kroki.io
+  license:
+    name: MIT
+    url: https://github.com/yuzutech/kroki/blob/main/LICENSE
+servers:
+- url: /
+  description: Current Kroki server
+tags:
+- name: Diagram conversion
+  description: Convert diagrams using a built-in or registered diagram service.
+- name: Companion services
+  description: Optional runtime registration API for trusted companion services.
+- name: Operations
+  description: Health, metrics, and web documentation endpoints.
+x-dynamic-companion-conversion-routes:
+  description: 'Successful POST /services registration adds the following routes under the registered
+    service name. These are represented as this extension because a generic OpenAPI path
+    parameter would collide with fixed paths such as /health and /services/{name}.
+
+    '
+  routes:
+  - method: GET
+    path: /{name}/{output_format}/{source_encoded}
+    description: GET conversion route; source encoding and response behavior match the built-in routes.
+  - method: POST
+    path: /{name}
+    description: POST conversion route; accepts text/plain or application/json.
+  - method: POST
+    path: /{name}/{output_format}
+    description: POST conversion route with the output format in the path.
+x-default-route:
+  method: any
+  path: /*
+  description: Requests not matched by a registered endpoint fail with 404.
+paths:
+  /plantuml/{output_format}/{source_encoded}:
+    $ref: ./openapi/paths/conversions/plantuml.yaml#/plantumlGet
+  /plantuml:
+    $ref: ./openapi/paths/conversions/plantuml.yaml#/plantumlPost
+  /plantuml/{output_format}:
+    $ref: ./openapi/paths/conversions/plantuml.yaml#/plantumlPostFormat
+  /c4plantuml/{output_format}/{source_encoded}:
+    $ref: ./openapi/paths/conversions/c4plantuml.yaml#/c4plantumlGet
+  /c4plantuml:
+    $ref: ./openapi/paths/conversions/c4plantuml.yaml#/c4plantumlPost
+  /c4plantuml/{output_format}:
+    $ref: ./openapi/paths/conversions/c4plantuml.yaml#/c4plantumlPostFormat
+  /ditaa/{output_format}/{source_encoded}:
+    $ref: ./openapi/paths/conversions/ditaa.yaml#/ditaaGet
+  /ditaa:
+    $ref: ./openapi/paths/conversions/ditaa.yaml#/ditaaPost
+  /ditaa/{output_format}:
+    $ref: ./openapi/paths/conversions/ditaa.yaml#/ditaaPostFormat
+  /blockdiag/{output_format}/{source_encoded}:
+    $ref: ./openapi/paths/conversions/blockdiag.yaml#/blockdiagGet
+  /blockdiag:
+    $ref: ./openapi/paths/conversions/blockdiag.yaml#/blockdiagPost
+  /blockdiag/{output_format}:
+    $ref: ./openapi/paths/conversions/blockdiag.yaml#/blockdiagPostFormat
+  /seqdiag/{output_format}/{source_encoded}:
+    $ref: ./openapi/paths/conversions/seqdiag.yaml#/seqdiagGet
+  /seqdiag:
+    $ref: ./openapi/paths/conversions/seqdiag.yaml#/seqdiagPost
+  /seqdiag/{output_format}:
+    $ref: ./openapi/paths/conversions/seqdiag.yaml#/seqdiagPostFormat
+  /actdiag/{output_format}/{source_encoded}:
+    $ref: ./openapi/paths/conversions/actdiag.yaml#/actdiagGet
+  /actdiag:
+    $ref: ./openapi/paths/conversions/actdiag.yaml#/actdiagPost
+  /actdiag/{output_format}:
+    $ref: ./openapi/paths/conversions/actdiag.yaml#/actdiagPostFormat
+  /nwdiag/{output_format}/{source_encoded}:
+    $ref: ./openapi/paths/conversions/nwdiag.yaml#/nwdiagGet
+  /nwdiag:
+    $ref: ./openapi/paths/conversions/nwdiag.yaml#/nwdiagPost
+  /nwdiag/{output_format}:
+    $ref: ./openapi/paths/conversions/nwdiag.yaml#/nwdiagPostFormat
+  /packetdiag/{output_format}/{source_encoded}:
+    $ref: ./openapi/paths/conversions/packetdiag.yaml#/packetdiagGet
+  /packetdiag:
+    $ref: ./openapi/paths/conversions/packetdiag.yaml#/packetdiagPost
+  /packetdiag/{output_format}:
+    $ref: ./openapi/paths/conversions/packetdiag.yaml#/packetdiagPostFormat
+  /rackdiag/{output_format}/{source_encoded}:
+    $ref: ./openapi/paths/conversions/rackdiag.yaml#/rackdiagGet
+  /rackdiag:
+    $ref: ./openapi/paths/conversions/rackdiag.yaml#/rackdiagPost
+  /rackdiag/{output_format}:
+    $ref: ./openapi/paths/conversions/rackdiag.yaml#/rackdiagPostFormat
+  /umlet/{output_format}/{source_encoded}:
+    $ref: ./openapi/paths/conversions/umlet.yaml#/umletGet
+  /umlet:
+    $ref: ./openapi/paths/conversions/umlet.yaml#/umletPost
+  /umlet/{output_format}:
+    $ref: ./openapi/paths/conversions/umlet.yaml#/umletPostFormat
+  /graphviz/{output_format}/{source_encoded}:
+    $ref: ./openapi/paths/conversions/graphviz.yaml#/graphvizGet
+  /graphviz:
+    $ref: ./openapi/paths/conversions/graphviz.yaml#/graphvizPost
+  /graphviz/{output_format}:
+    $ref: ./openapi/paths/conversions/graphviz.yaml#/graphvizPostFormat
+  /dot/{output_format}/{source_encoded}:
+    $ref: ./openapi/paths/conversions/dot.yaml#/dotGet
+  /dot:
+    $ref: ./openapi/paths/conversions/dot.yaml#/dotPost
+  /dot/{output_format}:
+    $ref: ./openapi/paths/conversions/dot.yaml#/dotPostFormat
+  /erd/{output_format}/{source_encoded}:
+    $ref: ./openapi/paths/conversions/erd.yaml#/erdGet
+  /erd:
+    $ref: ./openapi/paths/conversions/erd.yaml#/erdPost
+  /erd/{output_format}:
+    $ref: ./openapi/paths/conversions/erd.yaml#/erdPostFormat
+  /svgbob/{output_format}/{source_encoded}:
+    $ref: ./openapi/paths/conversions/svgbob.yaml#/svgbobGet
+  /svgbob:
+    $ref: ./openapi/paths/conversions/svgbob.yaml#/svgbobPost
+  /svgbob/{output_format}:
+    $ref: ./openapi/paths/conversions/svgbob.yaml#/svgbobPostFormat
+  /symbolator/{output_format}/{source_encoded}:
+    $ref: ./openapi/paths/conversions/symbolator.yaml#/symbolatorGet
+  /symbolator:
+    $ref: ./openapi/paths/conversions/symbolator.yaml#/symbolatorPost
+  /symbolator/{output_format}:
+    $ref: ./openapi/paths/conversions/symbolator.yaml#/symbolatorPostFormat
+  /nomnoml/{output_format}/{source_encoded}:
+    $ref: ./openapi/paths/conversions/nomnoml.yaml#/nomnomlGet
+  /nomnoml:
+    $ref: ./openapi/paths/conversions/nomnoml.yaml#/nomnomlPost
+  /nomnoml/{output_format}:
+    $ref: ./openapi/paths/conversions/nomnoml.yaml#/nomnomlPostFormat
+  /mermaid/{output_format}/{source_encoded}:
+    $ref: ./openapi/paths/conversions/mermaid.yaml#/mermaidGet
+  /mermaid:
+    $ref: ./openapi/paths/conversions/mermaid.yaml#/mermaidPost
+  /mermaid/{output_format}:
+    $ref: ./openapi/paths/conversions/mermaid.yaml#/mermaidPostFormat
+  /vega/{output_format}/{source_encoded}:
+    $ref: ./openapi/paths/conversions/vega.yaml#/vegaGet
+  /vega:
+    $ref: ./openapi/paths/conversions/vega.yaml#/vegaPost
+  /vega/{output_format}:
+    $ref: ./openapi/paths/conversions/vega.yaml#/vegaPostFormat
+  /vegalite/{output_format}/{source_encoded}:
+    $ref: ./openapi/paths/conversions/vegalite.yaml#/vegaliteGet
+  /vegalite:
+    $ref: ./openapi/paths/conversions/vegalite.yaml#/vegalitePost
+  /vegalite/{output_format}:
+    $ref: ./openapi/paths/conversions/vegalite.yaml#/vegalitePostFormat
+  /wavedrom/{output_format}/{source_encoded}:
+    $ref: ./openapi/paths/conversions/wavedrom.yaml#/wavedromGet
+  /wavedrom:
+    $ref: ./openapi/paths/conversions/wavedrom.yaml#/wavedromPost
+  /wavedrom/{output_format}:
+    $ref: ./openapi/paths/conversions/wavedrom.yaml#/wavedromPostFormat
+  /bpmn/{output_format}/{source_encoded}:
+    $ref: ./openapi/paths/conversions/bpmn.yaml#/bpmnGet
+  /bpmn:
+    $ref: ./openapi/paths/conversions/bpmn.yaml#/bpmnPost
+  /bpmn/{output_format}:
+    $ref: ./openapi/paths/conversions/bpmn.yaml#/bpmnPostFormat
+  /bytefield/{output_format}/{source_encoded}:
+    $ref: ./openapi/paths/conversions/bytefield.yaml#/bytefieldGet
+  /bytefield:
+    $ref: ./openapi/paths/conversions/bytefield.yaml#/bytefieldPost
+  /bytefield/{output_format}:
+    $ref: ./openapi/paths/conversions/bytefield.yaml#/bytefieldPostFormat
+  /excalidraw/{output_format}/{source_encoded}:
+    $ref: ./openapi/paths/conversions/excalidraw.yaml#/excalidrawGet
+  /excalidraw:
+    $ref: ./openapi/paths/conversions/excalidraw.yaml#/excalidrawPost
+  /excalidraw/{output_format}:
+    $ref: ./openapi/paths/conversions/excalidraw.yaml#/excalidrawPostFormat
+  /pikchr/{output_format}/{source_encoded}:
+    $ref: ./openapi/paths/conversions/pikchr.yaml#/pikchrGet
+  /pikchr:
+    $ref: ./openapi/paths/conversions/pikchr.yaml#/pikchrPost
+  /pikchr/{output_format}:
+    $ref: ./openapi/paths/conversions/pikchr.yaml#/pikchrPostFormat
+  /structurizr/{output_format}/{source_encoded}:
+    $ref: ./openapi/paths/conversions/structurizr.yaml#/structurizrGet
+  /structurizr:
+    $ref: ./openapi/paths/conversions/structurizr.yaml#/structurizrPost
+  /structurizr/{output_format}:
+    $ref: ./openapi/paths/conversions/structurizr.yaml#/structurizrPostFormat
+  /diagramsnet/{output_format}/{source_encoded}:
+    $ref: ./openapi/paths/conversions/diagramsnet.yaml#/diagramsnetGet
+  /diagramsnet:
+    $ref: ./openapi/paths/conversions/diagramsnet.yaml#/diagramsnetPost
+  /diagramsnet/{output_format}:
+    $ref: ./openapi/paths/conversions/diagramsnet.yaml#/diagramsnetPostFormat
+  /d2/{output_format}/{source_encoded}:
+    $ref: ./openapi/paths/conversions/d2.yaml#/d2Get
+  /d2:
+    $ref: ./openapi/paths/conversions/d2.yaml#/d2Post
+  /d2/{output_format}:
+    $ref: ./openapi/paths/conversions/d2.yaml#/d2PostFormat
+  /tikz/{output_format}/{source_encoded}:
+    $ref: ./openapi/paths/conversions/tikz.yaml#/tikzGet
+  /tikz:
+    $ref: ./openapi/paths/conversions/tikz.yaml#/tikzPost
+  /tikz/{output_format}:
+    $ref: ./openapi/paths/conversions/tikz.yaml#/tikzPostFormat
+  /dbml/{output_format}/{source_encoded}:
+    $ref: ./openapi/paths/conversions/dbml.yaml#/dbmlGet
+  /dbml:
+    $ref: ./openapi/paths/conversions/dbml.yaml#/dbmlPost
+  /dbml/{output_format}:
+    $ref: ./openapi/paths/conversions/dbml.yaml#/dbmlPostFormat
+  /wireviz/{output_format}/{source_encoded}:
+    $ref: ./openapi/paths/conversions/wireviz.yaml#/wirevizGet
+  /wireviz:
+    $ref: ./openapi/paths/conversions/wireviz.yaml#/wirevizPost
+  /wireviz/{output_format}:
+    $ref: ./openapi/paths/conversions/wireviz.yaml#/wirevizPostFormat
+  /goat/{output_format}/{source_encoded}:
+    $ref: ./openapi/paths/conversions/goat.yaml#/goatGet
+  /goat:
+    $ref: ./openapi/paths/conversions/goat.yaml#/goatPost
+  /goat/{output_format}:
+    $ref: ./openapi/paths/conversions/goat.yaml#/goatPostFormat
+  /lini/{output_format}/{source_encoded}:
+    $ref: ./openapi/paths/conversions/lini.yaml#/liniGet
+  /lini:
+    $ref: ./openapi/paths/conversions/lini.yaml#/liniPost
+  /lini/{output_format}:
+    $ref: ./openapi/paths/conversions/lini.yaml#/liniPostFormat
+  /services:
+    $ref: ./openapi/paths/companions.yaml#/servicesCollection
+  /services/{name}/heartbeat:
+    $ref: ./openapi/paths/companions.yaml#/companionHeartbeat
+  /services/{name}:
+    $ref: ./openapi/paths/companions.yaml#/companionRegistration
+  /:
+    $ref: ./openapi/paths/operations.yaml#/root
+  /metrics:
+    $ref: ./openapi/paths/operations.yaml#/metrics
+  /health:
+    $ref: ./openapi/paths/operations.yaml#/health
+  /v1/health:
+    $ref: ./openapi/paths/operations.yaml#/versionedHealth
+  /healthz:
+    $ref: ./openapi/paths/operations.yaml#/healthz
+  /swagger:
+    $ref: ./openapi/paths/operations.yaml#/swaggerUi
+  /openapi.yaml:
+    $ref: ./openapi/paths/operations.yaml#/openApiDocument
+components:
+  parameters:
+    OutputFormat:
+      $ref: ./openapi/common/parameters.yaml#/OutputFormat
+    SourceEncoded:
+      $ref: ./openapi/common/parameters.yaml#/SourceEncoded
+    CompanionName:
+      $ref: ./openapi/common/parameters.yaml#/CompanionName
+    CompanionAuthorization:
+      $ref: ./openapi/common/parameters.yaml#/CompanionAuthorization
+  requestBodies:
+    DiagramInput:
+      $ref: ./openapi/common/requestBodies.yaml#/DiagramInput
+  responses:
+    RenderedDiagram:
+      $ref: ./openapi/common/responses.yaml#/RenderedDiagram
+    Health:
+      $ref: ./openapi/common/responses.yaml#/Health
+    NotFound:
+      $ref: ./openapi/common/responses.yaml#/NotFound
+    Error:
+      $ref: ./openapi/common/responses.yaml#/Error
+  schemas:
+    DiagramPostRequest:
+      $ref: ./openapi/common/schemas.yaml#/DiagramPostRequest
+    DiagramRestRequest:
+      $ref: ./openapi/common/schemas.yaml#/DiagramRestRequest
+    CompanionRegistrationRequest:
+      $ref: ./openapi/common/schemas.yaml#/CompanionRegistrationRequest
+    CompanionRegistration:
+      $ref: ./openapi/common/schemas.yaml#/CompanionRegistration
+    HealthResponse:
+      $ref: ./openapi/common/schemas.yaml#/HealthResponse
+    ErrorResponse:
+      $ref: ./openapi/common/schemas.yaml#/ErrorResponse
+    AuthenticationError:
+      $ref: ./openapi/common/schemas.yaml#/AuthenticationError
+    HeartbeatNotFound:
+      $ref: ./openapi/common/schemas.yaml#/HeartbeatNotFound

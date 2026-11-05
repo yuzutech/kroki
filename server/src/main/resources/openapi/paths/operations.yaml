@@ -1,0 +1,129 @@
+root:
+  post:
+    tags:
+    - Diagram conversion
+    operationId: convertDiagram
+    summary: Convert a diagram using the JSON API
+    description: 'Converts a diagram selected by diagram_type. The service must be registered and support
+
+      the requested output_format. diagram_options are passed to that diagram service.
+
+      '
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../common/schemas.yaml#/DiagramRestRequest'
+          example:
+            diagram_type: graphviz
+            output_format: svg
+            diagram_source: digraph G { Hello -> World }
+            diagram_options: {}
+    responses:
+      '200':
+        $ref: '../common/responses.yaml#/RenderedDiagram'
+      default:
+        $ref: '../common/responses.yaml#/Error'
+  get:
+    tags:
+    - Operations
+    operationId: getHomePage
+    summary: Get the Kroki home page
+    responses:
+      '200':
+        description: The HTML home page with registered diagram service versions.
+        content:
+          text/html:
+            schema:
+              type: string
+      default:
+        $ref: '../common/responses.yaml#/Error'
+metrics:
+  get:
+    tags:
+    - Operations
+    operationId: getMetrics
+    summary: Get Prometheus metrics
+    description: Exposes Kroki worker-thread and event-loop blocked-thread percentages.
+    responses:
+      '200':
+        description: Prometheus text exposition format.
+        content:
+          text/plain:
+            schema:
+              type: string
+            example: '# HELP kroki_worker_thread_blocked_percentage The percentage of worker thread blocked.
+
+              # TYPE kroki_worker_thread_blocked_percentage gauge
+
+              kroki_worker_thread_blocked_percentage 0 1730815200000
+
+              '
+      default:
+        $ref: '../common/responses.yaml#/Error'
+health:
+  get:
+    tags:
+    - Operations
+    operationId: getHealth
+    summary: Get Kroki health and service versions
+    responses:
+      '200':
+        $ref: '../common/responses.yaml#/Health'
+      default:
+        $ref: '../common/responses.yaml#/Error'
+versionedHealth:
+  get:
+    tags:
+    - Operations
+    operationId: getVersionedHealth
+    summary: Get Kroki health and service versions
+    description: Versioned alias of GET /health.
+    responses:
+      '200':
+        $ref: '../common/responses.yaml#/Health'
+      default:
+        $ref: '../common/responses.yaml#/Error'
+healthz:
+  get:
+    tags:
+    - Operations
+    operationId: getHealthz
+    summary: Get Kroki liveness status
+    description: Kubernetes liveness-probe alias of GET /health.
+    responses:
+      '200':
+        $ref: '../common/responses.yaml#/Health'
+      default:
+        $ref: '../common/responses.yaml#/Error'
+swaggerUi:
+  get:
+    tags:
+    - Operations
+    operationId: getSwaggerUi
+    summary: Get the Swagger UI page
+    responses:
+      '200':
+        description: Swagger UI HTML. The page loads its pinned UI assets from unpkg.com.
+        content:
+          text/html:
+            schema:
+              type: string
+      default:
+        $ref: '../common/responses.yaml#/Error'
+openApiDocument:
+  get:
+    tags:
+    - Operations
+    operationId: getOpenApiSpecification
+    summary: Get this OpenAPI specification
+    responses:
+      '200':
+        description: OpenAPI document in YAML format.
+        content:
+          application/yaml:
+            schema:
+              type: string
+      default:
+        $ref: '../common/responses.yaml#/Error'

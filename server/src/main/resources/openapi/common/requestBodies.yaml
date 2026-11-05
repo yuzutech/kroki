@@ -1,0 +1,17 @@
+DiagramInput:
+  required: true
+  description: 'Submit plain diagram text, selecting the output format with the path parameter or Accept
+    header; or submit JSON with diagram_source, optional diagram_options and optional
+    output_format. For JSON, a path output_format takes precedence over the body field.
+    When no output_format is provided in the path or JSON body, Accept must select a format
+    supported by the diagram service.
+    Diagram options may also be supplied as query parameters or in
+    Kroki-Diagram-Options-* headers. Body diagram_options take precedence over those values.'
+  content:
+    text/plain:
+      schema:
+        type: string
+      example: digraph G { Hello -> World }
+    application/json:
+      schema:
+        $ref: './schemas.yaml#/DiagramPostRequest'

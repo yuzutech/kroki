@@ -1,0 +1,161 @@
+servicesCollection:
+  post:
+    tags:
+    - Companion services
+    operationId: registerCompanionService
+    summary: Register a companion diagram service
+    description: 'Registers a new diagram type and mounts its conversion routes until it is unregistered
+
+      or its heartbeat expires. This endpoint is disabled by default and in SECURE safe mode.
+
+      If a registration token is configured, send it as a bearer token. The host must be
+
+      reachable by Kroki and must not be a literal private, loopback, or link-local address.
+
+      '
+    parameters:
+    - $ref: '../common/parameters.yaml#/CompanionAuthorization'
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../common/schemas.yaml#/CompanionRegistrationRequest'
+          example:
+            name: mscgen
+            version: 0.20.0
+            formats:
+            - svg
+            - png
+            host: mscgen
+            port: 8080
+    responses:
+      '201':
+        description: The companion service was registered.
+        headers:
+          Location:
+            description: URL of the registration resource.
+            schema:
+              type: string
+              example: /services/mscgen
+        content:
+          application/json:
+            schema:
+              $ref: '../common/schemas.yaml#/CompanionRegistration'
+      '400':
+        $ref: '../common/responses.yaml#/Error'
+      '401':
+        description: Missing or invalid bearer token when token authentication is configured.
+        content:
+          application/json:
+            schema:
+              $ref: '../common/schemas.yaml#/AuthenticationError'
+      '422':
+        description: The requested diagram type name is already registered.
+        content:
+          application/json:
+            schema:
+              $ref: '../common/schemas.yaml#/ErrorResponse'
+      default:
+        $ref: '../common/responses.yaml#/Error'
+  get:
+    tags:
+    - Companion services
+    operationId: listCompanionServices
+    summary: List registered companion services
+    description: Returns an empty array when no companion services are registered.
+    parameters:
+    - $ref: '../common/parameters.yaml#/CompanionAuthorization'
+    responses:
+      '200':
+        description: The current companion service registrations.
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../common/schemas.yaml#/CompanionRegistration'
+      '401':
+        description: Missing or invalid bearer token when token authentication is configured.
+        content:
+          application/json:
+            schema:
+              $ref: '../common/schemas.yaml#/AuthenticationError'
+      default:
+        $ref: '../common/responses.yaml#/Error'
+companionHeartbeat:
+  put:
+    tags:
+    - Companion services
+    operationId: heartbeatCompanionService
+    summary: Refresh a companion service heartbeat
+    description: Updates the registration activity time and prevents TTL-based eviction.
+    parameters:
+    - $ref: '../common/parameters.yaml#/CompanionName'
+    - $ref: '../common/parameters.yaml#/CompanionAuthorization'
+    responses:
+      '200':
+        description: The updated registration.
+        content:
+          application/json:
+            schema:
+              $ref: '../common/schemas.yaml#/CompanionRegistration'
+      '401':
+        description: Missing or invalid bearer token when token authentication is configured.
+        content:
+          application/json:
+            schema:
+              $ref: '../common/schemas.yaml#/AuthenticationError'
+      '404':
+        description: The companion is not registered.
+        content:
+          application/json:
+            schema:
+              $ref: '../common/schemas.yaml#/HeartbeatNotFound'
+      default:
+        $ref: '../common/responses.yaml#/Error'
+companionRegistration:
+  parameters:
+  - $ref: '../common/parameters.yaml#/CompanionName'
+  - $ref: '../common/parameters.yaml#/CompanionAuthorization'
+  get:
+    tags:
+    - Companion services
+    operationId: getCompanionService
+    summary: Get a companion service registration
+    responses:
+      '200':
+        description: The requested registration.
+        content:
+          application/json:
+            schema:
+              $ref: '../common/schemas.yaml#/CompanionRegistration'
+      '401':
+        description: Missing or invalid bearer token when token authentication is configured.
+        content:
+          application/json:
+            schema:
+              $ref: '../common/schemas.yaml#/AuthenticationError'
+      '404':
+        $ref: '../common/responses.yaml#/NotFound'
+      default:
+        $ref: '../common/responses.yaml#/Error'
+  delete:
+    tags:
+    - Companion services
+    operationId: unregisterCompanionService
+    summary: Unregister a companion service
+    description: Removes the registration and its diagram conversion routes immediately.
+    responses:
+      '204':
+        description: The registration was removed.
+      '401':
+        description: Missing or invalid bearer token when token authentication is configured.
+        content:
+          application/json:
+            schema:
+              $ref: '../common/schemas.yaml#/AuthenticationError'
+      '404':
+        $ref: '../common/responses.yaml#/NotFound'
+      default:
+        $ref: '../common/responses.yaml#/Error'
