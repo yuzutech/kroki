@@ -361,15 +361,17 @@
       ],
     },
     {
-      // lockfile regeneration resolves versions published at least 14 days ago
-      // (Renovate passes --before to npm, covering transitive dependencies too)
+      // lockfile regeneration resolves versions published at least 7 days ago
+      // (Renovate passes --before to npm, covering transitive dependencies too).
+      // Must not exceed the global minimumReleaseAge: a direct dependency pinned to a version
+      // younger than this delay cannot be resolved (e.g. "Found: mermaid@undefined")
       matchManagers: [
         'npm',
       ],
       matchUpdateTypes: [
         'lockFileMaintenance',
       ],
-      minimumReleaseAge: '14 days',
+      minimumReleaseAge: '7 days',
     },
     {
       matchManagers: [
