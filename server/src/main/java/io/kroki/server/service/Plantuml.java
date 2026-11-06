@@ -190,7 +190,7 @@ public class Plantuml implements DiagramService {
   }
 
   @Override
-  public List<DiagramOption> geOptions() { // TODO the options here are part of two group
+  public List<DiagramOption> geOptions() {
     return Stream.concat(ditaaCommand.geOptions().stream(), plantumlCommand.geOptions().stream()).toList();
   }
 

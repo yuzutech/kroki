@@ -19,8 +19,15 @@ import java.util.List;
 public class Graphviz implements DiagramService {
 
   private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG, FileFormat.JPEG, FileFormat.PDF);
+
+  private static final String NODE_ATTRIBUTE_PREFIX = "node-attribute-";
+  private static final String GRAPH_ATTRIBUTE_PREFIX = "graph-attribute-";
+  private static final String EDGE_ATTRIBUTE_PREFIX = "edge-attribute-";
   private static final DiagramOption SCALE = DiagramOption.of("scale");
   private static final DiagramOption LAYOUT = DiagramOption.of("layout");
+  private static final DiagramOption NODE_ATTRIBUTE = DiagramOption.prefix(NODE_ATTRIBUTE_PREFIX);
+  private static final DiagramOption GRAPH_ATTRIBUTE = DiagramOption.prefix(GRAPH_ATTRIBUTE_PREFIX);
+  private static final DiagramOption EDGE_ATTRIBUTE = DiagramOption.prefix(EDGE_ATTRIBUTE_PREFIX);
 
   private final Vertx vertx;
   private final String binPath;
@@ -57,7 +64,7 @@ public class Graphviz implements DiagramService {
 
   @Override
   public List<DiagramOption> geOptions() {
-    return List.of(SCALE, LAYOUT);
+    return List.of(SCALE, LAYOUT, NODE_ATTRIBUTE, GRAPH_ATTRIBUTE, EDGE_ATTRIBUTE);
   }
 
   @Override
@@ -85,17 +92,17 @@ public class Graphviz implements DiagramService {
     if (layout != null) {
       commands.add("-K" + layout);
     }
-    for (String fieldName : options.fieldNames()) { // TODO: how to handle prefix
-      if (fieldName.startsWith("node-attribute-")) {
-        String name = fieldName.replace("node-attribute-", "");
+    for (String fieldName : options.fieldNames()) {
+      if (fieldName.startsWith(NODE_ATTRIBUTE_PREFIX)) {
+        String name = fieldName.replace(NODE_ATTRIBUTE_PREFIX, "");
         commands.add("-N" + name + "=" + options.getString(fieldName));
       }
-      if (fieldName.startsWith("graph-attribute-")) {
-        String name = fieldName.replace("graph-attribute-", "");
+      if (fieldName.startsWith(GRAPH_ATTRIBUTE_PREFIX)) {
+        String name = fieldName.replace(GRAPH_ATTRIBUTE_PREFIX, "");
         commands.add("-G" + name + "=" + options.getString(fieldName));
       }
-      if (fieldName.startsWith("edge-attribute-")) {
-        String name = fieldName.replace("edge-attribute-", "");
+      if (fieldName.startsWith(EDGE_ATTRIBUTE_PREFIX)) {
+        String name = fieldName.replace(EDGE_ATTRIBUTE_PREFIX, "");
         commands.add("-E" + name + "=" + options.getString(fieldName));
       }
     }

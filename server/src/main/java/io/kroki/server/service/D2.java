@@ -25,7 +25,6 @@ public class D2 implements DiagramService {
 
   private static final List<FileFormat> SUPPORTED_FORMATS = Collections.singletonList(FileFormat.SVG);
   private static final DiagramOption LAYOUT = DiagramOption.of("layout", "dagre", List.of("dagre", "elk", "tala"));
-  private static final DiagramOption THEME = DiagramOption.of("theme"); // TODO: check out builtinThemes
   private static final DiagramOption DARK_THEME = DiagramOption.of("dark-theme");
   private static final DiagramOption PAD = DiagramOption.of("pad");
   private static final DiagramOption ANIMATE_INTERVAL = DiagramOption.of("animate-interval");
@@ -59,6 +58,8 @@ public class D2 implements DiagramService {
     entry("origami", 302),
     entry("c4", 303)
   );
+
+  private final DiagramOption THEME = DiagramOption.of("theme", "default", new ArrayList<>(builtinThemes.keySet()));
 
   public D2(Vertx vertx, JsonObject config, Commander commander) {
     this.vertx = vertx;
@@ -105,7 +106,7 @@ public class D2 implements DiagramService {
   private byte[] d2(byte[] source, JsonObject options) throws IOException, InterruptedException, IllegalStateException {
     List<String> commands = new ArrayList<>();
     commands.add(binPath);
-    String layout = LAYOUT.get(options); // TODO allowed value?
+    String layout = LAYOUT.get(options);
     if ("elk".equals(layout) || "tala".equals(layout)) {
       // Only pass the layout argument if an alternate layout engine is requested (default is 'dagre'),
       // so that the layout engine selected in the diagram (`d2-config`) is not overridden
