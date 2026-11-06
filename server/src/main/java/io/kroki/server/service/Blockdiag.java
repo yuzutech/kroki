@@ -5,6 +5,7 @@ import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
+import io.kroki.server.options.DiagramOptions;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
@@ -18,6 +19,10 @@ import java.util.List;
 public class Blockdiag implements DiagramService {
 
   private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG, FileFormat.PDF);
+  private static final DiagramOptions ANTIALIAS = DiagramOptions.of("antialias");
+  private static final DiagramOptions NO_TRANSPARENCY = DiagramOptions.of("no-transparency");
+  private static final DiagramOptions SIZE = DiagramOptions.of("size");
+  private static final DiagramOptions NO_DOCTYPE = DiagramOptions.of("no-doctype");
 
   private final Vertx vertx;
   private final String binPath;
@@ -53,6 +58,11 @@ public class Blockdiag implements DiagramService {
   }
 
   @Override
+  public List<DiagramOptions> geOptions() {
+    return List.of(ANTIALIAS, NO_TRANSPARENCY, SIZE, NO_DOCTYPE);
+  }
+
+  @Override
   public Future<Buffer> convert(String sourceDecoded, String serviceName, FileFormat fileFormat, JsonObject options) {
     return vertx.executeBlocking(() -> {
       byte[] result = bin(sourceDecoded.getBytes(), serviceName, fileFormat, options);
@@ -66,20 +76,17 @@ public class Blockdiag implements DiagramService {
     commands.add("--module=" + serviceName);
     commands.add("--font=/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf");
     commands.add("-T" + fileFormat.getName());
-    String antialiasValue = options.getString("antialias");
-    if (antialiasValue != null) {
+    if (ANTIALIAS.isEnabled(options)) {
       commands.add("--antialias");
     }
-    String noTransparencyValue = options.getString("no-transparency");
-    if (fileFormat == FileFormat.PNG && noTransparencyValue != null) {
+    if (fileFormat == FileFormat.PNG && NO_TRANSPARENCY.isEnabled(options)) {
       commands.add("--no-transparency");
     }
-    String sizeValue = options.getString("size");
+    String sizeValue = SIZE.get(options);
     if (sizeValue != null) {
       commands.add("--size=" + sizeValue);
     }
-    String noDoctypeValue = options.getString("no-doctype");
-    if (fileFormat == FileFormat.SVG && noDoctypeValue != null) {
+    if (fileFormat == FileFormat.SVG && NO_DOCTYPE.isEnabled(options)) {
       commands.add("--nodoctype");
     }
     commands.add("-"); // read from stdin
