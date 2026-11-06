@@ -2,7 +2,6 @@ package io.kroki.server.service;
 
 import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.format.FileFormat;
-import io.kroki.server.options.DiagramOption;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;

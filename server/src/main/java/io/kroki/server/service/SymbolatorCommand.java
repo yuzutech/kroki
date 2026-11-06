@@ -2,7 +2,6 @@ package io.kroki.server.service;
 
 import io.kroki.server.action.Commander;
 import io.kroki.server.format.FileFormat;
-import io.kroki.server.options.DiagramOption;
 import io.vertx.core.json.JsonObject;
 
 import java.io.IOException;

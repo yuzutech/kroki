@@ -1,4 +1,4 @@
-package io.kroki.server.options;
+package io.kroki.server.service;
 
 import java.util.List;
 

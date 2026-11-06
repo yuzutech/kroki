@@ -4,7 +4,6 @@ import io.kroki.server.action.CommandStatusHandler;
 import io.kroki.server.action.Commander;
 import io.kroki.server.error.BadRequestException;
 import io.kroki.server.format.FileFormat;
-import io.kroki.server.options.DiagramOption;
 import io.kroki.server.security.SafeMode;
 import io.kroki.server.unit.TimeValue;
 import io.vertx.core.json.JsonObject;
