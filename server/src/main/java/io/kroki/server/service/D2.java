@@ -24,7 +24,7 @@ import static java.util.Map.entry;
 public class D2 implements DiagramService {
 
   private static final List<FileFormat> SUPPORTED_FORMATS = Collections.singletonList(FileFormat.SVG);
-  private static final DiagramOption LAYOUT = DiagramOption.of("layout", "dagre", List.of("dagre", "elk"));
+  private static final DiagramOption LAYOUT = DiagramOption.of("layout", "dagre", List.of("dagre", "elk", "tala"));
   private static final DiagramOption THEME = DiagramOption.of("theme"); // TODO: check out builtinThemes
   private static final DiagramOption DARK_THEME = DiagramOption.of("dark-theme");
   private static final DiagramOption PAD = DiagramOption.of("pad");
@@ -105,9 +105,11 @@ public class D2 implements DiagramService {
   private byte[] d2(byte[] source, JsonObject options) throws IOException, InterruptedException, IllegalStateException {
     List<String> commands = new ArrayList<>();
     commands.add(binPath);
-    if (LAYOUT.hasValue(options, "elk")) {
-      // Only pass the layout argument if the ELK layout engine is requested (default is 'dagre')
-      commands.add("--layout=elk");
+    String layout = LAYOUT.get(options); // TODO allowed value?
+    if ("elk".equals(layout) || "tala".equals(layout)) {
+      // Only pass the layout argument if an alternate layout engine is requested (default is 'dagre'),
+      // so that the layout engine selected in the diagram (`d2-config`) is not overridden
+      commands.add("--layout=" + layout);
     }
     String theme = THEME.get(options);
     if (theme != null) {

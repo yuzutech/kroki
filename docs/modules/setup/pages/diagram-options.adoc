@@ -68,6 +68,7 @@ With flag set, option takes effect.
 |
 * `dagre` (default)
 * `elk`
+* `tala`
 |Use an alternate layout engine: https://d2lang.com/tour/layouts/
 
 |sketch
