@@ -5,7 +5,7 @@ import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
-import io.kroki.server.options.DiagramOptions;
+import io.kroki.server.options.DiagramOption;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
@@ -19,10 +19,10 @@ import java.util.List;
 public class Blockdiag implements DiagramService {
 
   private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG, FileFormat.PDF);
-  private static final DiagramOptions ANTIALIAS = DiagramOptions.of("antialias");
-  private static final DiagramOptions NO_TRANSPARENCY = DiagramOptions.of("no-transparency");
-  private static final DiagramOptions SIZE = DiagramOptions.of("size");
-  private static final DiagramOptions NO_DOCTYPE = DiagramOptions.of("no-doctype");
+  private static final DiagramOption ANTIALIAS = DiagramOption.of("antialias");
+  private static final DiagramOption NO_TRANSPARENCY = DiagramOption.of("no-transparency");
+  private static final DiagramOption SIZE = DiagramOption.of("size");
+  private static final DiagramOption NO_DOCTYPE = DiagramOption.of("no-doctype");
 
   private final Vertx vertx;
   private final String binPath;
@@ -58,7 +58,7 @@ public class Blockdiag implements DiagramService {
   }
 
   @Override
-  public List<DiagramOptions> geOptions() {
+  public List<DiagramOption> geOptions() {
     return List.of(ANTIALIAS, NO_TRANSPARENCY, SIZE, NO_DOCTYPE);
   }
 

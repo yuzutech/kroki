@@ -5,6 +5,7 @@ import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
+import io.kroki.server.options.DiagramOption;
 import io.kroki.server.security.SafeMode;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
@@ -52,6 +53,11 @@ public class Bpmn implements DiagramService {
   public String getVersion() {
     // renovate: datasource=npm depName=bpmn-js
     return "18.31.1";
+  }
+
+  @Override
+  public List<DiagramOption> geOptions() {
+    return List.of();
   }
 
   @Override

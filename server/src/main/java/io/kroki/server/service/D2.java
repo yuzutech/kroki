@@ -5,6 +5,7 @@ import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
+import io.kroki.server.options.DiagramOption;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
@@ -23,6 +24,14 @@ import static java.util.Map.entry;
 public class D2 implements DiagramService {
 
   private static final List<FileFormat> SUPPORTED_FORMATS = Collections.singletonList(FileFormat.SVG);
+  private static final DiagramOption LAYOUT = DiagramOption.of("layout", "dagre", List.of("dagre", "elk"));
+  private static final DiagramOption THEME = DiagramOption.of("theme"); // TODO: check out builtinThemes
+  private static final DiagramOption DARK_THEME = DiagramOption.of("dark-theme");
+  private static final DiagramOption PAD = DiagramOption.of("pad");
+  private static final DiagramOption ANIMATE_INTERVAL = DiagramOption.of("animate-interval");
+  private static final DiagramOption SKETCH = DiagramOption.of("sketch");
+  private static final DiagramOption SCALE = DiagramOption.of("scale");
+
   private final Vertx vertx;
   private final String binPath;
   private final SourceDecoder sourceDecoder;
@@ -79,6 +88,12 @@ public class D2 implements DiagramService {
     return "0.9.0";
   }
 
+
+  @Override
+  public List<DiagramOption> geOptions() {
+    return List.of(LAYOUT, THEME, DARK_THEME, PAD, ANIMATE_INTERVAL, SKETCH, SCALE);
+  }
+
   @Override
   public Future<Buffer> convert(String sourceDecoded, String serviceName, FileFormat fileFormat, JsonObject options) {
     return vertx.executeBlocking(() -> {
@@ -90,12 +105,11 @@ public class D2 implements DiagramService {
   private byte[] d2(byte[] source, JsonObject options) throws IOException, InterruptedException, IllegalStateException {
     List<String> commands = new ArrayList<>();
     commands.add(binPath);
-    String layout = options.getString("layout");
-    if (layout != null && layout.equals("elk")) {
+    if (LAYOUT.hasValue(options, "elk")) {
       // Only pass the layout argument if the ELK layout engine is requested (default is 'dagre')
-      commands.add("--layout=" + layout);
+      commands.add("--layout=elk");
     }
-    String theme = options.getString("theme");
+    String theme = THEME.get(options);
     if (theme != null) {
       int themeId = 0;
       Integer builtinThemeId = builtinThemes.get(theme.toLowerCase().replaceAll("\\s", "-"));
@@ -110,7 +124,7 @@ public class D2 implements DiagramService {
       }
       commands.add("--theme=" + themeId);
     }
-    String darkTheme = options.getString("dark-theme");
+    String darkTheme = DARK_THEME.get(options);
     if (darkTheme != null) {
       int themeId = 0;
       Integer builtinThemeId = builtinThemes.get(darkTheme.toLowerCase().replaceAll("\\s", "-"));
@@ -125,19 +139,18 @@ public class D2 implements DiagramService {
       }
       commands.add("--dark-theme=" + themeId);
     }
-    String pad = options.getString("pad");
+    String pad = PAD.get(options);
     if (pad != null) {
       commands.add("--pad=" + pad);
     }
-    String animateInterval = options.getString("animate-interval");
+    String animateInterval = ANIMATE_INTERVAL.get(options);
     if (animateInterval != null) {
       commands.add("--animate-interval=" + animateInterval);
     }
-    String sketch = options.getString("sketch");
-    if (sketch != null) {
+    if (SKETCH.isEnabled(options)) {
       commands.add("--sketch");
     }
-    String scale = options.getString("scale");
+    String scale = SCALE.get(options);
     if (scale != null) {
       commands.add("--scale=" + scale);
     }

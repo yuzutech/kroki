@@ -5,6 +5,7 @@ import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
+import io.kroki.server.options.DiagramOption;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
@@ -18,6 +19,12 @@ import java.util.List;
 public class Svgbob implements DiagramService {
 
   private static final List<FileFormat> SUPPORTED_FORMATS = Collections.singletonList(FileFormat.SVG);
+  private static final DiagramOption BACKGROUND = DiagramOption.of("background");
+  private static final DiagramOption FILL_COLOR = DiagramOption.of("fill-color");
+  private static final DiagramOption FONT_FAMILY = DiagramOption.of("font-family");
+  private static final DiagramOption FONT_SIZE = DiagramOption.of("font-size");
+  private static final DiagramOption SCALE = DiagramOption.of("scale");
+  private static final DiagramOption STROKE_WIDTH = DiagramOption.of("stroke-width");
 
   private final Vertx vertx;
   private final String binPath;
@@ -53,6 +60,11 @@ public class Svgbob implements DiagramService {
   }
 
   @Override
+  public List<DiagramOption> geOptions() {
+    return List.of(BACKGROUND, FILL_COLOR, FONT_FAMILY, FONT_SIZE, SCALE, STROKE_WIDTH);
+  }
+
+  @Override
   public Future<Buffer> convert(String sourceDecoded, String serviceName, FileFormat fileFormat, JsonObject options) {
     return vertx.executeBlocking(() -> {
       byte[] result = svgbob(sourceDecoded.getBytes(), options);
@@ -63,22 +75,19 @@ public class Svgbob implements DiagramService {
   private byte[] svgbob(byte[] source, JsonObject options) throws IOException, InterruptedException, IllegalStateException {
     List<String> commands = new ArrayList<>();
     commands.add(binPath);
-    addOption("background", options, commands);
-    addOption("fill-color", options, commands);
-    addOption("font-family", options, commands);
-    addOption("font-size", options, commands);
-    addOption("scale", options, commands);
-    addOption("stroke-width", options, commands);
+
+    geOptions().forEach((DiagramOption diagramOption) -> addOption(diagramOption, options, commands));
+    
     String[] args = commands.toArray(new String[0]);
     return commander.execute(source, args);
   }
 
-  private void addOption(String optionKey, JsonObject options, List<String> commands) {
-    String value = options.getString(optionKey);
+  private void addOption(DiagramOption diagramOption, JsonObject options, List<String> commands) {
+    String value = diagramOption.get(options);
     if (value != null) {
       String safeValue = value.replaceAll("[-\"$/@*&=;:!\\\\]", "");
       // No need to quote safeValue: ProcessBuilder passes arguments directly to the OS without shell interpretation.
-      commands.add("--" + optionKey + "=" + safeValue);
+      commands.add("--" + diagramOption.getKey() + "=" + safeValue);
     }
   }
 }

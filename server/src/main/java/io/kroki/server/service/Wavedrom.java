@@ -5,6 +5,7 @@ import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
+import io.kroki.server.options.DiagramOption;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
@@ -47,6 +48,11 @@ public class Wavedrom implements DiagramService {
   public String getVersion() {
     // renovate: datasource=npm depName=wavedrom
     return "3.8.0";
+  }
+
+  @Override
+  public List<DiagramOption> geOptions() {
+    return List.of();
   }
 
   @Override

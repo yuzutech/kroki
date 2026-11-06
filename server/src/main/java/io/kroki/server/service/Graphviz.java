@@ -5,6 +5,7 @@ import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
+import io.kroki.server.options.DiagramOption;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
@@ -18,6 +19,8 @@ import java.util.List;
 public class Graphviz implements DiagramService {
 
   private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG, FileFormat.JPEG, FileFormat.PDF);
+  private static final DiagramOption SCALE = DiagramOption.of("scale");
+  private static final DiagramOption LAYOUT = DiagramOption.of("layout");
 
   private final Vertx vertx;
   private final String binPath;
@@ -53,6 +56,11 @@ public class Graphviz implements DiagramService {
   }
 
   @Override
+  public List<DiagramOption> geOptions() {
+    return List.of(SCALE, LAYOUT);
+  }
+
+  @Override
   public Future<Buffer> convert(String sourceDecoded, String serviceName, FileFormat fileFormat, JsonObject options) {
     return vertx.executeBlocking(() -> {
       byte[] result = dot(sourceDecoded.getBytes(), fileFormat.getName(), options);
@@ -69,15 +77,15 @@ public class Graphviz implements DiagramService {
     // png pov ps ps2
     // svg svgz tk vml vmlz vrml wbmp x11 xdot xdot1.2 xdot1.4 xdot_json xlib
     commands.add("-T" + format);
-    String scale = options.getString("scale");
+    String scale = SCALE.get(options);
     if (scale != null) {
       commands.add("-s" + scale);
     }
-    String layout = options.getString("layout");
+    String layout = LAYOUT.get(options);
     if (layout != null) {
       commands.add("-K" + layout);
     }
-    for (String fieldName : options.fieldNames()) {
+    for (String fieldName : options.fieldNames()) { // TODO: how to handle prefix
       if (fieldName.startsWith("node-attribute-")) {
         String name = fieldName.replace("node-attribute-", "");
         commands.add("-N" + name + "=" + options.getString(fieldName));

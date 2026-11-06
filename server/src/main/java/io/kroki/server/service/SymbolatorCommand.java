@@ -2,6 +2,7 @@ package io.kroki.server.service;
 
 import io.kroki.server.action.Commander;
 import io.kroki.server.format.FileFormat;
+import io.kroki.server.options.DiagramOption;
 import io.vertx.core.json.JsonObject;
 
 import java.io.IOException;
@@ -10,12 +11,23 @@ import java.util.List;
 
 public class SymbolatorCommand {
 
+  private static final DiagramOption TRANSPARENT = DiagramOption.of("transparent");
+  private static final DiagramOption TITLE = DiagramOption.of("title");
+  private static final DiagramOption SCALE = DiagramOption.of("scale");
+  private static final DiagramOption COMPONENT = DiagramOption.of("component");
+  private static final DiagramOption NO_TYPE = DiagramOption.of("no-type");
+  private static final DiagramOption LIBRARY_NAME = DiagramOption.of("library-name");
+
   private final String binPath;
   private final Commander commander;
 
   public SymbolatorCommand(JsonObject config) {
     this.binPath = config.getString("KROKI_SYMBOLATOR_BIN_PATH", "symbolator");
     this.commander = new Commander(config);
+  }
+
+  public List<DiagramOption> geOptions() {
+    return List.of(TRANSPARENT, TITLE, SCALE, COMPONENT, NO_TYPE, LIBRARY_NAME);
   }
 
   public byte[] convert(String source, FileFormat format, JsonObject options) throws IOException, InterruptedException {
@@ -44,33 +56,31 @@ public class SymbolatorCommand {
     commands.add("--format");
     commands.add(format.getName());
     // Use a transparent background instead of white
-    String transparent = options.getString("transparent");
-    if (transparent != null) {
+    if (TRANSPARENT.isEnabled(options)) {
       commands.add("--transparent");
     }
     // If set this title will be inserted into the diagram
-    String title = options.getString("title");
+    String title = TITLE.get(options);
     if (title != null) {
       commands.add("--title");
       commands.add(title);
     }
     // Select the scale of the diagram. The default is 1.0.
-    String scale = options.getString("scale");
+    String scale = SCALE.get(options);
     if (scale != null) {
       commands.add("--scale");
       commands.add(scale);
     }
     // Select which component to render. The default is the last one I think.
-    String component = options.getString("component");
+    String component = COMPONENT.get(options);
     if (component != null) {
       commands.add("--component");
       commands.add(component);
     }
-    String omitTypeInformation = options.getString("no-type");
-    if (omitTypeInformation != null) {
+    if (NO_TYPE.isEnabled(options)) {
       commands.add("--no-type");
     }
-    String libname = options.getString("library-name");
+    String libname = LIBRARY_NAME.get(options);
     if (libname != null) {
       commands.add("--libname ");
       commands.add(libname);

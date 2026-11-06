@@ -5,6 +5,7 @@ import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
+import io.kroki.server.options.DiagramOption;
 import io.kroki.server.security.SafeMode;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
@@ -53,6 +54,11 @@ public class Diagramsnet implements DiagramService {
   @Override
   public String getVersion() {
     return "16.2.4";
+  }
+
+  @Override
+  public List<DiagramOption> geOptions() {
+    return List.of();
   }
 
   @Override

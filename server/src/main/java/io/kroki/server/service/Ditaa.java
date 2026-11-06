@@ -4,6 +4,7 @@ import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
+import io.kroki.server.options.DiagramOption;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
@@ -43,6 +44,11 @@ public class Ditaa implements DiagramService {
   @Override
   public String getVersion() {
     return "1.0.3";
+  }
+
+  @Override
+  public List<DiagramOption> geOptions() {
+    return this.command.geOptions();
   }
 
   @Override

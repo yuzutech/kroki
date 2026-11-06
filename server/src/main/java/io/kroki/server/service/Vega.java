@@ -5,6 +5,7 @@ import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
+import io.kroki.server.options.DiagramOption;
 import io.kroki.server.security.SafeMode;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
@@ -58,6 +59,11 @@ public class Vega implements DiagramService {
       // renovate: datasource=npm depName=vega-lite
       return "6.5.0"; // Vega Lite
     }
+  }
+
+  @Override
+  public List<DiagramOption> geOptions() {
+    return List.of();
   }
 
   @Override
