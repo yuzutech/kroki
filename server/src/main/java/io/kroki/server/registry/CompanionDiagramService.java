@@ -5,6 +5,7 @@ import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
+import io.kroki.server.service.DiagramOption;
 import io.kroki.server.service.DiagramService;
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
@@ -55,6 +56,11 @@ public class CompanionDiagramService implements DiagramService {
   @Override
   public String getVersion() {
     return version;
+  }
+
+  @Override
+  public List<DiagramOption> geOptions() {
+    return List.of(DiagramOption.delegation());
   }
 
   @Override

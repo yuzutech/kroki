@@ -5,7 +5,7 @@ import java.util.List;
 import io.vertx.core.json.JsonObject;
 
 public final class DiagramOption {
-    private enum Type { STRING, PREFIX };
+    private enum Type { STRING, PREFIX, DELEGATION };
 
     private final String key;
     private final String defaultValue;
@@ -29,6 +29,10 @@ public final class DiagramOption {
 
     public static DiagramOption prefix(String key) {
         return new DiagramOption(key, null, List.of(), Type.PREFIX);
+    }
+
+    public static DiagramOption delegation() {
+        return new DiagramOption("Delegated", null, null, Type.DELEGATION);
     }
 
     public String getKey() {

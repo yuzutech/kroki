@@ -58,7 +58,7 @@ public class Mermaid implements DiagramService {
 
   @Override
   public List<DiagramOption> geOptions() {
-    return List.of(); // TODO: handler delegator options
+    return List.of(DiagramOption.delegation());
   }
 
   @Override

@@ -56,7 +56,7 @@ public class Excalidraw implements DiagramService {
 
   @Override
   public List<DiagramOption> geOptions() {
-    return List.of(); // TODO: delegate options
+    return List.of(DiagramOption.delegation());
   }
 
   @Override
