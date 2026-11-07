@@ -198,6 +198,7 @@ You can use `docker-compose` to run multiple containers:
 services:
   core:
     image: yuzutech/kroki
+    restart: unless-stopped
     environment:
       - KROKI_MERMAID_HOST=mermaid
       - KROKI_BPMN_HOST=bpmn
@@ -208,19 +209,23 @@ services:
       - "8000:8000"
   mermaid:
     image: yuzutech/kroki-mermaid
+    restart: unless-stopped
     expose:
       - "8002"
   bpmn:
     image: yuzutech/kroki-bpmn
+    restart: unless-stopped
     expose:
       - "8003"
   excalidraw:
     image: yuzutech/kroki-excalidraw
+    restart: unless-stopped
     expose:
       - "8004"
   # experimental!
   diagramsnet:
     image: yuzutech/kroki-diagramsnet
+    restart: unless-stopped
     expose:
       - "8005"
 ----

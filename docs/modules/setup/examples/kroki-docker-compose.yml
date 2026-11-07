@@ -1,6 +1,7 @@
 services:
   kroki:
     image: yuzutech/kroki
+    restart: unless-stopped
     depends_on:
       - mermaid
       - bpmn
@@ -16,14 +17,17 @@ services:
       - /tmp:exec
   mermaid:
     image: yuzutech/kroki-mermaid
+    restart: unless-stopped
     expose:
       - "8002"
   bpmn:
     image: yuzutech/kroki-bpmn
+    restart: unless-stopped
     expose:
       - "8003"
   excalidraw:
     image: yuzutech/kroki-excalidraw
+    restart: unless-stopped
     expose:
       - "8004"
       
