@@ -104,7 +104,7 @@ public class D2 implements DiagramService {
     List<String> commands = new ArrayList<>();
     commands.add(binPath);
     String layout = LAYOUT.get(options);
-    if ("elk".equals(layout) || "tala".equals(layout)) {
+    if (LAYOUT.values().contains(layout) && !LAYOUT.defaultValue().equals(layout)) {
       // Only pass the layout argument if an alternate layout engine is requested (default is 'dagre'),
       // so that the layout engine selected in the diagram (`d2-config`) is not overridden
       commands.add("--layout=" + layout);

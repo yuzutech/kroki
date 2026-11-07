@@ -174,7 +174,7 @@ public class Structurizr implements DiagramService {
       }
 
       String diagramPlantUML;
-      if (outputOption == null || outputOption.equals("diagram")) {
+      if (outputOption == null || OUTPUT.defaultValue().equals(outputOption)) {
         diagramPlantUML = diagram.getDefinition();
       } else if (outputOption.equals("legend")) {
         diagramPlantUML = diagram.getLegend().getDefinition();
