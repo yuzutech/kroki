@@ -393,9 +393,10 @@ empty string ("")
 With flag set, option takes effect.
 
 |title
-|_string_ +
+|_flag_ +
 empty string ("")
-|This title will be inserted into the diagram
+|Add the component name above the symbol +
+With flag set, option takes effect.
 
 |scale
 |_number_ +
@@ -410,7 +411,7 @@ empty string ("")
 |library-name
 |_string_ +
 empty string ("")
-|Add name of a library to the diagram. +
-Only works if title is also set
+|Add name of a library above the component name. +
+Only works if `title` is also set, ignored otherwise.
 
 |===
