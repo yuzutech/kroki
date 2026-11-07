@@ -42,39 +42,29 @@ class ServerTest {
   }
 
   @Test
-  void http_server_check_response(Vertx vertx) {
+  void http_server_check_response(Vertx vertx) throws TimeoutException {
     WebClient client = WebClient.create(vertx);
-    client.get(port, "localhost", "/")
+    HttpResponse<String> response = client.get(port, "localhost", "/")
       .as(BodyCodec.string())
       .send()
-      .onComplete(response -> {
-        if (response.failed()) {
-          throw new RuntimeException("Failed to get response", response.cause());
-        } else {
-          assertThat(response.result().bodyAsString()).contains("https://kroki.io");
-        }
-      });
+      .await(5, TimeUnit.SECONDS);
+    assertThat(response.body()).contains("https://kroki.io");
   }
 
   @Test
-  void http_server_check_metrics(Vertx vertx) {
+  void http_server_check_metrics(Vertx vertx) throws TimeoutException {
     WebClient client = WebClient.create(vertx);
-   client.get(port, "localhost", "/metrics")
+    HttpResponse<String> response = client.get(port, "localhost", "/metrics")
       .as(BodyCodec.string())
       .send()
-      .onComplete(response -> {
-        if (response.failed()) {
-          throw new RuntimeException("Failed to get response", response.cause());
-        } else {
-          String bodyAsString = response.result().bodyAsString();
-          assertThat(bodyAsString).contains("# HELP kroki_worker_thread_blocked_percentage");
-          assertThat(bodyAsString).contains("# TYPE kroki_worker_thread_blocked_percentage gauge");
-          assertThat(bodyAsString).contains("# HELP kroki_event_loop_thread_blocked_percentage The percentage of event loop thread blocked.");
-          assertThat(bodyAsString).contains("# TYPE kroki_event_loop_thread_blocked_percentage gauge");
-          assertThat(bodyAsString).contains("kroki_worker_thread_blocked_percentage 0 ");
-          assertThat(bodyAsString).contains("kroki_event_loop_thread_blocked_percentage 0 ");
-        }
-      });
+      .await(5, TimeUnit.SECONDS);
+    String body = response.body();
+    assertThat(body).contains("# HELP kroki_worker_thread_blocked_percentage");
+    assertThat(body).contains("# TYPE kroki_worker_thread_blocked_percentage gauge");
+    assertThat(body).contains("# HELP kroki_event_loop_thread_blocked_percentage The percentage of event loop thread blocked.");
+    assertThat(body).contains("# TYPE kroki_event_loop_thread_blocked_percentage gauge");
+    assertThat(body).contains("kroki_worker_thread_blocked_percentage 0 ");
+    assertThat(body).contains("kroki_event_loop_thread_blocked_percentage 0 ");
   }
 
   @Test
