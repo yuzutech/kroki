@@ -5,6 +5,7 @@ import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
+import io.kroki.server.option.DiagramOption;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
@@ -22,11 +23,11 @@ public class Graphviz implements DiagramService {
   private static final String NODE_ATTRIBUTE_PREFIX = "node-attribute-";
   private static final String GRAPH_ATTRIBUTE_PREFIX = "graph-attribute-";
   private static final String EDGE_ATTRIBUTE_PREFIX = "edge-attribute-";
-  private static final DiagramOption SCALE = DiagramOption.of("scale");
-  private static final DiagramOption LAYOUT = DiagramOption.of("layout");
-  private static final DiagramOption NODE_ATTRIBUTE = DiagramOption.prefix(NODE_ATTRIBUTE_PREFIX);
-  private static final DiagramOption GRAPH_ATTRIBUTE = DiagramOption.prefix(GRAPH_ATTRIBUTE_PREFIX);
-  private static final DiagramOption EDGE_ATTRIBUTE = DiagramOption.prefix(EDGE_ATTRIBUTE_PREFIX);
+  private static final DiagramOption SCALE = DiagramOption.value("scale", "Scale factor for the rendered diagram.");
+  private static final DiagramOption LAYOUT = DiagramOption.value("layout", "Graphviz layout engine to use, for example dot or neato.");
+  private static final DiagramOption NODE_ATTRIBUTE = DiagramOption.prefix(NODE_ATTRIBUTE_PREFIX, "Set a default node attribute, for instance node-attribute-shape=box.");
+  private static final DiagramOption GRAPH_ATTRIBUTE = DiagramOption.prefix(GRAPH_ATTRIBUTE_PREFIX, "Set a graph attribute, for instance graph-attribute-rankdir=LR.");
+  private static final DiagramOption EDGE_ATTRIBUTE = DiagramOption.prefix(EDGE_ATTRIBUTE_PREFIX, "Set a default edge attribute, for instance edge-attribute-color=red.");
 
   private final Vertx vertx;
   private final String binPath;
@@ -62,7 +63,7 @@ public class Graphviz implements DiagramService {
   }
 
   @Override
-  public List<DiagramOption> geOptions() {
+  public List<DiagramOption> getOptions() {
     return List.of(SCALE, LAYOUT, NODE_ATTRIBUTE, GRAPH_ATTRIBUTE, EDGE_ATTRIBUTE);
   }
 
@@ -91,20 +92,9 @@ public class Graphviz implements DiagramService {
     if (layout != null) {
       commands.add("-K" + layout);
     }
-    for (String fieldName : options.fieldNames()) {
-      if (fieldName.startsWith(NODE_ATTRIBUTE_PREFIX)) {
-        String name = fieldName.replace(NODE_ATTRIBUTE_PREFIX, "");
-        commands.add("-N" + name + "=" + options.getString(fieldName));
-      }
-      if (fieldName.startsWith(GRAPH_ATTRIBUTE_PREFIX)) {
-        String name = fieldName.replace(GRAPH_ATTRIBUTE_PREFIX, "");
-        commands.add("-G" + name + "=" + options.getString(fieldName));
-      }
-      if (fieldName.startsWith(EDGE_ATTRIBUTE_PREFIX)) {
-        String name = fieldName.replace(EDGE_ATTRIBUTE_PREFIX, "");
-        commands.add("-E" + name + "=" + options.getString(fieldName));
-      }
-    }
+    NODE_ATTRIBUTE.getAll(options).forEach((name, value) -> commands.add("-N" + name + "=" + value));
+    GRAPH_ATTRIBUTE.getAll(options).forEach((name, value) -> commands.add("-G" + name + "=" + value));
+    EDGE_ATTRIBUTE.getAll(options).forEach((name, value) -> commands.add("-E" + name + "=" + value));
     return commander.execute(source, commands.toArray(new String[0]));
   }
 }

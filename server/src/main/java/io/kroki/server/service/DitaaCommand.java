@@ -2,6 +2,7 @@ package io.kroki.server.service;
 
 import io.kroki.server.action.Commander;
 import io.kroki.server.format.FileFormat;
+import io.kroki.server.option.DiagramOption;
 import io.vertx.core.json.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,14 +14,14 @@ import java.util.List;
 
 public class DitaaCommand {
 
-  private static final DiagramOption NO_ANTIALIAS = DiagramOption.of("no-antialias");
-  private static final DiagramOption NO_SEPARATION = DiagramOption.of("no-separation");
-  private static final DiagramOption ROUND_CORNERS = DiagramOption.of("round-corners");
-  private static final DiagramOption SCALE = DiagramOption.of("scale");
-  private static final DiagramOption NO_SHADOWS = DiagramOption.of("no-shadows");
-  private static final DiagramOption TABS = DiagramOption.of("tabs");
-  private static final DiagramOption BACKGROUND = DiagramOption.of("background");
-  private static final DiagramOption TRANSPARENT = DiagramOption.of("transparent");
+  private static final DiagramOption NO_ANTIALIAS = DiagramOption.flag("no-antialias", "Disable antialiasing.");
+  private static final DiagramOption NO_SEPARATION = DiagramOption.flag("no-separation", "Disable separation between adjacent shapes.");
+  private static final DiagramOption ROUND_CORNERS = DiagramOption.flag("round-corners", "Use rounded corners for shapes.");
+  private static final DiagramOption SCALE = DiagramOption.value("scale", "Scale factor for the rendered diagram.");
+  private static final DiagramOption NO_SHADOWS = DiagramOption.flag("no-shadows", "Disable drop shadows.");
+  private static final DiagramOption TABS = DiagramOption.value("tabs", "Number of spaces represented by a tab character.");
+  private static final DiagramOption BACKGROUND = DiagramOption.value("background", "Background color, specified as a color value.");
+  private static final DiagramOption TRANSPARENT = DiagramOption.flag("transparent", "Use a transparent background.");
 
   private final String binPath;
   private final Commander commander;

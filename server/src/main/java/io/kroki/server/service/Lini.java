@@ -5,6 +5,7 @@ import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
+import io.kroki.server.option.DiagramOption;
 import io.kroki.server.security.SafeMode;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
@@ -19,8 +20,8 @@ import java.util.List;
 public class Lini implements DiagramService {
 
   private static final List<FileFormat> SUPPORTED_FORMATS = Collections.singletonList(FileFormat.SVG);
-  private static final DiagramOption THEME = DiagramOption.of("theme");
-  private static final DiagramOption STATIC = DiagramOption.of("static");
+  private static final DiagramOption THEME = DiagramOption.value("theme", "Theme to use when rendering the diagram.");
+  private static final DiagramOption STATIC = DiagramOption.flag("static", "Render a static diagram without interactive behavior.");
 
   private final Vertx vertx;
   private final String binPath;
@@ -58,7 +59,7 @@ public class Lini implements DiagramService {
   }
 
   @Override
-  public List<DiagramOption> geOptions() {
+  public List<DiagramOption> getOptions() {
     return List.of(THEME, STATIC);
   }
 

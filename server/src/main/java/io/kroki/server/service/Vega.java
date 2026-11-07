@@ -5,6 +5,7 @@ import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
+import io.kroki.server.option.DiagramOption;
 import io.kroki.server.security.SafeMode;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
@@ -61,7 +62,7 @@ public class Vega implements DiagramService {
   }
 
   @Override
-  public List<DiagramOption> geOptions() {
+  public List<DiagramOption> getOptions() {
     return List.of();
   }
 

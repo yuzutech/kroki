@@ -4,6 +4,7 @@ import io.kroki.server.action.CommandStatusHandler;
 import io.kroki.server.action.Commander;
 import io.kroki.server.error.BadRequestException;
 import io.kroki.server.format.FileFormat;
+import io.kroki.server.option.DiagramOption;
 import io.kroki.server.security.SafeMode;
 import io.kroki.server.unit.TimeValue;
 import io.vertx.core.json.JsonObject;
@@ -26,8 +27,8 @@ public class PlantumlCommand {
 
   private static final Pattern ERROR_MESSAGE_RX = Pattern.compile(".*ERROR\\n(?<lineNumber>[0-9]+)\\n(?<cause>[^\\n]+)\\n.*", Pattern.MULTILINE | Pattern.DOTALL);
 
-  private static final DiagramOption THEME = DiagramOption.of("theme");
-  private static final DiagramOption NO_METADATA = DiagramOption.of("no-metadata");
+  private static final DiagramOption THEME = DiagramOption.value("theme", "Theme to use when rendering the diagram.");
+  private static final DiagramOption NO_METADATA = DiagramOption.flag("no-metadata", "Omit metadata from the generated output.");
 
   private final String binPath;
   private final String includePath;

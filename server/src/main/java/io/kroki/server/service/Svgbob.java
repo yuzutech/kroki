@@ -5,6 +5,7 @@ import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
+import io.kroki.server.option.DiagramOption;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
@@ -18,12 +19,12 @@ import java.util.List;
 public class Svgbob implements DiagramService {
 
   private static final List<FileFormat> SUPPORTED_FORMATS = Collections.singletonList(FileFormat.SVG);
-  private static final DiagramOption BACKGROUND = DiagramOption.of("background");
-  private static final DiagramOption FILL_COLOR = DiagramOption.of("fill-color");
-  private static final DiagramOption FONT_FAMILY = DiagramOption.of("font-family");
-  private static final DiagramOption FONT_SIZE = DiagramOption.of("font-size");
-  private static final DiagramOption SCALE = DiagramOption.of("scale");
-  private static final DiagramOption STROKE_WIDTH = DiagramOption.of("stroke-width");
+  private static final DiagramOption BACKGROUND = DiagramOption.value("background", "Background color, specified as a color value.");
+  private static final DiagramOption FILL_COLOR = DiagramOption.value("fill-color", "Fill color for rendered shapes.");
+  private static final DiagramOption FONT_FAMILY = DiagramOption.value("font-family", "Font family used for rendered text.");
+  private static final DiagramOption FONT_SIZE = DiagramOption.value("font-size", "Font size used for rendered text.");
+  private static final DiagramOption SCALE = DiagramOption.value("scale", "Scale factor for the rendered diagram.");
+  private static final DiagramOption STROKE_WIDTH = DiagramOption.value("stroke-width", "Width of lines in the rendered diagram.");
 
   private final Vertx vertx;
   private final String binPath;
@@ -59,7 +60,7 @@ public class Svgbob implements DiagramService {
   }
 
   @Override
-  public List<DiagramOption> geOptions() {
+  public List<DiagramOption> getOptions() {
     return List.of(BACKGROUND, FILL_COLOR, FONT_FAMILY, FONT_SIZE, SCALE, STROKE_WIDTH);
   }
 
@@ -75,7 +76,7 @@ public class Svgbob implements DiagramService {
     List<String> commands = new ArrayList<>();
     commands.add(binPath);
 
-    geOptions().forEach((DiagramOption diagramOption) -> addOption(diagramOption, options, commands));
+    getOptions().forEach((DiagramOption diagramOption) -> addOption(diagramOption, options, commands));
     
     String[] args = commands.toArray(new String[0]);
     return commander.execute(source, args);
@@ -86,7 +87,7 @@ public class Svgbob implements DiagramService {
     if (value != null) {
       String safeValue = value.replaceAll("[-\"$/@*&=;:!\\\\]", "");
       // No need to quote safeValue: ProcessBuilder passes arguments directly to the OS without shell interpretation.
-      commands.add("--" + diagramOption.getKey() + "=" + safeValue);
+      commands.add("--" + diagramOption.name() + "=" + safeValue);
     }
   }
 }

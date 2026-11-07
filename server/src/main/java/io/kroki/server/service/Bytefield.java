@@ -5,9 +5,8 @@ import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
-import io.vertx.core.AsyncResult;
+import io.kroki.server.option.DiagramOption;
 import io.vertx.core.Future;
-import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
@@ -66,7 +65,7 @@ public class Bytefield implements DiagramService {
   }
 
   @Override
-  public List<DiagramOption> geOptions() {
+  public List<DiagramOption> getOptions() {
     return List.of();
   }
 

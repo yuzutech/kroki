@@ -7,6 +7,7 @@ import io.kroki.server.error.BadRequestException;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
 import io.kroki.server.log.Logging;
+import io.kroki.server.option.DiagramOption;
 import io.kroki.server.security.SafeMode;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
@@ -62,7 +63,7 @@ public class Plantuml implements DiagramService {
   private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG, FileFormat.PDF, FileFormat.BASE64, FileFormat.TXT, FileFormat.UTXT);
   private static final Pattern STDLIB_PATH_RX = Pattern.compile("<([-.a-zA-Z0-9]+)/[^>]+>");
 
-  private static final DiagramOption THEME = DiagramOption.of("theme");
+  private static final DiagramOption THEME = DiagramOption.value("theme", "Theme to use when rendering the diagram.");
 
   private final Vertx vertx;
   private final PlantumlCommand plantumlCommand;
@@ -189,7 +190,7 @@ public class Plantuml implements DiagramService {
   }
 
   @Override
-  public List<DiagramOption> geOptions() {
+  public List<DiagramOption> getOptions() {
     return Stream.concat(ditaaCommand.geOptions().stream(), plantumlCommand.geOptions().stream()).toList();
   }
 

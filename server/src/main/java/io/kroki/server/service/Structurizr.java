@@ -11,6 +11,7 @@ import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.BadRequestException;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
+import io.kroki.server.option.DiagramOption;
 import io.kroki.server.security.SafeMode;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
@@ -37,8 +38,9 @@ public class Structurizr implements DiagramService {
   // same as PlantUML since we convert Structurizr DSL to PlantUML
   private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG, FileFormat.PDF, FileFormat.BASE64, FileFormat.TXT, FileFormat.UTXT);
 
-  private static final DiagramOption VIEW_KEY = DiagramOption.of("view-key");
-  private static final DiagramOption OUTPUT = DiagramOption.of("output", "diagram", List.of("diagram", "legend"));
+  private static final DiagramOption VIEW_KEY = DiagramOption.value("view-key", "Key of the Structurizr view to render.");
+  private static final DiagramOption OUTPUT = DiagramOption.oneOf("output", "Select whether to render the diagram or its legend.", "diagram", "legend")
+    .withDefault("diagram");
 
   private static final StructurizrTheme defaultTheme = readTheme("structurizr/default.json");
   private static final StructurizrTheme awsTheme2020 = readTheme("structurizr/amazon-web-services-2020.04.30.json");
@@ -97,7 +99,7 @@ public class Structurizr implements DiagramService {
   }
 
   @Override
-  public List<DiagramOption> geOptions() {
+  public List<DiagramOption> getOptions() {
     return List.of(VIEW_KEY, OUTPUT);
   }
 

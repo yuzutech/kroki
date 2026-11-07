@@ -2,6 +2,7 @@ package io.kroki.server.service;
 
 import io.kroki.server.action.Commander;
 import io.kroki.server.format.FileFormat;
+import io.kroki.server.option.DiagramOption;
 import io.vertx.core.json.JsonObject;
 
 import java.io.IOException;
@@ -10,12 +11,12 @@ import java.util.List;
 
 public class SymbolatorCommand {
 
-  private static final DiagramOption TRANSPARENT = DiagramOption.of("transparent");
-  private static final DiagramOption TITLE = DiagramOption.of("title");
-  private static final DiagramOption SCALE = DiagramOption.of("scale");
-  private static final DiagramOption COMPONENT = DiagramOption.of("component");
-  private static final DiagramOption NO_TYPE = DiagramOption.of("no-type");
-  private static final DiagramOption LIBRARY_NAME = DiagramOption.of("library-name");
+  private static final DiagramOption TRANSPARENT = DiagramOption.flag("transparent", "Use a transparent background.");
+  private static final DiagramOption TITLE = DiagramOption.flag("title", "Include the component title in the output.");
+  private static final DiagramOption SCALE = DiagramOption.value("scale", "Scale factor for the rendered diagram.");
+  private static final DiagramOption COMPONENT = DiagramOption.value("component", "Name of the component to render.");
+  private static final DiagramOption NO_TYPE = DiagramOption.flag("no-type", "Omit the component type from the output.");
+  private static final DiagramOption LIBRARY_NAME = DiagramOption.value("library-name", "Library name to display in the output.");
 
   private final String binPath;
   private final Commander commander;
@@ -65,8 +66,7 @@ public class SymbolatorCommand {
     }
     // Add the component name above the symbol.
     // --title is a flag: the value of the option is ignored.
-    boolean title = options.getString("title") != null;
-    if (title) {
+    if (TITLE.isEnabled(options)) {
       commands.add("--title");
     }
     // Select the scale of the diagram. The default is 1.0.
@@ -86,8 +86,8 @@ public class SymbolatorCommand {
     }
     // Add the library name above the component name.
     // Symbolator exits with an error when --libname is used without --title, so the option is ignored in this case.
-    String libname = options.getString("library-name");
-    if (libname != null && title) {
+    String libname = LIBRARY_NAME.get(options);
+    if (libname != null && TITLE.isEnabled(options)) {
       // One argument, so a value starting with '-' is never read as a flag.
       commands.add("--libname=" + libname);
     }

@@ -5,9 +5,8 @@ import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
-import io.vertx.core.AsyncResult;
+import io.kroki.server.option.DiagramOption;
 import io.vertx.core.Future;
-import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
@@ -23,12 +22,13 @@ import static java.util.Map.entry;
 public class D2 implements DiagramService {
 
   private static final List<FileFormat> SUPPORTED_FORMATS = Collections.singletonList(FileFormat.SVG);
-  private static final DiagramOption LAYOUT = DiagramOption.of("layout", "dagre", List.of("dagre", "elk", "tala"));
-  private static final DiagramOption DARK_THEME = DiagramOption.of("dark-theme");
-  private static final DiagramOption PAD = DiagramOption.of("pad");
-  private static final DiagramOption ANIMATE_INTERVAL = DiagramOption.of("animate-interval");
-  private static final DiagramOption SKETCH = DiagramOption.of("sketch");
-  private static final DiagramOption SCALE = DiagramOption.of("scale");
+  private static final DiagramOption LAYOUT = DiagramOption.oneOf("layout", "Layout engine.", "dagre", "elk", "tala");
+  private static final DiagramOption THEME = DiagramOption.value("theme", "Built-in theme name or numeric theme ID.");
+  private static final DiagramOption DARK_THEME = DiagramOption.value("dark-theme", "Built-in theme name or numeric theme ID.");
+  private static final DiagramOption PAD = DiagramOption.value("pad", "Padding around the rendered diagram.");
+  private static final DiagramOption ANIMATE_INTERVAL = DiagramOption.value("animate-interval", "Interval between animation frames.");
+  private static final DiagramOption SKETCH = DiagramOption.flag("sketch", "Render the diagram in a hand-drawn sketch style.");
+  private static final DiagramOption SCALE = DiagramOption.value("scale", "Scale factor for the rendered diagram.");
 
   private final Vertx vertx;
   private final String binPath;
@@ -57,8 +57,6 @@ public class D2 implements DiagramService {
     entry("origami", 302),
     entry("c4", 303)
   );
-
-  private final DiagramOption THEME = DiagramOption.of("theme", "default", new ArrayList<>(builtinThemes.keySet()));
 
   public D2(Vertx vertx, JsonObject config, Commander commander) {
     this.vertx = vertx;
@@ -90,7 +88,7 @@ public class D2 implements DiagramService {
 
 
   @Override
-  public List<DiagramOption> geOptions() {
+  public List<DiagramOption> getOptions() {
     return List.of(LAYOUT, THEME, DARK_THEME, PAD, ANIMATE_INTERVAL, SKETCH, SCALE);
   }
 
