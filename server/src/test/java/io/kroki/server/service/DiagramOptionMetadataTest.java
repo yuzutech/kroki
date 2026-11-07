@@ -64,7 +64,7 @@ class DiagramOptionMetadataTest {
             .as("option name should be unique for %s", context)
             .isTrue();
 
-          if (isEnumOption(option)) {
+          if (DiagramOption.Kind.ENUM.equals(option.kind())) {
             assertThat(option.values())
               .as("ENUM option should declare allowed values for %s", context)
               .isNotEmpty();
@@ -73,15 +73,6 @@ class DiagramOptionMetadataTest {
       }
     } finally {
       vertx.close().await();
-    }
-  }
-
-  private boolean isEnumOption(DiagramOption option) {
-    try {
-      Object kind = DiagramOption.class.getMethod("kind").invoke(option);
-      return kind instanceof Enum<?> enumKind && enumKind.name().equals("ENUM");
-    } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-      throw new AssertionError("Unable to inspect option kind", e);
     }
   }
 }

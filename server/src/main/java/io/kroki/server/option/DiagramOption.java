@@ -13,7 +13,7 @@ public record DiagramOption(
   String defaultValue,      // null = no default, the library or the diagram decides
   Set<FileFormat> formats   // empty = all formats
 ) {
-    private enum Kind { FLAG, VALUE, ENUM, PREFIX };
+    public enum Kind { FLAG, VALUE, ENUM, PREFIX };
 
     public DiagramOption {
       Objects.requireNonNull(name);
