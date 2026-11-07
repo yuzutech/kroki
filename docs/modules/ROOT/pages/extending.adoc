@@ -1,0 +1,152 @@
+= Extending Kroki
+
+Kroki can be extended with new diagram types without modifying the gateway nor waiting for a Kroki release.
+A diagram library is packaged as a _companion container_: a small HTTP server that converts a diagram source to an image and registers itself with the gateway through the xref:setup:configuration.adoc#_companion_service_discovery[companion service discovery] API.
+
+This guide describes the contract a companion container must implement.
+
+== Overview
+
+. The companion starts an HTTP server, reachable from the gateway (typically on a private Docker or Kubernetes network).
+. It registers itself with `POST /services` on the gateway, with its diagram type name, version, supported output formats, host and port.
+. It sends a heartbeat (`PUT /services/<name>/heartbeat`) at regular intervals to stay registered.
+. When a client requests `/<name>/<format>`, the gateway decodes the diagram source and forwards it to the companion with `POST /<name>/<format>`.
+. On shutdown, the companion unregisters itself with `DELETE /services/<name>`.
+
+The gateway takes care of everything else: decoding the diagram source (GET requests with an encoded source, plain text and JSON POST requests), validating the output format, and returning the response to the client.
+
+== Conversion endpoint
+
+The gateway sends a conversion request as follows:
+
+[source,http]
+----
+POST /<name>/<format>?<option>=<value>&... HTTP/1.1
+Host: <host>:<port>
+Accept: application/json
+
+<diagram source>
+----
+
+`<name>`:: The diagram type name the companion registered with.
+`<format>`:: One of the output formats the companion registered with (`svg`, `png`, `pdf`, `jpeg`, `txt`...). The gateway rejects any other format with a `400` (Bad Request) before reaching the companion.
+Request body:: The decoded diagram source, as text.
+Query parameters:: The xref:setup:diagram-options.adoc[diagram options] sent by the client (query parameters, `Kroki-Diagram-Options-*` headers or `diagram_options` in a JSON request), with lowercased names.
+These values come from the client: validate them, and never pass them to a command line or a template without escaping them.
+
+=== Response
+
+On success, respond with a `200` (OK) status code and the image as the response body.
+The gateway sets the `Content-Type` of the response sent to the client according to the requested format.
+
+On failure, respond with an appropriate status code (`400` for an invalid diagram, `408` or `504` when the conversion times out...) and a JSON body:
+
+[source,json]
+----
+{
+  "error": "Syntax error on line 2: unexpected token '>'"
+}
+----
+
+The gateway returns the `error` message to the client with the same status code.
+If the response body is not JSON, the client only gets a generic message (e.g. `Bad Request`), which makes diagram errors hard to fix.
+
+=== Timeouts and concurrency
+
+The gateway waits at most `KROKI_DELEGATE_TIMEOUT_MS` (30 seconds by default) for a response, then fails the request.
+Enforce your own, shorter conversion timeout so the client receives a meaningful error, and kill any process left behind by an aborted conversion.
+
+The gateway keeps up to `KROKI_DELEGATE_MAX_POOL_SIZE` (10 by default) connections open to each companion.
+Make sure the companion can serve that many concurrent requests, or queue them.
+
+== Registration
+
+=== Registering
+
+Send a `POST /services` request to the gateway:
+
+[source,bash]
+----
+curl -X POST http://kroki:8000/services \
+  -H 'Authorization: Bearer s3cr3t' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "name": "mscgen",
+    "version": "8.6.4",
+    "formats": ["svg", "png", "pdf"],
+    "host": "mscgen",
+    "port": 8080
+  }'
+----
+
+The gateway responds with `201` (Created) when the registration succeeds.
+See xref:setup:configuration.adoc#_registering_a_companion[Registering a companion] for a description of each field and the validation rules.
+
+`host` is the address the gateway uses to reach the companion: on a Docker network, use the service name (or a network alias).
+IP literals in the loopback, link-local and private ranges are rejected, so do not register the container's IP address.
+
+The gateway may not be ready when the companion starts (in a Docker Compose setup, `depends_on` only waits for the gateway container to start, not for the server to listen).
+Retry the registration every few seconds until it succeeds.
+
+=== Heartbeat
+
+The registry is kept in memory, and a companion that does not send a heartbeat within `KROKI_COMPANION_HEARTBEAT_TTL_MS` (90 seconds by default) is evicted.
+Send `PUT /services/<name>/heartbeat` at regular intervals, a third of the TTL (30 seconds) being a sensible default.
+
+When the gateway restarts, it forgets every registration, and the heartbeat fails with a `404` (Not Found).
+In this case, register again.
+
+=== Unregistering
+
+On shutdown (`SIGTERM`), send `DELETE /services/<name>`, so the gateway stops forwarding requests to a companion that is no longer running.
+
+=== Authentication
+
+When the gateway is configured with `KROKI_COMPANION_REGISTRATION_TOKEN`, every `/services` request must include an `Authorization: Bearer <token>` header, otherwise the gateway responds with a `401` (Unauthorized).
+Read the token from the same `KROKI_COMPANION_REGISTRATION_TOKEN` environment variable on the companion side.
+
+=== Recommended configuration
+
+Read the gateway URL from an environment variable rather than hard-coding it, so the companion works whatever the name of the gateway service.
+For instance:
+
+`KROKI_GATEWAY_URL`:: The URL of the gateway (e.g. `http://kroki:8000`).
+`KROKI_COMPANION_REGISTRATION_TOKEN`:: The registration token.
+`KROKI_COMPANION_HOST`:: The host the gateway should use to reach the companion (defaults to the service name).
+
+== Lifecycle example
+
+The following pseudo-code summarizes the expected registration lifecycle:
+
+[source,python]
+----
+registered = False
+while not stopping:
+    if registered:
+        registered = heartbeat()  # PUT /services/<name>/heartbeat, False on 404
+    if not registered:
+        registered = register()   # POST /services, True on 201
+    wait(30 if registered else 3)
+unregister()                      # DELETE /services/<name>
+----
+
+== Security
+
+The companion runs the conversion of diagram sources sent by any client of the gateway.
+Treat every diagram source and option as untrusted input:
+
+* run the server as a non-root user, with a read-only file system where possible
+* bound the conversion time, the memory and the size of the output
+* disable the features of the diagram library that read local files or fetch remote resources (includes, images, fonts...), unless they are explicitly allowed
+* never expose the companion port outside of the private network shared with the gateway
+
+== Publishing a companion
+
+Companion containers are released by their maintainers, independently of Kroki.
+To make a companion easy to adopt:
+
+* publish its source code in a public repository, so users can review what they run alongside their gateway
+* publish the image to a public registry (Docker Hub or GitHub Container Registry), for `linux/amd64` and `linux/arm64`, tagged with the version of the diagram library
+* document a minimal `docker-compose.yaml` in the README, as shown in xref:setup:third-party-companions.adoc#_usage[Third-Party Companion Containers]
+
+To get your companion listed in the xref:setup:third-party-companions.adoc#_available_companions[available third-party companions], open a pull request on https://github.com/yuzutech/kroki[GitHub].

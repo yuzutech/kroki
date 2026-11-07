@@ -385,6 +385,8 @@ In addition to the companion containers built into Kroki (Mermaid, BPMN, Excalid
 
 This feature is disabled by default. Enable it with `KROKI_ENABLE_COMPANION_DISCOVERY=true`.
 
+See xref:third-party-companions.adoc[Third-Party Companion Containers] for the companions available, and xref:ROOT:extending.adoc[Extending Kroki] to build your own.
+
 [IMPORTANT]
 ====
 Companion service discovery is always disabled while Kroki runs in `SECURE` safe mode (the default, see <<Safe Mode>>), regardless of `KROKI_ENABLE_COMPANION_DISCOVERY`. `SECURE` means the operator does not trust a service's own security checks, which is exactly what registering a new, unvetted companion would ask the gateway to do. This also means the feature is never available on the public https://kroki.io instance.

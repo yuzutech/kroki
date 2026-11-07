@@ -1,2 +1,3 @@
 * xref:project/get-help.adoc[Get Help]
 * xref:architecture.adoc[Architecture]
+* xref:extending.adoc[Extending Kroki]
