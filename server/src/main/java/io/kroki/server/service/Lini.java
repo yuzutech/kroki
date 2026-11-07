@@ -5,6 +5,7 @@ import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
+import io.kroki.server.option.DiagramOption;
 import io.kroki.server.security.SafeMode;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
@@ -19,6 +20,8 @@ import java.util.List;
 public class Lini implements DiagramService {
 
   private static final List<FileFormat> SUPPORTED_FORMATS = Collections.singletonList(FileFormat.SVG);
+  private static final DiagramOption THEME = DiagramOption.value("theme", "Theme to use when rendering the diagram.");
+  private static final DiagramOption STATIC = DiagramOption.flag("static", "Render a static diagram without interactive behavior.");
 
   private final Vertx vertx;
   private final String binPath;
@@ -56,6 +59,11 @@ public class Lini implements DiagramService {
   }
 
   @Override
+  public List<DiagramOption> getOptions() {
+    return List.of(THEME, STATIC);
+  }
+
+  @Override
   public Future<Buffer> convert(String sourceDecoded, String serviceName, FileFormat fileFormat, JsonObject options) {
     return vertx.executeBlocking(() -> {
       byte[] result = lini(sourceDecoded.getBytes(), options);
@@ -72,13 +80,12 @@ public class Lini implements DiagramService {
       // --no-fs refuses every local path (only URLs and data: URIs remain) and limits --theme to the built-in themes.
       commands.add("--no-fs");
     }
-    String theme = options.getString("theme");
+    String theme = THEME.get(options);
     if (theme != null) {
       // One argument, so a value starting with '-' is never read as a flag.
       commands.add("--theme=" + theme);
     }
-    String staticMode = options.getString("static");
-    if (staticMode != null) {
+    if (STATIC.isEnabled(options)) {
       commands.add("--static");
     }
     return commander.execute(source, commands.toArray(new String[0]));

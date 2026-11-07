@@ -11,6 +11,7 @@ import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.BadRequestException;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
+import io.kroki.server.option.DiagramOption;
 import io.kroki.server.security.SafeMode;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
@@ -36,6 +37,10 @@ public class Structurizr implements DiagramService {
 
   // same as PlantUML since we convert Structurizr DSL to PlantUML
   private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG, FileFormat.PDF, FileFormat.BASE64, FileFormat.TXT, FileFormat.UTXT);
+
+  private static final DiagramOption VIEW_KEY = DiagramOption.value("view-key", "Key of the Structurizr view to render.");
+  private static final DiagramOption OUTPUT = DiagramOption.oneOf("output", "Select whether to render the diagram or its legend.", "diagram", "legend")
+    .withDefault("diagram");
 
   private static final StructurizrTheme defaultTheme = readTheme("structurizr/default.json");
   private static final StructurizrTheme awsTheme2020 = readTheme("structurizr/amazon-web-services-2020.04.30.json");
@@ -94,6 +99,11 @@ public class Structurizr implements DiagramService {
   }
 
   @Override
+  public List<DiagramOption> getOptions() {
+    return List.of(VIEW_KEY, OUTPUT);
+  }
+
+  @Override
   public Future<Buffer> convert(String sourceDecoded, String serviceName, FileFormat fileFormat, JsonObject options) {
     return vertx.executeBlocking(() -> Buffer.buffer(convert(sourceDecoded, fileFormat, options)));
   }
@@ -120,7 +130,7 @@ public class Structurizr implements DiagramService {
         throw new BadRequestException("Empty diagram, does not have any view.");
       }
       View selectedView;
-      String viewKey = options.getString("view-key");
+      String viewKey = VIEW_KEY.get(options);
       if (viewKey != null && !viewKey.trim().isEmpty()) {
         Optional<View> viewFound = views.stream().filter(view -> Objects.equals(view.getKey(), viewKey)).findFirst();
         if (viewFound.isEmpty()) {
@@ -158,13 +168,13 @@ public class Structurizr implements DiagramService {
         throw new BadRequestException("View type is not supported: " + selectedView.getClass().getSimpleName() + ", must be a DynamicView, DeploymentView, ComponentView, ContainerView, SystemContextView or SystemLandscapeView.");
       }
 
-      String outputOption = options.getString("output");
+      String outputOption = OUTPUT.get(options);
       if (outputOption != null) {
         outputOption = outputOption.trim();
       }
 
       String diagramPlantUML;
-      if (outputOption == null || outputOption.equals("diagram")) {
+      if (outputOption == null || OUTPUT.defaultValue().equals(outputOption)) {
         diagramPlantUML = diagram.getDefinition();
       } else if (outputOption.equals("legend")) {
         diagramPlantUML = diagram.getLegend().getDefinition();

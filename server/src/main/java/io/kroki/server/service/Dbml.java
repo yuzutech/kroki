@@ -5,6 +5,7 @@ import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
+import io.kroki.server.option.DiagramOption;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
@@ -48,6 +49,11 @@ public class Dbml implements DiagramService {
   public String getVersion() {
     // renovate: datasource=npm depName=@softwaretechnik/dbml-renderer
     return "1.0.31";
+  }
+
+  @Override
+  public List<DiagramOption> getOptions() {
+    return List.of();
   }
 
   @Override

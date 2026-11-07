@@ -6,6 +6,7 @@ import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.BadRequestException;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
+import io.kroki.server.option.DiagramOption;
 import io.kroki.server.security.SafeMode;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
@@ -18,7 +19,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class TikZ implements DiagramService {
+
   private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.JPEG, FileFormat.PDF, FileFormat.PNG, FileFormat.SVG);
+  private static final DiagramOption PAGE = DiagramOption.value("page", "Page number to render from the generated document.");
+
   private final Vertx vertx;
   private final String binPath;
   private final SourceDecoder sourceDecoder;
@@ -54,6 +58,11 @@ public class TikZ implements DiagramService {
   }
 
   @Override
+  public List<DiagramOption> getOptions() {
+    return List.of(PAGE);
+  }
+
+  @Override
   public Future<Buffer> convert(String sourceDecoded, String serviceName, FileFormat fileFormat, JsonObject options) {
     return vertx.executeBlocking(() -> {
       byte[] result = tikz2svg(sourceDecoded.getBytes(), fileFormat.getName(), options);
@@ -68,7 +77,7 @@ public class TikZ implements DiagramService {
     commands.add(format);
     commands.add(String.valueOf(safeMode.value));
 
-    String page = options.getString("page");
+    String page = PAGE.get(options);
     if (page != null) {
       commands.add(String.valueOf(parsePage(page)));
     }

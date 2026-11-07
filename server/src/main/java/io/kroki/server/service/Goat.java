@@ -5,6 +5,7 @@ import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
+import io.kroki.server.option.DiagramOption;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
@@ -17,6 +18,10 @@ import java.util.List;
 public class Goat implements DiagramService {
 
   private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.SVG);
+  private static final DiagramOption SVG_COLOR_DARK_SCHEME = DiagramOption.value("svg-color-dark-scheme", "Color scheme to use for SVG output in dark mode.");
+  private static final DiagramOption SVG_COLOR_LIGHT_SCHEME = DiagramOption.value("svg-color-light-scheme", "Color scheme to use for SVG output in light mode.");
+  private static final DiagramOption UTF8 = DiagramOption.flag("utf8", "Use UTF-8 encoding for the diagram source.");
+
   private final Vertx vertx;
   private final String binPath;
   private final SourceDecoder sourceDecoder;
@@ -53,25 +58,29 @@ public class Goat implements DiagramService {
   }
 
   @Override
+  public List<DiagramOption> getOptions() {
+    return List.of(SVG_COLOR_DARK_SCHEME, SVG_COLOR_LIGHT_SCHEME, UTF8);
+  }
+
+  @Override
   public Future<Buffer> convert(String sourceDecoded, String serviceName, FileFormat fileFormat, JsonObject options) {
     return vertx.executeBlocking(() -> {
       List<String> commands = new ArrayList<>();
       commands.add(binPath);
 
-      String svgColorDarkScheme = options.getString("svg-color-dark-scheme");
+      String svgColorDarkScheme = SVG_COLOR_DARK_SCHEME.get(options);
       if (svgColorDarkScheme != null) {
         commands.add("-svg-color-dark-scheme");
         commands.add(svgColorDarkScheme);
       }
 
-      String svgColorLightScheme = options.getString("svg-color-light-scheme");
+      String svgColorLightScheme = SVG_COLOR_LIGHT_SCHEME.get(options);
       if (svgColorLightScheme != null) {
         commands.add("-svg-color-light-scheme");
         commands.add(svgColorLightScheme);
       }
 
-      String utf8 = options.getString("utf8");
-      if (utf8 != null) {
+      if (UTF8.isEnabled(options)) {
         commands.add("-utf8");
       }
 

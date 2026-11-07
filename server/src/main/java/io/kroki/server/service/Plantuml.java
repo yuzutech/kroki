@@ -7,6 +7,7 @@ import io.kroki.server.error.BadRequestException;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
 import io.kroki.server.log.Logging;
+import io.kroki.server.option.DiagramOption;
 import io.kroki.server.security.SafeMode;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
@@ -61,6 +62,8 @@ public class Plantuml implements DiagramService {
   private static final Logger logger = LoggerFactory.getLogger(Plantuml.class);
   private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG, FileFormat.PDF, FileFormat.BASE64, FileFormat.TXT, FileFormat.UTXT);
   private static final Pattern STDLIB_PATH_RX = Pattern.compile("<([-.a-zA-Z0-9]+)/[^>]+>");
+
+  private static final DiagramOption THEME = DiagramOption.value("theme", "Theme to use when rendering the diagram.");
 
   private final Vertx vertx;
   private final PlantumlCommand plantumlCommand;
@@ -187,6 +190,11 @@ public class Plantuml implements DiagramService {
   }
 
   @Override
+  public List<DiagramOption> getOptions() {
+    return Stream.concat(ditaaCommand.geOptions().stream(), plantumlCommand.geOptions().stream()).toList();
+  }
+
+  @Override
   public Future<Buffer> convert(String sourceDecoded, String serviceName, FileFormat fileFormat, JsonObject options) {
     String source;
     try {
@@ -214,7 +222,7 @@ public class Plantuml implements DiagramService {
       // ...otherwise, continue with PlantUML
       return vertx.executeBlocking(() -> {
         String sourceWithTheme = primeSource;
-        String theme = options.getString("theme");
+        String theme = THEME.get(options);
         if (theme != null && !theme.trim().isEmpty()) {
           // add !theme directive just after the @start directive
           sourceWithTheme = START_BLOCK_RX.matcher(primeSource).replaceAll("$1!theme " + theme + "\n");
