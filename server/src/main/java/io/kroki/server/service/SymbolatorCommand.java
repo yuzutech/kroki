@@ -30,6 +30,11 @@ public class SymbolatorCommand {
   }
 
   public byte[] convert(String source, FileFormat format, JsonObject options) throws IOException, InterruptedException {
+    List<String> commands = buildCommandArgs(format, options);
+    return commander.execute(source.getBytes(), commands.toArray(new String[0]));
+  }
+
+  protected List<String> buildCommandArgs(FileFormat format, JsonObject options) {
     List<String> commands = new ArrayList<>();
     commands.add(binPath);
     // Set input to stdin
@@ -58,11 +63,11 @@ public class SymbolatorCommand {
     if (TRANSPARENT.isEnabled(options)) {
       commands.add("--transparent");
     }
-    // If set this title will be inserted into the diagram
-    String title = TITLE.get(options);
-    if (title != null) {
+    // Add the component name above the symbol.
+    // --title is a flag: the value of the option is ignored.
+    boolean title = options.getString("title") != null;
+    if (title) {
       commands.add("--title");
-      commands.add(title);
     }
     // Select the scale of the diagram. The default is 1.0.
     String scale = SCALE.get(options);
@@ -79,11 +84,13 @@ public class SymbolatorCommand {
     if (NO_TYPE.isEnabled(options)) {
       commands.add("--no-type");
     }
-    String libname = LIBRARY_NAME.get(options);
-    if (libname != null) {
-      commands.add("--libname ");
-      commands.add(libname);
+    // Add the library name above the component name.
+    // Symbolator exits with an error when --libname is used without --title, so the option is ignored in this case.
+    String libname = options.getString("library-name");
+    if (libname != null && title) {
+      // One argument, so a value starting with '-' is never read as a flag.
+      commands.add("--libname=" + libname);
     }
-    return commander.execute(source.getBytes(), commands.toArray(new String[0]));
+    return commands;
   }
 }

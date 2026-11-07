@@ -15,6 +15,14 @@ versioned entry and uses it as the GitHub release notes.
 
 - Allow selecting the [TALA](https://d2lang.com/tour/layouts/#tala) layout engine, bundled since D2 0.9.0, with the D2 `layout` option (`layout=tala`). The option previously only accepted `elk` and silently fell back to the default `dagre` layout for any other value ([#2272](https://github.com/yuzutech/kroki/pull/2272))
 
+### Changed
+
+- Compile the server for Java 21 and document Java 21 as the minimum version for the manual install. Java 21 was already required at runtime since Structurizr 6, which is compiled for Java 21: on an older Java version, the server failed to start with an `UnsupportedClassVersionError` ([#2276](https://github.com/yuzutech/kroki/pull/2276))
+
+### Fixed
+
+- Apply the Symbolator `library-name` option, which was never recognized by Symbolator because of a trailing space in the argument name. As documented, the option requires `title` to be set and is ignored otherwise. The documentation of the `title` option is also fixed: it is a flag that adds the component name above the symbol, any value is ignored ([#2277](https://github.com/yuzutech/kroki/pull/2277))
+
 ## [0.35.0] - 2026-11-05
 
 ### Security

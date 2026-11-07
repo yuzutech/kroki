@@ -34,6 +34,7 @@ We recommend using docker-composer to connect with companion containers, such as
 services:
   core:
     image: yuzutech/kroki
+    restart: unless-stopped
     environment:
       - KROKI_MERMAID_HOST=mermaid
       - KROKI_BPMN_HOST=bpmn
@@ -42,14 +43,17 @@ services:
       - "8000:8000"
   mermaid:
     image: yuzutech/kroki-mermaid
+    restart: unless-stopped
     ports:
       - "8002:8002"
   bpmn:
     image: yuzutech/kroki-bpmn
+    restart: unless-stopped
     ports:
       - "8003:8003"
   excalidraw:
     image: yuzutech/kroki-excalidraw
+    restart: unless-stopped
     ports:
       - "8004:8004"
 ```
