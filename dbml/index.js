@@ -4,13 +4,26 @@ const { run } = require('@softwaretechnik/dbml-renderer')
 const encoding = 'utf-8'
 let data
 
+// Absolute http(s)/mailto URLs, or relative references (no scheme): the part before the first
+// "/", "?" or "#" must not contain ":" (a scheme) or "&" (an XML entity that could hide one).
+const SAFE_URL = /^(?:(?:https?|mailto):|[^:&/?#]*(?:[/?#]|$))/i
+
+// The renderer copies the table "url" setting (and anything injected in the HTML-like label,
+// e.g. through "headercolor") into Graphviz HREF attributes without validation.
+// Remove the links whose scheme is not allowed (javascript:, data:...) to prevent XSS.
+function removeUnsafeLinks(svg) {
+  return svg.replace(/\s(?:xlink:)?href="([^"]*)"/g, (attribute, url) =>
+    SAFE_URL.test(url) ? attribute : ''
+  )
+}
+
 async function convert() {
   const source = data.toString(encoding)
   if (source === '') {
     return
   }
   try {
-    const svg = run(source, 'svg')
+    const svg = removeUnsafeLinks(run(source, 'svg'))
     console.log(svg)
   } catch (err) {
     console.error(err)
