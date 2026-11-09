@@ -11,6 +11,10 @@ versioned entry and uses it as the GitHub release notes.
 
 ## [Unreleased]
 
+### Security
+
+- Prevent unauthenticated remote code execution on `/tikz/svg` via `\special{ps:...}`, which was still possible despite the previous fix: because of a bug in `dvisvgm` 3.6 ([mgieseki/dvisvgm#306](https://github.com/mgieseki/dvisvgm/pull/306)), the `--no-specials=ps` option was silently ignored, so PostScript specials were still handed off to Ghostscript. PostScript specials (`ps:`, `ps::`, `pst:`, `"`, `!`, `header=`, `psfile=`, `pdffile=`...) are now removed from the DVI file before it is passed to `dvisvgm`
+
 ### Added
 
 - Allow selecting the [TALA](https://d2lang.com/tour/layouts/#tala) layout engine, bundled since D2 0.9.0, with the D2 `layout` option (`layout=tala`). The option previously only accepted `elk` and silently fell back to the default `dagre` layout for any other value ([#2272](https://github.com/yuzutech/kroki/pull/2272))

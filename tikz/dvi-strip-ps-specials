@@ -1,0 +1,148 @@
+#!/usr/bin/perl
+#
+# Usage: dvi-strip-ps-specials file.dvi
+#
+# Neutralizes, in place, every PostScript special (\special{ps:...},
+# \special{"...}, \special{!...}, \special{psfile=...}, \special{header=...},
+# ...) of a DVI file by overwriting its content with spaces. The file keeps the
+# exact same length, so all the DVI pointers remain valid, and dvisvgm ignores
+# these specials since they no longer start with a known prefix.
+#
+# dvisvgm hands PostScript specials off to Ghostscript, which it starts with
+# -dDELAYSAFER instead of -dSAFER. That allows the %pipe% device, and therefore
+# arbitrary command execution, as well as arbitrary file reads and writes. We
+# cannot rely on the dvisvgm --no-specials=ps option to disable them: a bug in
+# its argument parsing, introduced in dvisvgm 3.6, makes it silently ignore
+# any name passed to this option (https://github.com/mgieseki/dvisvgm/pull/306).
+#
+# The whole file is parsed and validated (opcodes and the back pointers that
+# dvisvgm uses to locate pages), and the script fails if anything is
+# unexpected, so that dvisvgm cannot interpret the file differently.
+
+use strict;
+use warnings;
+
+my $path = shift @ARGV or die "Usage: dvi-strip-ps-specials file.dvi\n";
+
+# Prefixes handled by the dvisvgm PostScript special handler (and therefore by
+# Ghostscript). dvisvgm matches them case-sensitively at the very beginning of
+# the special; be stricter and ignore case as well as leading whitespace.
+my $ps_special = qr/\A\s*(?:ps:|pst:|"|!|header=|headerfile=|psfile=|pdffile=)/i;
+
+open(my $fh, '+<:raw', $path) or die "Unable to open $path: $!\n";
+my $dvi = do { local $/; <$fh> };
+my $len = length $dvi;
+my $pos = 0;
+
+sub invalid {
+    die "Invalid DVI file: $_[0] at offset $pos.\n";
+}
+
+sub skip {
+    my ($n) = @_;
+    invalid('unexpected end of file') if $pos + $n > $len;
+    $pos += $n;
+}
+
+sub uint {
+    my ($n) = @_;
+    invalid('unexpected end of file') if $pos + $n > $len;
+    my $value = 0;
+    $value = $value * 256 + ord(substr($dvi, $pos++, 1)) for 1 .. $n;
+    return $value;
+}
+
+sub sint4 {
+    my $value = uint(4);
+    return $value >= 2**31 ? $value - 2**32 : $value;
+}
+
+sub font_def {
+    my ($k) = @_;
+    skip($k + 12); # font number, checksum, scale and design size
+    my $a = uint(1);
+    my $l = uint(1);
+    skip($a + $l); # area and name
+}
+
+# Preamble
+invalid('missing preamble') unless uint(1) == 247;
+skip(13); # format, num, den and mag
+skip(uint(1)); # comment
+
+# Pages
+my $previous_bop = -1;
+my $stripped = 0;
+while (1) {
+    my $offset = $pos;
+    my $op = uint(1);
+    if ($op <= 127 || $op == 138 || $op == 140 || $op == 141 || $op == 142
+        || $op == 147 || $op == 152 || $op == 161 || $op == 166
+        || ($op >= 171 && $op <= 234)) {
+        # set_char, nop, eop, push, pop, w0, x0, y0, z0, fnt_num: no parameter
+    } elsif ($op >= 128 && $op <= 131) { # set1-4
+        skip($op - 127);
+    } elsif ($op == 132 || $op == 137) { # set_rule, put_rule
+        skip(8);
+    } elsif ($op >= 133 && $op <= 136) { # put1-4
+        skip($op - 132);
+    } elsif ($op == 139) { # bop
+        skip(40); # c0-c9
+        invalid('inconsistent page pointer') unless sint4() == $previous_bop;
+        $previous_bop = $offset;
+    } elsif ($op >= 143 && $op <= 146) { # right1-4
+        skip($op - 142);
+    } elsif ($op >= 148 && $op <= 151) { # w1-4
+        skip($op - 147);
+    } elsif ($op >= 153 && $op <= 156) { # x1-4
+        skip($op - 152);
+    } elsif ($op >= 157 && $op <= 160) { # down1-4
+        skip($op - 156);
+    } elsif ($op >= 162 && $op <= 165) { # y1-4
+        skip($op - 161);
+    } elsif ($op >= 167 && $op <= 170) { # z1-4
+        skip($op - 166);
+    } elsif ($op >= 235 && $op <= 238) { # fnt1-4
+        skip($op - 234);
+    } elsif ($op >= 239 && $op <= 242) { # xxx1-4 (special)
+        my $k = uint($op - 238);
+        invalid('unexpected end of file') if $pos + $k > $len;
+        if (substr($dvi, $pos, $k) =~ $ps_special) {
+            substr($dvi, $pos, $k) = ' ' x $k;
+            $stripped++;
+        }
+        $pos += $k;
+    } elsif ($op >= 243 && $op <= 246) { # fnt_def1-4
+        font_def($op - 242);
+    } elsif ($op == 248) { # post
+        invalid('inconsistent final page pointer') unless sint4() == $previous_bop;
+        skip(24); # num, den, mag, l, u, s and t
+        my $post = $offset;
+        # Postamble: font definitions followed by post_post
+        while (1) {
+            my $pop = uint(1);
+            if ($pop >= 243 && $pop <= 246) {
+                font_def($pop - 242);
+            } elsif ($pop == 138) {
+                # nop
+            } elsif ($pop == 249) { # post_post
+                invalid('inconsistent postamble pointer') unless uint(4) == $post;
+                skip(1); # format
+                my $trailer = substr($dvi, $pos);
+                invalid('invalid trailer') unless $trailer =~ /\A\xDF{4,}\z/;
+                last;
+            } else {
+                invalid("unexpected opcode $pop in postamble");
+            }
+        }
+        last;
+    } else {
+        invalid("unexpected opcode $op");
+    }
+}
+
+if ($stripped) {
+    seek($fh, 0, 0) or die "Unable to write $path: $!\n";
+    print $fh $dvi or die "Unable to write $path: $!\n";
+}
+close($fh) or die "Unable to write $path: $!\n";

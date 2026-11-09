@@ -238,7 +238,7 @@ COPY --from=kroki-builder-static-svgbob /usr/local/cargo/bin/svgbob_cli /usr/bin
 COPY --from=kroki-builder-static-symbolator /usr/bin/symbolator /usr/bin/symbolator
 COPY --from=kroki-builder-vega /app/app.bin /usr/bin/vega
 COPY --from=kroki-builder-wavedrom /app/build/app.bin /usr/bin/wavedrom
-COPY --from=tikz tikz2svg /usr/bin/tikz2svg
+COPY --from=tikz tikz2svg dvi-strip-ps-specials /usr/bin/
 COPY --from=kroki-builder-goat /go/bin/goat /usr/bin/goat
 COPY --from=kroki-builder-static-lini /usr/local/cargo/bin/lini /usr/bin/lini
 

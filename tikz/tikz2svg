@@ -25,6 +25,10 @@ LATEX_OPTIONS="-no-shell-escape -halt-on-error"
 #   allows the %pipe% device and arbitrary command execution regardless of
 #   KROKI_SAFE_MODE, since safe mode only restricts kpathsea (LaTeX) file
 #   access and has no effect on Ghostscript's file access layer.
+#   This option is silently ignored by dvisvgm 3.6 and 3.6.1 because of a bug
+#   in its argument parsing (https://github.com/mgieseki/dvisvgm/pull/306),
+#   so PostScript specials are also removed from the DVI file beforehand
+#   (see dvi-strip-ps-specials).
 DVISVGM_OPTIONS="--font-format=woff --no-specials=ps"
 
 backend_driver() {
@@ -95,6 +99,8 @@ fixup_documentclass() {
     fi
 }
 
+bin_dir=$(cd "$(dirname "$0")" && pwd)
+
 output_format="$1"
 
 safe_mode="$2"
@@ -158,6 +164,8 @@ case "$output_format" in
         cat file.pdf
         ;;
     svg)
+        # Never let dvisvgm hand PostScript specials off to Ghostscript.
+        "$bin_dir/dvi-strip-ps-specials" file.dvi
         if [ -n "$page" ]; then
             # dvisvgm silently renders the last page when the requested page
             # is out of range (pdftocairo fails on its own), so check it
