@@ -11,6 +11,8 @@ versioned entry and uses it as the GitHub release notes.
 
 ## [Unreleased]
 
+## [0.36.0] - 2026-11-09
+
 ### Security
 
 - Send a `Content-Security-Policy: script-src 'none'; object-src 'none'` header on every response, so that a script injected in a diagram (for instance through a diagram library that does not escape user input) cannot run on the Kroki origin when the SVG is opened directly or embedded in an `<iframe>`. The policy can be changed, or removed, with `KROKI_CONTENT_SECURITY_POLICY` ([#2281](https://github.com/yuzutech/kroki/pull/2281))
