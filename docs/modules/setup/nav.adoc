@@ -11,4 +11,5 @@
 ** xref:use-kubernetes.adoc[Using Kubernetes]
 ** xref:manual-install.adoc[Manual Install]
 * xref:configuration.adoc[Configuration]
+* xref:third-party-companions.adoc[Third-Party Companion Containers]
 * xref:third-party-tools.adoc[Third Party Tools]

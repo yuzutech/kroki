@@ -18,6 +18,8 @@ A companion web server written in JavaScript (powered by _micro_) that provides 
 Diagrams.net::
 A companion web server written in JavaScript (powered by _micro_) that provides https://www.diagrams.net/[_diagrams.net_] to render diagrams.
 
+In addition, third-party companion containers can register themselves with the gateway to provide additional diagram types, see xref:setup:third-party-companions.adoc[Third-Party Companion Containers] and xref:extending.adoc[Extending Kroki].
+
 == Gateway Server
 
 The `yuzutech/kroki` Docker image contains the following diagrams libraries out-of-the-box:

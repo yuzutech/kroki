@@ -1,0 +1,106 @@
+= Third-Party Companion Containers
+
+In addition to the diagram libraries built into Kroki, you can add diagram types provided by third-party companion containers.
+A third-party companion is a container that is developed, released and maintained independently of Kroki.
+When it starts, it registers itself with the Kroki gateway, which then delegates the conversion requests for its diagram type to it.
+
+IMPORTANT: Third-party companion containers are not developed nor reviewed by the Kroki maintainers.
+Before running one, make sure you trust its maintainer and the code it runs.
+
+== Requirements
+
+Third-party companion containers rely on xref:configuration.adoc#_companion_service_discovery[companion service discovery], which is available from Kroki 0.32.0 and must be enabled on the gateway:
+
+* set `KROKI_ENABLE_COMPANION_DISCOVERY` to `true`
+* set `KROKI_SAFE_MODE` to `safe` or `unsafe`: companion service discovery is always disabled in `secure` mode (the default)
+* set `KROKI_COMPANION_REGISTRATION_TOKEN` to a secret shared between the gateway and the companions (strongly recommended)
+
+NOTE: Since companion service discovery is disabled in `secure` mode, third-party companions are not available on https://kroki.io.
+You need to xref:install.adoc[self-host Kroki] to use them.
+
+The registry is kept in memory: when the gateway restarts, the companions register again automatically on their next heartbeat (every 30 seconds by default).
+Until then, requests for their diagram types fail with a `404` (Not Found) response status code.
+
+== Usage
+
+The following `docker-compose.yaml` runs the Kroki gateway alongside a third-party companion that provides the `example` diagram type:
+
+[source,yaml]
+----
+services:
+  kroki:
+    image: yuzutech/kroki
+    ports:
+      - 8000:8000
+    environment:
+      KROKI_SAFE_MODE: safe
+      KROKI_ENABLE_COMPANION_DISCOVERY: true
+      KROKI_COMPANION_REGISTRATION_TOKEN: &token s3cr3t # <1>
+    restart: unless-stopped
+  example:
+    image: example/kroki-example-companion # <2>
+    environment:
+      KROKI_COMPANION_REGISTRATION_TOKEN: *token
+    depends_on:
+      - kroki
+    restart: unless-stopped
+----
+<1> Replace `s3cr3t` with a secret of your own.
+<2> Replace with the image of the companion, as documented by its maintainer.
+
+Once the companion is registered, its diagram type is available like any other diagram type:
+
+[source,bash]
+----
+curl -H 'Content-Type: text/plain' --data-binary @diagram.txt http://localhost:8000/example/svg
+----
+
+The registered companions, with their version and supported output formats, are listed on the `/health` endpoint and on the gateway homepage.
+You can also query the registration API directly:
+
+[source,bash]
+----
+curl -H 'Authorization: Bearer s3cr3t' http://localhost:8000/services
+----
+
+TIP: Do not expose the `/services` registration API outside of your private network.
+See xref:configuration.adoc#_securing_the_registration_api[Securing the registration API].
+
+== Available companions
+
+The following third-party companion containers are available:
+
+[cols="1,2,1,1"]
+|===
+|Diagram type |Description |Source |Image
+
+|`mscgen`
+|Message Sequence Charts rendered by https://gitlab.com/msc-generator/msc-generator[Msc-generator] (`png`, `svg` and `pdf`).
+|https://gitlab.com/msc-generator/msc-generator-kroki[GitLab]
+|https://hub.docker.com/r/homardkr/msc-generator-kroki[`homardkr/msc-generator-kroki`]
+|===
+
+For instance, to run the Msc-generator companion, use the `docker-compose.yaml` above with the following service:
+
+[source,yaml]
+----
+  mscgen:
+    image: homardkr/msc-generator-kroki
+    environment:
+      KROKI_COMPANION_REGISTRATION_TOKEN: *token
+      KROKI_GATEWAY_URL: http://kroki:8000 # <1>
+    depends_on:
+      - kroki
+    restart: unless-stopped
+----
+<1> URL of the Kroki gateway, `http://kroki:8000` by default.
+
+Then, render a diagram:
+
+[source,bash]
+----
+echo 'a->b: hello;' | curl -H 'Content-Type: text/plain' --data-binary @- http://localhost:8000/mscgen/svg
+----
+
+You've built a companion container and want it listed here?
+See xref:ROOT:extending.adoc[Extending Kroki], then open a pull request on https://github.com/yuzutech/kroki[GitHub].
