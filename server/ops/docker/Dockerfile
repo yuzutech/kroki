@@ -136,7 +136,7 @@ FROM ghcr.io/yuzutech/kroki-builder-erd:0.2.2 AS erd
 FROM ghcr.io/yuzutech/kroki-builder-graphviz:14.1.3 AS graphviz
 
 ## blockdiag (built by the "Tool images" workflow, see tools/blockdiag)
-FROM ghcr.io/yuzutech/kroki-builder-blockdiag:3.4.2 AS blockdiag
+FROM ghcr.io/yuzutech/kroki-builder-blockdiag:3.4.3 AS blockdiag
 
 ## WireViz (built by the "Tool images" workflow, see tools/wireviz)
 FROM ghcr.io/yuzutech/kroki-builder-wireviz:0.3.3 AS wireviz

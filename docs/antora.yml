@@ -4,9 +4,9 @@ version: ~
 asciidoc:
   attributes:
     # renovate: datasource=docker depName=ghcr.io/yuzutech/kroki-builder-blockdiag
-    actdiag-version: 3.4.2
+    actdiag-version: 3.4.3
     # renovate: datasource=docker depName=ghcr.io/yuzutech/kroki-builder-blockdiag
-    blockdiag-version: 3.4.2
+    blockdiag-version: 3.4.3
     # renovate: datasource=npm depName=bpmn-js
     bpmn-version: 18.31.1
     # renovate: datasource=npm depName=bytefield-svg
@@ -33,16 +33,16 @@ asciidoc:
     # renovate: datasource=npm depName=nomnoml
     nomnoml-version: 1.7.0
     # renovate: datasource=docker depName=ghcr.io/yuzutech/kroki-builder-blockdiag
-    nwdiag-version: 3.4.2
+    nwdiag-version: 3.4.3
     # renovate: datasource=docker depName=ghcr.io/yuzutech/kroki-builder-blockdiag
-    packetdiag-version: 3.4.2
+    packetdiag-version: 3.4.3
     pikchr-version: '85e65b9686'
     # renovate: datasource=github-releases depName=plantuml/plantuml extractVersion=^v(?<version>\d+\.\d+\.\d+)$
     plantuml-version: 1.2026.9
     # renovate: datasource=docker depName=ghcr.io/yuzutech/kroki-builder-blockdiag
-    rackdiag-version: 3.4.2
+    rackdiag-version: 3.4.3
     # renovate: datasource=docker depName=ghcr.io/yuzutech/kroki-builder-blockdiag
-    seqdiag-version: 3.4.2
+    seqdiag-version: 3.4.3
     # renovate: datasource=maven depName=com.structurizr:structurizr-dsl
     structurizr-version: 6.2.4
     # renovate: datasource=crate depName=svgbob_cli

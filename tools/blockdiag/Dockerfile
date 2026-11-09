@@ -4,7 +4,7 @@
 # Built from the yuzutech/blockdiag fork: upstream looks abandoned, and the fork works with recent Python versions
 # and reads/writes stdin/stdout in CLI mode.
 # renovate: datasource=github-tags depName=yuzutech/blockdiag extractVersion=^v(?<version>.+)$
-ARG VERSION=3.4.2
+ARG VERSION=3.4.3
 
 # The binary bundles Python and its libraries, and runs on any glibc at least as recent as Debian bookworm's
 FROM python:3.15-slim-bookworm AS build

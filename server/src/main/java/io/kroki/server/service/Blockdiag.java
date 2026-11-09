@@ -5,6 +5,7 @@ import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
+import io.kroki.server.security.SafeMode;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
@@ -22,6 +23,7 @@ public class Blockdiag implements DiagramService {
   private final Vertx vertx;
   private final String binPath;
   private final SourceDecoder sourceDecoder;
+  private final SafeMode safeMode;
   private final Commander commander;
 
   public Blockdiag(Vertx vertx, JsonObject config, Commander commander) {
@@ -33,6 +35,7 @@ public class Blockdiag implements DiagramService {
         return DiagramSource.decode(encoded);
       }
     };
+    this.safeMode = SafeMode.get(config.getString("KROKI_SAFE_MODE", "secure"), SafeMode.SECURE);
     this.commander = commander;
   }
 
@@ -49,7 +52,7 @@ public class Blockdiag implements DiagramService {
   @Override
   public String getVersion() {
     // renovate: datasource=docker depName=ghcr.io/yuzutech/kroki-builder-blockdiag
-    return "3.4.2";
+    return "3.4.3";
   }
 
   @Override
@@ -66,6 +69,11 @@ public class Blockdiag implements DiagramService {
     commands.add("--module=" + serviceName);
     commands.add("--font=/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf");
     commands.add("-T" + fileFormat.getName());
+    if (safeMode != SafeMode.UNSAFE) {
+      // A node's icon or background may name a URL or a local path, which blockdiag would otherwise fetch or read,
+      // and embed in the output.
+      commands.add("--no-external-images");
+    }
     String antialiasValue = options.getString("antialias");
     if (antialiasValue != null) {
       commands.add("--antialias");

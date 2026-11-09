@@ -123,6 +123,11 @@ Structurizr's restricted mode is activated unless Kroki is running in `UNSAFE` m
 
 If you want to enable this feature, you can set the safe mode using the global environment variable `KROKI_SAFE_MODE` or the specific environment variable `KROKI_STRUCTURIZR_SAFE_MODE` (i.e., the safe mode will only apply to Structurizr).
 
+=== BlockDiag
+
+Unless Kroki is running in `UNSAFE` mode, BlockDiag, SeqDiag, ActDiag, NwDiag, PacketDiag and RackDiag run with the `--no-external-images` flag.
+A node's `icon` or `background` naming a URL or a local file is ignored instead of being fetched or read, so a diagram cannot make the server request an internal URL or embed a local image.
+
 === Lini
 
 Unless Kroki is running in `UNSAFE` mode, Lini runs with its `--no-fs` flag and never reads a file.

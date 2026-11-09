@@ -16,6 +16,7 @@ versioned entry and uses it as the GitHub release notes.
 - Prevent unauthenticated remote code execution on `/tikz/svg` via `\special{ps:...}`, which was still possible despite the previous fix: because of a bug in `dvisvgm` 3.6 ([mgieseki/dvisvgm#306](https://github.com/mgieseki/dvisvgm/pull/306)), the `--no-specials=ps` option was silently ignored, so PostScript specials were still handed off to Ghostscript. PostScript specials (`ps:`, `ps::`, `pst:`, `"`, `!`, `header=`, `psfile=`, `pdffile=`...) are now removed from the DVI file before it is passed to `dvisvgm`
 - Prevent a reflected cross-site scripting (XSS) on `/goat/svg` via the `svg-color-dark-scheme` and `svg-color-light-scheme` options: GoAT inserts their values as-is into a `<style>` element of the SVG, so a value containing `</style><script>...` injected an executable script in the diagram. These options now only accept CSS color values (for instance: `#FFF`, `red` or `rgb(0, 0, 0)`), other values are rejected with a 400 error
 - Prevent a reflected cross-site scripting (XSS) on `/dbml/svg` via the table `url` setting: the DBML renderer turned its value into a link on the table header without checking the URL scheme, so a `javascript:` URL ran a script when the header was clicked. Links whose scheme is not `http`, `https` or `mailto` (relative links are still allowed) are now removed from the diagram
+- Prevent BlockDiag, SeqDiag, ActDiag, NwDiag, PacketDiag and RackDiag diagrams from making the server fetch an arbitrary URL (SSRF, e.g. against internal services or cloud metadata endpoints) or read a local image file: a node's `icon` or `background` naming a URL or a file was fetched or read, and embedded in the output, regardless of `KROKI_SAFE_MODE`. Unless Kroki is running in `UNSAFE` mode, blockdiag now runs with its new `--no-external-images` flag and ignores these images
 
 ### Added
 
@@ -23,6 +24,7 @@ versioned entry and uses it as the GitHub release notes.
 
 ### Changed
 
+- Update BlockDiag, SeqDiag, ActDiag, NwDiag, PacketDiag and RackDiag to 3.4.3
 - Compile the server for Java 21 and document Java 21 as the minimum version for the manual install. Java 21 was already required at runtime since Structurizr 6, which is compiled for Java 21: on an older Java version, the server failed to start with an `UnsupportedClassVersionError` ([#2276](https://github.com/yuzutech/kroki/pull/2276))
 
 ### Fixed
