@@ -33,6 +33,8 @@ import org.slf4j.LoggerFactory;
 
 public class Server extends AbstractVerticle {
 
+  static final String DEFAULT_CONTENT_SECURITY_POLICY = "script-src 'none'; object-src 'none'";
+
   private static final Logger logger = LoggerFactory.getLogger(Server.class);
   private static final int DEFAULT_PORT = 8000;
   private static final String UNIX_DOMAIN_SOCK = "unix://";
@@ -69,6 +71,17 @@ public class Server extends AbstractVerticle {
     Router router = Router.router(vertx);
     BodyHandler bodyHandler = BodyHandler.create(false).setBodyLimit(config.getLong("KROKI_BODY_LIMIT", BodyHandler.DEFAULT_BODY_LIMIT));
     Delegator delegator = new Delegator(vertx, config);
+    // Content Security Policy
+    // Diagram libraries may embed user-provided content in the generated SVG.
+    // Forbid scripts so that an injected <script> element or event handler cannot
+    // run on the Kroki origin when an SVG is opened directly or embedded in an <iframe>.
+    String contentSecurityPolicy = config.getString("KROKI_CONTENT_SECURITY_POLICY", DEFAULT_CONTENT_SECURITY_POLICY);
+    if (!contentSecurityPolicy.isBlank()) {
+      router.route().handler(routingContext -> {
+        routingContext.response().putHeader("Content-Security-Policy", contentSecurityPolicy);
+        routingContext.next();
+      });
+    }
     // CORS
     // CORS Headers
     Set<String> allowedHeaders = new LinkedHashSet<>();
