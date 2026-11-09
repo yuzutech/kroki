@@ -4,6 +4,7 @@ import io.kroki.server.action.CommandStatusHandler;
 import io.kroki.server.action.Commander;
 import io.kroki.server.error.BadRequestException;
 import io.kroki.server.format.FileFormat;
+import io.kroki.server.option.DiagramOption;
 import io.kroki.server.security.SafeMode;
 import io.kroki.server.unit.TimeValue;
 import io.vertx.core.json.JsonObject;
@@ -25,6 +26,10 @@ public class PlantumlCommand {
   private static final Logger logger = LoggerFactory.getLogger(PlantumlCommand.class);
 
   private static final Pattern ERROR_MESSAGE_RX = Pattern.compile(".*ERROR\\n(?<lineNumber>[0-9]+)\\n(?<cause>[^\\n]+)\\n.*", Pattern.MULTILINE | Pattern.DOTALL);
+
+  static final DiagramOption THEME = DiagramOption.value("theme", "Name of a PlantUML theme, for instance cerulean.");
+  private static final DiagramOption NO_METADATA = DiagramOption.flag("no-metadata", "Do not save the source of the diagram in the metadata of the generated SVG or PNG.");
+
   private final String binPath;
   private final String includePath;
   private final String allowListUrl;
@@ -93,6 +98,10 @@ public class PlantumlCommand {
     }
   }
 
+  public List<DiagramOption> getOptions() {
+    return List.of(THEME, NO_METADATA);
+  }
+
   public byte[] convert(String source, FileFormat format, JsonObject options) throws IOException, InterruptedException {
     List<String> commandArgs = buildCommandArgs(format, options);
 
@@ -125,13 +134,12 @@ public class PlantumlCommand {
     commands.add("-t" + (format == FileFormat.BASE64 ? FileFormat.PNG.getName() : format.getName()));
     commands.add("-timeout");
     commands.add(String.valueOf(this.convertTimeout.timeUnit().toSeconds(this.convertTimeout.duration())));
-    String theme = options.getString("theme");
+    String theme = THEME.get(options);
     if (theme != null && !theme.isBlank()) {
       commands.add("-theme");
       commands.add(theme);
     }
-    String no_metadata = options.getString("no-metadata");
-    if (no_metadata != null) {
+    if (NO_METADATA.isEnabled(options)) {
       commands.add("-nometadata");
     }
     return commands;

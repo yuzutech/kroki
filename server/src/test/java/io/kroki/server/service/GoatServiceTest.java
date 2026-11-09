@@ -11,8 +11,14 @@ import io.vertx.junit5.VertxExtension;
 import io.vertx.junit5.VertxTestContext;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
+
+import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(VertxExtension.class)
 public class GoatServiceTest {
@@ -68,5 +74,18 @@ public class GoatServiceTest {
         assertThat(error.getMessage()).contains("svg-color-dark-scheme");
         context.completeNow();
       })));
+  }
+
+  @Test
+  public void should_pass_the_options(Vertx vertx) throws Throwable {
+    Commander commanderMock = mock(Commander.class);
+    when(commanderMock.execute(any(), any(String[].class))).thenReturn("<svg>goat</svg>".getBytes());
+    Goat goat = new Goat(vertx, JsonObject.of("KROKI_GOAT_BIN_PATH", "/path/to/goat"), commanderMock);
+    JsonObject options = JsonObject.of("svg-color-dark-scheme", "#FFF", "svg-color-light-scheme", "rgb(0, 0, 0)", "utf8", "");
+    goat.convert(".-.", "goat", FileFormat.SVG, options).await(2, TimeUnit.SECONDS);
+    Mockito.verify(commanderMock).execute(".-.".getBytes(), "/path/to/goat",
+      "-svg-color-dark-scheme", "#FFF",
+      "-svg-color-light-scheme", "rgb(0, 0, 0)",
+      "-utf8");
   }
 }

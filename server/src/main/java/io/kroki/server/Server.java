@@ -109,34 +109,8 @@ public class Server extends AbstractVerticle {
       .allowedHeaders(allowedHeaders)
       .allowedMethods(allowedMethods));
 
-    Commander commander = new Commander(config);
     DiagramRegistry registry = new DiagramRegistry(router, bodyHandler);
-    registry.register(new Plantuml(vertx, config), "plantuml");
-    registry.register(new Plantuml(vertx, config), "c4plantuml");
-    registry.register(new Ditaa(vertx, config), "ditaa");
-    registry.register(new Blockdiag(vertx, config, commander), "blockdiag", "seqdiag", "actdiag", "nwdiag", "packetdiag", "rackdiag");
-    registry.register(new Umlet(vertx, config, commander), "umlet");
-    registry.register(new Graphviz(vertx, config, commander), "graphviz", "dot");
-    registry.register(new Erd(vertx, config, commander), "erd");
-    registry.register(new Svgbob(vertx, config, commander), "svgbob");
-    registry.register(new Symbolator(vertx, config), "symbolator");
-    registry.register(new Nomnoml(vertx, config, commander), "nomnoml");
-    registry.register(new Mermaid(vertx, config, delegator), "mermaid");
-    registry.register(new Vega(vertx, config, Vega.SpecFormat.DEFAULT, commander), "vega");
-    registry.register(new Vega(vertx, config, Vega.SpecFormat.LITE, commander), "vegalite");
-    registry.register(new Wavedrom(vertx, config, commander), "wavedrom");
-    registry.register(new Bpmn(vertx, config, delegator), "bpmn");
-    registry.register(new Bytefield(vertx, config, commander), "bytefield");
-    registry.register(new Excalidraw(vertx, config, delegator), "excalidraw");
-    registry.register(new Pikchr(vertx, config, commander), "pikchr");
-    registry.register(new Structurizr(vertx, config), "structurizr");
-    registry.register(new Diagramsnet(vertx, config, delegator), "diagramsnet");
-    registry.register(new D2(vertx, config, commander), "d2");
-    registry.register(new TikZ(vertx, config, commander), "tikz");
-    registry.register(new Dbml(vertx, config, commander), "dbml");
-    registry.register(new Wireviz(vertx, config, commander), "wireviz");
-    registry.register(new Goat(vertx, config, commander), "goat");
-    registry.register(new Lini(vertx, config, commander), "lini");
+    registerDiagramServices(registry, vertx, config, delegator);
 
     mountCompanionDiscovery(vertx, config, router, bodyHandler, delegator, registry);
 
@@ -181,6 +155,39 @@ public class Server extends AbstractVerticle {
       .invalidRequestHandler(new InvalidRequestHandler(errorHandler, serverOptions.getMaxInitialLineLength()))
       .requestHandler(router)
       .listen(getListenAddress(config));
+  }
+
+  /**
+   * Register the built-in diagram services (companions register themselves at runtime).
+   */
+  static void registerDiagramServices(DiagramRegistry registry, Vertx vertx, JsonObject config, Delegator delegator) {
+    Commander commander = new Commander(config);
+    registry.register(new Plantuml(vertx, config), "plantuml");
+    registry.register(new Plantuml(vertx, config), "c4plantuml");
+    registry.register(new Ditaa(vertx, config), "ditaa");
+    registry.register(new Blockdiag(vertx, config, commander), "blockdiag", "seqdiag", "actdiag", "nwdiag", "packetdiag", "rackdiag");
+    registry.register(new Umlet(vertx, config, commander), "umlet");
+    registry.register(new Graphviz(vertx, config, commander), "graphviz", "dot");
+    registry.register(new Erd(vertx, config, commander), "erd");
+    registry.register(new Svgbob(vertx, config, commander), "svgbob");
+    registry.register(new Symbolator(vertx, config), "symbolator");
+    registry.register(new Nomnoml(vertx, config, commander), "nomnoml");
+    registry.register(new Mermaid(vertx, config, delegator), "mermaid");
+    registry.register(new Vega(vertx, config, Vega.SpecFormat.DEFAULT, commander), "vega");
+    registry.register(new Vega(vertx, config, Vega.SpecFormat.LITE, commander), "vegalite");
+    registry.register(new Wavedrom(vertx, config, commander), "wavedrom");
+    registry.register(new Bpmn(vertx, config, delegator), "bpmn");
+    registry.register(new Bytefield(vertx, config, commander), "bytefield");
+    registry.register(new Excalidraw(vertx, config, delegator), "excalidraw");
+    registry.register(new Pikchr(vertx, config, commander), "pikchr");
+    registry.register(new Structurizr(vertx, config), "structurizr");
+    registry.register(new Diagramsnet(vertx, config, delegator), "diagramsnet");
+    registry.register(new D2(vertx, config, commander), "d2");
+    registry.register(new TikZ(vertx, config, commander), "tikz");
+    registry.register(new Dbml(vertx, config, commander), "dbml");
+    registry.register(new Wireviz(vertx, config, commander), "wireviz");
+    registry.register(new Goat(vertx, config, commander), "goat");
+    registry.register(new Lini(vertx, config, commander), "lini");
   }
 
   /**

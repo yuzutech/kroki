@@ -4,6 +4,7 @@ import io.kroki.server.action.Delegator;
 import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.BadRequestException;
 import io.kroki.server.format.FileFormat;
+import io.kroki.server.option.DiagramOption;
 import io.kroki.server.service.DiagramRegistry;
 import io.kroki.server.service.DiagramService;
 import io.vertx.core.Future;
@@ -249,6 +250,11 @@ class CompanionRegistryTest {
     @Override
     public String getVersion() {
       return "1.0.0";
+    }
+
+    @Override
+    public List<DiagramOption> getOptions() {
+      return List.of();
     }
 
     @Override

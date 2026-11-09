@@ -2,6 +2,7 @@ package io.kroki.server.service;
 
 import io.kroki.server.action.Commander;
 import io.kroki.server.format.FileFormat;
+import io.kroki.server.option.DiagramOption;
 import io.vertx.core.json.JsonObject;
 
 import java.io.IOException;
@@ -10,12 +11,23 @@ import java.util.List;
 
 public class SymbolatorCommand {
 
+  private static final DiagramOption TRANSPARENT = DiagramOption.flag("transparent", "Use a transparent background.");
+  private static final DiagramOption TITLE = DiagramOption.flag("title", "Add the component name above the symbol.");
+  private static final DiagramOption SCALE = DiagramOption.value("scale", "Scale factor for the rendered diagram.");
+  private static final DiagramOption COMPONENT = DiagramOption.value("component", "Name of the component to render, the last one by default.");
+  private static final DiagramOption NO_TYPE = DiagramOption.flag("no-type", "Omit the type information of the ports.");
+  private static final DiagramOption LIBRARY_NAME = DiagramOption.value("library-name", "Add a library name above the component name. Only applies together with title.");
+
   private final String binPath;
   private final Commander commander;
 
   public SymbolatorCommand(JsonObject config) {
     this.binPath = config.getString("KROKI_SYMBOLATOR_BIN_PATH", "symbolator");
     this.commander = new Commander(config);
+  }
+
+  public List<DiagramOption> getOptions() {
+    return List.of(TRANSPARENT, TITLE, SCALE, COMPONENT, NO_TYPE, LIBRARY_NAME);
   }
 
   public byte[] convert(String source, FileFormat format, JsonObject options) throws IOException, InterruptedException {
@@ -49,36 +61,33 @@ public class SymbolatorCommand {
     commands.add("--format");
     commands.add(format.getName());
     // Use a transparent background instead of white
-    String transparent = options.getString("transparent");
-    if (transparent != null) {
+    if (TRANSPARENT.isEnabled(options)) {
       commands.add("--transparent");
     }
     // Add the component name above the symbol.
     // --title is a flag: the value of the option is ignored.
-    boolean title = options.getString("title") != null;
-    if (title) {
+    if (TITLE.isEnabled(options)) {
       commands.add("--title");
     }
     // Select the scale of the diagram. The default is 1.0.
-    String scale = options.getString("scale");
+    String scale = SCALE.get(options);
     if (scale != null) {
       commands.add("--scale");
       commands.add(scale);
     }
     // Select which component to render. The default is the last one I think.
-    String component = options.getString("component");
+    String component = COMPONENT.get(options);
     if (component != null) {
       commands.add("--component");
       commands.add(component);
     }
-    String omitTypeInformation = options.getString("no-type");
-    if (omitTypeInformation != null) {
+    if (NO_TYPE.isEnabled(options)) {
       commands.add("--no-type");
     }
     // Add the library name above the component name.
     // Symbolator exits with an error when --libname is used without --title, so the option is ignored in this case.
-    String libname = options.getString("library-name");
-    if (libname != null && title) {
+    String libname = LIBRARY_NAME.get(options);
+    if (libname != null && TITLE.isEnabled(options)) {
       // One argument, so a value starting with '-' is never read as a flag.
       commands.add("--libname=" + libname);
     }
