@@ -158,6 +158,26 @@ For instance, if you need to allow `x-requested-with` and `x-app-version` header
 KROKI_CORS_ALLOWED_HEADERS="x-requested-with,x-app-version"
 ----
 
+== Content Security Policy
+
+Some diagram libraries embed user-provided content (labels, links, styles...) in the generated SVG.
+As a defense in depth, Kroki sends a `Content-Security-Policy` header on every response to prevent scripts from running on the Kroki origin, for instance when an SVG is opened directly in a browser or embedded in an `<iframe>`.
+An SVG embedded in an `<img>` element never runs scripts, regardless of this header.
+
+By default, the policy is:
+
+[source]
+----
+script-src 'none'; object-src 'none'
+----
+
+You can use `KROKI_CONTENT_SECURITY_POLICY` to replace it with your own policy, or set it to an empty value to remove the header:
+
+[source]
+----
+KROKI_CONTENT_SECURITY_POLICY="default-src 'none'; style-src 'unsafe-inline'; img-src data:; font-src data:"
+----
+
 == Diagram Binary Paths
 
 Kroki depends on external binaries to generate images.
