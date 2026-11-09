@@ -68,7 +68,39 @@ See xref:configuration.adoc#_securing_the_registration_api[Securing the registra
 
 == Available companions
 
-No third-party companion container is listed yet.
+The following third-party companion containers are available:
+
+[cols="1,2,1,1"]
+|===
+|Diagram type |Description |Source |Image
+
+|`mscgen`
+|Message Sequence Charts rendered by https://gitlab.com/msc-generator/msc-generator[Msc-generator] (`png`, `svg` and `pdf`).
+|https://gitlab.com/msc-generator/msc-generator-kroki[GitLab]
+|https://hub.docker.com/r/homardkr/msc-generator-kroki[`homardkr/msc-generator-kroki`]
+|===
+
+For instance, to run the Msc-generator companion, use the `docker-compose.yaml` above with the following service:
+
+[source,yaml]
+----
+  mscgen:
+    image: homardkr/msc-generator-kroki
+    environment:
+      KROKI_COMPANION_REGISTRATION_TOKEN: *token
+      KROKI_GATEWAY_URL: http://kroki:8000 # <1>
+    depends_on:
+      - kroki
+    restart: unless-stopped
+----
+<1> URL of the Kroki gateway, `http://kroki:8000` by default.
+
+Then, render a diagram:
+
+[source,bash]
+----
+echo 'a->b: hello;' | curl -H 'Content-Type: text/plain' --data-binary @- http://localhost:8000/mscgen/svg
+----
 
 You've built a companion container and want it listed here?
 See xref:ROOT:extending.adoc[Extending Kroki], then open a pull request on https://github.com/yuzutech/kroki[GitHub].
