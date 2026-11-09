@@ -5,9 +5,8 @@ import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
-import io.vertx.core.AsyncResult;
+import io.kroki.server.option.DiagramOption;
 import io.vertx.core.Future;
-import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
@@ -23,6 +22,14 @@ import static java.util.Map.entry;
 public class D2 implements DiagramService {
 
   private static final List<FileFormat> SUPPORTED_FORMATS = Collections.singletonList(FileFormat.SVG);
+  private static final DiagramOption LAYOUT = DiagramOption.oneOf("layout", "Layout engine.", "dagre", "elk", "tala");
+  private static final DiagramOption THEME = DiagramOption.value("theme", "Built-in theme name or numeric theme ID.");
+  private static final DiagramOption DARK_THEME = DiagramOption.value("dark-theme", "Built-in theme name or numeric theme ID.");
+  private static final DiagramOption PAD = DiagramOption.value("pad", "Padding around the rendered diagram.");
+  private static final DiagramOption ANIMATE_INTERVAL = DiagramOption.value("animate-interval", "Interval between animation frames.");
+  private static final DiagramOption SKETCH = DiagramOption.flag("sketch", "Render the diagram in a hand-drawn sketch style.");
+  private static final DiagramOption SCALE = DiagramOption.value("scale", "Scale factor for the rendered diagram.");
+
   private final Vertx vertx;
   private final String binPath;
   private final SourceDecoder sourceDecoder;
@@ -79,6 +86,12 @@ public class D2 implements DiagramService {
     return "0.9.0";
   }
 
+
+  @Override
+  public List<DiagramOption> getOptions() {
+    return List.of(LAYOUT, THEME, DARK_THEME, PAD, ANIMATE_INTERVAL, SKETCH, SCALE);
+  }
+
   @Override
   public Future<Buffer> convert(String sourceDecoded, String serviceName, FileFormat fileFormat, JsonObject options) {
     return vertx.executeBlocking(() -> {
@@ -90,13 +103,13 @@ public class D2 implements DiagramService {
   private byte[] d2(byte[] source, JsonObject options) throws IOException, InterruptedException, IllegalStateException {
     List<String> commands = new ArrayList<>();
     commands.add(binPath);
-    String layout = options.getString("layout");
-    if ("elk".equals(layout) || "tala".equals(layout)) {
+    String layout = LAYOUT.get(options);
+    if (LAYOUT.values().contains(layout) && !LAYOUT.defaultValue().equals(layout)) {
       // Only pass the layout argument if an alternate layout engine is requested (default is 'dagre'),
       // so that the layout engine selected in the diagram (`d2-config`) is not overridden
       commands.add("--layout=" + layout);
     }
-    String theme = options.getString("theme");
+    String theme = THEME.get(options);
     if (theme != null) {
       int themeId = 0;
       Integer builtinThemeId = builtinThemes.get(theme.toLowerCase().replaceAll("\\s", "-"));
@@ -111,7 +124,7 @@ public class D2 implements DiagramService {
       }
       commands.add("--theme=" + themeId);
     }
-    String darkTheme = options.getString("dark-theme");
+    String darkTheme = DARK_THEME.get(options);
     if (darkTheme != null) {
       int themeId = 0;
       Integer builtinThemeId = builtinThemes.get(darkTheme.toLowerCase().replaceAll("\\s", "-"));
@@ -126,19 +139,18 @@ public class D2 implements DiagramService {
       }
       commands.add("--dark-theme=" + themeId);
     }
-    String pad = options.getString("pad");
+    String pad = PAD.get(options);
     if (pad != null) {
       commands.add("--pad=" + pad);
     }
-    String animateInterval = options.getString("animate-interval");
+    String animateInterval = ANIMATE_INTERVAL.get(options);
     if (animateInterval != null) {
       commands.add("--animate-interval=" + animateInterval);
     }
-    String sketch = options.getString("sketch");
-    if (sketch != null) {
+    if (SKETCH.isEnabled(options)) {
       commands.add("--sketch");
     }
-    String scale = options.getString("scale");
+    String scale = SCALE.get(options);
     if (scale != null) {
       commands.add("--scale=" + scale);
     }

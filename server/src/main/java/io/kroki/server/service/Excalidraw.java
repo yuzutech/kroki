@@ -5,10 +5,9 @@ import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
+import io.kroki.server.option.DiagramOption;
 import io.kroki.server.security.SafeMode;
-import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
-import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
@@ -52,6 +51,11 @@ public class Excalidraw implements DiagramService {
   public String getVersion() {
     // renovate: datasource=npm depName=@excalidraw/excalidraw
     return "0.18.1";
+  }
+
+  @Override
+  public List<DiagramOption> getOptions() {
+    return List.of();
   }
 
   @Override
