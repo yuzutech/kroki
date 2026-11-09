@@ -140,7 +140,8 @@ See:
 https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme
 https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute +
 Default value of 'currentColor' as tested on Firefox is one suitable for
-a "light-mode" display, therefore is dark.
+a "light-mode" display, therefore is dark. +
+The value must be a CSS color, for instance: `#FFF`, `red` or `rgb(0, 0, 0)`.
 
 |svg-color-light-scheme
 |_string_ +

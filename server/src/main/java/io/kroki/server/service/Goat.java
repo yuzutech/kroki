@@ -3,6 +3,7 @@ package io.kroki.server.service;
 import io.kroki.server.action.Commander;
 import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
+import io.kroki.server.error.BadRequestException;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
 import io.vertx.core.Future;
@@ -13,10 +14,16 @@ import io.vertx.core.json.JsonObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class Goat implements DiagramService {
 
   private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.SVG);
+  // GoAT interpolates the color options as-is into a <style> element of the SVG.
+  // Only allow the characters needed by CSS colors (named colors, hex notation,
+  // rgb()/hsl()/... functions) so that a value cannot break out of the CSS rule
+  // or the <style> element.
+  private static final Pattern CSS_COLOR = Pattern.compile("[#a-zA-Z0-9(),.%/ -]{1,64}");
   private final Vertx vertx;
   private final String binPath;
   private final SourceDecoder sourceDecoder;
@@ -58,17 +65,8 @@ public class Goat implements DiagramService {
       List<String> commands = new ArrayList<>();
       commands.add(binPath);
 
-      String svgColorDarkScheme = options.getString("svg-color-dark-scheme");
-      if (svgColorDarkScheme != null) {
-        commands.add("-svg-color-dark-scheme");
-        commands.add(svgColorDarkScheme);
-      }
-
-      String svgColorLightScheme = options.getString("svg-color-light-scheme");
-      if (svgColorLightScheme != null) {
-        commands.add("-svg-color-light-scheme");
-        commands.add(svgColorLightScheme);
-      }
+      addColorOption(commands, options, "svg-color-dark-scheme");
+      addColorOption(commands, options, "svg-color-light-scheme");
 
       String utf8 = options.getString("utf8");
       if (utf8 != null) {
@@ -82,5 +80,21 @@ public class Goat implements DiagramService {
       byte[] result = commander.execute(sourceDecoded.getBytes(), commands.toArray(new String[0]));
       return Buffer.buffer(result);
     });
+  }
+
+  private static void addColorOption(List<String> commands, JsonObject options, String name) {
+    String value = options.getString(name);
+    if (value == null) {
+      return;
+    }
+    if (!isValidColor(value)) {
+      throw new BadRequestException("Invalid value for option " + name + ": must be a CSS color (for instance: #FFF, red or rgb(0, 0, 0)).");
+    }
+    commands.add("-" + name);
+    commands.add(value);
+  }
+
+  static boolean isValidColor(String value) {
+    return CSS_COLOR.matcher(value).matches();
   }
 }

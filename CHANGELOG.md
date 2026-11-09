@@ -14,6 +14,7 @@ versioned entry and uses it as the GitHub release notes.
 ### Security
 
 - Prevent unauthenticated remote code execution on `/tikz/svg` via `\special{ps:...}`, which was still possible despite the previous fix: because of a bug in `dvisvgm` 3.6 ([mgieseki/dvisvgm#306](https://github.com/mgieseki/dvisvgm/pull/306)), the `--no-specials=ps` option was silently ignored, so PostScript specials were still handed off to Ghostscript. PostScript specials (`ps:`, `ps::`, `pst:`, `"`, `!`, `header=`, `psfile=`, `pdffile=`...) are now removed from the DVI file before it is passed to `dvisvgm`
+- Prevent a reflected cross-site scripting (XSS) on `/goat/svg` via the `svg-color-dark-scheme` and `svg-color-light-scheme` options: GoAT inserts their values as-is into a `<style>` element of the SVG, so a value containing `</style><script>...` injected an executable script in the diagram. These options now only accept CSS color values (for instance: `#FFF`, `red` or `rgb(0, 0, 0)`), other values are rejected with a 400 error
 
 ### Added
 
