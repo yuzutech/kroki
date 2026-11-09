@@ -19,6 +19,7 @@ class DiagramOptionTest {
     DiagramOption option = DiagramOption.flag("enabled", "Enable the feature.");
 
     assertThat(option.name()).isEqualTo("enabled");
+    assertThat(option.kind()).isEqualTo(DiagramOption.Kind.FLAG);
     assertThat(option.description()).isEqualTo("Enable the feature.");
     assertThat(option.values()).isEmpty();
     assertThat(option.defaultValue()).isNull();
@@ -30,6 +31,7 @@ class DiagramOptionTest {
     DiagramOption option = DiagramOption.value("scale", "Scale factor.");
 
     assertThat(option.name()).isEqualTo("scale");
+    assertThat(option.kind()).isEqualTo(DiagramOption.Kind.VALUE);
     assertThat(option.description()).isEqualTo("Scale factor.");
     assertThat(option.values()).isEmpty();
     assertThat(option.defaultValue()).isNull();
@@ -41,6 +43,7 @@ class DiagramOptionTest {
     DiagramOption option = DiagramOption.oneOf("layout", "Layout engine.", "dot", "neato");
 
     assertThat(option.name()).isEqualTo("layout");
+    assertThat(option.kind()).isEqualTo(DiagramOption.Kind.ENUM);
     assertThat(option.description()).isEqualTo("Layout engine.");
     assertThat(option.values()).containsExactly("dot", "neato");
     assertThat(option.defaultValue()).isNull();
@@ -52,6 +55,7 @@ class DiagramOptionTest {
     DiagramOption option = DiagramOption.prefix("node-attribute-", "Default node attribute.");
 
     assertThat(option.name()).isEqualTo("node-attribute-");
+    assertThat(option.kind()).isEqualTo(DiagramOption.Kind.PREFIX);
     assertThat(option.description()).isEqualTo("Default node attribute.");
     assertThat(option.values()).isEmpty();
     assertThat(option.defaultValue()).isNull();
@@ -67,6 +71,7 @@ class DiagramOptionTest {
     assertThat(withDefault.name()).isEqualTo("theme");
     assertThat(withDefault.description()).isEqualTo("Theme name.");
     assertThat(withDefault.values()).isEmpty();
+    assertThat(withDefault.kind()).isEqualTo(DiagramOption.Kind.VALUE);
     assertThat(withDefault.defaultValue()).isEqualTo("dark");
     assertThat(withDefault.formats()).isEmpty();
   }
@@ -90,6 +95,7 @@ class DiagramOptionTest {
       .withDefault("diagram")
       .onlyFor(FileFormat.SVG, FileFormat.PDF);
 
+    assertThat(option.kind()).isEqualTo(DiagramOption.Kind.ENUM);
     assertThat(option.values()).containsExactly("diagram", "legend");
     assertThat(option.defaultValue()).isEqualTo("diagram");
     assertThat(option.formats()).containsExactlyInAnyOrder(FileFormat.SVG, FileFormat.PDF);
@@ -123,7 +129,7 @@ class DiagramOptionTest {
   @Test
   void constructorRequiresNameAndKind() {
     assertThatNullPointerException()
-      .isThrownBy(() -> new DiagramOption(null, null, "description", List.of(), null, Set.of()));
+      .isThrownBy(() -> new DiagramOption(null, DiagramOption.Kind.VALUE, "description", List.of(), null, Set.of()));
     assertThatNullPointerException()
       .isThrownBy(() -> new DiagramOption("name", null, "description", List.of(), null, Set.of()));
   }
@@ -189,5 +195,19 @@ class DiagramOptionTest {
     DiagramOption option = DiagramOption.prefix("node-attribute-", "Default node attribute.");
 
     assertThat(option.getAll(JsonObject.of("node-attribute-", "unused"))).isEmpty();
+  }
+
+  @Test
+  void getAllDoesNotMatchOtherPrefixes() {
+    DiagramOption option = DiagramOption.prefix("node-attribute-", "Default node attribute.");
+
+    assertThat(option.getAll(JsonObject.of("node-attributes", "x", "edge-attribute-color", "red"))).isEmpty();
+  }
+
+  @Test
+  void recordsWithTheSameComponentsAreEqual() {
+    assertThat(DiagramOption.flag("antialias", "Enable antialiasing.").onlyFor(FileFormat.PNG))
+      .isEqualTo(DiagramOption.flag("antialias", "Enable antialiasing.").onlyFor(FileFormat.PNG))
+      .isNotEqualTo(DiagramOption.flag("antialias", "Enable antialiasing."));
   }
 }

@@ -20,8 +20,8 @@ import java.util.List;
 public class Lini implements DiagramService {
 
   private static final List<FileFormat> SUPPORTED_FORMATS = Collections.singletonList(FileFormat.SVG);
-  private static final DiagramOption THEME = DiagramOption.value("theme", "Theme to use when rendering the diagram.");
-  private static final DiagramOption STATIC = DiagramOption.flag("static", "Render a static diagram without interactive behavior.");
+  private static final DiagramOption THEME = DiagramOption.value("theme", "Color theme: default (follows the color scheme), light, dark, high-contrast, blueprint, or a light/dark pair such as light/blueprint.");
+  private static final DiagramOption STATIC = DiagramOption.flag("static", "Inline the CSS variables and convert text to paths, so that the SVG renders the same outside a browser.");
 
   private final Vertx vertx;
   private final String binPath;

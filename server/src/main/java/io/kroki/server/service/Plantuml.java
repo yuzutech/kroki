@@ -63,8 +63,6 @@ public class Plantuml implements DiagramService {
   private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG, FileFormat.PDF, FileFormat.BASE64, FileFormat.TXT, FileFormat.UTXT);
   private static final Pattern STDLIB_PATH_RX = Pattern.compile("<([-.a-zA-Z0-9]+)/[^>]+>");
 
-  private static final DiagramOption THEME = DiagramOption.value("theme", "Theme to use when rendering the diagram.");
-
   private final Vertx vertx;
   private final PlantumlCommand plantumlCommand;
   private final DitaaCommand ditaaCommand;
@@ -191,7 +189,7 @@ public class Plantuml implements DiagramService {
 
   @Override
   public List<DiagramOption> getOptions() {
-    return Stream.concat(ditaaCommand.geOptions().stream(), plantumlCommand.geOptions().stream()).toList();
+    return Stream.concat(ditaaCommand.getOptions().stream(), plantumlCommand.getOptions().stream()).toList();
   }
 
   @Override
@@ -222,7 +220,7 @@ public class Plantuml implements DiagramService {
       // ...otherwise, continue with PlantUML
       return vertx.executeBlocking(() -> {
         String sourceWithTheme = primeSource;
-        String theme = THEME.get(options);
+        String theme = PlantumlCommand.THEME.get(options);
         if (theme != null && !theme.trim().isEmpty()) {
           // add !theme directive just after the @start directive
           sourceWithTheme = START_BLOCK_RX.matcher(primeSource).replaceAll("$1!theme " + theme + "\n");

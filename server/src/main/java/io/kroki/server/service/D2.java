@@ -22,9 +22,9 @@ import static java.util.Map.entry;
 public class D2 implements DiagramService {
 
   private static final List<FileFormat> SUPPORTED_FORMATS = Collections.singletonList(FileFormat.SVG);
-  private static final DiagramOption LAYOUT = DiagramOption.oneOf("layout", "Layout engine.", "dagre", "elk", "tala");
+  private static final DiagramOption LAYOUT = DiagramOption.oneOf("layout", "Layout engine. When missing, the engine set in the diagram (d2-config) is used, dagre otherwise.", "dagre", "elk", "tala");
   private static final DiagramOption THEME = DiagramOption.value("theme", "Built-in theme name or numeric theme ID.");
-  private static final DiagramOption DARK_THEME = DiagramOption.value("dark-theme", "Built-in theme name or numeric theme ID.");
+  private static final DiagramOption DARK_THEME = DiagramOption.value("dark-theme", "Built-in theme name or numeric theme ID, used when the browser is in dark mode.");
   private static final DiagramOption PAD = DiagramOption.value("pad", "Padding around the rendered diagram.");
   private static final DiagramOption ANIMATE_INTERVAL = DiagramOption.value("animate-interval", "Interval between animation frames.");
   private static final DiagramOption SKETCH = DiagramOption.flag("sketch", "Render the diagram in a hand-drawn sketch style.");
@@ -86,7 +86,6 @@ public class D2 implements DiagramService {
     return "0.9.0";
   }
 
-
   @Override
   public List<DiagramOption> getOptions() {
     return List.of(LAYOUT, THEME, DARK_THEME, PAD, ANIMATE_INTERVAL, SKETCH, SCALE);
@@ -104,7 +103,7 @@ public class D2 implements DiagramService {
     List<String> commands = new ArrayList<>();
     commands.add(binPath);
     String layout = LAYOUT.get(options);
-    if (LAYOUT.values().contains(layout) && !LAYOUT.defaultValue().equals(layout)) {
+    if ("elk".equals(layout) || "tala".equals(layout)) {
       // Only pass the layout argument if an alternate layout engine is requested (default is 'dagre'),
       // so that the layout engine selected in the diagram (`d2-config`) is not overridden
       commands.add("--layout=" + layout);

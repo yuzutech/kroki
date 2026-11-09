@@ -79,4 +79,32 @@ public class BlockdiagServiceTest {
       "-Tsvg",
       "-");
   }
+
+  @Test
+  public void should_pass_the_options() throws Throwable {
+    JsonObject options = JsonObject.of("antialias", "", "no-transparency", "", "size", "640x480", "no-doctype", "");
+    blockdiag("unsafe").convert("test", "blockdiag", FileFormat.PNG, options).await(2, TimeUnit.SECONDS);
+    Mockito.verify(commanderMock).execute("test".getBytes(),
+      "/path/to/blockdiag",
+      "--module=blockdiag",
+      "--font=/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf",
+      "-Tpng",
+      "--antialias",
+      "--no-transparency",
+      "--size=640x480",
+      "-");
+  }
+
+  @Test
+  public void should_only_pass_the_format_specific_options_for_their_format() throws Throwable {
+    JsonObject options = JsonObject.of("no-transparency", "", "no-doctype", "");
+    blockdiag("unsafe").convert("test", "blockdiag", FileFormat.SVG, options).await(2, TimeUnit.SECONDS);
+    Mockito.verify(commanderMock).execute("test".getBytes(),
+      "/path/to/blockdiag",
+      "--module=blockdiag",
+      "--font=/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf",
+      "-Tsvg",
+      "--nodoctype",
+      "-");
+  }
 }

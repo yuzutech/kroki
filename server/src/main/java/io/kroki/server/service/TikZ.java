@@ -21,7 +21,8 @@ import java.util.List;
 public class TikZ implements DiagramService {
 
   private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.JPEG, FileFormat.PDF, FileFormat.PNG, FileFormat.SVG);
-  private static final DiagramOption PAGE = DiagramOption.value("page", "Page number to render from the generated document.");
+  private static final DiagramOption PAGE = DiagramOption.value("page", "Page to render (positive integer). PDF output always contains all pages.")
+    .onlyFor(FileFormat.SVG, FileFormat.PNG, FileFormat.JPEG);
 
   private final Vertx vertx;
   private final String binPath;

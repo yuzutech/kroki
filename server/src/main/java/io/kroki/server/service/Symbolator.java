@@ -49,7 +49,7 @@ public class Symbolator implements DiagramService {
 
   @Override
   public List<DiagramOption> getOptions() {
-    return command.geOptions();
+    return command.getOptions();
   }
 
   @Override

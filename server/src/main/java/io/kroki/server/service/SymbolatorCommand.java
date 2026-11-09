@@ -12,11 +12,11 @@ import java.util.List;
 public class SymbolatorCommand {
 
   private static final DiagramOption TRANSPARENT = DiagramOption.flag("transparent", "Use a transparent background.");
-  private static final DiagramOption TITLE = DiagramOption.flag("title", "Include the component title in the output.");
+  private static final DiagramOption TITLE = DiagramOption.flag("title", "Add the component name above the symbol.");
   private static final DiagramOption SCALE = DiagramOption.value("scale", "Scale factor for the rendered diagram.");
-  private static final DiagramOption COMPONENT = DiagramOption.value("component", "Name of the component to render.");
-  private static final DiagramOption NO_TYPE = DiagramOption.flag("no-type", "Omit the component type from the output.");
-  private static final DiagramOption LIBRARY_NAME = DiagramOption.value("library-name", "Library name to display in the output.");
+  private static final DiagramOption COMPONENT = DiagramOption.value("component", "Name of the component to render, the last one by default.");
+  private static final DiagramOption NO_TYPE = DiagramOption.flag("no-type", "Omit the type information of the ports.");
+  private static final DiagramOption LIBRARY_NAME = DiagramOption.value("library-name", "Add a library name above the component name. Only applies together with title.");
 
   private final String binPath;
   private final Commander commander;
@@ -26,7 +26,7 @@ public class SymbolatorCommand {
     this.commander = new Commander(config);
   }
 
-  public List<DiagramOption> geOptions() {
+  public List<DiagramOption> getOptions() {
     return List.of(TRANSPARENT, TITLE, SCALE, COMPONENT, NO_TYPE, LIBRARY_NAME);
   }
 

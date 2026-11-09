@@ -48,7 +48,7 @@ public class Ditaa implements DiagramService {
 
   @Override
   public List<DiagramOption> getOptions() {
-    return this.command.geOptions();
+    return this.command.getOptions();
   }
 
   @Override

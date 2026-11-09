@@ -75,9 +75,7 @@ public class Svgbob implements DiagramService {
   private byte[] svgbob(byte[] source, JsonObject options) throws IOException, InterruptedException, IllegalStateException {
     List<String> commands = new ArrayList<>();
     commands.add(binPath);
-
-    getOptions().forEach((DiagramOption diagramOption) -> addOption(diagramOption, options, commands));
-    
+    getOptions().forEach(diagramOption -> addOption(diagramOption, options, commands));
     String[] args = commands.toArray(new String[0]);
     return commander.execute(source, args);
   }

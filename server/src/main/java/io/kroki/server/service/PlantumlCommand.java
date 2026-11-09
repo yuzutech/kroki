@@ -27,8 +27,8 @@ public class PlantumlCommand {
 
   private static final Pattern ERROR_MESSAGE_RX = Pattern.compile(".*ERROR\\n(?<lineNumber>[0-9]+)\\n(?<cause>[^\\n]+)\\n.*", Pattern.MULTILINE | Pattern.DOTALL);
 
-  private static final DiagramOption THEME = DiagramOption.value("theme", "Theme to use when rendering the diagram.");
-  private static final DiagramOption NO_METADATA = DiagramOption.flag("no-metadata", "Omit metadata from the generated output.");
+  static final DiagramOption THEME = DiagramOption.value("theme", "Name of a PlantUML theme, for instance cerulean.");
+  private static final DiagramOption NO_METADATA = DiagramOption.flag("no-metadata", "Do not save the source of the diagram in the metadata of the generated SVG or PNG.");
 
   private final String binPath;
   private final String includePath;
@@ -98,7 +98,7 @@ public class PlantumlCommand {
     }
   }
 
-  public List<DiagramOption> geOptions() {
+  public List<DiagramOption> getOptions() {
     return List.of(THEME, NO_METADATA);
   }
 

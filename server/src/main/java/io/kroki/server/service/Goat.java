@@ -25,9 +25,9 @@ public class Goat implements DiagramService {
   // rgb()/hsl()/... functions) so that a value cannot break out of the CSS rule
   // or the <style> element.
   private static final Pattern CSS_COLOR = Pattern.compile("[#a-zA-Z0-9(),.%/ -]{1,64}");
-  private static final DiagramOption SVG_COLOR_DARK_SCHEME = DiagramOption.value("svg-color-dark-scheme", "Color scheme to use for SVG output in dark mode.");
-  private static final DiagramOption SVG_COLOR_LIGHT_SCHEME = DiagramOption.value("svg-color-light-scheme", "Color scheme to use for SVG output in light mode.");
-  private static final DiagramOption UTF8 = DiagramOption.flag("utf8", "Use UTF-8 encoding for the diagram source.");
+  private static final DiagramOption SVG_COLOR_DARK_SCHEME = DiagramOption.value("svg-color-dark-scheme", "CSS color of the lines and text when the SVG is displayed in dark mode, for instance #FFF.");
+  private static final DiagramOption SVG_COLOR_LIGHT_SCHEME = DiagramOption.value("svg-color-light-scheme", "CSS color of the lines and text when the SVG is displayed in light mode, for instance #000.");
+  private static final DiagramOption UTF8 = DiagramOption.flag("utf8", "The diagram contains UTF-8 box-drawing characters.");
 
   private final Vertx vertx;
   private final String binPath;

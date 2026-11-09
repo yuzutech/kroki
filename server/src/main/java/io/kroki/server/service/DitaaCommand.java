@@ -15,12 +15,12 @@ import java.util.List;
 public class DitaaCommand {
 
   private static final DiagramOption NO_ANTIALIAS = DiagramOption.flag("no-antialias", "Disable antialiasing.");
-  private static final DiagramOption NO_SEPARATION = DiagramOption.flag("no-separation", "Disable separation between adjacent shapes.");
+  private static final DiagramOption NO_SEPARATION = DiagramOption.flag("no-separation", "Prevent the separation of the common edges of shapes.");
   private static final DiagramOption ROUND_CORNERS = DiagramOption.flag("round-corners", "Use rounded corners for shapes.");
   private static final DiagramOption SCALE = DiagramOption.value("scale", "Scale factor for the rendered diagram.");
   private static final DiagramOption NO_SHADOWS = DiagramOption.flag("no-shadows", "Disable drop shadows.");
-  private static final DiagramOption TABS = DiagramOption.value("tabs", "Number of spaces represented by a tab character.");
-  private static final DiagramOption BACKGROUND = DiagramOption.value("background", "Background color, specified as a color value.");
+  private static final DiagramOption TABS = DiagramOption.value("tabs", "Number of spaces a tab is interpreted as (8 by default).");
+  private static final DiagramOption BACKGROUND = DiagramOption.value("background", "Background color as a six-digit hexadecimal number, for instance FF0000. Overridden by transparent.");
   private static final DiagramOption TRANSPARENT = DiagramOption.flag("transparent", "Use a transparent background.");
 
   private final String binPath;
@@ -73,7 +73,7 @@ public class DitaaCommand {
     return commander.execute(source.getBytes(), commands.toArray(new String[0]));
   }
 
-  public List<DiagramOption> geOptions() {
+  public List<DiagramOption> getOptions() {
     return List.of(
       NO_ANTIALIAS, NO_SEPARATION, ROUND_CORNERS, SCALE, NO_SHADOWS, TABS, BACKGROUND, TRANSPARENT);
   }
