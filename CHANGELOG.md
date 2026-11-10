@@ -11,6 +11,10 @@ versioned entry and uses it as the GitHub release notes.
 
 ## [Unreleased]
 
+### Security
+
+- Remove the npm CLI from the Mermaid, BPMN, Excalidraw and diagrams.net companion images once their dependencies are installed. npm never runs in these containers, but vulnerability scanners reported the packages it bundles, for instance `undici`, `glob`, `minimatch`, `brace-expansion` and `ip-address` ([#2283](https://github.com/yuzutech/kroki/pull/2283))
+
 ## [0.36.0] - 2026-11-09
 
 ### Security

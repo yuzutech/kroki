@@ -46,6 +46,11 @@ COPY --from=lib --chown=kroki:kroki . /usr/local/lib/browser-instance
 
 RUN npm i --omit=dev --no-audit --no-fund --no-update-notifier --loglevel=error
 
+# npm is only needed to install the dependencies: remove it, and the packages it bundles, from the runtime image
+USER root
+RUN rm -rf /usr/local/lib/node_modules/npm /usr/local/bin/npm /usr/local/bin/npx
+USER kroki
+
 EXPOSE 8003
 
 # tini runs as PID 1 to reap the Chromium processes orphaned by a crash, and forwards SIGTERM to Node.js
