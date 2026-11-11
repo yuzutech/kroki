@@ -58,7 +58,7 @@ public class Graphviz implements DiagramService {
 
   @Override
   public String getVersion() {
-    // renovate: datasource=docker depName=ghcr.io/yuzutech/kroki-builder-graphviz
+    // renovate: datasource=gitlab-releases depName=graphviz/graphviz registryUrl=https://gitlab.com
     return "16.1.1";
   }
 

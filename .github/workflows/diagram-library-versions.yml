@@ -39,6 +39,21 @@ jobs:
             echo "::error::The diagram library versions are out of sync, run 'task updateVersions' and commit the result"
             exit 1
           fi
+      # tools/<tool>/Dockerfile only builds the image published by the "Tool images" workflow:
+      # Kroki ships the version in the FROM instruction of its Dockerfile, which must be the same
+      - name: Check the tool image versions
+        run: |
+          status=0
+          for dockerfile in tools/*/Dockerfile; do
+            tool=$(basename "$(dirname "$dockerfile")")
+            version=$(sed -nE 's/^ARG VERSION=(\S+)$/\1/p' "$dockerfile")
+            image=$(sed -nE "s|^FROM (ghcr\.io/yuzutech/kroki-builder-$tool:\S+) AS .*|\1|p" server/ops/docker/Dockerfile)
+            if [[ "$image" != "ghcr.io/yuzutech/kroki-builder-$tool:$version" ]]; then
+              echo "::error file=server/ops/docker/Dockerfile::$dockerfile builds $tool $version, but the Kroki Dockerfile uses ${image:-no kroki-builder-$tool image}"
+              status=1
+            fi
+          done
+          exit $status
 
   # Add the "Update <library> to <version>" changelog entries to the Renovate pull requests.
   # The commit author is listed in gitIgnoredAuthors (renovate.json5), so Renovate keeps updating the branch.

@@ -49,6 +49,7 @@ public class Umlet implements DiagramService {
 
   @Override
   public String getVersion() {
+    // renovate: datasource=github-tags depName=umlet/umlet extractVersion=^v(?<version>\d+\.\d+(\.\d+)?)$
     return "15.1";
   }
 

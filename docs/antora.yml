@@ -3,9 +3,9 @@ title: Kroki
 version: ~
 asciidoc:
   attributes:
-    # renovate: datasource=docker depName=ghcr.io/yuzutech/kroki-builder-blockdiag
+    # renovate: datasource=github-tags depName=yuzutech/blockdiag extractVersion=^v(?<version>.+)$
     actdiag-version: 3.4.3
-    # renovate: datasource=docker depName=ghcr.io/yuzutech/kroki-builder-blockdiag
+    # renovate: datasource=github-tags depName=yuzutech/blockdiag extractVersion=^v(?<version>.+)$
     blockdiag-version: 3.4.3
     # renovate: datasource=npm depName=bpmn-js
     bpmn-version: 18.31.1
@@ -18,13 +18,14 @@ asciidoc:
     # renovate: datasource=npm depName=@softwaretechnik/dbml-renderer
     dbml-version: 1.0.31
     diagramsnet-version: 29.6.1
+    # renovate: datasource=github-tags depName=pepijnve/ditaa extractVersion=^mini-(?<version>.+)$
     ditaa-version: 1.0.3
-    # renovate: datasource=docker depName=ghcr.io/yuzutech/kroki-builder-erd
+    # renovate: datasource=github-tags depName=BurntSushi/erd extractVersion=^v(?<version>.+)$
     erd-version: 0.2.2
     # renovate: datasource=npm depName=@excalidraw/excalidraw
     excalidraw-version: 0.18.1
     goat-version: 0.5.1
-    # renovate: datasource=docker depName=ghcr.io/yuzutech/kroki-builder-graphviz
+    # renovate: datasource=gitlab-releases depName=graphviz/graphviz registryUrl=https://gitlab.com
     graphviz-version: 16.1.1
     # renovate: datasource=crate depName=lini
     lini-version: 1.1.0
@@ -32,23 +33,24 @@ asciidoc:
     mermaid-version: 12.3.0
     # renovate: datasource=npm depName=nomnoml
     nomnoml-version: 1.7.0
-    # renovate: datasource=docker depName=ghcr.io/yuzutech/kroki-builder-blockdiag
+    # renovate: datasource=github-tags depName=yuzutech/blockdiag extractVersion=^v(?<version>.+)$
     nwdiag-version: 3.4.3
-    # renovate: datasource=docker depName=ghcr.io/yuzutech/kroki-builder-blockdiag
+    # renovate: datasource=github-tags depName=yuzutech/blockdiag extractVersion=^v(?<version>.+)$
     packetdiag-version: 3.4.3
     pikchr-version: '85e65b9686'
     # renovate: datasource=github-releases depName=plantuml/plantuml extractVersion=^v(?<version>\d+\.\d+\.\d+)$
     plantuml-version: 1.2026.9
-    # renovate: datasource=docker depName=ghcr.io/yuzutech/kroki-builder-blockdiag
+    # renovate: datasource=github-tags depName=yuzutech/blockdiag extractVersion=^v(?<version>.+)$
     rackdiag-version: 3.4.3
-    # renovate: datasource=docker depName=ghcr.io/yuzutech/kroki-builder-blockdiag
+    # renovate: datasource=github-tags depName=yuzutech/blockdiag extractVersion=^v(?<version>.+)$
     seqdiag-version: 3.4.3
     # renovate: datasource=maven depName=com.structurizr:structurizr-dsl
     structurizr-version: 6.2.4
     # renovate: datasource=crate depName=svgbob_cli
     svgbob-version: 0.7.6
-    # renovate: datasource=docker depName=ghcr.io/yuzutech/kroki-builder-symbolator
+    # renovate: datasource=github-tags depName=zebreus/symbolator extractVersion=^v(?<version>.+)$
     symbolator-version: 1.2.2
+    # renovate: datasource=github-tags depName=umlet/umlet extractVersion=^v(?<version>\d+\.\d+(\.\d+)?)$
     umlet-version: 15.1
     # renovate: datasource=npm depName=vega
     vega-version: 6.4.0
@@ -56,7 +58,7 @@ asciidoc:
     vegalite-version: 6.5.0
     # renovate: datasource=npm depName=wavedrom
     wavedrom-version: 3.8.0
-    # renovate: datasource=docker depName=ghcr.io/yuzutech/kroki-builder-wireviz
+    # renovate: datasource=github-tags depName=yuzutech/WireViz extractVersion=^v(?<version>.+)$
     wireviz-version: 0.3.3
     uri-docker-get-started: https://docs.docker.com/get-started/
     uri-podman-get-started: https://podman.io/get-started/

@@ -26,6 +26,19 @@ After bumping a version in the `Dockerfile`, always run `task updateVersions`.
 This command reads the `*_VERSION` arguments from `server/ops/docker/Dockerfile` and propagates them everywhere the version is referenced (such as `docs/antora.yml` and the `getVersion()` method of the corresponding Java service) so that everything stays in sync.
 ====
 
+[#tool-images]
+=== Tool images
+
+The tools that rarely change and only provide a binary to the Kroki image are built in `tools/<tool>/Dockerfile` and published as `ghcr.io/yuzutech/kroki-builder-<tool>:<version>` by the https://github.com/yuzutech/kroki/actions/workflows/tool-images.yml["Tool images" workflow], so building and releasing Kroki only copies the published binary.
+
+The version built by `tools/<tool>/Dockerfile` (`ARG VERSION`) must be the version of the image in the `FROM ghcr.io/yuzutech/kroki-builder-<tool>:<version>` instruction of `server/ops/docker/Dockerfile`: the "Diagram library versions" workflow fails otherwise.
+Renovate tracks the upstream version of the tool in both files (and in `docs/antora.yml` and the `getVersion()` method of the Java service), so it updates them in a single pull request. On this pull request:
+
+. the "Tool images" workflow builds and tests the image on amd64 and arm64, and publishes it if this version is not published yet
+. the "CI" workflow fails to build the Kroki image until the image is published: the "Tool images" workflow re-runs its failed jobs once the image is published
+
+To update a tool by hand (or to replace a published image), update both versions in the same pull request, run the "Tool images" workflow with the tool and the new version on its branch, then re-run the failed jobs of the "CI" workflow.
+
 === blockdiag (and actdiag, nwdiag, packetdiag, rackdiag, seqdiag)
 
 We are building a single binary with Nuitka from a fork, https://github.com/yuzutech/blockdiag, in `tools/blockdiag/Dockerfile`.
@@ -35,10 +48,7 @@ The binary is published as a container image, `ghcr.io/yuzutech/kroki-builder-bl
 When a new version is available, we need to:
 
 . update the fork and tag the new version (`vx.y.z`)
-. update `ARG VERSION` in `tools/blockdiag/Dockerfile` (Renovate opens this pull request, which runs the "Tool images" workflow to build and test it on amd64 and arm64)
-. run the "Tool images" workflow with the tool `blockdiag` and the new version: https://github.com/yuzutech/kroki/actions/workflows/tool-images.yml
-. update the image tag in `FROM ghcr.io/yuzutech/kroki-builder-blockdiag:<version> AS blockdiag` in `server/ops/docker/Dockerfile` (Renovate opens this pull request too)
-. run `task updateVersions` (see above)
+. merge the pull request opened by Renovate, which updates `ARG VERSION` in `tools/blockdiag/Dockerfile` and the image tag in `FROM ghcr.io/yuzutech/kroki-builder-blockdiag:<version> AS blockdiag` in `server/ops/docker/Dockerfile` (see <<tool-images>>)
 
 === D2
 
@@ -59,10 +69,7 @@ It is published as a container image, `ghcr.io/yuzutech/kroki-builder-ditaa:<ver
 
 When a new version is available, we need to:
 
-. update `ARG VERSION` in `tools/ditaa/Dockerfile` (Renovate opens this pull request, which runs the "Tool images" workflow to build and test it on amd64 and arm64)
-. run the "Tool images" workflow with the tool `ditaa` and the new version: https://github.com/yuzutech/kroki/actions/workflows/tool-images.yml
-. update the image tag in `FROM ghcr.io/yuzutech/kroki-builder-ditaa:<version> AS ditaa` in `server/ops/docker/Dockerfile` (Renovate opens this pull request too)
-. run `task updateVersions` (see above)
+. merge the pull request opened by Renovate, which updates `ARG VERSION` in `tools/ditaa/Dockerfile` and the image tag in `FROM ghcr.io/yuzutech/kroki-builder-ditaa:<version> AS ditaa` in `server/ops/docker/Dockerfile` (see <<tool-images>>)
 
 === Erd
 
@@ -71,10 +78,7 @@ The binary is published as a container image, `ghcr.io/yuzutech/kroki-builder-er
 
 When a new version is available, we need to:
 
-. update `ARG VERSION` in `tools/erd/Dockerfile` (Renovate opens this pull request, which runs the "Tool images" workflow to build and test it on amd64 and arm64)
-. run the "Tool images" workflow with the tool `erd` and the new version: https://github.com/yuzutech/kroki/actions/workflows/tool-images.yml
-. update the image tag in `FROM ghcr.io/yuzutech/kroki-builder-erd:<version> AS erd` in `server/ops/docker/Dockerfile` (Renovate opens this pull request too)
-. run `task updateVersions` (see above)
+. merge the pull request opened by Renovate, which updates `ARG VERSION` in `tools/erd/Dockerfile` and the image tag in `FROM ghcr.io/yuzutech/kroki-builder-erd:<version> AS erd` in `server/ops/docker/Dockerfile` (see <<tool-images>>)
 
 === Graphviz
 
@@ -83,10 +87,7 @@ The binary is published as a container image, `ghcr.io/yuzutech/kroki-builder-gr
 
 When a new version is available, we need to:
 
-. update `ARG VERSION` in `tools/graphviz/Dockerfile` (Renovate opens this pull request, which runs the "Tool images" workflow to build and test it on amd64 and arm64)
-. run the "Tool images" workflow with the tool `graphviz` and the new version: https://github.com/yuzutech/kroki/actions/workflows/tool-images.yml
-. update the image tag in `FROM ghcr.io/yuzutech/kroki-builder-graphviz:<version> AS graphviz` in `server/ops/docker/Dockerfile` (Renovate opens this pull request too)
-. run `task updateVersions` (see above)
+. merge the pull request opened by Renovate, which updates `ARG VERSION` in `tools/graphviz/Dockerfile` and the image tag in `FROM ghcr.io/yuzutech/kroki-builder-graphviz:<version> AS graphviz` in `server/ops/docker/Dockerfile` (see <<tool-images>>)
 
 === Pikchr
 
@@ -96,10 +97,10 @@ The binary is published as a container image, `ghcr.io/yuzutech/kroki-builder-pi
 
 When a new version is available, we need to:
 
-. update `ARG VERSION` in `tools/pikchr/Dockerfile` with the artifact hash (the pull request runs the "Tool images" workflow to build and test it on amd64 and arm64)
-. run the "Tool images" workflow with the tool `pikchr` and the artifact hash: https://github.com/yuzutech/kroki/actions/workflows/tool-images.yml
-. update the image tag in `FROM ghcr.io/yuzutech/kroki-builder-pikchr:<hash> AS kroki-builder-static-pikchr` in `server/ops/docker/Dockerfile`
+. in the same pull request, update `ARG VERSION` in `tools/pikchr/Dockerfile` with the artifact hash, and the image tag in `FROM ghcr.io/yuzutech/kroki-builder-pikchr:<hash> AS kroki-builder-static-pikchr` in `server/ops/docker/Dockerfile`
 . run `task updateVersions` (see above)
+. run the "Tool images" workflow with the tool `pikchr` and the artifact hash on the branch of the pull request: https://github.com/yuzutech/kroki/actions/workflows/tool-images.yml
+. re-run the failed jobs of the "CI" workflow of the pull request (see <<tool-images>>)
 
 === PlantUML
 
@@ -138,10 +139,7 @@ The binary is published as a container image, `ghcr.io/yuzutech/kroki-builder-sy
 
 When a new version is available, we need to:
 
-. update `ARG VERSION` in `tools/symbolator/Dockerfile` (Renovate opens this pull request, which runs the "Tool images" workflow to build and test it on amd64 and arm64)
-. run the "Tool images" workflow with the tool `symbolator` and the new version: https://github.com/yuzutech/kroki/actions/workflows/tool-images.yml
-. update the image tag in `FROM ghcr.io/yuzutech/kroki-builder-symbolator:<version> AS kroki-builder-static-symbolator` in `server/ops/docker/Dockerfile` (Renovate opens this pull request too)
-. run `task updateVersions` (see above)
+. merge the pull request opened by Renovate, which updates `ARG VERSION` in `tools/symbolator/Dockerfile` and the image tag in `FROM ghcr.io/yuzutech/kroki-builder-symbolator:<version> AS kroki-builder-static-symbolator` in `server/ops/docker/Dockerfile` (see <<tool-images>>)
 
 === UMLet
 
@@ -151,10 +149,7 @@ It is published as a container image, `ghcr.io/yuzutech/kroki-builder-umlet:<ver
 
 When a new version is available, we need to:
 
-. update `ARG VERSION` in `tools/umlet/Dockerfile` (Renovate opens this pull request, which runs the "Tool images" workflow to build and test it on amd64 and arm64)
-. run the "Tool images" workflow with the tool `umlet` and the new version: https://github.com/yuzutech/kroki/actions/workflows/tool-images.yml
-. update the image tag in `FROM ghcr.io/yuzutech/kroki-builder-umlet:<version> AS umlet` in `server/ops/docker/Dockerfile` (Renovate opens this pull request too)
-. run `task updateVersions` (see above)
+. merge the pull request opened by Renovate, which updates `ARG VERSION` in `tools/umlet/Dockerfile` and the image tag in `FROM ghcr.io/yuzutech/kroki-builder-umlet:<version> AS umlet` in `server/ops/docker/Dockerfile` (see <<tool-images>>)
 
 === WireViz
 
@@ -165,7 +160,4 @@ The binary is published as a container image, `ghcr.io/yuzutech/kroki-builder-wi
 When a new version is available, we need to:
 
 . update the fork and tag the new version (`vx.y.z`)
-. update `ARG VERSION` in `tools/wireviz/Dockerfile` (Renovate opens this pull request, which runs the "Tool images" workflow to build and test it on amd64 and arm64)
-. run the "Tool images" workflow with the tool `wireviz` and the new version: https://github.com/yuzutech/kroki/actions/workflows/tool-images.yml
-. update the image tag in `FROM ghcr.io/yuzutech/kroki-builder-wireviz:<version> AS wireviz` in `server/ops/docker/Dockerfile` (Renovate opens this pull request too)
-. run `task updateVersions` (see above)
+. merge the pull request opened by Renovate, which updates `ARG VERSION` in `tools/wireviz/Dockerfile` and the image tag in `FROM ghcr.io/yuzutech/kroki-builder-wireviz:<version> AS wireviz` in `server/ops/docker/Dockerfile` (see <<tool-images>>)
