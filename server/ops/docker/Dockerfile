@@ -133,7 +133,7 @@ RUN LINI_VERSION=`cat Cargo.toml | grep "^lini =" | sed -r 's/.*"([^"]+)"/\1/'` 
 FROM ghcr.io/yuzutech/kroki-builder-erd:0.2.2 AS erd
 
 ## Graphviz (built by the "Tool images" workflow, see tools/graphviz)
-FROM ghcr.io/yuzutech/kroki-builder-graphviz:14.1.3 AS graphviz
+FROM ghcr.io/yuzutech/kroki-builder-graphviz:16.1.1 AS graphviz
 
 ## blockdiag (built by the "Tool images" workflow, see tools/blockdiag)
 FROM ghcr.io/yuzutech/kroki-builder-blockdiag:3.4.3 AS blockdiag
