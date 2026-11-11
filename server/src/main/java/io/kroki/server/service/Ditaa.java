@@ -43,6 +43,7 @@ public class Ditaa implements DiagramService {
 
   @Override
   public String getVersion() {
+    // renovate: datasource=github-tags depName=pepijnve/ditaa extractVersion=^mini-(?<version>.+)$
     return "1.0.3";
   }
 

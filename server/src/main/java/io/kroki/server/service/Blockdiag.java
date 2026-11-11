@@ -58,7 +58,7 @@ public class Blockdiag implements DiagramService {
 
   @Override
   public String getVersion() {
-    // renovate: datasource=docker depName=ghcr.io/yuzutech/kroki-builder-blockdiag
+    // renovate: datasource=github-tags depName=yuzutech/blockdiag extractVersion=^v(?<version>.+)$
     return "3.4.3";
   }
 

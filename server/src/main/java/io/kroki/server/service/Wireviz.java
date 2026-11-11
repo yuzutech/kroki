@@ -46,7 +46,7 @@ public class Wireviz implements DiagramService {
 
   @Override
   public String getVersion() {
-    // renovate: datasource=docker depName=ghcr.io/yuzutech/kroki-builder-wireviz
+    // renovate: datasource=github-tags depName=yuzutech/WireViz extractVersion=^v(?<version>.+)$
     return "0.3.3";
   }
 

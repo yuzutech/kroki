@@ -74,6 +74,7 @@ COPY --from=kroki-node-target /usr/local/bin/node /app/build/app.bin
 RUN npm run build:inject
 
 ## Symbolator (built by the "Tool images" workflow, see tools/symbolator)
+# renovate: datasource=github-tags depName=zebreus/symbolator extractVersion=^v(?<version>.+)$
 FROM ghcr.io/yuzutech/kroki-builder-symbolator:1.2.2 AS kroki-builder-static-symbolator
 
 ## Pikchr (built by the "Tool images" workflow, see tools/pikchr)
@@ -130,21 +131,27 @@ RUN LINI_VERSION=`cat Cargo.toml | grep "^lini =" | sed -r 's/.*"([^"]+)"/\1/'` 
     cargo install --quiet --locked --target $RUST_TARGET_ARCH-unknown-linux-gnu --version $LINI_VERSION lini
 
 ## Erd (built by the "Tool images" workflow, see tools/erd)
+# renovate: datasource=github-tags depName=BurntSushi/erd extractVersion=^v(?<version>.+)$
 FROM ghcr.io/yuzutech/kroki-builder-erd:0.2.2 AS erd
 
 ## Graphviz (built by the "Tool images" workflow, see tools/graphviz)
+# renovate: datasource=gitlab-releases depName=graphviz/graphviz registryUrl=https://gitlab.com
 FROM ghcr.io/yuzutech/kroki-builder-graphviz:16.1.1 AS graphviz
 
 ## blockdiag (built by the "Tool images" workflow, see tools/blockdiag)
+# renovate: datasource=github-tags depName=yuzutech/blockdiag extractVersion=^v(?<version>.+)$
 FROM ghcr.io/yuzutech/kroki-builder-blockdiag:3.4.3 AS blockdiag
 
 ## WireViz (built by the "Tool images" workflow, see tools/wireviz)
+# renovate: datasource=github-tags depName=yuzutech/WireViz extractVersion=^v(?<version>.+)$
 FROM ghcr.io/yuzutech/kroki-builder-wireviz:0.3.3 AS wireviz
 
 ## ditaa (built by the "Tool images" workflow, see tools/ditaa)
+# renovate: datasource=github-tags depName=pepijnve/ditaa extractVersion=^mini-(?<version>.+)$
 FROM ghcr.io/yuzutech/kroki-builder-ditaa:1.0.3 AS ditaa
 
 ## UMLet (built by the "Tool images" workflow, see tools/umlet)
+# renovate: datasource=github-tags depName=umlet/umlet extractVersion=^v(?<version>\d+\.\d+(\.\d+)?)$
 FROM ghcr.io/yuzutech/kroki-builder-umlet:15.1 AS umlet
 
 ## GoAT

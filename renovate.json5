@@ -70,14 +70,19 @@
       extractVersionTemplate: '^v(?<version>.*)$',
     },
     // ARG VERSION in tools/<tool>/Dockerfile is the upstream version of a tool published as an image
-    // by the "Tool images" workflow, annotated with a "# renovate: ..." comment on the line above
+    // by the "Tool images" workflow, and the tag of this image in the FROM instruction of the Kroki Dockerfile:
+    // both are annotated with the same "# renovate: ..." comment (upstream datasource) on the line above,
+    // so that Renovate updates them in the same pull request (the "Tool images" workflow publishes the new image
+    // from this pull request, see .github/workflows/tool-images.yml)
     {
       customType: 'regex',
       managerFilePatterns: [
         '/^tools/[^/]+/Dockerfile$/',
+        '/^server/ops/docker/Dockerfile$/',
       ],
       matchStrings: [
         '# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( registryUrl=(?<registryUrl>\\S+))?( extractVersion=(?<extractVersion>\\S+))?\\s+ARG VERSION=(?<currentValue>\\S+)',
+        '# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( registryUrl=(?<registryUrl>\\S+))?( extractVersion=(?<extractVersion>\\S+))?\\s+FROM ghcr\\.io/yuzutech/kroki-builder-[a-z]+:(?<currentValue>\\S+) AS ',
       ],
     },
     // the BuildKit image used by docker/setup-buildx-action (driver-opts), pinned in the workflows
@@ -103,8 +108,8 @@
         '/^docs/antora\\.yml$/',
       ],
       matchStrings: [
-        '// renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( extractVersion=(?<extractVersion>\\S+))?\\s+return "(?<currentValue>[^"]+)";',
-        '# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( extractVersion=(?<extractVersion>\\S+))?\\s+[a-z0-9]+-version: (?<currentValue>[^\\s\']+)',
+        '// renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( registryUrl=(?<registryUrl>\\S+))?( extractVersion=(?<extractVersion>\\S+))?\\s+return "(?<currentValue>[^"]+)";',
+        '# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( registryUrl=(?<registryUrl>\\S+))?( extractVersion=(?<extractVersion>\\S+))?\\s+[a-z0-9]+-version: (?<currentValue>[^\\s\']+)',
       ],
     },
   ],
@@ -140,8 +145,9 @@
       ],
       groupName: 'Docker images',
     },
-    // the tool image versions annotated in the Java services and docs/antora.yml
-    // must land in the same pull request as the Dockerfile FROM instructions
+    // the tool images are tracked through the upstream version of the tool (see the custom manager above):
+    // the published image only gets a new tag once the "Tool images" workflow has built it,
+    // so an update of the image itself would always come too late
     {
       matchDatasources: [
         'docker',
@@ -149,7 +155,7 @@
       matchPackageNames: [
         'ghcr.io/yuzutech/kroki-builder-*',
       ],
-      groupName: 'Docker images',
+      enabled: false,
     },
     // eclipse-temurin tags (e.g. 21.0.9_10-jre-noble, 21.0.12.1_1-jre-noble) append the build number after an
     // underscore, which the docker versioning cannot parse (skipReason: invalid-value): Renovate never updated them.
