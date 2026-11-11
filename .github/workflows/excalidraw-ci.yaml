@@ -25,7 +25,7 @@ jobs:
       - name: Set up Node.js
         uses: jdx/mise-action@v5
         with:
-          version: 2026.11.2
+          version: 2026.11.6
           install_args: node
       # The tests stub the browser: Chrome is not needed.
       - name: Install dependencies
