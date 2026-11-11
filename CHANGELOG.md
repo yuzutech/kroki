@@ -18,6 +18,7 @@ versioned entry and uses it as the GitHub release notes.
 ### Security
 
 - Remove the npm CLI from the Mermaid, BPMN, Excalidraw and diagrams.net companion images. npm never runs in these containers, but vulnerability scanners reported the packages it bundles, for instance `undici`, `glob`, `minimatch`, `brace-expansion` and `ip-address` ([#2283](https://github.com/yuzutech/kroki/pull/2283))
+- Install `@excalidraw/excalidraw`, `react` and `react-dom` as development dependencies in the Excalidraw companion: they are only used to build the browser bundle, and are no longer copied into the runtime image, where vulnerability scanners reported some of their dependencies, for instance `lodash-es` and `nanoid` ([#2285](https://github.com/yuzutech/kroki/pull/2285))
 
 ## [0.36.0] - 2026-11-09
 
