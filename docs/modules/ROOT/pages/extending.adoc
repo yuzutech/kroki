@@ -1,6 +1,6 @@
 = Extending Kroki
 
-Kroki can be extended with new diagram types without modifying the gateway nor waiting for a Kroki release.
+Kroki can be extended with new diagram types without modifying the gateway or waiting for a Kroki release.
 A diagram library is packaged as a _companion container_: a small HTTP server that converts a diagram source to an image and registers itself with the gateway through the xref:setup:configuration.adoc#_companion_service_discovery[companion service discovery] API.
 
 This guide describes the contract a companion container must implement.
@@ -54,7 +54,7 @@ If the response body is not JSON, the client only gets a generic message (e.g. `
 === Timeouts and concurrency
 
 The gateway waits at most `KROKI_DELEGATE_TIMEOUT_MS` (30 seconds by default) for a response, then fails the request.
-Enforce your own, shorter conversion timeout so the client receives a meaningful error, and kill any process left behind by an aborted conversion.
+Enforce your own, shorter conversion timeout so the client receives a meaningful error, and kill any processes left behind by an aborted conversion.
 
 The gateway keeps up to `KROKI_DELEGATE_MAX_POOL_SIZE` (10 by default) connections open to each companion.
 Make sure the companion can serve that many concurrent requests, or queue them.
@@ -107,12 +107,14 @@ Read the token from the same `KROKI_COMPANION_REGISTRATION_TOKEN` environment va
 
 === Recommended configuration
 
-Read the gateway URL from an environment variable rather than hard-coding it, so the companion works whatever the name of the gateway service.
-For instance:
+Read the gateway URL and the companion address from environment variables rather than hard-coding them, so the companion works whatever the names of the services and the network topology.
+For instance, for a companion named `mscgen`:
 
 `KROKI_GATEWAY_URL`:: The URL of the gateway (e.g. `http://kroki:8000`).
-`KROKI_COMPANION_REGISTRATION_TOKEN`:: The registration token.
-`KROKI_COMPANION_HOST`:: The host the gateway should use to reach the companion (defaults to the service name).
+`KROKI_COMPANION_REGISTRATION_TOKEN`:: The registration token, shared by every companion.
+`KROKI_MSCGEN_ADDRESS`:: The address, in the form `host[:port]`, the gateway should use to reach this companion (e.g. `mscgen:8080`).
+The host defaults to the service name and the port to the port the server listens on.
+Use one `KROKI_<NAME>_ADDRESS` variable per companion, `<NAME>` being the diagram type name in uppercase, so several companions can share the same environment file.
 
 == Lifecycle example
 
