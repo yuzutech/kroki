@@ -11,9 +11,13 @@ versioned entry and uses it as the GitHub release notes.
 
 ## [Unreleased]
 
+### Changed
+
+- The Mermaid, BPMN, Excalidraw and diagrams.net companion images are now based on `alpine` instead of `node:alpine`, and only include the `node` binary: `npm`, `npx`, Yarn and corepack are no longer available. If you build an image on top of one of them and install packages, install them in a `node:alpine` stage and copy the result, or add the `npm` Alpine package ([#2283](https://github.com/yuzutech/kroki/pull/2283))
+
 ### Security
 
-- Remove the npm CLI from the Mermaid, BPMN, Excalidraw and diagrams.net companion images once their dependencies are installed. npm never runs in these containers, but vulnerability scanners reported the packages it bundles, for instance `undici`, `glob`, `minimatch`, `brace-expansion` and `ip-address` ([#2283](https://github.com/yuzutech/kroki/pull/2283))
+- Remove the npm CLI from the Mermaid, BPMN, Excalidraw and diagrams.net companion images. npm never runs in these containers, but vulnerability scanners reported the packages it bundles, for instance `undici`, `glob`, `minimatch`, `brace-expansion` and `ip-address` ([#2283](https://github.com/yuzutech/kroki/pull/2283))
 
 ## [0.36.0] - 2026-11-09
 
