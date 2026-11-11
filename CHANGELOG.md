@@ -27,6 +27,7 @@ versioned entry and uses it as the GitHub release notes.
 ### Diagram libraries
 
 - Update bytefield-svg to 1.12.0 ([#2290](https://github.com/yuzutech/kroki/pull/2290))
+- Update Graphviz to 16.1.1 ([#2293](https://github.com/yuzutech/kroki/pull/2293))
 
 ## [0.36.0] - 2026-11-09
 
