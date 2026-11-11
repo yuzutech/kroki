@@ -148,7 +148,7 @@ FROM ghcr.io/yuzutech/kroki-builder-ditaa:1.0.3 AS ditaa
 FROM ghcr.io/yuzutech/kroki-builder-umlet:15.1 AS umlet
 
 ## GoAT
-FROM --platform=$BUILDPLATFORM golang:1.27.3-alpine AS kroki-builder-goat
+FROM --platform=$BUILDPLATFORM golang:1.27.4-alpine AS kroki-builder-goat
 
 ARG GOAT_VERSION=0.5.1
 
