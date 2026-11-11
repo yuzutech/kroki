@@ -16,7 +16,7 @@
     <netty.version>4.2.20.Final</netty.version>
     <logback.version>1.6.6</logback.version>
     <vertx.version>5.2.3</vertx.version>
-    <opentelemetry.version>1.67.0</opentelemetry.version>
+    <opentelemetry.version>1.68.0</opentelemetry.version>
     <junit.jupiter.version>6.1.3</junit.jupiter.version>
     <assertj-core.version>3.27.7</assertj-core.version>
     <mockito-core.version>5.24.0</mockito-core.version>
@@ -26,7 +26,7 @@
     <structurizr-export.version>6.2.4</structurizr-export.version>
     <structurizr-core.version>6.2.4</structurizr-core.version>
     <caffeine.version>3.3.1</caffeine.version>
-    <bouncycastle.version>1.86</bouncycastle.version>
+    <bouncycastle.version>1.87</bouncycastle.version>
   </properties>
 
   <dependencies>
