@@ -25,6 +25,6 @@
     "puppeteer": "25.1.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.6.4"
+    "@biomejs/biome": "2.6.6"
   }
 }

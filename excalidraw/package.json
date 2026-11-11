@@ -27,7 +27,7 @@
     "puppeteer": "25.1.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.6.4",
+    "@biomejs/biome": "2.6.6",
     "@excalidraw/excalidraw": "0.18.1",
     "esbuild": "0.28.2",
     "react": "18.3.1",
