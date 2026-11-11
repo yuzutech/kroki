@@ -20,17 +20,17 @@
     "url": "https://github.com/yuzutech/kroki.git"
   },
   "dependencies": {
-    "@excalidraw/excalidraw": "0.18.1",
     "@kroki/browser-instance": "file:../lib/browser-instance",
     "micro": "10.0.1",
     "pino": "9.14.0",
     "pino-debug": "2.0.0",
-    "puppeteer": "25.1.0",
-    "react": "18.3.1",
-    "react-dom": "18.3.1"
+    "puppeteer": "25.1.0"
   },
   "devDependencies": {
     "@biomejs/biome": "2.6.4",
-    "esbuild": "0.28.2"
+    "@excalidraw/excalidraw": "0.18.1",
+    "esbuild": "0.28.2",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
   }
 }
