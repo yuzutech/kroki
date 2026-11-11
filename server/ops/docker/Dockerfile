@@ -184,8 +184,6 @@ RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -qq --n
 RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -qq --no-install-recommends --yes \
     unzip \
     dvisvgm=$DVISVGM_VERSION \
-    libpango1.0-dev \
-    librsvg2-dev \
     fonts-freefont-ttf \
     fonts-liberation \
     fonts-noto-cjk \
@@ -194,14 +192,17 @@ RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -qq --n
     gsfonts \
     libnuma1 \
     libgd3 \
-    libgif-dev \
-    libjpeg-dev \
+    libgif7 \
     libgirepository-1.0-1 \
-    libcairo2-dev \
+    libcairo2 \
     libcairo-gobject2 \
     libjpeg9 \
+    libjpeg-turbo8 \
     libpango-1.0-0 \
     libpangocairo-1.0-0 \
+    libpangoft2-1.0-0 \
+    librsvg2-2 \
+    librsvg2-common \
     poppler-utils \
     texlive \
     texlive-latex-extra \
