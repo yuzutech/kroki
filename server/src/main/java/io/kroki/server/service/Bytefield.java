@@ -61,7 +61,7 @@ public class Bytefield implements DiagramService {
   @Override
   public String getVersion() {
     // renovate: datasource=npm depName=bytefield-svg
-    return "1.11.0";
+    return "1.12.0";
   }
 
   @Override
