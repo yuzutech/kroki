@@ -11,6 +11,10 @@ versioned entry and uses it as the GitHub release notes.
 
 ## [Unreleased]
 
+### Added
+
+- Serve an OpenAPI description of the HTTP API at `/openapi.json`, generated from the diagram types and options available on the server ([#2270](https://github.com/yuzutech/kroki/pull/2270))
+
 ### Changed
 
 - The Mermaid, BPMN, Excalidraw and diagrams.net companion images are now based on `alpine` instead of `node:alpine`, and only include the `node` binary: `npm`, `npx`, Yarn and corepack are no longer available. If you build an image on top of one of them and install packages, install them in a `node:alpine` stage and copy the result, or add the `npm` Alpine package ([#2283](https://github.com/yuzutech/kroki/pull/2283))
