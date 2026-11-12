@@ -68,7 +68,7 @@ public class DiagramHandler {
         JsonObject options = getOptions(new JsonObject(), headers, params);
         convert(routingContext, sourceDecoded, serviceName, fileFormat, options);
       } catch (DecodeException e) {
-        routingContext.fail(new BadRequestException(e.getMessage(), e));
+        routingContext.fail(new BadRequestException(e.getMessage(), e, ErrorType.DECODE));
       }
     };
   }

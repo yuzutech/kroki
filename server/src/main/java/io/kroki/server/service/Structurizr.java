@@ -10,6 +10,7 @@ import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.BadRequestException;
 import io.kroki.server.error.DecodeException;
+import io.kroki.server.error.DiagramException;
 import io.kroki.server.format.FileFormat;
 import io.kroki.server.option.DiagramOption;
 import io.kroki.server.security.SafeMode;
@@ -127,7 +128,7 @@ public class Structurizr implements DiagramService {
       ViewSet viewSet = parser.getWorkspace().getViews();
       Collection<View> views = viewSet.getViews();
       if (views.isEmpty()) {
-        throw new BadRequestException("Empty diagram, does not have any view.");
+        throw new DiagramException("Empty diagram, does not have any view.");
       }
       View selectedView;
       String viewKey = VIEW_KEY.get(options);
@@ -165,7 +166,7 @@ public class Structurizr implements DiagramService {
       } else if (selectedView instanceof SystemLandscapeView) {
         diagram = structurizrPlantUMLExporter.export((SystemLandscapeView) selectedView);
       } else {
-        throw new BadRequestException("View type is not supported: " + selectedView.getClass().getSimpleName() + ", must be a DynamicView, DeploymentView, ComponentView, ContainerView, SystemContextView or SystemLandscapeView.");
+        throw new DiagramException("View type is not supported: " + selectedView.getClass().getSimpleName() + ", must be a DynamicView, DeploymentView, ComponentView, ContainerView, SystemContextView or SystemLandscapeView.");
       }
 
       String outputOption = OUTPUT.get(options);
@@ -182,7 +183,12 @@ public class Structurizr implements DiagramService {
         throw new BadRequestException("Unknown output option: " + outputOption);
       }
 
-      return plantumlCommand.convert(diagramPlantUML, fileFormat, new JsonObject());
+      try {
+        return plantumlCommand.convert(diagramPlantUML, fileFormat, new JsonObject());
+      } catch (DiagramException e) {
+        // the line reported by PlantUML is relative to the generated PlantUML source, not to the Structurizr DSL
+        throw new DiagramException(e.getMessage(), e);
+      }
     } catch (StructurizrDslParserException e) {
       String cause = e.getMessage();
       final String message;
@@ -191,7 +197,8 @@ public class Structurizr implements DiagramService {
       } else {
         message = "Unable to parse the Structurizr DSL.";
       }
-      throw new BadRequestException(message, e);
+      Integer line = e.getLineNumber() > 0 ? e.getLineNumber() : null;
+      throw new DiagramException(message, message, line, null, -1, e);
     }
   }
 

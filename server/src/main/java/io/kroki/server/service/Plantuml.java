@@ -5,6 +5,8 @@ import io.kroki.server.decode.DiagramSource;
 import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.BadRequestException;
 import io.kroki.server.error.DecodeException;
+import io.kroki.server.error.DiagramException;
+import io.kroki.server.error.ErrorType;
 import io.kroki.server.format.FileFormat;
 import io.kroki.server.log.Logging;
 import io.kroki.server.option.DiagramOption;
@@ -58,6 +60,8 @@ public class Plantuml implements DiagramService {
   private static final Pattern STARTDITAA_BLOCK_RX = Pattern.compile("(?:^| +)@startditaa(?<opts>\\s\\S*)\\n(?<source>.*?) *@endditaa", Pattern.MULTILINE | Pattern.DOTALL);
   private static final Pattern DITAA_KEYWORD_BOCK_RX = Pattern.compile("@startuml(:?\\s*)(?:^| +)ditaa(?:(?:\\((?<opts>[^)]*)\\))?| *)\\n(?<source>.*?) *@end(?:ditaa|uml)", Pattern.MULTILINE | Pattern.DOTALL);
   private static final Pattern START_BLOCK_RX = Pattern.compile("^(@start.*\\n)");
+  private static final Pattern START_LINE_RX = Pattern.compile("^\\s*@start", Pattern.MULTILINE);
+  private static final Pattern LINE_BREAK_RX = Pattern.compile("\\r\\n|\\r|\\n");
 
   private static final Logger logger = LoggerFactory.getLogger(Plantuml.class);
   private static final List<FileFormat> SUPPORTED_FORMATS = Arrays.asList(FileFormat.PNG, FileFormat.SVG, FileFormat.PDF, FileFormat.BASE64, FileFormat.TXT, FileFormat.UTXT);
@@ -195,13 +199,13 @@ public class Plantuml implements DiagramService {
   @Override
   public Future<Buffer> convert(String sourceDecoded, String serviceName, FileFormat fileFormat, JsonObject options) {
     String source;
+    // line in the diagram source (1-based) of each line sent to PlantUML, 0 for a line added by Kroki
+    List<Integer> sourceLines = new ArrayList<>();
     try {
-      source = sanitize(sourceDecoded, this.safeMode, this.includeWhitelist);
-      source = source.trim();
-      source = withDelimiter(source);
+      source = prepare(sourceDecoded, this.safeMode, this.includeWhitelist, sourceLines);
     } catch (IOException e) {
       if (e instanceof UnsupportedEncodingException) {
-        return Future.failedFuture(new BadRequestException("Characters must be encoded in UTF-8.", e));
+        return Future.failedFuture(new BadRequestException("Characters must be encoded in UTF-8.", e, ErrorType.DECODE));
       } else {
         return Future.failedFuture(e);
       }
@@ -219,16 +223,69 @@ public class Plantuml implements DiagramService {
     } else {
       // ...otherwise, continue with PlantUML
       return vertx.executeBlocking(() -> {
-        String sourceWithTheme = primeSource;
-        String theme = PlantumlCommand.THEME.get(options);
-        if (theme != null && !theme.trim().isEmpty()) {
-          // add !theme directive just after the @start directive
-          sourceWithTheme = START_BLOCK_RX.matcher(primeSource).replaceAll("$1!theme " + theme + "\n");
+        String sourceWithTheme = withTheme(primeSource, PlantumlCommand.THEME.get(options), sourceLines);
+        try {
+          byte[] data = this.plantumlCommand.convert(sourceWithTheme, fileFormat, options);
+          return Buffer.buffer(data);
+        } catch (DiagramException e) {
+          throw locate(e, sourceWithTheme, sourceLines);
         }
-        byte[] data = this.plantumlCommand.convert(sourceWithTheme, fileFormat, options);
-        return Buffer.buffer(data);
       });
     }
+  }
+
+  /**
+   * Prepare the diagram source before sending it to PlantUML.
+   *
+   * @param sourceLines receives, for each line of the result, the line in the diagram source (1-based) it comes from, or 0 for a line added by Kroki
+   */
+  static String prepare(String sourceDecoded, SafeMode safeMode, Collection<Pattern> includeWhitelist, List<Integer> sourceLines) throws IOException {
+    String source = sanitize(sourceDecoded, safeMode, includeWhitelist, sourceLines);
+    int start = 0;
+    while (start < source.length() && source.charAt(start) <= ' ') {
+      start++;
+    }
+    // leading blank lines are removed
+    sourceLines.subList(0, Math.min(countLineBreaks(source.substring(0, start)), sourceLines.size())).clear();
+    source = source.trim();
+    if (!source.startsWith("@start")) {
+      // the @startuml line is added
+      sourceLines.add(0, 0);
+    }
+    return withDelimiter(source);
+  }
+
+  static String withTheme(String source, String theme, List<Integer> sourceLines) {
+    if (theme != null && !theme.trim().isEmpty()) {
+      // add !theme directive just after the @start directive
+      Matcher startBlockMatcher = START_BLOCK_RX.matcher(source);
+      if (startBlockMatcher.find()) {
+        sourceLines.add(1, 0);
+        return startBlockMatcher.replaceAll("$1!theme " + theme + "\n");
+      }
+    }
+    return source;
+  }
+
+  /**
+   * Translate the line reported by PlantUML, relative to the source sent to PlantUML, into a line of the diagram source.
+   * If the line cannot be translated, the error won't have a location (but the message still contains the line reported by PlantUML).
+   */
+  static DiagramException locate(DiagramException e, String source, List<Integer> sourceLines) {
+    if (e.getLine() == null) {
+      return e;
+    }
+    int index = e.getLine() - 1;
+    // PlantUML reports a line relative to the diagram block, we don't know which block failed when there are several
+    if (START_LINE_RX.matcher(source).results().count() == 1 && index >= 0 && index < sourceLines.size() && sourceLines.get(index) > 0) {
+      return DiagramException.withLine(e.getReason(), sourceLines.get(index));
+    }
+    return new DiagramException(e.getMessage(), e);
+  }
+
+  private static int countLineBreaks(String text) {
+    // same definition as BufferedReader#readLine: \n, \r or \r\n
+    return (int) LINE_BREAK_RX.matcher(text).results().count();
   }
 
   static String withDelimiter(String source) {
@@ -253,15 +310,34 @@ public class Plantuml implements DiagramService {
   }
 
   static String sanitize(String input, SafeMode safeMode, Collection<Pattern> includeWhitelist) throws IOException {
+    return sanitize(input, safeMode, includeWhitelist, new ArrayList<>());
+  }
+
+  /**
+   * @param sourceLines receives, for each line of the result, the line in the input (1-based) it comes from
+   */
+  static String sanitize(String input, SafeMode safeMode, Collection<Pattern> includeWhitelist, List<Integer> sourceLines) throws IOException {
     if (safeMode == SafeMode.UNSAFE) {
+      int lineCount = countLineBreaks(input) + 1;
+      for (int lineNumber = 1; lineNumber <= lineCount; lineNumber++) {
+        sourceLines.add(lineNumber);
+      }
       return input;
     }
     try (BufferedReader reader = new BufferedReader(new StringReader(input))) {
       StringBuilder sb = new StringBuilder();
       String line = reader.readLine();
+      int lineNumber = 1;
       while (line != null) {
+        int length = sb.length();
         ignoreInclude(line, sb, safeMode, includeWhitelist);
+        // an include can be replaced by several lines (C4 library) or removed
+        long addedLines = sb.chars().skip(length).filter(c -> c == '\n').count();
+        for (int i = 0; i < addedLines; i++) {
+          sourceLines.add(lineNumber);
+        }
         line = reader.readLine();
+        lineNumber++;
       }
       return sb.toString();
     }

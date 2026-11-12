@@ -3,6 +3,7 @@ package io.kroki.server.service;
 import com.structurizr.export.plantuml.StructurizrPlantUMLExporter;
 import io.kroki.server.DownloadPlantumlNativeImage;
 import io.kroki.server.error.BadRequestException;
+import io.kroki.server.error.DiagramException;
 import io.kroki.server.format.FileFormat;
 import io.kroki.server.security.SafeMode;
 import io.vertx.core.Vertx;
@@ -26,6 +27,7 @@ import java.nio.file.Paths;
 
 import static io.kroki.server.TestHarness.readTestResource;
 import static io.kroki.server.TestHarness.stripPlantUMLComments;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @ExtendWith(VertxExtension.class)
@@ -115,7 +117,8 @@ public class StructurizrServiceTest {
   public void should_convert_docs_example() throws IOException {
     assertThatThrownBy(() -> convert("docs.structurizr"))
       .isInstanceOf(BadRequestException.class)
-      .hasMessageStartingWith("Unable to parse the Structurizr DSL. !docs is not permitted (feature structurizr.feature.dsl.documentation is not enabled) at line 5: !docs src/test/resources/docs.");
+      .hasMessageStartingWith("Unable to parse the Structurizr DSL. !docs is not permitted (feature structurizr.feature.dsl.documentation is not enabled) at line 5: !docs src/test/resources/docs.")
+      .isInstanceOfSatisfying(DiagramException.class, e -> assertThat(e.getLine()).isEqualTo(5));
   }
 
   @Test

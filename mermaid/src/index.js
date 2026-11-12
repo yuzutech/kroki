@@ -5,6 +5,7 @@ import http from 'node:http'
 import micro from 'micro'
 import { MaxTextSizeError, QueueFullError, SyntaxError, TimeoutError, Worker } from './worker.js'
 import Task from './task.js'
+import { locateError } from './error-location.js'
 import { closeOnShutdown } from './browser-instance.js'
 
 ;(async () => {
@@ -67,11 +68,15 @@ import { closeOnShutdown } from './browser-instance.js'
                 }
               })
             } else if (err instanceof SyntaxError) {
+              // translate the line reported by Mermaid into a line of the diagram source
+              const location = locateError(diagramSource, err.message)
               return micro.send(res, 400, {
                 error: {
-                  message: err.message,
+                  message: location?.message ?? err.message,
                   name: err.name,
-                  stacktrace: err.stack
+                  stacktrace: err.stack,
+                  line: location?.line,
+                  column: location?.column
                 }
               })
             } else {

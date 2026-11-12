@@ -14,10 +14,17 @@ versioned entry and uses it as the GitHub release notes.
 ### Added
 
 - Serve an OpenAPI description of the HTTP API at `/openapi.json`, generated from the diagram types and options available on the server ([#2270](https://github.com/yuzutech/kroki/pull/2270))
+- Add the `type` of the error (`diagram-error`, `unsupported-format`, `timeout`...) and, when the diagram library reports it, the `line` (and `column`) of the error in the diagram source to JSON error responses. PlantUML, Structurizr and Mermaid errors include a line ([#2296](https://github.com/yuzutech/kroki/pull/2296))
 
 ### Changed
 
 - The Mermaid, BPMN, Excalidraw and diagrams.net companion images are now based on `alpine` instead of `node:alpine`, and only include the `node` binary: `npm`, `npx`, Yarn and corepack are no longer available. If you build an image on top of one of them and install packages, install them in a `node:alpine` stage and copy the result, or add the `npm` Alpine package ([#2283](https://github.com/yuzutech/kroki/pull/2283))
+
+### Fixed
+
+- The line reported in PlantUML error messages is now the line of the diagram source: it was off by one when the diagram started with `@startuml`, or when the `theme` option was used, and did not account for leading blank lines and inlined C4 includes ([#2296](https://github.com/yuzutech/kroki/pull/2296))
+- The lines reported in Mermaid error messages are now lines of the diagram source: Mermaid ignores comment lines and leading blank lines when counting lines ([#2296](https://github.com/yuzutech/kroki/pull/2296))
+- Return a `503 Service Unavailable` error, instead of `400 Bad Request`, when a companion service is overloaded ([#2296](https://github.com/yuzutech/kroki/pull/2296))
 
 ### Security
 
