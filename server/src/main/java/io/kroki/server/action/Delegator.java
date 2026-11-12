@@ -1,6 +1,8 @@
 package io.kroki.server.action;
 
 import io.kroki.server.error.BadRequestException;
+import io.kroki.server.error.DiagramException;
+import io.kroki.server.error.ErrorType;
 import io.kroki.server.error.ServiceUnavailableException;
 import io.kroki.server.log.Logging;
 import io.netty.handler.codec.http.HttpHeaderValues;
@@ -88,6 +90,8 @@ public class Delegator {
             JsonObject json = httpResponse.bodyAsJsonObject();
             if (json != null) {
               final String errorMessage;
+              Integer line = null;
+              Integer column = null;
               Object error = json.getValue("error");
               if (error instanceof String) {
                 errorMessage = (String) error;
@@ -96,10 +100,20 @@ public class Delegator {
                 String message = ((JsonObject) error).getString("message", "Unexpected error");
                 String stackTrace = ((JsonObject) error).getString("stacktrace", "");
                 errorMessage = errorName + ": " + message + "\n" + stackTrace;
+                // location of the error in the diagram source, if the companion reports it
+                line = getPositiveInteger((JsonObject) error, "line");
+                column = line == null ? null : getPositiveInteger((JsonObject) error, "column");
               } else {
                 errorMessage = "Unexpected error";
               }
-              return Future.failedFuture(new BadRequestException(errorMessage, httpResponse.statusCode()));
+              int statusCode = httpResponse.statusCode();
+              if (statusCode == 408) {
+                return Future.failedFuture(new BadRequestException(errorMessage, statusCode, null, ErrorType.TIMEOUT));
+              }
+              if (statusCode == 503) {
+                return Future.failedFuture(new ServiceUnavailableException(errorMessage));
+              }
+              return Future.failedFuture(new DiagramException(errorMessage, errorMessage, line, column, statusCode, null));
             } else {
               return Future.failedFuture(new HttpException(httpResponse.statusCode()));
             }
@@ -117,5 +131,12 @@ public class Delegator {
         return Future.failedFuture(failure);
       }
     });
+  }
+
+  private static Integer getPositiveInteger(JsonObject json, String key) {
+    if (json.getValue(key) instanceof Number number && number.intValue() > 0 && number.doubleValue() == number.intValue()) {
+      return number.intValue();
+    }
+    return null;
   }
 }

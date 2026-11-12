@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatcher;
 import org.mockito.Mockito;
 
+import java.io.InterruptedIOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -39,7 +40,7 @@ public class ErrorHandlerTest {
 
     Mockito.verify(httpServerResponse).setStatusMessage("Internal Server Error");
     Mockito.verify(httpServerResponse).setStatusCode(500);
-    Mockito.verify(httpServerResponse).end("{\"error\":{\"code\":500,\"message\":\"Internal Server Error\"}}");
+    Mockito.verify(httpServerResponse).end("{\"error\":{\"code\":500,\"type\":\"internal\",\"message\":\"Internal Server Error\"}}");
   }
 
   @Test
@@ -62,7 +63,7 @@ public class ErrorHandlerTest {
 
     Mockito.verify(httpServerResponse).setStatusMessage("Bad Request");
     Mockito.verify(httpServerResponse).setStatusCode(400);
-    Mockito.verify(httpServerResponse).end("{\"error\":{\"code\":400,\"message\":\"Unsupported diagram type: png. Must be one of svg\"}}");
+    Mockito.verify(httpServerResponse).end("{\"error\":{\"code\":400,\"type\":\"unsupported-diagram-type\",\"message\":\"Unsupported diagram type: png. Must be one of svg\"}}");
   }
 
   @Test
@@ -83,7 +84,7 @@ public class ErrorHandlerTest {
 
     Mockito.verify(httpServerResponse).setStatusMessage("Internal Server Error");
     Mockito.verify(httpServerResponse).setStatusCode(500);
-    Mockito.verify(httpServerResponse).end("{\"error\":{\"code\":500,\"message\":\"Internal Server Error\"}}");
+    Mockito.verify(httpServerResponse).end("{\"error\":{\"code\":500,\"type\":\"internal\",\"message\":\"Internal Server Error\"}}");
   }
 
   @Test
@@ -105,7 +106,87 @@ public class ErrorHandlerTest {
 
     Mockito.verify(httpServerResponse).setStatusMessage("Service Unavailable");
     Mockito.verify(httpServerResponse).setStatusCode(503);
-    Mockito.verify(httpServerResponse).end("{\"error\":{\"code\":503,\"message\":\"Mermaid service is unavailable!\"}}");
+    Mockito.verify(httpServerResponse).end("{\"error\":{\"code\":503,\"type\":\"service-unavailable\",\"message\":\"Mermaid service is unavailable!\"}}");
+  }
+
+  @Test
+  void should_return_diagram_error_json_with_location() {
+    HttpServerResponse httpServerResponse = handleJson(DiagramException.withLine("Syntax Error?", 2));
+
+    Mockito.verify(httpServerResponse).setStatusCode(400);
+    Mockito.verify(httpServerResponse).end("{\"error\":{\"code\":400,\"type\":\"diagram-error\",\"message\":\"Syntax Error?\",\"line\":2}}");
+  }
+
+  @Test
+  void should_return_diagram_error_json_with_line_and_column() {
+    HttpServerResponse httpServerResponse = handleJson(new DiagramException("Parse error on line 3, column 5: unexpected token", "Parse error on line 3, column 5: unexpected token", 3, 5, 400, null));
+
+    Mockito.verify(httpServerResponse).setStatusCode(400);
+    Mockito.verify(httpServerResponse).end("{\"error\":{\"code\":400,\"type\":\"diagram-error\",\"message\":\"Parse error on line 3, column 5: unexpected token\",\"line\":3,\"column\":5}}");
+  }
+
+  @Test
+  void should_return_diagram_error_json_without_location() {
+    HttpServerResponse httpServerResponse = handleJson(new DiagramException("Error: syntax error in line 1 near 'x' (exit code 1)"));
+
+    Mockito.verify(httpServerResponse).setStatusCode(400);
+    Mockito.verify(httpServerResponse).end("{\"error\":{\"code\":400,\"type\":\"diagram-error\",\"message\":\"Error: syntax error in line 1 near 'x' (exit code 1)\"}}");
+  }
+
+  @Test
+  void should_return_decode_error_json() {
+    HttpServerResponse httpServerResponse = handleJson(new BadRequestException("Unable to decode the source.", new DecodeException("Unable to decode the source."), ErrorType.DECODE));
+
+    Mockito.verify(httpServerResponse).setStatusCode(400);
+    Mockito.verify(httpServerResponse).end("{\"error\":{\"code\":400,\"type\":\"decode\",\"message\":\"Unable to decode the source.\"}}");
+  }
+
+  @Test
+  void should_return_invalid_request_error_json() {
+    HttpServerResponse httpServerResponse = handleJson(new BadRequestException("Request body must not be empty."));
+
+    Mockito.verify(httpServerResponse).setStatusCode(400);
+    Mockito.verify(httpServerResponse).end("{\"error\":{\"code\":400,\"type\":\"invalid-request\",\"message\":\"Request body must not be empty.\"}}");
+  }
+
+  @Test
+  void should_return_timeout_error_json() {
+    HttpServerResponse httpServerResponse = handleJson(new InterruptedIOException("Process was forcibly killed (not responding after 5s seconds)"));
+
+    Mockito.verify(httpServerResponse).setStatusCode(500);
+    Mockito.verify(httpServerResponse).end("{\"error\":{\"code\":500,\"type\":\"timeout\",\"message\":\"Internal Server Error\"}}");
+  }
+
+  @Test
+  void should_keep_the_location_in_the_text_error_message() {
+    Vertx vertx = Vertx.vertx();
+    RoutingContext routingContext = mock(RoutingContext.class);
+    HttpServerResponse httpServerResponse = plainResponse();
+    HttpServerRequest httpServerRequest = mock(HttpServerRequest.class);
+
+    when(httpServerRequest.getHeader(HttpHeaders.ACCEPT)).thenReturn("text/plain");
+    when(routingContext.response()).thenReturn(httpServerResponse);
+    when(routingContext.request()).thenReturn(httpServerRequest);
+    when(routingContext.failure()).thenReturn(DiagramException.withLine("Syntax Error?", 2));
+    when(httpServerRequest.method()).thenReturn(HttpMethod.GET);
+    new ErrorHandler(vertx, false).handle(routingContext);
+
+    Mockito.verify(httpServerResponse).end("Error 400: Syntax Error? (line: 2)");
+  }
+
+  private HttpServerResponse handleJson(Throwable failure) {
+    Vertx vertx = Vertx.vertx();
+    RoutingContext routingContext = mock(RoutingContext.class);
+    HttpServerResponse httpServerResponse = jsonServerResponse();
+    HttpServerRequest httpServerRequest = mockHttpServerRequest();
+
+    when(routingContext.statusCode()).thenReturn(-1);
+    when(routingContext.response()).thenReturn(httpServerResponse);
+    when(routingContext.request()).thenReturn(httpServerRequest);
+    when(routingContext.failure()).thenReturn(failure);
+    when(httpServerRequest.method()).thenReturn(HttpMethod.GET);
+    new ErrorHandler(vertx, false).handle(routingContext);
+    return httpServerResponse;
   }
 
   @Test

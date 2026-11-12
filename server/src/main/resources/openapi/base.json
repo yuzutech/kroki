@@ -78,10 +78,31 @@
         "type": "object",
         "description": "Diagram-specific options. They can also be passed as query parameters or as Kroki-Diagram-Options-* headers.",
         "additionalProperties": { "type": "string" }
+      },
+      "Error": {
+        "type": "object",
+        "required": ["error"],
+        "properties": {
+          "error": {
+            "type": "object",
+            "required": ["code", "message"],
+            "properties": {
+              "code": { "type": "integer", "description": "HTTP status code." },
+              "type": {
+                "type": "string",
+                "description": "Why the request failed. Clients must handle responses without this field (older servers, proxies) and values they don't know.",
+                "enum": ["invalid-request", "decode", "unsupported-diagram-type", "unsupported-format", "unsupported-mime-type", "missing-format", "method-not-allowed", "not-found", "uri-too-long", "diagram-error", "service-unavailable", "timeout", "internal"]
+              },
+              "message": { "type": "string", "description": "Error message. For a diagram-error, the message of the diagram library." },
+              "line": { "type": "integer", "minimum": 1, "description": "Line of the diagram source (1-based) where the diagram library reports the error, when known." },
+              "column": { "type": "integer", "minimum": 1, "description": "Column (1-based) where the diagram library reports the error, when known." }
+            }
+          }
+        }
       }
     },
     "responses": {
-      "Error": { "description": "Error (unsupported format, invalid diagram, ...).", "content": { "text/html": {}, "application/json": {} } }
+      "Error": { "description": "Error (unsupported format, invalid diagram, ...).", "content": { "text/html": {}, "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
     }
   }
 }

@@ -149,6 +149,50 @@ Kroki defines the precedence order as follows:
 
 To find out what options are available, please read the xref:diagram-options.adoc[] page.
 
+== Errors
+
+When a request fails, Kroki responds with an HTTP error status and a message.
+The format of the message depends on the `Accept` header: HTML, JSON, plain text, or an SVG/PNG image showing the message.
+
+With `Accept: application/json`, the body describes the error:
+
+[source,json]
+----
+{
+  "error": {
+    "code": 400,
+    "type": "diagram-error",
+    "message": "Syntax Error? (Assumed diagram type: sequence)",
+    "line": 2
+  }
+}
+----
+
+`code`:: The HTTP status code.
+`type`:: Why the request failed:
++
+[horizontal]
+`invalid-request`::: the request is invalid (empty body, invalid diagram option...)
+`decode`::: the encoded diagram source cannot be decoded
+`unsupported-diagram-type`::: the diagram type is not supported
+`unsupported-format`::: the output format is not supported by the diagram type
+`unsupported-mime-type`::: none of the MIME types of the `Accept` header is supported by the diagram type
+`missing-format`::: the output format is neither defined in the path nor in the `Accept` header
+`method-not-allowed`::: the HTTP method is not allowed on this endpoint
+`not-found`::: the resource does not exist
+`uri-too-long`::: the request URI is too long, send the diagram in a POST request instead
+`diagram-error`::: the diagram library rejected the diagram source
+`service-unavailable`::: a companion service required to render the diagram is unavailable
+`timeout`::: the conversion took too long
+`internal`::: unexpected error
+`message`:: The error message.
+For a `diagram-error`, the message of the diagram library.
+`line`, `column`:: Where the diagram library reports the error in the diagram source (1-based), when known.
+Currently, PlantUML and Structurizr report a line, Mermaid reports a line and sometimes a column.
+When the error has a `line`, the PlantUML message doesn't repeat it.
+
+Clients must handle responses without the `type`, `line` and `column` fields (older servers, proxies), and `type` values they don't know.
+
 == OpenAPI specification
 
 Kroki describes its HTTP API with an https://spec.openapis.org/oas/v3.1.0[OpenAPI 3.1] document served at `/openapi.json`:

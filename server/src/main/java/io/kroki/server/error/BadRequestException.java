@@ -3,20 +3,32 @@ package io.kroki.server.error;
 public class BadRequestException extends RuntimeException {
 
   private final int statusCode;
+  private final ErrorType type;
 
   public BadRequestException(String message) {
-    super(message);
-    this.statusCode = -1;
+    this(message, -1, null, ErrorType.INVALID_REQUEST);
   }
 
   public BadRequestException(String message, int statusCode) {
-    super(message);
-    this.statusCode = statusCode;
+    this(message, statusCode, null, ErrorType.INVALID_REQUEST);
   }
 
   public BadRequestException(String message, Throwable cause) {
+    this(message, -1, cause, ErrorType.INVALID_REQUEST);
+  }
+
+  public BadRequestException(String message, ErrorType type) {
+    this(message, -1, null, type);
+  }
+
+  public BadRequestException(String message, Throwable cause, ErrorType type) {
+    this(message, -1, cause, type);
+  }
+
+  public BadRequestException(String message, int statusCode, Throwable cause, ErrorType type) {
     super(message, cause);
-    this.statusCode = -1;
+    this.statusCode = statusCode;
+    this.type = type;
   }
 
   public String getMessageHTML() {
@@ -25,5 +37,9 @@ public class BadRequestException extends RuntimeException {
 
   public int getStatusCode() {
     return statusCode;
+  }
+
+  public ErrorType getType() {
+    return type;
   }
 }

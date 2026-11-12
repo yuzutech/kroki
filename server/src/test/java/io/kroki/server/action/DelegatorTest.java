@@ -1,5 +1,10 @@
 package io.kroki.server.action;
 
+import io.kroki.server.error.BadRequestException;
+import io.kroki.server.error.DiagramException;
+import io.kroki.server.error.ErrorType;
+import io.kroki.server.error.ServiceUnavailableException;
+import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpHeaders;
@@ -79,5 +84,67 @@ public class DelegatorTest {
     HashMap<String, Object> options = new HashMap<>();
     HttpResponse<Buffer> response = delegator.delegate("localhost", port, "/redirect", "", new JsonObject(options)).await(5, TimeUnit.SECONDS);
     assertThat(response.bodyAsString()).isEqualTo(HttpMethod.POST.name());
+  }
+
+  @Test
+  void should_report_the_location_of_a_companion_error(Vertx vertx) {
+    Throwable failure = companionError(vertx, 400, new JsonObject()
+      .put("error", new JsonObject()
+        .put("name", "SyntaxError")
+        .put("message", "Parse error on line 3, column 5: unexpected token")
+        .put("stacktrace", "")
+        .put("line", 3)
+        .put("column", 5)));
+    assertThat(failure).isInstanceOf(DiagramException.class);
+    DiagramException diagramException = (DiagramException) failure;
+    assertThat(diagramException.getLine()).isEqualTo(3);
+    assertThat(diagramException.getColumn()).isEqualTo(5);
+    assertThat(diagramException.getMessage()).isEqualTo("SyntaxError: Parse error on line 3, column 5: unexpected token\n");
+  }
+
+  @Test
+  void should_ignore_an_invalid_location_of_a_companion_error(Vertx vertx) {
+    Throwable failure = companionError(vertx, 400, new JsonObject()
+      .put("error", new JsonObject()
+        .put("name", "SyntaxError")
+        .put("message", "Syntax error")
+        .put("line", "3")
+        .put("column", 5)));
+    assertThat(failure).isInstanceOf(DiagramException.class);
+    assertThat(((DiagramException) failure).getLine()).isNull();
+    assertThat(((DiagramException) failure).getColumn()).isNull();
+  }
+
+  @Test
+  void should_report_a_companion_timeout(Vertx vertx) {
+    Throwable failure = companionError(vertx, 408, new JsonObject()
+      .put("error", new JsonObject().put("name", "TimeoutError").put("message", "Request timeout")));
+    assertThat(failure).isInstanceOf(BadRequestException.class);
+    assertThat(((BadRequestException) failure).getType()).isEqualTo(ErrorType.TIMEOUT);
+    assertThat(((BadRequestException) failure).getStatusCode()).isEqualTo(408);
+  }
+
+  @Test
+  void should_report_an_overloaded_companion_as_unavailable(Vertx vertx) {
+    Throwable failure = companionError(vertx, 503, new JsonObject()
+      .put("error", new JsonObject().put("name", "QueueFullError").put("message", "Too many pending conversions")));
+    assertThat(failure).isInstanceOf(ServiceUnavailableException.class);
+  }
+
+  private Throwable companionError(Vertx vertx, int statusCode, JsonObject body) {
+    HttpServer server = vertx.createHttpServer();
+    server.requestHandler(req -> req.response()
+      .setStatusCode(statusCode)
+      .putHeader(HttpHeaders.CONTENT_TYPE, "application/json")
+      .end(body.encode()));
+    try {
+      server.listen(port, "localhost").await(5, TimeUnit.SECONDS);
+      Delegator delegator = new Delegator(vertx);
+      Future<Buffer> result = Delegator.handle("localhost", port, "/mermaid/svg", delegator.delegate("localhost", port, "/mermaid/svg", "graph TD", new JsonObject()));
+      result.await(5, TimeUnit.SECONDS);
+    } catch (Exception e) {
+      return e;
+    }
+    throw new AssertionError("Expected the delegation to fail");
   }
 }
