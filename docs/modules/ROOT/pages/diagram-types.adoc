@@ -44,6 +44,7 @@ Diagram::
 * WireViz
 * GoAT
 * Lini
+* https://github.com/robot-head/smarter-diagrams[Smarter Diagrams]
 
 Visualization::
 * Bar charts

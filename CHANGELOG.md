@@ -13,6 +13,7 @@ versioned entry and uses it as the GitHub release notes.
 
 ### Added
 
+- Add support for [Smarter Diagrams](https://github.com/robot-head/smarter-diagrams) (`smarterdiagrams`), with `theme`, `view` and `step` options and SVG, PNG and PDF output
 - Serve an OpenAPI description of the HTTP API at `/openapi.json`, generated from the diagram types and options available on the server ([#2270](https://github.com/yuzutech/kroki/pull/2270))
 
 ### Changed

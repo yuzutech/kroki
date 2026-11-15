@@ -199,6 +199,7 @@ public class Server extends AbstractVerticle {
     registry.register(new Wireviz(vertx, config, commander), "wireviz");
     registry.register(new Goat(vertx, config, commander), "goat");
     registry.register(new Lini(vertx, config, commander), "lini");
+    registry.register(new SmarterDiagrams(vertx, config, commander), "smarterdiagrams");
   }
 
   /**

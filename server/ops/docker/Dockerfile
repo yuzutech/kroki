@@ -130,6 +130,33 @@ RUN LINI_VERSION=`cat Cargo.toml | grep "^lini =" | sed -r 's/.*"([^"]+)"/\1/'` 
     rustup target add $RUST_TARGET_ARCH-unknown-linux-gnu && \
     cargo install --quiet --locked --target $RUST_TARGET_ARCH-unknown-linux-gnu --version $LINI_VERSION lini
 
+## Smarter Diagrams
+FROM --platform=$BUILDPLATFORM rust:1.98-slim-bullseye AS kroki-builder-static-smarterdiagrams
+
+ARG SMARTERDIAGRAMS_VERSION=0.1.0
+
+# Install git and cross-compilation tools
+RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -qq --no-install-recommends --yes \
+    ca-certificates \
+    git \
+    gcc-aarch64-linux-gnu \
+    gcc-x86-64-linux-gnu \
+    libc6-dev-amd64-cross \
+    libc6-dev-arm64-cross > /dev/null && \
+    apt-get clean && apt-get autoremove -qq > /dev/null
+
+COPY ops/docker/.cargo .cargo
+
+ARG TARGETARCH
+ENV CARGO_REGISTRIES_CRATES_IO_PROTOCOL=sparse
+RUN case $TARGETARCH in \
+        "amd64") RUST_TARGET_ARCH=x86_64 ;; \
+        "arm64") RUST_TARGET_ARCH=aarch64 ;; \
+        *) RUST_TARGET_ARCH=$TARGETARCH ;; \
+    esac && \
+    rustup target add $RUST_TARGET_ARCH-unknown-linux-gnu && \
+    cargo install --quiet --locked --git https://github.com/robot-head/smarter-diagrams.git --tag "v${SMARTERDIAGRAMS_VERSION}" --features export --target $RUST_TARGET_ARCH-unknown-linux-gnu smarter-diagrams
+
 ## Erd (built by the "Tool images" workflow, see tools/erd)
 # renovate: datasource=github-tags depName=BurntSushi/erd extractVersion=^v(?<version>.+)$
 FROM ghcr.io/yuzutech/kroki-builder-erd:0.2.2 AS erd
@@ -248,6 +275,7 @@ COPY --from=kroki-builder-wavedrom /app/build/app.bin /usr/bin/wavedrom
 COPY --from=tikz tikz2svg dvi-strip-ps-specials /usr/bin/
 COPY --from=kroki-builder-goat /go/bin/goat /usr/bin/goat
 COPY --from=kroki-builder-static-lini /usr/local/cargo/bin/lini /usr/bin/lini
+COPY --from=kroki-builder-static-smarterdiagrams /usr/local/cargo/bin/smarter-diagrams /usr/bin/smarter-diagrams
 
 COPY --chown=kroki:kroki ops/docker/logback.xml /etc/kroki/logback.xml
 
@@ -270,6 +298,7 @@ ENV KROKI_DITAA_BIN_PATH=/usr/bin/ditaa
 ENV KROKI_SYMBOLATOR_BIN_PATH=/usr/bin/symbolator
 ENV KROKI_WIREVIZ_BIN_PATH=/usr/bin/wireviz
 ENV KROKI_LINI_BIN_PATH=/usr/bin/lini
+ENV KROKI_SMARTERDIAGRAMS_BIN_PATH=/usr/bin/smarter-diagrams
 ENV JAVA_OPTS="-Dlogback.configurationFile=/etc/kroki/logback.xml -Dvertx.logger-delegate-factory-class-name=io.vertx.core.logging.SLF4JLogDelegateFactory"
 
 COPY --chown=kroki:kroki target/kroki-server.jar /usr/local/kroki/kroki-server.jar

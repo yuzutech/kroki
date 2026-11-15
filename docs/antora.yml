@@ -44,6 +44,7 @@ asciidoc:
     rackdiag-version: 3.4.3
     # renovate: datasource=github-tags depName=yuzutech/blockdiag extractVersion=^v(?<version>.+)$
     seqdiag-version: 3.4.3
+    smarterdiagrams-version: 0.1.0
     # renovate: datasource=maven depName=com.structurizr:structurizr-dsl
     structurizr-version: 6.2.4
     # renovate: datasource=crate depName=svgbob_cli

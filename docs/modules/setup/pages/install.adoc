@@ -107,6 +107,7 @@ The {uri-docker-kroki-image}[yuzutech/kroki] image contains the gateway server, 
 * https://github.com/plantuml/plantuml[PlantUML] including https://github.com/RicardoNiepel/C4-PlantUML[C4 model]
 * {uri-rackdiag}[RackDiag]
 * {uri-seqdiag}[SeqDiag]
+* https://github.com/robot-head/smarter-diagrams[Smarter Diagrams]
 * https://github.com/structurizr/dsl[Structurizr]
 * https://github.com/ivanceras/svgbob[Svgbob]
 * https://github.com/hdl/symbolator[Symbolator]
@@ -138,6 +139,7 @@ In other words, the following endpoints will be available:
 /plantuml
 /rackdiag
 /seqdiag
+/smarterdiagrams
 /structurizr
 /svgbob
 /symbolator

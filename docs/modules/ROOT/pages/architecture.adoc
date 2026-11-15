@@ -83,6 +83,10 @@ The `yuzutech/kroki` Docker image contains the following diagrams libraries out-
 |https://github.com/blockdiag/seqdiag[SeqDiag]
 |{seqdiag-version}
 
+|https://github.com/robot-head/smarter-diagrams[Smarter Diagrams]
+|{smarterdiagrams-version}
+//|Binary `/usr/bin/smarter-diagrams`
+
 |https://github.com/structurizr/dsl[Structurizr]
 |{structurizr-version}
 //|Java library/DSL

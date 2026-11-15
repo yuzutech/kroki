@@ -137,6 +137,7 @@ const diagramLibraryNames = [
   'plantuml',
   'rackdiag',
   'seqdiag',
+  'smarterdiagrams',
   'structurizr',
   'svgbob',
   'symbolator',
@@ -228,6 +229,11 @@ try {
       const { version } = goatVersionFound.groups
       diagramLibraryVersions.goat = version
     }
+    const smarterdiagramsVersionFound = line.match(/^ARG SMARTERDIAGRAMS_VERSION=(?<version>.+)$/)
+    if (smarterdiagramsVersionFound) {
+      const { version } = smarterdiagramsVersionFound.groups
+      diagramLibraryVersions.smarterdiagrams = version
+    }
   }
 
   const cargoContent = await fs.readFile(ospath.join(rootDir, 'server', 'ops', 'docker', 'Cargo.toml'), 'utf8')
@@ -283,6 +289,7 @@ try {
   await updateServiceGetVersion('Nomnoml.java', diagramLibraryVersions.nomnoml)
   await updateServiceGetVersion('Pikchr.java', diagramLibraryVersions.pikchr)
   await updateServiceGetVersion('Plantuml.java', diagramLibraryVersions.plantuml)
+  await updateServiceGetVersion('SmarterDiagrams.java', diagramLibraryVersions.smarterdiagrams)
   await updateServiceGetVersion('Structurizr.java', diagramLibraryVersions.structurizr)
   await updateServiceGetVersion('Svgbob.java', diagramLibraryVersions.svgbob)
   await updateServiceGetVersion('Symbolator.java', diagramLibraryVersions.symbolator)

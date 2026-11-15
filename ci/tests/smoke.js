@@ -62,6 +62,10 @@ const tests = [
   { engine: 'lini', file: 'services.lini', options: {}, outputFormat: ['svg'] },
   { engine: 'lini', file: 'services.lini', options: { theme: 'dark' }, outputFormat: ['svg'] },
   { engine: 'lini', file: 'services.lini', options: { static: 'true' }, outputFormat: ['svg'] },
+  { engine: 'smarterdiagrams', file: 'services.diagram', options: {}, outputFormat: ['svg', 'png', 'pdf'] },
+  { engine: 'smarterdiagrams', file: 'services.diagram', options: { theme: 'catppuccin-mocha' }, outputFormat: ['svg'] },
+  { engine: 'smarterdiagrams', file: 'services.diagram', options: { view: 'overview' }, outputFormat: ['svg'] },
+  { engine: 'smarterdiagrams', file: 'services.diagram', options: { step: 's1' }, outputFormat: ['svg'] },
 ]
 
 const mimeType = {

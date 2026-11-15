@@ -297,6 +297,44 @@ empty string ("")
 |Do not save the diagram's source code in the generated SVG/PNG metadata
 |===
 
+== Smarter Diagrams
+
+[cols="1m,1a,2a",opts="header"]
+|===
+|Name
+|Allowable Values
+|Description
+
+|theme
+|_string_
+
+* `light`
+* `dark`
+* `catppuccin-latte`
+* `catppuccin-frappe`
+* `catppuccin-macchiato`
+* `catppuccin-mocha`
+* `solarized-light`
+* `solarized-dark`
+* `base16-eighties`
+* `base16-ocean`
+* `base16-gruvbox-dark`
+* `base16-nord`
+* `base16-onedark`
+* `base16-dracula`
+* `base16-tokyo-night`
+* `base16-github`
+|Built-in color theme of the diagram.
+
+|view
+|_string_
+|Named view projection defined in the diagram (cannot be combined with `step`).
+
+|step
+|_string_
+|Progressive disclosure step ID defined in the diagram (cannot be combined with `view`).
+|===
+
 == Structurizr
 
 [cols="1m,1a,2a",opts="header"]

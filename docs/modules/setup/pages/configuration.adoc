@@ -133,6 +133,10 @@ A node's `icon` or `background` naming a URL or a local file is ignored instead 
 Unless Kroki is running in `UNSAFE` mode, Lini runs with its `--no-fs` flag and never reads a file.
 An image (`|image|`) can only point at a URL or a `data:` URI: a local file path is an error, and the `theme` option only accepts the built-in themes.
 
+=== Smarter Diagrams
+
+Smarter Diagrams reads its diagram source from standard input (`-`), writes rendered output to standard output, and only accepts built-in theme names via `theme` (`--theme-file` is not exposed), so it never reads local files regardless of `KROKI_SAFE_MODE`.
+
 === Mermaid, diagrams.net, Excalidraw and BPMN
 
 These companion services render diagrams in a headless Chromium instance.
@@ -202,6 +206,7 @@ you can override its location manually using an environment variable or a Java s
 `KROKI_NOMNOML_BIN_PATH`:: Path to `nomnoml` binary (defaults: `/usr/bin/nomnoml`)
 `KROKI_PIKCHR_BIN_PATH`:: Path to `pikchr` binary (defaults: `/usr/bin/pikchr`)
 `KROKI_PLANTUML_BIN_PATH`:: Path to `plantuml` binary (defaults: `/usr/bin/plantuml`)
+`KROKI_SMARTERDIAGRAMS_BIN_PATH`:: Path to `smarter-diagrams` binary (defaults: `/usr/bin/smarter-diagrams`)
 `KROKI_SVGBOB_BIN_PATH`:: Path to `svgbob` binary (defaults: `/usr/bin/svgbob`)
 `KROKI_SYMBOLATOR_BIN_PATH`:: Path to `symbolator` binary (defaults: `/usr/bin/symbolator`)
 `KROKI_TIKZ2SVG_BIN_PATH`:: Path to `tikz2svg` binary (defaults: `/usr/bin/tikz2svg`)

@@ -1,0 +1,14 @@
+client: "Client" [shape: actor]
+api: "API Gateway"
+db: "Postgres" [shape: database]
+
+client -> api: "HTTPS"
+api -> db: "SQL"
+
+view overview {
+  include client, api
+}
+
+step s1: "Step 1" {
+  include client -> api
+}
