@@ -51,6 +51,23 @@ On failure, respond with an appropriate status code (`400` for an invalid diagra
 The gateway returns the `error` message to the client with the same status code.
 If the response body is not JSON, the client only gets a generic message (e.g. `Bad Request`), which makes diagram errors hard to fix.
 
+`error` can also be an object.
+When the diagram library reports where the error is, add the `line` (and `column`) in the diagram source, starting at 1, so that the gateway can return them to the client (see xref:setup:usage.adoc#_errors[Errors]):
+
+[source,json]
+----
+{
+  "error": {
+    "name": "SyntaxError",
+    "message": "Syntax error on line 2: unexpected token '>'",
+    "line": 2,
+    "column": 7
+  }
+}
+----
+
+The gateway reports a `408` response as a `timeout` error and a `503` response as a `service-unavailable` error.
+
 === Timeouts and concurrency
 
 The gateway waits at most `KROKI_DELEGATE_TIMEOUT_MS` (30 seconds by default) for a response, then fails the request.

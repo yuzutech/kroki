@@ -3,6 +3,7 @@ package io.kroki.server.service;
 import io.kroki.server.DownloadPlantumlNativeImage;
 import io.kroki.server.action.DitaaContext;
 import io.kroki.server.error.BadRequestException;
+import io.kroki.server.error.DiagramException;
 import io.kroki.server.format.FileFormat;
 import io.kroki.server.security.SafeMode;
 import io.vertx.core.Vertx;
@@ -61,6 +62,70 @@ public class PlantumlServiceTest {
     assertThatThrownBy(() -> plantumlCommand.convert(diagram, FileFormat.SVG, new JsonObject()))
       .isInstanceOf(BadRequestException.class)
       .hasMessageStartingWith("Syntax Error? (Assumed diagram type: sequence) (line: 1)");
+  }
+
+  @Test
+  void should_report_the_line_of_a_syntax_error_without_delimiters() throws IOException {
+    DiagramException error = convertError("Bob->Alice\nBob\\->Alice hello", SafeMode.SECURE, null);
+    assertThat(error.getLine()).isEqualTo(2);
+    assertThat(error.getReason()).isEqualTo("Syntax Error? (Assumed diagram type: sequence)");
+    assertThat(error.getMessage()).isEqualTo("Syntax Error? (Assumed diagram type: sequence) (line: 2)");
+  }
+
+  @Test
+  void should_report_the_line_of_a_syntax_error_with_delimiters() throws IOException {
+    DiagramException error = convertError("@startuml\nBob->Alice\nBob\\->Alice hello\n@enduml", SafeMode.SECURE, null);
+    assertThat(error.getLine()).isEqualTo(3);
+  }
+
+  @Test
+  void should_report_the_line_of_a_syntax_error_with_leading_blank_lines() throws IOException {
+    DiagramException error = convertError("\n  \n@startuml\nBob\\->Alice hello\n@enduml", SafeMode.SECURE, null);
+    assertThat(error.getLine()).isEqualTo(4);
+  }
+
+  @Test
+  void should_report_the_line_of_a_syntax_error_with_crlf_in_unsafe_mode() throws IOException {
+    DiagramException error = convertError("@startuml\r\nBob->Alice\r\nBob\\->Alice hello\r\n@enduml", SafeMode.UNSAFE, null);
+    assertThat(error.getLine()).isEqualTo(3);
+  }
+
+  @Test
+  void should_report_the_line_of_a_syntax_error_with_a_theme() throws IOException {
+    DiagramException error = convertError("Bob->Alice\nBob\\->Alice hello", SafeMode.SECURE, "cerulean");
+    assertThat(error.getLine()).isEqualTo(2);
+  }
+
+  @Test
+  void should_report_the_line_of_a_syntax_error_after_an_inlined_include() throws IOException {
+    DiagramException error = convertError("!include C4_Container.puml\nPerson(a, \"A\")\nfoo bar baz(", SafeMode.SECURE, null);
+    assertThat(error.getLine()).isEqualTo(3);
+  }
+
+  @Test
+  void should_report_the_line_of_a_syntax_error_after_a_removed_include() throws IOException {
+    DiagramException error = convertError("!include /etc/password\nBob\\->Alice hello", SafeMode.SECURE, null);
+    assertThat(error.getLine()).isEqualTo(2);
+  }
+
+  @Test
+  void should_not_report_the_line_of_a_syntax_error_when_there_are_several_diagrams() throws IOException {
+    DiagramException error = convertError("@startuml\nBob->Alice\n@enduml\n@startuml\nBob\\->Alice hello\n@enduml", SafeMode.SECURE, null);
+    assertThat(error.getLine()).isNull();
+    assertThat(error.getMessage()).isEqualTo("Syntax Error? (Assumed diagram type: sequence) (line: 1)");
+  }
+
+  private static DiagramException convertError(String diagram, SafeMode safeMode, String theme) throws IOException {
+    List<Integer> sourceLines = new ArrayList<>();
+    String source = Plantuml.withTheme(Plantuml.prepare(diagram, safeMode, Collections.emptySet(), sourceLines), theme, sourceLines);
+    try {
+      plantumlCommand.convert(source, FileFormat.SVG, new JsonObject());
+    } catch (DiagramException e) {
+      return Plantuml.locate(e, source, sourceLines);
+    } catch (InterruptedException e) {
+      throw new IllegalStateException(e);
+    }
+    throw new AssertionError("Expected a diagram error");
   }
 
   @Test

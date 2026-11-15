@@ -2,7 +2,7 @@ package io.kroki.server.service;
 
 import io.kroki.server.action.CommandStatusHandler;
 import io.kroki.server.action.Commander;
-import io.kroki.server.error.BadRequestException;
+import io.kroki.server.error.DiagramException;
 import io.kroki.server.format.FileFormat;
 import io.kroki.server.option.DiagramOption;
 import io.kroki.server.security.SafeMode;
@@ -15,11 +15,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class PlantumlCommand {
 
@@ -66,23 +63,18 @@ public class PlantumlCommand {
             return stdout;
           }
           if (exitValue == 100) {
-            throw new BadRequestException("Empty diagram, missing delimiters?");
+            throw new DiagramException("Empty diagram, missing delimiters?");
           }
           if (exitValue == 200) {
             String errorMessage = new String(stderr);
             Matcher matcher = ERROR_MESSAGE_RX.matcher(errorMessage);
-            String lineNumberMessage = null;
-            String causeMessage;
             if (matcher.matches()) {
-              lineNumberMessage = "(line: " + matcher.group("lineNumber") + ")";
-              causeMessage = matcher.group("cause");
-            } else {
-              causeMessage = "Syntax Error?";
+              // PlantUML reports a 0-based line index, relative to the @start line
+              String lineIndex = matcher.group("lineNumber");
+              String cause = matcher.group("cause");
+              throw new DiagramException(cause + " (line: " + lineIndex + ")", cause, Integer.parseInt(lineIndex) + 1, null, -1, null);
             }
-            String message = Stream.of(causeMessage, lineNumberMessage)
-              .filter(Objects::nonNull)
-              .collect(Collectors.joining(" "));
-            throw new BadRequestException(message);
+            throw new DiagramException("Syntax Error?");
           }
           return CommandStatusHandler.super.handle(exitValue, stdout, stderr);
         }

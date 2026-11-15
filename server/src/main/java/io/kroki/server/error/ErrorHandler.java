@@ -20,10 +20,12 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InterruptedIOException;
 import java.util.AbstractMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.TimeoutException;
 
 public class ErrorHandler implements io.vertx.ext.web.handler.ErrorHandler {
 
@@ -92,9 +94,11 @@ public class ErrorHandler implements io.vertx.ext.web.handler.ErrorHandler {
     final String errorMessage;
     final String statusMessage;
     String htmlErrorMessage = null;
+    final ErrorType errorType;
     if (errorCode == 404) {
       statusMessage = "Not Found";
       errorMessage = statusMessage;
+      errorType = ErrorType.NOT_FOUND;
     } else if (failure instanceof BadRequestException
             || failure instanceof IllegalStateException
             || failure instanceof MethodNotAllowedException) {
@@ -116,12 +120,18 @@ public class ErrorHandler implements io.vertx.ext.web.handler.ErrorHandler {
       errorMessage = failure.getMessage();
       if (failure instanceof BadRequestException) {
         htmlErrorMessage = ((BadRequestException) failure).getMessageHTML();
+        errorType = ((BadRequestException) failure).getType();
+      } else if (failure instanceof MethodNotAllowedException) {
+        errorType = ErrorType.METHOD_NOT_ALLOWED;
+      } else {
+        errorType = ErrorType.INVALID_REQUEST;
       }
     } else if (failure instanceof ServiceUnavailableException) {
       errorCode = 503;
       errorMessage = failure.getMessage();
       statusMessage = "Service Unavailable";
       htmlErrorMessage = ((ServiceUnavailableException) failure).getMessageHTML();
+      errorType = ErrorType.SERVICE_UNAVAILABLE;
     } else {
       if (errorCode < 400 || errorCode > 599) {
         // unexpected error code!
@@ -134,8 +144,15 @@ public class ErrorHandler implements io.vertx.ext.web.handler.ErrorHandler {
         errorMessage = "Internal Server Error";
       }
       statusMessage = "Internal Server Error";
+      errorType = isTimeout(failure) ? ErrorType.TIMEOUT : ErrorType.INTERNAL;
     }
-    handleError(new ErrorContext(context.request(), context.response(), statusMessage, new ErrorInfo(context.failure(), errorCode, errorMessage, htmlErrorMessage)));
+    handleError(new ErrorContext(context.request(), context.response(), statusMessage, new ErrorInfo(context.failure(), errorCode, errorMessage, htmlErrorMessage, errorType)));
+  }
+
+  private static boolean isTimeout(Throwable failure) {
+    // InterruptedIOException: a diagram library process was killed because it did not complete in time
+    // TimeoutException: a companion container did not respond in time
+    return failure instanceof InterruptedIOException || failure instanceof TimeoutException;
   }
 
   public void handleError(ErrorContext errorContext) {
@@ -195,7 +212,21 @@ public class ErrorHandler implements io.vertx.ext.web.handler.ErrorHandler {
 
     if (mime.startsWith("application/json")) {
       JsonObject jsonError = new JsonObject();
-      jsonError.put("error", new JsonObject().put("code", errorCode).put("message", errorMessage));
+      JsonObject error = new JsonObject()
+        .put("code", errorCode)
+        .put("type", errorInfo.getType().getValue())
+        .put("message", errorMessage);
+      if (failure instanceof DiagramException diagramException) {
+        if (diagramException.getLine() != null) {
+          // the location has its own fields, remove it from the message
+          error.put("message", diagramException.getReason());
+          error.put("line", diagramException.getLine());
+          if (diagramException.getColumn() != null) {
+            error.put("column", diagramException.getColumn());
+          }
+        }
+      }
+      jsonError.put("error", error);
       if (failure != null && displayExceptionDetails) {
         JsonArray stack = new JsonArray();
         for (StackTraceElement elem : failure.getStackTrace()) {

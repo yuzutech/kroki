@@ -9,7 +9,7 @@ public class UndefinedOutputFormatException extends BadRequestException {
   private final String messageHTML;
 
   public UndefinedOutputFormatException(String serviceName, List<FileFormat> supportedFormat) {
-    super("Output format is undefined. Must be defined as part of the query path or as an Accept header.");
+    super("Output format is undefined. Must be defined as part of the query path or as an Accept header.", ErrorType.MISSING_FORMAT);
     this.messageHTML = "Output format is undefined. Must be defined as part of the query path or as an <code>Accept</code> header.";
   }
 
