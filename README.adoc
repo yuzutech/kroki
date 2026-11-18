@@ -50,6 +50,11 @@ A hosting platform for personal projects, with a one-click template that runs Kr
 +
 image::https://pethost.dev/button.svg[Deploy on Pethost,link=https://pethost.dev/templates/kroki/]
 
+https://podway.io/start?app=kroki&ref=docs-kroki[Podway]::
+Runs Kroki with the BPMN and Excalidraw companions (no Mermaid or diagrams.net) on its own small machine with HTTPS, backups and safe updates.
++
+image::https://podway.io/img/deploy-on-podway.svg[Deploy on Podway,link=https://podway.io/start?app=kroki&ref=docs-kroki]
+
 NOTE: These are third-party/community offerings, not officially operated by the Kroki team.
 
 == Quickstart
