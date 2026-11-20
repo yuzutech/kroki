@@ -50,6 +50,11 @@ A hosting platform for personal projects, with a one-click template that runs Kr
 +
 image::https://pethost.dev/button.svg[Deploy on Pethost,link=https://pethost.dev/templates/kroki/]
 
+https://www.simafri.com/en/guides/self-host-kroki/[Simafri]::
+A managed VPS provider whose step-by-step guide runs Kroki and its Mermaid, BPMN and Excalidraw companions with Docker Compose, in SECURE mode behind an HTTPS reverse proxy, on a server its team keeps up to date and monitors around the clock.
++
+image::https://www.simafri.com/assets/img/self-host-on-simafri.svg[Host Kroki on Simafri,link=https://www.simafri.com/en/guides/self-host-kroki/]
+
 NOTE: These are third-party/community offerings, not officially operated by the Kroki team.
 
 == Quickstart
