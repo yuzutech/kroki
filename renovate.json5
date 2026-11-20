@@ -171,6 +171,17 @@
       // Java LTS releases only (every 4 releases since 17)
       allowedVersions: '/^(21|25|29|33)\\./',
     },
+    // native-image-community tags (e.g. 25i5-25.0.5.0.3-ol9) prefix the version with a build counter
+    // that the docker versioning reads as a prerelease, and put the version in the compatibility suffix
+    {
+      matchDatasources: [
+        'docker',
+      ],
+      matchPackageNames: [
+        'ghcr.io/graalvm/native-image-community',
+      ],
+      versioning: 'regex:^\\d+i\\d+-(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(\\.(?<build>\\d+))?(\\.(?<revision>\\d+))?-(?<compatibility>ol\\d+)$',
+    },
     // mise.toml declares major versions only: keep the build JDK on the same LTS releases as the image
     {
       matchManagers: [
