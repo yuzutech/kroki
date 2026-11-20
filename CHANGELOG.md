@@ -26,6 +26,7 @@ versioned entry and uses it as the GitHub release notes.
 - The lines reported in Mermaid error messages are now lines of the diagram source: Mermaid ignores comment lines and leading blank lines when counting lines ([#2296](https://github.com/yuzutech/kroki/pull/2296))
 - Return a `503 Service Unavailable` error, instead of `400 Bad Request`, when a companion service is overloaded ([#2296](https://github.com/yuzutech/kroki/pull/2296))
 - Fix a crash of UMLet on some linux/arm64 hosts, where any diagram containing text returned a `400 Bad Request` error, by building the UMLet and ditaa binaries with GraalVM 25.0.5 ([#2299](https://github.com/yuzutech/kroki/pull/2299))
+- Fix ditaa and UMLet diagrams failing on x86-64 CPUs without AVX2 (x86-64-v2 and older): their native binaries are now built for any x86-64 CPU ([#2303](https://github.com/yuzutech/kroki/pull/2303))
 
 ### Security
 
