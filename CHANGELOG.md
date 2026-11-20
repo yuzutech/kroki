@@ -25,6 +25,7 @@ versioned entry and uses it as the GitHub release notes.
 - The line reported in PlantUML error messages is now the line of the diagram source: it was off by one when the diagram started with `@startuml`, or when the `theme` option was used, and did not account for leading blank lines and inlined C4 includes ([#2296](https://github.com/yuzutech/kroki/pull/2296))
 - The lines reported in Mermaid error messages are now lines of the diagram source: Mermaid ignores comment lines and leading blank lines when counting lines ([#2296](https://github.com/yuzutech/kroki/pull/2296))
 - Return a `503 Service Unavailable` error, instead of `400 Bad Request`, when a companion service is overloaded ([#2296](https://github.com/yuzutech/kroki/pull/2296))
+- Fix ditaa and UMLet diagrams failing on x86-64 CPUs without AVX2 (x86-64-v2 and older): their native binaries are now built for any x86-64 CPU ([#2303](https://github.com/yuzutech/kroki/pull/2303))
 
 ### Security
 

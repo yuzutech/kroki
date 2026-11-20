@@ -48,11 +48,12 @@ COPY <<EOF /build/fixtures/diagram.txt
     |       Lots of work      |
     +-------------------------+
 EOF
+# (-march=compatibility: the default, x86-64-v3, requires AVX2 and does not start on older x86-64 CPUs)
 RUN mkdir -p /opt/ditaa/lib && \
     java -Djava.awt.headless=true -agentlib:native-image-agent=config-output-dir=native-image-config -jar ditaa.jar --svg - < fixtures/diagram.txt > /dev/null && \
     java -Djava.awt.headless=true -agentlib:native-image-agent=config-merge-dir=native-image-config -jar ditaa.jar - < fixtures/diagram.txt > /dev/null && \
     java -Djava.awt.headless=true -agentlib:native-image-agent=config-merge-dir=native-image-config -jar ditaa.jar --round-corners --no-shadows --transparent - < fixtures/diagram.txt > /dev/null && \
-    native-image -Djava.awt.headless=true -H:ConfigurationFileDirectories=native-image-config --no-fallback -jar ditaa.jar -o /opt/ditaa/ditaa
+    native-image -Djava.awt.headless=true -H:ConfigurationFileDirectories=native-image-config --no-fallback -march=compatibility -jar ditaa.jar -o /opt/ditaa/ditaa
 
 # Run the binary on the same base image as Kroki, the way Kroki calls it
 # (the AWT font manager needs FreeType and Fontconfig, both installed in the Kroki image)

@@ -38,6 +38,7 @@ RUN mkdir element-config && \
     echo "{\"reflection\": [$classes]}" > element-config/reachability-metadata.json
 # Record the reflection/resources configuration by running every code path used by Kroki
 # (SVG, PNG and JPEG outputs, invalid XML), then compile the native binary
+# (-march=compatibility: the default, x86-64-v3, requires AVX2 and does not start on older x86-64 CPUs)
 RUN mkdir -p /opt/umlet/lib native-image-config && \
     for fixture in fixtures/*.uxf; do \
       for format in svg png jpeg; do \
@@ -47,7 +48,7 @@ RUN mkdir -p /opt/umlet/lib native-image-config && \
     done && \
     { echo "<diagram" | java -Djava.awt.headless=true -agentlib:native-image-agent=config-merge-dir=native-image-config \
         -cp "classes:libs/*" UmletCli svg > /dev/null 2>&1 || true; } && \
-    native-image -Djava.awt.headless=true -H:ConfigurationFileDirectories=native-image-config,element-config --no-fallback \
+    native-image -Djava.awt.headless=true -H:ConfigurationFileDirectories=native-image-config,element-config --no-fallback -march=compatibility \
       -cp "classes:libs/*" UmletCli -o /opt/umlet/umlet
 
 # Run the binary on the same base image as Kroki, the way Kroki calls it
