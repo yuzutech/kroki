@@ -55,6 +55,11 @@ Runs Kroki with the BPMN and Excalidraw companions (no Mermaid or diagrams.net) 
 +
 image::https://podway.io/img/deploy-on-podway.svg[Deploy on Podway,link=https://podway.io/start?app=kroki&ref=docs-kroki]
 
+https://www.simafri.com/en/guides/self-host-kroki/[Simafri]::
+A managed VPS provider whose step-by-step guide runs Kroki and its Mermaid, BPMN and Excalidraw companions with Docker Compose, in SECURE mode behind an HTTPS reverse proxy, on a server its team keeps up to date and monitors around the clock.
++
+image::https://www.simafri.com/assets/img/self-host-on-simafri.svg[Host Kroki on Simafri,link=https://www.simafri.com/en/guides/self-host-kroki/]
+
 NOTE: These are third-party/community offerings, not officially operated by the Kroki team.
 
 == Quickstart
