@@ -168,7 +168,7 @@ RUN CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go install "github.com/b
     if [ -f "/go/bin/${TARGETOS}_${TARGETARCH}/goat" ]; then mv "/go/bin/${TARGETOS}_${TARGETARCH}/goat" /go/bin/goat; fi
 
 ## yuzutech/kroki
-FROM eclipse-temurin:21.0.13_9-jre-resolute
+FROM eclipse-temurin:21.0.13.1_2-jre-resolute
 
 ARG D2_VERSION="0.9.0"
 ARG DVISVGM_VERSION="3.6+ds-1"
