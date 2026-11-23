@@ -7,7 +7,7 @@
 ARG VERSION=1.0.3
 
 # The binary runs on any glibc at least as recent as Oracle Linux 9's (2.34)
-FROM ghcr.io/graalvm/native-image-community:25.0.2-ol9 AS build
+FROM ghcr.io/graalvm/native-image-community:25i5-25.0.5.0.3-ol9 AS build
 ARG VERSION
 # AWT (used to measure and render text) loads fonts with FreeType and Fontconfig
 RUN microdnf install --assumeyes --nodocs freetype fontconfig dejavu-sans-fonts && \
