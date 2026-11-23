@@ -11,6 +11,8 @@ versioned entry and uses it as the GitHub release notes.
 
 ## [Unreleased]
 
+## [0.37.0] - 2026-11-23
+
 ### Added
 
 - Serve an OpenAPI description of the HTTP API at `/openapi.json`, generated from the diagram types and options available on the server ([#2270](https://github.com/yuzutech/kroki/pull/2270))
