@@ -171,6 +171,18 @@
       // Java LTS releases only (every 4 releases since 17)
       allowedVersions: '/^(21|25|29|33)\\./',
     },
+    // Temporary: keep the arm64 base of the Kroki image on 21.0.13_9 until the arm64 image of 21.0.13.1_2 is published
+    // (the tag exists for the other architectures, so Renovate would propose an update that cannot be built on arm64)
+    {
+      matchDatasources: [
+        'docker',
+      ],
+      matchPackageNames: [
+        'eclipse-temurin',
+      ],
+      matchCurrentValue: '21.0.13_9-jre-resolute',
+      enabled: false,
+    },
     // native-image-community tags (e.g. 25i5-25.0.5.0.3-ol9) prefix the version with a build counter
     // that the docker versioning reads as a prerelease, and put the version in the compatibility suffix
     {

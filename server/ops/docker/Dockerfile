@@ -185,7 +185,13 @@ RUN CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -mod=readonly -
     -ldflags "-s -w -X github.com/d2lang/d2/lib/version.Version=v${D2_VERSION}" -o /go/bin/d2 .
 
 ## yuzutech/kroki
-FROM eclipse-temurin:21.0.13.1_2-jre-resolute
+FROM eclipse-temurin:21.0.13.1_2-jre-resolute AS jre-amd64
+# The arm64 image of 21.0.13.1 is not published yet on Docker Hub (the docker-library arm64 build lags behind).
+# CVE-2026-114938 only affects the x86 AVX-512 Base64 decoder, so arm64 can stay on 21.0.13 in the meantime.
+# TODO: use a single eclipse-temurin:21.0.13.1_2-jre-resolute base again once the arm64 image is available
+FROM eclipse-temurin:21.0.13_9-jre-resolute AS jre-arm64
+
+FROM jre-${TARGETARCH}
 
 ARG DVISVGM_VERSION="3.6+ds-1"
 ARG PLANTUML_VERSION="1.2026.9"
