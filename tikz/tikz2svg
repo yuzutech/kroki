@@ -166,6 +166,29 @@ case "$output_format" in
     svg)
         # Never let dvisvgm hand PostScript specials off to Ghostscript.
         "$bin_dir/dvi-strip-ps-specials" file.dvi
+
+        # Render from a clean directory that contains only the sanitized DVI.
+        #
+        # The untrusted TeX job runs with openout_any=p, which still lets it
+        # write files into its working directory. dvisvgm resolves fonts and
+        # other resources through kpathsea starting from the current
+        # directory, so a malicious file left next to file.dvi could be picked
+        # up instead of the installed one. In particular a virtual font (e.g.
+        # "utmr7t.vf" shadowing the installed Times virtual font) would be
+        # loaded and its character packets, which are nested DVI programs,
+        # executed - reintroducing PostScript specials that reach Ghostscript
+        # even though the top-level DVI was sanitized. dvi-strip-ps-specials
+        # only rewrites file.dvi, not the files dvisvgm resolves afterwards.
+        #
+        # Running dvisvgm (and the dvitype page-count check, which also
+        # resolves TFM files) from an attacker-free directory keeps kpathsea
+        # from resolving any file the TeX job wrote: only the sanitized DVI is
+        # present, and everything else comes from the read-only texmf tree.
+        render_dir="$tempdir/render"
+        mkdir "$render_dir"
+        cp file.dvi "$render_dir/file.dvi"
+        cd "$render_dir"
+
         if [ -n "$page" ]; then
             # dvisvgm silently renders the last page when the requested page
             # is out of range (pdftocairo fails on its own), so check it

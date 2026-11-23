@@ -18,6 +18,14 @@
 # The whole file is parsed and validated (opcodes and the back pointers that
 # dvisvgm uses to locate pages), and the script fails if anything is
 # unexpected, so that dvisvgm cannot interpret the file differently.
+#
+# This only covers the top-level DVI. dvisvgm also executes the character
+# packets of the virtual fonts it resolves (they are nested DVI programs that
+# may contain their own specials), which this script does not rewrite. The
+# untrusted TeX job could write such a font next to the DVI and have dvisvgm
+# load it; tikz2svg prevents that by running dvisvgm from a directory that
+# holds nothing but the sanitized DVI, so no attacker-written file is on
+# dvisvgm's kpathsea search path.
 
 use strict;
 use warnings;
