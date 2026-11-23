@@ -167,10 +167,26 @@ ARG TARGETARCH
 RUN CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go install "github.com/blampe/goat/cmd/goat@v${GOAT_VERSION}" && \
     if [ -f "/go/bin/${TARGETOS}_${TARGETARCH}/goat" ]; then mv "/go/bin/${TARGETOS}_${TARGETARCH}/goat" /go/bin/goat; fi
 
+## D2
+# Built from source with ops/docker/d2/local-files.patch, which adds an --allow-local-files flag:
+# with --allow-local-files=false, d2 neither imports nor embeds local files (until supported upstream)
+FROM --platform=$BUILDPLATFORM golang:1.27.4-alpine AS kroki-builder-d2
+
+ARG D2_VERSION="0.9.0"
+
+RUN apk add --quiet --no-cache git
+RUN git clone --quiet --depth 1 --branch "v${D2_VERSION}" https://github.com/d2lang/d2.git /src
+WORKDIR /src
+COPY ops/docker/d2/local-files.patch /tmp/local-files.patch
+RUN git apply /tmp/local-files.patch
+ARG TARGETOS
+ARG TARGETARCH
+RUN CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -mod=readonly -trimpath \
+    -ldflags "-s -w -X github.com/d2lang/d2/lib/version.Version=v${D2_VERSION}" -o /go/bin/d2 .
+
 ## yuzutech/kroki
 FROM eclipse-temurin:21.0.13.1_2-jre-resolute
 
-ARG D2_VERSION="0.9.0"
 ARG DVISVGM_VERSION="3.6+ds-1"
 ARG PLANTUML_VERSION="1.2026.9"
 ARG TARGETARCH
@@ -220,9 +236,6 @@ RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -qq --n
 COPY --from=vega packages packages
 RUN dpkg -i packages/libjpeg62-turbo_2.1.5-4_${TARGETARCH}.deb
 
-RUN curl -fsSL "https://github.com/terrastruct/d2/releases/download/v${D2_VERSION}/d2-v${D2_VERSION}-linux-${TARGETARCH}.tar.gz" | tar -xz -C /usr/bin --strip-components=2 d2-v${D2_VERSION}/bin/d2 && \
-    chmod +x /usr/bin/d2
-
 RUN curl -fsSL "https://github.com/plantuml/plantuml/releases/download/v${PLANTUML_VERSION}/native-plantuml-linux-${TARGETARCH}-${PLANTUML_VERSION}.zip" -o plantuml-bin.zip && \
     unzip -q plantuml-bin.zip -d plantuml && \
     mv plantuml/* /usr/bin/ && \
@@ -247,6 +260,7 @@ COPY --from=kroki-builder-vega /app/app.bin /usr/bin/vega
 COPY --from=kroki-builder-wavedrom /app/build/app.bin /usr/bin/wavedrom
 COPY --from=tikz tikz2svg dvi-strip-ps-specials /usr/bin/
 COPY --from=kroki-builder-goat /go/bin/goat /usr/bin/goat
+COPY --from=kroki-builder-d2 /go/bin/d2 /usr/bin/d2
 COPY --from=kroki-builder-static-lini /usr/local/cargo/bin/lini /usr/bin/lini
 
 COPY --chown=kroki:kroki ops/docker/logback.xml /etc/kroki/logback.xml

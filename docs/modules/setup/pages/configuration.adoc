@@ -128,6 +128,14 @@ If you want to enable this feature, you can set the safe mode using the global e
 Unless Kroki is running in `UNSAFE` mode, BlockDiag, SeqDiag, ActDiag, NwDiag, PacketDiag and RackDiag run with the `--no-external-images` flag.
 A node's `icon` or `background` naming a URL or a local file is ignored instead of being fetched or read, so a diagram cannot make the server request an internal URL or embed a local image.
 
+=== D2
+
+Unless Kroki is running in `UNSAFE` mode, D2 runs with the `--allow-local-files=false` and `--bundle=false` flags.
+An `icon` or an image naming a local file or a URL is kept as a link in the SVG instead of being read or fetched and embedded, and importing a file (`@file`) is an error, so a diagram cannot make the server read a local file or request an internal URL.
+
+NOTE: The `--allow-local-files` flag is not available in the official D2 releases yet: the Kroki Docker image builds D2 from source with a patch that adds it.
+If you install Kroki manually, build D2 with `server/ops/docker/d2/local-files.patch`, or D2 diagrams will fail with an "unknown flag" error unless Kroki is running in `UNSAFE` mode.
+
 === Lini
 
 Unless Kroki is running in `UNSAFE` mode, Lini runs with its `--no-fs` flag and never reads a file.

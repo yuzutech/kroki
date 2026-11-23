@@ -1,0 +1,83 @@
+diff --git a/d2cli/localfiles.go b/d2cli/localfiles.go
+new file mode 100644
+index 0000000..ffd233c
+--- /dev/null
++++ b/d2cli/localfiles.go
+@@ -0,0 +1,21 @@
++package d2cli
++
++import (
++	"context"
++	"io/fs"
++)
++
++// noLocalFilesKey marks a context in which the diagram must not read local files (--allow-local-files=false).
++type noLocalFilesKey struct{}
++
++func noLocalFiles(ctx context.Context) bool {
++	v, _ := ctx.Value(noLocalFilesKey{}).(bool)
++	return v
++}
++
++// denyFS rejects every import, without revealing whether the file exists.
++type denyFS struct{}
++
++func (denyFS) Open(name string) (fs.File, error) {
++	return nil, &fs.PathError{Op: "open", Path: name, Err: fs.ErrPermission}
++}
+diff --git a/d2cli/main.go b/d2cli/main.go
+index 47b7375..1bc3413 100644
+--- a/d2cli/main.go
++++ b/d2cli/main.go
+@@ -60,6 +60,10 @@ func Run(ctx context.Context, ms *xmain.State) (err error) {
+ 	if err != nil {
+ 		return err
+ 	}
++	allowLocalFilesFlag, err := ms.Opts.Bool("D2_ALLOW_LOCAL_FILES", "allow-local-files", "", true, "allow the diagram to read local files (imports and images). Disable it for untrusted diagrams: only SVG and TXT exports, without --watch, support --allow-local-files=false")
++	if err != nil {
++		return err
++	}
+ 	forceAppendixFlag, err := ms.Opts.Bool("D2_FORCE_APPENDIX", "force-appendix", "", false, "an appendix for tooltips and links is added to PNG exports since they are not interactive. --force-appendix adds an appendix to SVG exports as well")
+ 	if err != nil {
+ 		return err
+@@ -257,6 +261,15 @@ func Run(ctx context.Context, ms *xmain.State) (err error) {
+ 			return xmain.UsageErrorf("--animate-interval can only be used when exporting to SVG or GIF.\nYou provided: %s", filepath.Ext(outputPath))
+ 		}
+ 	}
++	if !*allowLocalFilesFlag {
++		if *watchFlag {
++			return xmain.UsageErrorf("--allow-local-files=false cannot be used with --watch")
++		}
++		if outputFormat != SVG && outputFormat != TXT {
++			return xmain.UsageErrorf("--allow-local-files=false can only be used when exporting to SVG or TXT")
++		}
++		ctx = context.WithValue(ctx, noLocalFilesKey{}, true)
++	}
+ 
+ 	match := d2themescatalog.Find(*themeFlag)
+ 	if match == (d2themes.Theme{}) {
+@@ -392,7 +405,11 @@ func Run(ctx context.Context, ms *xmain.State) (err error) {
+ 		ms.Log.Debug.Printf("GIF export: animate-interval not specified, defaulting to 1000ms")
+ 	}
+ 
+-	_, written, err := compile(ctx, ms, plugins, nil, layoutFlag, renderOpts, fontFamily, monoFontFamily, animateInterval, inputPath, outputPath, boardPath, noChildren, *bundleFlag, *forceAppendixFlag, outputFormat, *asciiModeFlag, false)
++	var importFS fs.FS
++	if !*allowLocalFilesFlag {
++		importFS = denyFS{}
++	}
++	_, written, err := compile(ctx, ms, plugins, importFS, layoutFlag, renderOpts, fontFamily, monoFontFamily, animateInterval, inputPath, outputPath, boardPath, noChildren, *bundleFlag, *forceAppendixFlag, outputFormat, *asciiModeFlag, false)
+ 	if err != nil {
+ 		if written {
+ 			return fmt.Errorf("failed to fully compile (partial render written) %s: %w", ms.HumanPath(inputPath), err)
+@@ -1040,7 +1057,10 @@ func _renderWithPNGEncoder(ctx context.Context, ms *xmain.State, plugin d2plugin
+ 
+ 	cacheImages := ms.Env.Getenv("IMG_CACHE") == "1"
+ 	l := simplelog.FromCmdLog(ms.Log)
+-	svg, bundleErr := imgbundler.BundleLocal(ctx, l, inputPath, svg, cacheImages)
++	var bundleErr error
++	if !noLocalFiles(ctx) {
++		svg, bundleErr = imgbundler.BundleLocal(ctx, l, inputPath, svg, cacheImages)
++	}
+ 	if bundle {
+ 		var bundleErr2 error
+ 		svg, bundleErr2 = imgbundler.BundleRemote(ctx, l, svg, cacheImages)

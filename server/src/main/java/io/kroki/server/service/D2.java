@@ -6,6 +6,7 @@ import io.kroki.server.decode.SourceDecoder;
 import io.kroki.server.error.DecodeException;
 import io.kroki.server.format.FileFormat;
 import io.kroki.server.option.DiagramOption;
+import io.kroki.server.security.SafeMode;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
@@ -34,6 +35,7 @@ public class D2 implements DiagramService {
   private final String binPath;
   private final SourceDecoder sourceDecoder;
   private final Commander commander;
+  private final SafeMode safeMode;
 
   private final Map<String, Integer> builtinThemes = Map.ofEntries(
     entry("default", 0),
@@ -68,6 +70,7 @@ public class D2 implements DiagramService {
       }
     };
     this.commander = commander;
+    this.safeMode = SafeMode.get(config.getString("KROKI_SAFE_MODE", "secure"), SafeMode.SECURE);
   }
 
   @Override
@@ -102,6 +105,13 @@ public class D2 implements DiagramService {
   private byte[] d2(byte[] source, JsonObject options) throws IOException, InterruptedException, IllegalStateException {
     List<String> commands = new ArrayList<>();
     commands.add(binPath);
+    if (safeMode != SafeMode.UNSAFE) {
+      // An icon or an image may name a local path or a URL, which d2 would otherwise read or fetch,
+      // and embed in the output. An import may name a local file, which d2 would otherwise read.
+      // --allow-local-files is added by the patch applied when building d2 (see ops/docker/d2/local-files.patch).
+      commands.add("--allow-local-files=false");
+      commands.add("--bundle=false");
+    }
     String layout = LAYOUT.get(options);
     if ("elk".equals(layout) || "tala".equals(layout)) {
       // Only pass the layout argument if an alternate layout engine is requested (default is 'dagre'),
