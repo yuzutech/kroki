@@ -5,6 +5,25 @@ A diagram library is packaged as a _companion container_: a small HTTP server th
 
 This guide describes the contract a companion container must implement.
 
+== Proposing a new diagram library
+
+New diagram libraries appear all the time, and every library built into Kroki has to be packaged, tested, secured and kept up to date by the Kroki maintainers over the long run.
+For this reason, we cannot integrate every diagram library into Kroki itself.
+
+If you would like to use a diagram library that Kroki does not support, the recommended path is to build a third-party companion container, as described in this guide.
+A companion is released independently of Kroki, so it can follow the release pace of its diagram library, and it can be listed in the xref:setup:third-party-companions.adoc#_available_companions[available third-party companions].
+
+A diagram library is more likely to become a built-in diagram type when:
+
+* it is mature, with a stable syntax and a stable output, so that existing diagrams keep rendering the same way across updates
+* it is actively maintained, by more than a single person, and has a significant user base
+* it renders diagrams on the server, without a browser when possible, within a bounded time and memory
+* it can be configured to never read local files or fetch remote resources
+* it is released under an open source license compatible with Kroki
+
+A third-party companion is also a good way to show that there is demand for a diagram library, and a good starting point for a built-in integration later on.
+Feel free to open an issue on https://github.com/yuzutech/kroki/issues[GitHub] to discuss it.
+
 == Overview
 
 . The companion starts an HTTP server, reachable from the gateway (typically on a private Docker or Kubernetes network).
