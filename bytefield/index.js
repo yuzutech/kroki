@@ -1,4 +1,30 @@
 #!/usr/bin/env node
+
+// bytefield-svg evaluates its (attacker-controlled) input with sci, a Clojure interpreter running
+// in this Node realm. The sci sandbox exposes `aget`/`aset`, which read and write arbitrary
+// properties on any reachable JavaScript object and bypass sci's method-authorization check. On
+// their own they cannot reach the host globals (`process`, `require`, ...): the objects a diagram
+// can reach (`String`, `Object`, `Error`, ...) do not reference them. A diagram bridges to the
+// host realm either through code generation (`new Function`/`eval`) or through V8 stack frames:
+// it rebinds the native `CallSite.getThis` as a property getter (so it runs with `this` bound to a
+// CallSite, sidestepping sci's check), walks `Error.prepareStackTrace` -> `CallSite[]` -> a frame
+// receiver that is the global object, and from there reaches `process` and `child_process`
+// (remote code execution). The `--disallow-code-generation-from-strings` flag set in NODE_OPTIONS
+// by the server closes the first bridge; locking `Error.prepareStackTrace` here closes the second.
+//
+// With `prepareStackTrace` frozen to `undefined`, `Error.prototype.stack` is always a plain string,
+// so diagram code can no longer obtain `CallSite` objects, and therefore cannot climb to a frame
+// receiver, `process`, or the network (which would otherwise allow exfiltrating `process.env`). The
+// property is made non-writable and non-configurable so the sandboxed code cannot restore it with
+// `aset` or `Object.defineProperty`. bytefield-svg does not rely on a custom `prepareStackTrace`;
+// its own errors keep producing the default string stack trace.
+Object.defineProperty(Error, 'prepareStackTrace', {
+  value: undefined,
+  writable: false,
+  enumerable: false,
+  configurable: false
+})
+
 const bytefieldProcessor = require('bytefield-svg')
 
 const encoding = 'utf-8'
