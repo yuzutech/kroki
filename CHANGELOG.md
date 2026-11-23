@@ -11,6 +11,8 @@ versioned entry and uses it as the GitHub release notes.
 
 ## [Unreleased]
 
+## [0.37.1] - 2026-11-23
+
 ### Fixed
 
 - Build the arm64 `yuzutech/kroki` image on Eclipse Temurin 21.0.13, since the arm64 image of 21.0.13.1 is not published yet (CVE-2026-114938 only affects x86) ([#2307](https://github.com/yuzutech/kroki/pull/2307))
