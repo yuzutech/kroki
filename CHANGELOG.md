@@ -11,6 +11,10 @@ versioned entry and uses it as the GitHub release notes.
 
 ## [Unreleased]
 
+### Diagram libraries
+
+- Update D2 to 0.10.0 and use its built-in local-file controls. Manual installations can use the official D2 release. ([#2308](https://github.com/yuzutech/kroki/pull/2308))
+
 ## [0.37.1] - 2026-11-23
 
 ### Fixed

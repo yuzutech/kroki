@@ -168,17 +168,13 @@ RUN CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go install "github.com/b
     if [ -f "/go/bin/${TARGETOS}_${TARGETARCH}/goat" ]; then mv "/go/bin/${TARGETOS}_${TARGETARCH}/goat" /go/bin/goat; fi
 
 ## D2
-# Built from source with ops/docker/d2/local-files.patch, which adds an --allow-local-files flag:
-# with --allow-local-files=false, d2 neither imports nor embeds local files (until supported upstream)
 FROM --platform=$BUILDPLATFORM golang:1.27.4-alpine AS kroki-builder-d2
 
-ARG D2_VERSION="0.9.0"
+ARG D2_VERSION="0.10.0"
 
 RUN apk add --quiet --no-cache git
 RUN git clone --quiet --depth 1 --branch "v${D2_VERSION}" https://github.com/d2lang/d2.git /src
 WORKDIR /src
-COPY ops/docker/d2/local-files.patch /tmp/local-files.patch
-RUN git apply /tmp/local-files.patch
 ARG TARGETOS
 ARG TARGETARCH
 RUN CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -mod=readonly -trimpath \

@@ -14,7 +14,7 @@ asciidoc:
     # renovate: datasource=github-releases depName=plantuml/plantuml extractVersion=^v(?<version>\d+\.\d+\.\d+)$
     c4plantuml-version: 1.2026.9
     # renovate: datasource=github-releases depName=d2lang/d2 extractVersion=^v(?<version>.*)$
-    d2-version: 0.9.0
+    d2-version: 0.10.0
     # renovate: datasource=npm depName=@softwaretechnik/dbml-renderer
     dbml-version: 1.0.31
     diagramsnet-version: 29.6.1

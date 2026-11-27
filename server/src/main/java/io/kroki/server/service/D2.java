@@ -86,7 +86,7 @@ public class D2 implements DiagramService {
   @Override
   public String getVersion() {
     // renovate: datasource=github-releases depName=d2lang/d2 extractVersion=^v(?<version>.*)$
-    return "0.9.0";
+    return "0.10.0";
   }
 
   @Override
@@ -108,7 +108,6 @@ public class D2 implements DiagramService {
     if (safeMode != SafeMode.UNSAFE) {
       // An icon or an image may name a local path or a URL, which d2 would otherwise read or fetch,
       // and embed in the output. An import may name a local file, which d2 would otherwise read.
-      // --allow-local-files is added by the patch applied when building d2 (see ops/docker/d2/local-files.patch).
       commands.add("--allow-local-files=false");
       commands.add("--bundle=false");
     }

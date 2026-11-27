@@ -52,14 +52,12 @@ When a new version is available, we need to:
 
 === D2
 
-Kroki builds D2 from source (https://github.com/d2lang/d2) in `server/ops/docker/Dockerfile`, with `server/ops/docker/d2/local-files.patch`.
-The patch adds a `--allow-local-files` flag: with `--allow-local-files=false`, D2 neither imports nor embeds local files, which Kroki relies on unless it is running in `UNSAFE` mode.
-The patch can be removed once an official release provides an equivalent option.
+Kroki builds D2 from source (https://github.com/d2lang/d2) in `server/ops/docker/Dockerfile`.
+Kroki uses D2’s built-in `--allow-local-files=false` and `--bundle=false` flags unless it is running in `UNSAFE` mode.
 
 When a new version is available, we need to:
 
 . update the argument variable `ARG D2_VERSION="x.y.z"` in `server/ops/docker/Dockerfile` (Renovate opens a pull request)
-. make sure that `server/ops/docker/d2/local-files.patch` still applies, otherwise the image build fails
 . run `task updateVersions` (see above)
 
 === Ditaa (mini)
